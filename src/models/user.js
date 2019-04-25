@@ -1,4 +1,5 @@
 import { query as queryUsers, queryCurrent } from '@/services/user';
+import { pretreatmentRemoteSingleData } from '@/utils/tools';
 
 export default {
   namespace: 'user',
@@ -33,9 +34,13 @@ export default {
       };
     },
     saveCurrentUser(state, action) {
+      const d = action.payload;
+      const v = pretreatmentRemoteSingleData(d);
+      const { data } = v;
+
       return {
         ...state,
-        currentUser: action.payload || {},
+        currentUser: data || { notifyCount: 0 },
       };
     },
     changeNotifyCount(state, action) {
@@ -43,7 +48,7 @@ export default {
         ...state,
         currentUser: {
           ...state.currentUser,
-          notifyCount: action.payload,
+          notifyCount: action.payload || 0,
         },
       };
     },

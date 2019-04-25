@@ -1,31 +1,33 @@
 import React, { Fragment } from 'react';
+import { formatMessage } from 'umi/locale';
 import Link from 'umi/link';
 import { Icon } from 'antd';
 import GlobalFooter from '@/components/GlobalFooter';
+import SelectLang from '@/components/SelectLang';
 import styles from './UserLayout.less';
-import logo from '../assets/logo.svg';
+// import logo from '../assets/logo.svg';
 
 const links = [
   {
     key: 'help',
-    title: '帮助',
-    href: '',
+    title: formatMessage({ id: 'layout.user.link.help' }),
+    href: '/index.html#/user/login',
   },
   {
     key: 'privacy',
-    title: '隐私',
-    href: '',
+    title: formatMessage({ id: 'layout.user.link.privacy' }),
+    href: '/index.html#/user/login',
   },
   {
     key: 'terms',
-    title: '条款',
-    href: '',
+    title: formatMessage({ id: 'layout.user.link.terms' }),
+    href: '/index.html#/user/login',
   },
 ];
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品
+    Copyright <Icon type="copyright" /> 2018 量子美食体验技术部出品
   </Fragment>
 );
 
@@ -46,15 +48,23 @@ class UserLayout extends React.PureComponent {
     return (
       // @TODO <DocumentTitle title={this.getPageTitle()}>
       <div className={styles.container}>
+        <div className={styles.lang}>
+          <SelectLang />
+        </div>
         <div className={styles.content}>
           <div className={styles.top}>
             <div className={styles.header}>
               <Link to="/">
-                <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>Ant Design</span>
+                <img
+                  alt="logo"
+                  className={styles.logo}
+                  src="/logo.png"
+                  // src={logo}
+                />
+                <span className={styles.title}>量子美食 商城管理系统</span>
               </Link>
             </div>
-            <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
+            <div className={styles.desc}>聚焦优质产品，提供优质服务，把健康带给您！</div>
           </div>
           {children}
         </div>

@@ -1,42 +1,59 @@
 // https://umijs.org/config/
 import os from 'os';
 import pageRoutes from './router.config';
-import webpackplugin from './plugin.config';
+import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
 
+const plugins = [
+  [
+    'umi-plugin-react',
+    {
+      antd: true,
+      dva: {
+        hmr: true,
+      },
+      targets: {
+        ie: 11,
+      },
+      locale: {
+        enable: true, // default false
+        default: 'zh-CN', // default zh-CN
+        baseNavigator: true, // default true, when it is true, will use `navigator.language` overwrite default
+      },
+      dynamicImport: {
+        loadingComponent: './components/PageLoading/index',
+      },
+      ...(!process.env.TEST && os.platform() === 'darwin'
+        ? {
+            dll: {
+              include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
+              exclude: ['@babel/runtime'],
+            },
+            hardSource: true,
+          }
+        : {}),
+    },
+  ],
+];
+
+// judge add ga
+if (process.env.APP_TYPE === 'site') {
+  plugins.push([
+    'umi-plugin-ga',
+    {
+      code: 'UA-72788897-6',
+    },
+  ]);
+}
+
 export default {
-  // add for transfer to umi
   base: './',
   publicPath: './',
-  plugins: [
-    [
-      'umi-plugin-react',
-      {
-        antd: true,
-        dva: {
-          hmr: true,
-        },
-        locale: {
-          enable: true, // default false
-          default: 'zh-CN', // default zh-CN
-          baseNavigator: true, // default true, when it is true, will use `navigator.language` overwrite default
-        },
-        dynamicImport: {
-          loadingComponent: './components/PageLoading/index',
-        },
-        polyfills: ['ie11'],
-        ...(!process.env.TEST && os.platform() === 'darwin'
-          ? {
-              dll: {
-                include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
-                exclude: ['@babel/runtime'],
-              },
-              hardSource: true,
-            }
-          : {}),
-      },
-    ],
-  ],
+  // add for transfer to umi
+  plugins,
+  targets: {
+    ie: 11,
+  },
   define: {
     APP_TYPE: process.env.APP_TYPE || '',
   },
@@ -51,10 +68,18 @@ export default {
     '@antv/data-set': 'DataSet',
   },
   history: 'hash',
+  // proxy: {
+  //   '/server/api/': {
+  //     target: 'https://preview.pro.ant.design/',
+  //     changeOrigin: true,
+  //     pathRewrite: { '^/server': '' },
+  //   },
+  // },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,
   },
+  disableRedirectHoist: true,
   cssLoaderOptions: {
     modules: true,
     getLocalIdent: (context, localIdentName, localName) => {
@@ -78,22 +103,11 @@ export default {
     },
   },
   manifest: {
-    name: 'ant-design-pro',
-    background_color: '#FFF',
-    description: 'An out-of-box UI solution for enterprise applications as a React boilerplate.',
-    display: 'standalone',
-    start_url: '/index.html',
-    icons: [
-      {
-        src: '/favicon.png',
-        sizes: '48x48',
-        type: 'image/png',
-      },
-    ],
+    basePath: '/',
   },
 
-  chainWebpack: webpackplugin,
-  cssnano: {
-    mergeRules: false,
-  },
+  chainWebpack: webpackPlugin,
+  // cssnano: {
+  //   mergeRules: false,
+  // },
 };

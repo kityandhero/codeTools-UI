@@ -1,20 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import Link from 'umi/link';
-import { Checkbox, Alert, Icon } from 'antd';
+import { formatMessage, FormattedMessage } from 'umi/locale';
+// import Link from 'umi/link';
+import {
+  // Checkbox,
+  Alert,
+  //  Icon
+} from 'antd';
 import Login from '@/components/Login';
 import styles from './Login.less';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
+const {
+  // Tab,
+  UserName,
+  Password,
+  // Mobile,
+  // Captcha,
+  Submit,
+} = Login;
 
 @connect(({ login, loading }) => ({
   login,
   submitting: loading.effects['login/login'],
+  loading,
 }))
 class LoginPage extends Component {
   state = {
     type: 'account',
-    autoLogin: true,
+    // autoLogin: true,
   };
 
   onTabChange = type => {
@@ -42,21 +55,27 @@ class LoginPage extends Component {
     const { type } = this.state;
     if (!err) {
       const { dispatch } = this.props;
+
+      const submitData = { ...values };
+
+      submitData.name = submitData.userName;
+      submitData.psw = submitData.password;
+
       dispatch({
         type: 'login/login',
         payload: {
-          ...values,
+          ...submitData,
           type,
         },
       });
     }
   };
 
-  changeAutoLogin = e => {
-    this.setState({
-      autoLogin: e.target.checked,
-    });
-  };
+  // changeAutoLogin = e => {
+  //   this.setState({
+  //     autoLogin: e.target.checked,
+  //   });
+  // };
 
   renderMessage = content => (
     <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />
@@ -64,7 +83,10 @@ class LoginPage extends Component {
 
   render() {
     const { login, submitting } = this.props;
-    const { type, autoLogin } = this.state;
+    const {
+      type,
+      // autoLogin
+    } = this.state;
     return (
       <div className={styles.main}>
         <Login
@@ -75,44 +97,60 @@ class LoginPage extends Component {
             this.loginForm = form;
           }}
         >
-          <Tab key="account" tab="账户密码登录">
+          <div>
             {login.status === 'error' &&
               login.type === 'account' &&
               !submitting &&
-              this.renderMessage('账户或密码错误（admin/888888）')}
+              this.renderMessage(formatMessage({ id: 'app.login.message-invalid-credentials' }))}
+            <UserName name="userName" placeholder="请输入登录名" />
+            <Password
+              name="password"
+              placeholder="请输入登录密码"
+              onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
+            />
+          </div>
+          {/* <Tab key="account" tab={formatMessage({ id: 'app.login.tab-login-credentials' })}>
+            {login.status === 'error' &&
+              login.type === 'account' &&
+              !submitting &&
+              this.renderMessage(formatMessage({ id: 'app.login.message-invalid-credentials' }))}
             <UserName name="userName" placeholder="admin/user" />
             <Password
               name="password"
               placeholder="888888/123456"
               onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
             />
-          </Tab>
-          <Tab key="mobile" tab="手机号登录">
+          </Tab> */}
+          {/* <Tab key="mobile" tab={formatMessage({ id: 'app.login.tab-login-mobile' })}>
             {login.status === 'error' &&
               login.type === 'mobile' &&
               !submitting &&
-              this.renderMessage('验证码错误')}
+              this.renderMessage(
+                formatMessage({ id: 'app.login.message-invalid-verification-code' })
+              )}
             <Mobile name="mobile" />
             <Captcha name="captcha" countDown={120} onGetCaptcha={this.onGetCaptcha} />
-          </Tab>
-          <div>
+          </Tab> */}
+          {/* <div>
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-              自动登录
+              <FormattedMessage id="app.login.remember-me" />
             </Checkbox>
             <a style={{ float: 'right' }} href="">
-              忘记密码
+              <FormattedMessage id="app.login.forgot-password" />
             </a>
-          </div>
-          <Submit loading={submitting}>登录</Submit>
-          <div className={styles.other}>
-            其他登录方式
+          </div> */}
+          <Submit loading={submitting}>
+            <FormattedMessage id="app.login.login" />
+          </Submit>
+          {/* <div className={styles.other}>
+            <FormattedMessage id="app.login.sign-in-with" />
             <Icon type="alipay-circle" className={styles.icon} theme="outlined" />
             <Icon type="taobao-circle" className={styles.icon} theme="outlined" />
             <Icon type="weibo-circle" className={styles.icon} theme="outlined" />
             <Link className={styles.register} to="/User/Register">
-              注册账户
+              <FormattedMessage id="app.login.signup" />
             </Link>
-          </div>
+          </div> */}
         </Login>
       </div>
     );

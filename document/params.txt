@@ -1,0 +1,7 @@
+pid intProductID 产品标识
+mid imtMerchantID 区长标识
+uid 用户标识
+oid 用户订单标识
+
+
+常用订单 -》 （补货订单 -》） 退款订单

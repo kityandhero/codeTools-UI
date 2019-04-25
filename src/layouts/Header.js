@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
+import { formatMessage } from 'umi/locale';
 import { Layout, message } from 'antd';
 import Animate from 'rc-animate';
 import { connect } from 'dva';
 import router from 'umi/router';
-import GlobalHeader from '@/components/GlobalHeader';
+import GlobalHeaderCustom from '@/customComponents/GlobalHeaderCustom';
 import TopNavHeader from '@/components/TopNavHeader';
 import styles from './Header.less';
 import Authorized from '@/utils/Authorized';
@@ -42,7 +43,11 @@ class HeaderView extends PureComponent {
   };
 
   handleNoticeClear = type => {
-    message.success(`清空了${type}`);
+    message.success(
+      `${formatMessage({ id: 'component.noticeIcon.cleared' })} ${formatMessage({
+        id: `component.globalHeader.${type}`,
+      })}`
+    );
     const { dispatch } = this.props;
     dispatch({
       type: 'global/clearNotices',
@@ -60,8 +65,8 @@ class HeaderView extends PureComponent {
       router.push('/exception/trigger');
       return;
     }
-    if (key === 'userinfo') {
-      router.push('/account/settings/base');
+    if (key === 'areaConfig') {
+      router.push('/system/areaConfig');
       return;
     }
     if (key === 'logout') {
@@ -133,7 +138,7 @@ class HeaderView extends PureComponent {
             {...this.props}
           />
         ) : (
-          <GlobalHeader
+          <GlobalHeaderCustom
             onCollapse={handleMenuCollapse}
             onNoticeClear={this.handleNoticeClear}
             onMenuClick={this.handleMenuClick}

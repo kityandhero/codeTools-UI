@@ -161,12 +161,11 @@ export function formatWan(val) {
       <span>
         {result}
         <span
-          styles={{
+          style={{
             position: 'relative',
             top: -2,
             fontSize: 14,
             fontStyle: 'normal',
-            lineHeight: 20,
             marginLeft: 2,
           }}
         >
@@ -178,25 +177,7 @@ export function formatWan(val) {
   return result;
 }
 
+// 给官方演示站点用，用于关闭真实开发环境不需要使用的特性
 export function isAntdPro() {
   return window.location.hostname === 'preview.pro.ant.design';
-}
-
-function seededRandom(seed, min, max) {
-  const maxValue = max || 1;
-  const minValue = min || 0;
-  const seedValue = (seed * 9301 + 49297) % 233280;
-  const rnd = seedValue / 233280.0;
-  return minValue + rnd * (maxValue - minValue);
-}
-
-export function getRandomColor(seed) {
-  return `#${`00000${((seededRandom(seed) * 0x1000000) << 0).toString(16)}`.substr(-6)}`;
-}
-
-// 计算表达式的值
-export function evil(fn) {
-  // 一个变量指向Function，防止有些前端编译工具报错
-  const Fn = Function;
-  return new Fn(`return ${fn}`)();
 }
