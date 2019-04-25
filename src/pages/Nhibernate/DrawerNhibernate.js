@@ -62,12 +62,12 @@ class DrawerNhibernate extends PureComponent {
 
   handleOk = e => {
     e.preventDefault();
-    const { dispatch, form, tablelist, conntag } = this.props;
+    const { dispatch, form, tableList, conntag } = this.props;
     form.validateFields((err, values) => {
       if (!err) {
         this.setState({ creating: true });
         const submitValue = values;
-        submitValue.tablelist = tablelist;
+        submitValue.tableList = tableList;
         submitValue.conntag = conntag;
         submitValue.type = 'nhibernate';
         // console.dir(submitValue);

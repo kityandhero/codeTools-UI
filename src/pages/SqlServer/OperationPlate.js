@@ -57,7 +57,7 @@ class OperationPlate extends PureComponent {
     loadDataEntity: false,
     nhibernatePanelVisible: false,
     dapperBySelfBuildPanelVisible: false,
-    tablelist: '',
+    tableList: '',
     databaseList: [],
     selecteddataTableDataRows: [],
     dataTableData: {
@@ -370,7 +370,7 @@ class OperationPlate extends PureComponent {
     const v = list.join();
 
     this.setState({
-      tablelist: v,
+      tableList: v,
     });
     this.setState({
       selecteddataTableDataRows: rows,
@@ -487,7 +487,7 @@ class OperationPlate extends PureComponent {
       nhibernatePanelVisible,
       dapperBySelfBuildPanelVisible,
       selectDatabase,
-      tablelist,
+      tableList,
     } = this.state;
 
     const { name: selectDatabaseName } = selectDatabase;
@@ -721,7 +721,7 @@ class OperationPlate extends PureComponent {
           selectDatabaseName={selectDatabaseName}
           afterCancel={this.afterNhibernatePanelDrawerCancel}
           dbtype="SqlServer"
-          tablelist={tablelist}
+          tableList={tableList}
           conntag={selectDatabase.tag}
         />
         <DrawerDapperBySelfBuild
@@ -729,7 +729,7 @@ class OperationPlate extends PureComponent {
           selectDatabaseName={selectDatabaseName}
           afterCancel={this.afterDapperBySelfBuildPanelDrawerCancel}
           dbtype="SqlServer"
-          tablelist={tablelist}
+          tableList={tableList}
           conntag={selectDatabase.tag}
         />
         <BackTop />
