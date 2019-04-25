@@ -367,7 +367,7 @@ export async function accountLogin(params) {
     return result;
   }
 
-  return request('/Entrance/SignIn', {
+  return request('/entrance/signIn', {
     method: 'POST',
     body: params,
   });

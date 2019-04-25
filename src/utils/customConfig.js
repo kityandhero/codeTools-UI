@@ -1,8 +1,7 @@
 export function getConfigData() {
   return {
-    corsTargetDevelopment: 'http://areaapi.lz.a.com',
-    // corsTargetProduction: 'https://api2.yurukeji.com.cn',
-    corsTargetProduction: 'http://api2.yurukeji.cn',
+    corsTargetDevelopment: '',
+    corsTargetProduction: '',
   };
 }
 

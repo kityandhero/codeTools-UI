@@ -87,8 +87,8 @@ class BasicLayout extends React.PureComponent {
       payload: { routes, authority },
     });
 
-    this.loadMetaData();
-    this.loadCommonData();
+    // this.loadMetaData();
+    // this.loadCommonData();
   }
 
   componentDidUpdate(preProps) {
@@ -148,20 +148,6 @@ class BasicLayout extends React.PureComponent {
       return routeAuthority;
     };
     return getAuthority(pathname, routeData);
-  };
-
-  getPageTitle = (pathname, breadcrumbNameMap) => {
-    const currRouterData = this.matchParamsPath(pathname, breadcrumbNameMap);
-
-    if (!currRouterData) {
-      return title;
-    }
-    const pageName = formatMessage({
-      id: currRouterData.locale || currRouterData.name,
-      defaultMessage: currRouterData.name,
-    });
-
-    return `${pageName} - ${title}`;
   };
 
   getPageTitle = (pathname, breadcrumbNameMap) => {
