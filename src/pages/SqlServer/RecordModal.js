@@ -4,9 +4,9 @@ import { Modal, message, notification, Divider, Table } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import styles from './RecordModal.less';
 
-@connect(({ sqlserver, loading }) => ({
-  sqlserver,
-  loading: loading.models.sqlserver,
+@connect(({ sqlServer, loading }) => ({
+  sqlServer,
+  loading: loading.models.sqlServer,
 }))
 class RecordModal extends PureComponent {
   constructor(props) {
@@ -38,7 +38,7 @@ class RecordModal extends PureComponent {
       dataLoading: true,
     });
     dispatch({
-      type: 'sqlserver/listcache',
+      type: 'sqlServer/listcache',
       payload: {
         timespan: new Date().getTime(),
       },
@@ -48,7 +48,7 @@ class RecordModal extends PureComponent {
       });
 
       const {
-        sqlserver: { data },
+        sqlServer: { data },
       } = this.props;
 
       const { message: messageText, data: listData } = data;
@@ -70,12 +70,12 @@ class RecordModal extends PureComponent {
     submitValue.dbtype = 'SqlServer';
 
     dispatch({
-      type: 'sqlserver/open',
+      type: 'sqlServer/open',
       payload: submitValue,
     }).then(() => {
       this.setState({ opening: false });
       const {
-        sqlserver: { data },
+        sqlServer: { data },
       } = this.props;
 
       const { message: messageText, data: databaseList } = data;
@@ -100,14 +100,14 @@ class RecordModal extends PureComponent {
     });
 
     dispatch({
-      type: 'sqlserver/removecache',
+      type: 'sqlServer/removecache',
       payload: {
         id: record.id,
       },
     }).then(() => {
       this.setState({ dataLoading: false });
       const {
-        sqlserver: { data },
+        sqlServer: { data },
       } = this.props;
 
       const { message: messageText } = data;

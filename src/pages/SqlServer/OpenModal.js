@@ -28,9 +28,9 @@ const { TextArea } = Input;
 const FormItem = Form.Item;
 // const { MonthPicker } = DatePicker;
 
-@connect(({ sqlserver, loading }) => ({
-  sqlserver,
-  loading: loading.models.sqlserver,
+@connect(({ sqlServer, loading }) => ({
+  sqlServer,
+  loading: loading.models.sqlServer,
 }))
 @Form.create()
 class OpenModal extends PureComponent {
@@ -73,12 +73,12 @@ class OpenModal extends PureComponent {
         this.setState({ opening: true });
 
         dispatch({
-          type: 'sqlserver/open',
+          type: 'sqlServer/open',
           payload: submitValue,
         }).then(() => {
           this.setState({ opening: false });
           const {
-            sqlserver: { data },
+            sqlServer: { data },
           } = this.props;
 
           const { message: messageText, data: databaseList } = data;

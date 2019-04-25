@@ -39,10 +39,10 @@ import styles from './OperationPlate.less';
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
-@connect(({ sqlserver, folder, loading }) => ({
-  sqlserver,
+@connect(({ sqlServer, folder, loading }) => ({
+  sqlServer,
   folder,
-  loading: loading.models.sqlserver,
+  loading: loading.models.sqlServer,
 }))
 @Form.create()
 class OperationPlate extends PureComponent {
@@ -79,7 +79,7 @@ class OperationPlate extends PureComponent {
         loadDatabase: true,
       });
       dispatch({
-        type: 'sqlserver/open',
+        type: 'sqlServer/open',
         payload: {
           conn,
           version,
@@ -87,7 +87,7 @@ class OperationPlate extends PureComponent {
         },
       }).then(() => {
         const {
-          sqlserver: { data },
+          sqlServer: { data },
         } = this.props;
 
         const { message: messageText, data: databaseList } = data;
@@ -124,7 +124,7 @@ class OperationPlate extends PureComponent {
     if (seleteItem !== {}) {
       this.setState({ loadDataEntity: true });
       dispatch({
-        type: 'sqlserver/getlist',
+        type: 'sqlServer/getlist',
         payload: {
           conntag: seleteItem.tag,
           pageNo: 1,
@@ -172,7 +172,7 @@ class OperationPlate extends PureComponent {
     this.setState({ loadDataEntity: true });
 
     dispatch({
-      type: 'sqlserver/getlist',
+      type: 'sqlServer/getlist',
       payload: params,
     }).then(() => {
       this.handleResultData();
@@ -196,7 +196,7 @@ class OperationPlate extends PureComponent {
     this.setState({ loadDataEntity: true });
 
     dispatch({
-      type: 'sqlserver/getlist',
+      type: 'sqlServer/getlist',
       payload: params,
     }).then(() => {
       this.handleResultData();
@@ -214,7 +214,7 @@ class OperationPlate extends PureComponent {
     this.setState({ loadDataEntity: true });
 
     dispatch({
-      type: 'sqlserver/getlist',
+      type: 'sqlServer/getlist',
       payload: {
         conntag: selectDatabase.tag,
         pageNo: 1,
@@ -246,7 +246,7 @@ class OperationPlate extends PureComponent {
       this.setState({ loadDataEntity: true });
 
       dispatch({
-        type: 'sqlserver/getlist',
+        type: 'sqlServer/getlist',
         payload: {
           conntag: selectDatabase.tag,
           ...values,
@@ -260,7 +260,7 @@ class OperationPlate extends PureComponent {
   handleResultData = () => {
     this.setState({ loadDataEntity: false });
     const {
-      sqlserver: { data },
+      sqlServer: { data },
     } = this.props;
 
     const {

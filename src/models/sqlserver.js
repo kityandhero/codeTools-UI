@@ -4,10 +4,10 @@ import {
   removeDatabaseCache,
   queryDatabaseList,
   queryDataEntityList,
-} from '@/services/sqlserver';
+} from '@/services/sqlServer';
 
 export default {
-  namespace: 'sqlserver',
+  namespace: 'sqlServer',
 
   state: {
     statisticExist: [],
