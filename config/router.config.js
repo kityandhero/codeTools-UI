@@ -1,5 +1,3 @@
-import accessWayCollection from '../src/utils/accessWayCollection';
-
 export default [
   {
     path: '/user',
@@ -52,30 +50,30 @@ export default [
           },
         ],
       },
-      {
-        name: 'system',
-        icon: 'setting',
-        hideInMenu: true,
-        path: '/system',
-        routes: [
-          {
-            name: 'areaConfig',
-            icon: 'form',
-            path: '/system/areaConfig',
-            component: './AreaConfig',
-            routes: [
-              {
-                path: '/system/areaConfig',
-                redirect: '/system/areaConfig/changeOutStockTime',
-              },
-              {
-                path: '/system/areaConfig/changeOutStockTime',
-                component: './AreaConfig/ChangeOutStockTime',
-              },
-            ],
-          },
-        ],
-      },
+      // {
+      //   name: 'system',
+      //   icon: 'setting',
+      //   hideInMenu: true,
+      //   path: '/system',
+      //   routes: [
+      //     {
+      //       name: 'areaConfig',
+      //       icon: 'form',
+      //       path: '/system/areaConfig',
+      //       component: './AreaConfig',
+      //       routes: [
+      //         {
+      //           path: '/system/areaConfig',
+      //           redirect: '/system/areaConfig/changeOutStockTime',
+      //         },
+      //         {
+      //           path: '/system/areaConfig/changeOutStockTime',
+      //           component: './AreaConfig/ChangeOutStockTime',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
       {
         name: 'helpCenter',
         icon: 'question',

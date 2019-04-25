@@ -29,7 +29,6 @@ import {
   TimelineChart,
 } from '@/components/Charts';
 import { formatDatetime, pretreatmentRequestParams } from '@/utils/tools';
-import accessWayCollection from '@/utils/accessWayCollection';
 import LoadDataForm from '@/customComponents/CustomForm/LoadDataForm';
 import Trend from '@/components/Trend';
 import NumberInfo from '@/components/NumberInfo';
@@ -47,8 +46,6 @@ const { RangePicker } = DatePicker;
   loading: loading.models.dashboard,
 }))
 class Analysis extends LoadDataForm {
-  componentAuthority = accessWayCollection.dashboard.analysis;
-
   constructor(props) {
     super(props);
 
