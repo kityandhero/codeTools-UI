@@ -9,9 +9,7 @@ import {
 export default {
   namespace: 'sqlServer',
 
-  state: {
-    statisticExist: [],
-  },
+  state: {},
 
   effects: {
     *open({ payload }, { call, put }) {
