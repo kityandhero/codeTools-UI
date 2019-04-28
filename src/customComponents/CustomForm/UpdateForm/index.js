@@ -75,6 +75,8 @@ class UpdateForm extends LoadDataForm {
   // eslint-disable-next-line no-unused-vars
   checkSubmitRequestParams = o => true;
 
+  afterCheckSubmitRequestParams = o => o;
+
   validate = () => {
     const {
       form: { validateFieldsAndScroll },
@@ -96,6 +98,8 @@ class UpdateForm extends LoadDataForm {
         submitData = this.supplementSubmitRequestParams(submitData);
 
         const checkResult = this.checkSubmitRequestParams(submitData);
+
+        submitData = this.afterCheckSubmitRequestParams(submitData);
 
         if (checkResult) {
           this.setState({ processing: true });

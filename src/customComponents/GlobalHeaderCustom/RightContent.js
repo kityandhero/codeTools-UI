@@ -5,6 +5,9 @@ import Link from 'umi/link';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 
+import accessWayCollection from '@/utils/accessWayCollection';
+import { checkHasAuthority } from '@/utils/authority';
+
 import NoticeIconCustom from '../NoticeIconCustom';
 import HeaderSearchCustom from '../HeaderSearchCustom';
 // import SelectLangCustom from '../SelectLangCustom';
@@ -62,6 +65,13 @@ export default class GlobalHeaderRight extends PureComponent {
           <Icon type="setting" />
           <FormattedMessage id="menu.account.settings" defaultMessage="account settings" />
         </Menu.Item> */}
+        {checkHasAuthority(accessWayCollection.areaConfig.get) ? (
+          <Menu.Item key="areaConfig">
+            <Icon type="setting" />
+            地区设置
+          </Menu.Item>
+        ) : null}
+        {checkHasAuthority(accessWayCollection.areaConfig.get) ? <Menu.Divider /> : null}
         <Menu.Item key="logout">
           <Icon type="logout" />
           <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
