@@ -101,13 +101,13 @@ class LoadDataForm extends CustomBase {
               const { dataSuccess } = data;
 
               if (dataSuccess) {
-                const { data: metaData } = data;
+                const { data: metaData, extra } = data;
 
                 this.setState({
                   metaData,
                 });
 
-                this.afterLoadSuccess(metaData);
+                this.afterLoadSuccess(metaData, extra);
               }
 
               this.setState({ dataLoading: false, loadSuccess: dataSuccess });
@@ -123,7 +123,7 @@ class LoadDataForm extends CustomBase {
   };
 
   // eslint-disable-next-line no-unused-vars
-  afterLoadSuccess = metaData => {};
+  afterLoadSuccess = (metaData, extra) => {};
 
   backToList = () => {
     const { dispatch } = this.props;

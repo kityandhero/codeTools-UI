@@ -65,6 +65,9 @@ class SingleList extends CustomBase {
     // 需要继承重载
   };
 
+  // 其他项重置
+  handleFormOtherReset = () => {};
+
   initLoad = () => {
     // 需要继承重载
   };

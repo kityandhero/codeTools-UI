@@ -29,8 +29,16 @@ class PagerDrawer extends PagerList {
     });
   }
 
+  doWorkWhenWillReceive = nextProps => {
+    const { changeVisible } = this.state;
+
+    if (changeVisible) {
+      this.doOtherWhenChangeVisible(nextProps);
+    }
+  };
+
   // eslint-disable-next-line no-unused-vars
-  doWorkWhenWillReceive = nextProps => {};
+  doOtherWhenChangeVisible = nextProps => {};
 
   initLoad = () => {
     const { loadApiPath, loadAfterMount } = this.state;

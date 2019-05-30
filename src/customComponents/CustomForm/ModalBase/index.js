@@ -15,6 +15,8 @@ class ModalBase extends CustomBase {
       visible: false,
       changeVisible: false,
       loadDataAfterMount: false,
+      width: 520,
+      bodyStyle: {},
     };
   }
 
@@ -117,10 +119,17 @@ class ModalBase extends CustomBase {
   formContent = () => null;
 
   render() {
-    const { pageName, visible, processing, dataLoading } = this.state;
+    const { width, bodyStyle, pageName, visible, processing, dataLoading } = this.state;
 
     return (
-      <Modal title={pageName} visible={visible} onOk={this.handleOk} onCancel={this.handleCancel}>
+      <Modal
+        title={pageName}
+        width={width}
+        bodyStyle={bodyStyle}
+        visible={visible}
+        onOk={this.handleOk}
+        onCancel={this.handleCancel}
+      >
         <Spin spinning={processing || dataLoading}>
           <Form>{this.formContent()}</Form>
         </Spin>

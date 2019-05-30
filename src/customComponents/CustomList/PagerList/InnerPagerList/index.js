@@ -6,6 +6,17 @@ import PagerList from '@/customComponents/CustomList/PagerList';
 import styles from './index.less';
 
 class InnerPagerList extends PagerList {
+  constructor(props) {
+    super(props);
+
+    const defaultState = this.state;
+    defaultState.useParamsKey = false;
+
+    this.state = {
+      ...defaultState,
+    };
+  }
+
   render() {
     return (
       <Fragment>

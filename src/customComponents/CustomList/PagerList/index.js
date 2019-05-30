@@ -32,6 +32,8 @@ class PagerList extends ListBase {
 
     form.resetFields();
 
+    this.handleFormOtherReset();
+
     this.setState(
       {
         formValues: {},
@@ -48,12 +50,14 @@ class PagerList extends ListBase {
     const { match, form } = this.props;
     const { params } = match;
     const { pageKey } = params;
-    const { paramsKey, loadApiPath } = this.state;
+    const { useParamsKey, paramsKey, loadApiPath } = this.state;
 
-    if ((paramsKey || '') === '') {
-      message.error('paramsKey需要配置');
-      this.setState({ dataLoading: false });
-      return;
+    if (useParamsKey) {
+      if ((paramsKey || '') === '') {
+        message.error('paramsKey需要配置');
+        this.setState({ dataLoading: false });
+        return;
+      }
     }
 
     if ((loadApiPath || '') === '') {
@@ -61,27 +65,29 @@ class PagerList extends ListBase {
       return;
     }
 
-    const p = getJsonFromLocalStorage(paramsKey);
+    if (useParamsKey) {
+      const p = getJsonFromLocalStorage(paramsKey);
 
-    if (pageKey === 'key' && p != null) {
-      this.loadData(p);
+      if (pageKey === 'key' && p != null) {
+        this.loadData(p);
 
-      if (p.startTime && p.endTime) {
-        p.dateRange = [dateToMoment(p.startTime), dateToMoment(p.endTime)];
-        // p.dateRange = `${p.startTime}-${p.endTime}`;
-      }
-
-      Object.keys(form.getFieldsValue()).forEach(key => {
-        const c = p[key] === 0 ? 0 : p[key] || null;
-
-        if (c != null) {
-          const obj = {};
-          obj[key] = c;
-          form.setFieldsValue(obj);
+        if (p.startTime && p.endTime) {
+          p.dateRange = [dateToMoment(p.startTime), dateToMoment(p.endTime)];
+          // p.dateRange = `${p.startTime}-${p.endTime}`;
         }
-      });
 
-      return;
+        Object.keys(form.getFieldsValue()).forEach(key => {
+          const c = p[key] === 0 ? 0 : p[key] || null;
+
+          if (c != null) {
+            const obj = {};
+            obj[key] = c;
+            form.setFieldsValue(obj);
+          }
+        });
+
+        return;
+      }
     }
 
     const { pageNo, pageSize } = this.state;
