@@ -71,6 +71,12 @@ export default class GlobalHeaderRight extends PureComponent {
             地区设置
           </Menu.Item>
         ) : null}
+        {checkHasAuthority(accessWayCollection.warehouse.getMaster) ? (
+          <Menu.Item key="warehouse">
+            <Icon type="shop" />
+            主仓信息
+          </Menu.Item>
+        ) : null}
         {checkHasAuthority(accessWayCollection.areaConfig.get) ? <Menu.Divider /> : null}
         <Menu.Item key="logout">
           <Icon type="logout" />

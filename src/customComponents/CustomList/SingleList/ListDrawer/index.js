@@ -16,15 +16,24 @@ class ListDrawer extends SingleList {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { visible: visiblePre } = this.state;
     const { visible } = nextProps;
 
-    this.setState({ visible: visible || false }, () => {
+    this.setState({ visible: visible || false, changeVisible: visible && !visiblePre }, () => {
       this.doWorkWhenWillReceive(nextProps);
     });
   }
 
+  doWorkWhenWillReceive = nextProps => {
+    const { changeVisible } = this.state;
+
+    if (changeVisible) {
+      this.doOtherWhenChangeVisible(nextProps);
+    }
+  };
+
   // eslint-disable-next-line no-unused-vars
-  doWorkWhenWillReceive = nextProps => {};
+  doOtherWhenChangeVisible = nextProps => {};
 
   initLoad = () => {
     const { loadApiPath } = this.state;

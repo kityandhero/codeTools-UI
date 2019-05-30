@@ -105,4 +105,39 @@ module.exports = {
     get: '0a1244c8-6073-463d-9e73-58ab56d6e8af',
     changeOutStockTime: '62bfb200-5ef4-4ba9-8c00-cf866516cb6b',
   },
+  warehouse: {
+    getMaster: 'baaf5793-0923-4e86-b67c-ae24a9a08e21',
+    setMasterBasicInfo: '377c790f-1f7e-4d91-b648-8346a34a2ad0',
+  },
+  goodsLogisticsProcessRequestMessage: {
+    get: 'fadf9e41-ab99-4ed1-b8fd-1d658f972595',
+    list: 'ee503b21-30f2-4d9d-9514-1cdd1c1fa287',
+  },
+  goodsOutboundAggregate: {
+    list: 'a19427fa-408d-4c9b-a787-9520794e6cba',
+  },
+  goodsOutboundLineAggregate: {
+    list: '2fca7ad9-e011-4c6e-bf3f-5b50d86eb714',
+  },
+  goodsOutboundLineRecord: {
+    list: 'b7b16aed-6a25-40b7-bb68-2d35fd69e25e',
+  },
+  goodsOutboundMerchantAggregate: {
+    list: 'eaf1e855-7b78-4e3a-a80f-e09466589f5b',
+  },
+  goodsOutboundMerchantRecord: {
+    list: 'a83e2117-4252-487d-bfd6-9ae32d09daf6',
+  },
+  goodsOutboundRecord: {
+    list: '4c148413-d12e-497b-8843-f9c9ce95814b',
+  },
+  ignoreOutboundMerchant: {
+    list: 'c680e038-0a72-4a5e-b45f-1c23d0006480',
+  },
+  userOrderOutboundHistory: {
+    list: 'd6cbdfc1-1e64-4f69-b0be-dee5188127fd',
+  },
+  goodsLogisticsProcessRequestMessageDayInspect: {
+    list: 'ab56c14d-c6b3-47cb-ae6b-07afcb3a7d2f',
+  },
 };

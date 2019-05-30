@@ -24,6 +24,8 @@ class SingleList extends ListBase {
 
     form.resetFields();
 
+    this.handleFormOtherReset();
+
     this.setState(
       {
         formValues: {},
