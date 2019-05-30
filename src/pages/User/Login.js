@@ -35,6 +35,7 @@ class LoginPage extends Component {
   };
 
   onGetCaptcha = () =>
+    // eslint-disable-next-line compat/compat
     new Promise((resolve, reject) => {
       this.loginForm.validateFields(['mobile'], {}, (err, values) => {
         if (err) {
@@ -57,9 +58,6 @@ class LoginPage extends Component {
       const { dispatch } = this.props;
 
       const submitData = { ...values };
-
-      submitData.name = submitData.userName;
-      submitData.psw = submitData.password;
 
       dispatch({
         type: 'login/login',

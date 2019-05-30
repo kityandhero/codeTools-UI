@@ -4,6 +4,7 @@ import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 import copy from 'copy-to-clipboard';
 import stringAssist from 'string';
+import queue from 'queue';
 import { getConfigData, checkDevelopment } from './customConfig';
 
 function defaultCommonState() {
@@ -51,6 +52,7 @@ export function defaultPageListState() {
     startTime: '',
     endTime: '',
     showSelect: false,
+    useParamsKey: true,
     selectedDataTableDataRows: [],
   };
 }
@@ -620,11 +622,12 @@ export function pretreatmentRemoteSingleData(d) {
   let v = {};
 
   if (code === 200) {
-    const { data } = d;
+    const { data, extra } = d;
     v = {
       code,
       message: messageText,
-      data,
+      data: data || {},
+      extra: extra || {},
       dataSuccess: true,
     };
   } else {
@@ -632,6 +635,7 @@ export function pretreatmentRemoteSingleData(d) {
       code,
       message: messageText || '网络异常',
       data: null,
+      extra: null,
       dataSuccess: false,
     };
 
@@ -857,6 +861,7 @@ export function apiVirtualSuccessData(successData, needAuthorize = true) {
  */
 export async function apiVirtualSuccessAccess(dataVirtual, needAuthorize = true) {
   let result = {};
+  // eslint-disable-next-line compat/compat
   await new Promise(resolve => {
     setTimeout(() => {
       resolve(apiVirtualSuccessData(dataVirtual, needAuthorize));
@@ -886,6 +891,7 @@ export async function apiVirtualSuccessAccess(dataVirtual, needAuthorize = true)
  */
 export async function apiVirtualFailAccess(dataVirtual, needAuthorize = true) {
   let result = {};
+  // eslint-disable-next-line compat/compat
   await new Promise(resolve => {
     setTimeout(() => {
       resolve(apiVirtualFailData(dataVirtual, needAuthorize));
@@ -953,6 +959,7 @@ export async function apiVirtualFailAccess(dataVirtual, needAuthorize = true) {
  */
 export async function apiVirtualAccess(dataBuildFunction) {
   let result = {};
+  // eslint-disable-next-line compat/compat
   await new Promise(resolve => {
     if (typeof dataBuildFunction === 'function') {
       setTimeout(dataBuildFunction(resolve));
@@ -1022,4 +1029,17 @@ export function getJsonFromLocalStorage(key) {
   }
 
   return null;
+}
+
+/**
+ * 获取工作队列
+ * @export
+ */
+export function getQueue() {
+  if (typeof window.queue === 'undefined') {
+    window.queueCustom = queue({ concurrency: 3 });
+    window.queueCustom.start();
+  }
+
+  return window.queueCustom;
 }
