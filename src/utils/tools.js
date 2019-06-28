@@ -1,3 +1,4 @@
+/* eslint-disable compat/compat */
 import router from 'umi/router';
 import { message } from 'antd';
 import moment from 'moment';
@@ -723,7 +724,7 @@ export function pretreatmentRemotePageListData(d, listItemHandler) {
       list,
       pagination: {
         total: extraData.total,
-        pageSize: extraData.pagesize,
+        pageSize: extraData.pageSize,
         current: parseInt(pageNo || 1, 10) || 1,
       },
       extra: extraData,
@@ -861,7 +862,6 @@ export function apiVirtualSuccessData(successData, needAuthorize = true) {
  */
 export async function apiVirtualSuccessAccess(dataVirtual, needAuthorize = true) {
   let result = {};
-  // eslint-disable-next-line compat/compat
   await new Promise(resolve => {
     setTimeout(() => {
       resolve(apiVirtualSuccessData(dataVirtual, needAuthorize));
@@ -891,7 +891,6 @@ export async function apiVirtualSuccessAccess(dataVirtual, needAuthorize = true)
  */
 export async function apiVirtualFailAccess(dataVirtual, needAuthorize = true) {
   let result = {};
-  // eslint-disable-next-line compat/compat
   await new Promise(resolve => {
     setTimeout(() => {
       resolve(apiVirtualFailData(dataVirtual, needAuthorize));
@@ -959,7 +958,6 @@ export async function apiVirtualFailAccess(dataVirtual, needAuthorize = true) {
  */
 export async function apiVirtualAccess(dataBuildFunction) {
   let result = {};
-  // eslint-disable-next-line compat/compat
   await new Promise(resolve => {
     if (typeof dataBuildFunction === 'function') {
       setTimeout(dataBuildFunction(resolve));
