@@ -1,70 +1,115 @@
-/* eslint-disable compat/compat */
 import router from 'umi/router';
 import { message } from 'antd';
 import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 import copy from 'copy-to-clipboard';
-import stringAssist from 'string';
 import queue from 'queue';
+import {
+  isEqual as isEqualLodash,
+  isFunction as isFunctionLodash,
+  filter as filterLodash,
+  replace as replaceLodash,
+  trim as trimLodash,
+  isEmpty as isEmptyLodash,
+  isBoolean as isBooleanLodash,
+} from 'lodash';
+
 import { getConfigData, checkDevelopment } from './customConfig';
 
-function defaultCommonState() {
+export function defaultBaseState() {
   return {
-    loadApiPath: '',
-    dataLoading: true,
+    dataLoading: false,
     processing: false,
+    reloading: false,
+    searching: false,
+    refreshing: false,
+    paging: false,
+    firstLoadSuccess: false,
     loadSuccess: false,
-    pageName: '',
+    loadDataAfterMount: false,
+    urlParams: null,
   };
+}
+
+export function defaultCoreState() {
+  const data = { ...defaultBaseState(), ...{ dataLoading: true } };
+
+  return data;
+}
+
+export function defaultCommonState() {
+  const data = {
+    ...defaultCoreState(),
+    ...{
+      loadApiPath: '',
+      pageName: '',
+      metaData: null,
+      metaExtra: null,
+      metaListData: [],
+      originalData: null,
+    },
+  };
+
+  return data;
 }
 
 export function defaultListState() {
-  return {
+  const data = {
     ...defaultCommonState(),
-    loadApiPath: '',
-    dateRangeFieldName: '发生时间',
-    tableScroll: { x: 1520 },
-    formValues: {},
-    customData: {
-      list: [],
+    ...{
+      loadDataAfterMount: true,
+      dateRangeFieldName: '发生时间',
+      tableScroll: { x: 1520 },
+      formValues: {},
+      customData: {
+        list: [],
+      },
+      startTimeAlias: '',
+      endTimeAlias: '',
+      startTime: '',
+      endTime: '',
+      showSelect: false,
+      selectedDataTableDataRows: [],
     },
-    startTime: '',
-    endTime: '',
-    showSelect: false,
-    selectedDataTableDataRows: [],
   };
+
+  return data;
 }
 
 export function defaultPageListState() {
-  return {
+  const data = {
     ...defaultCommonState(),
-    paramsKey: '',
-    loadApiPath: '',
-    dateRangeFieldName: '发生时间',
-    tableScroll: { x: 1520 },
-    formValues: {},
-    customData: {
-      count: 0,
-      list: [],
-      pagination: {},
+    ...{
+      loadDataAfterMount: true,
+      paramsKey: '',
+      loadApiPath: '',
+      dateRangeFieldName: '发生时间',
+      tableScroll: { x: 1520 },
+      formValues: {},
+      customData: {
+        count: 0,
+        list: [],
+        pagination: {},
+      },
+      pageNo: 1,
+      pageSize: 10,
+      startTime: '',
+      endTime: '',
+      showSelect: false,
+      selectedDataTableDataRows: [],
     },
-    pageNo: 1,
-    pageSize: 10,
-    startTime: '',
-    endTime: '',
-    showSelect: false,
-    useParamsKey: true,
-    selectedDataTableDataRows: [],
   };
+
+  return data;
 }
 
 export function defaultFormState() {
-  return {
+  const data = {
     ...defaultCommonState(),
-    errorFieldName: '',
-    submitApiPath: '',
-    loadDataAfterMount: true,
+    ...{ loadDataAfterMount: true, errorFieldName: '', submitApiPath: '' },
   };
+
+  return data;
 }
 
 export function getValue(obj) {
@@ -87,7 +132,7 @@ export function copyToClipboard(text) {
  * @param {*} text
  */
 export function stringIsEmpty(text) {
-  return stringAssist(text).isEmpty();
+  return isEmptyLodash(text);
 }
 
 /**
@@ -194,7 +239,26 @@ export function formatDatetime(v, formatString = 'YYYY-MM-DD', defaultValue = ''
  * @returns
  */
 export function stringToMoment(v) {
-  return moment(new Date((v || '').replace('/', '-')));
+  if (moment.isMoment(v)) return v;
+
+  const d = (v || '').toString();
+
+  if (stringIsNullOrWhiteSpace(d)) {
+    return null;
+  }
+
+  return moment(new Date(d.replace('/', '-')));
+}
+
+/**
+ * 当前Moment时间
+ *
+ * @export
+ * @param {*} v
+ * @returns
+ */
+export function getMomentNow() {
+  return moment();
 }
 
 /**
@@ -447,16 +511,22 @@ export function getBrowserInfo() {
  * @param {*} justice
  * @param {*} defaultValue
  * @param {*} originalOption
- * @param {*} convertValue
+ * @param {*} convertCallback
  */
-export function refitFieldDecoratorOption(v, justice, defaultValue, originalOption, convertValue) {
+export function refitFieldDecoratorOption(
+  v,
+  justice,
+  defaultValue,
+  originalOption,
+  convertCallback,
+) {
   const result = originalOption;
   const justiceV = typeof justice !== 'undefined' && justice !== null;
-  const defaultV = typeof defaultValue === 'undefined' || defaultValue === null ? '' : defaultValue;
+  const defaultV = typeof defaultValue === 'undefined' ? null : defaultValue;
 
   if (justiceV) {
     if (typeof convertValue === 'function') {
-      result.initialValue = convertValue(v) || defaultV;
+      result.initialValue = convertCallback(v) || defaultV;
     } else {
       result.initialValue = v || defaultV;
     }
@@ -862,6 +932,7 @@ export function apiVirtualSuccessData(successData, needAuthorize = true) {
  */
 export async function apiVirtualSuccessAccess(dataVirtual, needAuthorize = true) {
   let result = {};
+  // eslint-disable-next-line compat/compat
   await new Promise(resolve => {
     setTimeout(() => {
       resolve(apiVirtualSuccessData(dataVirtual, needAuthorize));
@@ -891,6 +962,7 @@ export async function apiVirtualSuccessAccess(dataVirtual, needAuthorize = true)
  */
 export async function apiVirtualFailAccess(dataVirtual, needAuthorize = true) {
   let result = {};
+  // eslint-disable-next-line compat/compat
   await new Promise(resolve => {
     setTimeout(() => {
       resolve(apiVirtualFailData(dataVirtual, needAuthorize));
@@ -958,6 +1030,7 @@ export async function apiVirtualFailAccess(dataVirtual, needAuthorize = true) {
  */
 export async function apiVirtualAccess(dataBuildFunction) {
   let result = {};
+  // eslint-disable-next-line compat/compat
   await new Promise(resolve => {
     if (typeof dataBuildFunction === 'function') {
       setTimeout(dataBuildFunction(resolve));
@@ -1040,4 +1113,110 @@ export function getQueue() {
   }
 
   return window.queueCustom;
+}
+
+/**
+ * Reacts生命周期getDerivedStateFromProps 辅助函数用于将url参数解析到返回值中用于设定state，
+ * @export
+ */
+// eslint-disable-next-line no-unused-vars
+export function getDerivedStateFromPropsForUrlParamsCore(nextProps, prevState) {
+  const { match } = nextProps;
+
+  if ((match || null) != null) {
+    const { params } = match;
+
+    if ((params || null) != null) {
+      return { urlParams: params };
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Reacts生命周期getDerivedStateFromProps 辅助函数用于将url参数解析到返回值中用于设定state,如果值重复，则返回null，
+ * @export
+ */
+export function getDerivedStateFromPropsForUrlParams(
+  nextProps,
+  prevState,
+  defaultUrlParams = { id: '' },
+  parseUrlParamsForSetState = null,
+) {
+  let stateUrlParams = getDerivedStateFromPropsForUrlParamsCore(nextProps, prevState);
+
+  stateUrlParams = stateUrlParams || { urlParams: defaultUrlParams };
+
+  const { urlParams: urlParamsPrev } = prevState;
+
+  const { urlParams } = stateUrlParams;
+
+  if (isEqualBySerialize({ ...urlParamsPrev, ...{} }, { ...urlParams, ...{} })) {
+    return null;
+  }
+
+  if (isFunction(parseUrlParamsForSetState)) {
+    const data = parseUrlParamsForSetState(stateUrlParams);
+
+    return { ...stateUrlParams, ...data };
+  }
+
+  return stateUrlParams;
+}
+
+/**
+ * 获取本地数据
+ * @export
+ * @param {value} 对比源
+ * @param {other} 对比对象
+ * 执行深比较来确定两者的值是否相等。
+ * 这个方法支持比较 arrays, array buffers, booleans, date objects, error objects, maps, numbers, Object objects, regexes, sets, strings, symbols, 以及 typed arrays. Object 对象值比较自身的属性，不包括继承的和可枚举的属性。 不支持函数和DOM节点比较。
+ */
+export function isEqual(value, other) {
+  return isEqualLodash(value, other);
+}
+
+export function isEqualBySerialize(value, other) {
+  const d1 = JSON.stringify(value || {});
+  const d2 = JSON.stringify(other || {});
+
+  return d1 === d2;
+}
+
+export function cloneWithoutMethod(value) {
+  if (value == null) {
+    return null;
+  }
+
+  return JSON.parse(JSON.stringify(value));
+}
+
+export function isFunction(value) {
+  return isFunctionLodash(value);
+}
+
+/**
+ * 筛选需要的集合
+ * @param {collection} 可筛选的对象，例如数组
+ * @param {predicateFunction} 每次迭代调用的筛选函数
+ */
+export function filter(collection, predicateFunction) {
+  return filterLodash(collection, predicateFunction);
+}
+
+export function trim(source) {
+  return trimLodash(source);
+}
+
+export function replace(source, pattern, replacement) {
+  return replaceLodash(source, pattern, replacement);
+}
+
+export function isBoolean(value) {
+  return isBooleanLodash(value);
+}
+
+export function stringIsNullOrWhiteSpace(value) {
+  return trim(replace(value || '', ' ', '')) === '';
 }

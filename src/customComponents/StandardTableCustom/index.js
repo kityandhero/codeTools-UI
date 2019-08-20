@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { Table, Alert, Spin } from 'antd';
 
 import styles from './index.less';
@@ -16,6 +16,7 @@ function initTotalList(columns) {
 class StandardTableCustom extends PureComponent {
   constructor(props) {
     super(props);
+
     const { columns } = props;
     const needTotalList = initTotalList(columns);
 
@@ -101,7 +102,7 @@ class StandardTableCustom extends PureComponent {
         <div className={styles.tableAlert}>
           <Alert
             message={
-              <Fragment>
+              <>
                 已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
                 {needTotalList.map(item => (
                   <span style={{ marginLeft: 8 }} key={item.dataIndex}>
@@ -115,7 +116,7 @@ class StandardTableCustom extends PureComponent {
                 <a onClick={this.cleanSelectedKeys} style={{ marginLeft: 24 }}>
                   清空
                 </a>
-              </Fragment>
+              </>
             }
             type="info"
             showIcon

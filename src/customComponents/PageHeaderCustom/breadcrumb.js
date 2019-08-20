@@ -2,7 +2,7 @@ import React, { PureComponent, createElement } from 'react';
 import pathToRegexp from 'path-to-regexp';
 import { Breadcrumb } from 'antd';
 import styles from './index.less';
-import { urlToList } from '../../components/_utils/pathTools';
+import { urlToList } from '../_utils/pathTools';
 
 export const getBreadcrumb = (breadcrumbNameMap, url) => {
   let breadcrumb = breadcrumbNameMap[url];

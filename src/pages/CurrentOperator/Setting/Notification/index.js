@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { formatMessage } from 'umi/locale';
+import React, { Component } from 'react';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { Switch, List } from 'antd';
 
 class NotificationView extends Component {
@@ -32,7 +32,7 @@ class NotificationView extends Component {
 
   render() {
     return (
-      <Fragment>
+      <>
         <List
           itemLayout="horizontal"
           dataSource={this.getData()}
@@ -42,7 +42,7 @@ class NotificationView extends Component {
             </List.Item>
           )}
         />
-      </Fragment>
+      </>
     );
   }
 }

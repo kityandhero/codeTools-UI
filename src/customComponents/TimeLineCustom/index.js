@@ -1,11 +1,13 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import moment from 'moment';
 import { List, Icon } from 'antd';
+
 import { getRandomColor } from '@/utils/tools';
+import CustomBase from '@/customComponents/Framework/CustomBase';
 
 import styles from './index.less';
 
-class TimeLineCustom extends PureComponent {
+class TimeLineCustom extends CustomBase {
   constructor(props) {
     super(props);
 
@@ -18,24 +20,22 @@ class TimeLineCustom extends PureComponent {
     };
   }
 
-  componentDidMount() {
-    const {
-      data: { list, pagination },
-    } = this.props;
-
-    this.setState({ list });
-    this.setState({ pagination });
-  }
-
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line no-unused-vars
+  static getDerivedStateFromProps(nextProps, prevState) {
     const {
       data: { list, pagination },
     } = nextProps;
+
+    return { list, pagination };
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  doWhenGetSnapshotBeforeUpdate = (preProps, preState) => {
     this.currentTime = null;
     this.currentPageStart = true;
-    this.setState({ list });
-    this.setState({ pagination });
-  }
+
+    return null;
+  };
 
   getCreateTimeDatePart = v => moment(v).format('YYYY-MM-DD');
 

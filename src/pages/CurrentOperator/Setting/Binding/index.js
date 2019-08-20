@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { formatMessage, FormattedMessage } from 'umi/locale';
+import React, { Component } from 'react';
+import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
 import { Icon, List } from 'antd';
 
 class BindingView extends Component {
@@ -38,7 +38,7 @@ class BindingView extends Component {
 
   render() {
     return (
-      <Fragment>
+      <>
         <List
           itemLayout="horizontal"
           dataSource={this.getData()}
@@ -52,7 +52,7 @@ class BindingView extends Component {
             </List.Item>
           )}
         />
-      </Fragment>
+      </>
     );
   }
 }

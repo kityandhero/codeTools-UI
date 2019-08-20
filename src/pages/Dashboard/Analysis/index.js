@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'dva';
-import { FormattedMessage } from 'umi/locale';
+import { FormattedMessage } from 'umi-plugin-react/locale';
 import {
   Row,
   Col,
@@ -17,6 +17,7 @@ import {
   Alert,
 } from 'antd';
 import numeral from 'numeral';
+import { GridContent } from '@ant-design/pro-layout';
 
 import {
   ChartCard,
@@ -27,12 +28,12 @@ import {
   Bar,
   Pie,
   TimelineChart,
-} from '@/components/Charts';
+} from '@/customComponents/Charts';
 import { formatDatetime, pretreatmentRequestParams } from '@/utils/tools';
-import LoadDataForm from '@/customComponents/CustomForm/LoadDataForm';
-import Trend from '@/components/Trend';
-import NumberInfo from '@/components/NumberInfo';
-import GridContent from '@/components/PageHeaderWrapper/GridContent';
+import accessWayCollection from '@/utils/accessWayCollection';
+import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
+import Trend from '@/customComponents/Trend';
+import NumberInfo from '@/customComponents/NumberInfo';
 import Yuan from '@/utils/Yuan';
 
 import styles from './index.less';
@@ -46,6 +47,8 @@ const { RangePicker } = DatePicker;
   loading: loading.models.dashboard,
 }))
 class Analysis extends LoadDataForm {
+  componentAuthority = accessWayCollection.dashboard.analysis;
+
   constructor(props) {
     super(props);
 
@@ -647,7 +650,7 @@ class Analysis extends LoadDataForm {
       () => {
         this.loadSaleCountRange();
         this.loadSaleAmountRange();
-      }
+      },
     );
   };
 
@@ -661,7 +664,7 @@ class Analysis extends LoadDataForm {
       () => {
         this.loadSaleCountRange();
         this.loadSaleAmountRange();
-      }
+      },
     );
   };
 
@@ -855,16 +858,16 @@ class Analysis extends LoadDataForm {
                 bordered={false}
                 title="总销售量"
                 action={
-                  <Fragment>
+                  <>
                     <Tooltip
                       title={`每隔10分钟统计一次,本次统计时间为${formatDatetime(
                         saleAmountData.totalSaleAmountTime,
-                        'YYYY-MM-DD HH:mm'
+                        'YYYY-MM-DD HH:mm',
                       )}`}
                     >
                       <Icon type="info-circle-o" />
                     </Tooltip>
-                  </Fragment>
+                  </>
                 }
                 total={() => <Yuan>{saleAmountData.totalSaleAmount}</Yuan>}
                 // total={`￥${numeral(saleAmountData.todaySaleAmount).format('0,0.00')}`}
@@ -903,7 +906,7 @@ class Analysis extends LoadDataForm {
                   <Tooltip
                     title={`每隔10分钟统计一次,本次统计时间为${formatDatetime(
                       saleAmountData.totalSaleAmountTime,
-                      'YYYY-MM-DD HH:mm'
+                      'YYYY-MM-DD HH:mm',
                     )}`}
                   >
                     <Icon type="info-circle-o" />
@@ -928,7 +931,7 @@ class Analysis extends LoadDataForm {
                   <Tooltip
                     title={`每隔10分钟统计一次,本次统计时间为${formatDatetime(
                       saleAmountData.totalSaleAmountTime,
-                      'YYYY-MM-DD HH:mm'
+                      'YYYY-MM-DD HH:mm',
                     )}`}
                   >
                     <Icon type="info-circle-o" />
@@ -936,21 +939,21 @@ class Analysis extends LoadDataForm {
                 }
                 total={() => <Yuan>{areaAccountBalanceData.totalAreaAccountBalance}</Yuan>}
                 footer={
-                  <Fragment>
+                  <>
                     <Field
                       label="目前可提金额"
                       value={
-                        <Fragment>
+                        <>
                           {`￥${numeral(areaAccountBalanceData.availableAreaAccountBalance).format(
-                            '0,0'
+                            '0,0',
                           )}`}
                           {/* <a href="/" className={styles.withdrawal}>
                           [提现]
                         </a> */}
-                        </Fragment>
+                        </>
                       }
                     />
-                  </Fragment>
+                  </>
                 }
                 contentHeight={46}
               >
@@ -967,7 +970,7 @@ class Analysis extends LoadDataForm {
                   <Tooltip
                     title={`每隔10分钟统计一次,本次统计时间为${formatDatetime(
                       saleAmountData.totalSaleAmountTime,
-                      'YYYY-MM-DD HH:mm'
+                      'YYYY-MM-DD HH:mm',
                     )}`}
                   >
                     <Icon type="info-circle-o" />

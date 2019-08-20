@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
-import { isAntdPro } from './utils';
+
 import { useVirtualAccess, getTokenKeyName, corsTarget } from './tools';
 
 const codeMessage = {
@@ -69,7 +69,6 @@ const cachedSave = (response, hashCode) => {
  */
 export function request(urlParam, option) {
   const options = {
-    expirys: isAntdPro(),
     ...option,
   };
 

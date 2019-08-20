@@ -9,7 +9,7 @@ export async function getCurrentData() {
       email: 'Test@alipay.com',
       signature: '海纳百川，有容乃大',
       title: '交互专家',
-      group: '量子美食－某某某事业群－某某平台部－某某技术部－UED',
+      group: '某某某事业群－某某平台部－某某技术部－UED',
       tags: [
         {
           key: '0',

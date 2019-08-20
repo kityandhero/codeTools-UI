@@ -1,7 +1,7 @@
 import React from 'react';
-import { formatMessage } from 'umi/locale';
+import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
-import Exception from '@/components/Exception';
+import Exception from '@/customComponents/Exception';
 
 const Exception500 = () => (
   <Exception

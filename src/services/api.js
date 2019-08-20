@@ -1,6 +1,6 @@
 import { stringify } from 'qs';
-import { request } from '@/utils/request';
 import moment from 'moment';
+import { request } from '@/utils/request';
 import {
   useVirtualAccess,
   apiVirtualAccess,
@@ -367,7 +367,7 @@ export async function accountLogin(params) {
     return result;
   }
 
-  return request('/entrance/signIn', {
+  return request('/Entrance/SignIn', {
     method: 'POST',
     body: params,
   });

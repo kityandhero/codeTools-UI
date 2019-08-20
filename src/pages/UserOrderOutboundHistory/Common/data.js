@@ -1,0 +1,20 @@
+module.exports = {
+  fieldData: {
+    userOrderOutboundHistoryId: '标识',
+    userOrderId: '订单标识',
+    description: '物品描述',
+    type: '出库类型',
+    typeNote: '出库类型',
+    additional: '所属地区',
+    areaAgentId: '所属地区',
+    lineId: '线路标识',
+    lineName: '线路名称',
+    merchantId: '社区标识',
+    merchantName: '社区名称',
+    batchDate: ' 出库批次',
+    createTime: '出库时间',
+    outboundDataChanged: '订单出库处理',
+    transportDataChanged: '订单配送处理',
+    completeDataChanged: '订单配送完成处理',
+  },
+};

@@ -1,4 +1,4 @@
-import React, { Fragment, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { Input } from 'antd';
 import styles from './index.less';
 
@@ -10,7 +10,7 @@ class PhoneView extends PureComponent {
       values = value.split('-');
     }
     return (
-      <Fragment>
+      <>
         <Input
           className={styles.area_code}
           value={values[0]}
@@ -25,7 +25,7 @@ class PhoneView extends PureComponent {
           }}
           value={values[1]}
         />
-      </Fragment>
+      </>
     );
   }
 }

@@ -1,10 +1,20 @@
-import { queryNotices } from '@/services/api';
-import { pretreatmentRemoteListData } from '@/utils/tools';
+import {
+  // pretreatmentRemoteListData,
+  pretreatmentRemoteSingleData,
+} from '@/utils/tools';
 
-export default {
+import { queryNotices } from '@/services/user';
+import { queryGetData } from '@/services/global';
+
+const GlobalModel = {
   namespace: 'global',
 
   state: {
+    globalLoading: false,
+    globalLoadSuccess: false,
+    globalParams: {},
+    currentOperatorLoading: false,
+    currentOperatorLoadSuccess: false,
     currentOperator: null,
     collapsed: false,
     amapObject: null,
@@ -15,6 +25,7 @@ export default {
     saleTypeList: [],
     unitList: [],
     productStateList: [],
+    productSaleTimeModeList: [],
     orderTypeList: [],
     orderStatusList: [],
     payTypeList: [],
@@ -49,9 +60,60 @@ export default {
     distributionStateList: [],
     areaManageStateList: [],
     roleStateList: [],
+    storeTypeList: [],
+    goodsLogisticsProcessRequestMessageStateList: [],
+    goodsLogisticsProcessRequestMessageTypeList: [],
+    goodsLogisticsProcessRequestMessageModeList: [],
+    userOrderOutboundHistoryTypeList: [],
+    goodsLogisticsProcessRequestMessageAggregateCompleteList: [],
+    goodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultList: [],
+    statisticModeList: [],
+    statisticStateList: [],
+    peopleAccountLogTypeList: [],
+    peopleAccountLogIsOutInList: [],
+    peopleAccountLogInTypeList: [],
+    advertisementClassList: [],
+    planSaleStateList: [],
   },
 
   effects: {
+    *get({ payload }, { call, put }) {
+      const response = yield call(queryGetData, payload);
+      yield put({
+        type: 'handleCommonData',
+        payload: response,
+      });
+    },
+    *setGlobalLoading({ payload }, { put }) {
+      yield put({
+        type: 'changeGlobalLoading',
+        payload,
+      });
+    },
+    *setGlobalLoadSuccess({ payload }, { put }) {
+      yield put({
+        type: 'changeGlobalLoadSuccess',
+        payload,
+      });
+    },
+    *setGlobalParams({ payload }, { put }) {
+      yield put({
+        type: 'changeGlobalParams',
+        payload,
+      });
+    },
+    *setCurrentOperatorLoading({ payload }, { put }) {
+      yield put({
+        type: 'changeCurrentOperatorLoading',
+        payload,
+      });
+    },
+    *setCurrentOperatorLoadSuccess({ payload }, { put }) {
+      yield put({
+        type: 'changeCurrentOperatorLoadSuccess',
+        payload,
+      });
+    },
     *setCurrentOperator({ payload }, { put }) {
       yield put({
         type: 'handleCurrentOperator',
@@ -64,15 +126,21 @@ export default {
         payload,
       });
     },
-    *fetchNotices(_, { call, put }) {
+    *fetchNotices(_, { call, put, select }) {
       const data = yield call(queryNotices);
       yield put({
         type: 'saveNotices',
         payload: data,
       });
+      const unreadCount = yield select(
+        state => state.global.notices.filter(item => !item.read).length,
+      );
       yield put({
         type: 'user/changeNotifyCount',
-        payload: data.length,
+        payload: {
+          totalCount: data.length,
+          unreadCount,
+        },
       });
     },
     *clearNotices({ payload }, { put, select }) {
@@ -81,9 +149,39 @@ export default {
         payload,
       });
       const count = yield select(state => state.global.notices.length);
+      const unreadCount = yield select(
+        state => state.global.notices.filter(item => !item.read).length,
+      );
       yield put({
         type: 'user/changeNotifyCount',
-        payload: count,
+        payload: {
+          totalCount: count,
+          unreadCount,
+        },
+      });
+    },
+    *changeNoticeReadState({ payload }, { put, select }) {
+      const notices = yield select(state =>
+        state.global.notices.map(item => {
+          const notice = { ...item };
+
+          if (notice.id === payload) {
+            notice.read = true;
+          }
+
+          return notice;
+        }),
+      );
+      yield put({
+        type: 'saveNotices',
+        payload: notices,
+      });
+      yield put({
+        type: 'user/changeNotifyCount',
+        payload: {
+          totalCount: notices.length,
+          unreadCount: notices.filter(item => !item.read).length,
+        },
       });
     },
     *setRank({ payload }, { put }) {
@@ -119,6 +217,12 @@ export default {
     *setProductState({ payload }, { put }) {
       yield put({
         type: 'changeProductStateList',
+        payload,
+      });
+    },
+    *setProductSaleTimeMode({ payload }, { put }) {
+      yield put({
+        type: 'changeProductSaleTimeModeList',
         payload,
       });
     },
@@ -302,9 +406,135 @@ export default {
         payload,
       });
     },
+    *setStoreType({ payload }, { put }) {
+      yield put({
+        type: 'changeStoreTypeList',
+        payload,
+      });
+    },
+    *setGoodsLogisticsProcessRequestMessageState({ payload }, { put }) {
+      yield put({
+        type: 'changeGoodsLogisticsProcessRequestMessageStateList',
+        payload,
+      });
+    },
+    *setGoodsLogisticsProcessRequestMessageType({ payload }, { put }) {
+      yield put({
+        type: 'changeGoodsLogisticsProcessRequestMessageTypeList',
+        payload,
+      });
+    },
+    *setGoodsLogisticsProcessRequestMessageMode({ payload }, { put }) {
+      yield put({
+        type: 'changeGoodsLogisticsProcessRequestMessageModeList',
+        payload,
+      });
+    },
+    *setUserOrderOutboundHistoryType({ payload }, { put }) {
+      yield put({
+        type: 'changeUserOrderOutboundHistoryTypeList',
+        payload,
+      });
+    },
+    *setGoodsLogisticsProcessRequestMessageAggregateComplete({ payload }, { put }) {
+      yield put({
+        type: 'changeGoodsLogisticsProcessRequestMessageAggregateCompleteList',
+        payload,
+      });
+    },
+    *setGoodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResult(
+      { payload },
+      { put },
+    ) {
+      yield put({
+        type: 'changeGoodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultList',
+        payload,
+      });
+    },
+    *setStatisticMode({ payload }, { put }) {
+      yield put({
+        type: 'changeStatisticModeList',
+        payload,
+      });
+    },
+    *setStatisticState({ payload }, { put }) {
+      yield put({
+        type: 'changeStatisticStateList',
+        payload,
+      });
+    },
+    *setPeopleAccountLogType({ payload }, { put }) {
+      yield put({
+        type: 'changePeopleAccountLogTypeList',
+        payload,
+      });
+    },
+    *setPeopleAccountLogIsOutIn({ payload }, { put }) {
+      yield put({
+        type: 'changePeopleAccountLogIsOutInList',
+        payload,
+      });
+    },
+    *setPeopleAccountLogInType({ payload }, { put }) {
+      yield put({
+        type: 'changePeopleAccountLogInTypeList',
+        payload,
+      });
+    },
+    *setAdvertisementClass({ payload }, { put }) {
+      yield put({
+        type: 'changeAdvertisementClassList',
+        payload,
+      });
+    },
+    *setPlanSaleState({ payload }, { put }) {
+      yield put({
+        type: 'changePlanSaleStateList',
+        payload,
+      });
+    },
   },
 
   reducers: {
+    handleCommonData(state, action) {
+      const d = action.payload;
+      const v = pretreatmentRemoteSingleData(d);
+
+      return {
+        ...state,
+        data: v,
+      };
+    },
+    changeGlobalLoading(state, { payload }) {
+      return {
+        ...state,
+        globalLoading: payload,
+      };
+    },
+    changeGlobalLoadSuccess(state, { payload }) {
+      return {
+        ...state,
+        globalLoadSuccess: payload,
+      };
+    },
+    changeGlobalParams(state, { payload }) {
+      return {
+        ...state,
+        globalParams: payload,
+      };
+    },
+    changeCurrentOperatorLoading(state, { payload }) {
+      return {
+        ...state,
+        currentOperatorLoading: payload,
+      };
+    },
+    changeCurrentOperatorLoadSuccess(state, { payload }) {
+      return {
+        ...state,
+        currentOperatorLoadSuccess: payload,
+      };
+    },
     handleCurrentOperator(state, { payload }) {
       return {
         ...state,
@@ -317,23 +547,31 @@ export default {
         amapObject: payload,
       };
     },
-    changeLayoutCollapsed(state, { payload }) {
-      return {
-        ...state,
-        collapsed: payload,
-      };
+    changeLayoutCollapsed(
+      state = {
+        notices: [],
+        collapsed: true,
+      },
+      { payload },
+    ) {
+      return { ...state, collapsed: payload };
     },
     saveNotices(state, { payload }) {
-      const d = payload;
-      const v = pretreatmentRemoteListData(d);
-
       return {
+        collapsed: false,
         ...state,
-        data: v,
+        notices: payload,
       };
     },
-    saveClearedNotices(state, { payload }) {
+    saveClearedNotices(
+      state = {
+        notices: [],
+        collapsed: true,
+      },
+      { payload },
+    ) {
       return {
+        collapsed: false,
         ...state,
         notices: state.notices.filter(item => item.type !== payload),
       };
@@ -372,6 +610,12 @@ export default {
       return {
         ...state,
         productStateList: payload,
+      };
+    },
+    changeProductSaleTimeModeList(state, { payload }) {
+      return {
+        ...state,
+        productSaleTimeModeList: payload,
       };
     },
     changeOrderTypeList(state, { payload }) {
@@ -548,6 +792,93 @@ export default {
         roleStateList: payload,
       };
     },
+    changeStoreTypeList(state, { payload }) {
+      return {
+        ...state,
+        storeTypeList: payload,
+      };
+    },
+    changeGoodsLogisticsProcessRequestMessageStateList(state, { payload }) {
+      return {
+        ...state,
+        goodsLogisticsProcessRequestMessageStateList: payload,
+      };
+    },
+    changeGoodsLogisticsProcessRequestMessageTypeList(state, { payload }) {
+      return {
+        ...state,
+        goodsLogisticsProcessRequestMessageTypeList: payload,
+      };
+    },
+    changeGoodsLogisticsProcessRequestMessageModeList(state, { payload }) {
+      return {
+        ...state,
+        goodsLogisticsProcessRequestMessageModeList: payload,
+      };
+    },
+    changeUserOrderOutboundHistoryTypeList(state, { payload }) {
+      return {
+        ...state,
+        userOrderOutboundHistoryTypeList: payload,
+      };
+    },
+    changeGoodsLogisticsProcessRequestMessageAggregateCompleteList(state, { payload }) {
+      return {
+        ...state,
+        goodsLogisticsProcessRequestMessageAggregateCompleteList: payload,
+      };
+    },
+    changeGoodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultList(
+      state,
+      { payload },
+    ) {
+      return {
+        ...state,
+        goodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultList: payload,
+      };
+    },
+    changeStatisticModeList(state, { payload }) {
+      return {
+        ...state,
+        statisticModeList: payload,
+      };
+    },
+    changeStatisticStateList(state, { payload }) {
+      return {
+        ...state,
+        statisticStateList: payload,
+      };
+    },
+    changePeopleAccountLogTypeList(state, { payload }) {
+      return {
+        ...state,
+        peopleAccountLogTypeList: payload,
+      };
+    },
+    changePeopleAccountLogIsOutInList(state, { payload }) {
+      return {
+        ...state,
+        peopleAccountLogIsOutInList: payload,
+      };
+    },
+    changePeopleAccountLogInTypeList(state, { payload }) {
+      return {
+        ...state,
+        peopleAccountLogInTypeList: payload,
+      };
+    },
+    changeAdvertisementClassList(state, { payload }) {
+      return {
+        ...state,
+        advertisementClassList: payload,
+      };
+    },
+    changePlanSaleStateList(state, { payload }) {
+      return {
+        ...state,
+        planSaleStateList: payload,
+      };
+    },
   },
 
   subscriptions: {
@@ -561,3 +892,5 @@ export default {
     },
   },
 };
+
+export default GlobalModel;

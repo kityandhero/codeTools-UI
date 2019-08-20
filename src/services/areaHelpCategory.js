@@ -4,7 +4,7 @@ import { apiVirtualSuccessAccess, useVirtualAccess } from '@/utils/tools';
 export async function queryGetMenuData(params) {
   if (useVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
-      pagesize: 10,
+      pageSize: 10,
       total: 645,
       pageNo: 1,
       data: [],

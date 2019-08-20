@@ -13,17 +13,15 @@ class ContentPreview extends PureComponent {
     };
   }
 
-  componentDidMount() {
-    this.mounted = true;
-
-    const { visible } = this.props;
-    this.setState({ visible });
-  }
-
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line no-unused-vars
+  static getDerivedStateFromProps(nextProps, prevState) {
     const { visible } = nextProps;
 
-    this.setState({ visible });
+    return { visible: visible || false };
+  }
+
+  componentDidMount() {
+    this.mounted = true;
   }
 
   componentWillUnmount() {

@@ -15,7 +15,7 @@ import {
 } from 'antd';
 
 import { formatDatetime } from '@/utils/tools';
-import LoadDataForm from '@/customComponents/CustomForm/LoadDataForm';
+import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
 import HtmlBox from '@/customComponents/HtmlBox';
 
 const styles = './index.less';

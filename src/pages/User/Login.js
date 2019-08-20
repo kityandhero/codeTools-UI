@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { formatMessage, FormattedMessage } from 'umi/locale';
+import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
 // import Link from 'umi/link';
 import {
   // Checkbox,
   Alert,
   //  Icon
 } from 'antd';
-import Login from '@/components/Login';
+import Login from '@/customComponents/Login';
 import styles from './Login.less';
 
 const {
@@ -35,7 +35,6 @@ class LoginPage extends Component {
   };
 
   onGetCaptcha = () =>
-    // eslint-disable-next-line compat/compat
     new Promise((resolve, reject) => {
       this.loginForm.validateFields(['mobile'], {}, (err, values) => {
         if (err) {
@@ -58,6 +57,9 @@ class LoginPage extends Component {
       const { dispatch } = this.props;
 
       const submitData = { ...values };
+
+      submitData.name = submitData.userName;
+      submitData.psw = submitData.password;
 
       dispatch({
         type: 'login/login',

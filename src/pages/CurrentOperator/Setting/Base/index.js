@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Form, Input, Upload, Button, Icon, Spin, notification } from 'antd';
 import { connect } from 'dva';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '@/utils/tools';
-import UpdateForm from '@/customComponents/CustomForm/UpdateForm';
+import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
 
 import styles from './index.less';
 // import GeographicView from '../Geographic';
@@ -14,7 +14,7 @@ const FormItem = Form.Item;
 
 // 头像组件 方便以后独立，增加裁剪之类的功能
 const AvatarView = ({ avatar }) => (
-  <Fragment>
+  <>
     <div className={styles.avatar_title}>头像</div>
     <div className={styles.avatar}>
       <img src={avatar} alt="avatar" />
@@ -24,7 +24,7 @@ const AvatarView = ({ avatar }) => (
         <Button icon="upload">更换头像</Button>
       </div>
     </Upload>
-  </Fragment>
+  </>
 );
 
 // const validatorGeographic = (rule, value, callback) => {

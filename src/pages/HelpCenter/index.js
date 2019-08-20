@@ -3,8 +3,8 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Row, Col, Card, Spin, message } from 'antd';
 
-import GridContent from '@/components/PageHeaderWrapper/GridContent';
-import LoadDataForm from '@/customComponents/CustomForm/LoadDataForm';
+import { GridContent } from '@ant-design/pro-layout';
+import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
 
 import CategoryMenu from './CategoryMenu';
 

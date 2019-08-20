@@ -3,8 +3,8 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Form, Icon, List, Tag, Card, BackTop } from 'antd';
 
-import PagerList from '@/customComponents/CustomList/PagerList';
-import ArticleListContent from '@/components/ArticleListContent';
+import PagerList from '@/customComponents/Framework/CustomList/PagerList';
+import ArticleListContent from '@/customComponents/ArticleListContent';
 
 const styles = './index.less';
 

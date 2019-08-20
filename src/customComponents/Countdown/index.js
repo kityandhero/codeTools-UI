@@ -1,26 +1,37 @@
-import React, { PureComponent, Fragment } from 'react';
+import React from 'react';
+
+import CustomBase from '@/customComponents/Framework/CustomBase';
 
 import styles from './index.less';
 
-class Countdown extends PureComponent {
+class Countdown extends CustomBase {
   mounted = false;
 
   timer = null;
 
   constructor(props) {
     super(props);
+
     this.state = {
       day: 0,
       hour: 0,
       minute: 0,
       second: 0,
+      endTime: null,
     };
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { endTime } = nextProps;
+
+    return { endTime };
   }
 
   componentDidMount() {
     this.mounted = true;
 
-    const { endTime: et } = this.props;
+    const { endTime: et } = this.state;
 
     if (et) {
       const endTime = et.replace(/-/g, '/');
@@ -28,8 +39,9 @@ class Countdown extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { endTime: et } = nextProps;
+  // eslint-disable-next-line no-unused-vars
+  doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
+    const { endTime: et } = this.state;
 
     if (this.timer != null) {
       clearInterval(this.timer);
@@ -39,7 +51,7 @@ class Countdown extends PureComponent {
       const endTime = et.replace(/-/g, '/');
       this.countFun(endTime);
     }
-  }
+  };
 
   componentWillUnmount() {
     clearInterval(this.timer);
@@ -85,7 +97,7 @@ class Countdown extends PureComponent {
     const des = endDescription;
 
     return (
-      <Fragment>
+      <>
         <span className={styles.countdownContainor}>
           <span>{t}</span>{' '}
           <span>
@@ -96,7 +108,7 @@ class Countdown extends PureComponent {
             {day === 0 && hour === '00' && minute === '00' && second === 0 ? des : null}
           </span>
         </span>
-      </Fragment>
+      </>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { FormattedMessage, formatMessage } from 'umi/locale';
+import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import { Spin, Tag, Menu, Icon, Dropdown, Avatar, Tooltip } from 'antd';
 import Link from 'umi/link';
 import moment from 'moment';

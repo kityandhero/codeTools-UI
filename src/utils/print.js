@@ -6,7 +6,7 @@ export async function printAllOrder(header, body) {
     '',
     '47BD6E531EA942E14CC033843EB54049',
     'C94CEE276DB2187AE6B65D56B3FC2848',
-    ''
+    '',
   );
   LODOP.PRINT_INIT('打印配送线路总单');
   LODOP.SET_PRINT_PAGESIZE(1, 2400, 2794, 'A3');
@@ -30,7 +30,7 @@ export async function printChildOrder(header, body) {
     '',
     '47BD6E531EA942E14CC033843EB54049',
     'C94CEE276DB2187AE6B65D56B3FC2848',
-    ''
+    '',
   );
   LODOP.PRINT_INIT('打印配送社区线路分单');
   LODOP.SET_PRINT_PAGESIZE(1, 2400, 1400, 'A3');
@@ -54,7 +54,7 @@ export async function printChildA4Order(header, body) {
     '',
     '47BD6E531EA942E14CC033843EB54049',
     'C94CEE276DB2187AE6B65D56B3FC2848',
-    ''
+    '',
   );
   LODOP.PRINT_INIT('打印配送社区线路分单');
   LODOP.SET_PRINT_PAGESIZE(1, 2100, 2970, 'A3');

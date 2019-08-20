@@ -13,7 +13,7 @@ export async function queryCurrent() {
       email: 'antdesign@alipay.com',
       signature: '海纳百川，有容乃大',
       title: '交互专家',
-      group: '量子美食－某某某事业群－某某平台部－某某技术部－UED',
+      group: '某某某事业群－某某平台部－某某技术部－UED',
       tags: [
         {
           key: '0',
@@ -59,7 +59,11 @@ export async function queryCurrent() {
     return result;
   }
 
-  return request('/operator/getCurrent');
+  return request('/CurrentOperator/GetCurrent');
+}
+
+export async function queryNotices() {
+  return request('/api/notices');
 }
 
 /**

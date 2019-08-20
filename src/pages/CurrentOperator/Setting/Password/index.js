@@ -3,7 +3,7 @@ import { Form, Input, Button, Icon, Spin, notification, message } from 'antd';
 import { connect } from 'dva';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '@/utils/tools';
-import UpdateForm from '@/customComponents/CustomForm/UpdateForm';
+import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
 
 import styles from './index.less';
 
@@ -21,6 +21,14 @@ const fieldLabels = {
 }))
 @Form.create()
 class Password extends UpdateForm {
+  getApiData = props => {
+    const {
+      currentOperator: { data },
+    } = props;
+
+    return data;
+  };
+
   initState = () => ({
     loadDataAfterMount: false,
   });
@@ -38,14 +46,6 @@ class Password extends UpdateForm {
     this.view = ref;
   };
 
-  supplementSubmitRequestParams = o => {
-    const d = o;
-
-    delete d.reNewWord;
-
-    return d;
-  };
-
   checkSubmitRequestParams = o => {
     if (o.newWord.length < 6) {
       message.error('新密码长度太短，请输入6~32位的新密码！');
@@ -60,6 +60,14 @@ class Password extends UpdateForm {
     return true;
   };
 
+  afterCheckSubmitRequestParams = o => {
+    const d = o;
+
+    delete d.reNewWord;
+
+    return d;
+  };
+
   // eslint-disable-next-line no-unused-vars
   afterSubmitSuccess = data => {
     const { form } = this.props;
@@ -70,7 +78,7 @@ class Password extends UpdateForm {
       notification.success({
         placement: 'bottomRight',
         message: '操作结果',
-        description: '数据已经保存成功，请进行后续操作。',
+        description: '密码修改成功。',
       });
     });
   };

@@ -1,5 +1,5 @@
 export function getConfigData() {
-  let corsTargetProduction = 'http://localhost:9090';
+  let corsTargetProduction = 'https://api2.yurukeji.com.cn';
 
   if (window.appInitCustom != null) {
     if (window.appInitCustom.apiPrefix != null) {
@@ -14,14 +14,15 @@ export function getConfigData() {
   }
 
   return {
-    corsTargetDevelopment: 'http://localhost:9090',
-    // corsTargetProduction: 'https://api2.yurukeji.com.cn',
+    corsTargetDevelopment: 'https://api2.yurukeji.com.cn',
+    // corsTargetDevelopment: 'http://api2.b.com',
+    // corsTargetDevelopment: 'http://areaapi.lz.a.com',
     corsTargetProduction,
   };
 }
 
 export function checkDevelopment() {
-  return process.env.NODE_ENV === 'development' || window.location.hostname === 'area.lz.a.com';
+  return process.env.NODE_ENV === 'development';
 }
 
 /**

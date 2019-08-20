@@ -4,9 +4,14 @@ module.exports = {
   product: {
     add: '6dc43a47-e084-41c7-87e3-68b1fe9f57e2',
     list: 'f98e7912-179b-4550-8029-fe55f354ea73',
+    listSaleCount: '4d60d7d9-7506-4853-a2e2-8248bc1053fa',
     listSource: 'b0f6e4ee-456b-40e5-a6a7-b26c0f991006',
     listStoreChange: '402e4172-d9ea-44f0-a2dd-364edb3b4dd0',
     listLog: 'ac8072d2-2b0f-487e-8222-0acdc631a8c9',
+    listPlanSale: 'ac8072d2-2b0f-487e-8222-0acdc631a8c9',
+    listSaleRecord: 'ecaaf1ef-9f11-418d-af97-985475ed2b03',
+    listRefundRecord: '0569f18f-bdfe-46ca-a248-937442a0402e',
+    listReplenishmentRecord: '9562eb15-8ac4-42a6-b593-30ff57b6e037',
     get: 'c4e83fcc-bfa6-4bb5-b1d3-961212d7ba95',
     setRecommend: 'e34fb379-8c35-40aa-be43-b14348a15b32',
     setHot: 'f37d24e5-0080-493f-a3ab-f819cf4a701a',
@@ -47,10 +52,14 @@ module.exports = {
     remove: '691de905-46ae-4e59-ae2f-817e54a0e425',
     agree: '4505d13f-c48f-4969-b0ae-96fa2a06d8c3',
   },
-  regUser: { list: '40b7fc39-ba3c-4256-9a25-8fe28c185282' },
+  regUser: {
+    list: '40b7fc39-ba3c-4256-9a25-8fe28c185282',
+    get: '9e314e2b-c612-4492-8737-1c6dca4adfb3',
+  },
   merchant: {
     list: '6ee566b9-0372-4833-a399-ad0a033350db',
     updateBasicInfo: '06a0f925-d8fc-420f-9632-9eaf49067905',
+    updateParentId: 'a0bf234e-c3d5-4b1a-be5f-6f45f550bde5',
     pass: '4e20c2bf-b09b-46e6-9a40-b40eae14213a',
     refuse: '85c025aa-6163-49ae-8324-a8639c981f80',
   },
@@ -100,6 +109,7 @@ module.exports = {
     listOperationRecord: 'c401203f-311f-45d8-b16e-b08f6dff57c6',
     refuse: '4bc27aa0-a232-43d7-8930-72d9ba080dae',
     payByWeChat: '90427b68-e410-4b1b-9456-4c6680c64f15',
+    payByOffline: '9727c5f0-2e95-48d4-aef2-212bce36e2c4',
   },
   areaConfig: {
     get: '0a1244c8-6073-463d-9e73-58ab56d6e8af',
@@ -112,6 +122,7 @@ module.exports = {
   goodsLogisticsProcessRequestMessage: {
     get: 'fadf9e41-ab99-4ed1-b8fd-1d658f972595',
     list: 'ee503b21-30f2-4d9d-9514-1cdd1c1fa287',
+    reAggregate: 'd286a5e3-a2ce-4943-a280-8aea5e2764a9',
   },
   goodsOutboundAggregate: {
     list: 'a19427fa-408d-4c9b-a787-9520794e6cba',
@@ -139,5 +150,46 @@ module.exports = {
   },
   goodsLogisticsProcessRequestMessageDayInspect: {
     list: 'ab56c14d-c6b3-47cb-ae6b-07afcb3a7d2f',
+  },
+  peopleAccountLog: {
+    listByMerchant: '8c230c82-9b17-4b81-847b-c2a883ae4f52',
+  },
+  advertisement: {
+    list: '1e7ab7dc-5835-415a-a9cc-2ad9f5087feb',
+    get: '810ae526-7264-449f-8a99-3e3d626c8a0d',
+    addBasicInfo: '7f90858c-0b48-4638-ad83-61d9195dcfda',
+    updateBasicInfo: '4250d63e-b4d6-43bb-be67-1ac19891ae73',
+    remove: '271bd884-485b-406f-a80b-32f84fc59b11',
+  },
+  qRCode: {
+    list: 'ae087820-f0d2-4bc1-8c7e-5e1ea35df973',
+    get: '1cfa59ac-6e51-4d5a-832f-826ecdb3ea00',
+    addBasicInfo: '1fc766c8-95df-4d78-a48d-ac1538f34428',
+    updateBasicInfo: 'b92e1154-3d59-4389-871a-57b9e18c84de',
+    remove: 'e92c81d3-5352-4240-8635-eb9a8335768c',
+  },
+  callCenter: {
+    list: '3c545617-79b0-4643-b6b0-01a97e4f14a2',
+    get: '030c5882-755d-4812-a1f5-aaf4baf6a8c4',
+    addBasicInfo: '52dfc684-22dc-4042-a81c-facc96e0b6ef',
+    updateBasicInfo: '86fb3acf-f8ce-44a2-91b7-291c74ac6ccf',
+    remove: '21051a5b-532b-4e23-80a9-57009d050f69',
+  },
+  areaRankSaleStatistic: {
+    list: '1d340e7f-9ad3-4199-a5df-c7c43a416778',
+    get: 'b4996bff-78b6-411d-a961-200624611cda',
+  },
+  merchantStatistics: {
+    list: '4fcf01a0-0a2e-4596-a1ea-434157223865',
+  },
+  planSale: {
+    list: 'ef605bfe-d3f4-48d5-9e25-ddd9a2d30380',
+    get: 'd93d4008-ebfb-478f-9583-370d22f05e18',
+    addBasicInfo: '0d8dcb0d-05ad-4fff-aa9a-51a1076d0fc3',
+    updateBasicInfo: 'a1c08282-3c89-44df-8398-ea15debe0301',
+    setWait: '08b64693-2116-44ca-9b79-342a1e2a46f2',
+    setOpening: 'c6e2ceec-f0a2-41a9-97d5-de39e02e5c5f',
+    setOver: '6f9a41d9-f390-40e6-b544-3d5622f93829',
+    remove: '5092d7c3-2e15-4d83-9c56-33e3e0ed0f5f',
   },
 };

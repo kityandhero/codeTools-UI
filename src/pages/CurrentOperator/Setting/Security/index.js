@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { formatMessage, FormattedMessage } from 'umi/locale';
+import React, { Component } from 'react';
+import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
 import { List } from 'antd';
 // import { getTimeDistance } from '@/utils/utils';
 
@@ -27,10 +27,10 @@ class SecurityView extends Component {
     {
       title: formatMessage({ id: 'app.settings.security.password' }, {}),
       description: (
-        <Fragment>
+        <>
           {formatMessage({ id: 'app.settings.security.password-description' })}：
           {passwordStrength.strong}
-        </Fragment>
+        </>
       ),
       actions: [
         <a>
@@ -84,7 +84,7 @@ class SecurityView extends Component {
 
   render() {
     return (
-      <Fragment>
+      <>
         <List
           itemLayout="horizontal"
           dataSource={this.getData()}
@@ -94,7 +94,7 @@ class SecurityView extends Component {
             </List.Item>
           )}
         />
-      </Fragment>
+      </>
     );
   }
 }

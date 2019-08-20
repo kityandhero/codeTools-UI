@@ -73,7 +73,6 @@ export default {
       const v = pretreatmentRemoteSingleData(d);
 
       v.data.userName = v.data.name;
-      v.data.type = v.data.type;
       v.data.id = v.data.areaManageId;
       v.data.type = 1;
       v.data.role = [];

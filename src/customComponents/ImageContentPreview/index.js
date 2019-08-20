@@ -1,33 +1,25 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { Drawer, Empty } from 'antd';
+
+import CustomBase from '@/customComponents/Framework/CustomBase';
+
 import styles from './index.less';
 
-class ImageContentPreview extends PureComponent {
-  mounted = false;
-
+class ImageContentPreview extends CustomBase {
   constructor(props) {
     super(props);
+
     this.state = {
-      visible: false,
+      ...this.state,
+      ...{ visible: false },
     };
   }
 
-  componentDidMount() {
-    this.mounted = true;
-
-    const { visible } = this.props;
-    this.setState({ visible });
-  }
-
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line no-unused-vars
+  static getDerivedStateFromProps(nextProps, prevState) {
     const { visible } = nextProps;
 
-    this.setState({ visible });
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-    this.setState = () => {};
+    return { visible };
   }
 
   onClose = () => {
