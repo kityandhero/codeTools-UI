@@ -19,17 +19,16 @@ import { Map, Marker } from 'react-amap';
 import {
   pretreatmentRequestParams,
   refitFieldDecoratorOption,
-  refitCommonData,
   buildFieldDescription,
-  isInvalid,
-  searchFromList,
+  getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import FromDisplayItem from '@/customComponents/FromDisplayItem';
 
 import TabPageBase from '../../TabPageBase';
-
+import { parseUrlParamsForSetState } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
+
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -48,28 +47,27 @@ class AuditInfo extends TabPageBase {
 
     this.state = {
       ...this.state,
-      cardUrl: null,
-      reverseUrl: null,
-      mapAddress: '',
-      mapLatitude: 0,
-      mapLongitude: 0,
-      mapCenterPoint: [0, 0],
-      merchantId: null,
+      ...{
+        loadApiPath: 'merchant/get',
+        cardUrl: null,
+        reverseUrl: null,
+        mapAddress: '',
+        mapLatitude: 0,
+        mapLongitude: 0,
+        mapCenterPoint: [0, 0],
+        merchantId: null,
+      },
     };
   }
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      merchantId: id,
-      loadApiPath: 'merchant/get',
-    };
-
-    return result;
-  };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
 
   supplementSubmitRequestParams = o => {
     const d = o;
@@ -80,8 +78,9 @@ class AuditInfo extends TabPageBase {
     return d;
   };
 
-  afterLoadSuccess = d => {
-    const { address, lng: longitude, lat: latitude, cardUrl, reverseUrl } = d;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { address, lng: longitude, lat: latitude, cardUrl, reverseUrl } = metaData;
 
     this.setState({
       mapAddress: address,
@@ -108,90 +107,6 @@ class AuditInfo extends TabPageBase {
     const { value: v } = e.target;
 
     this.setState({ mapLatitude: v });
-  };
-
-  merchantPayList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantPayList);
-  };
-
-  getMerchantPayName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.merchantPayList());
-    return item == null ? '未知' : item.name;
-  };
-
-  merchantPurchaseList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantPurchaseList);
-  };
-
-  getIsMerchantPurchaseName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.merchantPurchaseList());
-    return item == null ? '未知' : item.name;
-  };
-
-  merchantSwitchList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantSwitchList);
-  };
-
-  getMerchantSwitchName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.merchantSwitchList());
-    return item == null ? '未知' : item.name;
-  };
-
-  lineList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.lineList);
-  };
-
-  getLineName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.lineList());
-    return item == null ? '未知' : item.name;
-  };
-
-  merchantDisplayList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantDisplayList);
-  };
-
-  getIsMerchantDisplayName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.merchantDisplayList());
-    return item == null ? '未知' : item.name;
-  };
-
-  merchantStatusList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantStatusList);
-  };
-
-  getMerchantStatusName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.merchantStatusList());
-    return item == null ? '未知' : item.name;
   };
 
   pass = () => {
@@ -250,7 +165,7 @@ class AuditInfo extends TabPageBase {
         dispatch(
           routerRedux.replace({
             pathname: `${pathname.replace('/load/', '/update/')}`,
-          })
+          }),
         );
       });
     });
@@ -312,7 +227,7 @@ class AuditInfo extends TabPageBase {
         dispatch(
           routerRedux.replace({
             pathname: `${pathname.replace('/load/', '/update/')}`,
-          })
+          }),
         );
       });
     });
@@ -458,7 +373,7 @@ class AuditInfo extends TabPageBase {
                     <FromDisplayItem
                       name={fieldData.isClose}
                       value={this.getIsMerchantPurchaseName(
-                        metaData === null ? 0 : metaData.isClose || 0
+                        metaData === null ? 0 : metaData.isClose || 0,
                       )}
                     />
                   </Col>
@@ -466,7 +381,7 @@ class AuditInfo extends TabPageBase {
                     <FromDisplayItem
                       name={fieldData.isCloseShop}
                       value={this.getMerchantSwitchName(
-                        metaData === null ? 0 : metaData.isCloseShop || 0
+                        metaData === null ? 0 : metaData.isCloseShop || 0,
                       )}
                     />
                   </Col>
@@ -482,7 +397,7 @@ class AuditInfo extends TabPageBase {
                     <FromDisplayItem
                       name={fieldData.isDisplay}
                       value={this.getIsMerchantDisplayName(
-                        metaData === null ? 0 : metaData.isDisplay || 0
+                        metaData === null ? 0 : metaData.isDisplay || 0,
                       )}
                     />
                   </Col>
@@ -569,8 +484,8 @@ class AuditInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.map),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <div className={styles.mapBox}>
                           <div className={styles.mapInnerBox}>
@@ -596,7 +511,7 @@ class AuditInfo extends TabPageBase {
                               <Marker position={mapCenterPoint} />
                             </Map>
                           </div>
-                        </div>
+                        </div>,
                       )}
                     </FormItem>
                   </Col>

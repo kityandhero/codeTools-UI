@@ -16,7 +16,7 @@ class AddFormModalBase extends ModalBase {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { visible } = nextProps;
-    const { visible: visiblePre, originalData } = prevState;
+    const { visible: visiblePre, externalData } = prevState;
 
     let needReset = false;
 
@@ -24,7 +24,7 @@ class AddFormModalBase extends ModalBase {
       needReset = true;
     }
 
-    return { visible, needReset, originalData };
+    return { visible, needReset, externalData };
   }
 
   // eslint-disable-next-line no-unused-vars

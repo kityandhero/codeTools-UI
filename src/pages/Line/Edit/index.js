@@ -33,7 +33,12 @@ class Edit extends LoadDataTabContainer {
 
     this.state = {
       ...this.state,
-      lineId: null,
+      ...{
+        pageName: '线路名：',
+        loadApiPath: 'line/get',
+        backPath: `/logistics/line/list/key`,
+        lineId: null,
+      },
     };
   }
 
@@ -54,16 +59,6 @@ class Edit extends LoadDataTabContainer {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      pageName: '线路名：',
-      loadApiPath: 'line/get',
-      backPath: `/logistics/line/list/key`,
-    };
-
-    return result;
-  };
-
   // eslint-disable-next-line no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
@@ -78,7 +73,8 @@ class Edit extends LoadDataTabContainer {
     return d;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     this.setState({
       pageName: `线路名：${metaData === null ? '' : metaData.name || ''}`,
     });

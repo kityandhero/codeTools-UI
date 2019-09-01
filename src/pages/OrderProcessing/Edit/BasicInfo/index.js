@@ -2,14 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Card, Spin, BackTop, Table, Empty, Popconfirm, Button, notification } from 'antd';
 
-import {
-  refitCommonData,
-  isInvalid,
-  isNumber,
-  isMoney,
-  searchFromList,
-  getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
+import { isNumber, isMoney, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import Ellipsis from '@/customComponents/Ellipsis';
 
 import TabPageBase from '../../TabPageBase';
@@ -47,6 +40,17 @@ const getPageName = status => {
   loading: loading.models.userOrder,
 }))
 class BasicInfo extends TabPageBase {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        loadApiPath: 'userOrder/listMerchantUserOrder',
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -56,12 +60,12 @@ class BasicInfo extends TabPageBase {
     );
   }
 
-  initState = () => {
-    const result = {
-      loadApiPath: 'userOrder/listMerchantUserOrder',
-    };
+  getApiData = props => {
+    const {
+      userOrder: { data },
+    } = props;
 
-    return result;
+    return data;
   };
 
   supplementSubmitRequestParams = o => {
@@ -86,24 +90,6 @@ class BasicInfo extends TabPageBase {
     this.setState({
       metaListData: listData,
     });
-  };
-
-  orderStatusList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.orderStatusList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getOrderStatusName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.orderStatusList());
-    return item == null ? '未知' : item.name;
   };
 
   setUserOrderImmediatelyFinish = (e, record, index) => {

@@ -1,26 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import {
-  Row,
-  Col,
-  Form,
-  Select,
-  Badge,
-  DatePicker,
-  Input,
-  Icon,
-  Dropdown,
-  Menu,
-  message,
-} from 'antd';
+import { Row, Col, Form, Select, Badge, Icon, Dropdown, Menu, message } from 'antd';
 
-import {
-  formatDatetime,
-  refitCommonData,
-  copyToClipboard,
-  replaceTargetText,
-  buildFieldDescription,
-} from '@/utils/tools';
+import { formatDatetime, copyToClipboard, replaceTargetText } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
@@ -28,7 +10,6 @@ import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
 
-const FormItem = Form.Item;
 const { Option } = Select;
 
 @connect(({ goodsLogisticsProcessRequestMessage, global, loading }) => ({
@@ -45,7 +26,14 @@ class Standard extends PagerList {
 
     this.state = {
       ...this.state,
-      batchDate: '',
+      ...{
+        pageName: '物流操作记录',
+        paramsKey: '8626f906-dbfe-4aac-8595-b9db985518e3',
+        loadApiPath: 'goodsLogisticsProcessRequestMessage/list',
+        dateRangeFieldName: '发生时段',
+        // tableScroll: { x: 1820 },
+        batchDate: '',
+      },
     };
   }
 
@@ -57,46 +45,11 @@ class Standard extends PagerList {
     return data;
   };
 
-  initState = () => ({
-    pageName: '物流操作记录',
-    paramsKey: '8626f906-dbfe-4aac-8595-b9db985518e3',
-    loadApiPath: 'goodsLogisticsProcessRequestMessage/list',
-    dateRangeFieldName: '发生时段',
-    // tableScroll: { x: 1820 },
-  });
-
   getCurrentOperator = () => {
     const {
       global: { currentOperator },
     } = this.props;
     return currentOperator;
-  };
-
-  goodsLogisticsProcessRequestMessageTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.goodsLogisticsProcessRequestMessageTypeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  goodsLogisticsProcessRequestMessageModeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.goodsLogisticsProcessRequestMessageModeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  goodsLogisticsProcessRequestMessageStateList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.goodsLogisticsProcessRequestMessageStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
   };
 
   getGoodsLogisticsProcessRequestMessageStateBadgeStatus = v => {
@@ -182,7 +135,7 @@ class Standard extends PagerList {
       if (dataSuccess) {
         message.warn('该线路出库数据即将进行重新合计,请稍后查看');
 
-        this.refreshGrid();
+        this.reloadData();
       }
 
       this.setState({ processing: false });
@@ -190,8 +143,6 @@ class Standard extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName } = this.state;
     const currentOperator = this.getCurrentOperator();
 
@@ -203,7 +154,7 @@ class Standard extends PagerList {
       goodsLogisticsProcessRequestMessageTypeOption.push(
         <Option key={flag} value={flag}>
           {name}
-        </Option>
+        </Option>,
       );
     });
 
@@ -215,7 +166,7 @@ class Standard extends PagerList {
       goodsLogisticsProcessRequestMessageModeOption.push(
         <Option key={flag} value={flag}>
           {name}
-        </Option>
+        </Option>,
       );
     });
 
@@ -227,7 +178,7 @@ class Standard extends PagerList {
       goodsLogisticsProcessRequestMessageStateOption.push(
         <Option key={flag} value={flag}>
           {name}
-        </Option>
+        </Option>,
       );
     });
 
@@ -235,86 +186,30 @@ class Standard extends PagerList {
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.areaAgentId}>
-              <Input
-                addonBefore={<Icon type="form" />}
-                disabled
-                value={currentOperator == null ? '' : currentOperator.cityName || ''}
-              />
-            </FormItem>
+            {this.renderSearchInputFormItem(
+              fieldData.city,
+              '',
+              currentOperator == null ? '' : currentOperator.cityName || '',
+              null,
+              'form',
+              { disabled: true },
+              false,
+            )}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.batchDate}>
-              {getFieldDecorator('batchDate', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.areaAgentId, '选择'),
-                  },
-                ],
-              })(
-                <DatePicker
-                  placeholder={buildFieldDescription(fieldData.batchDate, '选择')}
-                  format="YYYY-MM-DD"
-                  onChange={this.onBatchDateChange}
-                  style={{ width: '100%' }}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchBatchDateFormItem()}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.type}>
-              {getFieldDecorator('type', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.type, '选择') },
-                ],
-                initialValue: goodsLogisticsProcessRequestMessageTypeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.type, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {goodsLogisticsProcessRequestMessageTypeOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchGoodsLogisticsProcessRequestMessageTypeFormItem(true)}
           </Col>
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 9)}
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.mode}>
-              {getFieldDecorator('mode', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.mode, '选择') },
-                ],
-                initialValue: goodsLogisticsProcessRequestMessageModeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.mode, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {goodsLogisticsProcessRequestMessageModeOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchGoodsLogisticsProcessRequestMessageModeFormItem(true)}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.state}>
-              {getFieldDecorator('state', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.state, '选择') },
-                ],
-                initialValue: goodsLogisticsProcessRequestMessageTypeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.state, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {goodsLogisticsProcessRequestMessageStateOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchGoodsLogisticsProcessRequestMessageStateFormItem(true)}
           </Col>
           {this.renderSimpleFormButton(null, 14)}
         </Row>
@@ -461,7 +356,7 @@ class Standard extends PagerList {
             disabled={
               !(record.mode === 100 && record.type === 100 && record.state === 300) ||
               !this.checkAuthority(
-                accessWayCollection.goodsLogisticsProcessRequestMessage.reAggregate
+                accessWayCollection.goodsLogisticsProcessRequestMessage.reAggregate,
               )
             }
             overlay={

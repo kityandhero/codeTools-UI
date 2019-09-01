@@ -4,9 +4,6 @@ import { connect } from 'dva';
 import { Card, Form, Spin, notification, Icon, Input, Button } from 'antd';
 
 import {
-  isInvalid,
-  searchFromList,
-  refitCommonData,
   refitFieldDecoratorOption,
   buildFieldDescription,
   getDerivedStateFromPropsForUrlParams,
@@ -14,7 +11,7 @@ import {
 import accessWayCollection from '@/utils/accessWayCollection';
 import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
 
-import { parseUrlParamsForSetState, checkNeedUpdateAssist  } from '../../Assist/config';
+import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
 
 import styles from './index.less';
@@ -41,6 +38,19 @@ class ResetPassword extends UpdateFormTab {
 
   goToUpdateWhenProcessed = true;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        submitApiPath: 'areaManage/resetPassword',
+        dataLoading: false,
+        loadDataAfterMount: false,
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -49,16 +59,6 @@ class ResetPassword extends UpdateFormTab {
       parseUrlParamsForSetState,
     );
   }
-
-  initState = () => {
-    const result = {
-      submitApiPath: 'areaManage/resetPassword',
-      dataLoading: false,
-      loadDataAfterMount: false,
-    };
-
-    return result;
-  };
 
   getApiData = props => {
     const {
@@ -100,25 +100,6 @@ class ResetPassword extends UpdateFormTab {
         description: '数据已经保存成功，请进行后续操作。',
       });
     });
-  };
-
-  areaManageStateList = () => {
-    const { global } = this.props;
-
-    return refitCommonData(global.areaManageStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getAreaManageStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.areaManageStateList());
-    return item == null ? '未知' : item.name;
   };
 
   formContent = () => {

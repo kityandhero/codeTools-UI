@@ -18,9 +18,6 @@ import {
 
 import {
   pretreatmentRequestParams,
-  refitCommonData,
-  isInvalid,
-  searchFromList,
   formatDatetime,
   buildFieldDescription,
   getDerivedStateFromPropsForUrlParams,
@@ -29,7 +26,7 @@ import accessWayCollection from '@/utils/accessWayCollection';
 import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
 import FromDisplayItem from '@/customComponents/FromDisplayItem';
 
-import { parseUrlParamsForSetState , checkNeedUpdateAssist } from '../../Assist/config';
+import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
 
 import styles from './index.less';
@@ -64,9 +61,13 @@ class ApplyInfo extends UpdateFormTab {
 
     this.state = {
       ...this.state,
-      distributionId: null,
-      reason: '',
-      handleNote: '',
+      ...{
+        loadApiPath: 'distribution/get',
+        submitApiPath: '',
+        distributionId: null,
+        reason: '',
+        handleNote: '',
+      },
     };
   }
 
@@ -87,15 +88,6 @@ class ApplyInfo extends UpdateFormTab {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      loadApiPath: 'distribution/get',
-      submitApiPath: '',
-    };
-
-    return result;
-  };
-
   // eslint-disable-next-line no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
@@ -110,9 +102,10 @@ class ApplyInfo extends UpdateFormTab {
     return d;
   };
 
-  afterLoadSuccess = d => {
-    const reason = d.reason || '销售奖励金';
-    const handleNote = d.handleNote || '';
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const reason = metaData.reason || '销售奖励金';
+    const handleNote = metaData.handleNote || '';
 
     this.setState({ reason, handleNote });
   };
@@ -126,24 +119,6 @@ class ApplyInfo extends UpdateFormTab {
         description: '数据已经保存成功，请进行后续操作。',
       });
     });
-  };
-
-  distributionStateList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.distributionStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getDistributionStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.distributionStateList());
-    return item == null ? '未知' : item.name;
   };
 
   onReasonChange = o => {

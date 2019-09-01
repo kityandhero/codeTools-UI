@@ -18,6 +18,21 @@ const logo = '/logo.png';
 }))
 @Form.create()
 class ArticleList extends PagerList {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '帮助条目',
+        paramsKey: '00750d5f-e00d-498e-a55a-12a8d3b8b19d',
+        loadApiPath: 'areaHelp/list',
+        pageSize: 4,
+        total: 0,
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       areaHelp: { data },
@@ -25,14 +40,6 @@ class ArticleList extends PagerList {
 
     return data;
   };
-
-  initState = () => ({
-    pageName: '帮助条目',
-    paramsKey: '00750d5f-e00d-498e-a55a-12a8d3b8b19d',
-    loadApiPath: 'areaHelp/list',
-    pageSize: 4,
-    total: 0,
-  });
 
   supplementLoadRequestParams = o => {
     const d = o;
@@ -45,13 +52,12 @@ class ArticleList extends PagerList {
     return d;
   };
 
-  afterLoadSuccess = d => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     const {
-      extra: {
-        total,
-        other: { areaHelpCategoryName },
-      },
-    } = d;
+      total,
+      other: { areaHelpCategoryName },
+    } = metaExtra;
 
     this.setState({
       total,

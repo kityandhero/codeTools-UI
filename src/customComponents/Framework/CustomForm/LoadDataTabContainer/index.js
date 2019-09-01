@@ -19,15 +19,23 @@ class LoadDataTabContainer extends LoadDataForm {
     };
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return super.getDerivedStateFromProps(nextProps, prevState);
+  }
+
   // eslint-disable-next-line no-unused-vars
   doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
-    const {
-      urlParams: { op },
-    } = this.state;
+    const { urlParams } = this.state;
 
-    const {
-      urlParams: { op: prevOp },
-    } = preState;
+    const { urlParams: urlParamsPrev } = preState;
+
+    if ((urlParams || null) == null || (urlParamsPrev || null) == null) {
+      return;
+    }
+
+    const { op } = urlParams;
+
+    const { op: prevOp } = urlParamsPrev;
 
     const { dataLoading } = this.state;
 

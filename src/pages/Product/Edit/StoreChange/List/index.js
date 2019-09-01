@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Row, Col, Select, Badge } from 'antd';
+import { Form, Row, Col, Badge } from 'antd';
 import moment from 'moment';
 
 import {
-  buildFieldDescription,
-  refitCommonData,
   isNumber,
   copyToClipboard,
   replaceTargetText,
@@ -18,13 +16,6 @@ import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../../Assist/config';
 
-const { Option } = Select;
-const FormItem = Form.Item;
-
-const fieldData = {
-  type: '变更类型',
-};
-
 @connect(({ product, global, loading }) => ({
   product,
   global,
@@ -34,6 +25,19 @@ const fieldData = {
 class List extends InnerPagerList {
   componentAuthority = accessWayCollection.product.listStoreChange;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        productId: null,
+        loadApiPath: 'product/listStoreChange',
+        dateRangeFieldName: '发生时间',
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -42,20 +46,6 @@ class List extends InnerPagerList {
       parseUrlParamsForSetState,
     );
   }
-
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      productId: id,
-      loadApiPath: 'product/listStoreChange',
-      dateRangeFieldName: '发生时间',
-    };
-
-    return result;
-  };
 
   getApiData = props => {
     const {
@@ -68,15 +58,6 @@ class List extends InnerPagerList {
   // eslint-disable-next-line no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
-  };
-
-  storeTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.storeTypeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
   };
 
   supplementLoadRequestParams = o => {
@@ -104,46 +85,15 @@ class List extends InnerPagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
     const { dateRangeFieldName } = this.state;
-    const { getFieldDecorator } = form;
-
-    const storeTypeData = this.storeTypeList();
-    const storeTypeOption = [];
-
-    storeTypeData.forEach(item => {
-      const { name, flag } = item;
-      storeTypeOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>,
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
-          {this.renderSimpleFormRangePicker(dateRangeFieldName, 8)}
           <Col md={4} sm={24}>
-            <FormItem label={fieldData.type}>
-              {getFieldDecorator('type', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.type, '选择'),
-                  },
-                ],
-                initialValue: storeTypeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.type, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {storeTypeOption}
-                </Select>,
-              )}
-            </FormItem>
+            {this.renderSearchProductStoreChangeTypeFormItem(true)}
           </Col>
+          {this.renderSimpleFormRangePicker(dateRangeFieldName, 8)}
           {this.renderSimpleFormButton(null, 12)}
         </Row>
       </>

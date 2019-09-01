@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer, Icon, message } from 'antd';
+import { Drawer, Icon } from 'antd';
 
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 
@@ -9,21 +9,22 @@ class PagerDrawer extends PagerList {
   constructor(props) {
     super(props);
 
+    this.useParamsKey = false;
+
     const s = this.state;
     s.dataLoading = false;
 
     this.state = {
       ...s,
-      visible: false,
-      loadAfterMount: false,
+      ...{ visible: false, loadDataAfterMount: false },
     };
   }
 
   // eslint-disable-next-line no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { visible } = nextProps;
+    const { visible, externalData } = nextProps;
 
-    return { visible };
+    return { visible: visible || false, externalData: externalData || null };
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -31,36 +32,9 @@ class PagerDrawer extends PagerList {
     const { visible: visiblePre } = preState;
     const { visible } = this.state;
 
-    if (visible && !visiblePre) {
+    if (visiblePre === false && visible === true) {
       this.doOtherWhenChangeVisible(preProps, preState, snapshot);
     }
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  doOtherWhenChangeVisible = () => {};
-
-  initLoad = () => {
-    const { loadApiPath, loadAfterMount } = this.state;
-
-    if (loadAfterMount) {
-      if ((loadApiPath || '') === '') {
-        message.error('loadApiPath需要配置');
-        return;
-      }
-
-      const { pageNo, pageSize } = this.state;
-
-      this.loadData({ pageNo, pageSize });
-    }
-  };
-
-  preInit = () => {
-    const { visible } = this.props;
-    this.setState({ visible: visible || false }, () => {
-      this.setState(this.extendState(), () => {
-        this.init();
-      });
-    });
   };
 
   onClose = () => {
@@ -78,9 +52,12 @@ class PagerDrawer extends PagerList {
 
   renderTitleIcon = () => <Icon type="read" className={styles.titleIcon} />;
 
+  hideDrawer = () => {
+    this.onClose();
+  };
+
   render() {
     const { width: widthDrawer } = this.props;
-    const { selectDatabaseName } = this.props;
     const { visible } = this.state;
 
     return (
@@ -96,7 +73,6 @@ class PagerDrawer extends PagerList {
         width={widthDrawer}
         placement="right"
         visible={visible || false}
-        selectDatabaseName={selectDatabaseName}
         maskClosable={false}
         onClose={this.onClose}
         // style={{

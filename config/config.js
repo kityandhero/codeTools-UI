@@ -126,6 +126,12 @@ export default {
     basePath: '/',
   },
   chainWebpack: webpackPlugin,
+  context: {
+    buildDataVersion: () => {
+      // metaData数据缓存版本,每一版本有效期30分钟
+      return `${parseInt(new Date().getTime() / 1000 / 60 / 30, 10)}`;
+    },
+  },
   /*
   proxy: {
     '/server/api/': {

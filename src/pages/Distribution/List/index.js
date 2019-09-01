@@ -1,18 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Row, Col, Form, Input, Select, Icon, Dropdown, Menu, Badge } from 'antd';
+import { Row, Col, Form, Icon, Dropdown, Menu, Badge } from 'antd';
 import moment from 'moment';
 
-import {
-  getRandomColor,
-  isInvalid,
-  searchFromList,
-  refitCommonData,
-  buildFieldDescription,
-  copyToClipboard,
-  replaceTargetText,
-} from '@/utils/tools';
+import { getRandomColor, copyToClipboard, replaceTargetText } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
@@ -20,8 +12,6 @@ import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
 import styles from './index.less';
-
-const FormItem = Form.Item;
 
 @connect(({ distribution, global, loading }) => ({
   distribution,
@@ -32,37 +22,26 @@ const FormItem = Form.Item;
 class Standard extends PagerList {
   componentAuthority = accessWayCollection.distribution.list;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '站长提现申请列表',
+        paramsKey: '16d01ecf-4e13-4e53-9c3f-4e5251a6a539',
+        loadApiPath: 'distribution/list',
+        dateRangeFieldName: '提交时间',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       distribution: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => ({
-    pageName: '站长提现申请列表',
-    paramsKey: '16d01ecf-4e13-4e53-9c3f-4e5251a6a539',
-    loadApiPath: 'distribution/list',
-    dateRangeFieldName: '提交时间',
-  });
-
-  distributionStateList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.distributionStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getDistributionStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.distributionStateList());
-    return item == null ? '未知' : item.name;
   };
 
   getDistributionStateBadgeStatus = v => {
@@ -84,24 +63,6 @@ class Standard extends PagerList {
     }
 
     return result;
-  };
-
-  merchantSwitchList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantSwitchList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getMerchantSwitchName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.merchantSwitchList());
-    return item == null ? '未知' : item.name;
   };
 
   handleItem = (dataId, handler) => {
@@ -144,51 +105,16 @@ class Standard extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName } = this.state;
-
-    const distributionStateData = this.distributionStateList();
-    const distributionStateOption = [];
-
-    distributionStateData.forEach(item => {
-      const { name, flag } = item;
-      distributionStateOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.keyword}>
-              {getFieldDecorator('keyword')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.keyword, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.keyword, 'keyword')}
           </Col>
           <Col md={4} sm={24}>
-            <FormItem label={fieldData.state}>
-              {getFieldDecorator('state', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.state, '选择') },
-                ],
-                initialValue: distributionStateData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.state, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {distributionStateOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchDistributionStateFormItem(true)}
           </Col>
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 8)}
           {this.renderSimpleFormButton(null, 4)}

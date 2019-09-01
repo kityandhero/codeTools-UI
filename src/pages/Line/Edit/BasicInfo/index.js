@@ -20,12 +20,14 @@ import {
   stringToMoment,
   dateToMoment,
   buildFieldDescription,
+  getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 
 import TabPageBase from '../../TabPageBase';
-
+import { parseUrlParamsForSetState } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
+
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -44,23 +46,22 @@ class BasicInfo extends TabPageBase {
 
     this.state = {
       ...this.state,
-      lineId: null,
+      ...{
+        loadApiPath: 'line/get',
+        submitApiPath: 'line/updateBasicInfo',
+        lineId: null,
+      },
     };
   }
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      lineId: id,
-      loadApiPath: 'line/get',
-      submitApiPath: 'line/updateBasicInfo',
-    };
-
-    return result;
-  };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
 
   supplementSubmitRequestParams = o => {
     const d = o;

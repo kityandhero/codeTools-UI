@@ -1,31 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import {
-  Row,
-  Col,
-  Form,
-  Input,
-  Select,
-  Icon,
-  Button,
-  Dropdown,
-  Menu,
-  Modal,
-  Divider,
-  notification,
-} from 'antd';
+import { Row, Col, Form, Icon, Button, Dropdown, Menu, Modal, Divider, notification } from 'antd';
 
-import {
-  isInvalid,
-  getRandomColor,
-  searchFromList,
-  refitCommonData,
-  formatDatetime,
-  replaceTargetText,
-  copyToClipboard,
-  buildFieldDescription,
-} from '@/utils/tools';
+import { getRandomColor, formatDatetime, replaceTargetText, copyToClipboard } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
@@ -33,8 +11,6 @@ import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
 
-const FormItem = Form.Item;
-const { Option } = Select;
 const { confirm } = Modal;
 
 @connect(({ replenishment, global, loading }) => ({
@@ -46,74 +22,27 @@ const { confirm } = Modal;
 class List extends PagerList {
   componentAuthority = accessWayCollection.replenishment.list;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '售后订单列表',
+        paramsKey: '8c21f9f5-e74a-424d-a309-acd3a5260ba4',
+        loadApiPath: 'replenishment/list',
+        dateRangeFieldName: '提交时间',
+        tableScroll: { x: 2020 },
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       replenishment: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => ({
-    pageName: '售后订单列表',
-    paramsKey: '8c21f9f5-e74a-424d-a309-acd3a5260ba4',
-    loadApiPath: 'replenishment/list',
-    dateRangeFieldName: '提交时间',
-    tableScroll: { x: 2020 },
-  });
-
-  replenishmentReasonTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.replenishmentReasonTypeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getReplenishmentReasonTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.replenishmentReasonTypeList());
-    return item == null ? '未知' : item.name;
-  };
-
-  replenishmentStateList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.replenishmentStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getReplenishmentStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.replenishmentStateList());
-    return item == null ? '未知' : item.name;
-  };
-
-  replenishmentTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.replenishmentTypeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getReplenishmentTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.replenishmentTypeList());
-    return item == null ? '未知' : item.name;
   };
 
   goToDetail = record => {
@@ -188,7 +117,7 @@ class List extends PagerList {
               });
             });
 
-            that.refreshGrid();
+            that.reloadData();
           }
 
           that.setState({ processing: false });
@@ -201,120 +130,28 @@ class List extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName, dataLoading, processing } = this.state;
-
-    const replenishmentReasonTypeData = this.replenishmentReasonTypeList();
-    const replenishmentReasonTypeOption = [];
-
-    replenishmentReasonTypeData.forEach(item => {
-      const { name, flag } = item;
-      replenishmentReasonTypeOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
-
-    const replenishmentStateData = this.replenishmentStateList();
-    const replenishmentStateOption = [];
-
-    replenishmentStateData.forEach(item => {
-      const { name, flag } = item;
-      replenishmentStateOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
-
-    const replenishmentTypeData = this.replenishmentTypeList();
-    const replenishmentTypeOption = [];
-
-    replenishmentTypeData.forEach(item => {
-      const { name, flag } = item;
-      replenishmentTypeOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.realName}>
-              {getFieldDecorator('realName')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.realName, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.realName, 'realName')}
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.tradeNo}>
-              {getFieldDecorator('tradeNo')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.tradeNo, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.tradeNo, 'tradeNo')}
           </Col>
-          <Col md={4} sm={24}>
-            <FormItem label={fieldData.type}>
-              {getFieldDecorator('type', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.type, '选择') },
-                ],
-                initialValue: replenishmentTypeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.type, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {replenishmentTypeOption}
-                </Select>
-              )}
-            </FormItem>
+          <Col md={5} sm={24}>
+            {this.renderSearchReplenishmentTypeFormItem(true)}
           </Col>
-          <Col md={6} sm={24}>
-            <FormItem label={fieldData.reasonType}>
-              {getFieldDecorator('reasonType', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.reasonType, '选择'),
-                  },
-                ],
-                initialValue: replenishmentReasonTypeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.reasonType, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {replenishmentReasonTypeOption}
-                </Select>
-              )}
-            </FormItem>
+          <Col md={7} sm={24}>
+            {this.renderSearchReplenishmentReasonTypeFormItem(true)}
           </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 12)}
-          <Col md={4} sm={24}>
-            <FormItem label="处理状态">
-              {getFieldDecorator('state', {
-                rules: [{ required: false, message: '请选择处理状态!' }],
-                initialValue: replenishmentStateData[0].flag,
-              })(
-                <Select placeholder="请选择处理状态" style={{ width: '100%' }}>
-                  {replenishmentStateOption}
-                </Select>
-              )}
-            </FormItem>
+          <Col md={5} sm={24}>
+            {this.renderSearchReplenishmentStateFormItem(true)}
           </Col>
           {this.renderSimpleFormButton(
             <>
@@ -328,7 +165,7 @@ class List extends PagerList {
                 导出
               </Button>
             </>,
-            6
+            7,
           )}
         </Row>
       </>

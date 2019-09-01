@@ -8,5 +8,6 @@ module.exports = {
     totalStockPrice: '总计站长价',
     areaAgentId: '所属地区',
     batchDate: ' 出库批次',
+    city: '所在城市',
   },
 };

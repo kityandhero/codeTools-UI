@@ -15,31 +15,30 @@ const fieldLabels = {
   reNewWord: '确认新密码',
 };
 
-@connect(({ currentOperator, loading }) => ({
-  currentOperator,
-  loading: loading.models.currentOperator,
+@connect(({ operator, loading }) => ({
+  operator,
+  loading: loading.models.operator,
 }))
 @Form.create()
 class Password extends UpdateForm {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        loadDataAfterMount: false,
+        submitApiPath: 'operator/changeCurrentPassword',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
-      currentOperator: { data },
+      operator: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => ({
-    loadDataAfterMount: false,
-  });
-
-  initState = () => {
-    const result = {
-      loadDataAfterMount: false,
-      submitApiPath: 'currentOperator/changeCurrentPassword',
-    };
-
-    return result;
   };
 
   getViewDom = ref => {
@@ -105,13 +104,13 @@ class Password extends UpdateForm {
                         message: buildFieldDescription(fieldLabels.originalWord),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<Icon type="key" />}
                     style={{ maxWidth: 220 }}
                     placeholder={buildFieldDescription(fieldLabels.originalWord)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldLabels.newWord}>
@@ -124,12 +123,12 @@ class Password extends UpdateForm {
                         message: buildFieldDescription(fieldLabels.newWord),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<Icon type="key" />}
                     placeholder={buildFieldDescription(fieldLabels.newWord)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldLabels.reNewWord}>
@@ -142,12 +141,12 @@ class Password extends UpdateForm {
                         message: buildFieldDescription(fieldLabels.reNewWord),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<Icon type="key" />}
                     placeholder={buildFieldDescription(fieldLabels.reNewWord)}
-                  />
+                  />,
                 )}
               </FormItem>
               <Button

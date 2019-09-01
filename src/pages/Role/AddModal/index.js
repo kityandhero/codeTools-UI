@@ -27,6 +27,18 @@ const formItemLayout = {
 }))
 @Form.create()
 class AddModal extends AddFormModalBase {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '新增角色',
+        submitApiPath: 'role/addBasicInfo',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       role: { data },
@@ -34,11 +46,6 @@ class AddModal extends AddFormModalBase {
 
     return data;
   };
-
-  initState = () => ({
-    pageName: '新增角色',
-    submitApiPath: 'role/addBasicInfo',
-  });
 
   checkSubmitRequestParams = o => {
     if (stringIsEmpty(o.name)) {
@@ -76,12 +83,12 @@ class AddModal extends AddFormModalBase {
                   message: buildFieldDescription(fieldData.name),
                 },
               ],
-            })
+            }),
           )(
             <Input
               addonBefore={<Icon type="form" />}
               placeholder={buildFieldDescription(fieldData.name)}
-            />
+            />,
           )}
         </FormItem>
       </>

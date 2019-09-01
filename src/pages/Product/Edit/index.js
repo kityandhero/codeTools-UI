@@ -3,14 +3,7 @@ import { connect } from 'dva';
 
 import { Row, Col, Descriptions, Tag } from 'antd';
 
-import {
-  isInvalid,
-  formatDatetime,
-  isMoney,
-  searchFromList,
-  refitCommonData,
-  getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
+import { formatDatetime, isMoney, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
 
@@ -87,6 +80,19 @@ class Index extends LoadDataTabContainer {
     },
   ];
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '品名：',
+        loadApiPath: 'product/get',
+        backPath: `/product/list/key`,
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -104,16 +110,6 @@ class Index extends LoadDataTabContainer {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      pageName: '品名：',
-      loadApiPath: 'product/get',
-      backPath: `/product/list/key`,
-    };
-
-    return result;
-  };
-
   // eslint-disable-next-line no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
@@ -128,7 +124,8 @@ class Index extends LoadDataTabContainer {
     return d;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     const {
       title,
       //  md5
@@ -148,20 +145,6 @@ class Index extends LoadDataTabContainer {
     // window.queueOutbound.push(() => {
     //   that.reloadData();
     // });
-  };
-
-  productStateList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.productStateList);
-  };
-
-  getProductStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.productStateList());
-    return item == null ? '未知' : item.name;
   };
 
   pageHeaderTag = () => {

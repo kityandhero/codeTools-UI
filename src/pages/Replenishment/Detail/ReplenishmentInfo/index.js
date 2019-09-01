@@ -25,14 +25,16 @@ import {
   refitCommonData,
   formatMoneyToChinese,
   stringToMoment,
+  getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 
 import Ellipsis from '@/customComponents/Ellipsis';
 
 import TabPageBase from '../../TabPageBase';
-
+import { parseUrlParamsForSetState } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
+
 import styles from './index.less';
 
 const { TextArea } = Input;
@@ -72,30 +74,28 @@ class ReplenishmentInfo extends TabPageBase {
 
     this.state = {
       ...this.state,
-      refundAmount: 0,
-      refundNote: '',
-      replenishmentId: null,
-      replenishmentRollBackMoney: 1,
-      replenishmentStateMode: 1,
-      // replenishmentState: 0,
-      replenishmentImageList: [],
-      replenishmentOutboundTime: '',
+      ...{
+        loadApiPath: 'replenishment/get',
+        submitApiPath: 'replenishment/agree',
+        refundAmount: 0,
+        refundNote: '',
+        replenishmentId: null,
+        replenishmentRollBackMoney: 1,
+        replenishmentStateMode: 1,
+        replenishmentImageList: [],
+        replenishmentOutboundTime: '',
+      },
     };
   }
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      replenishmentId: id,
-      loadApiPath: 'replenishment/get',
-      submitApiPath: 'replenishment/agree',
-    };
-
-    return result;
-  };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
 
   supplementSubmitRequestParams = o => {
     const d = o;
@@ -103,6 +103,7 @@ class ReplenishmentInfo extends TabPageBase {
 
     d.replenishmentStateMode = replenishmentStateMode;
     d.replenishmentId = replenishmentId;
+
     if (replenishmentStateMode === 1) {
       d.outboundTime = replenishmentOutboundTime;
     }
@@ -110,13 +111,14 @@ class ReplenishmentInfo extends TabPageBase {
     return d;
   };
 
-  afterLoadSuccess = d => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     const {
       refundMoney,
       //  replenishmentState,
       replenishmentImageList: imageList,
       replenishmentOutboundTime,
-    } = d;
+    } = metaData;
 
     const replenishmentImageList = [];
 
@@ -137,27 +139,6 @@ class ReplenishmentInfo extends TabPageBase {
     });
   };
 
-  replenishmentStateModeList = () => {
-    const list = [{ key: 1, flag: 1, name: '同意售后' }, { key: 2, flag: 2, name: '转到退款处理' }];
-
-    return refitCommonData(list);
-  };
-
-  replenishmentStateList = () => {
-    const { global } = this.props;
-
-    return refitCommonData(global.replenishmentStateList);
-  };
-
-  getReplenishmentStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.replenishmentStateList());
-    return item == null ? '未知' : item.name;
-  };
-
   replenishmentRollBackMoneyList = () => {
     const { global } = this.props;
 
@@ -170,49 +151,6 @@ class ReplenishmentInfo extends TabPageBase {
     }
 
     const item = searchFromList('flag', v, this.replenishmentRollBackMoneyList());
-    return item == null ? '未知' : item.name;
-  };
-
-  orderStatusList = () => {
-    const { global } = this.props;
-
-    return refitCommonData(global.orderStatusList);
-  };
-
-  getOrderStatusName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.orderStatusList());
-    return item == null ? '未知' : item.name;
-  };
-
-  payTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.payTypeList);
-  };
-
-  getPayTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.payTypeList());
-    return item == null ? '未知' : item.name;
-  };
-
-  unitList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.unitList);
-  };
-
-  getUnitName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.unitList());
     return item == null ? '未知' : item.name;
   };
 
@@ -290,7 +228,9 @@ class ReplenishmentInfo extends TabPageBase {
       // }
     }
 
-    const replenishmentItemList = [];
+    let replenishmentItemList = [];
+    const replenishmentExtraItemList = [];
+    let replenishmentExtraItemCount = 0;
     // let oneData = {};
     let replenishmentDataCount = 0;
     let replenishmentTotalCount = 0;
@@ -309,9 +249,7 @@ class ReplenishmentInfo extends TabPageBase {
         replenishmentTotalScore += o.score;
       });
 
-      replenishmentDataCount = replenishmentItemList.length;
-
-      replenishmentItemList.push({
+      replenishmentExtraItemList.push({
         key: 'sum',
         title: '总计',
         count: replenishmentTotalCount,
@@ -320,29 +258,33 @@ class ReplenishmentInfo extends TabPageBase {
         other: '--',
       });
 
-      replenishmentItemList.push({
+      replenishmentExtraItemList.push({
         key: '售后类型',
         title: '售后类型',
         spec: metaData == null ? '' : metaData.replenishmentTypeNote || '',
       });
 
-      replenishmentItemList.push({
+      replenishmentExtraItemList.push({
         key: '售后原因',
         title: '售后原因',
         spec: metaData == null ? '' : metaData.replenishmentReason || '',
       });
 
-      replenishmentItemList.push({
+      replenishmentExtraItemList.push({
         key: '售后备注',
         title: '售后备注',
         spec: metaData == null ? '' : metaData.replenishmentNote || '',
       });
 
-      replenishmentItemList.push({
+      replenishmentExtraItemList.push({
         key: '售后图片',
         title: '售后图片',
         spec: metaData == null ? '' : metaData.replenishmentNote || '',
       });
+
+      replenishmentExtraItemCount = replenishmentExtraItemList.length;
+
+      replenishmentItemList = [...replenishmentItemList, ...replenishmentExtraItemList];
 
       replenishmentDataCount = replenishmentItemList.length;
 
@@ -350,18 +292,6 @@ class ReplenishmentInfo extends TabPageBase {
       //   [oneData] = replenishmentItemList;
       // }
     }
-
-    const replenishmentStateModeData = this.replenishmentStateModeList();
-    const replenishmentStateModeOption = [];
-
-    replenishmentStateModeData.forEach(item => {
-      const { name, flag } = item;
-      replenishmentStateModeOption.push(
-        <Radio key={flag} value={flag}>
-          {name}
-        </Radio>,
-      );
-    });
 
     const replenishmentRollBackMoneyData = this.replenishmentRollBackMoneyList();
     const replenishmentRollBackMoneyOption = [];
@@ -487,7 +417,7 @@ class ReplenishmentInfo extends TabPageBase {
         width: 200,
         align: 'left',
         render: (text, row, index) => {
-          if (index < replenishmentDataCount - 5) {
+          if (index <= replenishmentDataCount - replenishmentExtraItemCount - 1) {
             return (
               <Ellipsis tooltip lines={1}>
                 {text}
@@ -495,7 +425,7 @@ class ReplenishmentInfo extends TabPageBase {
             );
           }
 
-          if (index === replenishmentDataCount - 5) {
+          if (index === replenishmentDataCount - replenishmentExtraItemCount) {
             return {
               children: <span style={{ fontWeight: 600 }}>{text}</span>,
               props: {
@@ -513,7 +443,15 @@ class ReplenishmentInfo extends TabPageBase {
         width: 200,
         align: 'left',
         render: (text, row, index) => {
-          if (index === replenishmentDataCount - 5) {
+          if (index <= replenishmentDataCount - replenishmentExtraItemCount - 1) {
+            return (
+              <Ellipsis tooltip lines={1}>
+                {text}
+              </Ellipsis>
+            );
+          }
+
+          if (index === replenishmentDataCount - replenishmentExtraItemCount) {
             return {
               children: null,
               props: {
@@ -522,29 +460,25 @@ class ReplenishmentInfo extends TabPageBase {
             };
           }
 
-          if (index >= replenishmentDataCount - 4) {
-            return {
-              children:
-                index >= replenishmentDataCount - 1 ? (
-                  (replenishmentImageList || []).length > 0 ? (
-                    (replenishmentImageList || []).map(item => (
-                      <div key={`image_${item.key}`} className={styles.imageItemBox}>
-                        <Zmage src={item.src} alt="放大图片并并滑动预览" />
-                      </div>
-                    ))
-                  ) : (
-                    '无图片'
-                  )
+          return {
+            children:
+              index === replenishmentDataCount - 1 ? (
+                (replenishmentImageList || []).length > 0 ? (
+                  (replenishmentImageList || []).map(item => (
+                    <div key={`image_${item.key}`} className={styles.imageItemBox}>
+                      <Zmage src={item.src} alt="放大图片并并滑动预览" />
+                    </div>
+                  ))
                 ) : (
-                  <span>{text}</span>
-                ),
-              props: {
-                colSpan: 7,
-              },
-            };
-          }
-
-          return <span>{text}</span>;
+                  '无图片'
+                )
+              ) : (
+                <span>{text}</span>
+              ),
+            props: {
+              colSpan: 7,
+            },
+          };
         },
       },
       {
@@ -553,16 +487,20 @@ class ReplenishmentInfo extends TabPageBase {
         width: 100,
         align: 'center',
         render: (text, row, index) => {
-          if (index >= replenishmentDataCount - 5) {
-            return {
-              children: null,
-              props: {
-                colSpan: 0,
-              },
-            };
+          if (index <= replenishmentDataCount - replenishmentExtraItemCount - 1) {
+            return (
+              <Ellipsis tooltip lines={1}>
+                {text}
+              </Ellipsis>
+            );
           }
 
-          return <span>{text}</span>;
+          return {
+            children: null,
+            props: {
+              colSpan: 0,
+            },
+          };
         },
       },
       {
@@ -571,16 +509,20 @@ class ReplenishmentInfo extends TabPageBase {
         width: 100,
         align: 'center',
         render: (text, row, index) => {
-          if (index >= replenishmentDataCount - 5) {
-            return {
-              children: null,
-              props: {
-                colSpan: 0,
-              },
-            };
+          if (index <= replenishmentDataCount - replenishmentExtraItemCount - 1) {
+            return (
+              <Ellipsis tooltip lines={1}>
+                {text}
+              </Ellipsis>
+            );
           }
 
-          return <span>{text}</span>;
+          return {
+            children: null,
+            props: {
+              colSpan: 0,
+            },
+          };
         },
       },
       {
@@ -589,16 +531,24 @@ class ReplenishmentInfo extends TabPageBase {
         width: 100,
         align: 'center',
         render: (text, row, index) => {
-          if (index >= replenishmentDataCount - 4) {
-            return {
-              children: null,
-              props: {
-                colSpan: 0,
-              },
-            };
+          if (index <= replenishmentDataCount - replenishmentExtraItemCount - 1) {
+            return (
+              <Ellipsis tooltip lines={1}>
+                {text}
+              </Ellipsis>
+            );
           }
 
-          return <span>{text}</span>;
+          if (index === replenishmentDataCount - replenishmentExtraItemCount) {
+            return <span>{text}</span>;
+          }
+
+          return {
+            children: null,
+            props: {
+              colSpan: 0,
+            },
+          };
         },
       },
       {
@@ -607,16 +557,24 @@ class ReplenishmentInfo extends TabPageBase {
         width: 100,
         align: 'center',
         render: (text, row, index) => {
-          if (index >= replenishmentDataCount - 4) {
-            return {
-              children: null,
-              props: {
-                colSpan: 0,
-              },
-            };
+          if (index <= replenishmentDataCount - replenishmentExtraItemCount - 1) {
+            return (
+              <Ellipsis tooltip lines={1}>
+                {text}
+              </Ellipsis>
+            );
           }
 
-          return <span>{text}</span>;
+          if (index === replenishmentDataCount - replenishmentExtraItemCount) {
+            return <span>{text}</span>;
+          }
+
+          return {
+            children: null,
+            props: {
+              colSpan: 0,
+            },
+          };
         },
       },
       {
@@ -625,16 +583,24 @@ class ReplenishmentInfo extends TabPageBase {
         width: 100,
         align: 'center',
         render: (text, row, index) => {
-          if (index >= replenishmentDataCount - 4) {
-            return {
-              children: null,
-              props: {
-                colSpan: 0,
-              },
-            };
+          if (index <= replenishmentDataCount - replenishmentExtraItemCount - 1) {
+            return (
+              <Ellipsis tooltip lines={1}>
+                {text}
+              </Ellipsis>
+            );
           }
 
-          return <span>{text}</span>;
+          if (index === replenishmentDataCount - replenishmentExtraItemCount) {
+            return <span>{text}</span>;
+          }
+
+          return {
+            children: null,
+            props: {
+              colSpan: 0,
+            },
+          };
         },
       },
       {
@@ -642,16 +608,24 @@ class ReplenishmentInfo extends TabPageBase {
         dataIndex: 'other',
         align: 'right',
         render: (text, row, index) => {
-          if (index >= replenishmentDataCount - 1) {
-            return {
-              children: null,
-              props: {
-                colSpan: 0,
-              },
-            };
+          if (index <= replenishmentDataCount - replenishmentExtraItemCount - 1) {
+            return (
+              <Ellipsis tooltip lines={1}>
+                {text}
+              </Ellipsis>
+            );
           }
 
-          return <span>{text}</span>;
+          if (index === replenishmentDataCount - replenishmentExtraItemCount) {
+            return <span>{text}</span>;
+          }
+
+          return {
+            children: null,
+            props: {
+              colSpan: 0,
+            },
+          };
         },
       },
     ];
@@ -722,7 +696,7 @@ class ReplenishmentInfo extends TabPageBase {
                       value={replenishmentStateMode}
                       onChange={this.handleReplenishmentStateModeChange}
                     >
-                      {replenishmentStateModeOption}
+                      {this.renderReplenishmentStateModeRadio(false)}
                     </RadioGroup>
                   </FormItem>
                 ) : null}

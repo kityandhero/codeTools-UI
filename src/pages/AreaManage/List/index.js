@@ -5,11 +5,9 @@ import {
   Row,
   Col,
   Form,
-  Select,
   Icon,
   Button,
   Dropdown,
-  Input,
   Menu,
   Modal,
   Divider,
@@ -19,15 +17,7 @@ import {
   notification,
 } from 'antd';
 
-import {
-  isInvalid,
-  formatDatetime,
-  searchFromList,
-  refitCommonData,
-  buildFieldDescription,
-  copyToClipboard,
-  replaceTargetText,
-} from '@/utils/tools';
+import { formatDatetime, copyToClipboard, replaceTargetText } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
@@ -36,9 +26,7 @@ import EllipsisCustom from '@/customComponents/EllipsisCustom';
 import UpdateAreaManageRoleModal from '../UpdateAreaManageRoleModal';
 import { fieldData } from '../Common/data';
 
-const FormItem = Form.Item;
 const { confirm } = Modal;
-const { Option } = Select;
 
 @connect(({ areaManage, global, loading }) => ({
   areaManage,
@@ -54,8 +42,13 @@ class Standard extends PagerList {
 
     this.state = {
       ...this.state,
-      currentRecord: null,
-      changeUpdateAreaManageRoleModalVisible: false,
+      ...{
+        pageName: '账户列表',
+        paramsKey: 'ce7a9a67-d0b7-4040-904e-94092f67cc27',
+        loadApiPath: 'areaManage/list',
+        currentRecord: null,
+        changeUpdateAreaManageRoleModalVisible: false,
+      },
     };
   }
 
@@ -65,31 +58,6 @@ class Standard extends PagerList {
     } = props;
 
     return data;
-  };
-
-  initState = () => ({
-    pageName: '账户列表',
-    paramsKey: 'ce7a9a67-d0b7-4040-904e-94092f67cc27',
-    loadApiPath: 'areaManage/list',
-  });
-
-  areaManageStateList = () => {
-    const { global } = this.props;
-
-    return refitCommonData(global.areaManageStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getAreaManageStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.areaManageStateList());
-    return item == null ? '未知' : item.name;
   };
 
   getAreaManageStateBadgeStatus = v => {
@@ -232,7 +200,7 @@ class Standard extends PagerList {
               });
             });
 
-            that.refreshGrid();
+            that.reloadData();
           }
 
           that.setState({ processing: false });
@@ -271,7 +239,7 @@ class Standard extends PagerList {
         },
         () => {
           this.setState({ changeUpdateAreaManageRoleModalVisible: true });
-        }
+        },
       );
     }
   };
@@ -282,7 +250,7 @@ class Standard extends PagerList {
       changeUpdateAreaManageRoleModalVisible: false,
     });
 
-    this.refreshGrid();
+    this.reloadData();
   };
 
   afterUpdateAreaManageRoleModalCancel = () => {
@@ -292,51 +260,16 @@ class Standard extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dataLoading, processing } = this.state;
-
-    const areaManageStateData = this.areaManageStateList();
-    const areaManageStateOption = [];
-
-    areaManageStateData.forEach(item => {
-      const { name, flag } = item;
-      areaManageStateOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.name}>
-              {getFieldDecorator('name')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.name, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.name, 'name')}
           </Col>
           <Col md={4} sm={24}>
-            <FormItem label={fieldData.state}>
-              {getFieldDecorator('state', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.state, '选择') },
-                ],
-                initialValue: areaManageStateData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.state, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {areaManageStateOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchAreaManageStateFormItem(true)}
           </Col>
           {this.renderSimpleFormButton(
             <>
@@ -351,7 +284,7 @@ class Standard extends PagerList {
                 新增账户
               </Button>
             </>,
-            7
+            7,
           )}
         </Row>
       </>

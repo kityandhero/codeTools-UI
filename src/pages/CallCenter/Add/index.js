@@ -34,21 +34,24 @@ const { TextArea } = Input;
 class Index extends AddFormBase {
   componentAuthority = accessWayCollection.callCenter.add;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '增加客服',
+        submitApiPath: 'callCenter/addBasicInfo',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       callCenter: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => {
-    const result = {
-      pageName: '增加客服',
-      submitApiPath: 'callCenter/addBasicInfo',
-    };
-
-    return result;
   };
 
   supplementSubmitRequestParams = o => {
@@ -124,12 +127,12 @@ class Index extends AddFormBase {
                             message: buildFieldDescription(fieldData.title),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <Input
                         addonBefore={<Icon type="form" />}
                         placeholder={buildFieldDescription(fieldData.title)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -144,12 +147,12 @@ class Index extends AddFormBase {
                             message: buildFieldDescription(fieldData.contactInformation),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <Input
                         addonBefore={<Icon type="form" />}
                         placeholder={buildFieldDescription(fieldData.contactInformation)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -164,13 +167,13 @@ class Index extends AddFormBase {
                             message: buildFieldDescription(fieldData.sort),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <InputNumber
                         style={{ width: '100%' }}
                         min={0}
                         placeholder={buildFieldDescription(fieldData.sort)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -194,12 +197,12 @@ class Index extends AddFormBase {
                             message: buildFieldDescription(fieldData.description),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <TextArea
                         placeholder="请输入分享标题"
                         autosize={{ minRows: 3, maxRows: 5 }}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>

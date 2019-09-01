@@ -59,27 +59,31 @@ const fieldLabels = {
   description: '个人描述',
 };
 
-@connect(({ currentOperator, loading }) => ({
-  currentOperator,
-  loading: loading.models.currentOperator,
+@connect(({ operator, global, loading }) => ({
+  operator,
+  global,
+  loading: loading.models.operator,
 }))
 @Form.create()
 class BaseView extends UpdateForm {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        loadApiPath: 'operator/getCurrentBasicInfo',
+        submitApiPath: 'operator/updateCurrentBasicInfo',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
-      currentOperator: { data },
+      operator: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => {
-    const result = {
-      loadApiPath: 'currentOperator/getCurrentBasicInfo',
-      submitApiPath: 'currentOperator/updateCurrentBasicInfo',
-    };
-
-    return result;
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -131,14 +135,14 @@ class BaseView extends UpdateForm {
                           message: buildFieldDescription(fieldLabels.name),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
                   <Input
                     addonBefore={<Icon type="form" />}
                     style={{ maxWidth: 220 }}
                     placeholder={buildFieldDescription(fieldLabels.name)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldLabels.cityName}>
@@ -163,13 +167,13 @@ class BaseView extends UpdateForm {
                           message: buildFieldDescription(fieldLabels.email),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
                   <Input
                     addonBefore={<Icon type="form" />}
                     placeholder={buildFieldDescription(fieldLabels.email)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldLabels.phone}>
@@ -186,13 +190,13 @@ class BaseView extends UpdateForm {
                           message: buildFieldDescription(fieldLabels.phone),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
                   <Input
                     addonBefore={<Icon type="form" />}
                     placeholder={buildFieldDescription(fieldLabels.phone)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldLabels.description}>
@@ -209,13 +213,13 @@ class BaseView extends UpdateForm {
                           message: buildFieldDescription(fieldLabels.description),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
                   <Input.TextArea
                     rows={4}
                     placeholder={buildFieldDescription(fieldLabels.description)}
-                  />
+                  />,
                 )}
               </FormItem>
               {/* <FormItem label={formatMessage({ id: 'app.settings.basic.geographic' })}>

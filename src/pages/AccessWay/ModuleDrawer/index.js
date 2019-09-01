@@ -6,6 +6,7 @@ import {
   pretreatmentRequestParams,
   copyToClipboard,
   formatDatetime,
+  isFunction,
 } from '@/utils/tools';
 import PagerDrawer from '@/customComponents/Framework/CustomList/PagerList/PagerDrawer';
 import Ellipsis from '@/customComponents/Ellipsis';
@@ -17,30 +18,29 @@ class ModuleDrawer extends PagerDrawer {
 
     this.state = {
       ...this.state,
-      sourceData: null,
-      customData: [],
-      selectModuleApiPath: '',
+      ...{
+        tableScroll: { x: 1320 },
+        loadApiPath: 'accessWay/list',
+        dateRangeFieldName: '创建时间',
+      },
     };
   }
 
   // eslint-disable-next-line no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { visible, sourceData } = nextProps;
-
-    return { visible, sourceData };
+    return super.getDerivedStateFromProps(nextProps, prevState);
   }
 
-  doOtherWhenChangeVisible = () => {
-    const { dataLoading, visible, sourceData } = this.state;
+  // eslint-disable-next-line no-unused-vars
+  doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
+    // 设置界面效果为加载中，减少用户误解
+    this.setState({ dataLoading: true });
 
-    if (sourceData != null && visible && !dataLoading) {
-      // 设置界面效果为加载中，减少用户误解
-      this.setState({ dataLoading: true });
+    const that = this;
 
-      setTimeout(() => {
-        this.handleFormReset();
-      }, 700);
-    }
+    setTimeout(() => {
+      that.handleFormReset(false);
+    }, 700);
   };
 
   getApiData = props => {
@@ -51,16 +51,10 @@ class ModuleDrawer extends PagerDrawer {
     return data;
   };
 
-  initState = () => ({
-    tableScroll: { x: 1320 },
-    loadApiPath: 'accessWay/list',
-    dateRangeFieldName: '创建时间',
-  });
-
   refreshParentData = () => {
     const { afterOperateSuccess } = this.props;
 
-    if (typeof afterOperateSuccess === 'function') {
+    if (isFunction(afterOperateSuccess)) {
       afterOperateSuccess();
     }
   };
@@ -95,7 +89,6 @@ class ModuleDrawer extends PagerDrawer {
 
         const { dataSuccess } = data;
         if (dataSuccess) {
-          // this.refreshGrid();
           this.refreshParentData();
 
           requestAnimationFrame(() => {
@@ -146,7 +139,7 @@ class ModuleDrawer extends PagerDrawer {
         if (dataSuccess) {
           this.setState({ selectedDataTableDataRows: [] });
 
-          // this.refreshGrid();
+          // this.reloadData();
           this.refreshParentData();
 
           requestAnimationFrame(() => {
@@ -186,7 +179,7 @@ class ModuleDrawer extends PagerDrawer {
 
         const { dataSuccess } = data;
         if (dataSuccess) {
-          // this.refreshGrid();
+          // this.reloadData();
           this.refreshParentData();
 
           requestAnimationFrame(() => {
@@ -202,11 +195,6 @@ class ModuleDrawer extends PagerDrawer {
       }
     });
   };
-
-  // eslint-disable-next-line no-unused-vars
-  // afterLoadSuccess = data => {
-  //   this.setState({ processing: false });
-  // };
 
   renderSimpleFormRow = () => {
     const { dateRangeFieldName, dataLoading, processing, selectedDataTableDataRows } = this.state;
@@ -260,7 +248,7 @@ class ModuleDrawer extends PagerDrawer {
                 </Popconfirm>
               )}
             </>,
-            14
+            14,
           )}
         </Row>
       </>

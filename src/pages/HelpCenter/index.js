@@ -19,7 +19,11 @@ class HelpCenter extends LoadDataForm {
 
     this.state = {
       ...this.state,
-      menuData: [],
+      ...{
+        pageName: '',
+        loadApiPath: 'areaHelpCategory/getMenu',
+        menuData: [],
+      },
     };
   }
 
@@ -31,12 +35,10 @@ class HelpCenter extends LoadDataForm {
     return data;
   };
 
-  initState = () => ({
-    pageName: '',
-    loadApiPath: 'areaHelpCategory/getMenu',
-  });
 
-  afterLoadSuccess = metaData => {
+
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     const { menu } = metaData;
 
     this.setState({ menuData: menu });

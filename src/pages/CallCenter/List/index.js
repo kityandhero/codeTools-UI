@@ -6,7 +6,6 @@ import {
   Row,
   Col,
   Form,
-  Input,
   Icon,
   Dropdown,
   Menu,
@@ -25,7 +24,6 @@ import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
 
-const FormItem = Form.Item;
 const { confirm } = Modal;
 
 @connect(({ callCenter, global, loading }) => ({
@@ -37,6 +35,19 @@ const { confirm } = Modal;
 class Index extends PagerList {
   componentAuthority = accessWayCollection.callCenter.list;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '客服列表',
+        paramsKey: '938bdc77-66b5-4afe-835b-9aa64a7ead5b',
+        loadApiPath: 'callCenter/list',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       callCenter: { data },
@@ -44,12 +55,6 @@ class Index extends PagerList {
 
     return data;
   };
-
-  initState = () => ({
-    pageName: '客服列表',
-    paramsKey: '938bdc77-66b5-4afe-835b-9aa64a7ead5b',
-    loadApiPath: 'callCenter/list',
-  });
 
   handleItem = (dataId, handler) => {
     const { customData } = this.state;
@@ -119,7 +124,7 @@ class Index extends PagerList {
         });
 
         this.setState({ processing: false });
-        this.refreshGrid();
+        this.reloadData();
       }
     });
   };
@@ -155,19 +160,13 @@ class Index extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
     const { dataLoading, processing } = this.state;
-    const { getFieldDecorator } = form;
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            <FormItem label="名称">
-              {getFieldDecorator('title')(
-                <Input addonBefore={<Icon type="form" />} placeholder="请输入客服名称" />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.title, 'title')}
           </Col>
           {this.renderSimpleFormButton(
             this.checkAuthority(accessWayCollection.callCenter.add) ? (
@@ -184,7 +183,7 @@ class Index extends PagerList {
                 </Button>
               </>
             ) : null,
-            6
+            6,
           )}
         </Row>
       </>

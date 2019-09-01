@@ -1,24 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Form, Select, Input, Icon, DatePicker } from 'antd';
+import { Row, Col, Form } from 'antd';
 
-import {
-  formatDatetime,
-  refitCommonData,
-  copyToClipboard,
-  replaceTargetText,
-  buildFieldDescription,
-  getRandomColor,
-} from '@/utils/tools';
+import { formatDatetime, copyToClipboard, replaceTargetText, getRandomColor } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
-
-const FormItem = Form.Item;
-const { Option } = Select;
 
 @connect(({ userOrderOutboundHistory, global, loading }) => ({
   userOrderOutboundHistory,
@@ -34,7 +24,14 @@ class Standard extends PagerList {
 
     this.state = {
       ...this.state,
-      batchDate: '',
+      ...{
+        batchDate: '',
+        pageName: '批次出库订单记录',
+        paramsKey: '794c31a1-09c4-47de-b4fc-f63db6e3089b',
+        loadApiPath: 'userOrderOutboundHistory/list',
+        dateRangeFieldName: '发生时段',
+        tableScroll: { x: 1820 },
+      },
     };
   }
 
@@ -46,28 +43,11 @@ class Standard extends PagerList {
     return data;
   };
 
-  initState = () => ({
-    pageName: '批次出库订单记录',
-    paramsKey: '794c31a1-09c4-47de-b4fc-f63db6e3089b',
-    loadApiPath: 'userOrderOutboundHistory/list',
-    dateRangeFieldName: '发生时段',
-    tableScroll: { x: 1820 },
-  });
-
   getCurrentOperator = () => {
     const {
       global: { currentOperator },
     } = this.props;
     return currentOperator;
-  };
-
-  userOrderOutboundHistoryTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.userOrderOutboundHistoryTypeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
   };
 
   handleFormOtherReset = () => {
@@ -92,106 +72,40 @@ class Standard extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName } = this.state;
     const currentOperator = this.getCurrentOperator();
-
-    const userOrderOutboundHistoryTypeData = this.userOrderOutboundHistoryTypeList();
-    const userOrderOutboundHistoryTypeOption = [];
-
-    userOrderOutboundHistoryTypeData.forEach(item => {
-      const { name, flag } = item;
-      userOrderOutboundHistoryTypeOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.areaAgentId}>
-              <Input
-                addonBefore={<Icon type="form" />}
-                disabled
-                value={currentOperator == null ? '' : currentOperator.cityName || ''}
-              />
-            </FormItem>
+            {this.renderSearchInputFormItem(
+              fieldData.city,
+              '',
+              currentOperator == null ? '' : currentOperator.cityName || '',
+              null,
+              'form',
+              { disabled: true },
+              false,
+            )}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.batchDate}>
-              {getFieldDecorator('batchDate', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.areaAgentId, '选择'),
-                  },
-                ],
-              })(
-                <DatePicker
-                  placeholder={buildFieldDescription(fieldData.batchDate, '选择')}
-                  format="YYYY-MM-DD"
-                  onChange={this.onBatchDateChange}
-                  style={{ width: '100%' }}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchBatchDateFormItem()}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.lineId}>
-              {getFieldDecorator('lineId')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.lineId, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchLineFormItem(true)}
           </Col>
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 9)}
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.merchantId}>
-              {getFieldDecorator('merchantId')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.merchantId, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.merchantId, 'merchantId')}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.userOrderId}>
-              {getFieldDecorator('userOrderId')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.userOrderId, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.userOrderId, 'userOrderId')}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.type}>
-              {getFieldDecorator('type', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.type, '选择'),
-                  },
-                ],
-                initialValue: userOrderOutboundHistoryTypeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.type, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {userOrderOutboundHistoryTypeOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchUserOrderOutboundHistoryTypeFormItem(true)}
           </Col>
           {this.renderSimpleFormButton(null, 9)}
         </Row>

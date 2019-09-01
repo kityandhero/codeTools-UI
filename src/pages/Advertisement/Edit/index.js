@@ -33,7 +33,12 @@ class Edit extends LoadDataTabContainer {
 
     this.state = {
       ...this.state,
-      advertisementId: null,
+      ...{
+        pageName: '名称：',
+        loadApiPath: 'advertisement/get',
+        backPath: `/advertisement/list/key`,
+        advertisementId: null,
+      },
     };
   }
 
@@ -54,21 +59,6 @@ class Edit extends LoadDataTabContainer {
     return data;
   };
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      advertisementId: id,
-      pageName: '名称：',
-      loadApiPath: 'advertisement/get',
-      backPath: `/advertisement/list/key`,
-    };
-
-    return result;
-  };
-
   // eslint-disable-next-line no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
@@ -83,7 +73,8 @@ class Edit extends LoadDataTabContainer {
     return d;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     this.setState({
       pageName: `名称：${metaData === null ? '' : metaData.title || ''}`,
     });

@@ -24,6 +24,18 @@ const fieldData = {
 class EditMasterWarehouse extends UpdateForm {
   componentAuthority = accessWayCollection.warehouse.getMaster;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        loadApiPath: 'warehouse/getMaster',
+        submitApiPath: 'warehouse/setMasterBasicInfo',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       warehouse: { data },
@@ -32,17 +44,9 @@ class EditMasterWarehouse extends UpdateForm {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      loadApiPath: 'warehouse/getMaster',
-      submitApiPath: 'warehouse/setMasterBasicInfo',
-    };
-
-    return result;
-  };
-
-  afterLoadSuccess = (d, extra) => {
-    const { exist, message: messageText } = extra;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { exist, message: messageText } = metaExtra;
 
     if (!exist) {
       message.warn(messageText);
@@ -101,13 +105,13 @@ class EditMasterWarehouse extends UpdateForm {
                           message: buildFieldDescription(fieldData.name),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
                   <Input
                     addonBefore={<Icon type="form" />}
                     placeholder={buildFieldDescription(fieldData.name)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldData.code}>
@@ -124,13 +128,13 @@ class EditMasterWarehouse extends UpdateForm {
                           message: buildFieldDescription(fieldData.code),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
                   <Input
                     addonBefore={<Icon type="form" />}
                     placeholder={buildFieldDescription(fieldData.code)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldData.address}>
@@ -147,10 +151,13 @@ class EditMasterWarehouse extends UpdateForm {
                           message: buildFieldDescription(fieldData.address),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
-                  <Input.TextArea rows={4} placeholder={buildFieldDescription(fieldData.address)} />
+                  <Input.TextArea
+                    rows={4}
+                    placeholder={buildFieldDescription(fieldData.address)}
+                  />,
                 )}
               </FormItem>
               <Button

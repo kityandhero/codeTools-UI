@@ -1,29 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import {
-  Row,
-  Col,
-  Form,
-  Input,
-  Icon,
-  Dropdown,
-  Menu,
-  Button,
-  Divider,
-  notification,
-  Modal,
-  Select,
-} from 'antd';
+import { Row, Col, Form, Icon, Dropdown, Menu, Button, Divider, notification, Modal } from 'antd';
 import moment from 'moment';
 
-import {
-  buildFieldDescription,
-  pretreatmentRequestParams,
-  copyToClipboard,
-  replaceTargetText,
-  refitCommonData,
-} from '@/utils/tools';
+import { pretreatmentRequestParams, copyToClipboard, replaceTargetText } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
@@ -34,7 +15,6 @@ import defaultSettings from '../../../../config/defaultSettings';
 import { fieldData } from '../Common/data';
 import styles from './index.less';
 
-const FormItem = Form.Item;
 const { confirm } = Modal;
 
 @connect(({ advertisement, global, loading }) => ({
@@ -46,28 +26,26 @@ const { confirm } = Modal;
 class List extends PagerList {
   componentAuthority = accessWayCollection.advertisement.list;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageSize: 8,
+        pageName: '广告列表',
+        paramsKey: '986e280b-a385-47c5-b70c-d7c9e789758f',
+        loadApiPath: 'advertisement/list',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       advertisement: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => ({
-    pageSize: 8,
-    pageName: '广告列表',
-    paramsKey: '986e280b-a385-47c5-b70c-d7c9e789758f',
-    loadApiPath: 'advertisement/list',
-  });
-
-  advertisementClassList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.advertisementClassList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
   };
 
   removeConfirm = record => {
@@ -120,7 +98,7 @@ class List extends PagerList {
         });
 
         this.setState({ processing: false });
-        this.refreshGrid();
+        this.reloadData();
       }
     });
   };
@@ -156,51 +134,16 @@ class List extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
     const { dataLoading, processing } = this.state;
-    const { getFieldDecorator } = form;
-
-    const advertisementClassData = this.advertisementClassList();
-    const advertisementClassOption = [];
-
-    advertisementClassData.forEach(item => {
-      const { name, flag } = item;
-      advertisementClassOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.keywords}>
-              {getFieldDecorator('keywords')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.keywords)}
-                />,
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.keywords, 'keywords')}
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.classId}>
-              {getFieldDecorator('classId', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.classId, '选择') },
-                ],
-                initialValue: advertisementClassData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.classId, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {advertisementClassOption}
-                </Select>,
-              )}
-            </FormItem>
+            {this.renderSearchAdvertisementClassFormItem(true)}
           </Col>
           {this.renderSimpleFormButton(
             this.checkAuthority(accessWayCollection.advertisement.add) ? (

@@ -29,7 +29,12 @@ class List extends InnerPagerList {
 
     this.state = {
       ...this.state,
-      userOrderId: null,
+      ...{
+        paramsKey: 'cf516d0b-8073-45ad-9f76-9206b1e57f03',
+        loadApiPath: 'userOrder/listOperationRecord',
+        dateRangeFieldName: '操作时间',
+        userOrderId: null,
+      },
     };
   }
 
@@ -41,16 +46,6 @@ class List extends InnerPagerList {
       parseUrlParamsForSetState,
     );
   }
-
-  initState = () => {
-    const result = {
-      paramsKey: 'cf516d0b-8073-45ad-9f76-9206b1e57f03',
-      loadApiPath: 'userOrder/listOperationRecord',
-      dateRangeFieldName: '操作时间',
-    };
-
-    return result;
-  };
 
   getApiData = props => {
     const {

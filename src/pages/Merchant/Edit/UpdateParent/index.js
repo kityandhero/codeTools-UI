@@ -8,7 +8,7 @@ import accessWayCollection from '@/utils/accessWayCollection';
 import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
 
 import MerchantDrawer from '../../MerchantDrawer';
-import { parseUrlParamsForSetState, checkNeedUpdateAssist  } from '../../Assist/config';
+import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
 
 import styles from './index.less';
@@ -35,6 +35,21 @@ class Index extends UpdateFormTab {
 
   goToUpdateWhenProcessed = true;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        parentMerchantId: '',
+        parentNickname: '',
+        parentRealName: '',
+        loadApiPath: 'merchant/get',
+        submitApiPath: 'merchant/updateParentId',
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -43,18 +58,6 @@ class Index extends UpdateFormTab {
       parseUrlParamsForSetState,
     );
   }
-
-  initState = () => {
-    const result = {
-      parentMerchantId: '',
-      parentNickname: '',
-      parentRealName: '',
-      loadApiPath: 'merchant/get',
-      submitApiPath: 'merchant/updateParentId',
-    };
-
-    return result;
-  };
 
   getApiData = props => {
     const {
@@ -78,8 +81,9 @@ class Index extends UpdateFormTab {
     return d;
   };
 
-  afterLoadSuccess = d => {
-    const { parentMerchantId, parentRealName } = d;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { parentMerchantId, parentRealName } = metaData;
 
     this.setState({ parentMerchantId, parentRealName });
   };

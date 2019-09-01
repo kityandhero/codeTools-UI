@@ -9,7 +9,6 @@ import {
   Col,
   InputNumber,
   Input,
-  Select,
   Spin,
   notification,
   Icon,
@@ -23,8 +22,8 @@ import {
   corsTarget,
   refitFieldDecoratorOption,
   buildFieldDescription,
-  refitCommonData,
   pretreatmentRemoteSingleData,
+  getToken,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import AddFormBase from '@/customComponents/Framework/CustomForm/AddFormBase';
@@ -47,15 +46,19 @@ class Index extends AddFormBase {
     super(props);
 
     const tokenSetObject = {};
-    tokenSetObject[`${getTokenKeyName()}`] = localStorage.getItem(getTokenKeyName()) || '';
+    tokenSetObject[`${getTokenKeyName()}`] = getToken() || '';
 
     this.state = {
       ...this.state,
-      imageUploading: false,
-      previewImage: '',
-      imageUrl: '',
-      imageName: '',
-      tokenSet: tokenSetObject,
+      ...{
+        pageName: '增加广告',
+        submitApiPath: 'advertisement/addBasicInfo',
+        imageUploading: false,
+        previewImage: '',
+        imageUrl: '',
+        imageName: '',
+        tokenSet: tokenSetObject,
+      },
     };
   }
 
@@ -65,15 +68,6 @@ class Index extends AddFormBase {
     } = props;
 
     return data;
-  };
-
-  initState = () => {
-    const result = {
-      pageName: '增加广告',
-      submitApiPath: 'advertisement/addBasicInfo',
-    };
-
-    return result;
   };
 
   supplementSubmitRequestParams = o => {
@@ -109,11 +103,6 @@ class Index extends AddFormBase {
     dispatch(routerRedux.replace(location));
   };
 
-  advertisementClassList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.advertisementClassList);
-  };
-
   handleMainUploadChange = info => {
     if (info.file.status === 'uploading') {
       this.setState({ imageUploading: true });
@@ -147,18 +136,6 @@ class Index extends AddFormBase {
     const { form } = this.props;
     const { processing, imageUploading, imageUrl, tokenSet } = this.state;
     const { getFieldDecorator } = form;
-
-    const advertisementClassData = this.advertisementClassList();
-    const advertisementClassOption = [];
-
-    advertisementClassData.forEach(item => {
-      const { name, flag } = item;
-      advertisementClassOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
 
     const corsUrl = corsTarget();
 
@@ -207,33 +184,17 @@ class Index extends AddFormBase {
                             message: buildFieldDescription(fieldData.title),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <Input
                         addonBefore={<Icon type="form" />}
                         placeholder={buildFieldDescription(fieldData.title)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
                 <Col lg={6} md={12} sm={24}>
-                  <FormItem label={fieldData.classId}>
-                    {getFieldDecorator(
-                      'classId',
-                      refitFieldDecoratorOption('', null, '', {
-                        rules: [
-                          {
-                            required: true,
-                            message: buildFieldDescription(fieldData.classId),
-                          },
-                        ],
-                      })
-                    )(
-                      <Select placeholder={buildFieldDescription(fieldData.classId, '选择')}>
-                        {advertisementClassOption}
-                      </Select>
-                    )}
-                  </FormItem>
+                  {this.renderFormAdvertisementClassFormItem(null)}
                 </Col>
                 <Col lg={6} md={12} sm={24}>
                   <FormItem label={fieldData.sort}>
@@ -246,13 +207,13 @@ class Index extends AddFormBase {
                             message: buildFieldDescription(fieldData.sort),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <InputNumber
                         style={{ width: '100%' }}
                         min={0}
                         placeholder={buildFieldDescription(fieldData.sort)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -269,12 +230,12 @@ class Index extends AddFormBase {
                             message: buildFieldDescription(fieldData.url),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <Input
                         addonBefore={<Icon type="form" />}
                         placeholder={buildFieldDescription(fieldData.url)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>

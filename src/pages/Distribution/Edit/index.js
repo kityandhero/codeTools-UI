@@ -2,13 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Row, Col, Descriptions } from 'antd';
 
-import {
-  isInvalid,
-  formatDatetime,
-  searchFromList,
-  refitCommonData,
-  getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
+import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
 
@@ -40,6 +34,19 @@ class Edit extends LoadDataTabContainer {
     },
   ];
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '申请人：',
+        loadApiPath: 'distribution/get',
+        backPath: `/finance/distribution/list/key`,
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -57,16 +64,6 @@ class Edit extends LoadDataTabContainer {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      pageName: '申请人：',
-      loadApiPath: 'distribution/get',
-      backPath: `/order/distribution/list/key`,
-    };
-
-    return result;
-  };
-
   // eslint-disable-next-line no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
@@ -81,46 +78,11 @@ class Edit extends LoadDataTabContainer {
     return d;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     this.setState({
       pageName: `申请人：${metaData === null ? '' : metaData.name || ''}`,
     });
-  };
-
-  distributionStateList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.distributionStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getDistributionStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.distributionStateList());
-    return item == null ? '未知' : item.name;
-  };
-
-  distributionSwitchList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.distributionSwitchList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getMerchantSwitchName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.distributionSwitchList());
-    return item == null ? '未知' : item.name;
   };
 
   pageHeaderExtraContent = () => {

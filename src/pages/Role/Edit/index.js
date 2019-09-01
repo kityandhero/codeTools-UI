@@ -35,6 +35,19 @@ class Edit extends LoadDataTabContainer {
     },
   ];
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '角色名：',
+        loadApiPath: 'role/get',
+        backPath: '/account/role/list/key',
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -52,16 +65,6 @@ class Edit extends LoadDataTabContainer {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      pageName: '角色名：',
-      loadApiPath: 'role/get',
-      backPath: `/account/role/list/key`,
-    };
-
-    return result;
-  };
-
   // eslint-disable-next-line no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
@@ -76,7 +79,8 @@ class Edit extends LoadDataTabContainer {
     return d;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     const { name } = metaData;
 
     this.setState({ pageName: `角色名：${name}` });

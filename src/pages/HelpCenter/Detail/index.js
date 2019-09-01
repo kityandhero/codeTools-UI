@@ -29,6 +29,19 @@ const logo = '/logo.png';
 }))
 @Form.create()
 class ArticleContent extends LoadDataForm {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '帮助详情',
+        loadApiPath: 'areaHelp/get',
+        backPath: '/helpCenter/category/no/list',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       areaHelp: { data },
@@ -36,12 +49,6 @@ class ArticleContent extends LoadDataForm {
 
     return data;
   };
-
-  initState = () => ({
-    pageName: '帮助详情',
-    loadApiPath: 'areaHelp/get',
-    backPath: '/helpCenter/category/no/list',
-  });
 
   supplementLoadRequestParams = o => {
     const d = o;
@@ -54,7 +61,8 @@ class ArticleContent extends LoadDataForm {
     return d;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     const { areaHelpCategoryId } = metaData;
 
     this.setState({

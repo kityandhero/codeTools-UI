@@ -12,9 +12,17 @@ import {
   trim as trimLodash,
   isEmpty as isEmptyLodash,
   isBoolean as isBooleanLodash,
+  isUndefined as isUndefinedLodash,
 } from 'lodash';
 
 import { getConfigData, checkDevelopment } from './customConfig';
+
+const storageKeyCollection = {
+  metaData: 'metaData',
+  token: 'token',
+  areaFlag: 'areaFlag',
+  currentOperator: 'currentOperator',
+};
 
 export function defaultBaseState() {
   return {
@@ -28,6 +36,7 @@ export function defaultBaseState() {
     loadSuccess: false,
     loadDataAfterMount: false,
     urlParams: null,
+    externalData: null,
   };
 }
 
@@ -46,7 +55,7 @@ export function defaultCommonState() {
       metaData: null,
       metaExtra: null,
       metaListData: [],
-      originalData: null,
+      metaOriginalData: null,
     },
   };
 
@@ -364,6 +373,56 @@ export function toMoney(v) {
 }
 
 /**
+ * 格式化货币
+ *
+ * @export
+ * @param {*} str
+ * @returns
+ */
+export function formatMoney(
+  numberSource,
+  placesSource = 2,
+  symbolSource = '￥',
+  thousandSource = ',',
+  decimalSource = '.',
+) {
+  let number = numberSource || 0;
+  // 保留的小位数 可以写成 formatMoney(542986,3) 后面的是保留的小位数，否则默 认保留两位
+
+  const placesSourceAbs = Math.abs(placesSource);
+
+  // eslint-disable-next-line no-restricted-globals
+  const places = !isNaN(placesSourceAbs) ? placesSourceAbs : 2;
+  // symbol表示前面表示的标志是￥ 可以写成 formatMoney(542986,2,"$")
+  const symbol = symbolSource !== undefined ? symbolSource : '￥';
+  // thousand表示每几位用,隔开,是货币标识
+  const thousand = thousandSource || ',';
+  // decimal表示小数点
+  const decimal = decimalSource || '.';
+  // negative表示如果钱是负数有就显示“-”如果不是负数 就不显示负号
+  // i表示处理过的纯数字
+  const negative = number < 0 ? '-' : '';
+  const i = `${parseInt((number = Math.abs(+number || 0).toFixed(places)), 10)}`;
+
+  let j = i.length;
+
+  j = j > 3 ? j % 3 : 0;
+
+  return (
+    symbol +
+    negative +
+    (j ? i.substr(0, j) + thousand : '') +
+    i.substr(j).replace(/(\d{3})(?=\d)/g, `${symbolSource}1${thousand}`) +
+    (places
+      ? decimal +
+        Math.abs(number - toNumber(i))
+          .toFixed(places)
+          .slice(2)
+      : '')
+  );
+}
+
+/**
  * 转换金额为人民币大写
  *
  * @export
@@ -589,7 +648,96 @@ export function evil(fn) {
  * @returns
  */
 export function getTokenKeyName() {
-  return 'token';
+  return storageKeyCollection.token;
+}
+
+/**
+ * 获取Token
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getToken() {
+  const key = storageKeyCollection.token;
+
+  return getStringFromLocalStorage(key);
+}
+
+/**
+ * 设置Token
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function setToken(v) {
+  const key = storageKeyCollection.token;
+
+  return saveStringToLocalStorage(key, v);
+}
+
+/**
+ * 移除Token
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function removeToken(v) {
+  const key = storageKeyCollection.token;
+
+  return removeLocalStorage(key, v);
+}
+
+/**
+ * 获取AreaFlag键名
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getAreaFlagKeyName() {
+  return storageKeyCollection.areaFlag;
+}
+
+/**
+ * 获取AreaFlag
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getAreaFlag() {
+  const key = storageKeyCollection.areaFlag;
+
+  return getStringFromLocalStorage(key);
+}
+
+/**
+ * 设置AreaFlag
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function setAreaFlag(v) {
+  const key = storageKeyCollection.areaFlag;
+
+  return saveStringToLocalStorage(key, v);
+}
+
+/**
+ * 移除AreaFlag
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function removeAreaFlag(v) {
+  const key = storageKeyCollection.areaFlag;
+
+  return removeLocalStorage(key, v);
 }
 
 /**
@@ -676,9 +824,19 @@ function dataExceptionNotice(d) {
  * @param {*} op
  * @param {*} other
  */
+export function buildFieldHelper(v, prefix = '注：') {
+  return `${prefix}${v}。`;
+}
+
+/**
+ * 构建描述文本
+ * @param {*} v
+ * @param {*} op
+ * @param {*} other
+ */
 export function buildFieldDescription(v, op, other) {
   const o = (other || '') === '' ? '' : `,${other}`;
-  return `请${op || '输入'}${v}${o}!`;
+  return `请${op || '输入'}${v}${o}`;
 }
 
 /**
@@ -855,7 +1013,7 @@ export function useVirtualAccess() {
  * @returns
  */
 function apiVirtualAuthorize() {
-  const tokenValue = localStorage.getItem(getTokenKeyName());
+  const tokenValue = getToken;
   return (tokenValue || '') !== '';
 }
 
@@ -1051,6 +1209,102 @@ export async function apiVirtualAccess(dataBuildFunction) {
 }
 
 /**
+ * 获取SessionStorage数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function getStringFromSessionStorage(key) {
+  const storage = window.sessionStorage;
+  const value = storage.getItem(key);
+
+  if (process.env.NODE_ENV === 'development') {
+    return value;
+  }
+
+  const decode = decodeBase64(value);
+  const v = encodeBase64(decode);
+
+  if (value !== v) {
+    return null;
+  }
+
+  return decode;
+}
+
+/**
+ * 获取LocalStorage数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function getStringFromLocalStorage(key) {
+  const storage = window.localStorage;
+  const value = storage.getItem(key);
+
+  if (process.env.NODE_ENV === 'development') {
+    return value;
+  }
+
+  const decode = decodeBase64(value);
+  const v = encodeBase64(decode);
+
+  if (value !== v) {
+    return null;
+  }
+
+  return decode;
+}
+
+/**
+ * 获取SessionStorage数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function getJsonFromSessionStorage(key) {
+  const jsonString = getStringFromSessionStorage(key);
+
+  if (jsonString) {
+    return JSON.parse(jsonString || '{}');
+  }
+
+  return null;
+}
+
+/**
+ * 获取LocalStorage数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function getJsonFromLocalStorage(key) {
+  const jsonString = getStringFromLocalStorage(key);
+
+  if (jsonString) {
+    return JSON.parse(jsonString || '{}');
+  }
+
+  return null;
+}
+
+/**
+ * 存储SessionStorage数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function saveStringToSessionStorage(key, value) {
+  const storage = window.sessionStorage;
+
+  if (process.env.NODE_ENV === 'development') {
+    storage.setItem(key, value);
+  } else {
+    storage.setItem(key, encodeBase64(value));
+  }
+}
+
+/**
  * 存储本地数据
  * @export
  * @param {*} key
@@ -1058,7 +1312,22 @@ export async function apiVirtualAccess(dataBuildFunction) {
  */
 export function saveStringToLocalStorage(key, value) {
   const storage = window.localStorage;
-  storage.setItem(key, value);
+
+  if (process.env.NODE_ENV === 'development') {
+    storage.setItem(key, value);
+  } else {
+    storage.setItem(key, encodeBase64(value));
+  }
+}
+
+/**
+ * 存储SessionStorage数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function saveJsonToSessionStorage(key, json) {
+  saveStringToSessionStorage(key, JSON.stringify(json || {}));
 }
 
 /**
@@ -1068,38 +1337,59 @@ export function saveStringToLocalStorage(key, value) {
  * @param {*} value
  */
 export function saveJsonToLocalStorage(key, json) {
-  const storage = window.localStorage;
-  storage.setItem(key, JSON.stringify(json || {}));
+  saveStringToLocalStorage(key, JSON.stringify(json || {}));
 }
 
 /**
- * 获取本地数据
+ * 移除SessionStorage数据
  * @export
  * @param {*} key
- * @param {*} value
  */
-export function getStringFromLocalStorage(key) {
-  const storage = window.localStorage;
-  const jsonString = storage.getItem(key);
-
-  return jsonString;
+export function removeSessionStorage(key) {
+  const storage = window.sessionStorage;
+  storage.removeItem(key);
 }
 
 /**
- * 获取本地数据
+ * 移除LocalStorage数据
  * @export
  * @param {*} key
- * @param {*} value
  */
-export function getJsonFromLocalStorage(key) {
+export function removeLocalStorage(key) {
   const storage = window.localStorage;
-  const jsonString = storage.getItem(key);
+  storage.removeItem(key);
+}
 
-  if (jsonString) {
-    return JSON.parse(jsonString || '{}');
-  }
+/**
+ * 清空SessionStorage数据
+ * @export
+ * @param {*} key
+ */
+export function clearSessionStorage() {
+  const storage = window.sessionStorage;
+  storage.clear();
+}
 
-  return null;
+/**
+ * 清空LocalStorage数据
+ * @export
+ * @param {*} key
+ */
+export function clearLocalStorage() {
+  const storage = window.localStorage;
+  storage.clear();
+}
+
+/**
+ * 清空LocalStorage数据
+ * @export
+ * @param {*} key
+ */
+export function clearCustomData() {
+  removeMetaDataCache();
+  removeCurrentOperatorCache();
+  removeToken();
+  removeAreaFlag();
 }
 
 /**
@@ -1152,7 +1442,7 @@ export function getDerivedStateFromPropsForUrlParams(
 
   const { urlParams } = stateUrlParams;
 
-  if (isEqualBySerialize({ ...urlParamsPrev, ...{} }, { ...urlParams, ...{} })) {
+  if (isEqualBySerialize({ ...(urlParamsPrev || {}), ...{} }, { ...(urlParams || {}), ...{} })) {
     return null;
   }
 
@@ -1217,6 +1507,195 @@ export function isBoolean(value) {
   return isBooleanLodash(value);
 }
 
+export function isUndefined(value) {
+  return isUndefinedLodash(value);
+}
+
 export function stringIsNullOrWhiteSpace(value) {
   return trim(replace(value || '', ' ', '')) === '';
+}
+
+function getMetaDataVersion() {
+  return window.metaDataVersion || '';
+}
+
+/**
+ * 获取metaData缓存
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getMetaDataCache() {
+  const key = storageKeyCollection.metaData;
+
+  const d = getJsonFromLocalStorage(key);
+
+  if ((d || null) == null) {
+    return null;
+  }
+
+  if ((d.dataVersion || '') === '') {
+    return null;
+  }
+
+  if (d.dataVersion !== getMetaDataVersion()) {
+    return null;
+  }
+
+  if (d.areaFlag === '' || d.areaFlag !== getAreaFlag()) {
+    return null;
+  }
+
+  return d.metaData || null;
+}
+
+/**
+ * 设置metaData缓存
+ *
+ * @export
+ * @param {o} metaData数据
+ * @returns
+ */
+export function setMetaDataCache(o) {
+  const key = storageKeyCollection.metaData;
+
+  const d = {
+    metaData: o || null,
+    dataVersion: getMetaDataVersion(),
+    areaFlag: getAreaFlag() || '',
+  };
+
+  return saveJsonToLocalStorage(key, d);
+}
+
+/**
+ * 移除经纬度信息
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function removeMetaDataCache() {
+  const key = storageKeyCollection.metaData;
+  removeLocalStorage(key);
+}
+
+/**
+ * 获取metaData缓存
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getCurrentOperatorCache() {
+  const key = storageKeyCollection.currentOperator;
+
+  const d = getJsonFromLocalStorage(key);
+
+  if ((d || null) == null) {
+    return null;
+  }
+
+  if (d.flag === '' || d.flag !== getToken()) {
+    return null;
+  }
+
+  return d.data || null;
+}
+
+/**
+ * 设置metaData缓存
+ *
+ * @export
+ * @param {o} metaData数据
+ * @returns
+ */
+export function setCurrentOperatorCache(o) {
+  const key = storageKeyCollection.currentOperator;
+
+  const d = {
+    data: o || null,
+    flag: getToken() || '',
+  };
+
+  return saveJsonToLocalStorage(key, d);
+}
+
+/**
+ * 移除经纬度信息
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function removeCurrentOperatorCache() {
+  const key = storageKeyCollection.currentOperator;
+  removeLocalStorage(key);
+}
+
+/**
+ * base64解码
+ */
+export function decodeBase64(target) {
+  let commonContent = (target || '').replace(/\s/g, '+');
+  commonContent = Buffer.from(commonContent, 'base64').toString();
+  return commonContent;
+}
+
+/**
+ * base64编码
+ */
+export function encodeBase64(target) {
+  const base64Content = Buffer.from(target).toString('base64');
+  return base64Content;
+}
+
+export function fixedZero(val) {
+  return val * 1 < 10 ? `0${val}` : val;
+}
+
+export function getTimeDistance(type) {
+  const now = new Date();
+  const oneDay = 1000 * 60 * 60 * 24;
+
+  if (type === 'today') {
+    now.setHours(0);
+    now.setMinutes(0);
+    now.setSeconds(0);
+    return [moment(now), moment(now.getTime() + (oneDay - 1000))];
+  }
+
+  if (type === 'week') {
+    let day = now.getDay();
+    now.setHours(0);
+    now.setMinutes(0);
+    now.setSeconds(0);
+
+    if (day === 0) {
+      day = 6;
+    } else {
+      day -= 1;
+    }
+
+    const beginTime = now.getTime() - day * oneDay;
+
+    return [moment(beginTime), moment(beginTime + (7 * oneDay - 1000))];
+  }
+
+  if (type === 'month') {
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const nextDate = moment(now).add(1, 'months');
+    const nextYear = nextDate.year();
+    const nextMonth = nextDate.month();
+
+    return [
+      moment(`${year}-${fixedZero(month + 1)}-01 00:00:00`),
+      moment(moment(`${nextYear}-${fixedZero(nextMonth + 1)}-01 00:00:00`).valueOf() - 1000),
+    ];
+  }
+
+  const year = now.getFullYear();
+  return [moment(`${year}-01-01 00:00:00`), moment(`${year}-12-31 23:59:59`)];
 }

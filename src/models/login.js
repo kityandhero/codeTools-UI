@@ -5,7 +5,12 @@ import { accountLogin, getFakeCaptcha } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
 // import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
-import { pretreatmentRemoteSingleData, getTokenKeyName } from '@/utils/tools';
+import {
+  pretreatmentRemoteSingleData,
+  setToken,
+  setAreaFlag,
+  clearCustomData,
+} from '@/utils/tools';
 
 export default {
   namespace: 'login',
@@ -62,7 +67,7 @@ export default {
           search: stringify({
             redirect: window.location.href,
           }),
-        })
+        }),
       );
     },
   },
@@ -78,10 +83,11 @@ export default {
       v.data.role = [];
 
       const { data } = v;
-      const { currentAuthority, token: tokenValue, code, role } = data;
+      const { currentAuthority, token: tokenValue, code, role, areaFlag } = data;
 
       setAuthority(currentAuthority);
-      localStorage.setItem(getTokenKeyName(), tokenValue);
+      setToken(tokenValue);
+      setAreaFlag(areaFlag);
 
       return {
         ...state,
@@ -90,9 +96,9 @@ export default {
       };
     },
     changeLoginOutStatus(state) {
-      localStorage.clear();
+      clearCustomData();
 
-      message.info('退出登录成功！');
+      message.info('退出登录成功！', 0.6);
 
       return {
         ...state,

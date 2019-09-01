@@ -3,16 +3,11 @@ import { connect } from 'dva';
 
 import { Card, Form, Spin, Icon, Transfer, Affix, Button, Divider, notification } from 'antd';
 
-import {
-  isInvalid,
-  searchFromList,
-  refitCommonData,
-  getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
+import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
 
-import { parseUrlParamsForSetState, checkNeedUpdateAssist  } from '../../Assist/config';
+import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../Assist/config';
 
 import styles from './index.less';
 
@@ -34,9 +29,13 @@ class RoleInfo extends UpdateFormTab {
 
     this.state = {
       ...this.state,
-      customData: [],
-      targetKeys: [],
-      selectedKeys: [],
+      ...{
+        loadApiPath: 'areaManage/get',
+        submitApiPath: 'userRole/changeRole',
+        customData: [],
+        targetKeys: [],
+        selectedKeys: [],
+      },
     };
   }
 
@@ -48,15 +47,6 @@ class RoleInfo extends UpdateFormTab {
       parseUrlParamsForSetState,
     );
   }
-
-  initState = () => {
-    const result = {
-      loadApiPath: 'areaManage/get',
-      submitApiPath: 'userRole/changeRole',
-    };
-
-    return result;
-  };
 
   getApiData = props => {
     const {
@@ -81,7 +71,7 @@ class RoleInfo extends UpdateFormTab {
   };
 
   // eslint-disable-next-line no-unused-vars
-  afterLoadSuccess = areaManageData => {
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     const { dispatch } = this.props;
 
     this.setState({ dataLoading: true });
@@ -92,14 +82,14 @@ class RoleInfo extends UpdateFormTab {
     }).then(() => {
       if (this.mounted) {
         const {
-          role: { data },
+          role: { data: resultData },
         } = this.props;
 
-        const { dataSuccess } = data;
+        const { dataSuccess } = resultData;
 
         if (dataSuccess) {
-          const { list } = data;
-          const { roleCollection } = areaManageData;
+          const { list } = resultData;
+          const { roleCollection } = metaData;
 
           const customData = list;
           const targetKeys = roleCollection || [];
@@ -148,25 +138,6 @@ class RoleInfo extends UpdateFormTab {
 
   handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
     this.setState({ selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys] });
-  };
-
-  areaManageStateList = () => {
-    const { global } = this.props;
-
-    return refitCommonData(global.areaManageStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getAreaManageStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.areaManageStateList());
-    return item == null ? '未知' : item.name;
   };
 
   formContent = () => {

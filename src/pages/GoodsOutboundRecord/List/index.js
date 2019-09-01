@@ -1,21 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Form, Input, DatePicker, Icon } from 'antd';
+import { Row, Col, Form } from 'antd';
 
-import {
-  formatDatetime,
-  copyToClipboard,
-  replaceTargetText,
-  buildFieldDescription,
-} from '@/utils/tools';
+import { formatDatetime, copyToClipboard, replaceTargetText, formatMoney } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
-
-const FormItem = Form.Item;
 
 @connect(({ goodsOutboundRecord, global, loading }) => ({
   goodsOutboundRecord,
@@ -31,7 +24,14 @@ class Standard extends PagerList {
 
     this.state = {
       ...this.state,
-      batchDate: '',
+      ...{
+        pageName: '出库批次物品统计',
+        paramsKey: '2c80f75a-e222-4059-ba84-c8679e37f98b',
+        loadApiPath: 'goodsOutboundRecord/list',
+        dateRangeFieldName: '发生时段',
+        tableScroll: { x: 2020 },
+        batchDate: '',
+      },
     };
   }
 
@@ -42,14 +42,6 @@ class Standard extends PagerList {
 
     return data;
   };
-
-  initState = () => ({
-    pageName: '出库批次物品统计',
-    paramsKey: '2c80f75a-e222-4059-ba84-c8679e37f98b',
-    loadApiPath: 'goodsOutboundRecord/list',
-    dateRangeFieldName: '发生时段',
-    tableScroll: { x: 2020 },
-  });
 
   getCurrentOperator = () => {
     const {
@@ -80,8 +72,6 @@ class Standard extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName } = this.state;
     const currentOperator = this.getCurrentOperator();
 
@@ -89,55 +79,27 @@ class Standard extends PagerList {
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.areaAgentId}>
-              <Input
-                addonBefore={<Icon type="form" />}
-                disabled
-                value={currentOperator == null ? '' : currentOperator.cityName || ''}
-              />
-            </FormItem>
+            {this.renderSearchInputFormItem(
+              fieldData.city,
+              '',
+              currentOperator == null ? '' : currentOperator.cityName || '',
+              null,
+              'form',
+              { disabled: true },
+              false,
+            )}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.batchDate}>
-              {getFieldDecorator('batchDate', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.areaAgentId, '选择'),
-                  },
-                ],
-              })(
-                <DatePicker
-                  placeholder={buildFieldDescription(fieldData.batchDate, '选择')}
-                  format="YYYY-MM-DD"
-                  onChange={this.onBatchDateChange}
-                  style={{ width: '100%' }}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchBatchDateFormItem()}
           </Col>
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 14)}
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.productId}>
-              {getFieldDecorator('productId')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.productId, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.productId, 'productId')}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.rankId}>
-              {getFieldDecorator('rankId')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.rankId, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchRankFormItem(true)}
           </Col>
           {this.renderSimpleFormButton(null, 19)}
         </Row>
@@ -193,7 +155,7 @@ class Standard extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {val}
+            {val || '--'}
           </Ellipsis>
         </>
       ),
@@ -219,7 +181,7 @@ class Standard extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {val}
+            {formatMoney(val, 2, '')}
           </Ellipsis>
         </>
       ),
@@ -232,7 +194,7 @@ class Standard extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {val}
+            {formatMoney(val, 2, '')}
           </Ellipsis>
         </>
       ),
@@ -245,7 +207,7 @@ class Standard extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {val}
+            {formatMoney(val, 2, '')}
           </Ellipsis>
         </>
       ),

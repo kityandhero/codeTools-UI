@@ -16,19 +16,23 @@ import styles from './index.less';
 class Success extends Base {
   componentAuthority = accessWayCollection.areaDistribution.add;
 
-  initState = () => {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        loadDataAfterMount: false,
+      },
+    };
+  }
+
+  initOther = () => {
     const tempData = this.getTempData();
 
-    if (tempData != null) {
-      return {
-        metaData: tempData,
-        loadDataAfterMount: false,
-      };
+    if (tempData == null) {
+      router.replace('/finance/areaWithdrawal/apply/fillIn');
     }
-
-    router.replace('/finance/areaWithdrawal/apply/fillIn');
-
-    return {};
   };
 
   beforeUnmount = () => {

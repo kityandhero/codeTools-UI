@@ -1,12 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Card, Form, Row, Col, Spin, BackTop, Table, Select, Icon } from 'antd';
+import { Card, Form, Row, Col, Spin, BackTop, Table, Icon } from 'antd';
 
-import {
-  refitCommonData,
-  formatDatetime,
-  getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
+import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import FromDisplayItem from '@/customComponents/FromDisplayItem';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
@@ -22,6 +18,18 @@ import styles from './index.less';
   loading: loading.models.areaRankSaleStatistic,
 }))
 class BasicInfo extends TabPageBase {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        loadApiPath: 'areaRankSaleStatistic/get',
+        backPath: `/statistic/areaRankSale/list/key`,
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -31,79 +39,8 @@ class BasicInfo extends TabPageBase {
     );
   }
 
-  initState = () => {
-    const result = {
-      loadApiPath: 'areaRankSaleStatistic/get',
-      backPath: `/statistic/areaRankSale/list/key`,
-    };
-
-    return result;
-  };
-
-  areaRankSaleStatisticTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.areaRankSaleStatisticTypeList);
-  };
-
-  sexList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.sexList);
-  };
-
-  orderMessageList = () => [{ flag: 0, name: '不接受' }, { flag: 1, name: '接受' }];
-
-  administrationAuthorityList = () => [{ flag: 0, name: '关闭' }, { flag: 1, name: '开启' }];
-
   render() {
     const { metaData, processing, dataLoading } = this.state;
-
-    const areaRankSaleStatisticTypeData = this.areaRankSaleStatisticTypeList();
-    const areaRankSaleStatisticTypeOption = [];
-
-    areaRankSaleStatisticTypeData.forEach(item => {
-      const { name, flag } = item;
-      areaRankSaleStatisticTypeOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const sexData = this.sexList();
-    const sexOption = [];
-
-    sexData.forEach(item => {
-      const { name, flag } = item;
-      sexOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const orderMessageData = this.orderMessageList();
-    const orderMessageOption = [];
-
-    orderMessageData.forEach(item => {
-      const { name, flag } = item;
-      orderMessageOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const administrationAuthorityData = this.administrationAuthorityList();
-    const administrationAuthorityOption = [];
-
-    administrationAuthorityData.forEach(item => {
-      const { name, flag } = item;
-      administrationAuthorityOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
 
     let listOnline = [];
 

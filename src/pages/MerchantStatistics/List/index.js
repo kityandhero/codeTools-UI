@@ -1,29 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import {
-  Row,
-  Col,
-  Form,
-  Select,
-  Menu,
-  Badge,
-  Icon,
-  Dropdown,
-  Modal,
-  notification,
-  message,
-} from 'antd';
+import { Row, Col, Form, Menu, Badge, Icon, Dropdown, Modal, notification, message } from 'antd';
 
-import {
-  isInvalid,
-  formatDatetime,
-  searchFromList,
-  refitCommonData,
-  copyToClipboard,
-  replaceTargetText,
-  buildFieldDescription,
-} from '@/utils/tools';
+import { formatDatetime, copyToClipboard, replaceTargetText } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
@@ -31,7 +11,6 @@ import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
 
-const FormItem = Form.Item;
 const { confirm } = Modal;
 
 @connect(({ merchantStatistics, global, loading }) => ({
@@ -43,66 +22,27 @@ const { confirm } = Modal;
 class Index extends PagerList {
   componentAuthority = accessWayCollection.merchantStatistics.list;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '站长销售统计列表',
+        paramsKey: '0699294c-edcd-4d5d-a0d3-8961aefe1c46',
+        loadApiPath: 'merchantStatistics/list',
+        dateRangeFieldName: '统计时段',
+        tableScroll: { x: 1920 },
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       merchantStatistics: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => ({
-    pageName: '站长销售统计列表',
-    paramsKey: '0699294c-edcd-4d5d-a0d3-8961aefe1c46',
-    loadApiPath: 'merchantStatistics/list',
-    dateRangeFieldName: '统计时段',
-    tableScroll: { x: 1920 },
-  });
-
-  areaAgentList = () => {
-    const { global } = this.props;
-    return refitCommonData(
-      global.areaAgentList,
-      {
-        key: '',
-        name: '不限',
-        flag: '',
-      },
-      [
-        {
-          key: '-10000',
-          name: '所有地区',
-          flag: '-10000',
-        },
-      ],
-    );
-  };
-
-  getAreaAgentName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.areaAgentList());
-    return item == null ? '未知' : item.name;
-  };
-
-  statisticModeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.statisticModeList, {
-      key: '',
-      name: '不限',
-      flag: '',
-    });
-  };
-
-  getStatisticModeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.statisticModeList());
-    return item == null ? '未知' : item.name;
   };
 
   getStateBadgeStatus = v => {
@@ -178,7 +118,7 @@ class Index extends PagerList {
               });
             });
 
-            that.refreshGrid();
+            that.reloadData();
           }
 
           that.setState({ processing: false });
@@ -193,59 +133,25 @@ class Index extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName } = this.state;
-
-    const areaAgentData = this.areaAgentList();
-    const areaAgentOption = [];
-
-    areaAgentData.forEach(item => {
-      const { name, flag } = item;
-      areaAgentOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const statisticModeData = this.statisticModeList();
-    const statisticModeOption = [];
-
-    statisticModeData.forEach(item => {
-      const { name, flag } = item;
-      statisticModeOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
-          <Col md={4} sm={24}>
-            <FormItem label={fieldData.mode}>
-              {getFieldDecorator('mode', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.mode, '选择'),
-                  },
-                ],
-                initialValue: statisticModeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.mode, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {statisticModeOption}
-                </Select>,
-              )}
-            </FormItem>
+          <Col md={5} sm={24}>
+            {this.renderSearchInputFormItem(fieldData.realName, 'realName')}
           </Col>
-          {this.renderSimpleFormRangePicker(dateRangeFieldName, 8)}
-          {this.renderSimpleFormButton(null, 12)}
+          <Col md={4} sm={24}>
+            {this.renderSearchMerchantSaleStatisticShowModeFormItem(true)}
+          </Col>
+          <Col md={3} sm={24}>
+            {this.renderSearchStatisticModeFormItem(true)}
+          </Col>
+          {this.renderSimpleFormRangePicker(dateRangeFieldName, 6, {
+            format: 'YYYY-MM-DD',
+            showTime: false,
+          })}
+          {this.renderSimpleFormButton(null, 6)}
         </Row>
       </>
     );
@@ -281,13 +187,6 @@ class Index extends PagerList {
       ),
     },
     {
-      title: '统计模式',
-      dataIndex: 'mode',
-      width: 120,
-      align: 'center',
-      render: (val, record) => <>{record.modeNote}</>,
-    },
-    {
       title: '订单总额',
       dataIndex: 'totalSaleAmount',
       width: 120,
@@ -306,6 +205,13 @@ class Index extends PagerList {
           {val > 0 ? val : ''}
         </>
       ),
+    },
+    {
+      title: '统计模式',
+      dataIndex: 'mode',
+      width: 120,
+      align: 'center',
+      render: (val, record) => <>{record.modeNote}</>,
     },
     {
       title: '统计时段',

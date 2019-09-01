@@ -16,5 +16,6 @@ module.exports = {
     outboundDataChanged: '订单出库处理',
     transportDataChanged: '订单配送处理',
     completeDataChanged: '订单配送完成处理',
+    city: '所在城市',
   },
 };

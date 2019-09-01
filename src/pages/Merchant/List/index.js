@@ -1,18 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Row, Col, Form, Input, Select, Icon, Dropdown, Menu, Button, Badge, Divider } from 'antd';
+import { Row, Col, Form, Icon, Dropdown, Menu, Button, Badge, Divider } from 'antd';
 
-import {
-  getRandomColor,
-  isInvalid,
-  searchFromList,
-  refitCommonData,
-  buildFieldDescription,
-  copyToClipboard,
-  replaceTargetText,
-  formatDatetime,
-} from '@/utils/tools';
+import { getRandomColor, copyToClipboard, replaceTargetText, formatDatetime } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 
@@ -20,9 +11,8 @@ import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
-import styles from './index.less';
 
-const FormItem = Form.Item;
+import styles from './index.less';
 
 @connect(({ merchant, global, loading }) => ({
   merchant,
@@ -33,74 +23,26 @@ const FormItem = Form.Item;
 class List extends PagerList {
   componentAuthority = accessWayCollection.merchant.list;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '站长列表',
+        paramsKey: '7713045b-a5de-44ca-bd5d-0695549eec8d',
+        loadApiPath: 'merchant/list',
+        dateRangeFieldName: '统计时段',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       merchant: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => ({
-    pageName: '站长列表',
-    paramsKey: '7713045b-a5de-44ca-bd5d-0695549eec8d',
-    loadApiPath: 'merchant/list',
-    dateRangeFieldName: '统计时段',
-    tableScroll: { x: 2340 },
-  });
-
-  cityList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.cityList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getCityName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.cityList());
-    return item == null ? '未知' : item.name;
-  };
-
-  lineList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.lineList, {
-      key: '-10000',
-      name: '不限',
-      flag: '-10000',
-    });
-  };
-
-  getLineName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('lineId', v, this.lineList());
-    return item == null ? '未知' : item.name;
-  };
-
-  merchantStatusList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantStatusList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getMerchantStatusName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.merchantStatusList());
-    return item == null ? '未知' : item.name;
   };
 
   getMerchantStatusBadgeStatus = v => {
@@ -116,24 +58,6 @@ class List extends PagerList {
     }
 
     return result;
-  };
-
-  merchantSwitchList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantSwitchList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getMerchantSwitchName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.merchantSwitchList());
-    return item == null ? '未知' : item.name;
   };
 
   goToEdit = record => {
@@ -167,113 +91,31 @@ class List extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName, dataLoading, processing } = this.state;
-
-    const merchantStatusData = this.merchantStatusList();
-    const merchantStatusOption = [];
-
-    merchantStatusData.forEach(item => {
-      const { name, flag } = item;
-      merchantStatusOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
-
-    const lineData = this.lineList();
-    const lineOption = [];
-
-    lineData.forEach(item => {
-      const { name, flag } = item;
-      lineOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.userId}>
-              {getFieldDecorator('userId')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.userId, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.userId, 'userId')}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.realName}>
-              {getFieldDecorator('realName')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.realName, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.realName, 'realName')}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.phone}>
-              {getFieldDecorator('phone')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.phone, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.phone, 'phone')}
           </Col>
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 9)}
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.mName}>
-              {getFieldDecorator('mName')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.mName, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.mName, 'mName')}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.lineId}>
-              {getFieldDecorator('lineId', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.lineId, '选择') },
-                ],
-                initialValue: lineData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.lineId, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {lineOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchLineFormItem(true)}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.state}>
-              {getFieldDecorator('state', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.state, '选择') },
-                ],
-                initialValue: merchantStatusData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.state, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {merchantStatusOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchMerchantStatusFormItem(true)}
           </Col>
           {this.renderSimpleFormButton(
             <>
@@ -287,7 +129,7 @@ class List extends PagerList {
                 导出
               </Button>
             </>,
-            9
+            9,
           )}
         </Row>
       </>
@@ -410,136 +252,136 @@ class List extends PagerList {
         </>
       ),
     },
-    {
-      title: '周件',
-      dataIndex: 'weeklyCount',
-      width: 60,
-      align: 'center',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {val || '0'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: '周销',
-      dataIndex: 'weeklyAmount',
-      width: 100,
-      align: 'center',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            ￥{val || '0'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: '周排',
-      dataIndex: 'weeklyRanking',
-      width: 60,
-      align: 'center',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {val || '0'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: '月件',
-      dataIndex: 'monthlyCount',
-      width: 60,
-      align: 'center',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {val || '0'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: '月销',
-      dataIndex: 'monthlyAmount',
-      width: 100,
-      align: 'center',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            ￥{val || '0'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: '月排',
-      dataIndex: 'monthlyRanking',
-      width: 60,
-      align: 'center',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {val || '0'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: '段销件',
-      dataIndex: 'timeSpanCount',
-      width: 80,
-      align: 'center',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {val || '0'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: '段销额',
-      dataIndex: 'timeSpanAmount',
-      width: 100,
-      align: 'center',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            ￥{val || '0'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: '售后数',
-      dataIndex: 'afterSaleCount',
-      width: 80,
-      align: 'center',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {val || '0'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: '退款数',
-      dataIndex: 'refundCount',
-      width: 80,
-      align: 'center',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {val || '0'}
-          </Ellipsis>
-        </>
-      ),
-    },
+    // {
+    //   title: '周件',
+    //   dataIndex: 'weeklyCount',
+    //   width: 60,
+    //   align: 'center',
+    //   render: val => (
+    //     <>
+    //       <Ellipsis tooltip lines={1}>
+    //         {val || '0'}
+    //       </Ellipsis>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   title: '周销',
+    //   dataIndex: 'weeklyAmount',
+    //   width: 100,
+    //   align: 'center',
+    //   render: val => (
+    //     <>
+    //       <Ellipsis tooltip lines={1}>
+    //         ￥{val || '0'}
+    //       </Ellipsis>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   title: '周排',
+    //   dataIndex: 'weeklyRanking',
+    //   width: 60,
+    //   align: 'center',
+    //   render: val => (
+    //     <>
+    //       <Ellipsis tooltip lines={1}>
+    //         {val || '0'}
+    //       </Ellipsis>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   title: '月件',
+    //   dataIndex: 'monthlyCount',
+    //   width: 60,
+    //   align: 'center',
+    //   render: val => (
+    //     <>
+    //       <Ellipsis tooltip lines={1}>
+    //         {val || '0'}
+    //       </Ellipsis>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   title: '月销',
+    //   dataIndex: 'monthlyAmount',
+    //   width: 100,
+    //   align: 'center',
+    //   render: val => (
+    //     <>
+    //       <Ellipsis tooltip lines={1}>
+    //         ￥{val || '0'}
+    //       </Ellipsis>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   title: '月排',
+    //   dataIndex: 'monthlyRanking',
+    //   width: 60,
+    //   align: 'center',
+    //   render: val => (
+    //     <>
+    //       <Ellipsis tooltip lines={1}>
+    //         {val || '0'}
+    //       </Ellipsis>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   title: '段销件',
+    //   dataIndex: 'timeSpanCount',
+    //   width: 80,
+    //   align: 'center',
+    //   render: val => (
+    //     <>
+    //       <Ellipsis tooltip lines={1}>
+    //         {val || '0'}
+    //       </Ellipsis>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   title: '段销额',
+    //   dataIndex: 'timeSpanAmount',
+    //   width: 100,
+    //   align: 'center',
+    //   render: val => (
+    //     <>
+    //       <Ellipsis tooltip lines={1}>
+    //         ￥{val || '0'}
+    //       </Ellipsis>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   title: '售后数',
+    //   dataIndex: 'afterSaleCount',
+    //   width: 80,
+    //   align: 'center',
+    //   render: val => (
+    //     <>
+    //       <Ellipsis tooltip lines={1}>
+    //         {val || '0'}
+    //       </Ellipsis>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   title: '退款数',
+    //   dataIndex: 'refundCount',
+    //   width: 80,
+    //   align: 'center',
+    //   render: val => (
+    //     <>
+    //       <Ellipsis tooltip lines={1}>
+    //         {val || '0'}
+    //       </Ellipsis>
+    //     </>
+    //   ),
+    // },
     {
       title: '线路',
       dataIndex: 'lineId',

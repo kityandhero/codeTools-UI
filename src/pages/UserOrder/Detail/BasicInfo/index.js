@@ -17,19 +17,18 @@ import {
 } from 'antd';
 
 import {
-  isInvalid,
   formatMoneyToChinese,
   isNumber,
   isMoney,
-  searchFromList,
-  refitCommonData,
   pretreatmentRequestParams,
+  getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 
 import Ellipsis from '@/customComponents/Ellipsis';
 
 import TabPageBase from '../../TabPageBase';
+import { parseUrlParamsForSetState } from '../../Assist/config';
 // import ChangePayModal from '../ChangePayModal';
 
 // import { fieldData } from '../../Common/data';
@@ -51,26 +50,25 @@ class BasicInfo extends TabPageBase {
 
     this.state = {
       ...this.state,
-      userOrderId: null,
-      stateCode: null,
-      changePayModalVisible: false,
-      totalProductAmount: 0,
-      realyPayPrice: 0,
+      ...{
+        loadApiPath: 'userOrder/get',
+        userOrderId: null,
+        stateCode: null,
+        changePayModalVisible: false,
+        totalProductAmount: 0,
+        realyPayPrice: 0,
+      },
     };
   }
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      userOrderId: id,
-      loadApiPath: 'userOrder/get',
-    };
-
-    return result;
-  };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
 
   supplementSubmitRequestParams = o => {
     const d = o;
@@ -82,42 +80,15 @@ class BasicInfo extends TabPageBase {
     return d;
   };
 
-  afterLoadSuccess = d => {
-    const { state: stateCode, totalProductAmount, realyPayPrice } = d;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { state: stateCode, totalProductAmount, realyPayPrice } = metaData;
 
     this.setState({
       stateCode,
       totalProductAmount,
       realyPayPrice,
     });
-  };
-
-  orderStatusList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.orderStatusList);
-  };
-
-  getOrderStatusName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.orderStatusList());
-    return item == null ? '未知' : item.name;
-  };
-
-  payTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.payTypeList);
-  };
-
-  getPayTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.payTypeList());
-    return item == null ? '未知' : item.name;
   };
 
   requestWhenProcessing = () => {
@@ -551,25 +522,6 @@ class BasicInfo extends TabPageBase {
         );
       });
     });
-  };
-
-  saleTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.saleTypeList);
-  };
-
-  unitList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.unitList);
-  };
-
-  getUnitName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.unitList());
-    return item == null ? '未知' : item.name;
   };
 
   // showChangePayModal = () => {

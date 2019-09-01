@@ -13,6 +13,30 @@ export function checkNeedUpdateAssist(currentState, preProps, preState, snapshot
   return productIdPre !== productId;
 }
 
+export function getProductIdFromExternalData(state) {
+  const { externalData } = state;
+
+  let productId = '';
+
+  if ((externalData || null) != null) {
+    productId = externalData.productId || '';
+  }
+
+  return productId;
+}
+
+export function getProductTitleFromExternalData(state) {
+  const { externalData } = state;
+
+  let productTitle = '';
+
+  if ((externalData || null) != null) {
+    productTitle = externalData.title || '';
+  }
+
+  return productTitle;
+}
+
 /**
  * 占位函数
  *

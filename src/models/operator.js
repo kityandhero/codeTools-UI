@@ -3,11 +3,11 @@ import {
   getCurrentBasicInfoData,
   updateCurrentBasicInfoData,
   changeCurrentPasswordData,
-} from '@/services/currentOperator';
+} from '@/services/operator';
 import { pretreatmentRemoteSingleData } from '@/utils/tools';
 
 export default {
-  namespace: 'currentOperator',
+  namespace: 'operator',
 
   state: {},
 

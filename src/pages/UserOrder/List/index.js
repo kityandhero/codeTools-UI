@@ -1,18 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Row, Col, Form, Input, Select, Icon, Button, Dropdown, Menu, Divider } from 'antd';
+import { Row, Col, Form, Icon, Button, Dropdown, Menu, Divider } from 'antd';
 
-import {
-  isInvalid,
-  getRandomColor,
-  searchFromList,
-  refitCommonData,
-  formatDatetime,
-  replaceTargetText,
-  copyToClipboard,
-  buildFieldDescription,
-} from '@/utils/tools';
+import { getRandomColor, formatDatetime, replaceTargetText, copyToClipboard } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 
@@ -21,9 +12,6 @@ import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
 import styles from './index.less';
-
-const FormItem = Form.Item;
-const { Option } = Select;
 
 @connect(({ userOrder, global, loading }) => ({
   userOrder,
@@ -34,75 +22,28 @@ const { Option } = Select;
 class List extends PagerList {
   componentAuthority = accessWayCollection.userOrder.listUserPaymentOrder;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '支付订单列表',
+        paramsKey: 'd432c2af-8d43-498a-b89b-96c367ab23fc',
+        loadApiPath: 'userOrder/list',
+        dateRangeFieldName: '提交时段',
+        tableScroll: { x: 1840 },
+        showSelect: true,
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       userOrder: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => ({
-    pageName: '支付订单列表',
-    paramsKey: 'd432c2af-8d43-498a-b89b-96c367ab23fc',
-    loadApiPath: 'userOrder/list',
-    dateRangeFieldName: '提交时段',
-    tableScroll: { x: 1840 },
-    showSelect: true,
-  });
-
-  cityList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.cityList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getCityName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.cityList());
-    return item == null ? '未知' : item.name;
-  };
-
-  regUserTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.regUserTypeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getRegUserTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.regUserTypeList());
-    return item == null ? '未知' : item.name;
-  };
-
-  payTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.payTypeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getPayTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.payTypeList());
-    return item == null ? '未知' : item.name;
   };
 
   getPayTypeIconType = flag => {
@@ -141,78 +82,6 @@ class List extends PagerList {
     return result;
   };
 
-  orderStatusList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.orderStatusList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getOrderStatusName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.orderStatusList());
-    return item == null ? '未知' : item.name;
-  };
-
-  orderTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.orderTypeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getOrderTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.orderTypeList());
-    return item == null ? '未知' : item.name;
-  };
-
-  orderStatusList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.orderStatusList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getOrderStatusName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.orderStatusList());
-    return item == null ? '未知' : item.name;
-  };
-
-  userOrderClientTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.userOrderClientTypeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getUserOrderClientTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.userOrderClientTypeList());
-    return item == null ? '--' : item.name;
-  };
-
   goToDetail = record => {
     const { dispatch } = this.props;
     const { userOrderId } = record;
@@ -223,106 +92,22 @@ class List extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName, dataLoading, processing } = this.state;
-
-    const orderTypeData = this.orderTypeList();
-    const orderTypeOption = [];
-
-    orderTypeData.forEach(item => {
-      const { name, flag } = item;
-      orderTypeOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
-
-    const orderStatusData = this.orderStatusList();
-    const orderStatusOption = [];
-
-    orderStatusData.forEach(item => {
-      const { name, flag } = item;
-      orderStatusOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.realName}>
-              {getFieldDecorator('realName')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.realName, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.realName, 'realName')}
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.tradeNo}>
-              {getFieldDecorator('tradeNo')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.tradeNo, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.tradeNo, 'tradeNo')}
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.userOrderId}>
-              {getFieldDecorator('userOrderId')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.userOrderId, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.userOrderId, 'userOrderId')}
           </Col>
-          {/* <Col md={6} sm={24}>
-            <FormItem label={fieldData.type}>
-              {getFieldDecorator('type', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.type, '选择'),
-                  },
-                ],
-                initialValue: orderTypeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.type, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {orderTypeOption}
-                </Select>
-              )}
-            </FormItem>
-          </Col> */}
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.state}>
-              {getFieldDecorator('state', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.state, '选择'),
-                  },
-                ],
-                initialValue: orderStatusData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.state, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {orderStatusOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchOrderStatusFormItem(true)}
           </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
@@ -349,7 +134,7 @@ class List extends PagerList {
                 单用户合并打印
               </Button>
             </>,
-            12
+            12,
           )}
         </Row>
       </>
@@ -385,25 +170,6 @@ class List extends PagerList {
         </>
       ),
     },
-    // {
-    //   title: '城市',
-    //   dataIndex: 'cityId',
-    //   width: 100,
-    //   align: 'center',
-    //   render: val => (
-    //     <>
-    //       <Ellipsis
-    //         style={{
-    //           color: getRandomColor(val * 2),
-    //         }}
-    //         tooltip
-    //         lines={1}
-    //       >
-    //         {this.getCityName(val)}
-    //       </Ellipsis>
-    //     </>
-    //   ),
-    // },
     {
       title: '流水号',
       dataIndex: 'tradeNo',

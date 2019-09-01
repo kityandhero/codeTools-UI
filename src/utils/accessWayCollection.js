@@ -192,4 +192,16 @@ module.exports = {
     setOver: '6f9a41d9-f390-40e6-b544-3d5622f93829',
     remove: '5092d7c3-2e15-4d83-9c56-33e3e0ed0f5f',
   },
+  discountActivities: {
+    list: '589d4092-99e6-45b0-9934-668f3ffc6e89',
+    listProduct: '24248e88-ec2c-4cb6-baa5-a5337e9d738e',
+    get: '097a00d1-a251-49d1-83ff-3811145074d4',
+    addBasicInfo: '4960a722-2584-41d6-ae56-c194fa996fb7',
+    updateBasicInfo: 'adb7f67b-db95-4bb5-ac7a-0c8a851fc85c',
+    updateStoreCount: 'c590023a-ff18-4c9a-b248-8e1e5f20f748',
+    setOnline: '737c1c8b-5f1c-4403-9545-575c7335c8ef',
+    setOffline: '075475b2-952a-4d3a-9519-37776625d214',
+    setOver: 'd2050a0f-0bea-4a39-a481-59396853080b',
+    remove: 'd83b6d96-0fb0-49b0-a737-d2e5b781248b',
+  },
 };

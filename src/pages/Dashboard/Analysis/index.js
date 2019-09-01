@@ -54,69 +54,68 @@ class Analysis extends LoadDataForm {
 
     this.state = {
       ...this.state,
-      saleAmountLoading: true,
-      saleAmountData: {
-        totalSaleAmount: 0,
-        totalSaleAmountTime: '',
-        todaySaleAmount: 0,
-        dayChainRelativeRatio: 0,
-        weekChainRelativeRatio: 0,
+      ...{
+        loadDataAfterMount: false,
+        saleAmountLoading: true,
+        saleAmountData: {
+          totalSaleAmount: 0,
+          totalSaleAmountTime: '',
+          todaySaleAmount: 0,
+          dayChainRelativeRatio: 0,
+          weekChainRelativeRatio: 0,
+        },
+        saleCountLoading: true,
+        saleCountData: {
+          totalSaleCount: 0,
+          todaySaleCount: 0,
+          saleCountRange: [],
+        },
+        areaAccountBalanceLoading: true,
+        areaAccountBalanceData: {
+          totalAreaAccountBalance: 0,
+          availableAreaAccountBalance: 0,
+          areaAccountBalanceRange: [],
+        },
+        replenishmentStatisticLoading: true,
+        replenishmentStatisticData: {
+          rate: 0.0,
+          replenishmentCount: 0,
+          saleCount: 0,
+        },
+        saleAmountRangeLoading: true,
+        saleAmountRangeData: {
+          saleAmountRange: [],
+          topMerchantList: [],
+        },
+        saleCountRangeLoading: true,
+        saleCountRangeData: {
+          saleCountRange: [],
+          topMerchantList: [],
+        },
+        searchDataLoading: true,
+        searchData: {
+          searchRange: [],
+          topSearchList: [],
+        },
+        saleRangeMode: '',
+        saleStartTime: null,
+        saleEndTime: null,
+        rankStatisticLoading: true,
+        rankStatisticData: {
+          totalSaleAmountOnLine: 0,
+          totalSaleAmountOffLine: 0,
+          rankSale: [],
+          rankSaleOnLine: [],
+          rankSaleOffLine: [],
+        },
+        salesType: 'all',
+        currentTabKey: '',
+        offlineDataLoading: true,
+        offlineData: [],
+        offlineChartData: [],
       },
-      saleCountLoading: true,
-      saleCountData: {
-        totalSaleCount: 0,
-        todaySaleCount: 0,
-        saleCountRange: [],
-      },
-      areaAccountBalanceLoading: true,
-      areaAccountBalanceData: {
-        totalAreaAccountBalance: 0,
-        availableAreaAccountBalance: 0,
-        areaAccountBalanceRange: [],
-      },
-      replenishmentStatisticLoading: true,
-      replenishmentStatisticData: {
-        rate: 0.0,
-        replenishmentCount: 0,
-        saleCount: 0,
-      },
-      saleAmountRangeLoading: true,
-      saleAmountRangeData: {
-        saleAmountRange: [],
-        topMerchantList: [],
-      },
-      saleCountRangeLoading: true,
-      saleCountRangeData: {
-        saleCountRange: [],
-        topMerchantList: [],
-      },
-      searchDataLoading: true,
-      searchData: {
-        searchRange: [],
-        topSearchList: [],
-      },
-      saleRangeMode: '',
-      saleStartTime: null,
-      saleEndTime: null,
-      rankStatisticLoading: true,
-      rankStatisticData: {
-        totalSaleAmountOnLine: 0,
-        totalSaleAmountOffLine: 0,
-        rankSale: [],
-        rankSaleOnLine: [],
-        rankSaleOffLine: [],
-      },
-      salesType: 'all',
-      currentTabKey: '',
-      offlineDataLoading: true,
-      offlineData: [],
-      offlineChartData: [],
     };
   }
-
-  initState = () => ({
-    loadDataAfterMount: false,
-  });
 
   preInit = () => {
     this.loadShowAnalysis();
@@ -1153,7 +1152,7 @@ class Analysis extends LoadDataForm {
             <Card
               className={styles.salesCard}
               bordered={false}
-              title="销售额类别占比"
+              title="月销售额类别占比"
               bodyStyle={{ padding: 24 }}
               extra={
                 <div className={styles.salesCardExtra}>
@@ -1173,7 +1172,7 @@ class Analysis extends LoadDataForm {
                 <h4 style={{ marginTop: 8, marginBottom: 32 }}>销售额</h4>
                 <Pie
                   hasLegend
-                  subTitle="销售额"
+                  subTitle="月销售额"
                   total={() => <Yuan>{salesPieData.reduce((pre, now) => now.y + pre, 0)}</Yuan>}
                   data={salesPieData}
                   valueFormat={value => <Yuan>{value}</Yuan>}

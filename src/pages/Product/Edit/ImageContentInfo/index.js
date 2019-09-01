@@ -20,11 +20,18 @@ import {
 } from 'antd';
 import Zmage from 'react-zmage';
 
-import { pretreatmentRequestParams, getTokenKeyName, corsTarget } from '@/utils/tools';
+import {
+  getToken,
+  pretreatmentRequestParams,
+  getTokenKeyName,
+  corsTarget,
+  getDerivedStateFromPropsForUrlParams,
+} from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import ImageContentPreview from '@/customComponents/ImageContentPreview';
 
 import TabPageBase from '../../TabPageBase';
+import { parseUrlParamsForSetState } from '../../Assist/config';
 
 import styles from './index.less';
 
@@ -43,34 +50,34 @@ class ImageContentInfo extends TabPageBase {
     super(props);
 
     const tokenSetObject = {};
-    tokenSetObject[`${getTokenKeyName()}`] = localStorage.getItem(getTokenKeyName()) || '';
+    tokenSetObject[`${getTokenKeyName()}`] = getToken() || '';
 
     this.state = {
       ...this.state,
-      tokenSet: tokenSetObject,
-      customData: [],
-      imageCount: 0,
-      productId: null,
-      previewVisible: false,
+      ...{
+        loadApiPath: 'product/get',
+        submitApiPath: 'product/updateImageContentInfo',
+        tokenSet: tokenSetObject,
+        customData: [],
+        imageCount: 0,
+        productId: null,
+        previewVisible: false,
+      },
     };
   }
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
 
-    const result = {
-      productId: id,
-      loadApiPath: 'product/get',
-      submitApiPath: 'product/updateImageContentInfo',
-    };
-
-    return result;
-  };
-
-  afterLoadSuccess = d => {
-    const { imageContentList } = d;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { imageContentList } = metaData;
 
     const customData = [];
 
@@ -174,7 +181,7 @@ class ImageContentInfo extends TabPageBase {
     const submitData = pretreatmentRequestParams({}, d => {
       const o = d;
       const { customData, productId } = this.state;
-     
+
       const imageContent = (customData || []).map(item => item.url).join('|');
       o.productId = productId;
       o.imageContent = imageContent;

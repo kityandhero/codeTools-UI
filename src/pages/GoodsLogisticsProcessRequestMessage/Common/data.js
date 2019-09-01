@@ -11,5 +11,6 @@ module.exports = {
     state: '处理状态',
     batchDate: ' 出库批次',
     createTime: '请求时间',
+    city: '所在城市',
   },
 };

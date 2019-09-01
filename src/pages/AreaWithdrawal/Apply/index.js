@@ -11,9 +11,16 @@ const { Step } = Steps;
 class Apply extends UpdateFormTab {
   componentAuthority = accessWayCollection.areaDistribution.add;
 
-  initState = () => ({
-    loadDataAfterMount: false,
-  });
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        loadDataAfterMount: false,
+      },
+    };
+  }
 
   getCurrentStep() {
     const { location } = this.props;

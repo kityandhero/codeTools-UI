@@ -18,20 +18,18 @@ import {
 import {
   refitFieldDecoratorOption,
   buildFieldDescription,
-  isInvalid,
   isMoney,
-  searchFromList,
-  refitCommonData,
   formatMoneyToChinese,
+  getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
-
 import Ellipsis from '@/customComponents/Ellipsis';
 
 import TabPageBase from '../../TabPageBase';
 import HandleRefundModal from '../HandleRefundModal';
-
+import { parseUrlParamsForSetState } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
+
 import styles from './index.less';
 
 const { TextArea, Group: InputGroup } = Input;
@@ -71,126 +69,33 @@ class RefundInfo extends TabPageBase {
 
     this.state = {
       ...this.state,
-      refundAmount: 0,
-      note: '',
-      changeRefundAmountModalVisible: false,
-      refundOrderId: null,
-      userOrderId: null,
-      handleType: 1,
-      refundState: 0,
-      returnStore: 0,
+      ...{
+        loadApiPath: 'refundOrder/get',
+        submitApiPath: '',
+        refundAmount: 0,
+        note: '',
+        changeRefundAmountModalVisible: false,
+        refundOrderId: null,
+        userOrderId: null,
+        handleType: 1,
+        refundState: 0,
+        returnStore: 0,
+      },
     };
   }
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
 
-    const result = {
-      refundOrderId: id,
-      loadApiPath: 'refundOrder/get',
-      submitApiPath: '',
-    };
-
-    return result;
-  };
-
-  refundOrderHandleTypeList = () => {
-    const { global } = this.props;
-
-    const list = [];
-
-    (global.refundOrderHandleTypeList || []).forEach(item => {
-      const o = item;
-
-      if (o.flag !== 0) {
-        list.push(o);
-      }
-    });
-
-    return refitCommonData(list);
-  };
-
-  getRefundOrderHandleTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.refundOrderHandleTypeList());
-    return item == null ? '未知' : item.name;
-  };
-
-  refundOrderReturnStoreList = () => {
-    const { global } = this.props;
-
-    const list = [];
-
-    (global.refundOrderReturnStoreList || []).forEach(item => {
-      const o = item;
-
-      if (o.flag !== -1) {
-        list.push(o);
-      }
-    });
-
-    return refitCommonData(list);
-  };
-
-  getRefundOrderReturnStoreName = (v, defaultValue = '未知') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.refundOrderReturnStoreList());
-    return item == null ? defaultValue : item.name;
-  };
-
-  orderStatusList = () => {
-    const { global } = this.props;
-
-    return refitCommonData(global.orderStatusList);
-  };
-
-  getOrderStatusName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.orderStatusList());
-    return item == null ? '未知' : item.name;
-  };
-
-  payTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.payTypeList);
-  };
-
-  getPayTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.payTypeList());
-    return item == null ? '未知' : item.name;
-  };
-
-  unitList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.unitList);
-  };
-
-  getUnitName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.unitList());
-    return item == null ? '未知' : item.name;
-  };
-
-  afterLoadSuccess = d => {
-    const { refundMoney, userOrderId, refundState, handleType, returnStore } = d;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { refundMoney, userOrderId, refundState, handleType, returnStore } = metaData;
 
     this.setState({
       refundAmount: refundMoney,
@@ -361,30 +266,6 @@ class RefundInfo extends TabPageBase {
       //   [oneData] = refundItemList;
       // }
     }
-
-    const handleTypeData = this.refundOrderHandleTypeList();
-    const handleTypeOption = [];
-
-    handleTypeData.forEach(item => {
-      const { name, flag } = item;
-      handleTypeOption.push(
-        <Radio key={flag} value={flag}>
-          {flag === 1 ? '同意退款' : name}
-        </Radio>
-      );
-    });
-
-    const returnStoreData = this.refundOrderReturnStoreList();
-    const returnStoreOption = [];
-
-    returnStoreData.forEach(item => {
-      const { name, flag } = item;
-      returnStoreOption.push(
-        <Radio key={flag} value={flag}>
-          {name}
-        </Radio>
-      );
-    });
 
     const renderContent = (value, row, index) => {
       const obj = {
@@ -709,13 +590,15 @@ class RefundInfo extends TabPageBase {
                   <>
                     <FormItem {...formItemLayout} label={fieldData.handleType}>
                       <RadioGroup value={handleType} onChange={this.handleHandleTypeChange}>
-                        {handleTypeOption}
+                        {this.renderRefundOrderHandleTypeRadio(false, listData => {
+                          return (listData || []).filter(o => o.flag !== 0);
+                        })}
                       </RadioGroup>
                     </FormItem>
                     {handleType === 1 ? (
                       <FormItem {...formItemLayout} label={fieldData.returnStore}>
                         <RadioGroup value={returnStore} onChange={this.handleReturnStoreChange}>
-                          {returnStoreOption}
+                          {this.renderRefundOrderReturnStoreRadio(false)}
                         </RadioGroup>
                       </FormItem>
                     ) : null}
@@ -731,14 +614,14 @@ class RefundInfo extends TabPageBase {
                             addonBefore={<Icon type="money-collect" />}
                             disabled={
                               !this.checkAuthority(
-                                accessWayCollection.refundOrder.changeRefundAmount
+                                accessWayCollection.refundOrder.changeRefundAmount,
                               )
                             }
                             readOnly
                             value={refundAmount}
                             addonAfter={
                               this.checkAuthority(
-                                accessWayCollection.refundOrder.changeRefundAmount
+                                accessWayCollection.refundOrder.changeRefundAmount,
                               ) ? (
                                 <>
                                   <Button
@@ -771,12 +654,12 @@ class RefundInfo extends TabPageBase {
                               message: buildFieldDescription(fieldData.note),
                             },
                           ],
-                        })
+                        }),
                       )(
                         <TextArea
                           placeholder={buildFieldDescription(fieldData.note)}
                           autosize={{ minRows: 3, maxRows: 5 }}
-                        />
+                        />,
                       )}
                     </FormItem>
                     {this.checkAuthority(accessWayCollection.refundOrder.immediatelyRefund) &&
@@ -800,14 +683,14 @@ class RefundInfo extends TabPageBase {
                   <>
                     <FormItem {...formItemLayout} label={fieldData.handleType}>
                       {this.getRefundOrderHandleTypeName(
-                        metaData === null ? 2 : metaData.refundHandleType || 2
+                        metaData === null ? 2 : metaData.refundHandleType || 2,
                       )}
                     </FormItem>
                     {handleType === 1 ? (
                       <FormItem {...formItemLayout} label={fieldData.returnStore}>
                         {this.getRefundOrderReturnStoreName(
                           metaData === null ? 0 : metaData.returnStore || 0,
-                          '--'
+                          '--',
                         )}
                       </FormItem>
                     ) : null}
@@ -831,9 +714,7 @@ class RefundInfo extends TabPageBase {
           </Card>
         </div>
         <HandleRefundModal
-          refundOrderId={refundOrderId}
-          refundAmount={refundAmount}
-          userOrderId={userOrderId}
+          externalData={{ refundOrderId, refundAmount, userOrderId }}
           visible={changeRefundAmountModalVisible}
           afterOK={this.afterChangeRefundAmountModalOk}
           afterCancel={this.afterChangeRefundAmountModalCancel}

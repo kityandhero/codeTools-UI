@@ -5,9 +5,6 @@ import {
   Row,
   Col,
   Form,
-  Input,
-  Select,
-  Icon,
   Badge,
   DatePicker,
   notification,
@@ -17,9 +14,6 @@ import {
 } from 'antd';
 
 import {
-  isInvalid,
-  searchFromList,
-  refitCommonData,
   buildFieldDescription,
   formatDatetime,
   copyToClipboard,
@@ -39,9 +33,8 @@ import styles from './index.less';
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 
-@connect(({ product, areaManage, global, loading }) => ({
+@connect(({ product, global, loading }) => ({
   product,
-  areaManage,
   global,
   loading: loading.models.product,
 }))
@@ -54,9 +47,16 @@ class Standard extends PagerList {
 
     this.state = {
       ...this.state,
-      dateUpdateTimeRangeFieldName: '修改时段',
-      startUpdateTime: '',
-      endUpdateTime: '',
+      ...{
+        pageName: '商品库存销量列表',
+        paramsKey: 'b1f88ab4-fec9-41b8-a06c-33e4351bbe4f',
+        loadApiPath: 'product/listSaleCount',
+        dateRangeFieldName: '销售时段',
+        tableScroll: { x: 2150 },
+        dateUpdateTimeRangeFieldName: '修改时段',
+        startUpdateTime: '',
+        endUpdateTime: '',
+      },
     };
   }
 
@@ -67,14 +67,6 @@ class Standard extends PagerList {
 
     return data;
   };
-
-  initState = () => ({
-    pageName: '商品库存销量列表',
-    paramsKey: 'b1f88ab4-fec9-41b8-a06c-33e4351bbe4f',
-    loadApiPath: 'product/listSaleCount',
-    dateRangeFieldName: '销售时段',
-    tableScroll: { x: 2150 },
-  });
 
   handleFormOtherReset = () => {
     this.setState({
@@ -106,78 +98,6 @@ class Standard extends PagerList {
       global: { currentOperator },
     } = this.props;
     return currentOperator;
-  };
-
-  cityList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.cityList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getCityName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.cityList());
-    return item == null ? '未知' : item.name;
-  };
-
-  brandList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.brandList, {
-      key: '-10000',
-      name: '不限',
-      flag: '-10000',
-    });
-  };
-
-  getBrandName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.brandList());
-    return item == null ? '未知' : item.name;
-  };
-
-  saleTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.saleTypeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getSaleTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.saleTypeList());
-    return item == null ? '未知' : item.name;
-  };
-
-  productStateList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.productStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getProductStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.productStateList());
-    return item == null ? '未知' : item.name;
   };
 
   getProductStateBadgeStatus = v => {
@@ -299,8 +219,6 @@ class Standard extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const {
       dateRangeFieldName,
       dateUpdateTimeRangeFieldName,
@@ -309,126 +227,34 @@ class Standard extends PagerList {
     } = this.state;
     const currentOperator = this.getCurrentOperator();
 
-    const rankData = this.rankList();
-
-    const brandData = this.brandList();
-    const brandOption = [];
-
-    brandData.forEach(item => {
-      const { name, flag } = item;
-      brandOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const saleTypeData = this.saleTypeList();
-    const saleTypeOption = [];
-
-    saleTypeData.forEach(item => {
-      const { name, flag } = item;
-      saleTypeOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const productStateData = this.productStateList();
-    const productStateOption = [];
-
-    productStateData.forEach(item => {
-      const { name, flag } = item;
-      productStateOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={4} sm={24}>
-            <FormItem label={fieldData.city}>
-              <Input
-                addonBefore={<Icon type="form" />}
-                disabled
-                value={currentOperator == null ? '' : currentOperator.cityName || ''}
-              />
-            </FormItem>
+            {this.renderSearchInputFormItem(
+              fieldData.city,
+              '',
+              currentOperator == null ? '' : currentOperator.cityName || '',
+              null,
+              'form',
+              { disabled: true },
+              false,
+            )}
           </Col>
           <Col md={4} sm={24}>
-            <FormItem label={fieldData.productId}>
-              {getFieldDecorator('productId')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.productId, '输入')}
-                />,
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.productId, 'productId')}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.title}>
-              {getFieldDecorator('title')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.title, '输入')}
-                />,
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.title, 'title')}
           </Col>
           <Col md={3} sm={24}>
-            <FormItem label={fieldData.rankId}>
-              {getFieldDecorator('rankId', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.rankId, '选择') },
-                ],
-                initialValue: rankData[0].rankId,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.rankId, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {this.renderRankOption()}
-                </Select>,
-              )}
-            </FormItem>
+            {this.renderSearchRankFormItem(true)}
           </Col>
           <Col md={4} sm={24}>
-            <FormItem label={fieldData.saleType}>
-              {getFieldDecorator('saleType', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.saleType, '选择') },
-                ],
-                initialValue: saleTypeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.saleType, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {saleTypeOption}
-                </Select>,
-              )}
-            </FormItem>
+            {this.renderSearchSaleTypeFormItem(true)}
           </Col>
           <Col md={4} sm={24}>
-            <FormItem label={fieldData.state}>
-              {getFieldDecorator('state', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.state, '选择') },
-                ],
-                initialValue: productStateData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.state, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {productStateOption}
-                </Select>,
-              )}
-            </FormItem>
+            {this.renderSearchProductStateFormItem(true)}
           </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">

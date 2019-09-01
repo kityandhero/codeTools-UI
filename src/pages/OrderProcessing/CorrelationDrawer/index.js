@@ -22,22 +22,25 @@ class CorrelationDrawer extends ListDrawer {
 
     this.state = {
       ...this.state,
-      lineId: null,
-      stateCode: -10000,
-      lineRecord: null,
-      customData: [],
-      changeLineModalVisible: false,
-      currentMerchant: null,
-      printedCommunity: [],
-      printedA4: [],
+      ...{
+        loadApiPath: 'orderProcessing/listMerchant',
+        tableScroll: null,
+        lineId: null,
+        stateCode: -10000,
+        lineRecord: null,
+        changeLineModalVisible: false,
+        currentMerchant: null,
+        printedCommunity: [],
+        printedA4: [],
+      },
     };
   }
 
   // eslint-disable-next-line no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { lineId, lineRecord, stateCode } = nextProps;
+    const { visible, title, lineId, lineRecord, stateCode } = nextProps;
 
-    return { lineId, lineRecord, stateCode };
+    return { visible, title, lineId, lineRecord, stateCode };
   }
 
   getApiData = props => {
@@ -48,17 +51,15 @@ class CorrelationDrawer extends ListDrawer {
     return data;
   };
 
-  initState = () => ({
-    tableScroll: null,
-    loadApiPath: 'orderProcessing/listMerchant',
-  });
-
-  doOtherWhenChangeVisible = () => {
+  // eslint-disable-next-line no-unused-vars
+  doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
     // 设置界面效果为加载中，减少用户误解
-    this.setState({ dataLoading: true, customData: [] });
+    this.setState({ dataLoading: true, metaListData: [] });
+
+    const that = this;
 
     setTimeout(() => {
-      this.loadData();
+      that.reloadData();
     }, 700);
   };
 
@@ -98,7 +99,7 @@ class CorrelationDrawer extends ListDrawer {
     if (dataSuccess) {
       message.success(clientMessage, 4);
 
-      this.refreshGrid();
+      this.reloadData();
       this.refreshParentData();
     } else {
       message.error(messageText);
@@ -129,7 +130,7 @@ class CorrelationDrawer extends ListDrawer {
 
         const { dataSuccess } = data;
         if (dataSuccess) {
-          this.refreshGrid();
+          this.reloadData();
           this.refreshParentData();
 
           requestAnimationFrame(() => {
@@ -166,7 +167,7 @@ class CorrelationDrawer extends ListDrawer {
 
         const { dataSuccess } = data;
         if (dataSuccess) {
-          this.refreshGrid();
+          this.reloadData();
           this.refreshParentData();
 
           requestAnimationFrame(() => {
@@ -286,7 +287,7 @@ class CorrelationDrawer extends ListDrawer {
 
   //     const { dataSuccess } = data;
   //     if (dataSuccess) {
-  //       this.refreshGrid();
+  //       this.reloadData();
   //       this.refreshParentData();
 
   //       requestAnimationFrame(() => {
@@ -320,7 +321,7 @@ class CorrelationDrawer extends ListDrawer {
 
       const { dataSuccess } = data;
       if (dataSuccess) {
-        this.refreshGrid();
+        this.reloadData();
         this.refreshParentData();
 
         requestAnimationFrame(() => {
@@ -354,7 +355,7 @@ class CorrelationDrawer extends ListDrawer {
 
       const { dataSuccess } = data;
       if (dataSuccess) {
-        this.refreshGrid();
+        this.reloadData();
         this.refreshParentData();
 
         requestAnimationFrame(() => {
@@ -389,7 +390,7 @@ class CorrelationDrawer extends ListDrawer {
 
       const { dataSuccess } = data;
       if (dataSuccess) {
-        this.refreshGrid();
+        this.reloadData();
         this.refreshParentData();
 
         requestAnimationFrame(() => {
@@ -703,7 +704,7 @@ class CorrelationDrawer extends ListDrawer {
 
   getPageName = () => {
     const { title: titleDrawer } = this.props;
-    const { stateCode: status, dataLoading, customData } = this.state;
+    const { stateCode: status, dataLoading, metaListData } = this.state;
 
     let stateNote = '';
 
@@ -727,14 +728,14 @@ class CorrelationDrawer extends ListDrawer {
     return (
       <span>
         {` ${titleDrawer}`}
-        {dataLoading ? '' : `【共${(customData.list || []).length}个社区${stateNote}】`}
+        {dataLoading ? '' : `【共${(metaListData || []).length}个社区${stateNote}】`}
       </span>
     );
   };
 
   render() {
     const { width: widthDrawer, stateCode } = this.props;
-    const { selectDatabaseName } = this.props;
+
     const {
       visible,
       dataLoading,
@@ -764,7 +765,6 @@ class CorrelationDrawer extends ListDrawer {
         width={widthDrawer}
         placement="right"
         visible={visible}
-        selectDatabaseName={selectDatabaseName}
         maskClosable={false}
         onClose={this.onClose}
         style={{

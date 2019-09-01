@@ -23,12 +23,15 @@ import {
   refitFieldDecoratorOption,
   buildFieldDescription,
   pretreatmentRemoteSingleData,
+  getToken,
+  getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 
 import TabPageBase from '../../TabPageBase';
-
+import { parseUrlParamsForSetState } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
+
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -47,36 +50,35 @@ class BasicInfo extends TabPageBase {
     super(props);
 
     const tokenSetObject = {};
-    tokenSetObject[`${getTokenKeyName()}`] = localStorage.getItem(getTokenKeyName()) || '';
+    tokenSetObject[`${getTokenKeyName()}`] = getToken() || '';
 
     this.state = {
       ...this.state,
-      qRCodeId: null,
-      imageUploading: false,
-      previewImage: '',
-      imageUrl: '',
-      imageName: '',
-      tokenSet: tokenSetObject,
+      ...{
+        loadApiPath: 'qRCode/get',
+        submitApiPath: 'qRCode/updateBasicInfo',
+        qRCodeId: null,
+        imageUploading: false,
+        previewImage: '',
+        imageUrl: '',
+        imageName: '',
+        tokenSet: tokenSetObject,
+      },
     };
   }
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      qRCodeId: id,
-      loadApiPath: 'qRCode/get',
-      submitApiPath: 'qRCode/updateBasicInfo',
-    };
-
-    return result;
-  };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
 
   // eslint-disable-next-line no-unused-vars
-  afterLoadSuccess = (d, extra) => {
-    const { imageName, imageUrl } = d;
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { imageName, imageUrl } = metaData;
 
     this.setState({ imageName, imageUrl });
   };
@@ -189,13 +191,13 @@ class BasicInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.title),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <Input
                           addonBefore={<Icon type="form" />}
                           placeholder={buildFieldDescription(fieldData.title)}
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -214,14 +216,14 @@ class BasicInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.sort),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <InputNumber
                           style={{ width: '100%' }}
                           min={0}
                           placeholder={buildFieldDescription(fieldData.sort)}
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -242,13 +244,13 @@ class BasicInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.url),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <Input
                           addonBefore={<Icon type="form" />}
                           placeholder={buildFieldDescription(fieldData.url)}
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -303,13 +305,13 @@ class BasicInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.description),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <TextArea
                           placeholder="请输入分享标题"
                           autosize={{ minRows: 3, maxRows: 5 }}
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>

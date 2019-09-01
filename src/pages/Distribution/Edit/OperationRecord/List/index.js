@@ -18,6 +18,19 @@ import EllipsisCustom from '@/customComponents/EllipsisCustom';
 class List extends InnerPagerList {
   componentAuthority = accessWayCollection.distribution.listOperationRecord;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        paramsKey: '042febca-9ac0-46c0-9d79-bda4fca308ef',
+        loadApiPath: 'distribution/listOperationRecord',
+        dateRangeFieldName: '操作时间',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       distribution: { data },
@@ -25,12 +38,6 @@ class List extends InnerPagerList {
 
     return data;
   };
-
-  initState = () => ({
-    paramsKey: '042febca-9ac0-46c0-9d79-bda4fca308ef',
-    loadApiPath: 'distribution/listOperationRecord',
-    dateRangeFieldName: '操作时间',
-  });
 
   supplementLoadRequestParams = o => {
     const d = o;

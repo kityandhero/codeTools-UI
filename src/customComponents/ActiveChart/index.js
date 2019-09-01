@@ -42,7 +42,7 @@ export default class ActiveChart extends Component {
           },
           () => {
             this.loopData();
-          }
+          },
         );
       }, 1000);
     });

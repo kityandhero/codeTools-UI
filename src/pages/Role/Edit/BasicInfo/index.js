@@ -24,7 +24,7 @@ import {
 import accessWayCollection from '@/utils/accessWayCollection';
 import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
 
-import { parseUrlParamsForSetState, checkNeedUpdateAssist  } from '../../Assist/config';
+import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
 
 import styles from './index.less';
@@ -43,6 +43,20 @@ class BasicInfo extends UpdateFormTab {
 
   goToUpdateWhenProcessed = true;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        isSuper: false,
+        fromTemplate: false,
+        loadApiPath: 'role/get',
+        submitApiPath: 'role/updateBasicInfo',
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -51,17 +65,6 @@ class BasicInfo extends UpdateFormTab {
       parseUrlParamsForSetState,
     );
   }
-
-  initState = () => {
-    const result = {
-      isSuper: false,
-      fromTemplate: false,
-      loadApiPath: 'role/get',
-      submitApiPath: 'role/updateBasicInfo',
-    };
-
-    return result;
-  };
 
   getApiData = props => {
     const {
@@ -94,8 +97,9 @@ class BasicInfo extends UpdateFormTab {
     return d;
   };
 
-  afterLoadSuccess = data => {
-    const { isSuper, roleTemplateId } = data;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { isSuper, roleTemplateId } = metaData;
 
     const fromTemplate = (roleTemplateId || '') !== '';
 

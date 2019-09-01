@@ -12,7 +12,6 @@ import {
   notification,
   Icon,
   Affix,
-  Select,
   Upload,
   InputNumber,
 } from 'antd';
@@ -23,9 +22,9 @@ import {
   corsTarget,
   refitFieldDecoratorOption,
   buildFieldDescription,
-  refitCommonData,
   pretreatmentRemoteSingleData,
   getDerivedStateFromPropsForUrlParams,
+  getToken,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 
@@ -50,16 +49,20 @@ class BasicInfo extends TabPageBase {
     super(props);
 
     const tokenSetObject = {};
-    tokenSetObject[`${getTokenKeyName()}`] = localStorage.getItem(getTokenKeyName()) || '';
+    tokenSetObject[`${getTokenKeyName()}`] = getToken() || '';
 
     this.state = {
       ...this.state,
-      advertisementId: null,
-      imageUploading: false,
-      previewImage: '',
-      imageUrl: '',
-      imageName: '',
-      tokenSet: tokenSetObject,
+      ...{
+        loadApiPath: 'advertisement/get',
+        submitApiPath: 'advertisement/updateBasicInfo',
+        advertisementId: null,
+        imageUploading: false,
+        previewImage: '',
+        imageUrl: '',
+        imageName: '',
+        tokenSet: tokenSetObject,
+      },
     };
   }
 
@@ -72,18 +75,9 @@ class BasicInfo extends TabPageBase {
     );
   }
 
-  initState = () => {
-    const result = {
-      loadApiPath: 'advertisement/get',
-      submitApiPath: 'advertisement/updateBasicInfo',
-    };
-
-    return result;
-  };
-
   // eslint-disable-next-line no-unused-vars
-  afterLoadSuccess = (d, extra) => {
-    const { imageName, imageUrl } = d;
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { imageName, imageUrl } = metaData;
 
     this.setState({ imageName, imageUrl });
   };
@@ -108,11 +102,6 @@ class BasicInfo extends TabPageBase {
         description: '数据已经保存成功，请进行后续操作。',
       });
     });
-  };
-
-  advertisementClassList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.advertisementClassList);
   };
 
   handleMainUploadChange = info => {
@@ -148,18 +137,6 @@ class BasicInfo extends TabPageBase {
     const { form } = this.props;
     const { dataLoading, processing, imageUploading, imageUrl, tokenSet, metaData } = this.state;
     const { getFieldDecorator } = form;
-
-    const advertisementClassData = this.advertisementClassList();
-    const advertisementClassOption = [];
-
-    advertisementClassData.forEach(item => {
-      const { name, flag } = item;
-      advertisementClassOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
 
     const corsUrl = corsTarget();
 
@@ -224,28 +201,9 @@ class BasicInfo extends TabPageBase {
                     </FormItem>
                   </Col>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.classId}>
-                      {getFieldDecorator(
-                        'classId',
-                        refitFieldDecoratorOption(
-                          metaData === null ? '' : metaData.classId || '',
-                          metaData === null ? '' : metaData.classId || '',
-                          '',
-                          {
-                            rules: [
-                              {
-                                required: true,
-                                message: buildFieldDescription(fieldData.classId),
-                              },
-                            ],
-                          },
-                        ),
-                      )(
-                        <Select placeholder={buildFieldDescription(fieldData.classId, '选择')}>
-                          {advertisementClassOption}
-                        </Select>,
-                      )}
-                    </FormItem>
+                    {this.renderFormAdvertisementClassFormItem(
+                      metaData === null ? '' : metaData.classId || '',
+                    )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
                     <FormItem label={fieldData.sort}>

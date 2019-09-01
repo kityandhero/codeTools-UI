@@ -1,21 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import {
-  Row,
-  Col,
-  Avatar,
-  Descriptions,
-  //  Button
-} from 'antd';
+import { Row, Col, Avatar, Descriptions } from 'antd';
 
-import {
-  isInvalid,
-  formatDatetime,
-  searchFromList,
-  refitCommonData,
-  getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
+import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
 
@@ -24,7 +12,6 @@ import { parseUrlParamsForSetState } from '../Assist/config';
 import styles from './index.less';
 
 const { Item: Description } = Descriptions;
-// const ButtonGroup = Button.Group;
 
 @connect(({ merchant, global, loading }) => ({
   merchant,
@@ -54,8 +41,13 @@ class Edit extends LoadDataTabContainer {
 
     this.state = {
       ...this.state,
-      stateCode: -10000,
-      merchantId: null,
+      ...{
+        backPath: '',
+        pageName: '社区站点：',
+        loadApiPath: 'merchant/get',
+        stateCode: -10000,
+        merchantId: null,
+      },
     };
   }
 
@@ -76,15 +68,6 @@ class Edit extends LoadDataTabContainer {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      pageName: '社区站点：',
-      loadApiPath: 'merchant/get',
-    };
-
-    return result;
-  };
-
   handleTabChange = key => {
     const { dispatch, match } = this.props;
     const { stateCode } = this.state;
@@ -97,20 +80,6 @@ class Edit extends LoadDataTabContainer {
     dispatch(routerRedux.replace({ pathname }));
   };
 
-  merchantStatusList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantStatusList);
-  };
-
-  getMerchantStatusName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.merchantStatusList());
-    return item == null ? '未知' : item.name;
-  };
-
   supplementLoadRequestParams = o => {
     const d = o;
     const { merchantId } = this.state;
@@ -120,7 +89,8 @@ class Edit extends LoadDataTabContainer {
     return d;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     this.setState({
       pageName: `社区站点：${metaData === null ? '' : metaData.mName || ''}`,
     });

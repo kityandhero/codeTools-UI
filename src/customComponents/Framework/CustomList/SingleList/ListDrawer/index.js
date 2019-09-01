@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer, Icon, message } from 'antd';
+import { Drawer, Icon } from 'antd';
 
 import SingleList from '@/customComponents/Framework/CustomList/SingleList';
 
@@ -12,14 +12,15 @@ class ListDrawer extends SingleList {
     this.state = {
       ...this.state,
       visible: false,
+      loadDataAfterMount: false,
     };
   }
 
   // eslint-disable-next-line no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { visible } = nextProps;
+    const { visible, externalData } = nextProps;
 
-    return { visible };
+    return { visible, externalData };
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -33,29 +34,7 @@ class ListDrawer extends SingleList {
   };
 
   // eslint-disable-next-line no-unused-vars
-  doOtherWhenChangeVisible = () => {};
-
-  initLoad = () => {
-    const { loadApiPath } = this.state;
-
-    if ((loadApiPath || '') === '') {
-      message.error('loadApiPath需要配置');
-      return;
-    }
-
-    const { pageNo, pageSize } = this.state;
-
-    this.loadData({ pageNo, pageSize });
-  };
-
-  preInit = () => {
-    const { visible } = this.props;
-    this.setState({ visible: visible || false }, () => {
-      this.setState(this.extendState(), () => {
-        this.init();
-      });
-    });
-  };
+  doOtherWhenChangeVisible = (preProps, preState, snapshot) => {};
 
   onClose = () => {
     const { afterClose } = this.props;
@@ -74,7 +53,6 @@ class ListDrawer extends SingleList {
 
   render() {
     const { width: widthDrawer } = this.props;
-    const { selectDatabaseName } = this.props;
     const { visible } = this.state;
 
     return (
@@ -90,7 +68,6 @@ class ListDrawer extends SingleList {
         width={widthDrawer}
         placement="right"
         visible={visible || false}
-        selectDatabaseName={selectDatabaseName}
         maskClosable={false}
         onClose={this.onClose}
         // style={{

@@ -3,10 +3,16 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Card, Button, Form, Row, Col, Input, Spin, Select, notification, Icon, Affix } from 'antd';
 
-import { refitFieldDecoratorOption, buildFieldDescription, refitCommonData } from '@/utils/tools';
+import {
+  refitFieldDecoratorOption,
+  buildFieldDescription,
+  getDerivedStateFromPropsForUrlParams,
+  buildFieldHelper,
+} from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import AddFormBase from '@/customComponents/Framework/CustomForm/AddFormBase';
 
+import { parseUrlParamsForSetState } from '../Assist/config';
 import { fieldData } from '../Common/data';
 
 import styles from './index.less';
@@ -23,46 +29,34 @@ const FormItem = Form.Item;
 class Edit extends AddFormBase {
   componentAuthority = accessWayCollection.product.add;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        loadDataAfterMount: false,
+        pageName: '发布新品',
+        submitApiPath: 'product/addBasicInfo',
+      },
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
+
   getApiData = props => {
     const {
       product: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => {
-    const result = {
-      pageName: '发布新品',
-      submitApiPath: 'product/addBasicInfo',
-    };
-
-    return result;
-  };
-
-  saleTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.saleTypeList);
-  };
-
-  unitList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.unitList);
-  };
-
-  isUpStoreList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.isUpStoreList);
-  };
-
-  isUpAppList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.isUpAppList);
-  };
-
-  isUpWxList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.isUpWxList);
   };
 
   afterSubmitSuccess = data => {
@@ -91,66 +85,6 @@ class Edit extends AddFormBase {
     const { form } = this.props;
     const { processing } = this.state;
     const { getFieldDecorator } = form;
-
-    const saleTypeData = this.saleTypeList();
-    const saleTypeOption = [];
-
-    saleTypeData.forEach(item => {
-      const { name, flag } = item;
-      saleTypeOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const unitData = this.unitList();
-    const unitOption = [];
-
-    unitData.forEach(item => {
-      const { name, flag } = item;
-      unitOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const isUpStoreData = this.isUpStoreList();
-    const isUpStoreOption = [];
-
-    isUpStoreData.forEach(item => {
-      const { name, flag } = item;
-      isUpStoreOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const isUpAppData = this.isUpAppList();
-    const isUpAppOption = [];
-
-    isUpAppData.forEach(item => {
-      const { name, flag } = item;
-      isUpAppOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const isUpWxData = this.isUpWxList();
-    const isUpWxOption = [];
-
-    isUpWxData.forEach(item => {
-      const { name, flag } = item;
-      isUpWxOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
 
     return (
       <div className={styles.containorBox}>
@@ -299,26 +233,7 @@ class Edit extends AddFormBase {
                   </FormItem>
                 </Col>
                 <Col lg={6} md={12} sm={24}>
-                  <FormItem label={fieldData.unit}>
-                    {getFieldDecorator(
-                      'unit',
-                      refitFieldDecoratorOption('', null, '', {
-                        rules: [
-                          {
-                            required: false,
-                            message: buildFieldDescription(fieldData.unit, '选择'),
-                          },
-                        ],
-                      }),
-                    )(
-                      <Select
-                        placeholder={buildFieldDescription(fieldData.unit, '选择')}
-                        // onChange={handleChange}
-                      >
-                        {unitOption}
-                      </Select>,
-                    )}
-                  </FormItem>
+                  {this.renderFormProductSaleTimeModeFormItem('')}
                 </Col>
               </Row>
               <Row gutter={24}>
@@ -345,26 +260,7 @@ class Edit extends AddFormBase {
                   </FormItem>
                 </Col>
                 <Col lg={6} md={12} sm={24}>
-                  <FormItem label={fieldData.saleType}>
-                    {getFieldDecorator(
-                      'saleType',
-                      refitFieldDecoratorOption('', null, '', {
-                        rules: [
-                          {
-                            required: false,
-                            message: buildFieldDescription(fieldData.saleType, '选择'),
-                          },
-                        ],
-                      }),
-                    )(
-                      <Select
-                        placeholder={buildFieldDescription(fieldData.saleType, '选择')}
-                        // onChange={handleChange}
-                      >
-                        {saleTypeOption}
-                      </Select>,
-                    )}
-                  </FormItem>
+                  {this.renderFormSaleTypeFormItem()}
                 </Col>
                 <Col lg={6} md={12} sm={24} />
               </Row>
@@ -376,7 +272,10 @@ class Edit extends AddFormBase {
             <Form layout="vertical">
               <Row gutter={24}>
                 <Col lg={6} md={12} sm={24}>
-                  <FormItem label={fieldData.storeCount}>
+                  <FormItem
+                    label={fieldData.storeCount}
+                    extra={buildFieldHelper(fieldData.storeCountAddHelper)}
+                  >
                     {getFieldDecorator(
                       'storeCount',
                       refitFieldDecoratorOption('', null, '', {
@@ -560,70 +459,13 @@ class Edit extends AddFormBase {
                   </FormItem>
                 </Col>
                 <Col lg={6} md={12} sm={24}>
-                  <FormItem label={fieldData.isUpStore}>
-                    {getFieldDecorator(
-                      'isUpStore',
-                      refitFieldDecoratorOption(0, null, 0, {
-                        rules: [
-                          {
-                            required: false,
-                            message: buildFieldDescription(fieldData.isUpStore, '选择'),
-                          },
-                        ],
-                      }),
-                    )(
-                      <Select
-                        placeholder={buildFieldDescription(fieldData.isUpStore, '选择')}
-                        // onChange={handleChange}
-                      >
-                        {isUpStoreOption}
-                      </Select>,
-                    )}
-                  </FormItem>
+                  {this.renderFormIsUpStoreFormItem(0)}
                 </Col>
                 <Col lg={6} md={12} sm={24}>
-                  <FormItem label={fieldData.isUpApp}>
-                    {getFieldDecorator(
-                      'isUpApp',
-                      refitFieldDecoratorOption(0, null, 0, {
-                        rules: [
-                          {
-                            required: false,
-                            message: buildFieldDescription(fieldData.isUpApp, '选择'),
-                          },
-                        ],
-                      }),
-                    )(
-                      <Select
-                        placeholder={buildFieldDescription(fieldData.isUpApp, '选择')}
-                        // onChange={handleChange}
-                      >
-                        {isUpAppOption}
-                      </Select>,
-                    )}
-                  </FormItem>
+                  {this.renderFormIsUpAppFormItem(0)}
                 </Col>
                 <Col lg={6} md={12} sm={24}>
-                  <FormItem label={fieldData.isUpWx}>
-                    {getFieldDecorator(
-                      'isUpWx',
-                      refitFieldDecoratorOption(0, null, 0, {
-                        rules: [
-                          {
-                            required: false,
-                            message: buildFieldDescription(fieldData.isUpWx, '选择'),
-                          },
-                        ],
-                      }),
-                    )(
-                      <Select
-                        placeholder={buildFieldDescription(fieldData.isUpWx, '选择')}
-                        // onChange={handleChange}
-                      >
-                        {isUpWxOption}
-                      </Select>,
-                    )}
-                  </FormItem>
+                  {this.renderFormIsUpWxFormItem(0)}
                 </Col>
               </Row>
             </Form>

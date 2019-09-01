@@ -47,12 +47,16 @@ class ModuleInfo extends UpdateFormTab {
 
     this.state = {
       ...this.state,
-      isSuper: false,
-      fromTemplate: false,
-      changeAddModalVisible: false,
-      moduleDrawerVisible: false,
-      removeModuleApiPath: '',
-      currentRecord: null,
+      ...{
+        isSuper: false,
+        fromTemplate: false,
+        changeAddModalVisible: false,
+        moduleDrawerVisible: false,
+        removeModuleApiPath: 'role/removeModule',
+        currentRecord: null,
+        loadApiPath: 'role/get',
+        drawerVisible: false,
+      },
     };
   }
 
@@ -73,16 +77,6 @@ class ModuleInfo extends UpdateFormTab {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      loadApiPath: 'role/get',
-      removeModuleApiPath: 'role/removeModule',
-      drawerVisible: false,
-    };
-
-    return result;
-  };
-
   // eslint-disable-next-line no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
@@ -97,8 +91,9 @@ class ModuleInfo extends UpdateFormTab {
     return d;
   };
 
-  afterLoadSuccess = data => {
-    const { isSuper, roleTemplateId } = data;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { isSuper, roleTemplateId } = metaData;
 
     const fromTemplate = (roleTemplateId || '') !== '';
 
@@ -236,7 +231,7 @@ class ModuleInfo extends UpdateFormTab {
     return (
       <RoleModuleDrawer
         visible={moduleDrawerVisible}
-        sourceData={metaData}
+        externalData={metaData}
         width={1200}
         onClose={this.hideModuleDrawer}
         afterOperateSuccess={this.afterOperateSuccess}

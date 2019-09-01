@@ -1,6 +1,8 @@
 module.exports = {
   fieldData: {
     merchantSaleStatisticId: '数据标识',
+    merchantName: '站点名称',
+    realName: '站长姓名',
     areaAgent: '地区账户',
     areaAgentId: '地区账户标识',
     areaAgentName: '地区账户名称',

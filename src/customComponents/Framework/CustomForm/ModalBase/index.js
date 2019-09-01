@@ -21,9 +21,9 @@ class ModalBase extends CustomAuthorization {
 
   // eslint-disable-next-line no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { visible, originalData } = nextProps;
+    const { visible, externalData } = nextProps;
 
-    return { visible, originalData };
+    return { visible, externalData };
   }
 
   // eslint-disable-next-line no-unused-vars

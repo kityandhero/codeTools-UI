@@ -9,5 +9,6 @@ module.exports = {
     batchDate: ' 出库批次',
     operatorId: '社区标识',
     operatorName: '社区标识',
+    city: '所在城市',
   },
 };

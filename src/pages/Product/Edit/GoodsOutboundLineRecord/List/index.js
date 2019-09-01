@@ -1,21 +1,19 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Form, Select, DatePicker } from 'antd';
+import { Row, Col, Form } from 'antd';
 
 import {
   formatDatetime,
   copyToClipboard,
   replaceTargetText,
-  buildFieldDescription,
-  refitCommonData,
+  getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import InnerPagerList from '@/customComponents/Framework/CustomList/PagerList/InnerPagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
-const FormItem = Form.Item;
-const { Option } = Select;
+import { parseUrlParamsForSetState } from '../../../Assist/config';
 
 const fieldData = {
   goodsOutboundMerchantRecordId: '标识',
@@ -57,8 +55,22 @@ class Index extends InnerPagerList {
 
     this.state = {
       ...this.state,
-      batchDate: '',
+      ...{
+        loadApiPath: 'goodsOutboundLineRecord/list',
+        dateRangeFieldName: '发生时段',
+        batchDate: '',
+        productId: null,
+      },
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
   }
 
   getApiData = props => {
@@ -69,34 +81,11 @@ class Index extends InnerPagerList {
     return data;
   };
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      productId: id,
-      loadApiPath: 'goodsOutboundLineRecord/list',
-      dateRangeFieldName: '发生时段',
-    };
-
-    return result;
-  };
-
   getCurrentOperator = () => {
     const {
       global: { currentOperator },
     } = this.props;
     return currentOperator;
-  };
-
-  lineList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.lineList, {
-      key: '-10000',
-      name: '不限',
-      flag: '-10000',
-    });
   };
 
   handleFormOtherReset = () => {
@@ -122,60 +111,16 @@ class Index extends InnerPagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName } = this.state;
-
-    const lineData = this.lineList();
-    const lineOption = [];
-
-    lineData.forEach(item => {
-      const { name, flag } = item;
-      lineOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.batchDate}>
-              {getFieldDecorator('batchDate', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.areaAgentId, '选择'),
-                  },
-                ],
-              })(
-                <DatePicker
-                  placeholder={buildFieldDescription(fieldData.batchDate, '选择')}
-                  format="YYYY-MM-DD"
-                  onChange={this.onBatchDateChange}
-                  style={{ width: '100%' }}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchBatchDateFormItem()}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.lineId}>
-              {getFieldDecorator('lineId', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.lineId, '选择') },
-                ],
-                initialValue: lineData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.lineId, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {lineOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchLineFormItem(true)}
           </Col>
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 8)}
           {this.renderSimpleFormButton(null, 6)}

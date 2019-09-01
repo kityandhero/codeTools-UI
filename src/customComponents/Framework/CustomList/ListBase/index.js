@@ -111,9 +111,22 @@ class SingleList extends CustomAuthorization {
     );
   };
 
-  renderSimpleFormRangePicker = (dateRangeFieldName, ColMd = 8) => {
+  renderSimpleFormRangePicker = (dateRangeFieldName, ColMd = 8, rangePickerProps = null) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
+
+    const p = {
+      ...{
+        style: { width: '100%' },
+        showTime: { format: 'HH:mm' },
+        format: 'YYYY-MM-DD HH:mm',
+        placeholder: ['开始时间', '结束时间'],
+        onChange: (dates, dateStrings) => {
+          this.onDateRangeChange(dates, dateStrings);
+        },
+        ...(rangePickerProps || {}),
+      },
+    };
 
     return (
       <Col md={ColMd} sm={24}>
@@ -125,15 +138,7 @@ class SingleList extends CustomAuthorization {
                 message: buildFieldDescription(dateRangeFieldName, '选择'),
               },
             ],
-          })(
-            <RangePicker
-              style={{ width: '100%' }}
-              showTime={{ format: 'HH:mm' }}
-              format="YYYY-MM-DD HH:mm"
-              placeholder={['开始时间', '结束时间']}
-              onChange={this.onDateRangeChange}
-            />,
-          )}
+          })(<RangePicker {...p} />)}
         </FormItem>
       </Col>
     );

@@ -21,21 +21,24 @@ const FormItem = Form.Item;
 class Edit extends AddFormBase {
   componentAuthority = accessWayCollection.line.add;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '增加线路',
+        submitApiPath: 'line/addBasicInfo',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       line: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => {
-    const result = {
-      pageName: '增加线路',
-      submitApiPath: 'line/addBasicInfo',
-    };
-
-    return result;
   };
 
   afterSubmitSuccess = data => {
@@ -128,12 +131,12 @@ class Edit extends AddFormBase {
                             message: buildFieldDescription(fieldData.name),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <Input
                         addonBefore={<Icon type="form" />}
                         placeholder={buildFieldDescription(fieldData.name)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -148,12 +151,12 @@ class Edit extends AddFormBase {
                             message: buildFieldDescription(fieldData.driverName),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <Input
                         addonBefore={<Icon type="form" />}
                         placeholder={buildFieldDescription(fieldData.driverName)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -168,12 +171,12 @@ class Edit extends AddFormBase {
                             message: buildFieldDescription(fieldData.phone),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <Input
                         addonBefore={<Icon type="form" />}
                         placeholder={buildFieldDescription(fieldData.phone)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -188,12 +191,12 @@ class Edit extends AddFormBase {
                             message: buildFieldDescription(fieldData.phoneSpare),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <Input
                         addonBefore={<Icon type="form" />}
                         placeholder={buildFieldDescription(fieldData.phoneSpare)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -210,12 +213,12 @@ class Edit extends AddFormBase {
                             message: buildFieldDescription(fieldData.carNo),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <Input
                         addonBefore={<Icon type="form" />}
                         placeholder={buildFieldDescription(fieldData.carNo)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -230,12 +233,12 @@ class Edit extends AddFormBase {
                             message: buildFieldDescription(fieldData.sort),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <Input
                         addonBefore={<Icon type="form" />}
                         placeholder={buildFieldDescription(fieldData.sort)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>

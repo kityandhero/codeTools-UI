@@ -2,14 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Form, Radio, InputNumber, message } from 'antd';
 
-import {
-  refitFieldDecoratorOption,
-  searchFromList,
-  refitCommonData,
-  isInvalid,
-  isNumber,
-  buildFieldDescription,
-} from '@/utils/tools';
+import { refitFieldDecoratorOption, isNumber, buildFieldDescription } from '@/utils/tools';
 import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
 
 import { fieldData } from '../Common/data';
@@ -39,8 +32,21 @@ class ChangeStoreCountModal extends ModalBase {
 
   storeChangeCount = 0;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '变更商品库存',
+        submitApiPath: 'product/updateStoreCount',
+        dataLoading: false,
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { visible, originalData } = nextProps;
+    const { visible, externalData } = nextProps;
     const { visible: visiblePre } = prevState;
 
     let needReset = false;
@@ -49,7 +55,7 @@ class ChangeStoreCountModal extends ModalBase {
       needReset = true;
     }
 
-    return { visible, needReset, originalData };
+    return { visible, needReset, externalData };
   }
 
   getApiData = props => {
@@ -59,27 +65,20 @@ class ChangeStoreCountModal extends ModalBase {
     return data;
   };
 
-  initState = () => {
-    return {
-      pageName: '变更商品库存',
-      submitApiPath: 'product/updateStoreCount',
-      dataLoading: false,
-    };
-  };
-
-  doOtherWhenChangeVisible = () => {
+  // eslint-disable-next-line no-unused-vars
+  doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
     this.clientMessage = '';
     this.storeChangeCount = 0;
   };
 
   supplementSubmitRequestParams = o => {
     const d = o;
-    const { originalData } = this.state;
+    const { externalData } = this.state;
 
     let productId = '';
 
-    if ((originalData || null) != null) {
-      productId = originalData.productId || '';
+    if ((externalData || null) != null) {
+      productId = externalData.productId || '';
     }
 
     d.productId = productId;
@@ -88,13 +87,13 @@ class ChangeStoreCountModal extends ModalBase {
   };
 
   afterSubmitSuccess = o => {
-    const { afterOK, originalData } = this.props;
+    const { afterOK, externalData } = this.props;
 
     this.setState({ visible: false });
 
     const data = o;
-    const { title } = originalData;
-    data.clientMessage = `操作成功：商品 ${title} 库存即将 ${this.getChangeTypeName(
+    const { title } = externalData;
+    data.clientMessage = `操作成功：商品 ${title} 库存即将 ${this.getProductStoreChangeTypeName(
       this.changeType,
     )}${this.storeChangeCount}`;
 
@@ -119,40 +118,14 @@ class ChangeStoreCountModal extends ModalBase {
     return true;
   };
 
-  changeTypeList = () => {
-    const { global } = this.props;
-
-    return refitCommonData(global.productStoreChangeTypeList);
-  };
-
-  getChangeTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-    const item = searchFromList('flag', v, this.changeTypeList());
-    return item == null ? '未知' : item.name;
-  };
-
   formContent = () => {
-    const { form, originalData } = this.props;
+    const { form, externalData } = this.props;
     const { getFieldDecorator } = form;
-
-    const changeTypeData = this.changeTypeList();
-    const changeTypeOption = [];
-
-    changeTypeData.forEach(item => {
-      const { name, flag } = item;
-      changeTypeOption.push(
-        <Radio key={flag} value={flag}>
-          {name}
-        </Radio>,
-      );
-    });
 
     return (
       <>
         <FormItem {...formItemLayout} label={fieldData.title}>
-          {originalData || '' ? originalData.title : ''}
+          {externalData || '' ? externalData.title : ''}
         </FormItem>
         <FormItem {...formItemLayout} label={fieldData.changeType}>
           {getFieldDecorator(
@@ -165,7 +138,7 @@ class ChangeStoreCountModal extends ModalBase {
                 },
               ],
             }),
-          )(<RadioGroup>{changeTypeOption}</RadioGroup>)}
+          )(<RadioGroup>{this.renderProductStoreChangeTypeRadio(false)}</RadioGroup>)}
         </FormItem>
         <FormItem {...formItemLayout} label={fieldData.storeChangeCount}>
           {getFieldDecorator(

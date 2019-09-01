@@ -15,8 +15,7 @@ import defaultSettings from '../../config/defaultSettings'; // https://umijs.org
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { isAntDesignPro } from '@/utils/utils';
-
-import CustomLayout from './CustomLayout';
+import { getQueue } from '@/utils/tools';
 
 import logo from '../assets/logo.svg';
 
@@ -130,7 +129,12 @@ const BasicLayout = props => {
   useEffect(() => {
     if (dispatch) {
       dispatch({
-        type: 'user/fetchCurrent',
+        type: 'global/getMetaData',
+        payload: { force: false },
+      });
+      dispatch({
+        type: 'global/getCurrentOperator',
+        payload: { force: false },
       });
       dispatch({
         type: 'settings/getSetting',
@@ -147,6 +151,8 @@ const BasicLayout = props => {
       type: 'global/changeLayoutCollapsed',
       payload,
     });
+
+  getQueue();
 
   return (
     <ProLayout
@@ -184,14 +190,14 @@ const BasicLayout = props => {
       {...props}
       {...settings}
     >
-      <CustomLayout {...props}>{children}</CustomLayout>
+      {children}
     </ProLayout>
   );
 };
 
-export default connect(({ currentOperator, global, settings }) => ({
+export default connect(({ operator, global, settings }) => ({
   collapsed: global.collapsed,
   settings,
-  currentOperator,
+  operator,
   global,
 }))(BasicLayout);

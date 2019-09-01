@@ -6,9 +6,11 @@ import { Card, Form, Spin, Button, BackTop, Affix } from 'antd';
 import BraftEditor from 'braft-editor';
 import 'braft-editor/dist/index.css';
 
+import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 
 import TabPageBase from '../../TabPageBase';
+import { parseUrlParamsForSetState } from '../../Assist/config';
 
 import styles from './index.less';
 
@@ -24,24 +26,23 @@ class ContentInfo extends TabPageBase {
     super(props);
     this.state = {
       ...this.state,
-      productId: null,
-      editorState: null,
+      ...{
+        loadApiPath: 'product/get',
+        submitApiPath: 'product/updateContentInfo',
+        productId: null,
+        editorState: null,
+      },
     };
   }
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      productId: id,
-      loadApiPath: 'product/get',
-      submitApiPath: 'product/updateContentInfo',
-    };
-
-    return result;
-  };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
 
   supplementSubmitRequestParams = o => {
     const d = o;
@@ -55,8 +56,9 @@ class ContentInfo extends TabPageBase {
     return d;
   };
 
-  afterLoadSuccess = d => {
-    const { content } = d;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { content } = metaData;
 
     this.setState({
       editorState: BraftEditor.createEditorState(content),

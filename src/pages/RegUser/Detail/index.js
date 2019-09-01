@@ -2,13 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Row, Col, Avatar, Descriptions } from 'antd';
 
-import {
-  isInvalid,
-  formatDatetime,
-  searchFromList,
-  refitCommonData,
-  getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
+import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
 
@@ -38,7 +32,12 @@ class Detail extends LoadDataTabContainer {
 
     this.state = {
       ...this.state,
-      regUserId: null,
+      ...{
+        pageName: '用户：',
+        loadApiPath: 'regUser/get',
+        backPath: `/person/regUser/list/key`,
+        regUserId: null,
+      },
     };
   }
 
@@ -59,16 +58,6 @@ class Detail extends LoadDataTabContainer {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      pageName: '用户：',
-      loadApiPath: 'regUser/get',
-      backPath: `/person/regUser/list/key`,
-    };
-
-    return result;
-  };
-
   // eslint-disable-next-line no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
@@ -83,42 +72,11 @@ class Detail extends LoadDataTabContainer {
     return d;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     this.setState({
       pageName: `用户：${metaData === null ? '' : metaData.nickname || ''}`,
     });
-  };
-
-  regUserTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.regUserTypeList);
-  };
-
-  getRegUserTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.regUserTypeList());
-    return item == null ? '未知' : item.name;
-  };
-
-  sexList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.sexList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getSexName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.sexList());
-    return item == null ? '未知' : item.name;
   };
 
   pageHeaderLogo = () => {
@@ -157,7 +115,7 @@ class Detail extends LoadDataTabContainer {
     return (
       <Descriptions className={styles.headerList} size="small" col="2">
         <Description label="性别">
-          {this.getSexName(metaData === null ? '' : metaData.sex, '')}
+          {this.getUserSexName(metaData === null ? '' : metaData.sex, '')}
         </Description>
         <Description label="代理商级别">
           {this.getRegUserTypeName(metaData === null ? '' : metaData.type, '')}

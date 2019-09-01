@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'dva';
 import { Form, Menu, Dropdown, List, Icon, message } from 'antd';
 
-import { pretreatmentRequestParams } from '@/utils/tools';
 import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
 import accessWayCollection from '@/utils/accessWayCollection';
+
+import { getProductIdFromExternalData, getProductTitleFromExternalData } from '../Assist/config';
 
 import styles from './index.less';
 
@@ -20,26 +21,24 @@ class ChangeImageSortModal extends ModalBase {
 
     this.state = {
       ...this.state,
-      productId: '',
-      sorts: '',
-      bodyStyle: {
-        height: '300px',
-        overflow: 'auto',
+      ...{
+        pageName: '变更图片顺序',
+        loadApiPath: 'product/listImage',
+        submitApiPath: 'product/updateImageSort',
+        width: 700,
+        productId: '',
+        sorts: '',
+        bodyStyle: {
+          height: '300px',
+          overflow: 'auto',
+        },
       },
     };
   }
 
   // eslint-disable-next-line no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { productData } = nextProps;
-
-    if (productData != null) {
-      const { productId } = productData;
-
-      return { productId };
-    }
-
-    return null;
+    return super.getDerivedStateFromProps(nextProps, prevState);
   }
 
   getApiData = props => {
@@ -49,72 +48,27 @@ class ChangeImageSortModal extends ModalBase {
     return data;
   };
 
-  initState = () => ({
-    pageName: '变更图片顺序',
-    loadApiPath: 'product/listImage',
-    submitApiPath: 'product/updateImageSort',
-    width: 700,
-  });
-
-  doOtherWhenChangeVisible = () => {
-    this.loadData();
+  // eslint-disable-next-line no-unused-vars
+  doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
+    this.reloadData();
   };
 
   supplementLoadRequestParams = o => {
     const d = o;
-    const { productId } = this.state;
 
-    d.productId = productId;
+    d.productId = getProductIdFromExternalData(this.state);
 
     return d;
   };
 
-  loadData = () => {
-    const { dispatch } = this.props;
-    const { loadApiPath } = this.state;
-
-    let submitData = pretreatmentRequestParams({}, d => {
-      const o = d;
-
-      return o;
-    });
-
-    submitData = this.supplementLoadRequestParams(submitData);
-
-    if (loadApiPath !== '') {
-      this.setState({ dataLoading: true });
-
-      dispatch({
-        type: loadApiPath,
-        payload: submitData,
-      }).then(() => {
-        if (this.mounted) {
-          const data = this.getApiData(this.props);
-
-          const { dataSuccess } = data;
-
-          if (dataSuccess) {
-            const { list } = data;
-
-            const customData = list;
-
-            this.setState({ customData });
-          }
-
-          this.setState({ dataLoading: false });
-        }
-      });
-    }
-  };
-
   supplementSubmitRequestParams = o => {
     const d = o;
-    const { productId, customData } = this.state;
+    const { metaListData } = this.state;
 
-    d.productId = productId;
+    d.productId = getProductIdFromExternalData(this.state);
 
     const list = [];
-    (customData || []).forEach(item => {
+    (metaListData || []).forEach(item => {
       list.push(`${item.id}|${item.sort}`);
     });
 
@@ -124,12 +78,12 @@ class ChangeImageSortModal extends ModalBase {
   };
 
   afterSubmitSuccess = o => {
-    const { afterOK, productData } = this.props;
+    const { afterOK } = this.props;
 
     this.setState({ visible: false });
 
     const data = o;
-    const { title } = productData;
+    const title = getProductTitleFromExternalData(this.state);
     data.clientMessage = `操作通知：商品 ${title} 图片顺序已经更改成功。`;
 
     afterOK(data);
@@ -152,18 +106,18 @@ class ChangeImageSortModal extends ModalBase {
   changeSort = (e, record) => {
     const { key } = e;
 
-    const { customData } = this.state;
+    const { metaListData } = this.state;
 
     const beforeList = [];
     const afterList = [];
     let result = [];
 
-    if ((customData || []).length <= 1) {
+    if ((metaListData || []).length <= 1) {
       message.warn('无需排序!');
       return;
     }
 
-    (customData || []).forEach(item => {
+    (metaListData || []).forEach(item => {
       if (item.sort < record.sort) {
         beforeList.push(item);
       }
@@ -198,11 +152,11 @@ class ChangeImageSortModal extends ModalBase {
 
         result = result.concat(afterList);
 
-        this.setState({ customData: result });
+        this.setState({ metaListData: result });
 
         break;
       case 'down':
-        if (record.sort === (customData || []).length) {
+        if (record.sort === (metaListData || []).length) {
           message.warn('已经排在最后了!');
         }
 
@@ -224,7 +178,7 @@ class ChangeImageSortModal extends ModalBase {
           }
         });
 
-        this.setState({ customData: result });
+        this.setState({ metaListData: result });
 
         break;
       default:
@@ -233,7 +187,7 @@ class ChangeImageSortModal extends ModalBase {
   };
 
   formContent = () => {
-    const { customData } = this.state;
+    const { metaListData } = this.state;
 
     const ListContent = ({ data: { sort } }) => (
       <div className={styles.listContent}>
@@ -249,7 +203,7 @@ class ChangeImageSortModal extends ModalBase {
 
     const MoreBtn = props => {
       const { current } = props;
-      const { customData: customDataList } = this.state;
+      const { metaListData: metaListDataList } = this.state;
 
       return (
         <Dropdown
@@ -260,7 +214,7 @@ class ChangeImageSortModal extends ModalBase {
                 <Icon type="arrow-up" />
                 上移
               </Menu.Item>
-              <Menu.Item key="down" disabled={current.sort === (customDataList || []).length}>
+              <Menu.Item key="down" disabled={current.sort === (metaListDataList || []).length}>
                 <Icon type="arrow-down" />
                 下移
               </Menu.Item>
@@ -283,7 +237,7 @@ class ChangeImageSortModal extends ModalBase {
             rowKey="id"
             // loading={dataLoading || processing}
             pagination={false}
-            dataSource={customData}
+            dataSource={metaListData}
             renderItem={item => (
               <List.Item actions={[<MoreBtn current={item} />]}>
                 <List.Item.Meta

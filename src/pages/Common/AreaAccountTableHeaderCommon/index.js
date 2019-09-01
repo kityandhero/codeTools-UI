@@ -9,26 +9,28 @@ import styles from './index.less';
 const { Item: Description } = Descriptions;
 
 class TableHeaderCommon extends LoadDataTabContainer {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '账户余额：',
+        loadApiPath: 'areaAccount/getCurrent',
+      },
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return super.getDerivedStateFromProps(nextProps, prevState);
+  }
+
   getApiData = props => {
     const {
       areaAccount: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      merchantId: id,
-      pageName: '账户余额：',
-      loadApiPath: 'areaAccount/getCurrent',
-    };
-
-    return result;
   };
 
   getCurrentOperator = () => {
@@ -38,7 +40,8 @@ class TableHeaderCommon extends LoadDataTabContainer {
     return currentOperator;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     this.setState({
       pageName: `账户余额：${metaData === null ? '' : `￥${metaData.balance || '0'}`}`,
     });
@@ -54,7 +57,7 @@ class TableHeaderCommon extends LoadDataTabContainer {
           {formatDatetime(
             currentOperator === null ? '' : currentOperator.areaAgentCreateTime,
             'YYYY-MM-DD',
-            '--'
+            '--',
           )}
         </span>
         <Divider type="vertical" />

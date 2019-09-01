@@ -6,7 +6,7 @@ import {
 import router from 'umi/router';
 import hash from 'hash.js';
 
-import { useVirtualAccess, getTokenKeyName, corsTarget } from './tools';
+import { useVirtualAccess, getTokenKeyName, corsTarget, getToken } from './tools';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -72,7 +72,6 @@ export function request(urlParam, option) {
     ...option,
   };
 
-  // const url = useVirtualAccess() ? urlParam : `http://api2.yurukeji.com.cn${urlParam}`;
   const corsUrl = corsTarget();
   const url = useVirtualAccess() ? urlParam : `${corsUrl}${urlParam}`;
 
@@ -87,7 +86,8 @@ export function request(urlParam, option) {
     .digest('hex');
 
   const tokenSet = {};
-  tokenSet[`${getTokenKeyName()}`] = localStorage.getItem(getTokenKeyName()) || '';
+
+  tokenSet[`${getTokenKeyName()}`] = getToken() || '';
 
   const defaultOptions = {
     // credentials: 'include',

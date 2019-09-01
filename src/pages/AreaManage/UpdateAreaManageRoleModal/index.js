@@ -17,9 +17,14 @@ class UpdateAreaManageRoleModal extends ModalBase {
 
     this.state = {
       ...this.state,
-      customData: [],
-      targetKeys: [],
-      selectedKeys: [],
+      ...{
+        pageName: '设置用户拥有的角色',
+        loadApiPath: 'role/listSelect',
+        submitApiPath: 'userRole/changeRole',
+        customData: [],
+        targetKeys: [],
+        selectedKeys: [],
+      },
     };
   }
 
@@ -46,13 +51,8 @@ class UpdateAreaManageRoleModal extends ModalBase {
     return data;
   };
 
-  initState = () => ({
-    pageName: '设置用户拥有的角色',
-    loadApiPath: 'role/listSelect',
-    submitApiPath: 'userRole/changeRole',
-  });
-
-  doOtherWhenChangeVisible = () => {
+  // eslint-disable-next-line no-unused-vars
+  doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
     const { title, sourceData } = this.state;
 
     const targetKeys = sourceData;

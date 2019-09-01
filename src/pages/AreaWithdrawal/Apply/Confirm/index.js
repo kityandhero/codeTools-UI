@@ -3,9 +3,8 @@ import { connect } from 'dva';
 import { Form, Button, Alert, notification, Card, Spin, Divider } from 'antd';
 import router from 'umi/router';
 
-import { formatDatetime, toMoney } from '@/utils/tools';
+import { formatDatetime, toMoney, formatMoneyToChinese } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
-import { digitUppercase } from '@/utils/utils';
 
 import Base from '../Base';
 
@@ -32,19 +31,23 @@ const formItemLayout = {
 class Confirm extends Base {
   componentAuthority = accessWayCollection.areaDistribution.add;
 
-  initState = () => {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        loadDataAfterMount: false,
+      },
+    };
+  }
+
+  initOther = () => {
     const tempData = this.getTempData();
 
-    if (tempData != null) {
-      return {
-        metaData: tempData,
-        loadDataAfterMount: false,
-      };
+    if (tempData == null) {
+      router.replace('/finance/areaWithdrawal/apply/fillIn');
     }
-
-    router.replace('/finance/areaWithdrawal/apply/fillIn');
-
-    return {};
   };
 
   goPrev = () => {
@@ -118,7 +121,9 @@ class Confirm extends Base {
                   ￥{metaData === null ? '0' : metaData.amount || '0'}
                 </span>
                 <span className={styles.uppercase}>
-                  （{digitUppercase(toMoney(metaData === null ? '0' : metaData.amount || '0'))}）
+                  （
+                  {formatMoneyToChinese(toMoney(metaData === null ? '0' : metaData.amount || '0'))}
+                  ）
                 </span>
               </FormItem>
               <FormItem {...formItemLayout} className={styles.stepFormText} label={fieldData.bank}>

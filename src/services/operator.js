@@ -55,26 +55,19 @@ export async function getCurrentData() {
     return result;
   }
 
-  return request('/CurrentOperator/GetCurrent');
+  return request('/currentOperator/getCurrent');
 }
 
 export async function getCurrentBasicInfoData() {
   if (useVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
-      data: {
-        name: '张三',
-        cityId: 410100000000,
-        phone: '0752-268888888',
-        loginName: 'admin',
-        inTime: '2018-10-30 00:00:00',
-        cityName: '郑州市',
-      },
+      data: {},
     });
 
     return result;
   }
 
-  return request('/CurrentOperator/GetCurrentBasicInfo');
+  return request('/currentOperator/getCurrentBasicInfo');
 }
 
 export async function updateCurrentBasicInfoData(params) {
@@ -86,7 +79,7 @@ export async function updateCurrentBasicInfoData(params) {
     return result;
   }
 
-  return request('/CurrentOperator/UpdateCurrentBasicInfo', {
+  return request('/currentOperator/updateCurrentBasicInfo', {
     method: 'POST',
     body: params,
   });
@@ -101,7 +94,7 @@ export async function changeCurrentPasswordData(params) {
     return result;
   }
 
-  return request('/CurrentOperator/ChangeCurrentPassword', {
+  return request('/currentOperator/changeCurrentPassword', {
     method: 'POST',
     body: params,
   });

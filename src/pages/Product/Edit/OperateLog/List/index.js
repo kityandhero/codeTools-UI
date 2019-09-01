@@ -13,7 +13,7 @@ import InnerPagerList from '@/customComponents/Framework/CustomList/PagerList/In
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
-import { parseUrlParamsForSetState , checkNeedUpdateAssist } from '../../../Assist/config';
+import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../../Assist/config';
 
 @connect(({ product, global, loading }) => ({
   product,
@@ -29,7 +29,12 @@ class List extends InnerPagerList {
 
     this.state = {
       ...this.state,
-      productId: null,
+      ...{
+        paramsKey: 'c031a8b9-b6e5-49f9-aa89-9a79aa5d85f3',
+        loadApiPath: 'product/listLog',
+        dateRangeFieldName: '操作时间',
+        productId: null,
+      },
     };
   }
 
@@ -41,16 +46,6 @@ class List extends InnerPagerList {
       parseUrlParamsForSetState,
     );
   }
-
-  initState = () => {
-    const result = {
-      paramsKey: 'c031a8b9-b6e5-49f9-aa89-9a79aa5d85f3',
-      loadApiPath: 'product/listLog',
-      dateRangeFieldName: '操作时间',
-    };
-
-    return result;
-  };
 
   getApiData = props => {
     const {

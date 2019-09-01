@@ -49,26 +49,22 @@ class FillIn extends Base {
 
     this.state = {
       ...this.state,
-      canApply: true,
-      errorMessage: '',
-      amount: 0,
-      bankCardNo: '',
-      bankInfo: '',
-      inTime: formatDatetime(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-      bankList: [],
+      ...{
+        loadApiPath: 'areaAccount/getCurrent',
+        canApply: true,
+        errorMessage: '',
+        amount: 0,
+        bankCardNo: '',
+        bankInfo: '',
+        inTime: formatDatetime(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+        bankList: [],
+      },
     };
   }
 
-  initState = () => {
-    const result = {
-      loadApiPath: 'areaAccount/getCurrent',
-    };
-
-    return result;
-  };
-
-  afterLoadSuccess = d => {
-    const { balance, bankList } = d;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { balance, bankList } = metaData;
 
     let canApply = true;
     let errorMessage = '';
@@ -165,7 +161,7 @@ class FillIn extends Base {
       bankOption.push(
         <Option key={itemBankCardNoItem} value={itemBankCardNoItem}>
           {`${itemName} ${itemBankName}  ${itemBankCardNoItem}`}
-        </Option>
+        </Option>,
       );
     });
 

@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Card, Form, Row, Col, Spin, BackTop, Select, Icon } from 'antd';
+import { Card, Form, Row, Col, Spin, BackTop, Icon } from 'antd';
 
-import { refitCommonData, searchFromList, isInvalid } from '@/utils/tools';
+import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 
 import TabPageBase from '../../TabPageBase';
-
+import { parseUrlParamsForSetState } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
+
 import styles from './index.less';
 
 @connect(({ regUser, global, loading }) => ({
@@ -24,22 +25,21 @@ class BasicInfo extends TabPageBase {
 
     this.state = {
       ...this.state,
-      regUserId: null,
+      ...{
+        loadApiPath: 'regUser/get',
+        regUserId: null,
+      },
     };
   }
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      regUserId: id,
-      loadApiPath: 'regUser/get',
-    };
-
-    return result;
-  };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
 
   supplementSubmitRequestParams = o => {
     const d = o;
@@ -50,106 +50,8 @@ class BasicInfo extends TabPageBase {
     return d;
   };
 
-  regUserTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.regUserTypeList);
-  };
-
-  getUserTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.regUserTypeList());
-    return item == null ? '未知' : item.name;
-  };
-
-  sexList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.sexList);
-  };
-
-  getSexName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.sexList());
-    return item == null ? '未知' : item.name;
-  };
-
-  orderMessageList = () => [{ flag: 0, name: '不接受' }, { flag: 1, name: '接受' }];
-
-  getOrderMessageName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.orderMessageList());
-    return item == null ? '未知' : item.name;
-  };
-
-  administrationAuthorityList = () => [{ flag: 0, name: '关闭' }, { flag: 1, name: '开启' }];
-
-  getAdministrationAuthorityName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.administrationAuthorityList());
-    return item == null ? '未知' : item.name;
-  };
-
   formContent = () => {
     const { metaData, processing, dataLoading } = this.state;
-
-    const regUserTypeData = this.regUserTypeList();
-    const regUserTypeOption = [];
-
-    regUserTypeData.forEach(item => {
-      const { name, flag } = item;
-      regUserTypeOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
-
-    const sexData = this.sexList();
-    const sexOption = [];
-
-    sexData.forEach(item => {
-      const { name, flag } = item;
-      sexOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
-
-    const orderMessageData = this.orderMessageList();
-    const orderMessageOption = [];
-
-    orderMessageData.forEach(item => {
-      const { name, flag } = item;
-      orderMessageOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
-
-    const administrationAuthorityData = this.administrationAuthorityList();
-    const administrationAuthorityOption = [];
-
-    administrationAuthorityData.forEach(item => {
-      const { name, flag } = item;
-      administrationAuthorityOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
 
     return (
       <>
@@ -213,7 +115,7 @@ class BasicInfo extends TabPageBase {
                       {`${fieldData.sex}：${
                         metaData === null
                           ? ''
-                          : this.getSexName(metaData === null ? '' : metaData.sex || '')
+                          : this.getUserSexName(metaData === null ? '' : metaData.sex || '')
                       }`}
                     </div>
                   </Col>
@@ -235,7 +137,7 @@ class BasicInfo extends TabPageBase {
                         metaData === null
                           ? ''
                           : this.getOrderMessageName(
-                              metaData === null ? 0 : metaData.isReceiveOTMsg || 0
+                              metaData === null ? 0 : metaData.isReceiveOTMsg || 0,
                             )
                       }`}
                     </div>
@@ -246,7 +148,7 @@ class BasicInfo extends TabPageBase {
                         metaData === null
                           ? ''
                           : this.getAdministrationAuthorityName(
-                              metaData === null ? 0 : metaData.isManage || 0
+                              metaData === null ? 0 : metaData.isManage || 0,
                             )
                       }`}
                     </div>

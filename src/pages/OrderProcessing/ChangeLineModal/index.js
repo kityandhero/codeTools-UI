@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Select } from 'antd';
+import { Form } from 'antd';
 
-import { refitFieldDecoratorOption, refitCommonData, buildFieldDescription } from '@/utils/tools';
 import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
-
-import { fieldData } from '../Common/data';
 
 const FormItem = Form.Item;
 
@@ -29,26 +26,24 @@ const formItemLayout = {
 class ChangeLineModal extends ModalBase {
   targetLineName = '';
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '切换线路',
+        submitApiPath: 'merchant/changeLine',
+        dataLoading: false,
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       merchant: { data },
     } = props;
     return data;
-  };
-
-  initState = () => {
-    const result = {
-      pageName: '切换线路',
-      submitApiPath: 'merchant/changeLine',
-      dataLoading: false,
-    };
-
-    return result;
-  };
-
-  lineList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.lineList);
   };
 
   supplementSubmitRequestParams = o => {
@@ -83,51 +78,19 @@ class ChangeLineModal extends ModalBase {
   };
 
   formContent = () => {
-    const { form, previouslyLine } = this.props;
-    const { getFieldDecorator } = form;
-
-    const lineData = this.lineList();
-    const lineOption = [];
-
-    lineData.forEach(item => {
-      const { name, flag } = item;
-      lineOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
+    const { previouslyLine } = this.props;
 
     return (
       <>
         <FormItem {...formItemLayout} label="原线路">
           {previouslyLine || '' ? previouslyLine.name : ''}
         </FormItem>
-        <FormItem {...formItemLayout} label="调整为">
-          {getFieldDecorator(
-            'lineId',
-            refitFieldDecoratorOption(
-              previouslyLine || '' ? previouslyLine.lineId : '',
-              previouslyLine || '' ? previouslyLine.lineId : '',
-              previouslyLine || '' ? previouslyLine.lineId : '',
-              {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.lineId, '选择'),
-                  },
-                ],
-              }
-            )
-          )(
-            <Select
-              placeholder={buildFieldDescription(fieldData.lineId, '选择')}
-              onChange={this.handleChange}
-            >
-              {lineOption}
-            </Select>
-          )}
-        </FormItem>
+        {this.renderFormLineFormItem(
+          previouslyLine || '' ? previouslyLine.lineId : '',
+          null,
+          '调整为',
+          formItemLayout,
+        )}
       </>
     );
   };

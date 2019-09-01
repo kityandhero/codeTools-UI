@@ -31,6 +31,7 @@ class Login extends Component {
 
     if (!err) {
       const { dispatch } = this.props;
+
       dispatch({
         type: 'userLogin/login',
         payload: { ...values, type },
@@ -80,6 +81,7 @@ class Login extends Component {
     const { userLogin, submitting } = this.props;
     const { status, type: loginType } = userLogin;
     const { type, autoLogin } = this.state;
+
     return (
       <div className={styles.main}>
         <LoginComponents

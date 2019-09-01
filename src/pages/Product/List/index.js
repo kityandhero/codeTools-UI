@@ -15,12 +15,20 @@ import {
   notification,
 } from 'antd';
 
-import { getRandomColor, formatDatetime, copyToClipboard, replaceTargetText } from '@/utils/tools';
+import {
+  getRandomColor,
+  formatDatetime,
+  copyToClipboard,
+  replaceTargetText,
+  isUndefined,
+  getDerivedStateFromPropsForUrlParams,
+} from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
+import { parseUrlParamsForSetState } from '../Assist/config';
 import { fieldData } from '../Common/data';
 import SourceDrawer from '../SourceDrawer';
 
@@ -36,6 +44,29 @@ import styles from './index.less';
 class Index extends PagerList {
   componentAuthority = accessWayCollection.product.list;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '商品列表',
+        paramsKey: 'b1f88ab4-fec9-41b8-a06c-33e4351bbe4f',
+        loadApiPath: 'product/list',
+        tableScroll: { x: 2080 },
+      },
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
+
   getApiData = props => {
     const {
       product: { data },
@@ -44,17 +75,20 @@ class Index extends PagerList {
     return data;
   };
 
-  initState = () => ({
-    pageName: '商品列表',
-    paramsKey: 'b1f88ab4-fec9-41b8-a06c-33e4351bbe4f',
-    loadApiPath: 'product/list',
-    tableScroll: { x: 2080 },
-  });
+  adjustLoadRequestParams = o => {
+    const d = o || {};
+
+    if (isUndefined(d.state)) {
+      d.state = 1;
+    }
+
+    return d;
+  };
 
   handleItem = (dataId, handler) => {
-    const { customData } = this.state;
+    const { metaOriginalData } = this.state;
     let indexData = -1;
-    customData.list.forEach((o, index) => {
+    metaOriginalData.list.forEach((o, index) => {
       const { productId } = o;
       if (productId === dataId) {
         indexData = index;
@@ -62,8 +96,8 @@ class Index extends PagerList {
     });
 
     if (indexData >= 0) {
-      customData.list[indexData] = handler(customData.list[indexData]);
-      this.setState({ customData });
+      metaOriginalData.list[indexData] = handler(metaOriginalData.list[indexData]);
+      this.setState({ metaOriginalData });
     }
   };
 
@@ -93,7 +127,7 @@ class Index extends PagerList {
         });
 
         this.setState({ processing: false });
-        this.refreshGrid();
+        this.reloadData();
       }
     });
   };
@@ -357,6 +391,7 @@ class Index extends PagerList {
               fieldData.city,
               '',
               currentOperator == null ? '' : currentOperator.cityName || '',
+              null,
               'form',
               { disabled: true },
               false,
@@ -380,7 +415,7 @@ class Index extends PagerList {
             {this.renderSearchBrandFormItem(true)}
           </Col>
           <Col md={5} sm={24}>
-            {this.renderSearchProductStateFormItem()}
+            {this.renderSearchProductStateFormItem(true, 1)}
           </Col>
           {this.renderSimpleFormButton(
             <>

@@ -32,9 +32,13 @@ class ChangeOutStockTime extends UpdateForm {
 
     this.state = {
       ...this.state,
-      hour: 0,
-      minute: 0,
-      autoCompleteGoodsLogisticsProcessRequestMessage: 0,
+      ...{
+        loadApiPath: 'areaConfig/getCurrent',
+        submitApiPath: 'areaConfig/changeOutStockTime',
+        hour: 0,
+        minute: 0,
+        autoCompleteGoodsLogisticsProcessRequestMessage: 0,
+      },
     };
   }
 
@@ -46,17 +50,13 @@ class ChangeOutStockTime extends UpdateForm {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      loadApiPath: 'areaConfig/getCurrent',
-      submitApiPath: 'areaConfig/changeOutStockTime',
-    };
-
-    return result;
-  };
-
-  afterLoadSuccess = d => {
-    const { outStockHour, outStockMinute, autoCompleteGoodsLogisticsProcessRequestMessage } = d;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const {
+      outStockHour,
+      outStockMinute,
+      autoCompleteGoodsLogisticsProcessRequestMessage,
+    } = metaData;
 
     this.setState({
       hour: outStockHour,

@@ -1,17 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import {
-  Row,
-  Col,
-  Form,
-  Input,
-  Icon,
-  Button,
-  Divider,
-  Popconfirm,
-  message,
-  notification,
-} from 'antd';
+import { Row, Col, Form, Icon, Button, Divider, Popconfirm, message, notification } from 'antd';
 
 import {
   // getQueue,
@@ -28,13 +17,13 @@ import { printAllOrder } from '@/utils/print';
 import CorrelationDrawer from '../CorrelationDrawer';
 
 import { parseUrlParamsForSetState } from '../Assist/config';
+import { fieldData } from '../Common/data';
 
 import styles from './index.less';
 
-const FormItem = Form.Item;
-
-@connect(({ orderProcessing, global, loading }) => ({
+@connect(({ orderProcessing, operator, global, loading }) => ({
   orderProcessing,
+  operator,
   global,
   loading: loading.models.orderProcessing,
 }))
@@ -59,23 +48,27 @@ class List extends SingleList {
 
     this.state = {
       ...this.state,
-      currentLineId: null,
-      currentRecord: null,
-      drawerTitle: '',
-      correlationDrawerVisible: false,
-      selectedDataTableDataRows: [],
-      stateCode: -10000,
-      outboundTime: '',
-      linePrinted: [],
-      lineOutboundWait: [],
-      lineOutboundProcessing: [],
-      lineOutboundComplete: [],
-      lineTransportWait: [],
-      lineTransportProcessing: [],
-      lineTransportComplete: [],
-      lineCompleteWait: [],
-      lineCompleteProcessing: [],
-      lineCompleteComplete: [],
+      ...{
+        pageName: '线路信息列表',
+        loadApiPath: 'orderProcessing/list',
+        currentLineId: null,
+        currentRecord: null,
+        drawerTitle: '',
+        correlationDrawerVisible: false,
+        selectedDataTableDataRows: [],
+        stateCode: -10000,
+        outboundTime: '',
+        linePrinted: [],
+        lineOutboundWait: [],
+        lineOutboundProcessing: [],
+        lineOutboundComplete: [],
+        lineTransportWait: [],
+        lineTransportProcessing: [],
+        lineTransportComplete: [],
+        lineCompleteWait: [],
+        lineCompleteProcessing: [],
+        lineCompleteComplete: [],
+      },
     };
   }
 
@@ -102,20 +95,6 @@ class List extends SingleList {
     return data;
   };
 
-  initState = () => {
-    const {
-      match: {
-        params: { state: stateCode },
-      },
-    } = this.props;
-
-    return {
-      pageName: '线路信息列表',
-      loadApiPath: 'orderProcessing/list',
-      stateCode,
-    };
-  };
-
   // eslint-disable-next-line no-unused-vars
   doWhenGetSnapshotBeforeUpdate = (preProps, preState) => {
     window.clearTimeout(this.timerOutbound);
@@ -128,12 +107,12 @@ class List extends SingleList {
   // eslint-disable-next-line no-unused-vars
   doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
     const { stateCode: stateCodePre } = preState;
-    const { state: stateCodeNext } = this.state;
+    const { stateCode: stateCodeNext } = this.state;
 
     if (stateCodePre !== stateCodeNext) {
       // 清除页面数据，减少用户误解
-      this.setState({ customData: { list: [] } }, () => {
-        this.loadData();
+      this.setState({ metaListData: [] }, () => {
+        this.reloadData();
       });
     }
   };
@@ -173,11 +152,9 @@ class List extends SingleList {
     return o;
   };
 
-  afterLoadSuccess = data => {
-    const {
-      extra: { outboundTime },
-      list,
-    } = data;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { outboundTime } = metaExtra;
 
     this.setState({
       outboundTime,
@@ -208,7 +185,7 @@ class List extends SingleList {
     let needCheckingTransport = false;
     let needCheckingComplete = false;
 
-    (list || []).forEach(o => {
+    (metaListData || []).forEach(o => {
       if (o.outbound === 100) {
         lineOutboundWait.push(o.lineId);
         needCheckingOutbound = true;
@@ -468,7 +445,7 @@ class List extends SingleList {
 
       const { dataSuccess } = data;
       if (dataSuccess) {
-        this.refreshGrid();
+        this.reloadData();
 
         requestAnimationFrame(() => {
           notification.success({
@@ -498,7 +475,7 @@ class List extends SingleList {
 
       const { dataSuccess } = data;
       if (dataSuccess) {
-        this.refreshGrid();
+        this.reloadData();
 
         requestAnimationFrame(() => {
           notification.success({
@@ -938,7 +915,7 @@ class List extends SingleList {
   };
 
   afterOperateSuccess = () => {
-    this.refreshGrid();
+    this.reloadData();
   };
 
   getExportKey = () => {
@@ -989,19 +966,13 @@ class List extends SingleList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dataLoading, processing, selectedDataTableDataRows, stateCode } = this.state;
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            <FormItem label="线路名称">
-              {getFieldDecorator('name')(
-                <Input addonBefore={<Icon type="form" />} placeholder="请输入线路名称" />,
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.name, 'name')}
           </Col>
           {this.renderSimpleFormButton(
             <>

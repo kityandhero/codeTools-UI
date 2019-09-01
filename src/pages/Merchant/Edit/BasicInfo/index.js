@@ -9,7 +9,6 @@ import {
   Input,
   Spin,
   BackTop,
-  Select,
   Icon,
   Affix,
   Upload,
@@ -20,18 +19,20 @@ import { Map, Marker } from 'react-amap';
 
 import {
   refitFieldDecoratorOption,
-  refitCommonData,
   getTokenKeyName,
   buildFieldDescription,
   corsTarget,
+  getToken,
+  getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import UIPoiPicker from '@/customComponents/AMap/UIPoiPicker';
 // import UIPositionPicker from '@/customComponents/AMap/UIPositionPicker';
 
 import TabPageBase from '../../TabPageBase';
-
+import { parseUrlParamsForSetState } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
+
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -57,38 +58,37 @@ class BasicInfo extends TabPageBase {
     super(props);
 
     const tokenSetObject = {};
-    tokenSetObject[`${getTokenKeyName()}`] = localStorage.getItem(getTokenKeyName()) || '';
+    tokenSetObject[`${getTokenKeyName()}`] = getToken() || '';
 
     this.state = {
       ...this.state,
-      cardUrl: null,
-      cardUrlUploading: false,
-      reverseUrl: null,
-      reverseUrlUploading: false,
-      mapAddress: '',
-      mapLatitude: 0,
-      mapLongitude: 0,
-      mapCenterPoint: null,
-      markerPoint: null,
-      geocoder: null,
-      merchantId: null,
-      tokenSet: tokenSetObject,
+      ...{
+        loadApiPath: 'merchant/get',
+        submitApiPath: 'merchant/updateBasicInfo',
+        cardUrl: null,
+        cardUrlUploading: false,
+        reverseUrl: null,
+        reverseUrlUploading: false,
+        mapAddress: '',
+        mapLatitude: 0,
+        mapLongitude: 0,
+        mapCenterPoint: null,
+        markerPoint: null,
+        geocoder: null,
+        merchantId: null,
+        tokenSet: tokenSetObject,
+      },
     };
   }
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      merchantId: id,
-      loadApiPath: 'merchant/get',
-      submitApiPath: 'merchant/updateBasicInfo',
-    };
-
-    return result;
-  };
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
 
   supplementSubmitRequestParams = o => {
     const d = o;
@@ -105,8 +105,9 @@ class BasicInfo extends TabPageBase {
     return d;
   };
 
-  afterLoadSuccess = d => {
-    const { address, lng: longitude, lat: latitude, cardUrl, reverseUrl } = d;
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
+    const { address, lng: longitude, lat: latitude, cardUrl, reverseUrl } = metaData;
 
     this.setState(
       {
@@ -118,7 +119,7 @@ class BasicInfo extends TabPageBase {
       },
       () => {
         this.setMapPosition(window.AMap);
-      }
+      },
     );
   };
 
@@ -138,31 +139,6 @@ class BasicInfo extends TabPageBase {
     const { value: v } = e.target;
 
     this.setState({ mapLatitude: v });
-  };
-
-  merchantPayList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantPayList);
-  };
-
-  merchantPurchaseList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantPurchaseList);
-  };
-
-  merchantSwitchList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantSwitchList);
-  };
-
-  lineList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.lineList);
-  };
-
-  merchantDisplayList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantDisplayList);
   };
 
   beforeImageUpload = file => {
@@ -324,66 +300,6 @@ class BasicInfo extends TabPageBase {
     } = this.state;
     const { getFieldDecorator } = form;
 
-    const merchantPayData = this.merchantPayList();
-    const merchantPayOption = [];
-
-    merchantPayData.forEach(item => {
-      const { name, flag } = item;
-      merchantPayOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
-
-    const merchantPurchaseData = this.merchantPurchaseList();
-    const merchantPurchaseOption = [];
-
-    merchantPurchaseData.forEach(item => {
-      const { name, flag } = item;
-      merchantPurchaseOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
-
-    const merchantSwitchData = this.merchantSwitchList();
-    const merchantSwitchOption = [];
-
-    merchantSwitchData.forEach(item => {
-      const { name, flag } = item;
-      merchantSwitchOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
-
-    const lineData = this.lineList();
-    const lineOption = [];
-
-    lineData.forEach(item => {
-      const { name, flag } = item;
-      lineOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
-
-    const isMerchantDisplayData = this.merchantDisplayList();
-    const isMerchantDisplayOption = [];
-
-    isMerchantDisplayData.forEach(item => {
-      const { name, flag } = item;
-      isMerchantDisplayOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
-
     const corsUrl = corsTarget();
 
     const uploadCardUrlProps = {
@@ -449,14 +365,14 @@ class BasicInfo extends TabPageBase {
                                 required: false,
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <Input
                           disabled
                           addonBefore={<Icon type="audit" />}
                           placeholder={buildFieldDescription(fieldData.userId)}
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -475,13 +391,13 @@ class BasicInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.mName),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <Input
                           addonBefore={<Icon type="form" />}
                           placeholder={buildFieldDescription(fieldData.mName)}
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -500,13 +416,13 @@ class BasicInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.realName),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <Input
                           addonBefore={<Icon type="form" />}
                           placeholder={buildFieldDescription(fieldData.realName)}
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -525,14 +441,14 @@ class BasicInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.phone),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <Input
                           disabled
                           addonBefore={<Icon type="phone" />}
                           placeholder="暂无信息"
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -553,14 +469,14 @@ class BasicInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.phoneSpare),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <Input
                           disabled
                           addonBefore={<Icon type="phone" />}
                           placeholder="暂无信息"
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -579,14 +495,14 @@ class BasicInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.cardNo),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <Input
                           disabled
                           addonBefore={<Icon type="idcard" />}
                           placeholder="暂无信息"
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -605,10 +521,14 @@ class BasicInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.bankName),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
-                        <Input disabled addonBefore={<Icon type="form" />} placeholder="暂无信息" />
+                        <Input
+                          disabled
+                          addonBefore={<Icon type="form" />}
+                          placeholder="暂无信息"
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -627,14 +547,14 @@ class BasicInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.bankNo),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <Input
                           disabled
                           addonBefore={<Icon type="credit-card" />}
                           placeholder="暂无信息"
-                        />
+                        />,
                       )}
                     </FormItem>
                   </Col>
@@ -647,128 +567,27 @@ class BasicInfo extends TabPageBase {
               <Form layout="vertical">
                 <Row gutter={24}>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.isPay}>
-                      {getFieldDecorator(
-                        'isPay',
-                        refitFieldDecoratorOption(
-                          metaData === null ? '' : metaData.isPay || '',
-                          metaData === null ? '' : metaData.isPay || '',
-                          0,
-                          {
-                            rules: [
-                              {
-                                required: false,
-                                message: buildFieldDescription(fieldData.isPay),
-                              },
-                            ],
-                          }
-                        )
-                      )(
-                        <Select placeholder={buildFieldDescription(fieldData.isPay, '选择')}>
-                          {merchantPayOption}
-                        </Select>
-                      )}
-                    </FormItem>
+                    {this.renderFormMerchantPayFormItem(false)}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.isClose}>
-                      {getFieldDecorator(
-                        'isClose',
-                        refitFieldDecoratorOption(
-                          metaData === null ? '' : metaData.isClose || '',
-                          metaData === null ? '' : metaData.isClose || '',
-                          0,
-                          {
-                            rules: [
-                              {
-                                required: false,
-                                message: buildFieldDescription(fieldData.isClose),
-                              },
-                            ],
-                          }
-                        )
-                      )(
-                        <Select placeholder={buildFieldDescription(fieldData.isClose, '选择是否')}>
-                          {merchantPurchaseOption}
-                        </Select>
-                      )}
-                    </FormItem>
+                    {this.renderFormMerchantPurchaseFormItem(
+                      metaData === null ? '' : metaData.isClose || '',
+                    )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.isCloseShop}>
-                      {getFieldDecorator(
-                        'isCloseShop',
-                        refitFieldDecoratorOption(
-                          metaData === null ? '' : metaData.isCloseShop || '',
-                          metaData === null ? '' : metaData.isCloseShop || '',
-                          0,
-                          {
-                            rules: [
-                              {
-                                required: false,
-                                message: buildFieldDescription(fieldData.isCloseShop),
-                              },
-                            ],
-                          }
-                        )
-                      )(
-                        <Select placeholder={buildFieldDescription(fieldData.isCloseShop, '选择')}>
-                          {merchantSwitchOption}
-                        </Select>
-                      )}
-                    </FormItem>
+                    {this.renderFormMerchantSwitchFormItem(
+                      metaData === null ? '' : metaData.isCloseShop || '',
+                    )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.lineId}>
-                      {getFieldDecorator(
-                        'lineId',
-                        refitFieldDecoratorOption(
-                          metaData === null ? '0' : metaData.lineId || '0',
-                          metaData === null ? '0' : metaData.lineId || '0',
-                          '0',
-                          {
-                            rules: [
-                              {
-                                required: false,
-                                message: buildFieldDescription(fieldData.lineId),
-                              },
-                            ],
-                          }
-                        )
-                      )(
-                        <Select placeholder={buildFieldDescription(fieldData.lineId, '选择')}>
-                          {lineOption}
-                        </Select>
-                      )}
-                    </FormItem>
+                    {this.renderFormLineFormItem(metaData === null ? '0' : metaData.lineId || '0')}
                   </Col>
                 </Row>
                 <Row gutter={24}>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.isDisplay}>
-                      {getFieldDecorator(
-                        'isDisplay',
-                        refitFieldDecoratorOption(
-                          metaData === null ? '' : metaData.isDisplay || '',
-                          metaData === null ? '' : metaData.isDisplay || '',
-                          0,
-                          {
-                            rules: [
-                              {
-                                required: false,
-                                message: buildFieldDescription(fieldData.isDisplay),
-                              },
-                            ],
-                          }
-                        )
-                      )(
-                        <Select
-                          placeholder={buildFieldDescription(fieldData.isMerchantDisplay, '选择')}
-                        >
-                          {isMerchantDisplayOption}
-                        </Select>
-                      )}
-                    </FormItem>
+                    {this.renderFormMerchantDisplayFormItem(
+                      metaData === null ? '' : metaData.isDisplay || '',
+                    )}
                   </Col>
                 </Row>
               </Form>
@@ -888,8 +707,8 @@ class BasicInfo extends TabPageBase {
                                 message: buildFieldDescription(fieldData.map),
                               },
                             ],
-                          }
-                        )
+                          },
+                        ),
                       )(
                         <div className={styles.mapBox}>
                           <div className={styles.searchBox}>
@@ -934,7 +753,7 @@ class BasicInfo extends TabPageBase {
                               {/* <UIPositionPicker callback={this.setPositionInfo} /> */}
                             </Map>
                           </div>
-                        </div>
+                        </div>,
                       )}
                     </FormItem>
                   </Col>

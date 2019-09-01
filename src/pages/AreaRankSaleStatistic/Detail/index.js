@@ -2,13 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Row, Col, Descriptions } from 'antd';
 
-import {
-  isInvalid,
-  formatDatetime,
-  searchFromList,
-  refitCommonData,
-  getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
+import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
 
@@ -34,6 +28,19 @@ class Edit extends LoadDataTabContainer {
     },
   ];
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '销售分类分时统计：',
+        loadApiPath: 'areaRankSaleStatistic/get',
+        backPath: `/statistic/areaRankSale/list/key`,
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -42,16 +49,6 @@ class Edit extends LoadDataTabContainer {
       parseUrlParamsForSetState,
     );
   }
-
-  initState = () => {
-    const result = {
-      pageName: '销售分类分时统计：',
-      loadApiPath: 'areaRankSaleStatistic/get',
-      backPath: `/statistic/areaRankSale/list/key`,
-    };
-
-    return result;
-  };
 
   getApiData = props => {
     const {
@@ -70,7 +67,8 @@ class Edit extends LoadDataTabContainer {
     return d;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     let title = '统计时段';
 
     switch (metaData.mode) {
@@ -101,24 +99,6 @@ class Edit extends LoadDataTabContainer {
     this.setState({
       pageName: `销售分类分时统计：${title}`,
     });
-  };
-
-  resolveList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.areaRankSaleStatisticResolveList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getResolveName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.resolveList());
-    return item == null ? '未知' : item.name;
   };
 
   pageHeaderExtraContent = () => {

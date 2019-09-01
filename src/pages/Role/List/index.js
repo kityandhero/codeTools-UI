@@ -5,7 +5,6 @@ import {
   Row,
   Col,
   Form,
-  Select,
   Icon,
   Button,
   Dropdown,
@@ -18,24 +17,14 @@ import {
   notification,
 } from 'antd';
 
-import {
-  isInvalid,
-  formatDatetime,
-  searchFromList,
-  refitCommonData,
-  buildFieldDescription,
-  copyToClipboard,
-  replaceTargetText,
-} from '@/utils/tools';
+import { formatDatetime, copyToClipboard, replaceTargetText } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import AddModal from '../AddModal';
-import { fieldData } from '../Common/data';
 
-const FormItem = Form.Item;
 const { confirm } = Modal;
 
 @connect(({ role, global, loading }) => ({
@@ -47,39 +36,27 @@ const { confirm } = Modal;
 class Standard extends PagerList {
   componentAuthority = accessWayCollection.role.list;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        changeAddModalVisible: false,
+        pageName: '角色列表',
+        paramsKey: 'ba0edd5f-09c1-413b-879b-0d8ce87604bf',
+        loadApiPath: 'role/list',
+        dateRangeFieldName: '创建时间',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       role: { data },
     } = props;
 
     return data;
-  };
-
-  extendState = () => ({ changeAddModalVisible: false });
-
-  initState = () => ({
-    pageName: '角色列表',
-    paramsKey: 'ba0edd5f-09c1-413b-879b-0d8ce87604bf',
-    loadApiPath: 'role/list',
-    dateRangeFieldName: '创建时间',
-  });
-
-  roleStateList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.roleStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getRoleStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.roleStateList());
-    return item == null ? '未知' : item.name;
   };
 
   getRoleStateBadgeStatus = v => {
@@ -125,7 +102,7 @@ class Standard extends PagerList {
       dispatch(
         routerRedux.push({
           pathname: `/account/role/edit/load/${roleId}/key/basicInfo`,
-        })
+        }),
       );
     } else {
       message.error(messageText);
@@ -263,7 +240,7 @@ class Standard extends PagerList {
               });
             });
 
-            that.refreshGrid();
+            that.reloadData();
           }
 
           that.setState({ processing: false });
@@ -294,41 +271,13 @@ class Standard extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName, dataLoading, processing } = this.state;
-
-    const roleStateData = this.roleStateList();
-    const roleStateOption = [];
-
-    roleStateData.forEach(item => {
-      const { name, flag } = item;
-      roleStateOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={4} sm={24}>
-            <FormItem label={fieldData.state}>
-              {getFieldDecorator('state', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.state, '选择') },
-                ],
-                initialValue: roleStateData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.state, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {roleStateOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchRoleStateFormItem(true)}
           </Col>
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 8)}
           {this.renderSimpleFormButton(
@@ -346,7 +295,7 @@ class Standard extends PagerList {
                 </Button>
               </>
             ) : null,
-            8
+            8,
           )}
         </Row>
       </>

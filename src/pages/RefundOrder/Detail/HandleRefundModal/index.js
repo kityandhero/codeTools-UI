@@ -36,16 +36,19 @@ class HandleRefundModal extends ModalBase {
 
     this.state = {
       ...this.state,
-      refundOrderId: null,
-      refundAmount: 0,
+      ...{
+        pageName: '修改退款金额',
+        submitApiPath: 'refundOrder/changeRefundAmount',
+        dataLoading: false,
+        refundOrderId: null,
+        refundAmount: 0,
+      },
     };
   }
 
   // eslint-disable-next-line no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { refundOrderId, refundAmount } = nextProps;
-
-    return { refundOrderId, refundAmount };
+    return super.getDerivedStateFromProps(nextProps, prevState);
   }
 
   getApiData = props => {
@@ -56,19 +59,12 @@ class HandleRefundModal extends ModalBase {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      pageName: '修改退款金额',
-      submitApiPath: 'refundOrder/changeRefundAmount',
-      dataLoading: false,
-    };
-
-    return result;
-  };
-
   supplementSubmitRequestParams = o => {
     const d = o;
-    const { refundOrderId } = this.state;
+
+    const {
+      externalData: { refundOrderId },
+    } = this.state;
 
     d.refundOrderId = refundOrderId;
 
@@ -92,8 +88,11 @@ class HandleRefundModal extends ModalBase {
 
   formContent = () => {
     const { form } = this.props;
-    const { refundAmount } = this.state;
     const { getFieldDecorator } = form;
+
+    const { externalData } = this.state;
+
+    const { refundAmount } = externalData || { refundAmount: 0 };
 
     return (
       <>
@@ -111,13 +110,13 @@ class HandleRefundModal extends ModalBase {
                     message: buildFieldDescription(fieldData.refundAmount, '输入'),
                   },
                 ],
-              }
-            )
+              },
+            ),
           )(
             <Input
               addonBefore={<Icon type="money-collect" />}
               placeholder={buildFieldDescription(fieldData.refundAmount)}
-            />
+            />,
           )}
         </FormItem>
       </>

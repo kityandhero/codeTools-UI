@@ -5,7 +5,6 @@ import {
   Row,
   Col,
   Form,
-  Input,
   Icon,
   Dropdown,
   Menu,
@@ -28,7 +27,8 @@ import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
-const FormItem = Form.Item;
+import { fieldData } from '../Common/data';
+
 const { confirm } = Modal;
 
 @connect(({ line, global, loading }) => ({
@@ -40,6 +40,19 @@ const { confirm } = Modal;
 class List extends PagerList {
   componentAuthority = accessWayCollection.line.list;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '配送线路列表',
+        paramsKey: 'c3a646bd-9b56-4dc7-9d8f-fc330fd735cc',
+        loadApiPath: 'line/list',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       line: { data },
@@ -47,12 +60,6 @@ class List extends PagerList {
 
     return data;
   };
-
-  initState = () => ({
-    pageName: '配送线路列表',
-    paramsKey: 'c3a646bd-9b56-4dc7-9d8f-fc330fd735cc',
-    loadApiPath: 'line/list',
-  });
 
   handleItem = (dataId, handler) => {
     const { customData } = this.state;
@@ -122,7 +129,7 @@ class List extends PagerList {
         });
 
         this.setState({ processing: false });
-        this.refreshGrid();
+        this.reloadData();
       }
     });
   };
@@ -204,19 +211,13 @@ class List extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
     const { dataLoading, processing } = this.state;
-    const { getFieldDecorator } = form;
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            <FormItem label="名称">
-              {getFieldDecorator('name')(
-                <Input addonBefore={<Icon type="form" />} placeholder="请输入线路名称" />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.name, 'name')}
           </Col>
           {this.renderSimpleFormButton(
             this.checkAuthority(accessWayCollection.line.add) ? (
@@ -233,7 +234,7 @@ class List extends PagerList {
                 </Button>
               </>
             ) : null,
-            6
+            6,
           )}
         </Row>
       </>

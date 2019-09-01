@@ -11,20 +11,31 @@ import ModuleDrawer from '../ModuleDrawer';
 }))
 @Form.create()
 class RoleModuleDrawer extends ModuleDrawer {
-  extendState = () => ({
-    showSelect: true,
-    selectModuleApiPath: 'role/addModule',
-    selectMultiModuleApiPath: 'role/addMultiModule',
-    selectAllModuleApiPath: 'role/addAllModule',
-  });
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        showSelect: true,
+        selectModuleApiPath: 'role/addModule',
+        selectMultiModuleApiPath: 'role/addMultiModule',
+        selectAllModuleApiPath: 'role/addAllModule',
+      },
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return super.getDerivedStateFromProps(nextProps, prevState);
+  }
 
   supplementLoadRequestParams = o => {
     const d = o;
-    const { sourceData: source } = this.props;
+    const { externalData } = this.props;
 
-    if (source != null) {
-      d.roleId = source.roleId;
-      d.channel = source.channel;
+    if ((externalData || null) != null) {
+      d.roleId = externalData.roleId;
+      d.channel = externalData.channel;
     }
 
     return d;
@@ -38,13 +49,13 @@ class RoleModuleDrawer extends ModuleDrawer {
   };
 
   supplementRequestSelectModuleParams = o => {
-    const { sourceData } = this.state;
+    const { externalData } = this.state;
 
     const result = o;
 
-    if (sourceData != null) {
-      result.roleId = sourceData.roleId;
-      result.channel = sourceData.channel;
+    if ((externalData || null) != null) {
+      result.roleId = externalData.roleId;
+      result.channel = externalData.channel;
     }
 
     return result;

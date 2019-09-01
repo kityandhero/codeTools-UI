@@ -31,7 +31,7 @@ const links = [
 const copyright = (
   <>
     2018 {defaultSettings.getPlatformName()}体验技术部出品{' '}
-    <a href="http://www.beian.miit.gov.cn" without rel="noopener noreferrer" target="_blank">
+    <a href="http://www.beian.miit.gov.cn" without="true" rel="noopener noreferrer" target="_blank">
       豫ICP备15014426号
     </a>
   </>

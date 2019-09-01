@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Card, Form, Row, Col, Spin, BackTop, Select, Icon } from 'antd';
+import { Card, Form, Row, Col, Spin, BackTop, Icon } from 'antd';
 
 import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
@@ -18,6 +18,18 @@ import styles from './index.less';
 class BasicInfo extends TabPageBase {
   componentAuthority = accessWayCollection.goodsLogisticsProcessRequestMessageDayInspect.get;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        loadApiPath: 'goodsLogisticsProcessRequestMessageDayInspectId/get',
+        submitApiPath: 'goodsLogisticsProcessRequestMessageDayInspectId/updateBasicInfo',
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -26,15 +38,6 @@ class BasicInfo extends TabPageBase {
       parseUrlParamsForSetState,
     );
   }
-
-  initState = () => {
-    const result = {
-      loadApiPath: 'goodsLogisticsProcessRequestMessageDayInspectId/get',
-      submitApiPath: 'goodsLogisticsProcessRequestMessageDayInspectId/updateBasicInfo',
-    };
-
-    return result;
-  };
 
   supplementSubmitRequestParams = o => {
     const d = o;
@@ -47,54 +50,6 @@ class BasicInfo extends TabPageBase {
 
   formContent = () => {
     const { metaData, processing, dataLoading } = this.state;
-
-    const goodsLogisticsProcessRequestMessageDayInspectTypeData = this.goodsLogisticsProcessRequestMessageDayInspectTypeList();
-    const goodsLogisticsProcessRequestMessageDayInspectTypeOption = [];
-
-    goodsLogisticsProcessRequestMessageDayInspectTypeData.forEach(item => {
-      const { name, flag } = item;
-      goodsLogisticsProcessRequestMessageDayInspectTypeOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const sexData = this.sexList();
-    const sexOption = [];
-
-    sexData.forEach(item => {
-      const { name, flag } = item;
-      sexOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const orderMessageData = this.orderMessageList();
-    const orderMessageOption = [];
-
-    orderMessageData.forEach(item => {
-      const { name, flag } = item;
-      orderMessageOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const administrationAuthorityData = this.administrationAuthorityList();
-    const administrationAuthorityOption = [];
-
-    administrationAuthorityData.forEach(item => {
-      const { name, flag } = item;
-      administrationAuthorityOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
 
     return (
       <>

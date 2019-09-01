@@ -1,23 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Form, Select, DatePicker, Input, Icon } from 'antd';
+import { Row, Col, Form } from 'antd';
 
-import {
-  formatDatetime,
-  copyToClipboard,
-  replaceTargetText,
-  buildFieldDescription,
-  refitCommonData,
-} from '@/utils/tools';
+import { formatDatetime, copyToClipboard, replaceTargetText, formatMoney } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
-
-const FormItem = Form.Item;
-const { Option } = Select;
 
 @connect(({ goodsOutboundMerchantRecord, global, loading }) => ({
   goodsOutboundMerchantRecord,
@@ -33,7 +24,14 @@ class Standard extends PagerList {
 
     this.state = {
       ...this.state,
-      batchDate: '',
+      ...{
+        pageName: '社区出库批次物品统计',
+        paramsKey: '4d875311-c811-4d20-83aa-f1f59d07af94',
+        loadApiPath: 'goodsOutboundMerchantRecord/list',
+        dateRangeFieldName: '发生时段',
+        tableScroll: { x: 2220 },
+        batchDate: '',
+      },
     };
   }
 
@@ -45,28 +43,11 @@ class Standard extends PagerList {
     return data;
   };
 
-  initState = () => ({
-    pageName: '社区出库批次物品统计',
-    paramsKey: '4d875311-c811-4d20-83aa-f1f59d07af94',
-    loadApiPath: 'goodsOutboundMerchantRecord/list',
-    dateRangeFieldName: '发生时段',
-    tableScroll: { x: 2220 },
-  });
-
   getCurrentOperator = () => {
     const {
       global: { currentOperator },
     } = this.props;
     return currentOperator;
-  };
-
-  lineList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.lineList, {
-      key: '-10000',
-      name: '不限',
-      flag: '-10000',
-    });
   };
 
   handleFormOtherReset = () => {
@@ -91,112 +72,40 @@ class Standard extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName } = this.state;
     const currentOperator = this.getCurrentOperator();
-
-    const lineData = this.lineList();
-    const lineOption = [];
-
-    lineData.forEach(item => {
-      const { name, flag } = item;
-      lineOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
-
-    const rankData = this.rankList();
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.areaAgentId}>
-              <Input
-                addonBefore={<Icon type="form" />}
-                disabled
-                value={currentOperator == null ? '' : currentOperator.cityName || ''}
-              />
-            </FormItem>
+            {this.renderSearchInputFormItem(
+              fieldData.city,
+              '',
+              currentOperator == null ? '' : currentOperator.cityName || '',
+              null,
+              'form',
+              { disabled: true },
+              false,
+            )}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.batchDate}>
-              {getFieldDecorator('batchDate', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.areaAgentId, '选择'),
-                  },
-                ],
-              })(
-                <DatePicker
-                  placeholder={buildFieldDescription(fieldData.batchDate, '选择')}
-                  format="YYYY-MM-DD"
-                  onChange={this.onBatchDateChange}
-                  style={{ width: '100%' }}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchBatchDateFormItem()}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.lineId}>
-              {getFieldDecorator('lineId', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.lineId, '选择') },
-                ],
-                initialValue: lineData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.lineId, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {lineOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchLineFormItem(true)}
           </Col>
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 9)}
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.merchantId}>
-              {getFieldDecorator('merchantId')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.merchantId, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.merchantId, 'merchantId')}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.productId}>
-              {getFieldDecorator('productId')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.productId, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.productId, 'productId')}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.rankId}>
-              {getFieldDecorator('rankId', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.type, '选择') },
-                ],
-                initialValue: rankData[0].rankId,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.type, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {this.renderRankOption()}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchRankFormItem(true)}
           </Col>
           {this.renderSimpleFormButton(null, 9)}
         </Row>
@@ -265,7 +174,7 @@ class Standard extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {val}
+            {val || '--'}
           </Ellipsis>
         </>
       ),
@@ -291,7 +200,7 @@ class Standard extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {val ? `￥${val}` : '--'}
+            {val ? formatMoney(val) : '--'}
           </Ellipsis>
         </>
       ),
@@ -304,7 +213,7 @@ class Standard extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {val ? `￥${val}` : '--'}
+            {val ? formatMoney(val) : '--'}
           </Ellipsis>
         </>
       ),
@@ -317,7 +226,7 @@ class Standard extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {val ? `￥${val}` : '--'}
+            {val ? formatMoney(val) : '--'}
           </Ellipsis>
         </>
       ),

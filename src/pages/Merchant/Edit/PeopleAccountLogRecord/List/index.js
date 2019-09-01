@@ -1,22 +1,20 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Form, Select } from 'antd';
+import { Row, Col, Form } from 'antd';
 
 import {
   formatDatetime,
   copyToClipboard,
   replaceTargetText,
-  buildFieldDescription,
-  refitCommonData,
   getRandomColor,
+  getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import InnerPagerList from '@/customComponents/Framework/CustomList/PagerList/InnerPagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
-const FormItem = Form.Item;
-const { Option } = Select;
+import { parseUrlParamsForSetState } from '../../../Assist/config';
 
 const fieldData = {
   peopleAccountLogId: '标识',
@@ -48,8 +46,22 @@ class Index extends InnerPagerList {
 
     this.state = {
       ...this.state,
-      batchDate: '',
+      ...{
+        loadApiPath: 'peopleAccountLog/listByMerchant',
+        dateRangeFieldName: '发生时段',
+        batchDate: '',
+        merchantId: null,
+      },
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
   }
 
   getApiData = props => {
@@ -60,61 +72,11 @@ class Index extends InnerPagerList {
     return data;
   };
 
-  initState = () => {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const result = {
-      merchantId: id,
-      loadApiPath: 'peopleAccountLog/listByMerchant',
-      dateRangeFieldName: '发生时段',
-    };
-
-    return result;
-  };
-
   getCurrentOperator = () => {
     const {
       global: { currentOperator },
     } = this.props;
     return currentOperator;
-  };
-
-  lineList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.lineList, {
-      key: '-10000',
-      name: '不限',
-      flag: '-10000',
-    });
-  };
-
-  typeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.peopleAccountLogTypeList, {
-      key: '-10000',
-      name: '不限',
-      flag: '-10000',
-    });
-  };
-
-  isOutInList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.peopleAccountLogIsOutInList, {
-      key: '-10000',
-      name: '不限',
-      flag: '-10000',
-    });
-  };
-
-  inTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.peopleAccountLogInTypeList, {
-      key: '-10000',
-      name: '不限',
-      flag: '-10000',
-    });
   };
 
   handleFormOtherReset = () => {
@@ -140,82 +102,16 @@ class Index extends InnerPagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName } = this.state;
-
-    const typeData = this.typeList();
-    const typeOption = [];
-
-    typeData.forEach(item => {
-      const { name, flag } = item;
-      typeOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
-
-    const isOutInData = this.isOutInList();
-    const isOutInOption = [];
-
-    isOutInData.forEach(item => {
-      const { name, flag } = item;
-      isOutInOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
-
-    const inTypeData = this.inTypeList();
-    const inTypeOption = [];
-
-    inTypeData.forEach(item => {
-      const { name, flag } = item;
-      inTypeOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.type}>
-              {getFieldDecorator('type', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.type, '选择') },
-                ],
-                initialValue: typeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.type, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {typeOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchPeopleAccountLogTypeFormItem(true)}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.isOutIn}>
-              {getFieldDecorator('isOutIn', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.isOutIn, '选择') },
-                ],
-                initialValue: isOutInData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.isOutIn, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {isOutInOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchPeopleAccountLogIsOutInFormItem(true)}
           </Col>
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 8)}
           {this.renderSimpleFormButton(null, 6)}

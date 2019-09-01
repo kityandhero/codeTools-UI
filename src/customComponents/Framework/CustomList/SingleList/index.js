@@ -1,11 +1,7 @@
 import React from 'react';
 import { message } from 'antd';
 
-import {
-  defaultListState,
-  pretreatmentRequestParams,
-  stringIsNullOrWhiteSpace,
-} from '@/utils/tools';
+import { defaultListState, stringIsNullOrWhiteSpace } from '@/utils/tools';
 import ListBase from '@/customComponents/Framework/CustomList/ListBase';
 import StandardTableCustom from '@/customComponents/StandardTableCustom';
 
@@ -42,83 +38,55 @@ class SingleList extends ListBase {
     );
   };
 
-  initLoad = () => {
-    const { loadApiPath } = this.state;
+  initLoadRequestParams = (o = {}) => {
+    let d = o;
+
+    const { loadApiPath, formValues, filters, sorter } = this.state;
 
     if ((loadApiPath || '') === '') {
       message.error('loadApiPath需要配置');
-      return;
+      return d;
     }
 
-    this.loadData({});
-  };
+    const { startTimeAlias, endTimeAlias, startTime, endTime } = this.state;
 
-  loadData = (params, callback) => {
-    const { dispatch } = this.props;
-    const { loadApiPath } = this.state;
-
-    let submitData = pretreatmentRequestParams(params, d => {
-      const o = d;
-
-      const { startTimeAlias, endTimeAlias, startTime, endTime } = this.state;
-
-      if (!stringIsNullOrWhiteSpace(startTime)) {
-        if (!stringIsNullOrWhiteSpace(startTimeAlias)) {
-          o[startTimeAlias] = startTime;
-        } else {
-          o.startTime = startTime;
-        }
+    if (!stringIsNullOrWhiteSpace(startTime)) {
+      if (!stringIsNullOrWhiteSpace(startTimeAlias)) {
+        d[startTimeAlias] = startTime;
+      } else {
+        d.startTime = startTime;
       }
+    }
 
-      if (!stringIsNullOrWhiteSpace(endTime)) {
-        if (!stringIsNullOrWhiteSpace(endTimeAlias)) {
-          o[endTimeAlias] = endTime;
-        } else {
-          o.endTime = endTime;
-        }
+    if (!stringIsNullOrWhiteSpace(endTime)) {
+      if (!stringIsNullOrWhiteSpace(endTimeAlias)) {
+        d[endTimeAlias] = endTime;
+      } else {
+        d.endTime = endTime;
       }
+    }
 
-      delete o.dateRange;
+    d = {
+      ...d,
+      ...{
+        ...(formValues || {}),
+        ...(filters || {}),
+        ...(sorter || {}),
+      },
+    };
 
-      return o;
-    });
+    delete d.dateRange;
 
-    submitData = this.supplementLoadRequestParams(submitData);
-
-    this.setState({ dataLoading: true });
-
-    dispatch({
-      type: loadApiPath,
-      payload: submitData,
-    }).then(() => {
-      if (this.mounted) {
-        const data = this.getApiData(this.props);
-
-        this.lastLoadParams = params;
-
-        const { dataSuccess } = data;
-
-        if (dataSuccess) {
-          const customData = { list: data.list };
-
-          this.setState({ customData });
-
-          if (typeof this.afterLoadSuccess === 'function') {
-            this.afterLoadSuccess(data);
-          }
-        }
-
-        this.setState({ dataLoading: false });
-
-        if (typeof callback === 'function') {
-          callback();
-        }
-      }
-    });
+    return d;
   };
 
   handleSearch = e => {
     e.preventDefault();
+
+    if (this.checkWorkDoing()) {
+      return;
+    }
+
     const { form } = this.props;
 
     form.validateFields((err, fieldsValue) => {
@@ -129,13 +97,7 @@ class SingleList extends ListBase {
         updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
       };
 
-      this.setState({
-        formValues: values,
-      });
-
-      this.loadData({
-        ...values,
-      });
+      this.searchData({ formValues: values });
     });
   };
 
@@ -144,7 +106,7 @@ class SingleList extends ListBase {
       tableScroll,
       showSelect,
       selectedDataTableDataRows,
-      customData,
+      metaOriginalData,
       dataLoading,
       processing,
     } = this.state;
@@ -153,7 +115,7 @@ class SingleList extends ListBase {
 
     const standardTableCustomOption = {
       loading: dataLoading || processing,
-      data: customData,
+      data: metaOriginalData || { list: [] },
       showSelect,
       pagination: false,
       selectedRows: selectedDataTableDataRows,

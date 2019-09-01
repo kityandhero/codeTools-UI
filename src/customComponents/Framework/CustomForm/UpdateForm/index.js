@@ -118,7 +118,7 @@ class UpdateForm extends LoadDataForm {
               // eslint-disable-next-line react/no-unused-state
               this.setState({ processing: false }, () => {
                 if (this.goToUpdateWhenProcessed) {
-                  this.reloadFByUrl();
+                  this.reloadByUrl();
                 }
               });
             }

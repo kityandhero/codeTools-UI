@@ -3,13 +3,7 @@ import { connect } from 'dva';
 
 import { Row, Col, Descriptions } from 'antd';
 
-import {
-  refitCommonData,
-  isInvalid,
-  searchFromList,
-  formatDatetime,
-  getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
+import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
 
@@ -46,6 +40,19 @@ class Edit extends LoadDataTabContainer {
     },
   ];
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '账户名：',
+        loadApiPath: 'areaManage/get',
+        backPath: `/account/areaManage/list/key`,
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -63,16 +70,6 @@ class Edit extends LoadDataTabContainer {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      pageName: '账户名：',
-      loadApiPath: 'areaManage/get',
-      backPath: `/account/areaManage/list/key`,
-    };
-
-    return result;
-  };
-
   // eslint-disable-next-line no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
@@ -87,29 +84,11 @@ class Edit extends LoadDataTabContainer {
     return d;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     const { name } = metaData;
 
     this.setState({ pageName: `账户名：${name}` });
-  };
-
-  areaManageStateList = () => {
-    const { global } = this.props;
-
-    return refitCommonData(global.areaManageStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getAreaManageStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.areaManageStateList());
-    return item == null ? '未知' : item.name;
   };
 
   pageHeaderExtraContent = () => {

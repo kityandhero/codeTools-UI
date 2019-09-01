@@ -13,10 +13,14 @@ class UpdateModuleModalBase extends ModalBase {
 
     this.state = {
       ...defaultState,
-      sourceData: [],
-      customData: [],
-      targetKeys: [],
-      selectedKeys: [],
+      ...{
+        pageName: '更新权限设置',
+        submitApiPath: 'role/updateModule',
+        sourceData: [],
+        customData: [],
+        targetKeys: [],
+        selectedKeys: [],
+      },
     };
   }
 
@@ -48,15 +52,6 @@ class UpdateModuleModalBase extends ModalBase {
     } = props;
 
     return data;
-  };
-
-  initState = () => ({
-    pageName: '更新权限设置',
-    submitApiPath: 'role/updateModule',
-  });
-
-  initOther = () => {
-    this.handlePropData(this.props);
   };
 
   supplementSubmitRequestParams = data => {

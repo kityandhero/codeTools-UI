@@ -28,9 +28,11 @@ class PagerList extends ListBase {
     };
   }
 
-  handleFormReset = () => {
-    if (this.checkWorkDoing()) {
-      return;
+  handleFormReset = (checkWorkDoing = true) => {
+    if (checkWorkDoing) {
+      if (this.checkWorkDoing()) {
+        return;
+      }
     }
 
     const { form } = this.props;
@@ -54,8 +56,20 @@ class PagerList extends ListBase {
     );
   };
 
-  initLoadRequestParams = (o = {}) => {
-    let d = o;
+  /**
+   * 轻微调整初始化请求数据体
+   *
+   * @memberof PagerList
+   */
+  adjustLoadRequestParams = o => o || {};
+
+  /**
+   * 创建初始化请求数据体
+   *
+   * @memberof PagerList
+   */
+  initLoadRequestParams = o => {
+    let d = o || {};
 
     const { paramsKey, loadApiPath, formValues, filters, sorter } = this.state;
 
@@ -105,7 +119,7 @@ class PagerList extends ListBase {
       delete d.dateRange;
     }
 
-    return d;
+    return this.adjustLoadRequestParams(d);
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -199,7 +213,7 @@ class PagerList extends ListBase {
       tableScroll,
       showSelect,
       selectedDataTableDataRows,
-      originalData,
+      metaOriginalData,
       dataLoading,
       processing,
     } = this.state;
@@ -208,7 +222,7 @@ class PagerList extends ListBase {
 
     const standardTableCustomOption = {
       loading: dataLoading || processing,
-      data: originalData || { list: [], pagination: {} },
+      data: metaOriginalData || { list: [], pagination: {} },
       showSelect,
       selectedRows: selectedDataTableDataRows,
       columns,

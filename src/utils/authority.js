@@ -1,10 +1,11 @@
 import accessWayCollection from '@/utils/accessWayCollection';
+import { getStringFromLocalStorage, saveJsonToLocalStorage } from './tools';
 
 // use localStorage to store the authority info, which might be sent from server in actual project.
 export function getAuthority(str) {
-  // return localStorage.getItem('antd-pro-authority') || ['admin', 'user'];
+  // return getStringFromLocalStorage('antd-pro-authority') || ['admin', 'user'];
   const authorityString =
-    typeof str === 'undefined' ? localStorage.getItem('antd-pro-authority') : str;
+    typeof str === 'undefined' ? getStringFromLocalStorage('antd-pro-authority') : str;
   // authorityString could be admin, "admin", ["admin"]
   let authority;
   try {
@@ -19,8 +20,8 @@ export function getAuthority(str) {
 }
 
 function getAllAuthorityCore() {
-  // return localStorage.getItem('antd-pro-authority') || ['admin', 'user'];
-  const authorityString = localStorage.getItem('antd-pro-authority');
+  // return getStringFromLocalStorage('antd-pro-authority') || ['admin', 'user'];
+  const authorityString = getStringFromLocalStorage('antd-pro-authority');
   // authorityString could be admin, "admin", ["admin"]
   let authority;
   try {
@@ -55,5 +56,5 @@ export function checkHasAuthority(auth) {
 
 export function setAuthority(authority) {
   const proAuthority = typeof authority === 'string' ? [authority] : authority;
-  return localStorage.setItem('antd-pro-authority', JSON.stringify(proAuthority));
+  return saveJsonToLocalStorage('antd-pro-authority', proAuthority);
 }

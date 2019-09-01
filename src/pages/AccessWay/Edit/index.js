@@ -5,10 +5,7 @@ import { Row, Col, Avatar, Button, Descriptions } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import {
-  isInvalid,
   formatDatetime,
-  searchFromList,
-  refitCommonData,
   pretreatmentRequestParams,
   getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
@@ -54,24 +51,6 @@ class Edit extends LoadDataTabContainer {
       parseUrlParamsForSetState,
     );
   }
-
-  resolveList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.accessWayResolveList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getResolveName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.resolveList());
-    return item == null ? '未知' : item.name;
-  };
 
   loadData = () => {
     const { dispatch } = this.props;

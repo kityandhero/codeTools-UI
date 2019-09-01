@@ -5,7 +5,6 @@ import {
   Row,
   Col,
   Form,
-  Input,
   Icon,
   Dropdown,
   Menu,
@@ -17,12 +16,7 @@ import {
 } from 'antd';
 import moment from 'moment';
 
-import {
-  pretreatmentRequestParams,
-  buildFieldDescription,
-  copyToClipboard,
-  replaceTargetText,
-} from '@/utils/tools';
+import { pretreatmentRequestParams, copyToClipboard, replaceTargetText } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
@@ -33,7 +27,6 @@ import defaultSettings from '../../../../config/defaultSettings';
 import { fieldData } from '../Common/data';
 import styles from './index.less';
 
-const FormItem = Form.Item;
 const { confirm } = Modal;
 
 @connect(({ qRCode, global, loading }) => ({
@@ -45,6 +38,20 @@ const { confirm } = Modal;
 class List extends PagerList {
   componentAuthority = accessWayCollection.qRCode.list;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageSize: 6,
+        pageName: '二维码列表',
+        paramsKey: '67070125-2245-4f83-8fd0-aeb759d6e5c3',
+        loadApiPath: 'qRCode/list',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       qRCode: { data },
@@ -52,13 +59,6 @@ class List extends PagerList {
 
     return data;
   };
-
-  initState = () => ({
-    pageSize: 6,
-    pageName: '二维码列表',
-    paramsKey: '67070125-2245-4f83-8fd0-aeb759d6e5c3',
-    loadApiPath: 'qRCode/list',
-  });
 
   handleItem = (dataId, handler) => {
     const { customData } = this.state;
@@ -128,7 +128,7 @@ class List extends PagerList {
         });
 
         this.setState({ processing: false });
-        this.refreshGrid();
+        this.reloadData();
       }
     });
   };
@@ -165,22 +165,13 @@ class List extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
     const { dataLoading, processing } = this.state;
-    const { getFieldDecorator } = form;
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            <FormItem label="名称">
-              {getFieldDecorator('title')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.keywords)}
-                />,
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.title, 'title')}
           </Col>
           {this.renderSimpleFormButton(
             this.checkAuthority(accessWayCollection.qRCode.add) ? (

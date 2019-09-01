@@ -30,6 +30,19 @@ class Edit extends LoadDataTabContainer {
     },
   ];
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '出库处理：',
+        loadApiPath: 'goodsLogisticsProcessRequestMessageDayInspect/get',
+        backPath: `/goodsLogisticsProcessRequestMessageDayInspect/list/key`,
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -45,16 +58,6 @@ class Edit extends LoadDataTabContainer {
     } = props;
 
     return data;
-  };
-
-  initState = () => {
-    const result = {
-      pageName: '出库处理：',
-      loadApiPath: 'goodsLogisticsProcessRequestMessageDayInspect/get',
-      backPath: `/goodsLogisticsProcessRequestMessageDayInspect/list/key`,
-    };
-
-    return result;
   };
 
   // eslint-disable-next-line no-unused-vars

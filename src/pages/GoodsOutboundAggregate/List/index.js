@@ -1,21 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Form, DatePicker, Input, Icon } from 'antd';
+import { Row, Col, Form } from 'antd';
 
-import {
-  formatDatetime,
-  copyToClipboard,
-  replaceTargetText,
-  buildFieldDescription,
-} from '@/utils/tools';
+import { formatDatetime, copyToClipboard, replaceTargetText } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
-
-const FormItem = Form.Item;
 
 @connect(({ goodsOutboundAggregate, global, loading }) => ({
   goodsOutboundAggregate,
@@ -31,7 +24,14 @@ class Standard extends PagerList {
 
     this.state = {
       ...this.state,
-      batchDate: '',
+      ...{
+        pageName: '出库批次汇总',
+        paramsKey: '902b9e21-2c2a-47f9-af73-e2b0a74ffda6',
+        loadApiPath: 'goodsOutboundAggregate/list',
+        dateRangeFieldName: '发生时段',
+        // tableScroll: { x: 1820 },
+        batchDate: '',
+      },
     };
   }
 
@@ -42,14 +42,6 @@ class Standard extends PagerList {
 
     return data;
   };
-
-  initState = () => ({
-    pageName: '出库批次汇总',
-    paramsKey: '902b9e21-2c2a-47f9-af73-e2b0a74ffda6',
-    loadApiPath: 'goodsOutboundAggregate/list',
-    dateRangeFieldName: '发生时段',
-    // tableScroll: { x: 1820 },
-  });
 
   getCurrentOperator = () => {
     const {
@@ -80,8 +72,6 @@ class Standard extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName } = this.state;
     const currentOperator = this.getCurrentOperator();
 
@@ -89,32 +79,18 @@ class Standard extends PagerList {
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.areaAgentId}>
-              <Input
-                addonBefore={<Icon type="form" />}
-                disabled
-                value={currentOperator == null ? '' : currentOperator.cityName || ''}
-              />
-            </FormItem>
+            {this.renderSearchInputFormItem(
+              fieldData.city,
+              '',
+              currentOperator == null ? '' : currentOperator.cityName || '',
+              null,
+              'form',
+              { disabled: true },
+              false,
+            )}
           </Col>
           <Col md={5} sm={24}>
-            <FormItem label={fieldData.batchDate}>
-              {getFieldDecorator('batchDate', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.areaAgentId, '选择'),
-                  },
-                ],
-              })(
-                <DatePicker
-                  placeholder={buildFieldDescription(fieldData.batchDate, '选择')}
-                  format="YYYY-MM-DD"
-                  onChange={this.onBatchDateChange}
-                  style={{ width: '100%' }}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchBatchDateFormItem()}
           </Col>
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 9)}
           {this.renderSimpleFormButton(null, 5)}

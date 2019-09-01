@@ -1,21 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Row, Col, Form, Input, Select, Icon, Button, Dropdown, Menu, Divider } from 'antd';
+import { Row, Col, Form, Icon, Button, Dropdown, Menu, Divider } from 'antd';
 
 import defaultSettings from '../../../../config/defaultSettings';
 
-import {
-  isInvalid,
-  formatDatetime,
-  getRandomColor,
-  searchFromList,
-  refitCommonData,
-  toNumber,
-  copyToClipboard,
-  replaceTargetText,
-  buildFieldDescription,
-} from '@/utils/tools';
+import { formatDatetime, getRandomColor, copyToClipboard, replaceTargetText } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
@@ -23,8 +13,6 @@ import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
 import styles from './index.less';
-
-const FormItem = Form.Item;
 
 @connect(({ regUser, global, loading }) => ({
   regUser,
@@ -35,73 +23,26 @@ const FormItem = Form.Item;
 class Standard extends PagerList {
   componentAuthority = accessWayCollection.regUser.list;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '用户列表',
+        paramsKey: '9586f7b2-74ff-49b5-b546-eb45b75a0b65',
+        loadApiPath: 'regUser/list',
+        dateRangeFieldName: '注册时间',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       regUser: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => ({
-    pageName: '用户列表',
-    paramsKey: '9586f7b2-74ff-49b5-b546-eb45b75a0b65',
-    loadApiPath: 'regUser/list',
-    dateRangeFieldName: '注册时间',
-  });
-
-  cityList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.cityList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getCityName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.cityList());
-    return item == null ? '未知' : item.name;
-  };
-
-  regUserTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.regUserTypeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getRegUserTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.regUserTypeList());
-    return item == null ? '未知' : item.name;
-  };
-
-  sexList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.sexList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getSexName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', toNumber(v), this.sexList());
-    return item == null ? '--' : item.name;
   };
 
   goToEdit = record => {
@@ -125,62 +66,22 @@ class Standard extends PagerList {
   renderSimpleFormRow = () => {
     const { form } = this.props;
     const { dateRangeFieldName } = this.state;
-    const { getFieldDecorator, dataLoading, processing } = form;
-
-    const regUserTypeData = this.regUserTypeList();
-    const regUserTypeOption = [];
-
-    regUserTypeData.forEach(item => {
-      const { name, flag } = item;
-      regUserTypeOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
+    const { dataLoading, processing } = form;
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.regUserId}>
-              {getFieldDecorator('regUserId')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.regUserId, '输入')}
-                />,
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.regUserId, 'regUserId')}
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.nickname}>
-              {getFieldDecorator('nickname')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.nickname, '输入')}
-                />,
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.nickname, 'nickname')}
           </Col>
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 12)}
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.type}>
-              {getFieldDecorator('type', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.state, '选择') },
-                ],
-                initialValue: regUserTypeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.state, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {regUserTypeOption}
-                </Select>,
-              )}
-            </FormItem>
+            {this.renderSearchRegUserTypeFormItem(true)}
           </Col>
           {this.renderSimpleFormButton(
             <>
@@ -295,7 +196,7 @@ class Standard extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {this.getSexName(val)}
+            {this.getUserSexName(val)}
           </Ellipsis>
         </>
       ),
@@ -347,7 +248,6 @@ class Standard extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {/* {this.getCityName(val)} */}
             {val || '--'}
           </Ellipsis>
         </>

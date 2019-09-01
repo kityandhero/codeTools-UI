@@ -23,6 +23,7 @@ import {
   refitFieldDecoratorOption,
   buildFieldDescription,
   pretreatmentRemoteSingleData,
+  getToken,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import AddFormBase from '@/customComponents/Framework/CustomForm/AddFormBase';
@@ -46,15 +47,19 @@ class Index extends AddFormBase {
     super(props);
 
     const tokenSetObject = {};
-    tokenSetObject[`${getTokenKeyName()}`] = localStorage.getItem(getTokenKeyName()) || '';
+    tokenSetObject[`${getTokenKeyName()}`] = getToken() || '';
 
     this.state = {
       ...this.state,
-      imageUploading: false,
-      previewImage: '',
-      imageUrl: '',
-      imageName: '',
-      tokenSet: tokenSetObject,
+      ...{
+        pageName: '增加二维码',
+        submitApiPath: 'qRCode/addBasicInfo',
+        imageUploading: false,
+        previewImage: '',
+        imageUrl: '',
+        imageName: '',
+        tokenSet: tokenSetObject,
+      },
     };
   }
 
@@ -64,15 +69,6 @@ class Index extends AddFormBase {
     } = props;
 
     return data;
-  };
-
-  initState = () => {
-    const result = {
-      pageName: '增加二维码',
-      submitApiPath: 'qRCode/addBasicInfo',
-    };
-
-    return result;
   };
 
   supplementSubmitRequestParams = o => {
@@ -189,12 +185,12 @@ class Index extends AddFormBase {
                             message: buildFieldDescription(fieldData.title),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <Input
                         addonBefore={<Icon type="form" />}
                         placeholder={buildFieldDescription(fieldData.title)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -209,13 +205,13 @@ class Index extends AddFormBase {
                             message: buildFieldDescription(fieldData.sort),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <InputNumber
                         style={{ width: '100%' }}
                         min={0}
                         placeholder={buildFieldDescription(fieldData.sort)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -232,12 +228,12 @@ class Index extends AddFormBase {
                             message: buildFieldDescription(fieldData.url),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <Input
                         addonBefore={<Icon type="form" />}
                         placeholder={buildFieldDescription(fieldData.url)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -288,12 +284,12 @@ class Index extends AddFormBase {
                             message: buildFieldDescription(fieldData.description),
                           },
                         ],
-                      })
+                      }),
                     )(
                       <TextArea
                         placeholder="请输入分享标题"
                         autosize={{ minRows: 3, maxRows: 5 }}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>

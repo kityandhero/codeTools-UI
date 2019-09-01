@@ -3,12 +3,9 @@ import { connect } from 'dva';
 import { Row, Col, Descriptions } from 'antd';
 
 import {
-  isInvalid,
   formatDatetime,
   isNumber,
   isMoney,
-  searchFromList,
-  refitCommonData,
   getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
@@ -46,7 +43,12 @@ class Detail extends LoadDataTabContainer {
 
     this.state = {
       ...this.state,
-      userOrderId: null,
+      ...{
+        pageName: '订单号：',
+        loadApiPath: 'userOrder/get',
+        backPath: `/order/payment/list/key`,
+        userOrderId: null,
+      },
     };
   }
 
@@ -67,16 +69,6 @@ class Detail extends LoadDataTabContainer {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      pageName: '订单号：',
-      loadApiPath: 'userOrder/get',
-      backPath: `/order/payment/list/key`,
-    };
-
-    return result;
-  };
-
   // eslint-disable-next-line no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
@@ -91,24 +83,11 @@ class Detail extends LoadDataTabContainer {
     return d;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     this.setState({
       pageName: `订单号：${metaData === null ? '' : metaData.tradeNo || ''}`,
     });
-  };
-
-  orderStatusList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.orderStatusList);
-  };
-
-  getOrderStatusName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.orderStatusList());
-    return item == null ? '未知' : item.name;
   };
 
   pageHeaderExtraContent = () => {

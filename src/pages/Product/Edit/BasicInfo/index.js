@@ -24,13 +24,14 @@ import {
 import {
   pretreatmentRemoteSingleData,
   refitFieldDecoratorOption,
-  refitCommonData,
   getTokenKeyName,
   stringToMoment,
   dateToMoment,
   corsTarget,
   buildFieldDescription,
   getDerivedStateFromPropsForUrlParams,
+  buildFieldHelper,
+  getToken,
 } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 
@@ -59,21 +60,25 @@ class BasicInfo extends TabPageBase {
     super(props);
 
     const tokenSetObject = {};
-    tokenSetObject[`${getTokenKeyName()}`] = localStorage.getItem(getTokenKeyName()) || '';
+    tokenSetObject[`${getTokenKeyName()}`] = getToken() || '';
 
     this.state = {
       ...this.state,
-      previewVisible: false,
-      mainImageUploading: false,
-      previewImage: '',
-      mainImageUrl: '',
-      fileList: [],
-      productId: null,
-      changeStoreCountModalVisible: false,
-      changeImageSortModalVisible: false,
-      tokenSet: tokenSetObject,
-      saleTimeSwitch: false,
-      saleTimeModeSelected: 0,
+      ...{
+        loadApiPath: 'product/get',
+        submitApiPath: 'product/updateBasicInfo',
+        previewVisible: false,
+        mainImageUploading: false,
+        previewImage: '',
+        mainImageUrl: '',
+        fileList: [],
+        productId: null,
+        changeStoreCountModalVisible: false,
+        changeImageSortModalVisible: false,
+        tokenSet: tokenSetObject,
+        saleTimeSwitch: false,
+        saleTimeModeSelected: 0,
+      },
     };
   }
 
@@ -85,15 +90,6 @@ class BasicInfo extends TabPageBase {
       parseUrlParamsForSetState,
     );
   }
-
-  initState = () => {
-    const result = {
-      loadApiPath: 'product/get',
-      submitApiPath: 'product/updateBasicInfo',
-    };
-
-    return result;
-  };
 
   supplementSubmitRequestParams = o => {
     const d = o;
@@ -126,36 +122,6 @@ class BasicInfo extends TabPageBase {
       saleTimeSwitch: saleTimeMode !== 0,
       saleTimeModeSelected: saleTimeMode,
     });
-  };
-
-  saleTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.saleTypeList);
-  };
-
-  unitList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.unitList);
-  };
-
-  productStateList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.productStateList);
-  };
-
-  isUpStoreList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.isUpStoreList);
-  };
-
-  isUpAppList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.isUpAppList);
-  };
-
-  isUpWxList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.isUpWxList);
   };
 
   handleUploadCancel = () => this.setState({ previewVisible: false });
@@ -402,14 +368,16 @@ class BasicInfo extends TabPageBase {
     });
   };
 
-  onSaleTimeSwitch() {
-    const { saleTimeSwitch, saleTimeModeSelected } = this.state;
+  onSaleTimeSwitch = () => {
+    message.info('定时上下架功能正在调整，即将开放');
 
-    this.setState({
-      saleTimeSwitch: !saleTimeSwitch,
-      saleTimeModeSelected: !saleTimeSwitch ? 1 : saleTimeModeSelected,
-    });
-  }
+    // const { saleTimeSwitch, saleTimeModeSelected } = this.state;
+
+    // this.setState({
+    //   saleTimeSwitch: !saleTimeSwitch,
+    //   saleTimeModeSelected: !saleTimeSwitch ? 1 : saleTimeModeSelected,
+    // });
+  };
 
   formContent = () => {
     const { form } = this.props;
@@ -430,78 +398,6 @@ class BasicInfo extends TabPageBase {
       saleTimeModeSelected,
     } = this.state;
     const { getFieldDecorator } = form;
-
-    const saleTypeData = this.saleTypeList();
-    const saleTypeOption = [];
-
-    saleTypeData.forEach(item => {
-      const { name, flag } = item;
-      saleTypeOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const unitData = this.unitList();
-    const unitOption = [];
-
-    unitData.forEach(item => {
-      const { name, flag } = item;
-      unitOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const productStateData = this.productStateList();
-    const productStateOption = [];
-
-    productStateData.forEach(item => {
-      const { name, flag } = item;
-      productStateOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const isUpStoreData = this.isUpStoreList();
-    const isUpStoreOption = [];
-
-    isUpStoreData.forEach(item => {
-      const { name, flag } = item;
-      isUpStoreOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const isUpAppData = this.isUpAppList();
-    const isUpAppOption = [];
-
-    isUpAppData.forEach(item => {
-      const { name, flag } = item;
-      isUpAppOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const isUpWxData = this.isUpWxList();
-    const isUpWxOption = [];
-
-    isUpWxData.forEach(item => {
-      const { name, flag } = item;
-      isUpWxOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
 
     const uploadButton = (
       <div>
@@ -723,31 +619,9 @@ class BasicInfo extends TabPageBase {
                     </FormItem>
                   </Col>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.unit}>
-                      {getFieldDecorator(
-                        'unit',
-                        refitFieldDecoratorOption(
-                          metaData === null ? '' : metaData.unit || '',
-                          metaData === null ? '' : metaData.unit || '',
-                          '',
-                          {
-                            rules: [
-                              {
-                                required: false,
-                                message: buildFieldDescription(fieldData.unit, '选择'),
-                              },
-                            ],
-                          },
-                        ),
-                      )(
-                        <Select
-                          placeholder={buildFieldDescription(fieldData.unit, '选择')}
-                          // onChange={handleChange}
-                        >
-                          {unitOption}
-                        </Select>,
-                      )}
-                    </FormItem>
+                    {this.renderFormProductSaleTimeModeFormItem(
+                      metaData === null ? '' : metaData.unit || '',
+                    )}
                   </Col>
                 </Row>
                 <Row gutter={24}>
@@ -779,58 +653,14 @@ class BasicInfo extends TabPageBase {
                     </FormItem>
                   </Col>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.saleType}>
-                      {getFieldDecorator(
-                        'saleType',
-                        refitFieldDecoratorOption(
-                          metaData === null ? '' : metaData.saleType || '',
-                          metaData === null ? '' : metaData.saleType || '',
-                          '',
-                          {
-                            rules: [
-                              {
-                                required: false,
-                                message: buildFieldDescription(fieldData.saleType, '选择'),
-                              },
-                            ],
-                          },
-                        ),
-                      )(
-                        <Select
-                          placeholder={buildFieldDescription(fieldData.saleType, '选择')}
-                          // onChange={handleChange}
-                        >
-                          {saleTypeOption}
-                        </Select>,
-                      )}
-                    </FormItem>
+                    {this.renderFormSaleTypeFormItem(
+                      metaData === null ? '' : metaData.saleType || '',
+                    )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.state}>
-                      {getFieldDecorator(
-                        'state',
-                        refitFieldDecoratorOption(
-                          metaData === null ? 0 : metaData.state || 0,
-                          metaData === null ? 0 : metaData.state || 0,
-                          0,
-                          {
-                            rules: [
-                              {
-                                required: false,
-                                message: buildFieldDescription(fieldData.state, '选择'),
-                              },
-                            ],
-                          },
-                        ),
-                      )(
-                        <Select
-                          placeholder={buildFieldDescription(fieldData.state, '选择')}
-                          // onChange={handleChange}
-                        >
-                          {productStateOption}
-                        </Select>,
-                      )}
-                    </FormItem>
+                    {this.renderFormProductStateFormItem(
+                      metaData === null ? 0 : metaData.state || 0,
+                    )}
                   </Col>
                 </Row>
               </Form>
@@ -841,7 +671,10 @@ class BasicInfo extends TabPageBase {
               <Form layout="vertical">
                 <Row gutter={24}>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.storeCount}>
+                    <FormItem
+                      label={fieldData.storeCount}
+                      extra={buildFieldHelper(fieldData.storeCountUpdateHelper)}
+                    >
                       <Input
                         addonBefore={<Icon type="shop" />}
                         value={metaData ? (metaData.storeCount ? metaData.storeCount : 0) : 0}
@@ -849,7 +682,7 @@ class BasicInfo extends TabPageBase {
                           !this.checkAuthority(accessWayCollection.product.updateStoreCount)
                         }
                         readOnly
-                        placeholder={buildFieldDescription(fieldData.storeCount)}
+                        placeholder={buildFieldDescription(fieldData.storeCountUpdateHelper)}
                         addonAfter={
                           this.checkAuthority(accessWayCollection.product.updateStoreCount) ? (
                             <Button
@@ -1075,85 +908,15 @@ class BasicInfo extends TabPageBase {
                     </FormItem>
                   </Col>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.isUpStore}>
-                      {getFieldDecorator(
-                        'isUpStore',
-                        refitFieldDecoratorOption(
-                          metaData === null ? 0 : metaData.isUpStore || 0,
-                          metaData === null ? 0 : metaData.isUpStore || 0,
-                          0,
-                          {
-                            rules: [
-                              {
-                                required: false,
-                                message: buildFieldDescription(fieldData.isUpStore, '选择'),
-                              },
-                            ],
-                          },
-                        ),
-                      )(
-                        <Select
-                          placeholder={buildFieldDescription(fieldData.isUpStore, '选择')}
-                          // onChange={handleChange}
-                        >
-                          {isUpStoreOption}
-                        </Select>,
-                      )}
-                    </FormItem>
+                    {this.renderFormIsUpStoreFormItem(
+                      metaData === null ? 0 : metaData.isUpStore || 0,
+                    )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.isUpApp}>
-                      {getFieldDecorator(
-                        'isUpApp',
-                        refitFieldDecoratorOption(
-                          metaData === null ? 0 : metaData.isUpApp || 0,
-                          metaData === null ? 0 : metaData.isUpApp || 0,
-                          0,
-                          {
-                            rules: [
-                              {
-                                required: false,
-                                message: buildFieldDescription(fieldData.isUpApp, '选择'),
-                              },
-                            ],
-                          },
-                        ),
-                      )(
-                        <Select
-                          placeholder={buildFieldDescription(fieldData.isUpApp, '选择')}
-                          // onChange={handleChange}
-                        >
-                          {isUpAppOption}
-                        </Select>,
-                      )}
-                    </FormItem>
+                    {this.renderFormIsUpAppFormItem(metaData === null ? 0 : metaData.isUpApp || 0)}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.isUpWx}>
-                      {getFieldDecorator(
-                        'isUpWx',
-                        refitFieldDecoratorOption(
-                          metaData === null ? 0 : metaData.isUpWx || 0,
-                          metaData === null ? 0 : metaData.isUpWx || 0,
-                          0,
-                          {
-                            rules: [
-                              {
-                                required: false,
-                                message: buildFieldDescription(fieldData.isUpWx, '选择'),
-                              },
-                            ],
-                          },
-                        ),
-                      )(
-                        <Select
-                          placeholder={buildFieldDescription(fieldData.isUpWx, '选择')}
-                          // onChange={handleChange}
-                        >
-                          {isUpWxOption}
-                        </Select>,
-                      )}
-                    </FormItem>
+                    {this.renderFormIsUpWxFormItem(metaData === null ? 0 : metaData.isUpWx || 0)}
                   </Col>
                 </Row>
                 <Row gutter={24}>
@@ -1195,14 +958,18 @@ class BasicInfo extends TabPageBase {
             bordered={false}
             bodyStyle={{ display: saleTimeSwitch ? 'block' : 'none' }}
             extra={
-              <Switch
-                checkedChildren="开"
-                unCheckedChildren="关"
-                checked={saleTimeSwitch}
-                onChange={() => {
-                  this.onSaleTimeSwitch();
-                }}
-              />
+              <>
+                <span>定时上下架功能正在调整，即将开放</span>
+                <Divider type="vertical" />
+                <Switch
+                  checkedChildren="开"
+                  unCheckedChildren="关"
+                  checked={saleTimeSwitch}
+                  onChange={() => {
+                    this.onSaleTimeSwitch();
+                  }}
+                />
+              </>
             }
           >
             {saleTimeSwitch ? (
@@ -1488,13 +1255,13 @@ class BasicInfo extends TabPageBase {
           </Card>
         </div>
         <ChangeStoreCountModal
-          originalData={metaData}
+          externalData={metaData}
           visible={changeStoreCountModalVisible}
           afterOK={this.afterChangeStoreCountModalOk}
           afterCancel={this.afterChangeStoreCountModalCancel}
         />
         <ChangeImageSortModal
-          originalData={metaData}
+          externalData={metaData}
           visible={changeImageSortModalVisible}
           afterOK={this.afterChangeImageSortModalOk}
           afterCancel={this.afterChangeImageSortModalCancel}

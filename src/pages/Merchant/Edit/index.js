@@ -2,13 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Row, Col, Avatar, Descriptions } from 'antd';
 
-import {
-  isInvalid,
-  formatDatetime,
-  searchFromList,
-  refitCommonData,
-  getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
+import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
 
@@ -56,7 +50,13 @@ class Edit extends LoadDataTabContainer {
 
     this.state = {
       ...this.state,
-      merchantId: null,
+      ...{
+        pageName: '站点：',
+        loadApiPath: 'merchant/get',
+        backPath: `/person/merchant/list/key`,
+        customTabActiveKey: true,
+        merchantId: null,
+      },
     };
   }
 
@@ -77,17 +77,6 @@ class Edit extends LoadDataTabContainer {
     return data;
   };
 
-  initState = () => {
-    const result = {
-      pageName: '站点：',
-      loadApiPath: 'merchant/get',
-      backPath: `/person/merchant/list/key`,
-      customTabActiveKey: true,
-    };
-
-    return result;
-  };
-
   // eslint-disable-next-line no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
@@ -102,24 +91,11 @@ class Edit extends LoadDataTabContainer {
     return d;
   };
 
-  afterLoadSuccess = metaData => {
+  // eslint-disable-next-line no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     this.setState({
       pageName: `站点：${metaData === null ? '' : metaData.mName || ''}`,
     });
-  };
-
-  merchantStatusList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantStatusList);
-  };
-
-  getMerchantStatusName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.merchantStatusList());
-    return item == null ? '未知' : item.name;
   };
 
   pageHeaderLogo = () => {

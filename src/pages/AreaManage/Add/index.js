@@ -30,21 +30,24 @@ const formItemLayout = {
 class Add extends AddFormBase {
   componentAuthority = accessWayCollection.areaManage.add;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '增加账户',
+        submitApiPath: 'areaManage/addBasicInfo',
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       areaManage: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => {
-    const result = {
-      pageName: '增加账户',
-      submitApiPath: 'areaManage/addBasicInfo',
-    };
-
-    return result;
   };
 
   afterSubmitSuccess = data => {
@@ -89,12 +92,12 @@ class Add extends AddFormBase {
                         message: buildFieldDescription(fieldData.loginName),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<Icon type="form" />}
                     placeholder={buildFieldDescription(fieldData.loginName)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label={fieldData.name}>
@@ -107,12 +110,12 @@ class Add extends AddFormBase {
                         message: buildFieldDescription(fieldData.name),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<Icon type="form" />}
                     placeholder={buildFieldDescription(fieldData.name)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label={fieldData.phone}>
@@ -125,12 +128,12 @@ class Add extends AddFormBase {
                         message: buildFieldDescription(fieldData.phone),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<Icon type="form" />}
                     placeholder={buildFieldDescription(fieldData.phone)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label={fieldData.password}>
@@ -143,13 +146,13 @@ class Add extends AddFormBase {
                         message: buildFieldDescription(fieldData.password),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<Icon type="form" />}
                     type="password"
                     placeholder={buildFieldDescription(fieldData.password)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label={fieldData.rePassword}>
@@ -162,13 +165,13 @@ class Add extends AddFormBase {
                         message: buildFieldDescription(fieldData.rePassword),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<Icon type="form" />}
                     type="password"
                     placeholder={buildFieldDescription(fieldData.rePassword)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem

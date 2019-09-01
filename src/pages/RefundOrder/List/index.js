@@ -5,8 +5,6 @@ import {
   Row,
   Col,
   Form,
-  Input,
-  Select,
   Icon,
   Dropdown,
   Menu,
@@ -17,15 +15,7 @@ import {
   notification,
 } from 'antd';
 
-import {
-  isInvalid,
-  searchFromList,
-  refitCommonData,
-  formatDatetime,
-  replaceTargetText,
-  copyToClipboard,
-  buildFieldDescription,
-} from '@/utils/tools';
+import { formatDatetime, replaceTargetText, copyToClipboard } from '@/utils/tools';
 import accessWayCollection from '@/utils/accessWayCollection';
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
@@ -33,8 +23,6 @@ import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
 
-const FormItem = Form.Item;
-const { Option } = Select;
 const { confirm } = Modal;
 
 @connect(({ refundOrder, global, loading }) => ({
@@ -46,56 +34,27 @@ const { confirm } = Modal;
 class List extends PagerList {
   componentAuthority = accessWayCollection.refundOrder.list;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        pageName: '退款订单列表',
+        paramsKey: 'c2bccbc0-7b81-4edc-b4d2-565da2dcdd1f',
+        loadApiPath: 'refundOrder/list',
+        dateRangeFieldName: '提交时段',
+        tableScroll: { x: 2040 },
+      },
+    };
+  }
+
   getApiData = props => {
     const {
       refundOrder: { data },
     } = props;
 
     return data;
-  };
-
-  initState = () => ({
-    pageName: '退款订单列表',
-    paramsKey: 'c2bccbc0-7b81-4edc-b4d2-565da2dcdd1f',
-    loadApiPath: 'refundOrder/list',
-    dateRangeFieldName: '提交时段',
-    tableScroll: { x: 2040 },
-  });
-
-  refundOrderHandleTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.refundOrderHandleTypeList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getRefundOrderHandleTypeName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.refundOrderHandleTypeList());
-    return item == null ? '未知' : item.name;
-  };
-
-  refundOrderStateList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.refundOrderStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getRefundOrderStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.refundOrderStateList());
-    return item == null ? '未知' : item.name;
   };
 
   getRefundOrderStateBadgeStatus = v => {
@@ -186,7 +145,7 @@ class List extends PagerList {
               });
             });
 
-            that.refreshGrid();
+            that.reloadData();
           }
 
           that.setState({ processing: false });
@@ -199,93 +158,22 @@ class List extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
     const { dateRangeFieldName, dataLoading, processing } = this.state;
-
-    const refundOrderHandleTypeData = this.refundOrderHandleTypeList();
-    const refundOrderHandleTypeOption = [];
-
-    refundOrderHandleTypeData.forEach(item => {
-      const { name, flag } = item;
-      refundOrderHandleTypeOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
-
-    const refundOrderStateData = this.refundOrderStateList();
-    const refundOrderStateOption = [];
-
-    refundOrderStateData.forEach(item => {
-      const { name, flag } = item;
-      refundOrderStateOption.push(
-        <Option key={flag} value={flag}>
-          {name}
-        </Option>
-      );
-    });
 
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.realName}>
-              {getFieldDecorator('realName')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.realName, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.realName, 'realName')}
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.tradeNo}>
-              {getFieldDecorator('tradeNo')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.tradeNo, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.tradeNo, 'tradeNo')}
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.state}>
-              {getFieldDecorator('state', {
-                rules: [
-                  { required: false, message: buildFieldDescription(fieldData.state, '选择') },
-                ],
-                initialValue: refundOrderStateData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.state, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {refundOrderStateOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchRefundOrderStateFormItem(true)}
           </Col>
           <Col md={6} sm={24}>
-            <FormItem label={fieldData.handleType}>
-              {getFieldDecorator('handleType', {
-                rules: [
-                  {
-                    required: false,
-                    message: buildFieldDescription(fieldData.handleType, '选择'),
-                  },
-                ],
-                initialValue: refundOrderHandleTypeData[0].flag,
-              })(
-                <Select
-                  placeholder={buildFieldDescription(fieldData.handleType, '选择')}
-                  style={{ width: '100%' }}
-                >
-                  {refundOrderHandleTypeOption}
-                </Select>
-              )}
-            </FormItem>
+            {this.renderSearchRefundOrderHandleTypeFormItem(true)}
           </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
@@ -302,7 +190,7 @@ class List extends PagerList {
                 导出
               </Button>
             </>,
-            12
+            12,
           )}
         </Row>
       </>
@@ -449,7 +337,7 @@ class List extends PagerList {
           <Badge
             status={this.getRefundOrderStateBadgeStatus(val)}
             text={`${this.getRefundOrderStateName(val)}/${this.getRefundOrderHandleTypeName(
-              record.handleType
+              record.handleType,
             )}`}
           />
         </>
@@ -501,25 +389,6 @@ class List extends PagerList {
         </>
       ),
     },
-    // {
-    //   title: '退款状态',
-    //   dataIndex: 'handleType',
-    //   width: 120,
-    //   align: 'center',
-    //   render: val => (
-    //     <>
-    //       <Ellipsis
-    //         style={{
-    //           color: getRandomColor(val + 14),
-    //         }}
-    //         tooltip
-    //         lines={1}
-    //       >
-    //         {this.getRefundOrderHandleTypeName(val)}
-    //       </Ellipsis>
-    //     </>
-    //   ),
-    // },
     {
       title: '处理时间',
       dataIndex: 'handleTime',

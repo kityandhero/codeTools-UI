@@ -20,21 +20,6 @@ class AddFormBase extends CustomAuthorization {
     };
   }
 
-  preInit = () => {
-    this.setState(this.extendState(), () => {
-      this.init();
-    });
-  };
-
-  init = () => {
-    this.setState(this.initState());
-  };
-
-  initState = () => ({});
-
-  // eslint-disable-next-line no-unused-vars
-  afterLoadSuccess = metaData => {};
-
   handleFormReset = () => {
     const { form } = this.props;
 

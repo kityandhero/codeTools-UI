@@ -25,6 +25,12 @@ export function checkDevelopment() {
   return process.env.NODE_ENV === 'development';
 }
 
+export const goodsTypeCollection = {
+  product: 1,
+  simpleTicket: 2,
+  lineTicket: 3,
+};
+
 /**
  * 占位函数
  *

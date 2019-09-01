@@ -4,11 +4,7 @@ import { routerRedux } from 'dva/router';
 import { Card, Form, Row, Col, Spin, BackTop, Select, notification, Icon, Popover } from 'antd';
 
 import HtmlBox from '@/customComponents/HtmlBox';
-import {
-  getDerivedStateFromPropsForUrlParams,
-  pretreatmentRequestParams,
-  refitCommonData,
-} from '@/utils/tools';
+import { getDerivedStateFromPropsForUrlParams, pretreatmentRequestParams } from '@/utils/tools';
 
 import { parseUrlParamsForSetState } from '../../Assist/config';
 import TabPageBase from '../../TabPageBase';
@@ -59,20 +55,6 @@ class BasicInfo extends TabPageBase {
       }
     }
   };
-
-  accessWayTypeList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.accessWayTypeList);
-  };
-
-  sexList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.sexList);
-  };
-
-  orderMessageList = () => [{ flag: 0, name: '不接受' }, { flag: 1, name: '接受' }];
-
-  administrationAuthorityList = () => [{ flag: 0, name: '关闭' }, { flag: 1, name: '开启' }];
 
   loadData = () => {
     const { dispatch } = this.props;
@@ -290,42 +272,6 @@ class BasicInfo extends TabPageBase {
     accessWayTypeData.forEach(item => {
       const { name, flag } = item;
       accessWayTypeOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const sexData = this.sexList();
-    const sexOption = [];
-
-    sexData.forEach(item => {
-      const { name, flag } = item;
-      sexOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const orderMessageData = this.orderMessageList();
-    const orderMessageOption = [];
-
-    orderMessageData.forEach(item => {
-      const { name, flag } = item;
-      orderMessageOption.push(
-        <Select.Option key={flag} value={flag}>
-          {name}
-        </Select.Option>,
-      );
-    });
-
-    const administrationAuthorityData = this.administrationAuthorityList();
-    const administrationAuthorityOption = [];
-
-    administrationAuthorityData.forEach(item => {
-      const { name, flag } = item;
-      administrationAuthorityOption.push(
         <Select.Option key={flag} value={flag}>
           {name}
         </Select.Option>,

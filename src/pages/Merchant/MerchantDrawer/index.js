@@ -4,9 +4,6 @@ import { Form, Row, Col, Icon, Badge, Input, Button, Popconfirm } from 'antd';
 
 import {
   replaceTargetText,
-  refitCommonData,
-  isInvalid,
-  searchFromList,
   getRandomColor,
   copyToClipboard,
   formatDatetime,
@@ -32,7 +29,13 @@ class Index extends PagerDrawer {
 
     this.state = {
       ...this.state,
-      ...{ customData: [] },
+      ...{
+        pageSize: 8,
+        tableScroll: { x: 1320 },
+        loadApiPath: 'merchant/list',
+        dateRangeFieldName: '创建时间',
+        customData: [],
+      },
     };
   }
 
@@ -43,7 +46,8 @@ class Index extends PagerDrawer {
     return { visible, sourceData };
   }
 
-  doOtherWhenChangeVisible = () => {
+  // eslint-disable-next-line no-unused-vars
+  doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
     const { dataLoading, visible, sourceData } = this.state;
 
     if (sourceData != null && visible && !dataLoading) {
@@ -64,68 +68,7 @@ class Index extends PagerDrawer {
     return data;
   };
 
-  initState = () => ({
-    pageSize: 8,
-    tableScroll: { x: 1320 },
-    loadApiPath: 'merchant/list',
-    dateRangeFieldName: '创建时间',
-  });
-
   getPageName = () => '选择站长上级';
-
-  cityList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.cityList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getCityName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.cityList());
-    return item == null ? '未知' : item.name;
-  };
-
-  lineList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.lineList, {
-      key: '-10000',
-      name: '不限',
-      flag: '-10000',
-    });
-  };
-
-  getLineName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('lineId', v, this.lineList());
-    return item == null ? '未知' : item.name;
-  };
-
-  merchantStatusList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantStatusList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getMerchantStatusName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.merchantStatusList());
-    return item == null ? '未知' : item.name;
-  };
 
   getMerchantStatusBadgeStatus = v => {
     let result = 'default';
@@ -140,24 +83,6 @@ class Index extends PagerDrawer {
     }
 
     return result;
-  };
-
-  merchantSwitchList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.merchantSwitchList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getMerchantSwitchName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.merchantSwitchList());
-    return item == null ? '未知' : item.name;
   };
 
   select = (e, record) => {
@@ -182,7 +107,7 @@ class Index extends PagerDrawer {
                 <Input
                   addonBefore={<Icon type="form" />}
                   placeholder={buildFieldDescription(fieldData.merchantId, '输入')}
-                />
+                />,
               )}
             </FormItem>
           </Col>
@@ -190,14 +115,7 @@ class Index extends PagerDrawer {
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={8} sm={24}>
-            <FormItem label={fieldData.realName}>
-              {getFieldDecorator('realName')(
-                <Input
-                  addonBefore={<Icon type="form" />}
-                  placeholder={buildFieldDescription(fieldData.realName, '输入')}
-                />
-              )}
-            </FormItem>
+            {this.renderSearchInputFormItem(fieldData.realName, 'realName')}
           </Col>
           {this.renderSimpleFormButton(null, 16)}
         </Row>

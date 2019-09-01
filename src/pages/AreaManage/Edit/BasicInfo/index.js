@@ -16,9 +16,6 @@ import {
 } from 'antd';
 
 import {
-  isInvalid,
-  searchFromList,
-  refitCommonData,
   refitFieldDecoratorOption,
   formatDatetime,
   buildFieldDescription,
@@ -28,7 +25,7 @@ import accessWayCollection from '@/utils/accessWayCollection';
 import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
 import FromDisplayItem from '@/customComponents/FromDisplayItem';
 
-import { parseUrlParamsForSetState,checkNeedUpdateAssist } from '../../Assist/config';
+import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../Assist/config';
 
 import { fieldData } from '../../Common/data';
 import styles from './index.less';
@@ -46,6 +43,18 @@ class BasicInfo extends UpdateFormTab {
 
   goToUpdateWhenProcessed = true;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        loadApiPath: 'areaManage/get',
+        submitApiPath: 'areaManage/updateBasicInfo',
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -54,15 +63,6 @@ class BasicInfo extends UpdateFormTab {
       parseUrlParamsForSetState,
     );
   }
-
-  initState = () => {
-    const result = {
-      loadApiPath: 'areaManage/get',
-      submitApiPath: 'areaManage/updateBasicInfo',
-    };
-
-    return result;
-  };
 
   getApiData = props => {
     const {
@@ -104,25 +104,6 @@ class BasicInfo extends UpdateFormTab {
         description: '数据已经保存成功，请进行后续操作。',
       });
     });
-  };
-
-  areaManageStateList = () => {
-    const { global } = this.props;
-
-    return refitCommonData(global.areaManageStateList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
-
-  getAreaManageStateName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
-
-    const item = searchFromList('flag', v, this.areaManageStateList());
-    return item == null ? '未知' : item.name;
   };
 
   formContent = () => {
