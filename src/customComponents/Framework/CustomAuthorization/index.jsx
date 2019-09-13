@@ -15,10 +15,10 @@ class Index extends CustomCommon {
     let needDoOther = false;
 
     if (this.componentAuthority == null) {
-      this.preInit();
+      this.init();
       needDoOther = true;
     } else if (this.checkAuthority(this.componentAuthority)) {
-      this.preInit();
+      this.init();
       needDoOther = true;
     } else {
       const { dispatch } = this.props;

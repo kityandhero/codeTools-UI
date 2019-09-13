@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 
+import styles from './index.less';
+
 /**
  * 减少使用 dangerouslySetInnerHTML
  */
@@ -22,6 +24,7 @@ export default class HtmlBox extends PureComponent {
   render() {
     return (
       <span
+        className={styles.richTextBox}
         ref={ref => {
           this.main = ref;
         }}

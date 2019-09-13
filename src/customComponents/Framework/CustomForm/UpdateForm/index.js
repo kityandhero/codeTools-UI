@@ -69,7 +69,7 @@ class UpdateForm extends LoadDataForm {
   supplementSubmitRequestParams = o => o;
 
   // eslint-disable-next-line no-unused-vars
-  afterSubmitSuccess = data => {};
+  afterSubmitSuccess = (singleData, listData, extra, responseOriginalData, submitData) => {};
 
   // eslint-disable-next-line no-unused-vars
   checkSubmitRequestParams = o => true;
@@ -107,12 +107,20 @@ class UpdateForm extends LoadDataForm {
             payload: submitData,
           }).then(() => {
             if (this.mounted) {
-              const data = this.getApiData(this.props);
+              const remoteData = this.getApiData(this.props);
 
-              const { dataSuccess } = data;
+              const { dataSuccess } = remoteData;
 
               if (dataSuccess) {
-                this.afterSubmitSuccess(data);
+                const { list: metaListData, data: metaData, extra: metaExtra } = remoteData;
+
+                this.afterSubmitSuccess(
+                  metaData || null,
+                  metaListData || [],
+                  metaExtra || null,
+                  remoteData,
+                  submitData
+                );
               }
 
               // eslint-disable-next-line react/no-unused-state

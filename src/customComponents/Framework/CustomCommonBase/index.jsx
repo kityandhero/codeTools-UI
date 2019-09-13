@@ -31,7 +31,7 @@ class Index extends CustomCore {
   doDidMountTask = () => {
     this.adjustWhenDidMount();
 
-    this.preInit();
+    this.init();
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -46,10 +46,6 @@ class Index extends CustomCore {
    * @memberof Index
    */
   initOther = () => {};
-
-  preInit = () => {
-    this.init();
-  };
 
   init = () => {
     this.initLoad();
@@ -147,7 +143,7 @@ class Index extends CustomCore {
             },
             () => {
               this.initLoadCore(submitData, callback);
-            },
+            }
           );
         }
       }
@@ -197,7 +193,7 @@ class Index extends CustomCore {
             metaData || null,
             metaListData || [],
             metaExtra || null,
-            metaOriginalData,
+            metaOriginalData
           );
         }
 
@@ -226,7 +222,7 @@ class Index extends CustomCore {
               this.afterFirstLoadSuccess();
 
               this.afterGetFirstRequestResult(requestData, metaOriginalData);
-            },
+            }
           );
         }
 
@@ -271,7 +267,7 @@ class Index extends CustomCore {
     });
   };
 
-  reloadCurrentOperator = (callback = null) => {
+  reloadGlobalData = (callback = null) => {
     const { dispatch } = this.props;
 
     dispatch({
@@ -317,7 +313,7 @@ class Index extends CustomCore {
     dispatch(
       routerRedux.replace({
         pathname: `${pathname.replace('/load/', '/update/')}`,
-      }),
+      })
     );
   }
 

@@ -12,6 +12,7 @@ class ListDrawer extends SingleList {
     this.state = {
       ...this.state,
       visible: false,
+      dataLoading: false,
       loadDataAfterMount: false,
     };
   }

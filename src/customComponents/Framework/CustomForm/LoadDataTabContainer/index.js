@@ -1,6 +1,10 @@
 import React from 'react';
 import { routerRedux } from 'dva/router';
-import { Avatar, Spin, Icon } from 'antd';
+import {
+  // Avatar,
+  Spin,
+  Icon,
+} from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
@@ -54,7 +58,7 @@ class LoadDataTabContainer extends LoadDataForm {
         dispatch(
           routerRedux.replace({
             pathname: `${pathname.replace('/update/', '/load/')}`,
-          }),
+          })
         );
       }
     }
@@ -75,22 +79,16 @@ class LoadDataTabContainer extends LoadDataForm {
     });
   };
 
-  pageHeaderLogo = () => {
-    const { metaData } = this.state;
-
-    return (
-      <Avatar
-        size="large"
-        src={metaData === null ? '' : metaData.mainImageUrl || '/noImageSmall.png'}
-      />
-    );
-  };
-
   getTabActiveKey = () => {
-    const { match } = this.props;
+    const {
+      match,
+      location: { pathname },
+    } = this.props;
 
-    // eslint-disable-next-line no-restricted-globals
-    location.hash.replace(`#${match.url}/`, '');
+    return pathname
+      .replace(/\//g, '-')
+      .replace(`${match.url.replace(/\//g, '-')}-`, '')
+      .replace(/-/g, '/');
   };
 
   pageHeaderTag = () => null;
@@ -102,7 +100,7 @@ class LoadDataTabContainer extends LoadDataForm {
 
     return (
       <>
-        <div className={styles.pageNameBox}>
+        <div className={styles.pageTagBox}>
           {this.pageHeaderTag()}
           <span>&nbsp;</span>
           <div className={styles.loadingBox}>
@@ -113,6 +111,16 @@ class LoadDataTabContainer extends LoadDataForm {
     );
   };
 
+  pageHeaderAvatar = () => {
+    return { src: '/noImageSmall.png' };
+  };
+
+  pageHeaderTitle = () => {
+    const { pageName } = this.state;
+
+    return <span className={styles.pageNameBox}>{pageName}</span>;
+  };
+
   pageHeaderSubTitle = () => null;
 
   pageHeaderContent = () => null;
@@ -121,7 +129,7 @@ class LoadDataTabContainer extends LoadDataForm {
 
   render() {
     const { match, children } = this.props;
-    const { pageName, customTabActiveKey } = this.state;
+    const { customTabActiveKey } = this.state;
 
     const tabListAvailable = [];
 
@@ -133,12 +141,12 @@ class LoadDataTabContainer extends LoadDataForm {
       }
     });
 
-    const pageNameContext = pageName;
-
     if (customTabActiveKey) {
       return (
         <PageHeaderWrapper
-          title={pageNameContext}
+          className={styles.wrapperContainor}
+          // avatar={this.pageHeaderAvatar()}
+          title={this.pageHeaderTitle()}
           subTitle={this.pageHeaderSubTitle()}
           tags={this.pageHeaderTagWrapper()}
           extra={this.pageHeaderAction()}
@@ -157,7 +165,8 @@ class LoadDataTabContainer extends LoadDataForm {
 
     return (
       <PageHeaderWrapper
-        title={pageNameContext}
+        avatar={this.pageHeaderAvatar()}
+        title={this.pageHeaderTitle()}
         subTitle={this.pageHeaderSubTitle()}
         tags={this.pageHeaderTagWrapper()}
         extra={this.pageHeaderAction()}
@@ -168,9 +177,9 @@ class LoadDataTabContainer extends LoadDataForm {
         tabList={tabListAvailable}
         // tabBarExtraContent={<Button>Extra Action</Button>}
         onTabChange={this.handleTabChange}
-        onBack={() => {
-          this.backToList();
-        }}
+        // onBack={() => {
+        //   this.backToList();
+        // }}
       >
         {children}
       </PageHeaderWrapper>

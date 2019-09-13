@@ -33,8 +33,8 @@ class SingleList extends ListBase {
         endTime: '',
       },
       () => {
-        this.loadData({});
-      },
+        this.reloadData();
+      }
     );
   };
 

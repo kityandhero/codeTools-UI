@@ -7,7 +7,6 @@ class AddFormModalBase extends ModalBase {
     this.state = {
       ...this.state,
       ...{
-        dataLoading: false,
         visible: false,
         needReset: false,
       },

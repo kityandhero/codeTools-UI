@@ -1,10 +1,12 @@
 import React from 'react';
-import { Modal, Spin, Form, message } from 'antd';
+import { Drawer, message, Row, Col, Affix, Button, Divider } from 'antd';
 
 import { defaultFormState, pretreatmentRequestParams, isFunction } from '@/utils/tools';
 import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
 
-class ModalBase extends CustomAuthorization {
+import styles from './index.less';
+
+class Index extends CustomAuthorization {
   constructor(props) {
     super(props);
 
@@ -12,11 +14,14 @@ class ModalBase extends CustomAuthorization {
 
     this.state = {
       ...defaultState,
-      visible: false,
-      dataLoading: false,
-      loadDataAfterMount: false,
-      width: 520,
-      bodyStyle: {},
+      ...{
+        title: '',
+        width: 820,
+        visible: false,
+        dataLoading: false,
+        loadDataAfterMount: false,
+        submitApiPath: '',
+      },
     };
   }
 
@@ -121,38 +126,92 @@ class ModalBase extends CustomAuthorization {
     this.setState({ visible: false });
   };
 
-  handleCancel = e => {
+  onClose = e => {
     e.preventDefault();
 
-    const { afterCancel } = this.props;
+    const { afterClose } = this.props;
 
     this.setState({ visible: false });
 
-    if (isFunction(afterCancel)) {
-      afterCancel();
+    if (isFunction(afterClose)) {
+      afterClose();
     }
   };
 
-  formContent = () => null;
+  renderTitleIcon = () => null;
 
-  render() {
-    const { width, bodyStyle, pageName, visible, processing, dataLoading } = this.state;
+  renderTitle = () => null;
+
+  renderContent = () => null;
+
+  renderButton = () => {
+    const { dataLoading, processing } = this.state;
 
     return (
-      <Modal
-        title={pageName}
+      <>
+        <Button
+          type="primary"
+          icon="save"
+          loading={dataLoading || processing}
+          disabled={dataLoading || processing}
+          onClick={e => {
+            this.handleOk(e);
+          }}
+        >
+          保存
+        </Button>
+        <Divider type="vertical" />
+        <Button
+          type="default"
+          icon="close-circle"
+          disabled={dataLoading || processing}
+          onClick={() => {
+            this.onClose();
+          }}
+        >
+          关闭
+        </Button>
+      </>
+    );
+  };
+
+  render() {
+    const { visible, width } = this.state;
+
+    return (
+      <Drawer
+        title={
+          <span>
+            {this.renderTitleIcon()}
+            {this.renderTitle()}
+          </span>
+        }
+        destroyOnClose={false}
         width={width}
-        bodyStyle={bodyStyle}
-        visible={visible}
-        onOk={this.handleOk}
-        onCancel={this.handleCancel}
+        placement="right"
+        visible={visible || false}
+        maskClosable={false}
+        onClose={this.onClose}
+        bodyStyle={{
+          padding: 0,
+        }}
+        // style={{
+        //   height: 'calc(100% - 55px)',
+        // }}
       >
-        <Spin spinning={processing || dataLoading}>
-          <Form>{this.formContent()}</Form>
-        </Spin>
-      </Modal>
+        <div className={styles.contentContainor}>{this.renderContent()}</div>
+        <Affix offsetBottom={0}>
+          <div className={styles.bottomBar}>
+            <Row>
+              <Col span={24} style={{ textAlign: 'right' }}>
+                {this.renderButton()}
+              </Col>
+            </Row>
+          </div>
+        </Affix>
+      </Drawer>
     );
   }
 }
 
-export default ModalBase;
+export default Index;
