@@ -14,9 +14,9 @@ export function getConfigData() {
   }
 
   return {
-    corsTargetDevelopment: 'https://api2.yurukeji.com.cn',
+    // corsTargetDevelopment: 'https://api2.yurukeji.com.cn',
     // corsTargetDevelopment: 'http://api2.b.com',
-    // corsTargetDevelopment: 'http://areaapi.lz.a.com',
+    corsTargetDevelopment: 'http://areaapi.lz.a.com',
     corsTargetProduction,
   };
 }

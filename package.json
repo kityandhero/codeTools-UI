@@ -26,7 +26,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint-staged"
+
     }
   },
   "lint-staged": {
@@ -44,7 +44,7 @@
     "not ie <= 10"
   ],
   "dependencies": {
-    "@ant-design/pro-layout": "^4.5.14",
+    "@ant-design/pro-layout": "^4.5.15",
     "@antv/data-set": "^0.10.2",
     "@antv/g2": "^3.5.8-beta.1",
     "antd": "^3.23.2",
@@ -104,7 +104,7 @@
     "cross-env": "^5.2.1",
     "cross-port-killer": "^1.1.1",
     "enzyme": "^3.10.0",
-    "eslint": "^6.3.0",
+    "eslint": "^6.4.0",
     "gh-pages": "^2.1.1",
     "husky": "^3.0.5",
     "import-sort-cli": "^6.0.0",
@@ -127,7 +127,7 @@
     "webpack-theme-color-replacer": "^1.2.17"
   },
   "optionalDependencies": {
-    "puppeteer": "^1.19.0"
+    "puppeteer": "^1.20.0"
   },
   "engines": {
     "node": ">=10.0.0"

@@ -129,105 +129,6 @@ export function getValue(obj) {
 }
 
 /**
- * 计算表达式的值
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function evil(fn) {
-  // 一个变量指向Function，防止有些前端编译工具报错
-  const Fn = Function;
-  return new Fn(`return ${fn}`)();
-}
-
-/**
- * 获取本地数据
- * @export
- * @param {value} 对比源
- * @param {other} 对比对象
- * 执行深比较来确定两者的值是否相等。
- * 这个方法支持比较 arrays, array buffers, booleans, date objects, error objects, maps, numbers, Object objects, regexes, sets, strings, symbols, 以及 typed arrays. Object 对象值比较自身的属性，不包括继承的和可枚举的属性。 不支持函数和DOM节点比较。
- */
-export function isEqual(value, other) {
-  return isEqualLodash(value, other);
-}
-
-export function isEqualBySerialize(value, other) {
-  const d1 = JSON.stringify(value || {});
-  const d2 = JSON.stringify(other || {});
-
-  return d1 === d2;
-}
-
-export function cloneWithoutMethod(value) {
-  if (value == null) {
-    return null;
-  }
-
-  return JSON.parse(JSON.stringify(value));
-}
-
-export function isFunction(value) {
-  return isFunctionLodash(value);
-}
-
-/**
- * 筛选需要的集合
- * @param {collection} 可筛选的对象，例如数组
- * @param {predicateFunction} 每次迭代调用的筛选函数
- */
-export function filter(collection, predicateFunction) {
-  return filterLodash(collection, predicateFunction);
-}
-
-export function trim(source) {
-  return trimLodash(source);
-}
-
-export function replace(source, pattern, replacement) {
-  return replaceLodash(source, pattern, replacement);
-}
-
-export function isBoolean(value) {
-  return isBooleanLodash(value);
-}
-
-export function isUndefined(value) {
-  return isUndefinedLodash(value);
-}
-
-/**
- * 移除数组中predicate（断言）返回为真值的所有元素，并返回移除元素组成的数组。predicate（断言） 会传入3个参数： (value, index, array)。
- * @param {*} array
- * @param {*} predicate (Array|Function|Object|string): 每次迭代调用的函数
- */
-export function removeFromArray(array, predicate) {
-  return removeLodash(array, predicate);
-}
-
-export function stringIsNullOrWhiteSpace(value) {
-  return trim(replace(value || '', ' ', '')) === '';
-}
-
-/**
- * base64解码
- */
-export function decodeBase64(target) {
-  let commonContent = (target || '').replace(/\s/g, '+');
-  commonContent = Buffer.from(commonContent, 'base64').toString();
-  return commonContent;
-}
-
-/**
- * base64编码
- */
-export function encodeBase64(target) {
-  const base64Content = Buffer.from(target).toString('base64');
-  return base64Content;
-}
-
-/**
  * 复制到剪贴板
  * @param {*} text
  */
@@ -484,7 +385,7 @@ export function formatMoney(
   placesSource = 2,
   symbolSource = '￥',
   thousandSource = ',',
-  decimalSource = '.'
+  decimalSource = '.',
 ) {
   let number = numberSource || 0;
   // 保留的小位数 可以写成 formatMoney(542986,3) 后面的是保留的小位数，否则默 认保留两位
@@ -677,7 +578,7 @@ export function refitFieldDecoratorOption(
   justice,
   defaultValue,
   originalOption,
-  convertCallback
+  convertCallback,
 ) {
   const result = originalOption;
   const justiceV = typeof justice !== 'undefined' && justice !== null;
@@ -725,6 +626,119 @@ export function refitCommonData(listData, empty, otherListData) {
   }
 
   return result;
+}
+
+/**
+ * 计算表达式的值
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function evil(fn) {
+  // 一个变量指向Function，防止有些前端编译工具报错
+  const Fn = Function;
+  return new Fn(`return ${fn}`)();
+}
+
+/**
+ * 获取Token键名
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getTokenKeyName() {
+  return storageKeyCollection.token;
+}
+
+/**
+ * 获取Token
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getToken() {
+  const key = storageKeyCollection.token;
+
+  return getStringFromLocalStorage(key);
+}
+
+/**
+ * 设置Token
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function setToken(v) {
+  const key = storageKeyCollection.token;
+
+  return saveStringToLocalStorage(key, v);
+}
+
+/**
+ * 移除Token
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function removeToken(v) {
+  const key = storageKeyCollection.token;
+
+  return removeLocalStorage(key, v);
+}
+
+/**
+ * 获取AreaFlag键名
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getAreaFlagKeyName() {
+  return storageKeyCollection.areaFlag;
+}
+
+/**
+ * 获取AreaFlag
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getAreaFlag() {
+  const key = storageKeyCollection.areaFlag;
+
+  return getStringFromLocalStorage(key);
+}
+
+/**
+ * 设置AreaFlag
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function setAreaFlag(v) {
+  const key = storageKeyCollection.areaFlag;
+
+  return saveStringToLocalStorage(key, v);
+}
+
+/**
+ * 移除AreaFlag
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function removeAreaFlag(v) {
+  const key = storageKeyCollection.areaFlag;
+
+  return removeLocalStorage(key, v);
 }
 
 /**
@@ -983,596 +997,6 @@ export function pretreatmentRequestParams(params, customHandle) {
 }
 
 /**
- * 获取SessionStorage数据
- * @export
- * @param {*} key
- * @param {*} value
- */
-export function getStringFromSessionStorage(key) {
-  const storage = window.sessionStorage;
-  const value = storage.getItem(key);
-
-  if (process.env.NODE_ENV === 'development') {
-    return value;
-  }
-
-  const decode = decodeBase64(value);
-  const v = encodeBase64(decode);
-
-  if (value !== v) {
-    return null;
-  }
-
-  return decode;
-}
-
-/**
- * 获取LocalStorage数据
- * @export
- * @param {*} key
- * @param {*} value
- */
-export function getStringFromLocalStorage(key) {
-  const storage = window.localStorage;
-  const value = storage.getItem(key);
-
-  if (process.env.NODE_ENV === 'development') {
-    return value;
-  }
-
-  const decode = decodeBase64(value);
-  const v = encodeBase64(decode);
-
-  if (value !== v) {
-    return null;
-  }
-
-  return decode;
-}
-
-/**
- * 获取SessionStorage数据
- * @export
- * @param {*} key
- * @param {*} value
- */
-export function getJsonFromSessionStorage(key) {
-  const jsonString = getStringFromSessionStorage(key);
-
-  if (jsonString) {
-    return JSON.parse(jsonString || '{}');
-  }
-
-  return null;
-}
-
-/**
- * 获取LocalStorage数据
- * @export
- * @param {*} key
- * @param {*} value
- */
-export function getJsonFromLocalStorage(key) {
-  const jsonString = getStringFromLocalStorage(key);
-
-  if (jsonString) {
-    return JSON.parse(jsonString || '{}');
-  }
-
-  return null;
-}
-
-/**
- * 存储SessionStorage数据
- * @export
- * @param {*} key
- * @param {*} value
- */
-export function saveStringToSessionStorage(key, value) {
-  const storage = window.sessionStorage;
-
-  if (process.env.NODE_ENV === 'development') {
-    storage.setItem(key, value);
-  } else {
-    storage.setItem(key, encodeBase64(value));
-  }
-}
-
-/**
- * 存储本地数据
- * @export
- * @param {*} key
- * @param {*} value
- */
-export function saveStringToLocalStorage(key, value) {
-  const storage = window.localStorage;
-
-  if (process.env.NODE_ENV === 'development') {
-    storage.setItem(key, value);
-  } else {
-    storage.setItem(key, encodeBase64(value));
-  }
-}
-
-/**
- * 存储SessionStorage数据
- * @export
- * @param {*} key
- * @param {*} value
- */
-export function saveJsonToSessionStorage(key, json) {
-  saveStringToSessionStorage(key, JSON.stringify(json || {}));
-}
-
-/**
- * 存储本地数据
- * @export
- * @param {*} key
- * @param {*} value
- */
-export function saveJsonToLocalStorage(key, json) {
-  saveStringToLocalStorage(key, JSON.stringify(json || {}));
-}
-
-/**
- * 移除SessionStorage数据
- * @export
- * @param {*} key
- */
-export function removeSessionStorage(key) {
-  const storage = window.sessionStorage;
-  storage.removeItem(key);
-}
-
-/**
- * 移除LocalStorage数据
- * @export
- * @param {*} key
- */
-export function removeLocalStorage(key) {
-  const storage = window.localStorage;
-  storage.removeItem(key);
-}
-
-/**
- * 清空SessionStorage数据
- * @export
- * @param {*} key
- */
-export function clearSessionStorage() {
-  const storage = window.sessionStorage;
-  storage.clear();
-}
-
-/**
- * 清空LocalStorage数据
- * @export
- * @param {*} key
- */
-export function clearLocalStorage() {
-  const storage = window.localStorage;
-  storage.clear();
-}
-
-/**
- * 获取工作队列
- * @export
- */
-export function getQueue() {
-  if (typeof window.queue === 'undefined') {
-    window.queueCustom = queue({ concurrency: 3 });
-    window.queueCustom.start();
-  }
-
-  return window.queueCustom;
-}
-
-/**
- * Reacts生命周期getDerivedStateFromProps 辅助函数用于将url参数解析到返回值中用于设定state，
- * @export
- */
-// eslint-disable-next-line no-unused-vars
-export function getDerivedStateFromPropsForUrlParamsCore(nextProps, prevState) {
-  const { match } = nextProps;
-
-  if ((match || null) != null) {
-    const { params } = match;
-
-    if ((params || null) != null) {
-      return { urlParams: params };
-    }
-  }
-
-  return null;
-}
-
-/**
- * Reacts生命周期getDerivedStateFromProps 辅助函数用于将url参数解析到返回值中用于设定state,如果值重复，则返回null，
- * @export
- */
-export function getDerivedStateFromPropsForUrlParams(
-  nextProps,
-  prevState,
-  defaultUrlParams = { id: '' },
-  parseUrlParamsForSetState = null
-) {
-  let stateUrlParams = getDerivedStateFromPropsForUrlParamsCore(nextProps, prevState);
-
-  stateUrlParams = stateUrlParams || { urlParams: defaultUrlParams };
-
-  const { urlParams: urlParamsPrev } = prevState;
-
-  const { urlParams } = stateUrlParams;
-
-  if (isEqualBySerialize({ ...(urlParamsPrev || {}), ...{} }, { ...(urlParams || {}), ...{} })) {
-    return null;
-  }
-
-  if (isFunction(parseUrlParamsForSetState)) {
-    const data = parseUrlParamsForSetState(stateUrlParams);
-
-    return { ...stateUrlParams, ...data };
-  }
-
-  return stateUrlParams;
-}
-
-/**
- * 获取Token键名
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getTokenKeyName() {
-  return storageKeyCollection.token;
-}
-
-/**
- * 获取Token
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getToken() {
-  const key = storageKeyCollection.token;
-
-  return getStringFromLocalStorage(key);
-}
-
-/**
- * 设置Token
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function setToken(v) {
-  const key = storageKeyCollection.token;
-
-  return saveStringToLocalStorage(key, v);
-}
-
-/**
- * 移除Token
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function removeToken(v) {
-  const key = storageKeyCollection.token;
-
-  return removeLocalStorage(key, v);
-}
-
-/**
- * 获取AreaFlag键名
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getAreaFlagKeyName() {
-  return storageKeyCollection.areaFlag;
-}
-
-/**
- * 获取AreaFlag
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getAreaFlag() {
-  const key = storageKeyCollection.areaFlag;
-
-  return getStringFromLocalStorage(key);
-}
-
-/**
- * 设置AreaFlag
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function setAreaFlag(v) {
-  const key = storageKeyCollection.areaFlag;
-
-  return saveStringToLocalStorage(key, v);
-}
-
-/**
- * 移除AreaFlag
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function removeAreaFlag(v) {
-  const key = storageKeyCollection.areaFlag;
-
-  return removeLocalStorage(key, v);
-}
-
-/**
- * 获取metaData缓存
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getMetaDataCache() {
-  const key = storageKeyCollection.metaData;
-
-  const d = getJsonFromLocalStorage(key);
-
-  if ((d || null) == null) {
-    return null;
-  }
-
-  if ((d.dataVersion || '') === '') {
-    return null;
-  }
-
-  const now = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
-
-  if (d.dataVersion < now) {
-    return null;
-  }
-
-  if (d.areaFlag === '' || d.areaFlag !== getAreaFlag()) {
-    return null;
-  }
-
-  return d.metaData || null;
-}
-
-/**
- * 设置metaData缓存
- *
- * @export
- * @param {o} metaData数据
- * @returns
- */
-export function setMetaDataCache(o) {
-  const key = storageKeyCollection.metaData;
-
-  const now = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
-
-  const d = {
-    metaData: o || null,
-    dataVersion: now,
-    areaFlag: getAreaFlag() || '',
-  };
-
-  return saveJsonToLocalStorage(key, d);
-}
-
-/**
- * 移除经纬度信息
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function removeMetaDataCache() {
-  const key = storageKeyCollection.metaData;
-  removeLocalStorage(key);
-}
-
-/**
- * 获取metaData缓存
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getCurrentOperatorCache() {
-  const key = storageKeyCollection.currentOperator;
-
-  const d = getJsonFromLocalStorage(key);
-
-  if ((d || null) == null) {
-    return null;
-  }
-
-  if (d.flag === '' || d.flag !== getToken()) {
-    return null;
-  }
-
-  return d.data || null;
-}
-
-/**
- * 设置metaData缓存
- *
- * @export
- * @param {o} metaData数据
- * @returns
- */
-export function setCurrentOperatorCache(o) {
-  const key = storageKeyCollection.currentOperator;
-
-  const d = {
-    data: o || null,
-    flag: getToken() || '',
-  };
-
-  return saveJsonToLocalStorage(key, d);
-}
-
-/**
- * 移除经纬度信息
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function removeCurrentOperatorCache() {
-  const key = storageKeyCollection.currentOperator;
-  removeLocalStorage(key);
-}
-
-/**
- * 清空LocalStorage数据
- * @export
- * @param {*} key
- */
-export function clearCustomData() {
-  removeMetaDataCache();
-  removeCurrentOperatorCache();
-  removeToken();
-  removeAreaFlag();
-}
-
-export function fixedZero(val) {
-  return val * 1 < 10 ? `0${val}` : val;
-}
-
-export function getTimeDistance(type) {
-  const now = new Date();
-  const oneDay = 1000 * 60 * 60 * 24;
-
-  if (type === 'today') {
-    now.setHours(0);
-    now.setMinutes(0);
-    now.setSeconds(0);
-    return [moment(now), moment(now.getTime() + (oneDay - 1000))];
-  }
-
-  if (type === 'week') {
-    let day = now.getDay();
-    now.setHours(0);
-    now.setMinutes(0);
-    now.setSeconds(0);
-
-    if (day === 0) {
-      day = 6;
-    } else {
-      day -= 1;
-    }
-
-    const beginTime = now.getTime() - day * oneDay;
-
-    return [moment(beginTime), moment(beginTime + (7 * oneDay - 1000))];
-  }
-
-  if (type === 'month') {
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    const nextDate = moment(now).add(1, 'months');
-    const nextYear = nextDate.year();
-    const nextMonth = nextDate.month();
-
-    return [
-      moment(`${year}-${fixedZero(month + 1)}-01 00:00:00`),
-      moment(moment(`${nextYear}-${fixedZero(nextMonth + 1)}-01 00:00:00`).valueOf() - 1000),
-    ];
-  }
-
-  const year = now.getFullYear();
-  return [moment(`${year}-01-01 00:00:00`), moment(`${year}-12-31 23:59:59`)];
-}
-
-export function handleCommonDataAssist(state, action, callback = null) {
-  const { payload: d, alias } = action;
-
-  let v = pretreatmentRemoteSingleData(d);
-
-  if (isFunction(callback)) {
-    v = callback(v);
-  }
-
-  if (isUndefined(alias)) {
-    return {
-      ...state,
-      data: v,
-    };
-  }
-
-  const aliasData = {};
-  aliasData[alias] = v;
-
-  return {
-    ...state,
-    ...aliasData,
-  };
-}
-
-export function handleListDataAssist(state, action, pretreatment = null, callback = null) {
-  const { payload: d, alias } = action;
-
-  let v = pretreatmentRemoteListData(d, pretreatment);
-
-  if (isFunction(callback)) {
-    v = callback(v);
-  }
-
-  if (isUndefined(alias)) {
-    return {
-      ...state,
-      data: v,
-    };
-  }
-
-  const aliasData = {};
-  aliasData[alias] = v;
-
-  return {
-    ...state,
-    ...aliasData,
-  };
-}
-
-export function handlePageListDataAssist(state, action, pretreatment = null, callback = null) {
-  const { payload: d, alias } = action;
-
-  let v = pretreatmentRemotePageListData(d, pretreatment);
-
-  if (isFunction(callback)) {
-    v = callback(v);
-  }
-
-  if (isUndefined(alias)) {
-    return {
-      ...state,
-      data: v,
-    };
-  }
-
-  const aliasData = {};
-  aliasData[alias] = v;
-
-  return {
-    ...state,
-    ...aliasData,
-  };
-}
-
-/**
  * 是否使用模拟访问
  *
  * @export
@@ -1590,7 +1014,7 @@ export function useVirtualAccess() {
  * @returns
  */
 function apiVirtualAuthorize() {
-  const tokenValue = getToken();
+  const tokenValue = getToken;
   return (tokenValue || '') !== '';
 }
 
@@ -1783,4 +1207,580 @@ export async function apiVirtualAccess(dataBuildFunction) {
   }
 
   return result;
+}
+
+/**
+ * 获取SessionStorage数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function getStringFromSessionStorage(key) {
+  const storage = window.sessionStorage;
+  const value = storage.getItem(key);
+
+  if (process.env.NODE_ENV === 'development') {
+    return value;
+  }
+
+  const decode = decodeBase64(value);
+  const v = encodeBase64(decode);
+
+  if (value !== v) {
+    return null;
+  }
+
+  return decode;
+}
+
+/**
+ * 获取LocalStorage数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function getStringFromLocalStorage(key) {
+  const storage = window.localStorage;
+  const value = storage.getItem(key);
+
+  if (process.env.NODE_ENV === 'development') {
+    return value;
+  }
+
+  const decode = decodeBase64(value);
+  const v = encodeBase64(decode);
+
+  if (value !== v) {
+    return null;
+  }
+
+  return decode;
+}
+
+/**
+ * 获取SessionStorage数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function getJsonFromSessionStorage(key) {
+  const jsonString = getStringFromSessionStorage(key);
+
+  if (jsonString) {
+    return JSON.parse(jsonString || '{}');
+  }
+
+  return null;
+}
+
+/**
+ * 获取LocalStorage数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function getJsonFromLocalStorage(key) {
+  const jsonString = getStringFromLocalStorage(key);
+
+  if (jsonString) {
+    return JSON.parse(jsonString || '{}');
+  }
+
+  return null;
+}
+
+/**
+ * 存储SessionStorage数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function saveStringToSessionStorage(key, value) {
+  const storage = window.sessionStorage;
+
+  if (process.env.NODE_ENV === 'development') {
+    storage.setItem(key, value);
+  } else {
+    storage.setItem(key, encodeBase64(value));
+  }
+}
+
+/**
+ * 存储本地数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function saveStringToLocalStorage(key, value) {
+  const storage = window.localStorage;
+
+  if (process.env.NODE_ENV === 'development') {
+    storage.setItem(key, value);
+  } else {
+    storage.setItem(key, encodeBase64(value));
+  }
+}
+
+/**
+ * 存储SessionStorage数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function saveJsonToSessionStorage(key, json) {
+  saveStringToSessionStorage(key, JSON.stringify(json || {}));
+}
+
+/**
+ * 存储本地数据
+ * @export
+ * @param {*} key
+ * @param {*} value
+ */
+export function saveJsonToLocalStorage(key, json) {
+  saveStringToLocalStorage(key, JSON.stringify(json || {}));
+}
+
+/**
+ * 移除SessionStorage数据
+ * @export
+ * @param {*} key
+ */
+export function removeSessionStorage(key) {
+  const storage = window.sessionStorage;
+  storage.removeItem(key);
+}
+
+/**
+ * 移除LocalStorage数据
+ * @export
+ * @param {*} key
+ */
+export function removeLocalStorage(key) {
+  const storage = window.localStorage;
+  storage.removeItem(key);
+}
+
+/**
+ * 清空SessionStorage数据
+ * @export
+ * @param {*} key
+ */
+export function clearSessionStorage() {
+  const storage = window.sessionStorage;
+  storage.clear();
+}
+
+/**
+ * 清空LocalStorage数据
+ * @export
+ * @param {*} key
+ */
+export function clearLocalStorage() {
+  const storage = window.localStorage;
+  storage.clear();
+}
+
+/**
+ * 清空LocalStorage数据
+ * @export
+ * @param {*} key
+ */
+export function clearCustomData() {
+  removeMetaDataCache();
+  removeCurrentOperatorCache();
+  removeToken();
+  removeAreaFlag();
+}
+
+/**
+ * 获取工作队列
+ * @export
+ */
+export function getQueue() {
+  if (typeof window.queue === 'undefined') {
+    window.queueCustom = queue({ concurrency: 3 });
+    window.queueCustom.start();
+  }
+
+  return window.queueCustom;
+}
+
+/**
+ * Reacts生命周期getDerivedStateFromProps 辅助函数用于将url参数解析到返回值中用于设定state，
+ * @export
+ */
+// eslint-disable-next-line no-unused-vars
+export function getDerivedStateFromPropsForUrlParamsCore(nextProps, prevState) {
+  const { match } = nextProps;
+
+  if ((match || null) != null) {
+    const { params } = match;
+
+    if ((params || null) != null) {
+      return { urlParams: params };
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Reacts生命周期getDerivedStateFromProps 辅助函数用于将url参数解析到返回值中用于设定state,如果值重复，则返回null，
+ * @export
+ */
+export function getDerivedStateFromPropsForUrlParams(
+  nextProps,
+  prevState,
+  defaultUrlParams = { id: '' },
+  parseUrlParamsForSetState = null,
+) {
+  let stateUrlParams = getDerivedStateFromPropsForUrlParamsCore(nextProps, prevState);
+
+  stateUrlParams = stateUrlParams || { urlParams: defaultUrlParams };
+
+  const { urlParams: urlParamsPrev } = prevState;
+
+  const { urlParams } = stateUrlParams;
+
+  if (isEqualBySerialize({ ...(urlParamsPrev || {}), ...{} }, { ...(urlParams || {}), ...{} })) {
+    return null;
+  }
+
+  if (isFunction(parseUrlParamsForSetState)) {
+    const data = parseUrlParamsForSetState(stateUrlParams);
+
+    return { ...stateUrlParams, ...data };
+  }
+
+  return stateUrlParams;
+}
+
+/**
+ * 获取本地数据
+ * @export
+ * @param {value} 对比源
+ * @param {other} 对比对象
+ * 执行深比较来确定两者的值是否相等。
+ * 这个方法支持比较 arrays, array buffers, booleans, date objects, error objects, maps, numbers, Object objects, regexes, sets, strings, symbols, 以及 typed arrays. Object 对象值比较自身的属性，不包括继承的和可枚举的属性。 不支持函数和DOM节点比较。
+ */
+export function isEqual(value, other) {
+  return isEqualLodash(value, other);
+}
+
+export function isEqualBySerialize(value, other) {
+  const d1 = JSON.stringify(value || {});
+  const d2 = JSON.stringify(other || {});
+
+  return d1 === d2;
+}
+
+export function cloneWithoutMethod(value) {
+  if (value == null) {
+    return null;
+  }
+
+  return JSON.parse(JSON.stringify(value));
+}
+
+export function isFunction(value) {
+  return isFunctionLodash(value);
+}
+
+/**
+ * 筛选需要的集合
+ * @param {collection} 可筛选的对象，例如数组
+ * @param {predicateFunction} 每次迭代调用的筛选函数
+ */
+export function filter(collection, predicateFunction) {
+  return filterLodash(collection, predicateFunction);
+}
+
+export function trim(source) {
+  return trimLodash(source);
+}
+
+export function replace(source, pattern, replacement) {
+  return replaceLodash(source, pattern, replacement);
+}
+
+export function isBoolean(value) {
+  return isBooleanLodash(value);
+}
+
+export function isUndefined(value) {
+  return isUndefinedLodash(value);
+}
+
+/**
+ * 移除数组中predicate（断言）返回为真值的所有元素，并返回移除元素组成的数组。predicate（断言） 会传入3个参数： (value, index, array)。
+ * @param {*} array
+ * @param {*} predicate (Array|Function|Object|string): 每次迭代调用的函数
+ */
+export function removeFromArray(array, predicate) {
+  return removeLodash(array, predicate);
+}
+
+export function stringIsNullOrWhiteSpace(value) {
+  return trim(replace(value || '', ' ', '')) === '';
+}
+
+/**
+ * 获取metaData缓存
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getMetaDataCache() {
+  const key = storageKeyCollection.metaData;
+
+  const d = getJsonFromLocalStorage(key);
+
+  if ((d || null) == null) {
+    return null;
+  }
+
+  if ((d.dataVersion || '') === '') {
+    return null;
+  }
+
+  const now = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
+
+  if (d.dataVersion < now) {
+    return null;
+  }
+
+  if (d.areaFlag === '' || d.areaFlag !== getAreaFlag()) {
+    return null;
+  }
+
+  return d.metaData || null;
+}
+
+/**
+ * 设置metaData缓存
+ *
+ * @export
+ * @param {o} metaData数据
+ * @returns
+ */
+export function setMetaDataCache(o) {
+  const key = storageKeyCollection.metaData;
+
+  const now = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
+
+  const d = {
+    metaData: o || null,
+    dataVersion: now,
+    areaFlag: getAreaFlag() || '',
+  };
+
+  return saveJsonToLocalStorage(key, d);
+}
+
+/**
+ * 移除经纬度信息
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function removeMetaDataCache() {
+  const key = storageKeyCollection.metaData;
+  removeLocalStorage(key);
+}
+
+/**
+ * 获取metaData缓存
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getCurrentOperatorCache() {
+  const key = storageKeyCollection.currentOperator;
+
+  const d = getJsonFromLocalStorage(key);
+
+  if ((d || null) == null) {
+    return null;
+  }
+
+  if (d.flag === '' || d.flag !== getToken()) {
+    return null;
+  }
+
+  return d.data || null;
+}
+
+/**
+ * 设置metaData缓存
+ *
+ * @export
+ * @param {o} metaData数据
+ * @returns
+ */
+export function setCurrentOperatorCache(o) {
+  const key = storageKeyCollection.currentOperator;
+
+  const d = {
+    data: o || null,
+    flag: getToken() || '',
+  };
+
+  return saveJsonToLocalStorage(key, d);
+}
+
+/**
+ * 移除经纬度信息
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function removeCurrentOperatorCache() {
+  const key = storageKeyCollection.currentOperator;
+  removeLocalStorage(key);
+}
+
+/**
+ * base64解码
+ */
+export function decodeBase64(target) {
+  let commonContent = (target || '').replace(/\s/g, '+');
+  commonContent = Buffer.from(commonContent, 'base64').toString();
+  return commonContent;
+}
+
+/**
+ * base64编码
+ */
+export function encodeBase64(target) {
+  const base64Content = Buffer.from(target).toString('base64');
+  return base64Content;
+}
+
+export function fixedZero(val) {
+  return val * 1 < 10 ? `0${val}` : val;
+}
+
+export function getTimeDistance(type) {
+  const now = new Date();
+  const oneDay = 1000 * 60 * 60 * 24;
+
+  if (type === 'today') {
+    now.setHours(0);
+    now.setMinutes(0);
+    now.setSeconds(0);
+    return [moment(now), moment(now.getTime() + (oneDay - 1000))];
+  }
+
+  if (type === 'week') {
+    let day = now.getDay();
+    now.setHours(0);
+    now.setMinutes(0);
+    now.setSeconds(0);
+
+    if (day === 0) {
+      day = 6;
+    } else {
+      day -= 1;
+    }
+
+    const beginTime = now.getTime() - day * oneDay;
+
+    return [moment(beginTime), moment(beginTime + (7 * oneDay - 1000))];
+  }
+
+  if (type === 'month') {
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const nextDate = moment(now).add(1, 'months');
+    const nextYear = nextDate.year();
+    const nextMonth = nextDate.month();
+
+    return [
+      moment(`${year}-${fixedZero(month + 1)}-01 00:00:00`),
+      moment(moment(`${nextYear}-${fixedZero(nextMonth + 1)}-01 00:00:00`).valueOf() - 1000),
+    ];
+  }
+
+  const year = now.getFullYear();
+  return [moment(`${year}-01-01 00:00:00`), moment(`${year}-12-31 23:59:59`)];
+}
+
+export function handleCommonDataAssist(state, action, callback = null) {
+  const { payload: d, alias } = action;
+
+  let v = pretreatmentRemoteSingleData(d);
+
+  if (isFunction(callback)) {
+    v = callback(v);
+  }
+
+  if (isUndefined(alias)) {
+    return {
+      ...state,
+      data: v,
+    };
+  }
+
+  const aliasData = {};
+  aliasData[alias] = v;
+
+  return {
+    ...state,
+    ...aliasData,
+  };
+}
+
+export function handleListDataAssist(state, action, pretreatment = null, callback = null) {
+  const { payload: d, alias } = action;
+
+  let v = pretreatmentRemoteListData(d, pretreatment);
+
+  if (isFunction(callback)) {
+    v = callback(v);
+  }
+
+  if (isUndefined(alias)) {
+    return {
+      ...state,
+      data: v,
+    };
+  }
+
+  const aliasData = {};
+  aliasData[alias] = v;
+
+  return {
+    ...state,
+    ...aliasData,
+  };
+}
+
+export function handlePageListDataAssist(state, action, pretreatment = null, callback = null) {
+  const { payload: d, alias } = action;
+
+  let v = pretreatmentRemotePageListData(d, pretreatment);
+
+  if (isFunction(callback)) {
+    v = callback(v);
+  }
+
+  if (isUndefined(alias)) {
+    return {
+      ...state,
+      data: v,
+    };
+  }
+
+  const aliasData = {};
+  aliasData[alias] = v;
+
+  return {
+    ...state,
+    ...aliasData,
+  };
 }
