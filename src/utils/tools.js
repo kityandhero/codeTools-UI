@@ -4,6 +4,7 @@ import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 import copy from 'copy-to-clipboard';
 import queue from 'queue';
+import numeral from 'numeral';
 import {
   isEqual as isEqualLodash,
   isFunction as isFunctionLodash,
@@ -13,6 +14,7 @@ import {
   isEmpty as isEmptyLodash,
   isBoolean as isBooleanLodash,
   isUndefined as isUndefinedLodash,
+  isArray as isArrayLodash,
   remove as removeLodash,
 } from 'lodash';
 
@@ -22,6 +24,7 @@ const storageKeyCollection = {
   metaData: 'metaData',
   token: 'token',
   areaFlag: 'areaFlag',
+  city: 'city',
   currentOperator: 'currentOperator',
 };
 
@@ -71,9 +74,6 @@ export function defaultListState() {
       dateRangeFieldName: '发生时间',
       tableScroll: { x: 1520 },
       formValues: {},
-      customData: {
-        list: [],
-      },
       startTimeAlias: '',
       endTimeAlias: '',
       startTime: '',
@@ -96,11 +96,6 @@ export function defaultPageListState() {
       dateRangeFieldName: '发生时间',
       tableScroll: { x: 1520 },
       formValues: {},
-      customData: {
-        count: 0,
-        list: [],
-        pagination: {},
-      },
       pageNo: 1,
       pageSize: 10,
       startTime: '',
@@ -239,6 +234,10 @@ export function formatDatetime(v, formatString = 'YYYY-MM-DD', defaultValue = ''
   return (v || '') === ''
     ? defaultValue
     : moment(typeof v === 'object' ? v : new Date(v.replace('/', '-'))).format(formatString);
+}
+
+export function numeralFormat(v, formatString) {
+  return numeral(v).format(formatString);
 }
 
 /**
@@ -385,7 +384,7 @@ export function formatMoney(
   placesSource = 2,
   symbolSource = '￥',
   thousandSource = ',',
-  decimalSource = '.',
+  decimalSource = '.'
 ) {
   let number = numberSource || 0;
   // 保留的小位数 可以写成 formatMoney(542986,3) 后面的是保留的小位数，否则默 认保留两位
@@ -578,7 +577,7 @@ export function refitFieldDecoratorOption(
   justice,
   defaultValue,
   originalOption,
-  convertCallback,
+  convertCallback
 ) {
   const result = originalOption;
   const justiceV = typeof justice !== 'undefined' && justice !== null;
@@ -742,6 +741,45 @@ export function removeAreaFlag(v) {
 }
 
 /**
+ * 获取City
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getCity() {
+  const key = storageKeyCollection.city;
+
+  return getJsonFromLocalStorage(key);
+}
+
+/**
+ * 设置City
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function setCity(v) {
+  const key = storageKeyCollection.city;
+
+  return saveJsonToLocalStorage(key, v);
+}
+
+/**
+ * 移除City
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function removeCity(v) {
+  const key = storageKeyCollection.city;
+
+  return removeLocalStorage(key, v);
+}
+
+/**
  * 搜索集合中的匹配项
  *
  * @export
@@ -890,7 +928,10 @@ export function pretreatmentRemoteListData(d, listItemHandler) {
     const { list: listData, extra: extraData } = d;
     const list = (listData || []).map((item, index) => {
       let o = item;
-      o.key = `list-${index}`;
+
+      if ((o.key || null) == null) {
+        o.key = `list-${index}`;
+      }
 
       if (typeof listItemHandler === 'function') {
         o = listItemHandler(o);
@@ -938,7 +979,10 @@ export function pretreatmentRemotePageListData(d, listItemHandler) {
     const { pageNo } = extraData;
     const list = (listData || []).map((item, index) => {
       let o = item;
-      o.key = `${pageNo}-${index}`;
+
+      if ((o.key || null) == null) {
+        o.key = `${pageNo}-${index}`;
+      }
 
       if (typeof listItemHandler === 'function') {
         o = listItemHandler(o);
@@ -1391,6 +1435,7 @@ export function clearCustomData() {
   removeCurrentOperatorCache();
   removeToken();
   removeAreaFlag();
+  removeCity();
 }
 
 /**
@@ -1433,7 +1478,7 @@ export function getDerivedStateFromPropsForUrlParams(
   nextProps,
   prevState,
   defaultUrlParams = { id: '' },
-  parseUrlParamsForSetState = null,
+  parseUrlParamsForSetState = null
 ) {
   let stateUrlParams = getDerivedStateFromPropsForUrlParamsCore(nextProps, prevState);
 
@@ -1444,16 +1489,16 @@ export function getDerivedStateFromPropsForUrlParams(
   const { urlParams } = stateUrlParams;
 
   if (isEqualBySerialize({ ...(urlParamsPrev || {}), ...{} }, { ...(urlParams || {}), ...{} })) {
-    return null;
+    return prevState;
   }
 
   if (isFunction(parseUrlParamsForSetState)) {
     const data = parseUrlParamsForSetState(stateUrlParams);
 
-    return { ...stateUrlParams, ...data };
+    return { ...prevState, ...stateUrlParams, ...data };
   }
 
-  return stateUrlParams;
+  return { ...prevState, ...stateUrlParams };
 }
 
 /**
@@ -1485,6 +1530,10 @@ export function cloneWithoutMethod(value) {
 
 export function isFunction(value) {
   return isFunctionLodash(value);
+}
+
+export function isArray(value) {
+  return isArrayLodash(value);
 }
 
 /**
@@ -1580,7 +1629,7 @@ export function setMetaDataCache(o) {
 }
 
 /**
- * 移除经纬度信息
+ * 移除信息
  *
  * @export
  * @param {*} fn
@@ -1592,7 +1641,72 @@ export function removeMetaDataCache() {
 }
 
 /**
- * 获取metaData缓存
+ * 获取useParamsData缓存
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function getUseParamsDataCache(key) {
+  const d = getJsonFromLocalStorage(key);
+
+  if ((d || null) == null) {
+    removeUseParamsDataCache(key);
+    return null;
+  }
+
+  if ((d.dataVersion || '') === '') {
+    removeUseParamsDataCache(key);
+    return null;
+  }
+
+  const now = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
+
+  if (d.dataVersion < now) {
+    removeUseParamsDataCache(key);
+    return null;
+  }
+
+  if (d.areaFlag === '' || d.areaFlag !== getAreaFlag()) {
+    removeUseParamsDataCache(key);
+    return null;
+  }
+
+  return d.useParamsData || null;
+}
+
+/**
+ * 设置useParamsData缓存
+ *
+ * @export
+ * @param {o} useParamsData数据
+ * @returns
+ */
+export function setUseParamsDataCache(key, o) {
+  const now = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
+
+  const d = {
+    useParamsData: o || null,
+    dataVersion: now,
+    areaFlag: getAreaFlag() || '',
+  };
+
+  return saveJsonToLocalStorage(key, d);
+}
+
+/**
+ * 移除信息
+ *
+ * @export
+ * @param {*} fn
+ * @returns
+ */
+export function removeUseParamsDataCache(key) {
+  removeLocalStorage(key);
+}
+
+/**
+ * 获取缓存
  *
  * @export
  * @param {*} fn

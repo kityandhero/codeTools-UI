@@ -7,7 +7,40 @@ import CustomBase from '@/customComponents/Framework/CustomBase';
 
 import styles from './index.less';
 
+const defaultIcon = 'message';
+
 class TimeLineCustom extends CustomBase {
+  static defaultProps = {
+    showPagination: false,
+
+    iconStyle: {},
+    links: [],
+    getIcon: () => {
+      return defaultIcon;
+    },
+    getBackgroundColorKey: () => {
+      return '';
+    },
+    getDateLabel: () => {
+      return '';
+    },
+    getTime: () => {
+      return '';
+    },
+    getTitle: () => {
+      return '';
+    },
+    getDescription: () => {
+      return '';
+    },
+    getBottomLeft: () => {
+      return '';
+    },
+    getBottomRight: () => {
+      return '';
+    },
+  };
+
   constructor(props) {
     super(props);
 
@@ -56,31 +89,35 @@ class TimeLineCustom extends CustomBase {
     this.currentPageStart = false;
     this.currentTime = v;
     return (
-      <div className={`${styles.timelabel} ${styles.liitem}`}>
-        <span className={styles.bgred}>{this.getCreateTimeDatePart(v)}</span>
+      <div className={`${styles.timeLabel} ${styles.listItem}`}>
+        <span className={styles.backgroundRed}>{this.getCreateTimeDatePart(v)}</span>
       </div>
     );
   };
 
   renderInfo = item => {
     const {
+      iconStyle: iconStyleValue,
       getBackgroundColorKey,
       getTime,
       getTitle,
       getDescription,
       getBottomLeft,
       getBottomRight,
+      getIcon,
     } = this.props;
+
+    const iconStyle = {
+      ...{
+        backgroundColor: getRandomColor(getBackgroundColorKey(item)),
+      },
+      ...(iconStyleValue || {}),
+    };
+
     return (
-      <div className={styles.liitem}>
-        <Icon
-          type="message"
-          className={styles.fa}
-          style={{
-            backgroundColor: getRandomColor(getBackgroundColorKey(item)),
-          }}
-        />
-        <div className={styles.timelineexitem}>
+      <div className={styles.listItem}>
+        <Icon type={getIcon(item)} className={styles.fa} style={iconStyle} />
+        <div className={styles.timeLineExItem}>
           <span className={styles.time}>
             <Icon
               type="clock-circle-o"
@@ -97,16 +134,16 @@ class TimeLineCustom extends CustomBase {
             />
             {this.getCreateTimeTimePart(getTime(item))}
           </span>
-          <h3 className={styles.timelineexheader}>{getTitle(item)}</h3>
+          <h3 className={styles.timeLineExHeader}>{getTitle(item)}</h3>
           <div
-            className={styles.timelineexbody}
+            className={styles.timeLineExBody}
             style={{
               fontSize: '13px',
             }}
           >
             {getDescription(item)}
           </div>
-          <div className={styles.timelineexfooter}>
+          <div className={styles.timeLineExFooter}>
             <span
               style={{
                 fontSize: '13px',
@@ -129,19 +166,23 @@ class TimeLineCustom extends CustomBase {
   };
 
   render() {
-    const { loading, getDateLabel } = this.props;
+    const { loading, getDateLabel, showPagination } = this.props;
     const { list, pagination } = this.state;
 
-    const paginationProps = {
-      showSizeChanger: true,
-      showQuickJumper: true,
-      ...pagination,
-      onChange: this.handleTableChange,
-    };
+    let paginationProps = false;
+
+    if (showPagination) {
+      paginationProps = {
+        showSizeChanger: true,
+        showQuickJumper: true,
+        ...pagination,
+        onChange: this.handleTableChange,
+      };
+    }
 
     return (
-      <div className={styles.timelineexbox}>
-        <div className={`${styles.timelineex} ${styles.timelineexinverse}`}>
+      <div className={styles.timeLineExBox}>
+        <div className={`${styles.timeLineEx} ${styles.timeLineExInverse}`}>
           <List
             loading={loading}
             itemLayout="vertical"

@@ -70,6 +70,16 @@ class Index extends PureComponent {
     dispatch(routerRedux.push(location));
   };
 
+  redirectToPath = path => {
+    const { dispatch } = this.props;
+
+    const location = {
+      pathname: path,
+    };
+
+    dispatch(routerRedux.replace(location));
+  };
+
   checkHasMore = (pageNo, pageSize, total) => {
     if ((total || 0) <= 0) {
       return false;

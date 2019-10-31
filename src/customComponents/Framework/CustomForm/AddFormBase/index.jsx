@@ -1,5 +1,5 @@
 import React from 'react';
-import { BackTop, Popover, Icon, Avatar } from 'antd';
+import { BackTop, Popover, Icon, Avatar, message } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import { defaultFormState, pretreatmentRequestParams } from '@/utils/tools';
@@ -132,6 +132,14 @@ class AddFormBase extends CustomAuthorization {
             }
           });
         }
+      } else {
+        const m = [];
+
+        Object.values(error).forEach(o => {
+          m.push(o.errors[0].message);
+        });
+
+        message.warn(m.join(', '));
       }
     });
   };

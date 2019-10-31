@@ -3,9 +3,9 @@ import { message } from 'antd';
 
 import {
   defaultPageListState,
-  saveJsonToLocalStorage,
+  setUseParamsDataCache,
   getValue,
-  getJsonFromLocalStorage,
+  getUseParamsDataCache,
   dateToMoment,
   stringIsNullOrWhiteSpace,
 } from '@/utils/tools';
@@ -52,7 +52,7 @@ class PagerList extends ListBase {
       },
       () => {
         this.reloadData();
-      },
+      }
     );
   };
 
@@ -84,7 +84,7 @@ class PagerList extends ListBase {
         return d;
       }
 
-      d = getJsonFromLocalStorage(paramsKey);
+      d = getUseParamsDataCache(paramsKey);
 
       this.useParamsKey = false;
     } else {
@@ -156,7 +156,7 @@ class PagerList extends ListBase {
   afterGetRequestResult = () => {
     const { paramsKey } = this.state;
 
-    saveJsonToLocalStorage(paramsKey, this.lastLoadParams);
+    setUseParamsDataCache(paramsKey, this.lastLoadParams);
   };
 
   handleSearch = e => {

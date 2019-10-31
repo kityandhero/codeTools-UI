@@ -1,5 +1,5 @@
 import React from 'react';
-import { BackTop, Button, Avatar, Dropdown, Icon, Menu, Tooltip } from 'antd';
+import { BackTop, Button, Avatar, Dropdown, Popconfirm, Icon, Menu, Tooltip, message } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import { getDerivedStateFromPropsForUrlParams, defaultFormState } from '@/utils/tools';
@@ -23,6 +23,9 @@ class Index extends LoadDataCore {
 
     this.state = {
       ...defaultState,
+      ...{
+        showReloadButton: true,
+      },
     };
   }
 
@@ -62,7 +65,7 @@ class Index extends LoadDataCore {
   };
 
   pageHeaderAction = () => {
-    const { dataLoading, reloading, refreshing } = this.state;
+    const { dataLoading, reloading, refreshing, showReloadButton } = this.state;
 
     const buttonGroupData = this.pageHeaderActionExtraGroup();
 
@@ -71,11 +74,51 @@ class Index extends LoadDataCore {
         <div className={styles.buttonBox}>
           {(buttonGroupData || null) != null ? (
             <ButtonGroup>
-              {(buttonGroupData.buttons || []).map(item => (
-                <Button key={item.key} {...(item.props || {})}>
-                  {item.text || ''}
-                </Button>
-              ))}
+              {(buttonGroupData.buttons || []).map(item => {
+                const { confirmMode, confirmProps } = item;
+
+                const { disabled, onClick } = item.buttonProps || {
+                  onClick: () => {
+                    message.error('缺少配置');
+                  },
+                };
+
+                if (!(confirmMode || false) || disabled) {
+                  return (
+                    <Button key={item.key} {...(item.buttonProps || {})}>
+                      {item.text || ''}
+                    </Button>
+                  );
+                }
+
+                const defaultConfirmProps = {
+                  title: '确定进行操作吗？',
+                  onConfirm: () => {
+                    message.error('缺少配置');
+                  },
+                  okText: '确定',
+                  cancelText: '取消',
+                };
+
+                const cp = {
+                  ...defaultConfirmProps,
+                  ...{
+                    onConfirm: onClick,
+                  },
+                  ...(confirmProps || {}),
+                };
+
+                const { buttonProps } = item;
+
+                delete cp.onClick;
+                delete buttonProps.onClick;
+
+                return (
+                  <Popconfirm {...(cp || {})} key={item.key}>
+                    <Button {...(buttonProps || {})}>{item.text || ''}</Button>
+                  </Popconfirm>
+                );
+              })}
 
               {(buttonGroupData.menu || null) != null ? (
                 (buttonGroupData.menu.items || []).length > 0 ? (
@@ -102,18 +145,20 @@ class Index extends LoadDataCore {
 
           {this.pageHeaderActionBack()}
 
-          <Tooltip placement="top" title="刷新">
-            <Button
-              disabled={dataLoading || reloading || refreshing}
-              loading={reloading || refreshing}
-              className={styles.reloadButton}
-              icon="reload"
-              type="dashed"
-              onClick={() => {
-                this.reloadData();
-              }}
-            />
-          </Tooltip>
+          {showReloadButton ? (
+            <Tooltip placement="top" title="刷新">
+              <Button
+                disabled={dataLoading || reloading || refreshing}
+                loading={reloading || refreshing}
+                className={styles.reloadButton}
+                icon="reload"
+                type="dashed"
+                onClick={() => {
+                  this.reloadData();
+                }}
+              />
+            </Tooltip>
+          ) : null}
         </div>
       </>
     );

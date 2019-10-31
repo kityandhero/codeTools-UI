@@ -1,12 +1,14 @@
 @import '~antd/lib/style/themes/default.less';
 
-.timelineexbox {
+.timeLineExBox {
   padding: 10px 10px 0 10px;
-  .timelineex {
+
+  .timeLineEx {
     position: relative;
     margin: 0 0 0 0;
     padding: 0;
     list-style: none;
+
     &:before {
       content: '';
       position: absolute;
@@ -18,20 +20,24 @@
       margin: 0;
       border-radius: 2px;
     }
-    .liitem {
+
+    .listItem {
       position: relative;
       margin-right: 10px;
       margin-bottom: 15px;
+
       &:before {
         content: ' ';
         display: table;
       }
+
       &:after {
         clear: both;
         content: ' ';
         display: table;
       }
-      .timelineexitem {
+
+      .timeLineExItem {
         -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
         border-radius: 3px;
@@ -42,13 +48,15 @@
         margin-right: 15px;
         padding: 0;
         position: relative;
+
         .time {
           color: #999;
           float: right;
           padding: 10px;
           font-size: 12px;
         }
-        .timelineexheader {
+
+        .timeLineExHeader {
           margin: 0;
           color: #555;
           border-bottom: 1px solid #f4f4f4;
@@ -56,13 +64,16 @@
           font-size: 16px;
           line-height: 1.1;
         }
-        .timelineexbody {
+
+        .timeLineExBody {
           padding: 10px;
         }
-        .timelineexfooter {
+
+        .timeLineExFooter {
           padding: 10px;
         }
       }
+
       .fa {
         width: 30px;
         height: 30px;
@@ -76,7 +87,8 @@
         left: 18px;
         top: 0;
       }
-      .glyphicon {
+
+      .glyphIcon {
         width: 30px;
         height: 30px;
         font-size: 15px;
@@ -89,6 +101,7 @@
         left: 18px;
         top: 0;
       }
+
       .ion {
         width: 30px;
         height: 30px;
@@ -103,7 +116,8 @@
         top: 0;
       }
     }
-    .timelabel {
+
+    .timeLabel {
       span {
         font-weight: 600;
         padding: 5px;
@@ -113,19 +127,23 @@
         border-radius: 4px;
       }
     }
-    .bgred {
+
+    .backgroundRed {
       background-color: #dd4b39 !important;
     }
   }
-  .timelineexinverse {
-    .liitem {
-      .timelineexitem {
+
+  .timeLineExInverse {
+    .listItem {
+      .timeLineExItem {
         background: #f0f0f0;
         border: 1px solid #ddd;
         -webkit-box-shadow: none;
         box-shadow: none;
-        .timelineexheader {
+
+        .timeLineExHeader {
           border-bottom-color: #ddd;
+
           a {
             font-weight: 600;
             color: #3c8dbc;

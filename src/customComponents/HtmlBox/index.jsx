@@ -5,7 +5,7 @@ import styles from './index.less';
 /**
  * 减少使用 dangerouslySetInnerHTML
  */
-export default class HtmlBox extends PureComponent {
+class HtmlBox extends PureComponent {
   componentDidMount() {
     this.renderToHtml();
   }
@@ -32,3 +32,5 @@ export default class HtmlBox extends PureComponent {
     );
   }
 }
+
+export default HtmlBox;

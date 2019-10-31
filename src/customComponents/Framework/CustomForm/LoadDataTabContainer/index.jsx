@@ -1,5 +1,4 @@
 import React from 'react';
-import { routerRedux } from 'dva/router';
 import {
   // Avatar,
   Spin,
@@ -51,30 +50,20 @@ class LoadDataTabContainer extends LoadDataForm {
         this.reloadData();
 
         const {
-          dispatch,
           location: { pathname },
         } = this.props;
 
-        dispatch(
-          routerRedux.replace({
-            pathname: `${pathname.replace('/update/', '/load/')}`,
-          })
-        );
+        this.redirectToPath(`${pathname.replace('/update/', '/load/')}`);
       }
     }
   };
 
   handleTabChange = key => {
-    const { dispatch, match } = this.props;
-    let location = {};
+    const { match } = this.props;
 
     (this.tabList || []).forEach(item => {
       if (item.key === key) {
-        location = {
-          pathname: `${match.url.replace('/update', '/load')}/${item.key}`,
-        };
-
-        dispatch(routerRedux.replace(location));
+        this.redirectToPath(`${match.url.replace('/update', '/load')}/${item.key}`);
       }
     });
   };
@@ -144,8 +133,7 @@ class LoadDataTabContainer extends LoadDataForm {
     if (customTabActiveKey) {
       return (
         <PageHeaderWrapper
-          className={styles.wrapperContainor}
-          // avatar={this.pageHeaderAvatar()}
+          avatar={this.pageHeaderAvatar()}
           title={this.pageHeaderTitle()}
           subTitle={this.pageHeaderSubTitle()}
           tags={this.pageHeaderTagWrapper()}
@@ -157,6 +145,9 @@ class LoadDataTabContainer extends LoadDataForm {
           tabList={tabListAvailable}
           // tabBarExtraContent={<Button>Extra Action</Button>}
           onTabChange={this.handleTabChange}
+          // onBack={() => {
+          //   this.backToList();
+          // }}
         >
           {children}
         </PageHeaderWrapper>
@@ -182,6 +173,7 @@ class LoadDataTabContainer extends LoadDataForm {
         // }}
       >
         {children}
+        {this.renderOther()}
       </PageHeaderWrapper>
     );
   }
