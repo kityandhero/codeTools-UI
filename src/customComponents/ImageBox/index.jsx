@@ -2,9 +2,9 @@ import React from 'react';
 import classNames from 'classnames';
 import { Row, Col, Spin, Icon } from 'antd';
 
-import { isFunction, trim, replace } from '@/utils/tools';
+import { isFunction, trim, replace } from '../../utils/tools';
 import defaultSettings from '../../../config/defaultSettings';
-import CustomBase from '@/customComponents/Framework/CustomBase';
+import CustomBase from '../Framework/CustomBase';
 
 import styles from './index.less';
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { message } from 'antd';
 
-import { defaultListState, stringIsNullOrWhiteSpace } from '@/utils/tools';
-import ListBase from '@/customComponents/Framework/CustomList/ListBase';
-import StandardTableCustom from '@/customComponents/StandardTableCustom';
+import { defaultListState, stringIsNullOrWhiteSpace } from '../../../../utils/tools';
+import ListBase from '../ListBase';
+import StandardTableCustom from '../../../StandardTableCustom';
 
 class SingleList extends ListBase {
   constructor(props) {
@@ -34,7 +34,7 @@ class SingleList extends ListBase {
       },
       () => {
         this.reloadData();
-      }
+      },
     );
   };
 

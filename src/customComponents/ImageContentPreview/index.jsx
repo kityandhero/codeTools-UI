@@ -2,7 +2,7 @@ import React from 'react';
 import { Drawer, Empty } from 'antd';
 
 import CustomBase from '@/customComponents/Framework/CustomBase';
-import { imageContentPreviewMode } from '@/utils/customConfig';
+import { imageContentPreviewMode } from '@/customConfig/config';
 
 import styles from './index.less';
 

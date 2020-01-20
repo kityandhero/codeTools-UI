@@ -6,7 +6,7 @@ import {
 } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
-import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
+import LoadDataForm from '../LoadDataForm';
 
 import styles from './index.less';
 
@@ -68,6 +68,8 @@ class LoadDataTabContainer extends LoadDataForm {
     });
   };
 
+  adjustTabListAvailable = tabListAvailable => tabListAvailable;
+
   getTabActiveKey = () => {
     const {
       match,
@@ -120,7 +122,7 @@ class LoadDataTabContainer extends LoadDataForm {
     const { match, children } = this.props;
     const { customTabActiveKey } = this.state;
 
-    const tabListAvailable = [];
+    let tabListAvailable = [];
 
     (this.tabList || []).forEach(o => {
       const v = typeof o.show === 'undefined' ? true : o.show === true;
@@ -129,6 +131,8 @@ class LoadDataTabContainer extends LoadDataForm {
         tabListAvailable.push(o);
       }
     });
+
+    tabListAvailable = this.adjustTabListAvailable(tabListAvailable);
 
     if (customTabActiveKey) {
       return (

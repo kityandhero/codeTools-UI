@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal, Spin, Form, message } from 'antd';
 
-import { defaultFormState, pretreatmentRequestParams, isFunction } from '@/utils/tools';
-import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
+import { defaultFormState, pretreatmentRequestParams, isFunction } from '../../../../utils/tools';
+import CustomAuthorization from '../../CustomAuthorization';
 
 class ModalBase extends CustomAuthorization {
   constructor(props) {
@@ -98,7 +98,7 @@ class ModalBase extends CustomAuthorization {
                   listData || [],
                   extra || null,
                   remoteData,
-                  submitData
+                  submitData,
                 );
               }
             }
@@ -144,6 +144,7 @@ class ModalBase extends CustomAuthorization {
         width={width}
         bodyStyle={bodyStyle}
         visible={visible}
+        zIndex={1001}
         onOk={this.handleOk}
         onCancel={this.handleCancel}
       >

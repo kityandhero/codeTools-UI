@@ -103,7 +103,7 @@ class Index extends CustomAuthorization {
                   listData || [],
                   extra || null,
                   remoteData,
-                  submitData
+                  submitData,
                 );
               }
             }

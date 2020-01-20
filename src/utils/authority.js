@@ -1,5 +1,5 @@
-import accessWayCollection from '@/utils/accessWayCollection';
-import { getStringFromLocalStorage, saveJsonToLocalStorage } from './tools';
+import accessWayCollection from '../customConfig/accessWayCollection';
+import { getStringFromLocalStorage, saveJsonToLocalStorage, isArray } from './tools';
 
 // use localStorage to store the authority info, which might be sent from server in actual project.
 export function getAuthority(str) {
@@ -32,7 +32,8 @@ function getAllAuthorityCore() {
   if (typeof authority === 'string') {
     return [authority];
   }
-  return authority || [];
+
+  return isArray(authority) ? authority : [];
 }
 
 export function getAllAuthority() {

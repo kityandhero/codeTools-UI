@@ -9,16 +9,20 @@ import {
   isEqual as isEqualLodash,
   isFunction as isFunctionLodash,
   filter as filterLodash,
+  sortBy as sortByLodash,
+  findIndex as findIndexLodash,
+  reverse as reverseLodash,
   replace as replaceLodash,
   trim as trimLodash,
   isEmpty as isEmptyLodash,
   isBoolean as isBooleanLodash,
   isUndefined as isUndefinedLodash,
+  isDate as isDateLodash,
   isArray as isArrayLodash,
   remove as removeLodash,
 } from 'lodash';
 
-import { getConfigData, checkDevelopment } from './customConfig';
+import { getConfigData } from '../customConfig/config';
 
 const storageKeyCollection = {
   metaData: 'metaData',
@@ -188,6 +192,10 @@ export function replaceTargetText(text, replaceText, beforeKeepNumber, afterKeep
   return result || '';
 }
 
+export function checkDevelopment() {
+  return process.env.NODE_ENV === 'development';
+}
+
 /**
  * corsTarget
  * 跨域域名配置
@@ -208,7 +216,7 @@ export function corsTarget() {
  * @param {*} v
  * @returns
  */
-export function GetGuid() {
+export function getGuid() {
   return uuidv4();
 }
 
@@ -221,6 +229,24 @@ export function GetGuid() {
  */
 export function isInvalid(v) {
   return typeof v === 'undefined';
+}
+
+export function toDatetime(v) {
+  if ((v || null) == null) {
+    return null;
+  }
+
+  const i = v.indexOf('T');
+
+  if (i < 0) {
+    // eslint-disable-next-line no-useless-escape
+    const value = v.replace(/\-/g, '/');
+    const result = new Date(value);
+
+    return result;
+  }
+
+  return new Date(v);
 }
 
 /**
@@ -384,7 +410,7 @@ export function formatMoney(
   placesSource = 2,
   symbolSource = '￥',
   thousandSource = ',',
-  decimalSource = '.'
+  decimalSource = '.',
 ) {
   let number = numberSource || 0;
   // 保留的小位数 可以写成 formatMoney(542986,3) 后面的是保留的小位数，否则默 认保留两位
@@ -577,7 +603,7 @@ export function refitFieldDecoratorOption(
   justice,
   defaultValue,
   originalOption,
-  convertCallback
+  convertCallback,
 ) {
   const result = originalOption;
   const justiceV = typeof justice !== 'undefined' && justice !== null;
@@ -1478,7 +1504,7 @@ export function getDerivedStateFromPropsForUrlParams(
   nextProps,
   prevState,
   defaultUrlParams = { id: '' },
-  parseUrlParamsForSetState = null
+  parseUrlParamsForSetState = null,
 ) {
   let stateUrlParams = getDerivedStateFromPropsForUrlParamsCore(nextProps, prevState);
 
@@ -1545,6 +1571,29 @@ export function filter(collection, predicateFunction) {
   return filterLodash(collection, predicateFunction);
 }
 
+/**
+ * 创建一个元素数组。 以 iteratee 处理的结果升序排序。 这个方法执行稳定排序，也就是说相同元素会保持原始排序。 iteratees 调用1个参数： (value)。
+ * @param {collection}  (Array|Object), 用来迭代的集合。
+ * @param {predicateFunction} 这个函数决定排序
+ */
+export function sortBy(collection, predicateFunction) {
+  return sortByLodash(collection, predicateFunction);
+}
+
+/**
+ * 该方法返回第一个通过 predicateFunction 判断为真值的元素的索引值（index），而不是元素本身。
+ * @param {array} (Array): 要搜索的数组。
+ * @param {predicateFunction} 这个函数会在每一次迭代调用
+ * @param {fromIndex} (number): The index to search from.
+ */
+export function findIndex(array, predicateFunction, fromIndex = 0) {
+  return findIndexLodash(array, predicateFunction, fromIndex);
+}
+
+export function reverse(array) {
+  return reverseLodash(array);
+}
+
 export function trim(source) {
   return trimLodash(source);
 }
@@ -1559,6 +1608,10 @@ export function isBoolean(value) {
 
 export function isUndefined(value) {
   return isUndefinedLodash(value);
+}
+
+export function isDate(value) {
+  return isDateLodash(value);
 }
 
 /**
@@ -1594,7 +1647,7 @@ export function getMetaDataCache() {
     return null;
   }
 
-  const now = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
+  const now = parseInt(new Date().getTime() / 1000 / 60 / 5, 10);
 
   if (d.dataVersion < now) {
     return null;

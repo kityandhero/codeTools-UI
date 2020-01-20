@@ -123,7 +123,7 @@ class AddFormBase extends CustomAuthorization {
                   metaListData || [],
                   metaExtra || null,
                   remoteData,
-                  submitData
+                  submitData,
                 );
               }
 

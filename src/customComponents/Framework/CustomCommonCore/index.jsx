@@ -1,6 +1,6 @@
 import React from 'react';
 import { routerRedux } from 'dva/router';
-import { Form, Select, Input, Icon, Radio, InputNumber, DatePicker, message } from 'antd';
+import { Form, Select, Radio, Input, Icon, InputNumber, DatePicker, message } from 'antd';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -13,12 +13,14 @@ import {
   refitFieldDecoratorOption,
   pretreatmentRequestParams,
   buildFieldHelper,
-} from '@/utils/tools';
-import CustomCore from '@/customComponents/Framework/CustomCore';
+  isUndefined,
+} from '../../../utils/tools';
+import CustomCore from '../CustomCore';
 
 const FormItem = Form.Item;
 const { Option } = Select;
 const { TextArea, Password } = Input;
+const RadioGroup = Radio.Group;
 
 class Index extends CustomCore {
   lastRequestingData = { type: '', payload: {} };
@@ -126,6 +128,16 @@ class Index extends CustomCore {
     if (loadDataAfterMount) {
       if ((loadApiPath || '') === '') {
         message.error('loadApiPath需要配置');
+
+        this.setState({
+          dataLoading: false,
+          loadSuccess: false,
+          reloading: false,
+          searching: false,
+          refreshing: false,
+          paging: false,
+        });
+
         return;
       }
 
@@ -158,7 +170,7 @@ class Index extends CustomCore {
             },
             () => {
               this.initLoadCore(submitData, callback);
-            }
+            },
           );
         }
       }
@@ -190,6 +202,10 @@ class Index extends CustomCore {
       }).then(() => {
         const metaOriginalData = this.getApiData(this.props);
 
+        if (isUndefined(metaOriginalData)) {
+          return;
+        }
+
         this.lastLoadParams = requestData;
 
         const { dataSuccess } = metaOriginalData;
@@ -208,7 +224,7 @@ class Index extends CustomCore {
             metaData || null,
             metaListData || [],
             metaExtra || null,
-            metaOriginalData
+            metaOriginalData,
           );
         }
 
@@ -237,7 +253,7 @@ class Index extends CustomCore {
               this.afterFirstLoadSuccess();
 
               this.afterGetFirstRequestResult(requestData, metaOriginalData);
-            }
+            },
           );
         }
 
@@ -313,6 +329,7 @@ class Index extends CustomCore {
 
     if (dataLoading || reloading || searching || refreshing || paging || processing) {
       message.info('数据正在处理中，请稍等一下再点哦');
+
       return true;
     }
 
@@ -328,7 +345,7 @@ class Index extends CustomCore {
     dispatch(
       routerRedux.replace({
         pathname: `${pathname.replace('/load/', '/update/')}`,
-      })
+      }),
     );
   }
 
@@ -340,7 +357,7 @@ class Index extends CustomCore {
     date = new Date(),
     helper = buildFieldHelper('数据的添加时间'),
     label = '添加时间',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const value = date || new Date();
     const title = label || '添加时间';
@@ -372,7 +389,7 @@ class Index extends CustomCore {
         list.push(
           <Radio key={flag} value={flag}>
             {name}
-          </Radio>
+          </Radio>,
         );
       });
 
@@ -393,11 +410,11 @@ class Index extends CustomCore {
 
     if (listData.length > 0) {
       listData.forEach(item => {
-        const { name, flag } = item;
+        const { name, flag, disabled } = item;
         list.push(
-          <Option key={`${flag}_${name}`} value={flag}>
+          <Option key={`${flag}_${name}`} value={flag} disabled={disabled || false}>
             {name}
-          </Option>
+          </Option>,
         );
       });
 
@@ -415,7 +432,7 @@ class Index extends CustomCore {
     iconType = 'form',
     inputProps = {},
     canOperate = true,
-    formItemLayout = {}
+    formItemLayout = {},
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -454,7 +471,8 @@ class Index extends CustomCore {
     iconType = 'form',
     inputProps = {},
     canOperate = true,
-    formItemLayout = {}
+    formItemLayout = {},
+    reminderPrefix = '输入',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -464,7 +482,7 @@ class Index extends CustomCore {
     const otherInputProps = {
       ...{
         addonBefore: <Icon type={iconType} />,
-        placeholder: buildFieldDescription(title, '输入'),
+        placeholder: buildFieldDescription(title, reminderPrefix),
       },
       ...(inputProps || {}),
     };
@@ -488,7 +506,7 @@ class Index extends CustomCore {
                 message: buildFieldDescription(title),
               },
             ],
-          })
+          }),
         )(<Input {...otherInputProps} />)}
       </FormItem>
     );
@@ -503,7 +521,7 @@ class Index extends CustomCore {
     iconType = 'form',
     inputProps = {},
     canOperate = true,
-    formItemLayout = {}
+    formItemLayout = {},
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -537,7 +555,7 @@ class Index extends CustomCore {
                 message: buildFieldDescription(title),
               },
             ],
-          })
+          }),
         )(<Password {...otherInputProps} />)}
       </FormItem>
     );
@@ -549,7 +567,7 @@ class Index extends CustomCore {
     helper = null,
     iconType = 'form',
     inputProps = {},
-    formItemLayout = {}
+    formItemLayout = {},
   ) => {
     return this.renderFormInputFormItem(
       label,
@@ -560,7 +578,7 @@ class Index extends CustomCore {
       iconType,
       inputProps,
       false,
-      formItemLayout
+      formItemLayout,
     );
   };
 
@@ -572,7 +590,7 @@ class Index extends CustomCore {
     helper = null,
     inputNumberProps = {},
     canOperate = true,
-    formItemLayout = {}
+    formItemLayout = {},
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -607,7 +625,7 @@ class Index extends CustomCore {
                 message: buildFieldDescription(title),
               },
             ],
-          })
+          }),
         )(<InputNumber {...otherInputNumberProps} />)}
       </FormItem>
     );
@@ -621,7 +639,7 @@ class Index extends CustomCore {
     helper = null,
     textAreaProps = {},
     canOperate = true,
-    formItemLayout = {}
+    formItemLayout = {},
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -654,7 +672,7 @@ class Index extends CustomCore {
                 message: buildFieldDescription(title),
               },
             ],
-          })
+          }),
         )(<TextArea {...otherTextAreaProps} />)}
       </FormItem>
     );
@@ -668,7 +686,7 @@ class Index extends CustomCore {
     helper = null,
     datePickerProps = {},
     canOperate = true,
-    formItemLayout = {}
+    formItemLayout = {},
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -681,7 +699,7 @@ class Index extends CustomCore {
         showTime: true,
         format: 'YYYY-MM-DD HH:mm:ss',
         inputReadOnly: true,
-        placeholder: buildFieldDescription(title, '输入'),
+        placeholder: buildFieldDescription(title, '选择'),
       },
       ...(datePickerProps || {}),
     };
@@ -710,9 +728,105 @@ class Index extends CustomCore {
                 },
               ],
             },
-            v => stringToMoment(v)
-          )
+            v => stringToMoment(v),
+          ),
         )(<DatePicker {...otherDatePickerProps} />)}
+      </FormItem>
+    );
+  };
+
+  renderFormSelectFormItem = (
+    label,
+    name,
+    value,
+    renderOptionFunction,
+    helper = null,
+    onChangeCallback,
+    formItemLayout = null,
+    required = false,
+    otherProps = null,
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const otherSelectProps = {
+      ...{
+        placeholder: buildFieldDescription(label, '选择'),
+        style: { width: '100%' },
+        onChange: (v, option) => {
+          if (isFunction(onChangeCallback)) {
+            onChangeCallback(v, option);
+          }
+        },
+      },
+      ...(otherProps || {}),
+    };
+
+    return (
+      <FormItem {...(formItemLayout || {})} label={label} extra={helper}>
+        {getFieldDecorator(
+          name,
+          refitFieldDecoratorOption(value, value, 0, {
+            rules: [
+              {
+                required,
+                message: buildFieldDescription(label, '选择'),
+              },
+            ],
+          }),
+        )(
+          <Select {...otherSelectProps}>
+            {isFunction(renderOptionFunction) ? renderOptionFunction() : null}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormRadioFormItem = (
+    label,
+    name,
+    value,
+    renderOptionFunction,
+    helper = null,
+    onChangeCallback,
+    formItemLayout = null,
+    required = false,
+    otherProps = null,
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const otherRadioProps = {
+      ...{
+        placeholder: buildFieldDescription(label, '选择'),
+        style: { width: '100%' },
+        onChange: (v, option) => {
+          if (isFunction(onChangeCallback)) {
+            onChangeCallback(v, option);
+          }
+        },
+      },
+      ...(otherProps || {}),
+    };
+
+    return (
+      <FormItem {...(formItemLayout || {})} label={label} extra={helper}>
+        {getFieldDecorator(
+          name,
+          refitFieldDecoratorOption(value, value, 0, {
+            rules: [
+              {
+                required,
+                message: buildFieldDescription(label, '选择'),
+              },
+            ],
+          }),
+        )(
+          <RadioGroup {...otherRadioProps}>
+            {isFunction(renderOptionFunction) ? renderOptionFunction() : null}
+          </RadioGroup>,
+        )}
       </FormItem>
     );
   };

@@ -1,10 +1,10 @@
 import { routerRedux } from 'dva/router';
 
-import { getDerivedStateFromPropsForUrlParams, isFunction } from '@/utils/tools';
-import { checkHasAuthority } from '@/utils/authority';
-import CustomCommon from '@/customComponents/Framework/CustomCommon';
+import { getDerivedStateFromPropsForUrlParams, isFunction } from '../../../utils/tools';
+import { checkHasAuthority } from '../../../utils/authority';
+import CustomCommonWrapper from '../CustomCommonWrapper';
 
-class Index extends CustomCommon {
+class Index extends CustomCommonWrapper {
   componentAuthority = null;
 
   static getDerivedStateFromProps(nextProps, prevState) {

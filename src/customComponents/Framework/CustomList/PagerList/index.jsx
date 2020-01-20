@@ -8,9 +8,9 @@ import {
   getUseParamsDataCache,
   dateToMoment,
   stringIsNullOrWhiteSpace,
-} from '@/utils/tools';
-import ListBase from '@/customComponents/Framework/CustomList/ListBase';
-import StandardTableCustom from '@/customComponents/StandardTableCustom';
+} from '../../../../utils/tools';
+import ListBase from '../ListBase';
+import StandardTableCustom from '../../../StandardTableCustom';
 
 class PagerList extends ListBase {
   lastLoadParams = null;
@@ -52,7 +52,7 @@ class PagerList extends ListBase {
       },
       () => {
         this.reloadData();
-      }
+      },
     );
   };
 
@@ -141,7 +141,9 @@ class PagerList extends ListBase {
         // p.dateRange = `${p.startTime}-${p.endTime}`;
       }
 
-      Object.keys(form.getFieldsValue()).forEach(key => {
+      const d = form.getFieldsValue();
+
+      Object.keys(d).forEach(key => {
         const c = p[key] === 0 ? 0 : p[key] || null;
 
         if (c != null) {
@@ -150,13 +152,20 @@ class PagerList extends ListBase {
           form.setFieldsValue(obj);
         }
       });
+
+      this.adjustRenderLoadRequestParamsWithKey(d);
     }
   };
+
+  // eslint-disable-next-line no-unused-vars
+  adjustRenderLoadRequestParamsWithKey = d => {};
 
   afterGetRequestResult = () => {
     const { paramsKey } = this.state;
 
-    setUseParamsDataCache(paramsKey, this.lastLoadParams);
+    if (!stringIsNullOrWhiteSpace(paramsKey)) {
+      setUseParamsDataCache(paramsKey, this.lastLoadParams);
+    }
   };
 
   handleSearch = e => {

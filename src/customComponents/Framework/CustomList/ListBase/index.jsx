@@ -2,8 +2,8 @@ import React from 'react';
 import { Row, Col, Card, Form, Button, DatePicker, BackTop, Divider } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
-import { defaultListState, buildFieldDescription } from '@/utils/tools';
-import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
+import { defaultListState, buildFieldDescription } from '../../../../utils/tools';
+import CustomAuthorization from '../../CustomAuthorization';
 
 import styles from './index.less';
 

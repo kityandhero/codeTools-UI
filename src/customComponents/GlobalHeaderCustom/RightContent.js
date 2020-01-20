@@ -5,8 +5,8 @@ import Link from 'umi/link';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 
-import accessWayCollection from '@/utils/accessWayCollection';
-import { checkHasAuthority } from '@/utils/authority';
+import accessWayCollection from '../../customConfig/accessWayCollection';
+import { checkHasAuthority } from '../../utils/authority';
 
 import NoticeIconCustom from '../NoticeIconCustom';
 import HeaderSearchCustom from '../HeaderSearchCustom';

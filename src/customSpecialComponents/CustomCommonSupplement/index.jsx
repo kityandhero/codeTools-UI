@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Select, Radio, DatePicker } from 'antd';
+import { Form, Select, DatePicker } from 'antd';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -10,12 +10,11 @@ import {
   refitFieldDecoratorOption,
   isFunction,
   buildFieldHelper,
-} from '@/utils/tools';
-import CustomCommonCore from '@/customComponents/Framework/CustomCommonCore';
+} from '../../utils/tools';
+import CustomCommonCore from '../../customComponents/Framework/CustomCommonCore';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const RadioGroup = Radio.Group;
 
 const unlimitedWithNumberFlag = {
   key: -10000,
@@ -29,6 +28,12 @@ const unlimitedWithStringFlag = {
   flag: '-10000',
 };
 
+/**
+ * 该类作为特有项目的补充，视具体项目进行增部方法
+ *
+ * @class Index
+ * @extends {CustomCommonCore}
+ */
 class Index extends CustomCommonCore {
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(nextProps, prevState);
@@ -55,7 +60,7 @@ class Index extends CustomCommonCore {
             format="YYYY-MM-DD"
             onChange={this.onBatchDateChange}
             style={{ width: '100%' }}
-          />
+          />,
         )}
       </FormItem>
     );
@@ -95,7 +100,7 @@ class Index extends CustomCommonCore {
   renderSearchRankFormItem = (
     withUnlimited = true,
     initialValue = '-10000',
-    label = '商品品类'
+    label = '商品品类',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -110,7 +115,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderRankOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -122,39 +127,24 @@ class Index extends CustomCommonCore {
     onChangeCallback,
     label = '商品类别',
     formItemLayout = null,
-    required = false
+    required = false,
+    name = 'rankId',
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label || '商品类别';
 
-    return (
-      <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
-        {getFieldDecorator(
-          'rankId',
-          refitFieldDecoratorOption(value, value, '', {
-            rules: [
-              {
-                required,
-                message: buildFieldDescription(title, '选择'),
-              },
-            ],
-          })
-        )(
-          <Select
-            placeholder={buildFieldDescription(title, '选择')}
-            style={{ width: '100%' }}
-            onChange={e => {
-              if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
-              }
-            }}
-          >
-            {this.renderRankOption(false)}
-          </Select>
-        )}
-      </FormItem>
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderRankOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 
@@ -192,7 +182,7 @@ class Index extends CustomCommonCore {
   renderSearchBrandFormItem = (
     withUnlimited = true,
     initialValue = '-10000',
-    label = '商品品牌'
+    label = '商品品牌',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -207,7 +197,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderBrandOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -247,7 +237,7 @@ class Index extends CustomCommonCore {
   renderSearchSimpleTicketRankFormItem = (
     withUnlimited = true,
     initialValue = '-10000',
-    label = '票务品类'
+    label = '票务品类',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -262,7 +252,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderSimpleTicketRankOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -273,7 +263,7 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '所属品类',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -295,20 +285,20 @@ class Index extends CustomCommonCore {
                   message: buildFieldDescription(title, '选择'),
                 },
               ],
-            }
-          )
+            },
+          ),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderSimpleTicketRankOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -343,7 +333,7 @@ class Index extends CustomCommonCore {
   renderSearchProductSaleTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '销售类型'
+    label = '销售类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -358,7 +348,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderProductSaleTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -366,43 +356,28 @@ class Index extends CustomCommonCore {
 
   renderFormProductSaleTypeSelectFormItem = (
     value,
-    helper = null,
+    helper = buildFieldHelper('商品的销售模式'),
     onChangeCallback,
     label = '销售类型',
     formItemLayout = null,
-    required = false
+    required = false,
+    name = 'saleType',
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label || '销售类型';
 
-    return (
-      <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
-        {getFieldDecorator(
-          'saleType',
-          refitFieldDecoratorOption(value, value, 0, {
-            rules: [
-              {
-                required,
-                message: buildFieldDescription(title, '选择'),
-              },
-            ],
-          })
-        )(
-          <Select
-            placeholder={buildFieldDescription(title, '选择')}
-            style={{ width: '100%' }}
-            onChange={e => {
-              if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
-              }
-            }}
-          >
-            {this.renderProductSaleTypeOption(false)}
-          </Select>
-        )}
-      </FormItem>
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderProductSaleTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 
@@ -435,7 +410,7 @@ class Index extends CustomCommonCore {
   renderSearchProductStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '产品状态'
+    label = '产品状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -450,7 +425,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderProductStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -461,7 +436,7 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '商品状态',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -479,19 +454,19 @@ class Index extends CustomCommonCore {
                 message: buildFieldDescription(title, '选择'),
               },
             ],
-          })
+          }),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderProductStateOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -526,7 +501,7 @@ class Index extends CustomCommonCore {
   renderSearchProductBuyTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '售卖方式'
+    label = '售卖方式',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -541,7 +516,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderProductBuyTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -576,7 +551,7 @@ class Index extends CustomCommonCore {
   renderSearchProductSaleTimeModeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '定时上下架模式'
+    label = '定时上下架模式',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -591,7 +566,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderProductSaleTimeModeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -603,7 +578,7 @@ class Index extends CustomCommonCore {
     onChangeCallback,
     label = '定时上下架模式',
     formItemLayout = null,
-    required = false
+    required = false,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -621,19 +596,19 @@ class Index extends CustomCommonCore {
                 message: buildFieldDescription(title, '选择'),
               },
             ],
-          })
+          }),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderProductSaleTimeModeOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -668,7 +643,7 @@ class Index extends CustomCommonCore {
   renderSearchPlanSaleStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '预售状态'
+    label = '预售状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -683,7 +658,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderPlanSaleStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -718,7 +693,7 @@ class Index extends CustomCommonCore {
   renderSearchStatisticModeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '统计模式'
+    label = '统计模式',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -733,7 +708,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderStatisticModeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -762,7 +737,7 @@ class Index extends CustomCommonCore {
 
   renderMerchantSaleStatisticShowModeOption = (
     withUnlimited = true,
-    adjustListDataCallback = null
+    adjustListDataCallback = null,
   ) => {
     const listData = this.merchantSaleStatisticShowModeList(withUnlimited);
     return this.renderFormOptionCore(listData, adjustListDataCallback);
@@ -771,7 +746,7 @@ class Index extends CustomCommonCore {
   renderSearchMerchantSaleStatisticShowModeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '显示模式'
+    label = '显示模式',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -786,7 +761,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderMerchantSaleStatisticShowModeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -815,7 +790,7 @@ class Index extends CustomCommonCore {
 
   renderDiscountActivitiesGoodsTypeOption = (
     withUnlimited = true,
-    adjustListDataCallback = null
+    adjustListDataCallback = null,
   ) => {
     const listData = this.discountActivitiesGoodsTypeList(withUnlimited);
     return this.renderFormOptionCore(listData, adjustListDataCallback);
@@ -824,7 +799,7 @@ class Index extends CustomCommonCore {
   renderSearchDiscountActivitiesGoodsTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '商品类型'
+    label = '商品类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -839,7 +814,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderDiscountActivitiesGoodsTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -850,7 +825,7 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '商品类型',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -868,19 +843,19 @@ class Index extends CustomCommonCore {
                 message: buildFieldDescription(title, '选择'),
               },
             ],
-          })
+          }),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderDiscountActivitiesGoodsTypeOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -915,7 +890,7 @@ class Index extends CustomCommonCore {
   renderSearchDiscountActivitiesStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '活动状态'
+    label = '活动状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -930,7 +905,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderDiscountActivitiesStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -941,7 +916,7 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '状态',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -959,19 +934,19 @@ class Index extends CustomCommonCore {
                 message: buildFieldDescription(title, '选择'),
               },
             ],
-          })
+          }),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderDiscountActivitiesStateOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1006,7 +981,7 @@ class Index extends CustomCommonCore {
   renderSearchUserOrderStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '订单状态'
+    label = '订单状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1021,7 +996,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderUserOrderStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1056,7 +1031,7 @@ class Index extends CustomCommonCore {
   renderSearchPayTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '付款方式'
+    label = '付款方式',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1071,7 +1046,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderPayTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1100,7 +1075,7 @@ class Index extends CustomCommonCore {
 
   renderUserOrderOutboundHistoryTypeOption = (
     withUnlimited = true,
-    adjustListDataCallback = null
+    adjustListDataCallback = null,
   ) => {
     const listData = this.userOrderOutboundHistoryTypeList(withUnlimited);
     return this.renderFormOptionCore(listData, adjustListDataCallback);
@@ -1109,7 +1084,7 @@ class Index extends CustomCommonCore {
   renderSearchUserOrderOutboundHistoryTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '出库类型'
+    label = '出库类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1124,7 +1099,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderUserOrderOutboundHistoryTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1159,7 +1134,7 @@ class Index extends CustomCommonCore {
   renderSearchUserTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '用户类型'
+    label = '用户类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1174,7 +1149,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderUserTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1185,7 +1160,7 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '用户类型',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1203,19 +1178,19 @@ class Index extends CustomCommonCore {
                 message: buildFieldDescription(title, '选择'),
               },
             ],
-          })
+          }),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderUserTypeOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1250,7 +1225,7 @@ class Index extends CustomCommonCore {
   renderSearchClientTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '终端类型'
+    label = '终端类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1265,7 +1240,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderClientTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1300,7 +1275,7 @@ class Index extends CustomCommonCore {
   renderSearchRoleStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '角色状态'
+    label = '角色状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1315,7 +1290,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderRoleStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1350,7 +1325,7 @@ class Index extends CustomCommonCore {
   renderSearchReplenishmentReasonTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '原因类型'
+    label = '原因类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1365,7 +1340,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderReplenishmentReasonTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1400,7 +1375,7 @@ class Index extends CustomCommonCore {
   renderSearchUserOrderTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '订单类型'
+    label = '订单类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1415,7 +1390,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderUserOrderTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1450,7 +1425,7 @@ class Index extends CustomCommonCore {
   renderSearchReplenishmentTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '售后类型'
+    label = '售后类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1465,7 +1440,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderReplenishmentTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1500,7 +1475,7 @@ class Index extends CustomCommonCore {
   renderSearchReplenishmentStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '售后状态'
+    label = '售后状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1515,7 +1490,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderReplenishmentStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1550,7 +1525,7 @@ class Index extends CustomCommonCore {
   renderSearchGenderFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '用户性别'
+    label = '用户性别',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1565,7 +1540,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderGenderOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1600,7 +1575,7 @@ class Index extends CustomCommonCore {
   renderSearchProductUnitFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '计量单位'
+    label = '计量单位',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1615,7 +1590,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderProductUnitOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1626,7 +1601,7 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '计量单位',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1644,19 +1619,19 @@ class Index extends CustomCommonCore {
                 message: buildFieldDescription(title, '选择'),
               },
             ],
-          })
+          }),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderProductUnitOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1692,7 +1667,7 @@ class Index extends CustomCommonCore {
   renderSearchSimpleTicketUnitFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '计量单位'
+    label = '计量单位',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1707,7 +1682,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderSimpleTicketUnitOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1718,7 +1693,7 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '计量单位',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1736,19 +1711,19 @@ class Index extends CustomCommonCore {
                 message: buildFieldDescription(title, '选择'),
               },
             ],
-          })
+          }),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderSimpleTicketUnitOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1789,7 +1764,7 @@ class Index extends CustomCommonCore {
   renderSearchRefundOrderHandleTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '处理类型'
+    label = '处理类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1804,7 +1779,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderRefundOrderHandleTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1839,7 +1814,7 @@ class Index extends CustomCommonCore {
   renderSearchRefundOrderStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '退款状态'
+    label = '退款状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1854,7 +1829,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderRefundOrderStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1889,7 +1864,7 @@ class Index extends CustomCommonCore {
   renderSearchMerchantPayFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '是否缴费'
+    label = '是否缴费',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1904,7 +1879,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderMerchantPayOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -1915,39 +1890,25 @@ class Index extends CustomCommonCore {
     helper = buildFieldHelper('站长是否缴纳费用'),
     onChangeCallback,
     label = '是否缴费',
-    formItemLayout = null
+    formItemLayout = null,
+    required = false,
+    name = 'isPay',
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label || '是否缴费';
 
-    return (
-      <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
-        {getFieldDecorator(
-          'isPay',
-          refitFieldDecoratorOption(value, value, 0, {
-            rules: [
-              {
-                required: false,
-                message: buildFieldDescription(title, '选择'),
-              },
-            ],
-          })
-        )(
-          <Select
-            placeholder={buildFieldDescription(title, '选择')}
-            style={{ width: '100%' }}
-            onChange={e => {
-              if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
-              }
-            }}
-          >
-            {this.renderMerchantPayOption(false)}
-          </Select>
-        )}
-      </FormItem>
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderMerchantPayOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 
@@ -1980,7 +1941,7 @@ class Index extends CustomCommonCore {
   renderSearchWebChannelFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '系统名'
+    label = '系统名',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -1995,7 +1956,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderWebChannelOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2030,7 +1991,7 @@ class Index extends CustomCommonCore {
   renderSearchAreaDistributionPayTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '转款类型'
+    label = '转款类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2045,7 +2006,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAreaDistributionPayTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2080,7 +2041,7 @@ class Index extends CustomCommonCore {
   renderSearchAreaDistributionStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '审核状态'
+    label = '审核状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2095,7 +2056,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAreaDistributionStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2130,7 +2091,7 @@ class Index extends CustomCommonCore {
   renderSearchAreaAccountRecordTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '变动原因'
+    label = '变动原因',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2145,7 +2106,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAreaAccountRecordTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2180,7 +2141,7 @@ class Index extends CustomCommonCore {
   renderSearchAreaManageStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '账户状态'
+    label = '账户状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2195,7 +2156,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAreaManageStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2230,7 +2191,7 @@ class Index extends CustomCommonCore {
   renderSearchDistributionStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '状态'
+    label = '状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2245,7 +2206,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderDistributionStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2280,7 +2241,7 @@ class Index extends CustomCommonCore {
   renderSearchOrderMessageFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '订单消息'
+    label = '订单消息',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2295,7 +2256,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderOrderMessageOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2330,7 +2291,7 @@ class Index extends CustomCommonCore {
   renderSearchAdministrationAuthorityFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '管理权限'
+    label = '管理权限',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2345,7 +2306,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAdministrationAuthorityOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2386,7 +2347,7 @@ class Index extends CustomCommonCore {
   renderSearchRefundOrderReturnStoreFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '返还库存'
+    label = '返还库存',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2401,7 +2362,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderRefundOrderReturnStoreOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2431,7 +2392,7 @@ class Index extends CustomCommonCore {
 
   renderGoodsLogisticsProcessRequestMessageTypeOption = (
     withUnlimited = true,
-    adjustListDataCallback = null
+    adjustListDataCallback = null,
   ) => {
     const listData = this.goodsLogisticsProcessRequestMessageTypeList(withUnlimited);
     return this.renderFormOptionCore(listData, adjustListDataCallback);
@@ -2440,7 +2401,7 @@ class Index extends CustomCommonCore {
   renderSearchGoodsLogisticsProcessRequestMessageTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '请求类型'
+    label = '请求类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2455,7 +2416,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderGoodsLogisticsProcessRequestMessageTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2485,7 +2446,7 @@ class Index extends CustomCommonCore {
 
   renderGoodsLogisticsProcessRequestMessageModeOption = (
     withUnlimited = true,
-    adjustListDataCallback = null
+    adjustListDataCallback = null,
   ) => {
     const listData = this.goodsLogisticsProcessRequestMessageModeList(withUnlimited);
     return this.renderFormOptionCore(listData, adjustListDataCallback);
@@ -2494,7 +2455,7 @@ class Index extends CustomCommonCore {
   renderSearchGoodsLogisticsProcessRequestMessageModeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '请求模式'
+    label = '请求模式',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2509,7 +2470,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderGoodsLogisticsProcessRequestMessageModeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2536,14 +2497,14 @@ class Index extends CustomCommonCore {
     const item = searchFromList(
       'flag',
       v,
-      this.goodsLogisticsProcessRequestMessageStateList(false)
+      this.goodsLogisticsProcessRequestMessageStateList(false),
     );
     return item == null ? '未知' : item.name;
   };
 
   renderGoodsLogisticsProcessRequestMessageStateOption = (
     withUnlimited = true,
-    adjustListDataCallback = null
+    adjustListDataCallback = null,
   ) => {
     const listData = this.goodsLogisticsProcessRequestMessageStateList(withUnlimited);
     return this.renderFormOptionCore(listData, adjustListDataCallback);
@@ -2552,7 +2513,7 @@ class Index extends CustomCommonCore {
   renderSearchGoodsLogisticsProcessRequestMessageStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '处理状态'
+    label = '处理状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2567,14 +2528,14 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderGoodsLogisticsProcessRequestMessageStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
   };
 
   goodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultList = (
-    withUnlimited = true
+    withUnlimited = true,
   ) => {
     const { global } = this.props;
 
@@ -2588,18 +2549,18 @@ class Index extends CustomCommonCore {
           key: -10000,
           name: '不限',
           flag: -10000,
-        }
+        },
       );
     }
 
     return refitCommonData(
-      goodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultList
+      goodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultList,
     );
   };
 
   getGoodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultName = (
     v,
-    defaultValue = ''
+    defaultValue = '',
   ) => {
     if (isInvalid(v)) {
       return defaultValue;
@@ -2608,16 +2569,16 @@ class Index extends CustomCommonCore {
     const item = searchFromList(
       'flag',
       v,
-      this.goodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultList(false)
+      this.goodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultList(false),
     );
     return item == null ? '未知' : item.name;
   };
 
   renderGoodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultOption = (
-    withUnlimited = true
+    withUnlimited = true,
   ) => {
     const goodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultData = this.goodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultList(
-      withUnlimited
+      withUnlimited,
     );
     const goodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultOption = [];
 
@@ -2627,7 +2588,7 @@ class Index extends CustomCommonCore {
         goodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultOption.push(
           <Option key={flag} value={flag}>
             {name}
-          </Option>
+          </Option>,
         );
       });
 
@@ -2640,7 +2601,7 @@ class Index extends CustomCommonCore {
   renderSearchGoodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '缺失操作'
+    label = '缺失操作',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2655,9 +2616,9 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderGoodsLogisticsProcessRequestMessageDayInspectOperationLossCheckResultOption(
-              withUnlimited
+              withUnlimited,
             )}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2672,7 +2633,7 @@ class Index extends CustomCommonCore {
     if (withUnlimited) {
       return refitCommonData(
         goodsLogisticsProcessRequestMessageDayInspectStateList,
-        unlimitedWithNumberFlag
+        unlimitedWithNumberFlag,
       );
     }
 
@@ -2687,14 +2648,14 @@ class Index extends CustomCommonCore {
     const item = searchFromList(
       'flag',
       v,
-      this.goodsLogisticsProcessRequestMessageDayInspectStateList(false)
+      this.goodsLogisticsProcessRequestMessageDayInspectStateList(false),
     );
     return item == null ? '未知' : item.name;
   };
 
   renderGoodsLogisticsProcessRequestMessageDayInspectStateOption = (
     withUnlimited = true,
-    adjustListDataCallback = null
+    adjustListDataCallback = null,
   ) => {
     const listData = this.goodsLogisticsProcessRequestMessageDayInspectStateList(withUnlimited);
     return this.renderFormOptionCore(listData, adjustListDataCallback);
@@ -2703,7 +2664,7 @@ class Index extends CustomCommonCore {
   renderSearchGoodsLogisticsProcessRequestMessageDayInspectStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '状态'
+    label = '状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2718,7 +2679,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderGoodsLogisticsProcessRequestMessageDayInspectStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2753,7 +2714,7 @@ class Index extends CustomCommonCore {
   renderSearchMerchantStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '状态'
+    label = '状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2768,7 +2729,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderMerchantStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2803,7 +2764,7 @@ class Index extends CustomCommonCore {
   renderSearchAdvertClassFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '所属类别'
+    label = '所属类别',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2818,7 +2779,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAdvertClassOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2829,7 +2790,7 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '所属类型',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2847,19 +2808,19 @@ class Index extends CustomCommonCore {
                 message: buildFieldDescription(title, '选择'),
               },
             ],
-          })
+          }),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderAdvertClassOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2894,7 +2855,7 @@ class Index extends CustomCommonCore {
   renderSearchAdvertStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '当前状态'
+    label = '当前状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2909,7 +2870,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAdvertStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2944,7 +2905,7 @@ class Index extends CustomCommonCore {
   renderSearchAdvertTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '广告类型'
+    label = '广告类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -2959,7 +2920,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAdvertTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -2971,39 +2932,24 @@ class Index extends CustomCommonCore {
     onChangeCallback,
     label = '广告类型',
     formItemLayout = null,
-    required = false
+    required = false,
+    name = 'type',
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label || '广告类型';
 
-    return (
-      <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
-        {getFieldDecorator(
-          'type',
-          refitFieldDecoratorOption(value, value, 0, {
-            rules: [
-              {
-                required,
-                message: buildFieldDescription(title, '选择'),
-              },
-            ],
-          })
-        )(
-          <Select
-            placeholder={buildFieldDescription(title, '选择')}
-            style={{ width: '100%' }}
-            onChange={e => {
-              if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
-              }
-            }}
-          >
-            {this.renderAdvertTypeOption(false)}
-          </Select>
-        )}
-      </FormItem>
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderAdvertTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 
@@ -3036,7 +2982,7 @@ class Index extends CustomCommonCore {
   renderSearchAccessWayTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '类别'
+    label = '类别',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3051,7 +2997,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAccessWayTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3086,7 +3032,7 @@ class Index extends CustomCommonCore {
   renderSearchAreaRankSaleStatisticTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '类别'
+    label = '类别',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3101,7 +3047,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAreaRankSaleStatisticTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3142,7 +3088,7 @@ class Index extends CustomCommonCore {
   renderSearchReplenishmentStateModeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '模式'
+    label = '模式',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3157,7 +3103,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderReplenishmentStateModeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3192,7 +3138,7 @@ class Index extends CustomCommonCore {
   renderSearchMerchantDisplayFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '是否显示'
+    label = '是否显示',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3207,7 +3153,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderMerchantDisplayOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3218,39 +3164,25 @@ class Index extends CustomCommonCore {
     helper = buildFieldHelper('选择站长是否显示'),
     onChangeCallback,
     label = '是否显示',
-    formItemLayout = null
+    formItemLayout = null,
+    required = true,
+    name = 'isDisplay',
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label || '是否显示';
 
-    return (
-      <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
-        {getFieldDecorator(
-          'isDisplay',
-          refitFieldDecoratorOption(value, value, 0, {
-            rules: [
-              {
-                required: false,
-                message: buildFieldDescription(title, '选择'),
-              },
-            ],
-          })
-        )(
-          <Select
-            placeholder={buildFieldDescription(title, '选择')}
-            style={{ width: '100%' }}
-            onChange={e => {
-              if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
-              }
-            }}
-          >
-            {this.renderMerchantDisplayOption(false)}
-          </Select>
-        )}
-      </FormItem>
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderMerchantDisplayOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 
@@ -3288,7 +3220,7 @@ class Index extends CustomCommonCore {
   renderSearchLineFormItem = (
     withUnlimited = true,
     initialValue = '-10000',
-    label = '线路标识'
+    label = '线路标识',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3303,7 +3235,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderLineOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3314,39 +3246,25 @@ class Index extends CustomCommonCore {
     helper = buildFieldHelper('选择站长的配送线路'),
     onChangeCallback,
     label = '线路标识',
-    formItemLayout = null
+    formItemLayout = null,
+    required = true,
+    name = 'lineId',
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label || '线路标识';
 
-    return (
-      <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
-        {getFieldDecorator(
-          'lineId',
-          refitFieldDecoratorOption(value, value, 0, {
-            rules: [
-              {
-                required: false,
-                message: buildFieldDescription(title, '选择'),
-              },
-            ],
-          })
-        )(
-          <Select
-            placeholder={buildFieldDescription(title, '选择')}
-            style={{ width: '100%' }}
-            onChange={e => {
-              if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
-              }
-            }}
-          >
-            {this.renderLineOption(false)}
-          </Select>
-        )}
-      </FormItem>
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderLineOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 
@@ -3379,7 +3297,7 @@ class Index extends CustomCommonCore {
   renderSearchMerchantSwitchFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '是否闭店'
+    label = '是否闭店',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3394,7 +3312,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderMerchantSwitchOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3405,39 +3323,25 @@ class Index extends CustomCommonCore {
     helper = buildFieldHelper('站长是否已经闭店'),
     onChangeCallback,
     label = '是否闭店',
-    formItemLayout = null
+    formItemLayout = null,
+    required = true,
+    name = 'isCloseShop',
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label || '是否闭店';
 
-    return (
-      <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
-        {getFieldDecorator(
-          'isCloseShop',
-          refitFieldDecoratorOption(value, value, 0, {
-            rules: [
-              {
-                required: false,
-                message: buildFieldDescription(title, '选择'),
-              },
-            ],
-          })
-        )(
-          <Select
-            placeholder={buildFieldDescription(title, '选择')}
-            style={{ width: '100%' }}
-            onChange={e => {
-              if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
-              }
-            }}
-          >
-            {this.renderMerchantSwitchOption(false)}
-          </Select>
-        )}
-      </FormItem>
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderMerchantSwitchOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 
@@ -3470,7 +3374,7 @@ class Index extends CustomCommonCore {
   renderSearchAreaAccountRecordIsHandleFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '处理状态'
+    label = '处理状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3485,7 +3389,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAreaAccountRecordIsHandleOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3520,7 +3424,7 @@ class Index extends CustomCommonCore {
   renderSearchMerchantPurchaseFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '允许采购'
+    label = '允许采购',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3535,7 +3439,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderMerchantPurchaseOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3546,39 +3450,25 @@ class Index extends CustomCommonCore {
     helper = buildFieldHelper('是否允许站长采购'),
     onChangeCallback,
     label = '允许采购',
-    formItemLayout = null
+    formItemLayout = null,
+    required = true,
+    name = 'isClose',
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label || '允许采购';
 
-    return (
-      <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
-        {getFieldDecorator(
-          'isClose',
-          refitFieldDecoratorOption(value, value, 0, {
-            rules: [
-              {
-                required: false,
-                message: buildFieldDescription(title, '选择'),
-              },
-            ],
-          })
-        )(
-          <Select
-            placeholder={buildFieldDescription(title, '选择')}
-            style={{ width: '100%' }}
-            onChange={e => {
-              if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
-              }
-            }}
-          >
-            {this.renderMerchantPurchaseOption(false)}
-          </Select>
-        )}
-      </FormItem>
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderMerchantPurchaseOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 
@@ -3611,7 +3501,7 @@ class Index extends CustomCommonCore {
   renderSearchIsUpStoreFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '采购端可见'
+    label = '采购端可见',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3626,7 +3516,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderIsUpStoreOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3638,7 +3528,7 @@ class Index extends CustomCommonCore {
     onChangeCallback,
     label = '采购端可见',
     formItemLayout = null,
-    required = false
+    required = false,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3656,19 +3546,19 @@ class Index extends CustomCommonCore {
                 message: buildFieldDescription(title, '选择'),
               },
             ],
-          })
+          }),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderIsUpStoreOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3703,7 +3593,7 @@ class Index extends CustomCommonCore {
   renderSearchIsUpAppFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = 'App端可见'
+    label = 'App端可见',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3718,7 +3608,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderIsUpAppOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3730,7 +3620,7 @@ class Index extends CustomCommonCore {
     onChangeCallback,
     label = 'App端可见',
     formItemLayout = null,
-    required = false
+    required = false,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3748,19 +3638,19 @@ class Index extends CustomCommonCore {
                 message: buildFieldDescription(title, '选择'),
               },
             ],
-          })
+          }),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderIsUpAppOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3795,7 +3685,7 @@ class Index extends CustomCommonCore {
   renderSearchIsUpWxFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '微信端可见'
+    label = '微信端可见',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3810,7 +3700,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderIsUpWxOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3822,7 +3712,7 @@ class Index extends CustomCommonCore {
     onChangeCallback,
     label = '微信端可见',
     formItemLayout = null,
-    required = false
+    required = false,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3840,19 +3730,19 @@ class Index extends CustomCommonCore {
                 message: buildFieldDescription(title, '选择'),
               },
             ],
-          })
+          }),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderIsUpWxOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3893,7 +3783,7 @@ class Index extends CustomCommonCore {
   renderSearchStockChangeTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '变更类型'
+    label = '变更类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -3908,7 +3798,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderStockChangeTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -3919,39 +3809,25 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '变更库存',
-    formItemLayout = null
+    formItemLayout = null,
+    required = true,
+    name = 'changeType',
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label || '变更库存';
 
-    return (
-      <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
-        {getFieldDecorator(
-          'changeType',
-          refitFieldDecoratorOption(value, value, 0, {
-            rules: [
-              {
-                required: false,
-                message: buildFieldDescription(title, '选择'),
-              },
-            ],
-          })
-        )(
-          <Select
-            placeholder={buildFieldDescription(title, '选择')}
-            style={{ width: '100%' }}
-            onChange={e => {
-              if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
-              }
-            }}
-          >
-            {this.renderStockChangeTypeOption(false)}
-          </Select>
-        )}
-      </FormItem>
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderStockChangeTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 
@@ -3960,37 +3836,25 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '变更库存',
-    formItemLayout = null
+    formItemLayout = null,
+    required = true,
+    name = 'changeType',
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label || '变更库存';
 
-    return (
-      <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
-        {getFieldDecorator(
-          'changeType',
-          refitFieldDecoratorOption(value, value, 0, {
-            rules: [
-              {
-                required: true,
-                message: buildFieldDescription(title, '选择'),
-              },
-            ],
-          })
-        )(
-          <RadioGroup
-            onChange={e => {
-              if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
-              }
-            }}
-          >
-            {this.renderStockChangeTypeRadio(false)}
-          </RadioGroup>
-        )}
-      </FormItem>
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderStockChangeTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 
@@ -4023,7 +3887,7 @@ class Index extends CustomCommonCore {
   renderSearchPeopleAccountLogTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '变动类型'
+    label = '变动类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4038,7 +3902,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderPeopleAccountLogTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4073,7 +3937,7 @@ class Index extends CustomCommonCore {
   renderSearchPeopleAccountLogIsOutInFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '收支类行'
+    label = '收支类行',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4088,7 +3952,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderPeopleAccountLogIsOutInOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4123,7 +3987,7 @@ class Index extends CustomCommonCore {
   renderSearchPeopleAccountLogInTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '收入来源'
+    label = '收入来源',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4138,7 +4002,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderPeopleAccountLogInTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4167,7 +4031,7 @@ class Index extends CustomCommonCore {
 
   renderAreaAccountRecordRevenueExpensesOption = (
     withUnlimited = true,
-    adjustListDataCallback = null
+    adjustListDataCallback = null,
   ) => {
     const listData = this.areaAccountRecordRevenueExpensesList(withUnlimited);
     return this.renderFormOptionCore(listData, adjustListDataCallback);
@@ -4176,7 +4040,7 @@ class Index extends CustomCommonCore {
   renderSearchAreaAccountRecordRevenueExpensesFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '收支类型'
+    label = '收支类型',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4191,7 +4055,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAreaAccountRecordRevenueExpensesOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4226,7 +4090,7 @@ class Index extends CustomCommonCore {
   renderSearchSimpleTicketStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '票务状态'
+    label = '票务状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4241,7 +4105,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderSimpleTicketStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4252,7 +4116,7 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '票务状态',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4270,19 +4134,19 @@ class Index extends CustomCommonCore {
                 message: buildFieldDescription(title, '选择'),
               },
             ],
-          })
+          }),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderSimpleTicketStateOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4317,7 +4181,7 @@ class Index extends CustomCommonCore {
   renderSearchSimpleTicketIsCanRefundFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '是否可退'
+    label = '是否可退',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4332,7 +4196,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderSimpleTicketIsCanRefundOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4343,7 +4207,7 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '是否可退',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4365,20 +4229,20 @@ class Index extends CustomCommonCore {
                   message: buildFieldDescription(title, '选择'),
                 },
               ],
-            }
-          )
+            },
+          ),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderSimpleTicketIsCanRefundOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4407,7 +4271,7 @@ class Index extends CustomCommonCore {
 
   renderSimpleTicketIsNeedAppointmentOption = (
     withUnlimited = true,
-    adjustListDataCallback = null
+    adjustListDataCallback = null,
   ) => {
     const listData = this.simpleTicketIsNeedAppointmentList(withUnlimited);
     return this.renderFormOptionCore(listData, adjustListDataCallback);
@@ -4416,7 +4280,7 @@ class Index extends CustomCommonCore {
   renderSearchSimpleTicketIsNeedAppointmentFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '需要预约'
+    label = '需要预约',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4431,7 +4295,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderSimpleTicketIsNeedAppointmentOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4442,7 +4306,7 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '需要预约',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4464,20 +4328,20 @@ class Index extends CustomCommonCore {
                   message: buildFieldDescription(title, '选择'),
                 },
               ],
-            }
-          )
+            },
+          ),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderSimpleTicketIsNeedAppointmentOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4506,7 +4370,7 @@ class Index extends CustomCommonCore {
 
   renderSimpleTicketOnlyNewCustomerOption = (
     withUnlimited = true,
-    adjustListDataCallback = null
+    adjustListDataCallback = null,
   ) => {
     const listData = this.simpleTicketOnlyNewCustomerList(withUnlimited);
     return this.renderFormOptionCore(listData, adjustListDataCallback);
@@ -4515,7 +4379,7 @@ class Index extends CustomCommonCore {
   renderSearchSimpleTicketOnlyNewCustomerFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '新用户专享'
+    label = '新用户专享',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4530,7 +4394,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderSimpleTicketOnlyNewCustomerOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4541,7 +4405,7 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '新用户专享',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4563,20 +4427,20 @@ class Index extends CustomCommonCore {
                   message: buildFieldDescription(title, '选择'),
                 },
               ],
-            }
-          )
+            },
+          ),
         )(
           <Select
             placeholder={buildFieldDescription(title, '选择')}
             style={{ width: '100%' }}
-            onChange={e => {
+            onChange={(v, option) => {
               if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
+                onChangeCallback(v, option);
               }
             }}
           >
             {this.renderSimpleTicketOnlyNewCustomerOption(false)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4611,7 +4475,7 @@ class Index extends CustomCommonCore {
   renderSearchSimpleTicketDetailStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '套餐状态'
+    label = '套餐状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4626,7 +4490,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderSimpleTicketDetailStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4637,39 +4501,25 @@ class Index extends CustomCommonCore {
     helper = null,
     onChangeCallback,
     label = '套餐状态',
-    formItemLayout = null
+    formItemLayout = null,
+    required = false,
+    name = 'state',
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label || '套餐状态';
 
-    return (
-      <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
-        {getFieldDecorator(
-          'state',
-          refitFieldDecoratorOption(value, value, 0, {
-            rules: [
-              {
-                required: false,
-                message: buildFieldDescription(title, '选择'),
-              },
-            ],
-          })
-        )(
-          <Select
-            placeholder={buildFieldDescription(title, '选择')}
-            style={{ width: '100%' }}
-            onChange={e => {
-              if (isFunction(onChangeCallback)) {
-                onChangeCallback(e);
-              }
-            }}
-          >
-            {this.renderSimpleTicketDetailStateOption(false)}
-          </Select>
-        )}
-      </FormItem>
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderSimpleTicketDetailStateOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 
@@ -4699,10 +4549,10 @@ class Index extends CustomCommonCore {
     return this.renderFormOptionCore(listData, adjustListDataCallback);
   };
 
-  renderSearchUserOrderSaleTypeSelectFormItem = (
+  renderSearchUserOrderSaleTypeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '售卖方式'
+    label = '售卖方式',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4717,7 +4567,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderUserOrderSaleTypeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4752,7 +4602,7 @@ class Index extends CustomCommonCore {
   renderSearchSimpleTicketOrderStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '订单状态'
+    label = '订单状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4767,7 +4617,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderSimpleTicketOrderStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4802,7 +4652,7 @@ class Index extends CustomCommonCore {
   renderSearchCityDriverStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '当前状态'
+    label = '当前状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4817,7 +4667,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderCityDriverStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4852,7 +4702,7 @@ class Index extends CustomCommonCore {
   renderSearchCityDriverBindLocationFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '绑定定位'
+    label = '绑定定位',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4867,7 +4717,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderCityDriverBindLocationOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4908,7 +4758,7 @@ class Index extends CustomCommonCore {
   renderSearchAreaAgentRoleCreateModeFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '创建模式'
+    label = '创建模式',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4923,7 +4773,7 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAreaAgentRoleCreateModeOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
     );
@@ -4958,7 +4808,7 @@ class Index extends CustomCommonCore {
   renderSearchAreaAgentRoleStateFormItem = (
     withUnlimited = true,
     initialValue = -10000,
-    label = '角色状态'
+    label = '角色状态',
   ) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
@@ -4973,9 +4823,1837 @@ class Index extends CustomCommonCore {
         })(
           <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
             {this.renderAreaAgentRoleStateOption(withUnlimited)}
-          </Select>
+          </Select>,
         )}
       </FormItem>
+    );
+  };
+
+  departmentStatusList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const departmentStatusList = global.departmentStatusList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(departmentStatusList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(departmentStatusList);
+  };
+
+  getDepartmentStatusName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.departmentStatusList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderDepartmentStatusOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.departmentStatusList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderDepartmentStatusRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.departmentStatusList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchDepartmentStatusFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '状态',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '状态';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('status', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderDepartmentStatusOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormDepartmentStatusSelectFormItem = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '状态',
+    formItemLayout = null,
+    required = true,
+    name = 'status',
+    otherProps = null,
+  ) => {
+    const title = label || '状态';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderDepartmentStatusOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormDepartmentStatusFormItemRadio = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '状态',
+    formItemLayout = null,
+    required = true,
+    name = 'status',
+    otherProps = null,
+  ) => {
+    const title = label || '状态';
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderDepartmentStatusOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  employeeStatusList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const employeeStatusList = global.employeeStatusList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(employeeStatusList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(employeeStatusList);
+  };
+
+  getEmployeeStatusName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.employeeStatusList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderEmployeeStatusOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.employeeStatusList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderEmployeeStatusRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.employeeStatusList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchEmployeeStatusFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '状态',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '状态';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('status', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderEmployeeStatusOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormEmployeeStatusSelectFormItem = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '状态',
+    formItemLayout = null,
+    required = true,
+    name = 'status',
+    otherProps = null,
+  ) => {
+    const title = label || '状态';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderEmployeeStatusOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormEmployeeStatusFormItemRadio = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '状态',
+    formItemLayout = null,
+    required = true,
+    name = 'status',
+    otherProps = null,
+  ) => {
+    const title = label || '状态';
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderEmployeeStatusOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  productPurchaseStatusList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const productPurchaseStatusList = global.productPurchaseStatusList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(productPurchaseStatusList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(productPurchaseStatusList);
+  };
+
+  getProductPurchaseStatusName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.productPurchaseStatusList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderProductPurchaseStatusOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.productPurchaseStatusList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderProductPurchaseStatusRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.productPurchaseStatusList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchProductPurchaseStatusFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '状态',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '状态';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('status', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderProductPurchaseStatusOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormProductPurchaseStatusSelectFormItem = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '状态',
+    formItemLayout = null,
+    required = true,
+    name = 'status',
+    otherProps = null,
+  ) => {
+    const title = label || '状态';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderProductPurchaseStatusOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormProductPurchaseStatusFormItemRadio = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '状态',
+    formItemLayout = null,
+    required = true,
+    name = 'status',
+    otherProps = null,
+  ) => {
+    const title = label || '状态';
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderProductPurchaseStatusOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  couponScopeList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponScopeList = global.couponScopeList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponScopeList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponScopeList);
+  };
+
+  getCouponScopeName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponScopeList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponScopeOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponScopeList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponScopeFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '适用范围',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '适用范围';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('scope', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponScopeOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponScopeSelectFormItem = (
+    value,
+    helper = buildFieldHelper('选择优惠券适用范围'),
+    onChangeCallback,
+    label = '适用范围',
+    formItemLayout = null,
+    required = false,
+    name = 'scope',
+    otherProps = null,
+  ) => {
+    const title = label || '适用范围';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponScopeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  couponApplicableObjectList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponApplicableObjectList = global.couponApplicableObjectList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponApplicableObjectList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponApplicableObjectList);
+  };
+
+  getCouponApplicableObjectName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponApplicableObjectList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponApplicableObjectOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponApplicableObjectList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponApplicableObjectFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '适用对象',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '适用对象';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('applicableObject', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponApplicableObjectOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponApplicableObjectSelectFormItem = (
+    value,
+    helper = buildFieldHelper('选择优惠券适用对象'),
+    onChangeCallback,
+    label = '适用对象',
+    formItemLayout = null,
+    required = false,
+    name = 'applicableObject',
+    otherProps = null,
+  ) => {
+    const title = label || '适用对象';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponApplicableObjectOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  couponExpireModeList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponExpireModeList = global.couponExpireModeList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponExpireModeList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponExpireModeList);
+  };
+
+  getCouponExpireModeName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponExpireModeList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponExpireModeOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponExpireModeList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponExpireModeFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '过期模式',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '过期模式';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('expireMode', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponExpireModeOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponExpireModeSelectFormItem = (
+    value,
+    helper = buildFieldHelper('选择优惠券过期模式'),
+    onChangeCallback,
+    label = '过期模式',
+    formItemLayout = null,
+    required = false,
+    name = 'expireMode',
+    otherProps = null,
+  ) => {
+    const title = label || '过期模式';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponExpireModeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  couponDisplayRangeList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponDisplayRangeList = global.couponDisplayRangeList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponDisplayRangeList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponDisplayRangeList);
+  };
+
+  getCouponDisplayRangeName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponDisplayRangeList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponDisplayRangeOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponDisplayRangeList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponDisplayRangeFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '显示区域',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '显示区域';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('displayRange', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponDisplayRangeOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponDisplayRangeSelectFormItem = (
+    value,
+    helper = buildFieldHelper('选择优惠券显示区域'),
+    onChangeCallback,
+    label = '显示区域',
+    formItemLayout = null,
+    required = false,
+    name = 'displayRange',
+    otherProps = null,
+  ) => {
+    const title = label || '显示区域';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponDisplayRangeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  couponStatusList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponStatusList = global.couponStatusList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponStatusList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponStatusList);
+  };
+
+  getCouponStatusName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponStatusList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponStatusOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponStatusList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponStatusFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '状态',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '状态';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('status', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponStatusOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponStatusSelectFormItem = (
+    value,
+    helper = buildFieldHelper('选择优惠券状态'),
+    onChangeCallback,
+    label = '状态',
+    formItemLayout = null,
+    required = false,
+    name = 'status',
+    otherProps = null,
+  ) => {
+    const title = label || '状态';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponStatusOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  couponDisplayList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponDisplayList = global.couponDisplayList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponDisplayList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponDisplayList);
+  };
+
+  getCouponDisplayName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponDisplayList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponDisplayOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponDisplayList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponDisplayFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '显示/隐藏',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '显示/隐藏';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('display', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponDisplayOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponDisplaySelectFormItem = (
+    value,
+    helper = buildFieldHelper('选择优惠券显示/隐藏'),
+    onChangeCallback,
+    label = '显示/隐藏',
+    formItemLayout = null,
+    required = true,
+    name = 'display',
+    otherProps = null,
+  ) => {
+    const title = label || '显示/隐藏';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponDisplayOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  couponSceneList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponSceneList = global.couponSceneList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponSceneList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponSceneList);
+  };
+
+  getCouponSceneName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponSceneList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponSceneOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponSceneList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponSceneFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '发放场景',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '发放场景';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('scene', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponSceneOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponSceneSelectFormItem = (
+    value,
+    helper = buildFieldHelper('选择优惠券发放场景'),
+    onChangeCallback,
+    label = '发放场景',
+    formItemLayout = null,
+    required = true,
+    name = 'scene',
+    otherProps = null,
+  ) => {
+    const title = label || '发放场景';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponSceneOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  couponTypeList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponTypeList = global.couponTypeList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponTypeList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponTypeList);
+  };
+
+  getCouponTypeName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponTypeList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponTypeOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponTypeList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponTypeFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '优惠券状态',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '优惠券状态';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('saleType', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponTypeOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  couponGoodsTypeList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponGoodsTypeList = global.couponGoodsTypeList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponGoodsTypeList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponGoodsTypeList);
+  };
+
+  getCouponGoodsTypeName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponGoodsTypeList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponGoodsTypeOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponGoodsTypeList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponGoodsTypeFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '商品类型',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '商品类型';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('type', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponGoodsTypeOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponGoodsTypeSelectFormItem = (
+    value,
+    helper = buildFieldHelper('选择优惠券商品类型'),
+    onChangeCallback,
+    label = '商品类型',
+    formItemLayout = null,
+    required = true,
+    name = 'type',
+    otherProps = null,
+  ) => {
+    const title = label || '商品类型';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponGoodsTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  expiredList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const expiredList = global.expiredList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(expiredList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(expiredList);
+  };
+
+  getExpiredTypeName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.expiredList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderExpiredTypeOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.expiredList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchExpiredTypeFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '是否过期',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '是否过期';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('saleType', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderExpiredTypeOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  couponStockChangeTypeList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponStockChangeTypeList = global.couponStockChangeTypeList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponStockChangeTypeList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponStockChangeTypeList);
+  };
+
+  getCouponStockChangeTypeName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponStockChangeTypeList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponStockChangeTypeOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponStockChangeTypeList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderCouponStockChangeTypeRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponStockChangeTypeList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponStockChangeTypeFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '变更库存',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '变更库存';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('changeType', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponStockChangeTypeOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponStockChangeTypeSelectFormItem = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '变更库存',
+    formItemLayout = null,
+    required = true,
+    name = 'changeType',
+    otherProps = null,
+  ) => {
+    const title = label || '变更库存';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponStockChangeTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormCouponStockChangeTypeFormItemRadio = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '变更库存',
+    formItemLayout = null,
+    required = true,
+    name = 'changeType',
+    otherProps = null,
+  ) => {
+    const title = label || '变更库存';
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponStockChangeTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  couponStockCacheChangedList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponStockCacheChangedList = global.couponStockCacheChangedList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponStockCacheChangedList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponStockCacheChangedList);
+  };
+
+  getCouponStockCacheChangedName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponStockCacheChangedList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponStockCacheChangedOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponStockCacheChangedList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderCouponStockCacheChangedRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponStockCacheChangedList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponStockCacheChangedFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '变动类型',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '变动类型';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('cacheChanged', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponStockCacheChangedOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponStockCacheChangedSelectFormItem = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '变动类型',
+    formItemLayout = null,
+    required = true,
+    name = 'cacheChanged',
+    otherProps = null,
+  ) => {
+    const title = label || '变动类型';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponStockCacheChangedOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormCouponStockCacheChangedFormItemRadio = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '变动类型',
+    formItemLayout = null,
+    required = true,
+    name = 'cacheChanged',
+    otherProps = null,
+  ) => {
+    const title = label || '变动类型';
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponStockCacheChangedOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  couponStockCacheChangedTypeList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponStockCacheChangedTypeList = global.couponStockCacheChangedTypeList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponStockCacheChangedTypeList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponStockCacheChangedTypeList);
+  };
+
+  getCouponStockCacheChangedTypeName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponStockCacheChangedTypeList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponStockCacheChangedTypeOption = (
+    withUnlimited = true,
+    adjustListDataCallback = null,
+  ) => {
+    const listData = this.couponStockCacheChangedTypeList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderCouponStockCacheChangedTypeRadio = (
+    withUnlimited = true,
+    adjustListDataCallback = null,
+  ) => {
+    const listData = this.couponStockCacheChangedTypeList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponStockCacheChangedTypeFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '缓存变动位置',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '缓存变动位置';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('cacheChangeType', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponStockCacheChangedTypeOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponStockCacheChangedTypeSelectFormItem = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '缓存变动位置',
+    formItemLayout = null,
+    required = true,
+    name = 'cacheChangeType',
+    otherProps = null,
+  ) => {
+    const title = label || '缓存变动位置';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponStockCacheChangedTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormCouponStockCacheChangedTypeFormItemRadio = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '缓存变动位置',
+    formItemLayout = null,
+    required = true,
+    name = 'cacheChangeType',
+    otherProps = null,
+  ) => {
+    const title = label || '缓存变动位置';
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponStockCacheChangedTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  couponStockModeList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponStockModeList = global.couponStockModeList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponStockModeList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponStockModeList);
+  };
+
+  getCouponStockModeName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponStockModeList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponStockModeOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponStockModeList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderCouponStockModeRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponStockModeList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponStockModeFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '变动来源',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '变动来源';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('mode', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponStockModeOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponStockModeSelectFormItem = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '变动来源',
+    formItemLayout = null,
+    required = true,
+    name = 'mode',
+    otherProps = null,
+  ) => {
+    const title = label || '变动来源';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponStockModeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormCouponStockModeFormItemRadio = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '变动来源',
+    formItemLayout = null,
+    required = true,
+    name = 'mode',
+    otherProps = null,
+  ) => {
+    const title = label || '变动来源';
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponStockModeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  couponStockStateList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const couponStockStateList = global.couponStockStateList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(couponStockStateList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(couponStockStateList);
+  };
+
+  getCouponStockStateName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.couponStockStateList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderCouponStockStateOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponStockStateList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderCouponStockStateRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.couponStockStateList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchCouponStockStateFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '处理状态',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '处理状态';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('state', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderCouponStockStateOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormCouponStockStateSelectFormItem = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '处理状态',
+    formItemLayout = null,
+    required = true,
+    name = 'state',
+    otherProps = null,
+  ) => {
+    const title = label || '处理状态';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponStockStateOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormCouponStockStateFormItemRadio = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '处理状态',
+    formItemLayout = null,
+    required = true,
+    name = 'state',
+    otherProps = null,
+  ) => {
+    const title = label || '处理状态';
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderCouponStockStateOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  userCouponStateList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const userCouponStateList = global.userCouponStateList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(userCouponStateList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(userCouponStateList);
+  };
+
+  getUserCouponStateName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.userCouponStateList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderUserCouponStateOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.userCouponStateList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderUserCouponStateRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.userCouponStateList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchUserCouponStateFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '使用状态',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '使用状态';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('state', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderUserCouponStateOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormUserCouponStateSelectFormItem = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '使用状态',
+    formItemLayout = null,
+    required = true,
+    name = 'state',
+    otherProps = null,
+  ) => {
+    const title = label || '使用状态';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderUserCouponStateOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormUserCouponStateFormItemRadio = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '使用状态',
+    formItemLayout = null,
+    required = true,
+    name = 'state',
+    otherProps = null,
+  ) => {
+    const title = label || '使用状态';
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderUserCouponStateOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  weChatMessageRecordSendStateList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const weChatMessageRecordSendStateList = global.weChatMessageRecordSendStateList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(weChatMessageRecordSendStateList, unlimitedWithNumberFlag);
+    }
+
+    return refitCommonData(weChatMessageRecordSendStateList);
+  };
+
+  getWeChatMessageRecordSendStateName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.weChatMessageRecordSendStateList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderWeChatMessageRecordSendStateOption = (
+    withUnlimited = true,
+    adjustListDataCallback = null,
+  ) => {
+    const listData = this.weChatMessageRecordSendStateList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderWeChatMessageRecordSendStateRadio = (
+    withUnlimited = true,
+    adjustListDataCallback = null,
+  ) => {
+    const listData = this.weChatMessageRecordSendStateList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchWeChatMessageRecordSendStateFormItem = (
+    withUnlimited = true,
+    initialValue = -10000,
+    label = '发送状态',
+  ) => {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+
+    const title = label || '发送状态';
+
+    return (
+      <FormItem label={title}>
+        {getFieldDecorator('state', {
+          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
+          initialValue,
+        })(
+          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
+            {this.renderWeChatMessageRecordSendStateOption(withUnlimited)}
+          </Select>,
+        )}
+      </FormItem>
+    );
+  };
+
+  renderFormWeChatMessageRecordSendStateSelectFormItem = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '发送状态',
+    formItemLayout = null,
+    required = true,
+    name = 'state',
+    otherProps = null,
+  ) => {
+    const title = label || '发送状态';
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderWeChatMessageRecordSendStateOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormWeChatMessageRecordSendStateFormItemRadio = (
+    value,
+    helper = null,
+    onChangeCallback,
+    label = '发送状态',
+    formItemLayout = null,
+    required = true,
+    name = 'state',
+    otherProps = null,
+  ) => {
+    const title = label || '发送状态';
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      value,
+      () => {
+        return this.renderWeChatMessageRecordSendStateOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 }

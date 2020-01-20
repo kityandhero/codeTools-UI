@@ -119,7 +119,7 @@ class UpdateForm extends LoadDataForm {
                   metaListData || [],
                   metaExtra || null,
                   remoteData,
-                  submitData
+                  submitData,
                 );
               }
 
