@@ -1,5 +1,5 @@
-import { queryListData, queryGetData } from '@/services/areaHelp';
-import { pretreatmentRemotePageListData, pretreatmentRemoteSingleData } from '@/utils/tools';
+import { queryListData, queryGetData } from '../services/areaHelp';
+import { pretreatmentRemotePageListData, pretreatmentRemoteSingleData } from '../utils/tools';
 
 export default {
   namespace: 'areaHelp',

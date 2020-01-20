@@ -4,11 +4,11 @@ import {
   setMetaDataCache,
   getCurrentOperatorCache,
   setCurrentOperatorCache,
-} from '@/utils/tools';
+} from '../utils/tools';
 
-import { queryNotices } from '@/services/user';
-import { queryGetData } from '@/services/global';
-import { getCurrentBasicInfoData } from '@/services/operator';
+import { queryNotices } from '../services/user';
+import { queryGetData } from '../services/global';
+import { getCurrentBasicInfoData } from '../services/operator';
 
 const GlobalModel = {
   namespace: 'global',

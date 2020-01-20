@@ -1,5 +1,5 @@
-import { getCurrentData, changeOutStockTimeData } from '@/services/areaConfig';
-import { pretreatmentRemoteSingleData } from '@/utils/tools';
+import { getCurrentData, changeOutStockTimeData } from '../services/areaConfig';
+import { pretreatmentRemoteSingleData } from '../utils/tools';
 
 export default {
   namespace: 'areaConfig',

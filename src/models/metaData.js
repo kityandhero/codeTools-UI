@@ -1,5 +1,5 @@
-import { queryGetData } from '@/services/metaData';
-import { pretreatmentRemoteSingleData } from '@/utils/tools';
+import { queryGetData } from '../services/metaData';
+import { pretreatmentRemoteSingleData } from '../utils/tools';
 
 export default {
   namespace: 'metaData',

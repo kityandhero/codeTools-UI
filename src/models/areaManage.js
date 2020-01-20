@@ -6,8 +6,8 @@ import {
   resetPasswordData,
   changeStateData,
   removeData,
-} from '@/services/areaManage';
-import { pretreatmentRemotePageListData, pretreatmentRemoteSingleData } from '@/utils/tools';
+} from '../services/areaManage';
+import { pretreatmentRemotePageListData, pretreatmentRemoteSingleData } from '../utils/tools';
 
 export default {
   namespace: 'areaManage',

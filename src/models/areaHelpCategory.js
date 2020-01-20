@@ -1,5 +1,5 @@
-import { queryGetMenuData } from '@/services/areaHelpCategory';
-import { pretreatmentRemoteSingleData } from '@/utils/tools';
+import { queryGetMenuData } from '../services/areaHelpCategory';
+import { pretreatmentRemoteSingleData } from '../utils/tools';
 
 export default {
   namespace: 'areaHelpCategory',

@@ -1,16 +1,16 @@
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 import { stringify } from 'qs';
-import { accountLogin, getFakeCaptcha } from '@/services/api';
-import { setAuthority } from '@/utils/authority';
+import { accountLogin, getFakeCaptcha } from '../services/api';
+import { setAuthority } from '../utils/authority';
 // import { getPageQuery } from '@/utils/utils';
-import { reloadAuthorized } from '@/utils/Authorized';
+import { reloadAuthorized } from '../utils/Authorized';
 import {
   pretreatmentRemoteSingleData,
   setToken,
   setAreaFlag,
   clearCustomData,
-} from '@/utils/tools';
+} from '../utils/tools';
 
 export default {
   namespace: 'login',
