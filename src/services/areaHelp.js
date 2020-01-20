@@ -28,7 +28,7 @@ export async function queryGetData(params) {
     return result;
   }
 
-  return request('/AreaHelp/Get', {
+  return request('/areaHelp/get', {
     method: 'POST',
     body: params,
   });

@@ -55,7 +55,7 @@ export async function getCurrentData() {
     return result;
   }
 
-  return request('/AreaConfig/GetCurrent');
+  return request('/areaConfig/getCurrent');
 }
 
 export async function changeOutStockTimeData(params) {
@@ -67,7 +67,7 @@ export async function changeOutStockTimeData(params) {
     return result;
   }
 
-  return request('/AreaConfig/changeOutStockTime', {
+  return request('/areaConfig/changeOutStockTime', {
     method: 'POST',
     body: params,
   });

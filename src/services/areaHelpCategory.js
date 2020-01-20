@@ -13,7 +13,7 @@ export async function queryGetMenuData(params) {
     return result;
   }
 
-  return request('/AreaHelpCategory/GetMenu', {
+  return request('/areaHelpCategory/getMenu', {
     method: 'POST',
     body: params,
   });
