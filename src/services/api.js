@@ -1,13 +1,13 @@
 import { stringify } from 'qs';
 import moment from 'moment';
-import { request } from '@/utils/request';
+import { request } from '../utils/request';
 import {
   useVirtualAccess,
   apiVirtualAccess,
   apiVirtualSuccessAccess,
   apiVirtualSuccessData,
   apiVirtualFailData,
-} from '@/utils/tools';
+} from '../utils/tools';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');

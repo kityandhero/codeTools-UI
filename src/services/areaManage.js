@@ -1,5 +1,5 @@
-import { request } from '@/utils/request';
-import { apiVirtualSuccessAccess, useVirtualAccess } from '@/utils/tools';
+import { request } from '../utils/request';
+import { apiVirtualSuccessAccess, useVirtualAccess } from '../utils/tools';
 
 export async function queryListData(params) {
   if (useVirtualAccess()) {
