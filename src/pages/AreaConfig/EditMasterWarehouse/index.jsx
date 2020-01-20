@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'dva';
 import { Form, Button, Spin, message, notification, Icon, Input } from 'antd';
 
-import { refitFieldDecoratorOption, buildFieldDescription } from '@/utils/tools';
-import accessWayCollection from '@/utils/accessWayCollection';
-import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
+import { refitFieldDecoratorOption, buildFieldDescription } from '../../../utils/tools';
+import accessWayCollection from '../../../customConfig/accessWayCollection';
+import UpdateForm from '../../../customComponents/Framework/CustomForm/UpdateForm';
 
 import styles from './index.less';
 

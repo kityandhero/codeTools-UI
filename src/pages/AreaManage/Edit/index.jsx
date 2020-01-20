@@ -3,9 +3,9 @@ import { connect } from 'dva';
 
 import { Row, Col, Descriptions } from 'antd';
 
-import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
-import accessWayCollection from '@/utils/accessWayCollection';
-import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
+import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '../../../utils/tools';
+import accessWayCollection from '../../../customConfig/accessWayCollection';
+import LoadDataTabContainer from '../../../customComponents/Framework/CustomForm/LoadDataTabContainer';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 import { fieldData } from '../Common/data';
@@ -27,11 +27,6 @@ class Edit extends LoadDataTabContainer {
       key: 'basicInfo',
       show: this.checkAuthority(accessWayCollection.areaManage.get),
       tab: '基本信息',
-    },
-    {
-      key: 'roleInfo',
-      show: this.checkAuthority(accessWayCollection.userRole.changeRole),
-      tab: '设置角色',
     },
     {
       key: 'resetPassword',
@@ -58,7 +53,7 @@ class Edit extends LoadDataTabContainer {
       nextProps,
       prevState,
       { id: '' },
-      parseUrlParamsForSetState,
+      parseUrlParamsForSetState
     );
   }
 

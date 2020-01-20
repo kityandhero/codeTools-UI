@@ -3,9 +3,9 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Card, Button, Form, Input, Spin, notification, Icon } from 'antd';
 
-import { refitFieldDecoratorOption, buildFieldDescription } from '@/utils/tools';
-import accessWayCollection from '@/utils/accessWayCollection';
-import AddFormBase from '@/customComponents/Framework/CustomForm/AddFormBase';
+import { refitFieldDecoratorOption, buildFieldDescription } from '../../../utils/tools';
+import accessWayCollection from '../../../customConfig/accessWayCollection';
+import AddFormBase from '../../../customComponents/Framework/CustomForm/AddFormBase';
 
 import { fieldData } from '../Common/data';
 import styles from './index.less';

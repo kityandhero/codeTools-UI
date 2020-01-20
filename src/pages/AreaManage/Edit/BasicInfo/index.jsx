@@ -20,10 +20,10 @@ import {
   formatDatetime,
   buildFieldDescription,
   getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
-import accessWayCollection from '@/utils/accessWayCollection';
-import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
-import FromDisplayItem from '@/customComponents/FromDisplayItem';
+} from '../../../../utils/tools';
+import accessWayCollection from '../../../../customConfig/accessWayCollection';
+import UpdateFormTab from '../../../../customComponents/Framework/CustomForm/UpdateFormTab';
+import FromDisplayItem from '../../../../customComponents/FromDisplayItem';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../Assist/config';
 

@@ -157,9 +157,7 @@ export default class GlobalHeaderRight extends PureComponent {
                 src={currentUser.avatar}
                 alt="avatar"
               />
-              <span className={styles.name}>
-                {`${currentUser.name || ''}  [${currentUser.cityName || '未知地区'}]`}
-              </span>
+              <span className={styles.name}>{`${currentUser.name || ''}`}</span>
             </span>
           </Dropdown>
         ) : (

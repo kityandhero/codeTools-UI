@@ -17,11 +17,11 @@ import {
   notification,
 } from 'antd';
 
-import { formatDatetime, copyToClipboard, replaceTargetText } from '@/utils/tools';
-import accessWayCollection from '@/utils/accessWayCollection';
-import PagerList from '@/customComponents/Framework/CustomList/PagerList';
-import Ellipsis from '@/customComponents/Ellipsis';
-import EllipsisCustom from '@/customComponents/EllipsisCustom';
+import { formatDatetime, copyToClipboard, replaceTargetText } from '../../../utils/tools';
+import accessWayCollection from '../../../customConfig/accessWayCollection';
+import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
+import Ellipsis from '../../../customComponents/Ellipsis';
+import EllipsisCustom from '../../../customComponents/EllipsisCustom';
 
 import UpdateAreaManageRoleModal from '../UpdateAreaManageRoleModal';
 import { fieldData } from '../Common/data';

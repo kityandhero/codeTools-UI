@@ -6,7 +6,7 @@ import { Icon, Tooltip } from 'antd';
 
 import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
-import SelectLang from '../SelectLang';
+// import SelectLang from '../SelectLang';
 import styles from './index.less';
 
 const GlobalHeaderRight = props => {
@@ -54,7 +54,7 @@ const GlobalHeaderRight = props => {
         </Link>
       </Tooltip>
       <Avatar global={global} menu />
-      <SelectLang className={styles.action} />
+      {/* <SelectLang className={styles.action} /> */}
     </div>
   );
 };

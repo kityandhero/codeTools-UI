@@ -28,13 +28,13 @@ import {
   Bar,
   Pie,
   TimelineChart,
-} from '@/customComponents/Charts';
-import { formatDatetime, pretreatmentRequestParams } from '@/utils/tools';
-import accessWayCollection from '@/utils/accessWayCollection';
-import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
-import Trend from '@/customComponents/Trend';
-import NumberInfo from '@/customComponents/NumberInfo';
-import Yuan from '@/utils/Yuan';
+} from '../../../customComponents/Charts';
+import { formatDatetime, pretreatmentRequestParams } from '../../../utils/tools';
+import accessWayCollection from '../../../customConfig/accessWayCollection';
+import LoadDataForm from '../../../customComponents/Framework/CustomForm/LoadDataForm';
+import Trend from '../../../customComponents/Trend';
+import NumberInfo from '../../../customComponents/NumberInfo';
+import Yuan from '../../../utils/Yuan';
 
 import styles from './index.less';
 

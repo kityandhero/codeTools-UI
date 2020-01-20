@@ -1,5 +1,5 @@
 export function getConfigData() {
-  let corsTargetProduction = 'https://api2.yurukeji.com.cn';
+  let corsTargetProduction = 'http://localhost:9090';
 
   if (window.appInitCustom != null) {
     if (window.appInitCustom.apiPrefix != null) {
@@ -14,18 +14,12 @@ export function getConfigData() {
   }
 
   return {
-    // corsTargetDevelopment: 'https://api2.yurukeji.com.cn',
-    corsTargetDevelopment: 'http://api2.b.com',
-    // corsTargetDevelopment: 'http://areaapi.lz.a.com',
+    // corsTargetDevelopment: 'http://localhost:9090',
+    corsTargetDevelopment: 'http://localhost:9090',
+    // corsTargetDevelopment: 'http://localhost:9090',
     corsTargetProduction,
   };
 }
-
-export const goodsTypeCollection = {
-  product: 1,
-  simpleTicket: 2,
-  lineTicket: 3,
-};
 
 export const imageContentPreviewMode = {
   html: 1,
@@ -36,21 +30,6 @@ export const imageContentPreviewMode = {
 export const colorCollection = {
   checkCircleColor: '#52c41a',
   closeCircleColor: '#ec8402',
-};
-
-export const couponScopeCollection = {
-  unknown: -1,
-  unlimited: 0,
-  rank: 1,
-  goods: 2,
-  multipleGoods: 3,
-};
-
-export const couponSceneCollection = {
-  customerTake: 0,
-  giveAfterBuy: 2,
-  distributedToSharer: 3,
-  distributedToShareVisitor: 4,
 };
 
 /**

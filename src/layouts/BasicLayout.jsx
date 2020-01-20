@@ -12,14 +12,14 @@ import ProLayout from '@ant-design/pro-layout';
 import GlobalFooter from '@ant-design/pro-layout/lib/GlobalFooter';
 
 import defaultSettings from '../../config/defaultSettings'; // https://umijs.org/config/
-import Authorized from '@/utils/Authorized';
-import RightContent from '@/components/GlobalHeader/RightContent';
-import { isAntDesignPro } from '@/utils/utils';
-import { getQueue } from '@/utils/tools';
-
-import logo from '../assets/logo.svg';
+import Authorized from '../utils/Authorized';
+import RightContent from '../components/GlobalHeader/RightContent';
+import { isAntDesignPro } from '../utils/utils';
+import { getQueue } from '../utils/tools';
 
 import styles from './BasicLayout.less';
+
+const logo = defaultSettings.getShareLogo();
 
 /**
  * use Authorized check all menu item

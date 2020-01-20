@@ -7,9 +7,9 @@ import {
   refitFieldDecoratorOption,
   buildFieldDescription,
   getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
-import accessWayCollection from '@/utils/accessWayCollection';
-import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
+} from '../../../../utils/tools';
+import accessWayCollection from '../../../../customConfig/accessWayCollection';
+import UpdateFormTab from '../../../../customComponents/Framework/CustomForm/UpdateFormTab';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../Assist/config';
 import { fieldData } from '../../Common/data';

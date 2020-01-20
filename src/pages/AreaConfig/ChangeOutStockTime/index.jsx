@@ -3,8 +3,8 @@ import { Form, Switch, TimePicker, Button, Spin, notification } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
 
-import accessWayCollection from '@/utils/accessWayCollection';
-import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
+import accessWayCollection from '../../../customConfig/accessWayCollection';
+import UpdateForm from '../../../customComponents/Framework/CustomForm/UpdateForm';
 
 import styles from './index.less';
 
