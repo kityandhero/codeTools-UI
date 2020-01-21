@@ -67,7 +67,9 @@ export async function getCurrentBasicInfoData() {
     return result;
   }
 
-  return request('/currentOperator/getCurrentBasicInfo');
+  return request('/currentOperator/getCurrentBasicInfo', {
+    method: 'POST',
+  });
 }
 
 export async function updateCurrentBasicInfoData(params) {

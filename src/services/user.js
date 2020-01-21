@@ -59,7 +59,7 @@ export async function queryCurrent() {
     return result;
   }
 
-  return request('/currentOperator/getCurrent');
+  return request('/operator/getCurrent');
 }
 
 export async function queryNotices() {
