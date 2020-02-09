@@ -18,6 +18,61 @@ export default [
     routes: [
       { path: '/', redirect: '/dashboard/analysis' },
       {
+        name: 'connection',
+        icon: 'shop',
+        path: '/connection',
+        // authority: [
+        //   accessWayCollection.super,
+        //   accessWayCollection.connection.add,
+        //   accessWayCollection.connection.list,
+        //   accessWayCollection.connection.listSaleCount,
+        // ],
+        routes: [
+          {
+            path: '/connection/add',
+            name: 'add',
+            icon: 'plus-square',
+            // authority: [accessWayCollection.super, accessWayCollection.connection.add],
+            component: './Connection/Add',
+          },
+          {
+            path: '/connection/list/:pageKey',
+            hideInMenu: true,
+            component: './Connection/List',
+          },
+          { path: '/connection/list/', redirect: '/connection/list/no' },
+          {
+            path: '/connection/list/no',
+            name: 'list',
+            icon: 'bars',
+            // authority: [accessWayCollection.super, accessWayCollection.connection.list],
+          },
+          {
+            path: '/connection/edit/:op/:id/:pageKey',
+            name: 'edit',
+            hideInMenu: true,
+            component: './Connection/Edit',
+            routes: [
+              {
+                path: '/connection/edit/:op/:id/:pageKey/basicInfo',
+                name: 'basicInfo',
+                component: './Connection/Edit/BasicInfo',
+              },
+              // {
+              //   path: '/connection/edit/:op/:id/:pageKey/operateLog',
+              //   name: 'log',
+              //   routes: [
+              //     {
+              //       path: '/connection/edit/:op/:id/:pageKey/operateLog',
+              //       redirect: '/connection/edit/:op/:id/:pageKey/operateLog/list',
+              //     },
+              //   ],
+              // },
+            ],
+          },
+        ],
+      },
+      {
         name: 'account',
         icon: 'team',
         path: '/account',
