@@ -37,7 +37,7 @@ const { confirm } = Modal;
 }))
 @Form.create()
 class Index extends PagerList {
-  componentAuthority = accessWayCollection.connection.list;
+  // componentAuthority = accessWayCollection.connection.list;
 
   constructor(props) {
     super(props);

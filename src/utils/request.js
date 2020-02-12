@@ -30,14 +30,19 @@ const checkStatus = response => {
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
+
   const errorText = codeMessage[response.status] || response.statusText;
+
   notification.error({
     message: `请求错误 ${response.status}: ${response.url}`,
     description: errorText,
   });
+
   const error = new Error(errorText);
+
   error.name = response.status;
   error.response = response;
+
   throw error;
 };
 
