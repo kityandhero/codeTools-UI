@@ -18,52 +18,55 @@ export default [
     routes: [
       { path: '/', redirect: '/dashboard/analysis' },
       {
-        name: 'connection',
+        name: 'connectionConfig',
         icon: 'shop',
-        path: '/connection',
+        path: '/connectionConfig',
         authority: [
           accessWayCollection.super,
-          accessWayCollection.connection.addBasicInfo,
-          accessWayCollection.connection.list,
+          accessWayCollection.connectionConfig.addBasicInfo,
+          accessWayCollection.connectionConfig.list,
         ],
         routes: [
           {
-            path: '/connection/add',
+            path: '/connectionConfig/add',
             name: 'add',
             icon: 'plus-square',
-            authority: [accessWayCollection.super, accessWayCollection.connection.addBasicInfo],
-            component: './Connection/Add',
+            authority: [
+              accessWayCollection.super,
+              accessWayCollection.connectionConfig.addBasicInfo,
+            ],
+            component: './ConnectionConfig/Add',
           },
           {
-            path: '/connection/list/:pageKey',
+            path: '/connectionConfig/list/:pageKey',
             hideInMenu: true,
-            component: './Connection/List',
+            component: './ConnectionConfig/List',
           },
-          { path: '/connection/list/', redirect: '/connection/list/no' },
+          { path: '/connectionConfig/list/', redirect: '/connectionConfig/list/no' },
           {
-            path: '/connection/list/no',
+            path: '/connectionConfig/list/no',
             name: 'list',
             icon: 'bars',
-            authority: [accessWayCollection.super, accessWayCollection.connection.list],
+            authority: [accessWayCollection.super, accessWayCollection.connectionConfig.list],
           },
           {
-            path: '/connection/edit/:op/:id/:pageKey',
+            path: '/connectionConfig/edit/:op/:id/:pageKey',
             name: 'edit',
             hideInMenu: true,
-            component: './Connection/Edit',
+            component: './ConnectionConfig/Edit',
             routes: [
               {
-                path: '/connection/edit/:op/:id/:pageKey/basicInfo',
+                path: '/connectionConfig/edit/:op/:id/:pageKey/basicInfo',
                 name: 'basicInfo',
-                component: './Connection/Edit/BasicInfo',
+                component: './ConnectionConfig/Edit/BasicInfo',
               },
               // {
-              //   path: '/connection/edit/:op/:id/:pageKey/operateLog',
+              //   path: '/connectionConfig/edit/:op/:id/:pageKey/operateLog',
               //   name: 'log',
               //   routes: [
               //     {
-              //       path: '/connection/edit/:op/:id/:pageKey/operateLog',
-              //       redirect: '/connection/edit/:op/:id/:pageKey/operateLog/list',
+              //       path: '/connectionConfig/edit/:op/:id/:pageKey/operateLog',
+              //       redirect: '/connectionConfig/edit/:op/:id/:pageKey/operateLog/list',
               //     },
               //   ],
               // },

@@ -19,7 +19,7 @@ class BaseEditTab extends UpdateFormTab {
 
   getApiData = props => {
     const {
-      connection: { data },
+      connectionConfig: { data },
     } = props;
 
     return data;

@@ -10,14 +10,14 @@ import AddFormBase from '../../../customComponents/Framework/CustomForm/AddFormB
 import { fieldData } from '../Common/data';
 import styles from './index.less';
 
-@connect(({ connection, global, loading }) => ({
-  connection,
+@connect(({ connectionConfig, global, loading }) => ({
+  connectionConfig,
   global,
-  loading: loading.models.connection,
+  loading: loading.models.connectionConfig,
 }))
 @Form.create()
 class Index extends AddFormBase {
-  componentAuthority = accessWayCollection.connection.add;
+  componentAuthority = accessWayCollection.connectionConfig.add;
 
   constructor(props) {
     super(props);
@@ -26,14 +26,14 @@ class Index extends AddFormBase {
       ...this.state,
       ...{
         pageName: '增加客服',
-        submitApiPath: 'connection/addBasicInfo',
+        submitApiPath: 'connectionConfig/addBasicInfo',
       },
     };
   }
 
   getApiData = props => {
     const {
-      connection: { data },
+      connectionConfig: { data },
     } = props;
 
     return data;
@@ -65,7 +65,7 @@ class Index extends AddFormBase {
     const { connectionId } = singleData;
 
     const location = {
-      pathname: `/assistTools/connection/edit/load/${connectionId}/1/basicInfo`,
+      pathname: `/assistTools/connectionConfig/edit/load/${connectionId}/1/basicInfo`,
     };
 
     dispatch(routerRedux.replace(location));

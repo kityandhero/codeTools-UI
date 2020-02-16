@@ -31,14 +31,14 @@ import styles from './index.less';
 
 const FormItem = Form.Item;
 
-@connect(({ connection, global, loading }) => ({
-  connection,
+@connect(({ connectionConfig, global, loading }) => ({
+  connectionConfig,
   global,
-  loading: loading.models.connection,
+  loading: loading.models.connectionConfig,
 }))
 @Form.create()
 class Index extends TabPageBase {
-  componentAuthority = accessWayCollection.connection.get;
+  componentAuthority = accessWayCollection.connectionConfig.get;
 
   constructor(props) {
     super(props);
@@ -46,8 +46,8 @@ class Index extends TabPageBase {
     this.state = {
       ...this.state,
       ...{
-        loadApiPath: 'connection/get',
-        submitApiPath: 'connection/updateBasicInfo',
+        loadApiPath: 'connectionConfig/get',
+        submitApiPath: 'connectionConfig/updateBasicInfo',
         connectionId: null,
       },
     };

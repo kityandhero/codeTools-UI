@@ -4,11 +4,11 @@ import {
   addBasicInfoData,
   updateBasicInfoData,
   removeData,
-} from '../services/connection';
+} from '../services/connectionConfig';
 import { pretreatmentRemotePageListData, pretreatmentRemoteSingleData } from '../utils/tools';
 
 export default {
-  namespace: 'connection',
+  namespace: 'connectionConfig',
 
   state: {},
 

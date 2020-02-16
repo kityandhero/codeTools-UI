@@ -12,18 +12,18 @@ import styles from './index.less';
 
 const { Item: Description } = Descriptions;
 
-@connect(({ connection, global, loading }) => ({
-  connection,
+@connect(({ connectionConfig, global, loading }) => ({
+  connectionConfig,
   global,
-  loading: loading.models.connection,
+  loading: loading.models.connectionConfig,
 }))
 class Edit extends LoadDataTabContainer {
-  componentAuthority = accessWayCollection.connection.get;
+  componentAuthority = accessWayCollection.connectionConfig.get;
 
   tabList = [
     {
       key: 'basicInfo',
-      show: this.checkAuthority(accessWayCollection.connection.get),
+      show: this.checkAuthority(accessWayCollection.connectionConfig.get),
       tab: '基本信息',
     },
   ];
@@ -35,8 +35,8 @@ class Edit extends LoadDataTabContainer {
       ...this.state,
       ...{
         pageName: '名称：',
-        loadApiPath: 'connection/get',
-        backPath: `/assistTools/connection/list/key`,
+        loadApiPath: 'connectionConfig/get',
+        backPath: `/assistTools/connectionConfig/list/key`,
         connectionId: null,
       },
     };
@@ -53,7 +53,7 @@ class Edit extends LoadDataTabContainer {
 
   getApiData = props => {
     const {
-      connection: { data },
+      connectionConfig: { data },
     } = props;
 
     return data;

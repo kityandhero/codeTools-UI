@@ -13,7 +13,7 @@ export async function queryListData(params) {
     return result;
   }
 
-  return request('/business/connection/list', {
+  return request('/business/connectionConfig/list', {
     method: 'POST',
     body: params,
   });
@@ -28,7 +28,7 @@ export async function queryGetData(params) {
     return result;
   }
 
-  return request('/business/connection/get', {
+  return request('/business/connectionConfig/get', {
     method: 'POST',
     body: params,
   });
@@ -43,7 +43,7 @@ export async function addBasicInfoData(params) {
     return result;
   }
 
-  return request('/business/connection/addBasicInfo', {
+  return request('/business/connectionConfig/addBasicInfo', {
     method: 'POST',
     body: params,
   });
@@ -58,7 +58,7 @@ export async function updateBasicInfoData(params) {
     return result;
   }
 
-  return request('/business/connection/updateBasicInfo', {
+  return request('/business/connectionConfig/updateBasicInfo', {
     method: 'POST',
     body: params,
   });
@@ -73,7 +73,7 @@ export async function removeData(params) {
     return result;
   }
 
-  return request('/business/connection/remove', {
+  return request('/business/connectionConfig/remove', {
     method: 'POST',
     body: params,
   });

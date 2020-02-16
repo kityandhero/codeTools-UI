@@ -30,14 +30,14 @@ import { fieldData } from '../Common/data';
 
 const { confirm } = Modal;
 
-@connect(({ connection, global, loading }) => ({
-  connection,
+@connect(({ connectionConfig, global, loading }) => ({
+  connectionConfig,
   global,
-  loading: loading.models.connection,
+  loading: loading.models.connectionConfig,
 }))
 @Form.create()
 class Index extends PagerList {
-  componentAuthority = accessWayCollection.connection.list;
+  componentAuthority = accessWayCollection.connectionConfig.list;
 
   constructor(props) {
     super(props);
@@ -47,14 +47,14 @@ class Index extends PagerList {
       ...{
         pageName: '客服列表',
         paramsKey: '938bdc77-66b5-4afe-835b-9aa64a7ead5b',
-        loadApiPath: 'connection/list',
+        loadApiPath: 'connectionConfig/list',
       },
     };
   }
 
   getApiData = props => {
     const {
-      connection: { data },
+      connectionConfig: { data },
     } = props;
 
     return data;
@@ -111,11 +111,11 @@ class Index extends PagerList {
     this.setState({ processing: true });
 
     dispatch({
-      type: 'connection/remove',
+      type: 'connectionConfig/remove',
       payload: submitData,
     }).then(() => {
       const {
-        connection: { data },
+        connectionConfig: { data },
       } = this.props;
 
       const { dataSuccess } = data;
@@ -137,7 +137,7 @@ class Index extends PagerList {
   goToAdd = () => {
     const { dispatch } = this.props;
     const location = {
-      pathname: `/assistTools/connection/add`,
+      pathname: `/assistTools/connectionConfig/add`,
     };
     dispatch(routerRedux.push(location));
   };
@@ -147,7 +147,7 @@ class Index extends PagerList {
     const { pageNo } = this.state;
     const { connectionId } = record;
     const location = {
-      pathname: `/assistTools/connection/edit/load/${connectionId}/${pageNo}/basicInfo`,
+      pathname: `/assistTools/connectionConfig/edit/load/${connectionId}/${pageNo}/basicInfo`,
     };
     dispatch(routerRedux.push(location));
   };
@@ -174,7 +174,7 @@ class Index extends PagerList {
             {this.renderSearchInputFormItem(fieldData.title, 'title')}
           </Col>
           {this.renderSimpleFormButton(
-            this.checkAuthority(accessWayCollection.connection.add) ? (
+            this.checkAuthority(accessWayCollection.connectionConfig.add) ? (
               <>
                 <Divider type="vertical" />
                 <Button
