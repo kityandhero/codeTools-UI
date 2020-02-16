@@ -109,14 +109,7 @@ class Index extends AddFormBase {
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24}>
-                  {this.renderf}
-                  {this.renderFormInputFormItem(
-                    fieldData.contactInformation,
-                    'contactInformation',
-                    '',
-                    true,
-                    buildFieldHelper(fieldData.contactInformationHelper)
-                  )}
+                  {this.renderFormDatabaseTypeSelectFormItem()}
                 </Col>
               </Row>
             </Form>
