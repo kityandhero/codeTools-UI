@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Card, Button, Form, Row, Col, Spin, notification, Affix } from 'antd';
+import { Card, Button, Form, Row, Col, Switch, Spin, notification, Affix } from 'antd';
 
 import { buildFieldHelper } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import AddFormBase from '../../../customComponents/Framework/CustomForm/AddFormBase';
 
-import { fieldData } from '../Common/data';
+import { fieldData, connectionType } from '../Common/data';
 import styles from './index.less';
 
 @connect(({ connectionConfig, global, loading }) => ({
@@ -27,6 +27,7 @@ class Index extends AddFormBase {
       ...{
         pageName: '增加数据连接',
         submitApiPath: 'connectionConfig/addBasicInfo',
+        selectConnectionType: connectionType.TCP_IP,
       },
     };
   }
@@ -41,11 +42,9 @@ class Index extends AddFormBase {
 
   supplementSubmitRequestParams = o => {
     const d = o;
-    const { productId, imageUrl, imageName } = this.state;
+    const { selectConnectionType } = this.state;
 
-    d.productId = productId;
-    d.imageUrl = imageUrl;
-    d.imageName = imageName;
+    d.connectionType = selectConnectionType;
 
     return d;
   };
@@ -71,8 +70,12 @@ class Index extends AddFormBase {
     dispatch(routerRedux.replace(location));
   };
 
+  onConnectionTypeChange = o => {
+    this.setState({ selectConnectionType: o ? connectionType.SSH : connectionType.TCP_IP });
+  };
+
   formContent = () => {
-    const { processing } = this.state;
+    const { processing, selectConnectionType } = this.state;
 
     return (
       <div className={styles.containorBox}>
@@ -112,7 +115,143 @@ class Index extends AddFormBase {
                   {this.renderFormDatabaseTypeSelectFormItem()}
                 </Col>
               </Row>
+              <Row gutter={24}>
+                <Col lg={18} md={12} sm={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.host,
+                    'host',
+                    '',
+                    true,
+                    buildFieldHelper(fieldData.hostHelper)
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24}>
+                  {this.renderFormInputNumberFormItem(
+                    fieldData.port,
+                    'port',
+                    '',
+                    true,
+                    buildFieldHelper(fieldData.portHelper)
+                  )}
+                </Col>
+              </Row>
+              <Row gutter={24}>
+                <Col lg={6} md={12} sm={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.userName,
+                    'userName',
+                    '',
+                    true,
+                    buildFieldHelper(fieldData.userNameHelper)
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24}>
+                  {this.renderFormPasswordFormItem(
+                    fieldData.password,
+                    'password',
+                    '',
+                    true,
+                    buildFieldHelper(fieldData.passwordHelper)
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.schema,
+                    'schema',
+                    '',
+                    true,
+                    buildFieldHelper(fieldData.schemaHelper)
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24}>
+                  {this.renderFormDatabaseEncodingSelectFormItem()}
+                </Col>
+              </Row>
             </Form>
+          </Spin>
+        </Card>
+
+        <Card
+          title="SSH信息"
+          className={styles.card}
+          bodyStyle={selectConnectionType !== connectionType.SSH ? { padding: 0 } : {}}
+          bordered={false}
+          extra={
+            <>
+              <Switch
+                checkedChildren="开"
+                unCheckedChildren="关"
+                defaultChecked={selectConnectionType === connectionType.SSH}
+                onChange={o => {
+                  this.onConnectionTypeChange(o);
+                }}
+              />
+            </>
+          }
+        >
+          <Spin spinning={processing}>
+            {selectConnectionType === connectionType.SSH ? (
+              <Row layout="vertical">
+                <Row gutter={24}>
+                  <Col lg={6} md={12} sm={24}>
+                    {this.renderFormInputFormItem(
+                      fieldData.sshHost,
+                      'sshHost',
+                      '',
+                      true,
+                      buildFieldHelper(fieldData.sshHostHelper)
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24}>
+                    {this.renderFormInputNumberFormItem(
+                      fieldData.sshPort,
+                      'sshPort',
+                      '',
+                      true,
+                      buildFieldHelper(fieldData.sshPortHelper)
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24}>
+                    {this.renderFormInputNumberFormItem(
+                      fieldData.localPort,
+                      'localPort',
+                      '',
+                      true,
+                      buildFieldHelper(fieldData.localPortHelper)
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24}>
+                    {this.renderFormInputNumberFormItem(
+                      fieldData.remotePort,
+                      'remotePort',
+                      '',
+                      true,
+                      buildFieldHelper(fieldData.remotePortHelper)
+                    )}
+                  </Col>
+                </Row>
+                <Row gutter={24}>
+                  <Col lg={6} md={12} sm={24}>
+                    {this.renderFormInputFormItem(
+                      fieldData.sshUser,
+                      'sshUser',
+                      '',
+                      true,
+                      buildFieldHelper(fieldData.sshUserHelper)
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24}>
+                    {this.renderFormPasswordFormItem(
+                      fieldData.sshPassword,
+                      'sshPassword',
+                      '',
+                      true,
+                      buildFieldHelper(fieldData.sshPasswordHelper)
+                    )}
+                  </Col>
+                </Row>
+              </Row>
+            ) : null}
           </Spin>
         </Card>
 
@@ -120,18 +259,6 @@ class Index extends AddFormBase {
           <Spin spinning={processing}>
             <Form layout="vertical">
               <Row gutter={24}>
-                <Col span={24}>
-                  {this.renderFormTextAreaFormItem(
-                    fieldData.description,
-                    'description',
-                    '',
-                    false,
-                    buildFieldHelper(fieldData.descriptionHelper),
-                    {
-                      autoSize: { minRows: 3, maxRows: 5 },
-                    }
-                  )}
-                </Col>
                 <Col lg={6} md={12} sm={24}>
                   {this.renderFromCreateTimeField()}
                 </Col>

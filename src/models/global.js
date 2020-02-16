@@ -23,6 +23,9 @@ const GlobalModel = {
     amapObject: null,
     notices: [],
     databaseTypeList: [],
+    databaseEncodingList: [],
+    connectionTypeList: [],
+    operatorStatusList: [],
   },
 
   effects: {
@@ -48,10 +51,18 @@ const GlobalModel = {
         const { dataSuccess, data: metaData } = data;
 
         if (dataSuccess) {
-          const { databaseTypeList } = metaData;
+          const {
+            databaseTypeList,
+            databaseEncodingList,
+            connectionTypeList,
+            operatorStatusList,
+          } = metaData;
 
           result = {
             databaseTypeList,
+            databaseEncodingList,
+            connectionTypeList,
+            operatorStatusList,
           };
 
           setMetaDataCache(result);
