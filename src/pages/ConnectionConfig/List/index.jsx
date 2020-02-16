@@ -45,7 +45,7 @@ class Index extends PagerList {
     this.state = {
       ...this.state,
       ...{
-        pageName: '客服列表',
+        pageName: '数据连接列表',
         paramsKey: '938bdc77-66b5-4afe-835b-9aa64a7ead5b',
         loadApiPath: 'connectionConfig/list',
       },
@@ -82,8 +82,8 @@ class Index extends PagerList {
     const { processing } = that.state;
 
     confirm({
-      title: '删除客服',
-      content: `确定要删除客服 ${record == null ? '' : record.title} 吗？`,
+      title: '删除数据连接',
+      content: `确定要删除数据连接 ${record == null ? '' : record.title} 吗？`,
       okText: '确定',
       okType: 'danger',
       cancelText: '取消',
@@ -137,7 +137,7 @@ class Index extends PagerList {
   goToAdd = () => {
     const { dispatch } = this.props;
     const location = {
-      pathname: `/assistTools/connectionConfig/add`,
+      pathname: `/connectionConfig/add`,
     };
     dispatch(routerRedux.push(location));
   };
@@ -147,7 +147,7 @@ class Index extends PagerList {
     const { pageNo } = this.state;
     const { connectionId } = record;
     const location = {
-      pathname: `/assistTools/connectionConfig/edit/load/${connectionId}/${pageNo}/basicInfo`,
+      pathname: `/connectionConfig/edit/load/${connectionId}/${pageNo}/basicInfo`,
     };
     dispatch(routerRedux.push(location));
   };
@@ -171,7 +171,7 @@ class Index extends PagerList {
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.title, 'title')}
+            {this.renderSearchInputFormItem(fieldData.name, 'title')}
           </Col>
           {this.renderSimpleFormButton(
             this.checkAuthority(accessWayCollection.connectionConfig.add) ? (
@@ -184,7 +184,7 @@ class Index extends PagerList {
                   icon="plus"
                   onClick={this.goToAdd}
                 >
-                  新增客服
+                  新增数据连接
                 </Button>
               </>
             ) : null,
@@ -197,7 +197,7 @@ class Index extends PagerList {
 
   getColumn = () => [
     {
-      title: fieldData.title,
+      title: fieldData.name,
       dataIndex: 'title',
       width: 220,
       align: 'left',

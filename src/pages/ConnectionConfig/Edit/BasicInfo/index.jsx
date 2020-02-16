@@ -151,11 +151,11 @@ class Index extends TabPageBase {
                 <Row gutter={24}>
                   <Col lg={12} md={12} sm={24}>
                     {this.renderFormInputFormItem(
-                      fieldData.title,
+                      fieldData.name,
                       'title',
                       metaData === null ? '' : metaData.title || '',
                       true,
-                      buildFieldHelper(fieldData.titleHelper)
+                      buildFieldHelper(fieldData.nameHelper)
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>

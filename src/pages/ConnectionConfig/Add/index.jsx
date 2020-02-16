@@ -25,7 +25,7 @@ class Index extends AddFormBase {
     this.state = {
       ...this.state,
       ...{
-        pageName: '增加客服',
+        pageName: '增加数据连接',
         submitApiPath: 'connectionConfig/addBasicInfo',
       },
     };
@@ -65,7 +65,7 @@ class Index extends AddFormBase {
     const { connectionId } = singleData;
 
     const location = {
-      pathname: `/assistTools/connectionConfig/edit/load/${connectionId}/1/basicInfo`,
+      pathname: `/connectionConfig/edit/load/${connectionId}/1/basicInfo`,
     };
 
     dispatch(routerRedux.replace(location));
@@ -99,31 +99,23 @@ class Index extends AddFormBase {
           <Spin spinning={processing}>
             <Form layout="vertical">
               <Row gutter={24}>
-                <Col lg={12} md={12} sm={24}>
+                <Col lg={18} md={12} sm={24}>
                   {this.renderFormInputFormItem(
-                    fieldData.title,
-                    'title',
+                    fieldData.name,
+                    'name',
                     '',
                     true,
-                    buildFieldHelper(fieldData.titleHelper)
+                    buildFieldHelper(fieldData.nameHelper)
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24}>
+                  {this.renderf}
                   {this.renderFormInputFormItem(
                     fieldData.contactInformation,
                     'contactInformation',
                     '',
                     true,
                     buildFieldHelper(fieldData.contactInformationHelper)
-                  )}
-                </Col>
-                <Col lg={6} md={12} sm={24}>
-                  {this.renderFormInputNumberFormItem(
-                    fieldData.sort,
-                    'sort',
-                    0,
-                    true,
-                    buildFieldHelper(fieldData.sortHelper)
                   )}
                 </Col>
               </Row>
