@@ -27,7 +27,6 @@ import { getConfigData } from '../customConfig/config';
 const storageKeyCollection = {
   metaData: 'metaData',
   token: 'token',
-  areaFlag: 'areaFlag',
   city: 'city',
   currentOperator: 'currentOperator',
 };
@@ -410,7 +409,7 @@ export function formatMoney(
   placesSource = 2,
   symbolSource = '￥',
   thousandSource = ',',
-  decimalSource = '.',
+  decimalSource = '.'
 ) {
   let number = numberSource || 0;
   // 保留的小位数 可以写成 formatMoney(542986,3) 后面的是保留的小位数，否则默 认保留两位
@@ -603,7 +602,7 @@ export function refitFieldDecoratorOption(
   justice,
   defaultValue,
   originalOption,
-  convertCallback,
+  convertCallback
 ) {
   const result = originalOption;
   const justiceV = typeof justice !== 'undefined' && justice !== null;
@@ -712,56 +711,6 @@ export function setToken(v) {
  */
 export function removeToken(v) {
   const key = storageKeyCollection.token;
-
-  return removeLocalStorage(key, v);
-}
-
-/**
- * 获取AreaFlag键名
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getAreaFlagKeyName() {
-  return storageKeyCollection.areaFlag;
-}
-
-/**
- * 获取AreaFlag
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getAreaFlag() {
-  const key = storageKeyCollection.areaFlag;
-
-  return getStringFromLocalStorage(key);
-}
-
-/**
- * 设置AreaFlag
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function setAreaFlag(v) {
-  const key = storageKeyCollection.areaFlag;
-
-  return saveStringToLocalStorage(key, v);
-}
-
-/**
- * 移除AreaFlag
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function removeAreaFlag(v) {
-  const key = storageKeyCollection.areaFlag;
 
   return removeLocalStorage(key, v);
 }
@@ -1460,7 +1409,6 @@ export function clearCustomData() {
   removeMetaDataCache();
   removeCurrentOperatorCache();
   removeToken();
-  removeAreaFlag();
   removeCity();
 }
 
@@ -1504,7 +1452,7 @@ export function getDerivedStateFromPropsForUrlParams(
   nextProps,
   prevState,
   defaultUrlParams = { id: '' },
-  parseUrlParamsForSetState = null,
+  parseUrlParamsForSetState = null
 ) {
   let stateUrlParams = getDerivedStateFromPropsForUrlParamsCore(nextProps, prevState);
 
@@ -1653,10 +1601,6 @@ export function getMetaDataCache() {
     return null;
   }
 
-  if (d.areaFlag === '' || d.areaFlag !== getAreaFlag()) {
-    return null;
-  }
-
   return d.metaData || null;
 }
 
@@ -1675,7 +1619,6 @@ export function setMetaDataCache(o) {
   const d = {
     metaData: o || null,
     dataVersion: now,
-    areaFlag: getAreaFlag() || '',
   };
 
   return saveJsonToLocalStorage(key, d);
@@ -1720,11 +1663,6 @@ export function getUseParamsDataCache(key) {
     return null;
   }
 
-  if (d.areaFlag === '' || d.areaFlag !== getAreaFlag()) {
-    removeUseParamsDataCache(key);
-    return null;
-  }
-
   return d.useParamsData || null;
 }
 
@@ -1741,7 +1679,6 @@ export function setUseParamsDataCache(key, o) {
   const d = {
     useParamsData: o || null,
     dataVersion: now,
-    areaFlag: getAreaFlag() || '',
   };
 
   return saveJsonToLocalStorage(key, d);

@@ -21,18 +21,17 @@ export default [
         name: 'connection',
         icon: 'shop',
         path: '/connection',
-        // authority: [
-        //   accessWayCollection.super,
-        //   accessWayCollection.connection.add,
-        //   accessWayCollection.connection.list,
-        //   accessWayCollection.connection.listSaleCount,
-        // ],
+        authority: [
+          accessWayCollection.super,
+          accessWayCollection.connection.addBasicInfo,
+          accessWayCollection.connection.list,
+        ],
         routes: [
           {
             path: '/connection/add',
             name: 'add',
             icon: 'plus-square',
-            // authority: [accessWayCollection.super, accessWayCollection.connection.add],
+            authority: [accessWayCollection.super, accessWayCollection.connection.addBasicInfo],
             component: './Connection/Add',
           },
           {
@@ -45,7 +44,7 @@ export default [
             path: '/connection/list/no',
             name: 'list',
             icon: 'bars',
-            // authority: [accessWayCollection.super, accessWayCollection.connection.list],
+            authority: [accessWayCollection.super, accessWayCollection.connection.list],
           },
           {
             path: '/connection/edit/:op/:id/:pageKey',
@@ -125,6 +124,7 @@ export default [
         path: '/currentOperator',
         name: 'currentOperator',
         icon: 'user',
+        authority: [accessWayCollection.currentCustomer],
         routes: [
           {
             path: '/currentOperator',
@@ -134,6 +134,7 @@ export default [
             path: '/currentOperator/setting',
             name: 'setting',
             icon: 'bars',
+            authority: [accessWayCollection.currentCustomer],
             component: './CurrentOperator/Setting',
             routes: [
               {
@@ -188,12 +189,14 @@ export default [
         name: 'helpCenter',
         icon: 'question',
         path: '/helpCenter',
+        authority: [accessWayCollection.currentCustomer],
         routes: [
+          { path: '/helpCenter/category/', redirect: '/helpCenter/category/no' },
           {
             path: '/helpCenter/category',
             name: 'category',
             icon: 'form',
-            redirect: '/helpCenter/category/no',
+            authority: [accessWayCollection.currentCustomer],
           },
           {
             path: '/helpCenter/category/:categoryId',

@@ -5,12 +5,7 @@ import { accountLogin, getFakeCaptcha } from '../services/api';
 import { setAuthority } from '../utils/authority';
 // import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '../utils/Authorized';
-import {
-  pretreatmentRemoteSingleData,
-  setToken,
-  setAreaFlag,
-  clearCustomData,
-} from '../utils/tools';
+import { pretreatmentRemoteSingleData, setToken, clearCustomData } from '../utils/tools';
 
 export default {
   namespace: 'login',
@@ -67,7 +62,7 @@ export default {
           search: stringify({
             redirect: window.location.href,
           }),
-        }),
+        })
       );
     },
   },
@@ -83,11 +78,10 @@ export default {
       v.data.role = [];
 
       const { data } = v;
-      const { currentAuthority, token: tokenValue, code, role, areaFlag } = data;
+      const { currentAuthority, token: tokenValue, code, role } = data;
 
       setAuthority(currentAuthority);
       setToken(tokenValue);
-      setAreaFlag(areaFlag);
 
       return {
         ...state,
