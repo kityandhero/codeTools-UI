@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 
 import styles from './index.less';
 
@@ -13,7 +13,7 @@ class Index extends PureComponent {
     return (
       <>
         <div className={styles.containor}>
-          <Icon type={type} className={styles.iconBox} />
+          <LegacyIcon type={type} className={styles.iconBox} />
           <span>{text}</span>
         </div>
       </>

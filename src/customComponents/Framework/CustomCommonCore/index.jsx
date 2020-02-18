@@ -1,7 +1,8 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { routerRedux } from 'dva/router';
-import { Form, Select, Radio, Input, Icon, InputNumber, DatePicker, message } from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Select, Radio, Input, InputNumber, DatePicker, message } from 'antd';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -366,7 +367,7 @@ class Index extends CustomCore {
     return (
       <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
         <Input
-          addonBefore={<Icon type="form" />}
+          addonBefore={<LegacyIcon type="form" />}
           value={formatDatetime(value, 'YYYY-MM-DD HH:mm')}
           disabled
           placeholder={buildFieldDescription(title)}
@@ -442,7 +443,7 @@ class Index extends CustomCore {
 
     const otherInputProps = {
       ...{
-        addonBefore: <Icon type={iconType} />,
+        addonBefore: <LegacyIcon type={iconType} />,
         placeholder: buildFieldDescription(title, '输入'),
       },
       ...(inputProps || {}),
@@ -482,7 +483,7 @@ class Index extends CustomCore {
 
     const otherInputProps = {
       ...{
-        addonBefore: <Icon type={iconType} />,
+        addonBefore: <LegacyIcon type={iconType} />,
         placeholder: buildFieldDescription(title, reminderPrefix),
       },
       ...(inputProps || {}),
@@ -531,7 +532,7 @@ class Index extends CustomCore {
 
     const otherInputProps = {
       ...{
-        addonBefore: <Icon type={iconType} />,
+        addonBefore: <LegacyIcon type={iconType} />,
         placeholder: buildFieldDescription(title, '输入'),
       },
       ...(inputProps || {}),

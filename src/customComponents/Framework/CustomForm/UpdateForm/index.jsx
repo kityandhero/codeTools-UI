@@ -1,5 +1,6 @@
 import React from 'react';
-import { Icon, Popover, message } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Popover, message } from 'antd';
 
 import { pretreatmentRequestParams } from '@/utils/tools';
 import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
@@ -44,7 +45,7 @@ class UpdateForm extends LoadDataForm {
       }
       return (
         <li key={key} className={styles.errorListItem} onClick={() => scrollToField(key)}>
-          <Icon type="cross-circle-o" className={styles.errorIcon} />
+          <LegacyIcon type="cross-circle-o" className={styles.errorIcon} />
           <div className={styles.errorMessage}>{errors[key][0]}</div>
           <div className={styles.errorField}>{errorFieldName}</div>
         </li>
@@ -59,7 +60,7 @@ class UpdateForm extends LoadDataForm {
           trigger="click"
           getPopupContainer={trigger => trigger.parentNode}
         >
-          <Icon type="exclamation-circle" />
+          <LegacyIcon type="exclamation-circle" />
         </Popover>
         {errorCount}
       </span>
@@ -119,7 +120,7 @@ class UpdateForm extends LoadDataForm {
                   metaListData || [],
                   metaExtra || null,
                   remoteData,
-                  submitData,
+                  submitData
                 );
               }
 

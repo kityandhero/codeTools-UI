@@ -1,23 +1,12 @@
-import { AutoComplete, Icon, Input } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { AutoComplete, Input } from 'antd';
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 
 import styles from './index.less';
 
-export default class HeaderSearch extends Component {
-  static defaultProps = {
-    defaultActiveFirstOption: false,
-    onPressEnter: () => {},
-    onSearch: () => {},
-    onChange: () => {},
-    className: '',
-    placeholder: '',
-    dataSource: [],
-    defaultOpen: false,
-    onVisibleChange: () => {},
-  };
-
+class HeaderSearch extends Component {
   static getDerivedStateFromProps(props) {
     if ('open' in props) {
       return {
@@ -88,7 +77,7 @@ export default class HeaderSearch extends Component {
         if (searchMode && this.inputRef) {
           this.inputRef.focus();
         }
-      },
+      }
     );
   };
 
@@ -124,7 +113,7 @@ export default class HeaderSearch extends Component {
           }
         }}
       >
-        <Icon type="search" key="Icon" />
+        <LegacyIcon type="search" key="Icon" />
         <AutoComplete
           key="AutoComplete"
           {...restProps}
@@ -146,3 +135,17 @@ export default class HeaderSearch extends Component {
     );
   }
 }
+
+HeaderSearch.defaultProps = {
+  defaultActiveFirstOption: false,
+  onPressEnter: () => {},
+  onSearch: () => {},
+  onChange: () => {},
+  className: '',
+  placeholder: '',
+  dataSource: [],
+  defaultOpen: false,
+  onVisibleChange: () => {},
+};
+
+export default HeaderSearch;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Drawer, message, Row, Col, Affix, Button, Divider } from 'antd';
 
 import { defaultFormState, pretreatmentRequestParams, isFunction } from '@/utils/tools';
@@ -103,7 +104,7 @@ class Index extends CustomAuthorization {
                   listData || [],
                   extra || null,
                   remoteData,
-                  submitData,
+                  submitData
                 );
               }
             }
@@ -151,7 +152,7 @@ class Index extends CustomAuthorization {
       <>
         <Button
           type="primary"
-          icon="save"
+          icon={<LegacyIcon type="save" />}
           loading={dataLoading || processing}
           disabled={dataLoading || processing}
           onClick={e => {
@@ -163,7 +164,7 @@ class Index extends CustomAuthorization {
         <Divider type="vertical" />
         <Button
           type="default"
-          icon="close-circle"
+          icon={<LegacyIcon type="close-circle" />}
           disabled={dataLoading || processing}
           onClick={() => {
             this.onClose();

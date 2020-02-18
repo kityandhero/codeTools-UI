@@ -1,5 +1,7 @@
 import React from 'react';
-import { Form, Switch, TimePicker, Button, Spin, notification } from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Switch, TimePicker, Button, Spin, notification } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
 
@@ -155,7 +157,7 @@ class ChangeOutStockTime extends UpdateForm {
               </FormItem>
               <Button
                 type="primary"
-                icon="save"
+                icon={<LegacyIcon type="save" />}
                 onClick={this.validate}
                 loading={processing}
                 disabled={

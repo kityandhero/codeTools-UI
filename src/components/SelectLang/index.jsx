@@ -1,4 +1,5 @@
-import { Icon, Menu } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Menu } from 'antd';
 import { formatMessage, getLocale, setLocale } from 'umi-plugin-react/locale';
 import React from 'react';
 import classNames from 'classnames';
@@ -39,7 +40,7 @@ const SelectLang = props => {
   return (
     <HeaderDropdown overlay={langMenu} placement="bottomRight">
       <span className={classNames(styles.dropDown, className)}>
-        <Icon
+        <LegacyIcon
           type="global"
           title={formatMessage({
             id: 'navBar.lang',

@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Card, Button, Form, Row, Col, Switch, Spin, notification, Affix } from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Card, Button, Row, Col, Switch, Spin, notification, Affix } from 'antd';
 
 import { buildFieldHelper } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
@@ -88,7 +90,7 @@ class Index extends AddFormBase {
               <>
                 <Button
                   type="primary"
-                  icon="save"
+                  icon={<LegacyIcon type="save" />}
                   disabled={processing}
                   onClick={this.validate}
                   loading={processing}

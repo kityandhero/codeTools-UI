@@ -1,4 +1,5 @@
-import { Alert, Checkbox, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Alert, Checkbox } from 'antd';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import React, { Component } from 'react';
 import Link from 'umi/link';
@@ -15,10 +16,14 @@ const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginComponents;
 class Login extends Component {
   loginForm = undefined;
 
-  state = {
-    type: 'account',
-    autoLogin: true,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      type: 'account',
+      autoLogin: true,
+    };
+  }
 
   changeAutoLogin = e => {
     this.setState({
@@ -104,7 +109,7 @@ class Login extends Component {
               this.renderMessage(
                 formatMessage({
                   id: 'user-login.login.message-invalid-credentials',
-                }),
+                })
               )}
             <UserName
               name="userName"
@@ -151,7 +156,7 @@ class Login extends Component {
               this.renderMessage(
                 formatMessage({
                   id: 'user-login.login.message-invalid-verification-code',
-                }),
+                })
               )}
             <Mobile
               name="mobile"
@@ -214,9 +219,9 @@ class Login extends Component {
           </Submit>
           <div className={styles.other}>
             <FormattedMessage id="user-login.login.sign-in-with" />
-            <Icon type="alipay-circle" className={styles.icon} theme="outlined" />
-            <Icon type="taobao-circle" className={styles.icon} theme="outlined" />
-            <Icon type="weibo-circle" className={styles.icon} theme="outlined" />
+            <LegacyIcon type="alipay-circle" className={styles.icon} theme="outlined" />
+            <LegacyIcon type="taobao-circle" className={styles.icon} theme="outlined" />
+            <LegacyIcon type="weibo-circle" className={styles.icon} theme="outlined" />
             <Link className={styles.register} to="/user/register">
               <FormattedMessage id="user-login.login.signup" />
             </Link>

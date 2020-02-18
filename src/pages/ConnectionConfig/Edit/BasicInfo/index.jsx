@@ -1,18 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import {
-  Card,
-  Button,
-  Form,
-  Row,
-  Col,
-  Input,
-  Spin,
-  BackTop,
-  notification,
-  Icon,
-  Affix,
-} from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Card, Button, Row, Col, Input, Spin, BackTop, notification, Affix } from 'antd';
 
 import {
   formatDatetime,
@@ -135,7 +125,7 @@ class Index extends TabPageBase {
                 <>
                   <Button
                     type="primary"
-                    icon="save"
+                    icon={<LegacyIcon type="save" />}
                     disabled={dataLoading || processing}
                     onClick={this.validate}
                     loading={processing}
@@ -200,7 +190,7 @@ class Index extends TabPageBase {
                   <Col lg={6} md={12} sm={24}>
                     <FormItem label={fieldData.inTime}>
                       <Input
-                        addonBefore={<Icon type="form" />}
+                        addonBefore={<LegacyIcon type="form" />}
                         value={formatDatetime(new Date(), 'YYYY-MM-DD HH:mm')}
                         disabled
                         placeholder={buildFieldDescription(fieldData.url)}

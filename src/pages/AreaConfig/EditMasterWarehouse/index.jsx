@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Button, Spin, message, notification, Icon, Input } from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button, Spin, message, notification, Input } from 'antd';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
@@ -105,13 +107,13 @@ class EditMasterWarehouse extends UpdateForm {
                           message: buildFieldDescription(fieldData.name),
                         },
                       ],
-                    },
-                  ),
+                    }
+                  )
                 )(
                   <Input
-                    addonBefore={<Icon type="form" />}
+                    addonBefore={<LegacyIcon type="form" />}
                     placeholder={buildFieldDescription(fieldData.name)}
-                  />,
+                  />
                 )}
               </FormItem>
               <FormItem label={fieldData.code}>
@@ -128,13 +130,13 @@ class EditMasterWarehouse extends UpdateForm {
                           message: buildFieldDescription(fieldData.code),
                         },
                       ],
-                    },
-                  ),
+                    }
+                  )
                 )(
                   <Input
-                    addonBefore={<Icon type="form" />}
+                    addonBefore={<LegacyIcon type="form" />}
                     placeholder={buildFieldDescription(fieldData.code)}
-                  />,
+                  />
                 )}
               </FormItem>
               <FormItem label={fieldData.address}>
@@ -151,18 +153,15 @@ class EditMasterWarehouse extends UpdateForm {
                           message: buildFieldDescription(fieldData.address),
                         },
                       ],
-                    },
-                  ),
+                    }
+                  )
                 )(
-                  <Input.TextArea
-                    rows={4}
-                    placeholder={buildFieldDescription(fieldData.address)}
-                  />,
+                  <Input.TextArea rows={4} placeholder={buildFieldDescription(fieldData.address)} />
                 )}
               </FormItem>
               <Button
                 type="primary"
-                icon="save"
+                icon={<LegacyIcon type="save" />}
                 onClick={this.validate}
                 loading={processing}
                 disabled={

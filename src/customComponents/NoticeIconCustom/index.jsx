@@ -1,27 +1,13 @@
 import React, { PureComponent } from 'react';
-import { Popover, Icon, Tabs, Badge, Spin } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Popover, Tabs, Badge, Spin } from 'antd';
 import classNames from 'classnames';
 import List from './NoticeList';
 import styles from './index.less';
 
 const { TabPane } = Tabs;
 
-export default class NoticeIcon extends PureComponent {
-  static Tab = TabPane;
-
-  static defaultProps = {
-    onItemClick: () => {},
-    onPopupVisibleChange: () => {},
-    onTabChange: () => {},
-    onClear: () => {},
-    loading: false,
-    locale: {
-      emptyText: 'No notifications',
-      clear: 'Clear',
-    },
-    emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
-  };
-
+class NoticeIcon extends PureComponent {
   onItemClick = (item, tabProps) => {
     const { onItemClick } = this.props;
     onItemClick(item, tabProps);
@@ -64,11 +50,13 @@ export default class NoticeIcon extends PureComponent {
     );
   }
 
+  static Tab = TabPane;
+
   render() {
     const { className, count, popupAlign, popupVisible, onPopupVisibleChange, bell } = this.props;
     const noticeButtonClass = classNames(className, styles.noticeButton);
     const notificationBox = this.getNotificationBox();
-    const NoticeBellIcon = bell || <Icon type="bell" className={styles.icon} />;
+    const NoticeBellIcon = bell || <LegacyIcon type="bell" className={styles.icon} />;
     const trigger = (
       <span className={noticeButtonClass}>
         <Badge count={count} style={{ boxShadow: 'none' }} className={styles.badge}>
@@ -99,3 +87,18 @@ export default class NoticeIcon extends PureComponent {
     );
   }
 }
+
+NoticeIcon.defaultProps = {
+  onItemClick: () => {},
+  onPopupVisibleChange: () => {},
+  onTabChange: () => {},
+  onClear: () => {},
+  loading: false,
+  locale: {
+    emptyText: 'No notifications',
+    clear: 'Clear',
+  },
+  emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
+};
+
+export default NoticeIcon;

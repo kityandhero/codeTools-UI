@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
-import { Icon, Tooltip } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Tooltip } from 'antd';
 
 import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
@@ -50,7 +51,7 @@ const GlobalHeaderRight = props => {
         })}
       >
         <Link to="/helpCenter/category/no/list" replace className={styles.action}>
-          <Icon type="question-circle-o" />
+          <LegacyIcon type="question-circle-o" />
         </Link>
       </Tooltip>
       <Avatar global={global} menu />

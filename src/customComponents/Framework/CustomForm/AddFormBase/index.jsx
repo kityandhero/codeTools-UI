@@ -1,5 +1,6 @@
 import React from 'react';
-import { BackTop, Popover, Icon, Avatar, message } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { BackTop, Popover, Avatar, message } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import { defaultFormState, pretreatmentRequestParams } from '@/utils/tools';
@@ -57,7 +58,7 @@ class AddFormBase extends CustomAuthorization {
       }
       return (
         <li key={key} className={styles.errorListItem} onClick={() => scrollToField(key)}>
-          <Icon type="cross-circle-o" className={styles.errorIcon} />
+          <LegacyIcon type="cross-circle-o" className={styles.errorIcon} />
           <div className={styles.errorMessage}>{errors[key][0]}</div>
           <div className={styles.errorField}>{errorFieldName}</div>
         </li>
@@ -72,7 +73,7 @@ class AddFormBase extends CustomAuthorization {
           trigger="click"
           getPopupContainer={trigger => trigger.parentNode}
         >
-          <Icon type="exclamation-circle" />
+          <LegacyIcon type="exclamation-circle" />
         </Popover>
         {errorCount}
       </span>
@@ -123,7 +124,7 @@ class AddFormBase extends CustomAuthorization {
                   metaListData || [],
                   metaExtra || null,
                   remoteData,
-                  submitData,
+                  submitData
                 );
               }
 
@@ -144,7 +145,7 @@ class AddFormBase extends CustomAuthorization {
     });
   };
 
-  pageHeaderLogo = () => <Avatar shape="square" icon="plus" />;
+  pageHeaderLogo = () => <Avatar shape="square" icon={<LegacyIcon type="plus" />} />;
 
   formContent = () => null;
 

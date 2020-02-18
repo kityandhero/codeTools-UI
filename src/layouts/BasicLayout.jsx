@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 /**
  * Ant Design Pro v4 use `@ant-design/pro-layout` to handle Layout.
  * You can view component api by:
@@ -8,7 +7,7 @@ import React, { useEffect } from 'react';
 import Link from 'umi/link';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import ProLayout, { SettingDrawer } from '@ant-design/pro-layout';
 import GlobalFooter from '@ant-design/pro-layout/lib/GlobalFooter';
 
@@ -42,7 +41,7 @@ const footerRender = (_, defaultDom) => {
             key: 'dataCenter',
             title: (
               <>
-                <Icon type="dashboard" />
+                <LegacyIcon type="dashboard" />
                 <span className={styles.footerLinkTitle}>数据中心</span>
               </>
             ),
@@ -52,7 +51,7 @@ const footerRender = (_, defaultDom) => {
             key: 'product',
             title: (
               <>
-                <Icon type="shop" />
+                <LegacyIcon type="shop" />
                 <span className={styles.footerLinkTitle}>商品管理</span>
               </>
             ),
@@ -62,7 +61,7 @@ const footerRender = (_, defaultDom) => {
             key: 'order',
             title: (
               <>
-                <Icon type="shopping-cart" />
+                <LegacyIcon type="shopping-cart" />
                 <span className={styles.footerLinkTitle}>订单管理</span>
               </>
             ),
@@ -72,7 +71,7 @@ const footerRender = (_, defaultDom) => {
             key: 'orderProcessing',
             title: (
               <>
-                <Icon type="reconciliation" />
+                <LegacyIcon type="reconciliation" />
                 <span className={styles.footerLinkTitle}>订单处理</span>
               </>
             ),
@@ -82,7 +81,7 @@ const footerRender = (_, defaultDom) => {
             key: 'user',
             title: (
               <>
-                <Icon type="team" />
+                <LegacyIcon type="team" />
                 <span className={styles.footerLinkTitle}>用户管理</span>
               </>
             ),
@@ -91,7 +90,7 @@ const footerRender = (_, defaultDom) => {
         ]}
         copyright={
           <>
-            Copyright <Icon type="copyright" /> 2018 {defaultSettings.getCompanyName()}
+            Copyright <LegacyIcon type="copyright" /> 2018 {defaultSettings.getCompanyName()}
           </>
         }
       />

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Form, Input, Button, Icon, Spin, notification, message } from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Button, Spin, notification, message } from 'antd';
 import { connect } from 'dva';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '@/utils/tools';
@@ -104,13 +106,13 @@ class Password extends UpdateForm {
                         message: buildFieldDescription(fieldLabels.originalWord),
                       },
                     ],
-                  }),
+                  })
                 )(
                   <Input
-                    addonBefore={<Icon type="key" />}
+                    addonBefore={<LegacyIcon type="key" />}
                     style={{ maxWidth: 220 }}
                     placeholder={buildFieldDescription(fieldLabels.originalWord)}
-                  />,
+                  />
                 )}
               </FormItem>
               <FormItem label={fieldLabels.newWord}>
@@ -123,12 +125,12 @@ class Password extends UpdateForm {
                         message: buildFieldDescription(fieldLabels.newWord),
                       },
                     ],
-                  }),
+                  })
                 )(
                   <Input
-                    addonBefore={<Icon type="key" />}
+                    addonBefore={<LegacyIcon type="key" />}
                     placeholder={buildFieldDescription(fieldLabels.newWord)}
-                  />,
+                  />
                 )}
               </FormItem>
               <FormItem label={fieldLabels.reNewWord}>
@@ -141,17 +143,17 @@ class Password extends UpdateForm {
                         message: buildFieldDescription(fieldLabels.reNewWord),
                       },
                     ],
-                  }),
+                  })
                 )(
                   <Input
-                    addonBefore={<Icon type="key" />}
+                    addonBefore={<LegacyIcon type="key" />}
                     placeholder={buildFieldDescription(fieldLabels.reNewWord)}
-                  />,
+                  />
                 )}
               </FormItem>
               <Button
                 type="primary"
-                icon="save"
+                icon={<LegacyIcon type="save" />}
                 onClick={this.validate}
                 loading={processing}
                 disabled={processing}

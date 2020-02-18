@@ -1,34 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Input, Icon, AutoComplete } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Input, AutoComplete } from 'antd';
 import classNames from 'classnames';
 import Debounce from 'lodash-decorators/debounce';
 import Bind from 'lodash-decorators/bind';
 import styles from './index.less';
 
-export default class HeaderSearch extends PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    placeholder: PropTypes.string,
-    onSearch: PropTypes.func,
-    onPressEnter: PropTypes.func,
-    defaultActiveFirstOption: PropTypes.bool,
-    dataSource: PropTypes.array,
-    defaultOpen: PropTypes.bool,
-    onVisibleChange: PropTypes.func,
-  };
-
-  static defaultProps = {
-    defaultActiveFirstOption: false,
-    onPressEnter: () => {},
-    onSearch: () => {},
-    className: '',
-    placeholder: '',
-    dataSource: [],
-    defaultOpen: false,
-    onVisibleChange: () => {},
-  };
-
+class HeaderSearch extends PureComponent {
   static getDerivedStateFromProps(props) {
     if ('open' in props) {
       return {
@@ -116,7 +95,7 @@ export default class HeaderSearch extends PureComponent {
           }
         }}
       >
-        <Icon type="search" key="Icon" />
+        <LegacyIcon type="search" key="Icon" />
         <AutoComplete
           key="AutoComplete"
           {...restProps}
@@ -138,3 +117,27 @@ export default class HeaderSearch extends PureComponent {
     );
   }
 }
+
+HeaderSearch.propTypes = {
+  className: PropTypes.string,
+  placeholder: PropTypes.string,
+  onSearch: PropTypes.func,
+  onPressEnter: PropTypes.func,
+  defaultActiveFirstOption: PropTypes.bool,
+  dataSource: PropTypes.array,
+  defaultOpen: PropTypes.bool,
+  onVisibleChange: PropTypes.func,
+};
+
+HeaderSearch.defaultProps = {
+  defaultActiveFirstOption: false,
+  onPressEnter: () => {},
+  onSearch: () => {},
+  className: '',
+  placeholder: '',
+  dataSource: [],
+  defaultOpen: false,
+  onVisibleChange: () => {},
+};
+
+export default HeaderSearch;

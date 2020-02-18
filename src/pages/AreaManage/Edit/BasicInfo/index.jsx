@@ -1,19 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import {
-  Card,
-  Form,
-  Row,
-  Col,
-  Spin,
-  notification,
-  Icon,
-  Input,
-  Affix,
-  Button,
-  Divider,
-} from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+
+import { Card, Row, Col, Spin, notification, Input, Affix, Button, Divider } from 'antd';
 
 import {
   refitFieldDecoratorOption,
@@ -60,7 +51,7 @@ class BasicInfo extends UpdateFormTab {
       nextProps,
       prevState,
       { id: '' },
-      parseUrlParamsForSetState,
+      parseUrlParamsForSetState
     );
   }
 
@@ -116,7 +107,7 @@ class BasicInfo extends UpdateFormTab {
         <Card
           title={
             <>
-              <Icon type="contacts" />
+              <LegacyIcon type="contacts" />
               <span className={styles.cardTitle}>基本信息</span>
             </>
           }
@@ -126,7 +117,7 @@ class BasicInfo extends UpdateFormTab {
             <Affix offsetTop={20}>
               {this.getErrorInfo()}
               <Button
-                icon="reload"
+                icon={<LegacyIcon type="reload" />}
                 disabled={dataLoading || processing || !loadSuccess}
                 onClick={this.reloadData}
                 loading={processing}
@@ -136,7 +127,7 @@ class BasicInfo extends UpdateFormTab {
               <Divider type="vertical" />
               <Button
                 type="primary"
-                icon="save"
+                icon={<LegacyIcon type="save" />}
                 disabled={dataLoading || processing || !loadSuccess}
                 onClick={this.validate}
                 loading={processing}
@@ -152,7 +143,7 @@ class BasicInfo extends UpdateFormTab {
                 <Col lg={6} md={12} sm={24}>
                   <FormItem label={fieldData.loginName}>
                     <Input
-                      addonBefore={<Icon type="form" />}
+                      addonBefore={<LegacyIcon type="form" />}
                       placeholder={buildFieldDescription(fieldData.loginName)}
                       disabled
                       value={metaData === null ? '' : metaData.loginName || ''}
@@ -174,13 +165,13 @@ class BasicInfo extends UpdateFormTab {
                               message: buildFieldDescription(fieldData.name),
                             },
                           ],
-                        },
-                      ),
+                        }
+                      )
                     )(
                       <Input
-                        addonBefore={<Icon type="form" />}
+                        addonBefore={<LegacyIcon type="form" />}
                         placeholder={buildFieldDescription(fieldData.name)}
-                      />,
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -199,13 +190,13 @@ class BasicInfo extends UpdateFormTab {
                               message: buildFieldDescription(fieldData.phone),
                             },
                           ],
-                        },
-                      ),
+                        }
+                      )
                     )(
                       <Input
-                        addonBefore={<Icon type="form" />}
+                        addonBefore={<LegacyIcon type="form" />}
                         placeholder={buildFieldDescription(fieldData.phone)}
-                      />,
+                      />
                     )}
                   </FormItem>
                 </Col>
@@ -216,7 +207,7 @@ class BasicInfo extends UpdateFormTab {
         <Card
           title={
             <>
-              <Icon type="contacts" />
+              <LegacyIcon type="contacts" />
               <span className={styles.cardTitle}>其他信息</span>
             </>
           }

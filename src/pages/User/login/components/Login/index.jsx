@@ -1,4 +1,6 @@
-import { Form, Tabs } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Tabs } from 'antd';
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import LoginContext from './LoginContext';
@@ -8,17 +10,6 @@ import LoginTab from './LoginTab';
 import styles from './index.less';
 
 class Login extends Component {
-  static Tab = LoginTab;
-
-  static Submit = LoginSubmit;
-
-  static defaultProps = {
-    className: '',
-    defaultActiveKey: '',
-    onTabChange: () => {},
-    onSubmit: () => {},
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -39,7 +30,7 @@ class Login extends Component {
         if (onTabChange) {
           onTabChange(type);
         }
-      },
+      }
     );
   };
 
@@ -92,10 +83,14 @@ class Login extends Component {
           if (onSubmit) {
             onSubmit(err, values);
           }
-        },
+        }
       );
     }
   };
+
+  static Tab = LoginTab;
+
+  static Submit = LoginSubmit;
 
   render() {
     const { className, children } = this.props;
@@ -118,7 +113,7 @@ class Login extends Component {
         <div className={classNames(className, styles.login)}>
           <Form onSubmit={this.handleSubmit}>
             {tabs.length ? (
-              <React.Fragment>
+              <>
                 <Tabs
                   animated={false}
                   className={styles.tabs}
@@ -128,7 +123,7 @@ class Login extends Component {
                   {TabChildren}
                 </Tabs>
                 {otherChildren}
-              </React.Fragment>
+              </>
             ) : (
               children
             )}
@@ -138,6 +133,13 @@ class Login extends Component {
     );
   }
 }
+
+Login.defaultProps = {
+  className: '',
+  defaultActiveKey: '',
+  onTabChange: () => {},
+  onSubmit: () => {},
+};
 
 Object.keys(LoginItem).forEach(item => {
   Login[item] = LoginItem[item];

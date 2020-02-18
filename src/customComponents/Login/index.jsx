@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Tabs } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Tabs } from 'antd';
 import classNames from 'classnames';
 import LoginItem from './LoginItem';
 import LoginTab from './LoginTab';
@@ -9,20 +11,6 @@ import styles from './index.less';
 import LoginContext from './loginContext';
 
 class Login extends Component {
-  static propTypes = {
-    className: PropTypes.string,
-    defaultActiveKey: PropTypes.string,
-    onTabChange: PropTypes.func,
-    onSubmit: PropTypes.func,
-  };
-
-  static defaultProps = {
-    className: '',
-    defaultActiveKey: '',
-    onTabChange: () => {},
-    onSubmit: () => {},
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -122,6 +110,20 @@ class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  className: PropTypes.string,
+  defaultActiveKey: PropTypes.string,
+  onTabChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+};
+
+Login.defaultProps = {
+  className: '',
+  defaultActiveKey: '',
+  onTabChange: () => {},
+  onSubmit: () => {},
+};
 
 Login.Tab = LoginTab;
 Login.Submit = LoginSubmit;

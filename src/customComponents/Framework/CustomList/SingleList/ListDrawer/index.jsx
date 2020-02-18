@@ -1,5 +1,6 @@
 import React from 'react';
-import { Drawer, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Drawer } from 'antd';
 
 import SingleList from '@/customComponents/Framework/CustomList/SingleList';
 
@@ -50,7 +51,7 @@ class ListDrawer extends SingleList {
     },
   });
 
-  renderTitleIcon = () => <Icon type="read" className={styles.titleIcon} />;
+  renderTitleIcon = () => <LegacyIcon type="read" className={styles.titleIcon} />;
 
   render() {
     const { width: widthDrawer } = this.props;

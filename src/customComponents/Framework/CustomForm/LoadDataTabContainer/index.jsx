@@ -1,8 +1,8 @@
 import React from 'react';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import {
   // Avatar,
   Spin,
-  Icon,
 } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
@@ -87,7 +87,7 @@ class LoadDataTabContainer extends LoadDataForm {
   pageHeaderTagWrapper = () => {
     const { dataLoading } = this.state;
 
-    const antIcon = <Icon type="loading" style={{ fontSize: 14 }} spin />;
+    const antIcon = <LegacyIcon type="loading" style={{ fontSize: 14 }} spin />;
 
     return (
       <>

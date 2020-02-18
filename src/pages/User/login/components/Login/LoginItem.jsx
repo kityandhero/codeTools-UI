@@ -1,4 +1,6 @@
-import { Button, Col, Form, Input, Row } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Button, Col, Input, Row } from 'antd';
 import React, { Component } from 'react';
 import omit from 'omit.js';
 import ItemMap from './map';
@@ -8,11 +10,6 @@ import styles from './index.less';
 const FormItem = Form.Item;
 
 class WrapFormItem extends Component {
-  static defaultProps = {
-    getCaptchaButtonText: 'captcha',
-    getCaptchaSecondText: 'second',
-  };
-
   interval = undefined;
 
   constructor(props) {
@@ -144,6 +141,11 @@ class WrapFormItem extends Component {
     );
   }
 }
+
+WrapFormItem.defaultProps = {
+  getCaptchaButtonText: 'captcha',
+  getCaptchaSecondText: 'second',
+};
 
 const LoginItem = {};
 Object.keys(ItemMap).forEach(key => {

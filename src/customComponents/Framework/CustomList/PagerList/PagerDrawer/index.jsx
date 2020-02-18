@@ -1,5 +1,6 @@
 import React from 'react';
-import { Drawer, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Drawer } from 'antd';
 
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 
@@ -50,7 +51,7 @@ class PagerDrawer extends PagerList {
     },
   });
 
-  renderTitleIcon = () => <Icon type="read" className={styles.titleIcon} />;
+  renderTitleIcon = () => <LegacyIcon type="read" className={styles.titleIcon} />;
 
   hideDrawer = () => {
     this.onClose();

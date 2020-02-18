@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Row, Col } from 'antd';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Input, Button, Row, Col } from 'antd';
 import omit from 'omit.js';
 import styles from './index.less';
 import ItemMap from './map';
@@ -8,11 +10,6 @@ import LoginContext from './loginContext';
 const FormItem = Form.Item;
 
 class WrapFormItem extends Component {
-  static defaultProps = {
-    getCaptchaButtonText: 'captcha',
-    getCaptchaSecondText: 'second',
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -124,6 +121,11 @@ class WrapFormItem extends Component {
     );
   }
 }
+
+WrapFormItem.defaultProps = {
+  getCaptchaButtonText: 'captcha',
+  getCaptchaSecondText: 'second',
+};
 
 const LoginItem = {};
 Object.keys(ItemMap).forEach(key => {

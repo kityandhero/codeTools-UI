@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import { Card, Form, Spin, notification, Icon, Input, Button } from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+
+import { Card, Spin, notification, Input, Button } from 'antd';
 
 import {
   refitFieldDecoratorOption,
@@ -56,7 +59,7 @@ class ResetPassword extends UpdateFormTab {
       nextProps,
       prevState,
       { id: '' },
-      parseUrlParamsForSetState,
+      parseUrlParamsForSetState
     );
   }
 
@@ -112,7 +115,7 @@ class ResetPassword extends UpdateFormTab {
         <Card
           title={
             <>
-              <Icon type="contacts" />
+              <LegacyIcon type="contacts" />
               <span className={styles.cardTitle}>重置密码</span>
             </>
           }
@@ -131,13 +134,13 @@ class ResetPassword extends UpdateFormTab {
                         message: buildFieldDescription(fieldData.password),
                       },
                     ],
-                  }),
+                  })
                 )(
                   <Input
-                    addonBefore={<Icon type="form" />}
+                    addonBefore={<LegacyIcon type="form" />}
                     type="password"
                     placeholder={buildFieldDescription(fieldData.password)}
-                  />,
+                  />
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label={fieldData.rePassword}>
@@ -150,13 +153,13 @@ class ResetPassword extends UpdateFormTab {
                         message: buildFieldDescription(fieldData.rePassword),
                       },
                     ],
-                  }),
+                  })
                 )(
                   <Input
-                    addonBefore={<Icon type="form" />}
+                    addonBefore={<LegacyIcon type="form" />}
                     type="password"
                     placeholder={buildFieldDescription(fieldData.rePassword)}
-                  />,
+                  />
                 )}
               </FormItem>
               <FormItem
@@ -171,7 +174,7 @@ class ResetPassword extends UpdateFormTab {
               >
                 <Button
                   type="primary"
-                  icon="save"
+                  icon={<LegacyIcon type="save" />}
                   disabled={
                     processing || !this.checkAuthority(accessWayCollection.areaManage.resetPassword)
                   }

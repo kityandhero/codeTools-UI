@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Menu, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Menu } from 'antd';
 import Link from 'umi/link';
 
 const { SubMenu } = Menu;
@@ -48,7 +49,7 @@ export default class BaseMenu extends PureComponent {
           title={
             item.icon ? (
               <span>
-                <Icon type="bars" />
+                <LegacyIcon type="bars" />
                 <span>{name}</span>
               </span>
             ) : (
@@ -67,7 +68,7 @@ export default class BaseMenu extends PureComponent {
   getMenuItemPath = item => {
     const { name } = item;
     const itemPath = `/helpCenter/category/${item.areaHelpCategoryId}`;
-    const icon = <Icon type="bars" />;
+    const icon = <LegacyIcon type="bars" />;
     // const { target } = item;
 
     const {

@@ -1,6 +1,7 @@
-import { Button, Card, Icon, Steps, Result, Descriptions } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Button, Card, Steps, Result, Descriptions } from 'antd';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { GridContent } from '@ant-design/pro-layout';
 import styles from './index.less';
 
@@ -13,7 +14,7 @@ const desc1 = (
       }}
     >
       <FormattedMessage id="result-success.success.step1-operator" defaultMessage="Qu Lili" />
-      <Icon
+      <LegacyIcon
         style={{
           marginLeft: 8,
           color: '#00A0E9',
@@ -38,7 +39,7 @@ const desc2 = (
     >
       <FormattedMessage id="result-success.success.step2-operator" defaultMessage="Zhou Maomao" />
       <a href="">
-        <Icon
+        <LegacyIcon
           type="dingding-o"
           style={{
             color: '#00A0E9',
@@ -144,7 +145,7 @@ const content = (
   </>
 );
 const extra = (
-  <Fragment>
+  <>
     <Button type="primary">
       <FormattedMessage id="result-success.success.btn-return" defaultMessage="Back to list" />
     </Button>
@@ -154,7 +155,7 @@ const extra = (
     <Button>
       <FormattedMessage id="result-success.success.btn-print" defaultMessage="Print" />
     </Button>
-  </Fragment>
+  </>
 );
 export default () => (
   <GridContent>

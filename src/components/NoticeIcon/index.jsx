@@ -1,4 +1,5 @@
-import { Badge, Icon, Spin, Tabs } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { Badge, Spin, Tabs } from 'antd';
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
@@ -8,23 +9,13 @@ import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 
 const { TabPane } = Tabs;
-export default class NoticeIcon extends Component {
-  static Tab = NoticeList;
-
-  static defaultProps = {
-    onItemClick: () => {},
-    onPopupVisibleChange: () => {},
-    onTabChange: () => {},
-    onClear: () => {},
-    onViewMore: () => {},
-    loading: false,
-    clearClose: false,
-    emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
-  };
-
-  state = {
-    visible: false,
-  };
+class NoticeIcon extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,
+    };
+  }
 
   onItemClick = (item, tabProps) => {
     const { onItemClick } = this.props;
@@ -113,12 +104,14 @@ export default class NoticeIcon extends Component {
     }
   };
 
+  static Tab = NoticeList;
+
   render() {
     const { className, count, popupVisible, bell } = this.props;
     const { visible } = this.state;
     const noticeButtonClass = classNames(className, styles.noticeButton);
     const notificationBox = this.getNotificationBox();
-    const NoticeBellIcon = bell || <Icon type="bell" className={styles.icon} />;
+    const NoticeBellIcon = bell || <LegacyIcon type="bell" className={styles.icon} />;
     const trigger = (
       <span
         className={classNames(noticeButtonClass, {
@@ -162,3 +155,16 @@ export default class NoticeIcon extends Component {
     );
   }
 }
+
+NoticeIcon.defaultProps = {
+  onItemClick: () => {},
+  onPopupVisibleChange: () => {},
+  onTabChange: () => {},
+  onClear: () => {},
+  onViewMore: () => {},
+  loading: false,
+  clearClose: false,
+  emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
+};
+
+export default NoticeIcon;

@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import { List, Icon } from 'antd';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { List } from 'antd';
 
 import { getRandomColor } from '@/utils/tools';
 import CustomBase from '@/customComponents/Framework/CustomBase';
@@ -10,37 +11,6 @@ import styles from './index.less';
 const defaultIcon = 'message';
 
 class TimeLineCustom extends CustomBase {
-  static defaultProps = {
-    showPagination: false,
-
-    iconStyle: {},
-    links: [],
-    getIcon: () => {
-      return defaultIcon;
-    },
-    getBackgroundColorKey: () => {
-      return '';
-    },
-    getDateLabel: () => {
-      return '';
-    },
-    getTime: () => {
-      return '';
-    },
-    getTitle: () => {
-      return '';
-    },
-    getDescription: () => {
-      return '';
-    },
-    getBottomLeft: () => {
-      return '';
-    },
-    getBottomRight: () => {
-      return '';
-    },
-  };
-
   constructor(props) {
     super(props);
 
@@ -116,10 +86,10 @@ class TimeLineCustom extends CustomBase {
 
     return (
       <div className={styles.listItem}>
-        <Icon type={getIcon(item)} className={styles.fa} style={iconStyle} />
+        <LegacyIcon type={getIcon(item)} className={styles.fa} style={iconStyle} />
         <div className={styles.timeLineExItem}>
           <span className={styles.time}>
-            <Icon
+            <LegacyIcon
               type="clock-circle-o"
               className={styles.fa}
               style={{
@@ -210,5 +180,36 @@ class TimeLineCustom extends CustomBase {
     );
   }
 }
+
+TimeLineCustom.defaultProps = {
+  showPagination: false,
+
+  iconStyle: {},
+  links: [],
+  getIcon: () => {
+    return defaultIcon;
+  },
+  getBackgroundColorKey: () => {
+    return '';
+  },
+  getDateLabel: () => {
+    return '';
+  },
+  getTime: () => {
+    return '';
+  },
+  getTitle: () => {
+    return '';
+  },
+  getDescription: () => {
+    return '';
+  },
+  getBottomLeft: () => {
+    return '';
+  },
+  getBottomRight: () => {
+    return '';
+  },
+};
 
 export default TimeLineCustom;

@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Form, Icon, List, Tag, Card, BackTop } from 'antd';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { List, Tag, Card, BackTop } from 'antd';
 
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import ArticleListContent from '@/customComponents/ArticleListContent';
@@ -87,7 +89,7 @@ class ArticleList extends PagerList {
 
     const IconText = ({ type, text }) => (
       <span>
-        <Icon type={type} style={{ marginRight: 8 }} />
+        <LegacyIcon type={type} style={{ marginRight: 8 }} />
         {text}
       </span>
     );

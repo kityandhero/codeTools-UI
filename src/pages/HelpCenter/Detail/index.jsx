@@ -1,13 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
+import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
 import {
-  Avatar,
-  // Row,
-  // Col,
-  Form,
-  // Icon,
-  Button,
-  //   List,
+  Avatar, // Icon,
+  Button, //   List,
   //    Tag,
   //     Divider,
   Card,
@@ -80,7 +77,7 @@ class ArticleContent extends LoadDataForm {
 
     return (
       <Button
-        icon="rollback"
+        icon={<LegacyIcon type="rollback" />}
         size="small"
         onClick={e => {
           this.backToList(e);
