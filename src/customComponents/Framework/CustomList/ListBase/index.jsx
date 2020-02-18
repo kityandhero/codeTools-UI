@@ -1,7 +1,7 @@
 import React from 'react';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Row, Col, Card, Button, DatePicker, BackTop, Divider } from 'antd';
+import { Form, Row, Col, Card, Button, DatePicker, BackTop, Divider } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import { defaultListState, buildFieldDescription } from '../../../../utils/tools';

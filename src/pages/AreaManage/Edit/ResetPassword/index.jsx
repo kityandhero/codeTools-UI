@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 
-import { Card, Spin, notification, Input, Button } from 'antd';
+import { Form, Card, Spin, notification, Input, Button } from 'antd';
 
 import {
   refitFieldDecoratorOption,
@@ -35,7 +35,6 @@ const formItemLayout = {
   global,
   loading: loading.models.areaManage,
 }))
-@Form.create()
 class ResetPassword extends UpdateFormTab {
   componentAuthority = accessWayCollection.areaManage.resetPassword;
 

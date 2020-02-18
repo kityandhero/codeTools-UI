@@ -158,7 +158,6 @@ const BasicLayout = props => {
     <>
       <ProLayout
         logo={logo}
-        iconfontUrl="//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js"
         onCollapse={handleMenuCollapse}
         menuItemRender={(menuItemProps, defaultDom) => {
           if (menuItemProps.isUrl || menuItemProps.children) {

@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Transfer } from 'antd';
+import { Form, Transfer } from 'antd';
 
 import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
 
@@ -12,7 +10,6 @@ import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
   global,
   loading: loading.models.role,
 }))
-@Form.create()
 class UpdateAreaManageRoleModal extends ModalBase {
   constructor(props) {
     super(props);

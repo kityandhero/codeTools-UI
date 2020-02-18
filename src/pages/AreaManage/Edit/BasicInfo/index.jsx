@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
 
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 
-import { Card, Row, Col, Spin, notification, Input, Affix, Button, Divider } from 'antd';
+import { Form, Card, Row, Col, Spin, notification, Input, Affix, Button, Divider } from 'antd';
 
 import {
   refitFieldDecoratorOption,
@@ -28,7 +28,6 @@ const FormItem = Form.Item;
   global,
   loading: loading.models.areaManage,
 }))
-@Form.create()
 class BasicInfo extends UpdateFormTab {
   componentAuthority = accessWayCollection.areaManage.get;
 

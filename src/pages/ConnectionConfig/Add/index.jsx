@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Card, Button, Row, Col, Switch, Spin, notification, Affix } from 'antd';
+import { Form, Card, Button, Row, Col, Switch, Spin, notification, Affix } from 'antd';
 
 import { buildFieldHelper } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
@@ -17,7 +17,6 @@ import styles from './index.less';
   global,
   loading: loading.models.connectionConfig,
 }))
-@Form.create()
 class Index extends AddFormBase {
   componentAuthority = accessWayCollection.connectionConfig.add;
 

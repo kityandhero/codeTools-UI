@@ -1,6 +1,4 @@
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Tabs } from 'antd';
+import { Tabs, Form } from 'antd';
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import LoginContext from './LoginContext';
@@ -144,4 +142,5 @@ Login.defaultProps = {
 Object.keys(LoginItem).forEach(item => {
   Login[item] = LoginItem[item];
 });
+
 export default Form.create()(Login);

@@ -2,9 +2,20 @@ import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import moment from 'moment';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Row, Col, Dropdown, Menu, Button, Divider, notification, Modal, message } from 'antd';
+import {
+  Form,
+  Row,
+  Col,
+  Dropdown,
+  Menu,
+  Button,
+  Divider,
+  notification,
+  Modal,
+  message,
+} from 'antd';
 
 import {
   pretreatmentRequestParams,
@@ -25,7 +36,6 @@ const { confirm } = Modal;
   global,
   loading: loading.models.connectionConfig,
 }))
-@Form.create()
 class Index extends PagerList {
   componentAuthority = accessWayCollection.connectionConfig.list;
 

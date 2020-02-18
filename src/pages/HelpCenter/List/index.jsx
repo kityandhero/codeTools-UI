@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 import { List, Tag, Card, BackTop } from 'antd';
 
@@ -18,7 +18,6 @@ const logo = '/logo.png';
   global,
   loading: loading.models.areaHelpCategory,
 }))
-@Form.create()
 class ArticleList extends PagerList {
   constructor(props) {
     super(props);

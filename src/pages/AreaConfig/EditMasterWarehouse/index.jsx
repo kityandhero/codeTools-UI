@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Button, Spin, message, notification, Input } from 'antd';
+import { Form, Button, Spin, message, notification, Input } from 'antd';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
@@ -22,7 +22,6 @@ const fieldData = {
   warehouse,
   loading: loading.models.warehouse,
 }))
-@Form.create()
 class EditMasterWarehouse extends UpdateForm {
   componentAuthority = accessWayCollection.warehouse.getMaster;
 

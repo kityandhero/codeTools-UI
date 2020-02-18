@@ -1,7 +1,7 @@
 import React from 'react';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Switch, TimePicker, Button, Spin, notification } from 'antd';
+import { Form, Switch, TimePicker, Button, Spin, notification } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
 
@@ -25,7 +25,6 @@ const fieldLabels = {
   areaConfig,
   loading: loading.models.areaConfig,
 }))
-@Form.create()
 class ChangeOutStockTime extends UpdateForm {
   componentAuthority = accessWayCollection.areaConfig.get;
 

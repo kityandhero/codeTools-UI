@@ -1,8 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Button } from 'antd';
+import { Form, Button } from 'antd';
 import styles from './index.less';
 
 const FormItem = Form.Item;

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Input, Button, Spin, notification, message } from 'antd';
+import { Form, Input, Button, Spin, notification, message } from 'antd';
 import { connect } from 'dva';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '@/utils/tools';
@@ -21,7 +21,6 @@ const fieldLabels = {
   operator,
   loading: loading.models.operator,
 }))
-@Form.create()
 class Password extends UpdateForm {
   constructor(props) {
     super(props);

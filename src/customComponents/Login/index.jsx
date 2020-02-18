@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Tabs } from 'antd';
+import { Form, Tabs } from 'antd';
 import classNames from 'classnames';
 import LoginItem from './LoginItem';
 import LoginTab from './LoginTab';
@@ -60,11 +58,13 @@ class Login extends Component {
   };
 
   handleSubmit = e => {
+    console.log(e);
+    const { currentForm } = e;
     e.preventDefault();
     const { active, type } = this.state;
-    const { form, onSubmit } = this.props;
+    const { onSubmit } = this.props;
     const activeFileds = active[type];
-    form.validateFields(activeFileds, { force: true }, (err, values) => {
+    currentForm.validateFields(activeFileds, { force: true }, (err, values) => {
       onSubmit(err, values);
     });
   };
@@ -85,10 +85,13 @@ class Login extends Component {
         otherChildren.push(item);
       }
     });
+
+    //  const currentForm = Form.useForm();
+
     return (
       <LoginContext.Provider value={this.getContext()}>
         <div className={classNames(className, styles.login)}>
-          <Form onSubmit={this.handleSubmit}>
+          <Form noValidate onFinish={values => this.handleSubmit(values)}>
             {tabs.length ? (
               <>
                 <Tabs
@@ -131,4 +134,4 @@ Object.keys(LoginItem).forEach(item => {
   Login[item] = LoginItem[item];
 });
 
-export default Form.create()(Login);
+export default Login;

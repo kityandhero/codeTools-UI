@@ -1,7 +1,5 @@
 import React from 'react';
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Modal, Spin, message } from 'antd';
+import { Form, Modal, Spin, message } from 'antd';
 
 import { defaultFormState, pretreatmentRequestParams, isFunction } from '../../../../utils/tools';
 import CustomAuthorization from '../../CustomAuthorization';

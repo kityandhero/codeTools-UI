@@ -3,9 +3,7 @@ import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import router from 'umi/router';
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Input, Button, Select, Row, Col, Popover, Progress } from 'antd';
+import { Form, Input, Button, Select, Row, Col, Popover, Progress } from 'antd';
 import styles from './Register.less';
 
 const FormItem = Form.Item;
@@ -40,7 +38,6 @@ const passwordProgressMap = {
   register,
   submitting: loading.effects['register/submit'],
 }))
-@Form.create()
 class Register extends Component {
   constructor(props) {
     super(props);

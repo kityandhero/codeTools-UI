@@ -17,6 +17,7 @@ const {
   // Mobile,
   // Captcha,
   Submit,
+  login,
 } = Login;
 
 @connect(({ login, loading }) => ({
@@ -25,10 +26,14 @@ const {
   loading,
 }))
 class LoginPage extends Component {
-  state = {
-    type: 'account',
-    // autoLogin: true,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      type: 'account',
+      // autoLogin: true,
+    };
+  }
 
   onTabChange = type => {
     this.setState({ type });

@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 import {
+  Form,
   Row,
   Col,
   Button,
@@ -33,7 +34,6 @@ const { confirm } = Modal;
   global,
   loading: loading.models.areaManage,
 }))
-@Form.create()
 class Standard extends PagerList {
   componentAuthority = accessWayCollection.areaManage.list;
 

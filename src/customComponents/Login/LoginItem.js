@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Input, Button, Row, Col } from 'antd';
+import { Form, Input, Button, Row, Col } from 'antd';
 import omit from 'omit.js';
 import styles from './index.less';
 import ItemMap from './map';
@@ -70,10 +68,6 @@ class WrapFormItem extends Component {
   render() {
     const { count } = this.state;
 
-    const {
-      form: { getFieldDecorator },
-    } = this.props;
-
     // 这么写是为了防止restProps中 带入 onChange, defaultValue, rules props
     const {
       onChange,
@@ -88,17 +82,16 @@ class WrapFormItem extends Component {
       ...restProps
     } = this.props;
 
-    // get getFieldDecorator props
     const options = this.getFormItemOptions(this.props);
 
     const otherProps = restProps || {};
     if (type === 'Captcha') {
       const inputProps = omit(otherProps, ['onGetCaptcha', 'countDown']);
       return (
-        <FormItem>
+        <FormItem name={name} options={options}>
           <Row gutter={8}>
             <Col span={16}>
-              {getFieldDecorator(name, options)(<Input {...customprops} {...inputProps} />)}
+              <Input {...customprops} {...inputProps} />
             </Col>
             <Col span={8}>
               <Button
@@ -115,8 +108,8 @@ class WrapFormItem extends Component {
       );
     }
     return (
-      <FormItem>
-        {getFieldDecorator(name, options)(<Input {...customprops} {...otherProps} />)}
+      <FormItem name={name} options={options}>
+        <Input {...customprops} {...otherProps} />
       </FormItem>
     );
   }

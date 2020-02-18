@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
 import {
+  Form,
   Avatar, // Icon,
   Button, //   List,
   //    Tag,
@@ -24,7 +25,6 @@ const logo = '/logo.png';
   global,
   loading: loading.models.areaHelp,
 }))
-@Form.create()
 class ArticleContent extends LoadDataForm {
   constructor(props) {
     super(props);

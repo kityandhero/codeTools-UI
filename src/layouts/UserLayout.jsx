@@ -6,7 +6,7 @@ import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
 
 import defaultSettings from '../../config/defaultSettings'; // https://umijs.org/config/
-import SelectLang from '@/components/SelectLang';
+import SelectLang from '../components/SelectLang';
 
 import styles from './UserLayout.less';
 

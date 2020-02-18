@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Card, Button, Input, Spin, notification } from 'antd';
+import { Form, Card, Button, Input, Spin, notification } from 'antd';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
@@ -28,7 +28,6 @@ const formItemLayout = {
   global,
   loading: loading.models.areaManage,
 }))
-@Form.create()
 class Add extends AddFormBase {
   componentAuthority = accessWayCollection.areaManage.add;
 

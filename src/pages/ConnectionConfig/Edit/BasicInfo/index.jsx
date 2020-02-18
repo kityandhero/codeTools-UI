@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Card, Button, Row, Col, Input, Spin, BackTop, notification, Affix } from 'antd';
+import { Form, Card, Button, Row, Col, Input, Spin, BackTop, notification, Affix } from 'antd';
 
 import {
   formatDatetime,
@@ -26,7 +26,6 @@ const FormItem = Form.Item;
   global,
   loading: loading.models.connectionConfig,
 }))
-@Form.create()
 class Index extends TabPageBase {
   componentAuthority = accessWayCollection.connectionConfig.get;
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Input, Upload, Button, Spin, notification } from 'antd';
+import { Form, Input, Upload, Button, Spin, notification } from 'antd';
 import { connect } from 'dva';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '@/utils/tools';
@@ -66,7 +66,6 @@ const fieldLabels = {
   global,
   loading: loading.models.operator,
 }))
-@Form.create()
 class BaseView extends UpdateForm {
   constructor(props) {
     super(props);

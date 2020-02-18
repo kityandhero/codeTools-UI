@@ -1,8 +1,8 @@
 import React from 'react';
 import { routerRedux } from 'dva/router';
-import { Form, Icon as LegacyIcon } from '@ant-design/compatible';
+import { Icon as LegacyIcon } from '@ant-design/compatible';
 import '@ant-design/compatible/assets/index.css';
-import { Select, Radio, Input, InputNumber, DatePicker, message } from 'antd';
+import { Form, Select, Radio, Input, InputNumber, DatePicker, message } from 'antd';
 
 import {
   getDerivedStateFromPropsForUrlParams,

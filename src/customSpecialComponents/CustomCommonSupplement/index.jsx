@@ -1,7 +1,5 @@
 import React from 'react';
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Select } from 'antd';
+import { Form, Select } from 'antd';
 
 import {
   getDerivedStateFromPropsForUrlParams,
