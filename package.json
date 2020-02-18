@@ -6,48 +6,46 @@
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",
     "build": "umi build",
-    "deploy": "cross-env ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION=site npm run site && npm run gh-pages",
-    "fetch:blocks": "pro fetch-blocks",
-    "format-imports": "import-sort --write '**/*.{js,jsx,ts,tsx}'",
+    "deploy": "npm run site && npm run gh-pages",
+    "dev": "npm run start:dev",
+    "fetch:blocks": "pro fetch-blocks --branch antd@4 && npm run prettier",
+    "format-imports": "cross-env import-sort --write '**/*.{js,jsx,ts,tsx}'",
     "gh-pages": "cp CNAME ./dist/ && gh-pages -d dist",
     "i18n-remove": "pro i18n-remove --locale=zh-CN --write",
     "lint": "npm run lint:js && npm run lint:style && npm run lint:prettier",
     "lint-staged": "lint-staged",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
     "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src && npm run lint:style",
-    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./",
+    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
     "lint:prettier": "check-prettier lint",
     "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
     "prettier": "prettier -c --write \"**/*\"",
     "start": "set PORT=8101&&umi dev",
+    "start:dev": "cross-env REACT_APP_ENV=dev MOCK=none umi dev",
     "start:no-mock": "cross-env MOCK=none umi dev",
+    "start:no-ui": "cross-env UMI_UI=none umi dev",
+    "start:pre": "cross-env REACT_APP_ENV=pre umi dev",
+    "start:test": "cross-env REACT_APP_ENV=test MOCK=none umi dev",
     "test": "umi test",
     "test:all": "node ./tests/run-tests.js",
-    "test:component": "umi test ./src/components"
+    "test:component": "umi test ./src/components",
+    "tsc": "tsc",
+    "ui": "umi ui"
   },
   "husky": {
-    "hooks": {
-
-    }
+    "hooks": {}
   },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
-    "**/*.{js,jsx,tsx,ts,less,md,json}": [
-      "prettier --write",
-      "git add"
-    ],
-    "**/*.{js,jsx}": "npm run lint-staged:js",
-    "**/*.{js,ts,tsx}": "npm run lint-staged:js"
+    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
+    "**/*.{js,jsx,tsx,ts,less,md,json}": ["prettier --write"]
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 10"
-  ],
+  "browserslist": ["> 1%", "last 2 versions", "not ie <= 10"],
   "dependencies": {
     "@ant-design/compatible": "^0.0.1-rc.1",
-    "@ant-design/icons": "^2.1.1",
+    "@ant-design/icons": "^4.0.0-alpha.19",
     "@ant-design/pro-layout": "^5.0.2",
+    "@ant-design/pro-table": "^2.0.0",
     "@antv/data-set": "^0.11.1",
     "@antv/g2": "^3.5.12",
     "antd": "^4.0.0-rc.5",
@@ -84,10 +82,13 @@
     "react-router-dom": "^5.1.2",
     "react-zmage": "^0.8.5",
     "redux": "^4.0.5",
-    "umi": "^2.13.3",
-    "umi-plugin-pro-block": "^1.3.6",
-    "umi-plugin-react": "^1.15.2",
-    "umi-request": "^1.2.19",
+    "umi": "^2.13.0",
+    "umi-plugin-antd-icon-config": "^1.0.2",
+    "umi-plugin-antd-theme": "^1.0.1",
+    "umi-plugin-pro-block": "^1.3.2",
+    "umi-plugin-react": "^1.14.10",
+    "umi-request": "^1.0.8",
+    "use-merge-value": "^1.0.1",
     "uuid": "^3.4.0"
   },
   "devDependencies": {
@@ -108,6 +109,7 @@
     "cross-env": "^7.0.0",
     "cross-port-killer": "^1.2.1",
     "enzyme": "^3.11.0",
+    "express": "^4.17.1",
     "eslint": "^6.8.0",
     "gh-pages": "^2.2.0",
     "husky": "^4.2.3",
@@ -125,10 +127,10 @@
     "stylelint": "^13.2.0",
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-standard": "^20.0.0",
+    "umi-plugin-antd-icon-config": "^1.0.3",
     "umi-plugin-ga": "^1.1.5",
     "umi-plugin-pro": "^1.0.2",
-    "umi-types": "^0.5.12",
-    "webpack-theme-color-replacer": "^1.3.3"
+    "umi-types": "^0.5.12"
   },
   "optionalDependencies": {
     "puppeteer": "^2.1.1"

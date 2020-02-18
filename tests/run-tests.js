@@ -2,11 +2,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable eslint-comments/no-unlimited-disable */
 const { spawn } = require('child_process');
+// eslint-disable-next-line import/no-extraneous-dependencies
 const { kill } = require('cross-port-killer');
 
 const env = Object.create(process.env);
 env.BROWSER = 'none';
 env.TEST = true;
+env.UMI_UI = 'none';
+env.PROGRESS = 'none';
 // flag to prevent multiple test
 let once = false;
 
@@ -23,10 +26,8 @@ startServer.on('exit', () => {
   kill(process.env.PORT || 8000);
 });
 
-// eslint-disable-next-line no-console
 console.log('Starting development server for e2e tests...');
 startServer.stdout.on('data', data => {
-  // eslint-disable-next-line no-console
   console.log(data.toString());
   // hack code , wait umi
   if (
@@ -35,7 +36,6 @@ startServer.stdout.on('data', data => {
   ) {
     // eslint-disable-next-line
     once = true;
-    // eslint-disable-next-line no-console
     console.log('Development server is started, ready to run tests.');
     const testCmd = spawn(
       /^win/.test(process.platform) ? 'npm.cmd' : 'npm',

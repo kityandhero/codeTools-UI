@@ -1,41 +1,12 @@
 import { DefaultFooter, getMenuData, getPageTitle } from '@ant-design/pro-layout';
-import DocumentTitle from 'react-document-title';
-import Link from 'umi/link';
+import { Helmet } from 'react-helmet';
+import { Link } from 'umi';
 import React from 'react';
-import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
-
-import defaultSettings from '../../config/defaultSettings'; // https://umijs.org/config/
-import SelectLang from '../components/SelectLang';
-
+import { connect } from 'dva';
+import SelectLang from '@/components/SelectLang';
+import logo from '../assets/logo.svg';
 import styles from './UserLayout.less';
-
-const links = [
-  {
-    key: 'help',
-    title: formatMessage({ id: 'layout.user.link.help' }),
-    href: '/index.html#/user/login',
-  },
-  {
-    key: 'privacy',
-    title: formatMessage({ id: 'layout.user.link.privacy' }),
-    href: '/index.html#/user/login',
-  },
-  {
-    key: 'terms',
-    title: formatMessage({ id: 'layout.user.link.terms' }),
-    href: '/index.html#/user/login',
-  },
-];
-
-const copyright = (
-  <>
-    2018 {defaultSettings.getPlatformName()}体验技术部出品{' '}
-    <a href="http://www.beian.miit.gov.cn" without="true" rel="noopener noreferrer" target="_blank">
-      豫ICP备15014426号
-    </a>
-  </>
-);
 
 const UserLayout = props => {
   const {
@@ -50,18 +21,20 @@ const UserLayout = props => {
       pathname: '',
     },
   } = props;
-
   const { breadcrumb } = getMenuData(routes);
-
+  const title = getPageTitle({
+    pathname: location.pathname,
+    formatMessage,
+    breadcrumb,
+    ...props,
+  });
   return (
-    <DocumentTitle
-      title={getPageTitle({
-        pathname: location.pathname,
-        breadcrumb,
-        formatMessage,
-        ...props,
-      })}
-    >
+    <>
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={title} />
+      </Helmet>
+
       <div className={styles.container}>
         <div className={styles.lang}>
           <SelectLang />
@@ -70,19 +43,17 @@ const UserLayout = props => {
           <div className={styles.top}>
             <div className={styles.header}>
               <Link to="/">
-                <img alt="logo" className={styles.logo} src={defaultSettings.getLoginLogo()} />
-                <span className={styles.title}>
-                  {defaultSettings.getPlatformName()} 商城管理系统
-                </span>
+                <img alt="logo" className={styles.logo} src={logo} />
+                <span className={styles.title}>Ant Design</span>
               </Link>
             </div>
-            <div className={styles.desc}>聚焦优质产品，提供优质服务，把健康带给您！</div>
+            <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
           </div>
           {children}
         </div>
-        <DefaultFooter links={links} copyright={copyright} />
+        <DefaultFooter />
       </div>
-    </DocumentTitle>
+    </>
   );
 };
 

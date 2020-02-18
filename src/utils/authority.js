@@ -1,6 +1,8 @@
 import accessWayCollection from '../customConfig/accessWayCollection';
 import { getStringFromLocalStorage, saveJsonToLocalStorage, isArray } from './tools';
 
+import { reloadAuthorized } from './Authorized'; // u
+
 // use localStorage to store the authority info, which might be sent from server in actual project.
 export function getAuthority(str) {
   // return getStringFromLocalStorage('antd-pro-authority') || ['admin', 'user'];
@@ -8,8 +10,11 @@ export function getAuthority(str) {
     typeof str === 'undefined' ? getStringFromLocalStorage('antd-pro-authority') : str;
   // authorityString could be admin, "admin", ["admin"]
   let authority;
+
   try {
-    authority = JSON.parse(authorityString);
+    if (authorityString) {
+      authority = JSON.parse(authorityString);
+    }
   } catch (e) {
     authority = authorityString;
   }
@@ -17,6 +22,11 @@ export function getAuthority(str) {
   if (typeof authority === 'string') {
     return [authority];
   }
+
+  if (!authority && ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site') {
+    return ['admin'];
+  }
+
   return authority || ['admin'];
 }
 
@@ -58,5 +68,8 @@ export function checkHasAuthority(auth) {
 
 export function setAuthority(authority) {
   const proAuthority = typeof authority === 'string' ? [authority] : authority;
-  return saveJsonToLocalStorage('antd-pro-authority', proAuthority);
+  saveJsonToLocalStorage('antd-pro-authority', proAuthority);
+
+  // auto reload
+  reloadAuthorized();
 }

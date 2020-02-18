@@ -1,170 +1,112 @@
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import { BellOutlined } from '@ant-design/icons';
 import { Badge, Spin, Tabs } from 'antd';
-import React, { Component } from 'react';
+import useMergeValue from 'use-merge-value';
+import React from 'react';
 import classNames from 'classnames';
-
 import NoticeList from './NoticeList';
 import HeaderDropdown from '../HeaderDropdown';
-
 import styles from './index.less';
-
 const { TabPane } = Tabs;
-class NoticeIcon extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      visible: false,
-    };
-  }
 
-  onItemClick = (item, tabProps) => {
-    const { onItemClick } = this.props;
-
-    if (onItemClick) {
-      onItemClick(item, tabProps);
-    }
-  };
-
-  onClear = (name, key) => {
-    const { onClear } = this.props;
-
-    if (onClear) {
-      onClear(name, key);
-    }
-  };
-
-  onTabChange = tabType => {
-    const { onTabChange } = this.props;
-
-    if (onTabChange) {
-      onTabChange(tabType);
-    }
-  };
-
-  onViewMore = (tabProps, event) => {
-    const { onViewMore } = this.props;
-
-    if (onViewMore) {
-      onViewMore(tabProps, event);
-    }
-  };
-
-  getNotificationBox() {
-    const { children, loading, clearText, viewMoreText } = this.props;
+const NoticeIcon = props => {
+  const getNotificationBox = () => {
+    const {
+      children,
+      loading,
+      onClear,
+      onTabChange,
+      onItemClick,
+      onViewMore,
+      clearText,
+      viewMoreText,
+    } = props;
 
     if (!children) {
       return null;
     }
 
-    const panes = React.Children.map(children, child => {
+    const panes = [];
+    React.Children.forEach(children, child => {
       if (!child) {
-        return null;
+        return;
       }
 
       const { list, title, count, tabKey, showClear, showViewMore } = child.props;
       const len = list && list.length ? list.length : 0;
       const msgCount = count || count === 0 ? count : len;
       const tabTitle = msgCount > 0 ? `${title} (${msgCount})` : title;
-      return (
-        <TabPane tab={tabTitle} key={title}>
+      panes.push(
+        <TabPane tab={tabTitle} key={tabKey}>
           <NoticeList
             clearText={clearText}
             viewMoreText={viewMoreText}
             data={list}
-            onClear={() => this.onClear(title, tabKey)}
-            onClick={item => this.onItemClick(item, child.props)}
-            onViewMore={event => this.onViewMore(child.props, event)}
+            onClear={() => onClear && onClear(title, tabKey)}
+            onClick={item => onItemClick && onItemClick(item, child.props)}
+            onViewMore={event => onViewMore && onViewMore(child.props, event)}
             showClear={showClear}
             showViewMore={showViewMore}
             title={title}
             {...child.props}
           />
-        </TabPane>
+        </TabPane>,
       );
     });
     return (
-      <>
-        <Spin spinning={loading} delay={300}>
-          <Tabs className={styles.tabs} onChange={this.onTabChange}>
-            {panes}
-          </Tabs>
-        </Spin>
-      </>
+      <Spin spinning={loading} delay={300}>
+        <Tabs className={styles.tabs} onChange={onTabChange}>
+          {panes}
+        </Tabs>
+      </Spin>
     );
-  }
-
-  handleVisibleChange = visible => {
-    const { onPopupVisibleChange } = this.props;
-    this.setState({
-      visible,
-    });
-
-    if (onPopupVisibleChange) {
-      onPopupVisibleChange(visible);
-    }
   };
 
-  static Tab = NoticeList;
-
-  render() {
-    const { className, count, popupVisible, bell } = this.props;
-    const { visible } = this.state;
-    const noticeButtonClass = classNames(className, styles.noticeButton);
-    const notificationBox = this.getNotificationBox();
-    const NoticeBellIcon = bell || <LegacyIcon type="bell" className={styles.icon} />;
-    const trigger = (
-      <span
-        className={classNames(noticeButtonClass, {
-          opened: visible,
-        })}
+  const { className, count, bell } = props;
+  const [visible, setVisible] = useMergeValue(false, {
+    value: props.popupVisible,
+    onChange: props.onPopupVisibleChange,
+  });
+  const noticeButtonClass = classNames(className, styles.noticeButton);
+  const notificationBox = getNotificationBox();
+  const NoticeBellIcon = bell || <BellOutlined className={styles.icon} />;
+  const trigger = (
+    <span
+      className={classNames(noticeButtonClass, {
+        opened: visible,
+      })}
+    >
+      <Badge
+        count={count}
+        style={{
+          boxShadow: 'none',
+        }}
+        className={styles.badge}
       >
-        <Badge
-          count={count}
-          style={{
-            boxShadow: 'none',
-          }}
-          className={styles.badge}
-        >
-          {NoticeBellIcon}
-        </Badge>
-      </span>
-    );
+        {NoticeBellIcon}
+      </Badge>
+    </span>
+  );
 
-    if (!notificationBox) {
-      return trigger;
-    }
-
-    const popoverProps = {};
-
-    if ('popupVisible' in this.props) {
-      popoverProps.visible = popupVisible;
-    }
-
-    return (
-      <HeaderDropdown
-        placement="bottomRight"
-        overlay={notificationBox}
-        overlayClassName={styles.popover}
-        trigger={['click']}
-        visible={visible}
-        onVisibleChange={this.handleVisibleChange}
-        {...popoverProps}
-      >
-        {trigger}
-      </HeaderDropdown>
-    );
+  if (!notificationBox) {
+    return trigger;
   }
-}
 
-NoticeIcon.defaultProps = {
-  onItemClick: () => {},
-  onPopupVisibleChange: () => {},
-  onTabChange: () => {},
-  onClear: () => {},
-  onViewMore: () => {},
-  loading: false,
-  clearClose: false,
-  emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
+  return (
+    <HeaderDropdown
+      placement="bottomRight"
+      overlay={notificationBox}
+      overlayClassName={styles.popover}
+      trigger={['click']}
+      visible={visible}
+      onVisibleChange={setVisible}
+    >
+      {trigger}
+    </HeaderDropdown>
+  );
 };
 
+NoticeIcon.defaultProps = {
+  emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
+};
+NoticeIcon.Tab = NoticeList;
 export default NoticeIcon;

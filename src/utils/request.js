@@ -6,7 +6,12 @@ import {
 import router from 'umi/router';
 import hash from 'hash.js';
 
-import { useVirtualAccess, getTokenKeyName, corsTarget, getToken } from './tools';
+import {
+  // useVirtualAccess,
+  getTokenKeyName,
+  corsTarget,
+  getToken,
+} from './tools';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -78,7 +83,8 @@ export function request(urlParam, option) {
   };
 
   const corsUrl = corsTarget();
-  const url = useVirtualAccess() ? urlParam : `${corsUrl}${urlParam}`;
+  // const url = useVirtualAccess() ? urlParam : `${corsUrl}${urlParam}`;
+  const url = `${corsUrl}${urlParam}`;
 
   /**
    * Produce fingerprints based on url and parameters

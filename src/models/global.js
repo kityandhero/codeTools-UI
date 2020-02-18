@@ -120,7 +120,7 @@ const GlobalModel = {
         payload: data,
       });
       const unreadCount = yield select(
-        state => state.global.notices.filter(item => !item.read).length
+        state => state.global.notices.filter(item => !item.read).length,
       );
       yield put({
         type: 'user/changeNotifyCount',
@@ -137,7 +137,7 @@ const GlobalModel = {
       });
       const count = yield select(state => state.global.notices.length);
       const unreadCount = yield select(
-        state => state.global.notices.filter(item => !item.read).length
+        state => state.global.notices.filter(item => !item.read).length,
       );
       yield put({
         type: 'user/changeNotifyCount',
@@ -157,7 +157,7 @@ const GlobalModel = {
           }
 
           return notice;
-        })
+        }),
       );
       yield put({
         type: 'saveNotices',
@@ -169,12 +169,6 @@ const GlobalModel = {
           totalCount: notices.length,
           unreadCount: notices.filter(item => !item.read).length,
         },
-      });
-    },
-    *setAreaDistributionTempData({ payload }, { put }) {
-      yield put({
-        type: 'changeAreaDistributionTempData',
-        payload,
       });
     },
   },
@@ -224,7 +218,7 @@ const GlobalModel = {
         notices: [],
         collapsed: true,
       },
-      { payload }
+      { payload },
     ) {
       return { ...state, collapsed: payload };
     },
@@ -240,7 +234,7 @@ const GlobalModel = {
         notices: [],
         collapsed: true,
       },
-      { payload }
+      { payload },
     ) {
       return {
         collapsed: false,
@@ -259,7 +253,7 @@ const GlobalModel = {
   subscriptions: {
     setup({ history }) {
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
-      return history.listen(({ pathname, search }) => {
+      history.listen(({ pathname, search }) => {
         if (typeof window.ga !== 'undefined') {
           window.ga('send', 'pageview', pathname + search);
         }

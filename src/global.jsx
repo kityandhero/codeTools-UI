@@ -78,14 +78,26 @@ if (pwa) {
     });
   });
 } else if ('serviceWorker' in navigator) {
-  // eslint-disable-next-line compat/compat
-  navigator.serviceWorker.ready
-    .then(registration => {
-      registration.unregister();
-      return true;
-    })
-    .catch(() => {
-      // eslint-disable-next-line no-console
-      console.log('serviceWorker unregister error');
+  // unregister service worker
+  const { serviceWorker } = navigator;
+
+  if (serviceWorker.getRegistrations) {
+    serviceWorker.getRegistrations().then(sws => {
+      sws.forEach(sw => {
+        sw.unregister();
+      });
     });
+  }
+
+  serviceWorker.getRegistration().then(sw => {
+    if (sw) sw.unregister();
+  }); // remove all caches
+
+  if (window.caches && window.caches.keys) {
+    caches.keys().then(keys => {
+      keys.forEach(key => {
+        caches.delete(key);
+      });
+    });
+  }
 }

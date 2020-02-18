@@ -1,10 +1,10 @@
-import { routerRedux } from 'dva/router';
+import { router } from 'umi';
 import { message } from 'antd';
-import { stringify } from 'qs';
+import { stringify } from 'querystring';
 import { accountLogin, getFakeCaptcha } from '../services/api';
 import { setAuthority } from '../utils/authority';
-// import { getPageQuery } from '@/utils/utils';
-import { reloadAuthorized } from '../utils/Authorized';
+import { getPageQuery } from '../utils/utils';
+
 import { pretreatmentRemoteSingleData, setToken, clearCustomData } from '../utils/tools';
 
 export default {
@@ -25,26 +25,31 @@ export default {
           type: 'changeLoginStatus',
           payload: data,
         });
-        reloadAuthorized();
 
-        // const urlParams = new URL(window.location.href);
-        // const params = getPageQuery();
-        // let { redirect } = params;
+        console.log(response);
 
-        // if (redirect) {
-        //   const redirectUrlParams = new URL(redirect);
-        //   if (redirectUrlParams.origin === urlParams.origin) {
-        //     redirect = redirect.substr(urlParams.origin.length);
-        //     if (redirect.startsWith('/#')) {
-        //       redirect = redirect.substr(2);
-        //     }
-        //   } else {
-        //     window.location.href = redirect;
-        //     return;
-        //   }
-        // }
-        // yield put(routerRedux.replace(redirect || '/'));
-        yield put(routerRedux.replace('/'));
+        if (response.code === 200) {
+          const urlParams = new URL(window.location.href);
+          const params = getPageQuery();
+          let { redirect } = params;
+
+          if (redirect) {
+            const redirectUrlParams = new URL(redirect);
+
+            if (redirectUrlParams.origin === urlParams.origin) {
+              redirect = redirect.substr(urlParams.origin.length);
+
+              if (redirect.match(/^\/.*#/)) {
+                redirect = redirect.substr(redirect.indexOf('#') + 1);
+              }
+            } else {
+              window.location.href = '/';
+              return;
+            }
+          }
+
+          router.replace(redirect || '/');
+        }
       }
     },
 
@@ -57,12 +62,12 @@ export default {
         type: 'changeLoginOutStatus',
       });
       yield put(
-        routerRedux.push({
+        router.replace({
           pathname: '/user/login',
           search: stringify({
             redirect: window.location.href,
           }),
-        })
+        }),
       );
     },
   },

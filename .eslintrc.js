@@ -1,20 +1,9 @@
-const { strictEslint } = require('@umijs/fabric');
-
 module.exports = {
-  ...strictEslint,
-  parser: 'babel-eslint',
-  extends: ['airbnb', 'prettier', 'plugin:compat/recommended'],
-  env: {
-    browser: true,
-    node: true,
-    es6: true,
-    mocha: true,
-    jest: true,
-    jasmine: true,
-  },
+  extends: [require.resolve('@umijs/fabric/dist/eslint'), 'prettier', 'plugin:compat/recommended'],
   globals: {
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: true,
     page: true,
+    REACT_APP_ENV: true,
   },
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js'] }],
@@ -38,8 +27,5 @@ module.exports = {
     'no-use-before-define': 0,
     'no-nested-ternary': 0,
     'compat/compat': 0,
-  },
-  settings: {
-    polyfills: ['fetch', 'promises', 'url'],
   },
 };

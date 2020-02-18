@@ -4,104 +4,79 @@
  * https://github.com/ant-design/ant-design-pro-layout
  */
 import React, { useEffect } from 'react';
-import Link from 'umi/link';
+import { Link } from 'umi';
 import { connect } from 'dva';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import ProLayout, { SettingDrawer } from '@ant-design/pro-layout';
-import GlobalFooter from '@ant-design/pro-layout/lib/GlobalFooter';
+import { GithubOutlined } from '@ant-design/icons';
+import { Result, Button } from 'antd';
+import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
 
-import defaultSettings from '../../config/defaultSettings'; // https://umijs.org/config/
 import Authorized from '../utils/Authorized';
 import RightContent from '../components/GlobalHeader/RightContent';
-import { isAntDesignPro } from '../utils/utils';
+import { isAntDesignPro, getAuthorityFromRouter } from '../utils/utils';
 import { getQueue } from '../utils/tools';
+import defaultSettings from '../../config/defaultSettings'; // https://umijs.org/config/
 
-import styles from './BasicLayout.less';
+// import styles from './BasicLayout.less';
 
 const logo = defaultSettings.getShareLogo();
+
+const noMatch = (
+  <Result
+    status="403"
+    title="403"
+    subTitle="Sorry, you are not authorized to access this page."
+    extra={
+      <Button type="primary">
+        <Link to="/user/login">Go Login</Link>
+      </Button>
+    }
+  />
+);
 
 /**
  * use Authorized check all menu item
  */
-const menuDataRender = menuList => {
-  return menuList.map(item => {
+const menuDataRender = menuList =>
+  menuList.map(item => {
     const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
     return Authorized.check(item.authority, localItem, null);
   });
-};
 
-const footerRender = (_, defaultDom) => {
+const defaultFooterDom = (
+  <DefaultFooter
+    copyright="2019 蚂蚁金服体验技术部出品"
+    links={[
+      {
+        key: 'Ant Design Pro',
+        title: 'Ant Design Pro',
+        href: 'https://pro.ant.design',
+        blankTarget: true,
+      },
+      {
+        key: 'github',
+        title: <GithubOutlined />,
+        href: 'https://github.com/ant-design/ant-design-pro',
+        blankTarget: true,
+      },
+      {
+        key: 'Ant Design',
+        title: 'Ant Design',
+        href: 'https://ant.design',
+        blankTarget: true,
+      },
+    ]}
+  />
+);
+
+const footerRender = () => {
   if (!isAntDesignPro()) {
-    return (
-      <GlobalFooter
-        className={styles.containorBox}
-        links={[
-          {
-            key: 'dataCenter',
-            title: (
-              <>
-                <LegacyIcon type="dashboard" />
-                <span className={styles.footerLinkTitle}>数据中心</span>
-              </>
-            ),
-            href: '/#/dashboard/analysis',
-          },
-          {
-            key: 'product',
-            title: (
-              <>
-                <LegacyIcon type="shop" />
-                <span className={styles.footerLinkTitle}>商品管理</span>
-              </>
-            ),
-            href: '/#/product/list',
-          },
-          {
-            key: 'order',
-            title: (
-              <>
-                <LegacyIcon type="shopping-cart" />
-                <span className={styles.footerLinkTitle}>订单管理</span>
-              </>
-            ),
-            href: '/#/order/payment',
-          },
-          {
-            key: 'orderProcessing',
-            title: (
-              <>
-                <LegacyIcon type="reconciliation" />
-                <span className={styles.footerLinkTitle}>订单处理</span>
-              </>
-            ),
-            href: '/#/orderProcessing/list/1/waitDeliver',
-          },
-          {
-            key: 'user',
-            title: (
-              <>
-                <LegacyIcon type="team" />
-                <span className={styles.footerLinkTitle}>用户管理</span>
-              </>
-            ),
-            href: '/#/person/listRegUser',
-          },
-        ]}
-        copyright={
-          <>
-            Copyright <LegacyIcon type="copyright" /> 2018 {defaultSettings.getCompanyName()}
-          </>
-        }
-      />
-    );
-
-    // return defaultDom;
+    return defaultFooterDom;
   }
 
   return (
     <>
-      {defaultDom}
+      {defaultFooterDom}
       <div
         style={{
           padding: '0px 24px 24px',
@@ -120,8 +95,105 @@ const footerRender = (_, defaultDom) => {
   );
 };
 
+// const footerRender = (_, defaultDom) => {
+//   if (!isAntDesignPro()) {
+//     return (
+//       <GlobalFooter
+//         className={styles.containorBox}
+//         links={[
+//           {
+//             key: 'dataCenter',
+//             title: (
+//               <>
+//                 <LegacyIcon type="dashboard" />
+//                 <span className={styles.footerLinkTitle}>数据中心</span>
+//               </>
+//             ),
+//             href: '/#/dashboard/analysis',
+//           },
+//           {
+//             key: 'product',
+//             title: (
+//               <>
+//                 <LegacyIcon type="shop" />
+//                 <span className={styles.footerLinkTitle}>商品管理</span>
+//               </>
+//             ),
+//             href: '/#/product/list',
+//           },
+//           {
+//             key: 'order',
+//             title: (
+//               <>
+//                 <LegacyIcon type="shopping-cart" />
+//                 <span className={styles.footerLinkTitle}>订单管理</span>
+//               </>
+//             ),
+//             href: '/#/order/payment',
+//           },
+//           {
+//             key: 'orderProcessing',
+//             title: (
+//               <>
+//                 <LegacyIcon type="reconciliation" />
+//                 <span className={styles.footerLinkTitle}>订单处理</span>
+//               </>
+//             ),
+//             href: '/#/orderProcessing/list/1/waitDeliver',
+//           },
+//           {
+//             key: 'user',
+//             title: (
+//               <>
+//                 <LegacyIcon type="team" />
+//                 <span className={styles.footerLinkTitle}>用户管理</span>
+//               </>
+//             ),
+//             href: '/#/person/listRegUser',
+//           },
+//         ]}
+//         copyright={
+//           <>
+//             Copyright <LegacyIcon type="copyright" /> 2018 {defaultSettings.getCompanyName()}
+//           </>
+//         }
+//       />
+//     );
+
+//     // return defaultDom;
+//   }
+
+//   return (
+//     <>
+//       {defaultDom}
+//       <div
+//         style={{
+//           padding: '0px 24px 24px',
+//           textAlign: 'center',
+//         }}
+//       >
+//         <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">
+//           <img
+//             src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"
+//             width="82px"
+//             alt="netlify logo"
+//           />
+//         </a>
+//       </div>
+//     </>
+//   );
+// };
+
 const BasicLayout = props => {
-  const { dispatch, children, settings, setSetting } = props;
+  const {
+    dispatch,
+    children,
+    settings,
+    location = {
+      pathname: '/',
+    },
+    // setSetting
+  } = props;
   /**
    * constructor
    */
@@ -145,22 +217,35 @@ const BasicLayout = props => {
    * init variables
    */
 
-  const handleMenuCollapse = payload =>
-    dispatch &&
-    dispatch({
-      type: 'global/changeLayoutCollapsed',
-      payload,
-    });
+  const handleMenuCollapse = payload => {
+    if (dispatch) {
+      dispatch({
+        type: 'global/changeLayoutCollapsed',
+        payload,
+      });
+    }
+  }; // get children authority
 
   getQueue();
+
+  const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
+    authority: undefined,
+  };
 
   return (
     <>
       <ProLayout
         logo={logo}
+        formatMessage={formatMessage}
+        menuHeaderRender={(logoDom, titleDom) => (
+          <Link to="/">
+            {logoDom}
+            {titleDom}
+          </Link>
+        )}
         onCollapse={handleMenuCollapse}
         menuItemRender={(menuItemProps, defaultDom) => {
-          if (menuItemProps.isUrl || menuItemProps.children) {
+          if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
             return defaultDom;
           }
 
@@ -169,10 +254,7 @@ const BasicLayout = props => {
         breadcrumbRender={(routers = []) => [
           {
             path: '/',
-            breadcrumbName: formatMessage({
-              id: 'menu.home',
-              defaultMessage: 'Home',
-            }),
+            breadcrumbName: '首页',
           },
           ...routers,
         ]}
@@ -186,18 +268,19 @@ const BasicLayout = props => {
         }}
         footerRender={footerRender}
         menuDataRender={menuDataRender}
-        formatMessage={formatMessage}
-        rightContentRender={rightProps => <RightContent {...rightProps} />}
+        rightContentRender={() => <RightContent />}
         {...props}
         {...settings}
       >
-        {children}
+        <Authorized authority={authorized.authority} noMatch={noMatch}>
+          {children}
+        </Authorized>
       </ProLayout>
-      <SettingDrawer
+      {/* <SettingDrawer
         getContainer={() => document.getElementById('test')}
         settings={settings}
         onSettingChange={setSetting}
-      />
+      /> */}
     </>
   );
 };

@@ -1,17 +1,19 @@
 import slash from 'slash2';
+
+import themePluginConfig from './themePluginConfig';
+import proxy from './proxy';
 import defaultSettings from './defaultSettings'; // https://umijs.org/config/
 import pageRoutes from './router.config';
-import webpackPlugin from './plugin.config';
 
-const { pwa, primaryColor } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
+const { pwa } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
-const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
+const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, REACT_APP_ENV } = process.env;
 const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
 const plugins = [
+  ['umi-plugin-antd-icon-config', {}],
   [
     'umi-plugin-react',
-    // ['umi-plugin-antd-icon-config', {}],
     {
       antd: true,
       dva: {
@@ -63,33 +65,19 @@ if (isAntDesignProPreview) {
       code: 'UA-72788897-6',
     },
   ]);
-  plugins.push([
-    'umi-plugin-pro',
-    {
-      serverUrl: 'https://ant-design-pro.netlify.com',
-    },
-  ]);
+  plugins.push(['umi-plugin-antd-theme', themePluginConfig]);
 }
 
 export default {
   plugins,
-  block: {
-    defaultGitUrl: 'https://github.com/ant-design/pro-blocks',
-  },
   hash: true,
   targets: {
     ie: 11,
   },
-  devtool: isAntDesignProPreview ? 'source-map' : false,
-  // umi routes: https://umijs.org/zh/guide/router.html
-  // 路由配置
   routes: pageRoutes,
-  // Theme for antd: https://ant.design/docs/react/customize-theme-cn
-  theme: {
-    'primary-color': primaryColor,
-  },
   history: 'hash',
   define: {
+    REACT_APP_ENV: REACT_APP_ENV || false,
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
       ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '', // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
   },
@@ -126,13 +114,7 @@ export default {
   manifest: {
     basePath: '/',
   },
-  chainWebpack: webpackPlugin,
-  context: {
-    buildDataVersion: () => {
-      // metaData数据缓存版本,每一版本有效期30分钟
-      return `${parseInt(new Date().getTime() / 1000 / 60 / 30, 10)}`;
-    },
-  },
+  proxy: proxy[REACT_APP_ENV || 'dev'],
   /*
   proxy: {
     '/server/api/': {
