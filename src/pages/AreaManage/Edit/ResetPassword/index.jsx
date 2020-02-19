@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
+import { ContactsOutlined, FormOutlined, SaveOutlined } from '@ant-design/icons';
 
 import { Form, Card, Spin, notification, Input, Button } from 'antd';
 
@@ -114,7 +112,7 @@ class ResetPassword extends UpdateFormTab {
         <Card
           title={
             <>
-              <LegacyIcon type="contacts" />
+              <ContactsOutlined />
               <span className={styles.cardTitle}>重置密码</span>
             </>
           }
@@ -136,7 +134,7 @@ class ResetPassword extends UpdateFormTab {
                   }),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="form" />}
+                    addonBefore={<FormOutlined />}
                     type="password"
                     placeholder={buildFieldDescription(fieldData.password)}
                   />,
@@ -155,7 +153,7 @@ class ResetPassword extends UpdateFormTab {
                   }),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="form" />}
+                    addonBefore={<FormOutlined />}
                     type="password"
                     placeholder={buildFieldDescription(fieldData.rePassword)}
                   />,
@@ -173,7 +171,7 @@ class ResetPassword extends UpdateFormTab {
               >
                 <Button
                   type="primary"
-                  icon={<LegacyIcon type="save" />}
+                  icon={<SaveOutlined />}
                   disabled={
                     processing || !this.checkAuthority(accessWayCollection.areaManage.resetPassword)
                   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Row, Col, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 import { isFunction, trim, replace } from '../../utils/tools';
 import defaultSettings from '../../../config/defaultSettings';
@@ -186,7 +186,7 @@ class ImageBox extends CustomBase {
 
           {showMode === 'loading' ? (
             <div>
-              <Spin indicator={<LegacyIcon type="loading" style={{ fontSize: 18 }} spin />} />
+              <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} />
             </div>
           ) : null}
 
@@ -194,7 +194,7 @@ class ImageBox extends CustomBase {
             <div className={classNames(styles.overlayBox, styles.overlayLoading)}>
               <div className={styles.loadingBoxInner}>
                 <div>
-                  <Spin indicator={<LegacyIcon type="loading" style={{ fontSize: 18 }} spin />} />
+                  <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} />
                 </div>
               </div>
             </div>

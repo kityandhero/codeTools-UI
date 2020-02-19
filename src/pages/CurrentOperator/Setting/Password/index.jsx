@@ -1,8 +1,7 @@
 import React from 'react';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
 import { Form, Input, Button, Spin, notification, message } from 'antd';
 import { connect } from 'dva';
+import { KeyOutlined, SaveOutlined } from '@ant-design/icons';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '@/utils/tools';
 import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
@@ -108,7 +107,7 @@ class Password extends UpdateForm {
                   }),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="key" />}
+                    addonBefore={<KeyOutlined />}
                     style={{ maxWidth: 220 }}
                     placeholder={buildFieldDescription(fieldLabels.originalWord)}
                   />,
@@ -127,7 +126,7 @@ class Password extends UpdateForm {
                   }),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="key" />}
+                    addonBefore={<KeyOutlined />}
                     placeholder={buildFieldDescription(fieldLabels.newWord)}
                   />,
                 )}
@@ -145,14 +144,14 @@ class Password extends UpdateForm {
                   }),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="key" />}
+                    addonBefore={<KeyOutlined />}
                     placeholder={buildFieldDescription(fieldLabels.reNewWord)}
                   />,
                 )}
               </FormItem>
               <Button
                 type="primary"
-                icon={<LegacyIcon type="save" />}
+                icon={<SaveOutlined />}
                 onClick={this.validate}
                 loading={processing}
                 disabled={processing}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Transfer } from 'antd';
+import { Transfer } from 'antd';
 
 import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
 

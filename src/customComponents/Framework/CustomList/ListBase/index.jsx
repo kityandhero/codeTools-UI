@@ -1,7 +1,6 @@
 import React from 'react';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
 import { Form, Row, Col, Card, Button, DatePicker, BackTop, Divider } from 'antd';
+import { SearchOutlined, ReloadOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import { defaultListState, buildFieldDescription } from '../../../../utils/tools';
@@ -81,18 +80,13 @@ class SingleList extends CustomAuthorization {
     return (
       <Col md={ColMd} sm={24}>
         <span className={styles.submitButtons}>
-          <Button
-            loading={searching}
-            type="primary"
-            icon={<LegacyIcon type="search" />}
-            htmlType="submit"
-          >
+          <Button loading={searching} type="primary" icon={<SearchOutlined />} htmlType="submit">
             查询
           </Button>
           <Button
             loading={reloading}
             style={{ marginLeft: 8 }}
-            icon={<LegacyIcon type="reload" />}
+            icon={<ReloadOutlined />}
             onClick={() => {
               this.handleFormReset();
             }}
@@ -103,7 +97,7 @@ class SingleList extends CustomAuthorization {
           <Button
             loading={refreshing}
             className={styles.searchButtonMarginLeft}
-            icon={<LegacyIcon type="reload" />}
+            icon={<ReloadOutlined />}
             onClick={() => {
               if (!this.checkWorkDoing()) {
                 this.refreshData();

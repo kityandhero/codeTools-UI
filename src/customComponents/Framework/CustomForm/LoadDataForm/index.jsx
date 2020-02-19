@@ -1,6 +1,6 @@
 import React from 'react';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { BackTop, Button, Avatar, Dropdown, Popconfirm, Menu, Tooltip, message } from 'antd';
+import { PlusOutlined, EllipsisOutlined, ReloadOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import { getDerivedStateFromPropsForUrlParams, defaultFormState } from '@/utils/tools';
@@ -34,7 +34,7 @@ class Index extends LoadDataCore {
     return getDerivedStateFromPropsForUrlParams(nextProps, prevState);
   }
 
-  pageHeaderLogo = () => <Avatar shape="square" icon={<LegacyIcon type="plus" />} />;
+  pageHeaderLogo = () => <Avatar shape="square" icon={<PlusOutlined />} />;
 
   pageHeaderActionExtraGroup = () => null;
 
@@ -136,7 +136,7 @@ class Index extends LoadDataCore {
                     placement="bottomRight"
                   >
                     <Button>
-                      <LegacyIcon type="ellipsis" />
+                      <EllipsisOutlined />
                     </Button>
                   </Dropdown>
                 ) : null
@@ -152,7 +152,7 @@ class Index extends LoadDataCore {
                 disabled={dataLoading || reloading || refreshing}
                 loading={reloading || refreshing}
                 className={styles.reloadButton}
-                icon={<LegacyIcon type="reload" />}
+                icon={<ReloadOutlined />}
                 type="dashed"
                 onClick={() => {
                   this.reloadData();

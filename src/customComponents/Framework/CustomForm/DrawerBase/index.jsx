@@ -1,6 +1,6 @@
 import React from 'react';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Drawer, message, Row, Col, Affix, Button, Divider } from 'antd';
+import { SaveOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 import { defaultFormState, pretreatmentRequestParams, isFunction } from '@/utils/tools';
 import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
@@ -152,7 +152,7 @@ class Index extends CustomAuthorization {
       <>
         <Button
           type="primary"
-          icon={<LegacyIcon type="save" />}
+          icon={<SaveOutlined />}
           loading={dataLoading || processing}
           disabled={dataLoading || processing}
           onClick={e => {
@@ -164,7 +164,7 @@ class Index extends CustomAuthorization {
         <Divider type="vertical" />
         <Button
           type="default"
-          icon={<LegacyIcon type="close-circle" />}
+          icon={<CloseCircleOutlined />}
           disabled={dataLoading || processing}
           onClick={() => {
             this.onClose();

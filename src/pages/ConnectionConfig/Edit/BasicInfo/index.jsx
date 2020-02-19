@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
 import { Form, Card, Button, Row, Col, Input, Spin, BackTop, notification, Affix } from 'antd';
+import { FormOutlined, SaveOutlined } from '@ant-design/icons';
 
 import {
   formatDatetime,
@@ -124,7 +123,7 @@ class Index extends TabPageBase {
                 <>
                   <Button
                     type="primary"
-                    icon={<LegacyIcon type="save" />}
+                    icon={<SaveOutlined />}
                     disabled={dataLoading || processing}
                     onClick={this.validate}
                     loading={processing}
@@ -189,7 +188,7 @@ class Index extends TabPageBase {
                   <Col lg={6} md={12} sm={24}>
                     <FormItem label={fieldData.inTime}>
                       <Input
-                        addonBefore={<LegacyIcon type="form" />}
+                        addonBefore={<FormOutlined />}
                         value={formatDatetime(new Date(), 'YYYY-MM-DD HH:mm')}
                         disabled
                         placeholder={buildFieldDescription(fieldData.url)}

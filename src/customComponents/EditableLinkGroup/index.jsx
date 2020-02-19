@@ -1,7 +1,8 @@
 import React, { PureComponent, createElement } from 'react';
 import PropTypes from 'prop-types';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+
 import styles from './index.less';
 
 // TODO: 添加逻辑
@@ -19,20 +20,12 @@ class EditableLinkGroup extends PureComponent {
               to: link.href,
               href: link.href,
             },
-            link.title
-          )
+            link.title,
+          ),
         )}
-        {
-          <Button
-            size="small"
-            type="primary"
-            ghost
-            onClick={onAdd}
-            icon={<LegacyIcon type="plus" />}
-          >
-            添加
-          </Button>
-        }
+        <Button size="small" type="primary" ghost onClick={onAdd} icon={<PlusOutlined />}>
+          添加
+        </Button>
       </div>
     );
   }

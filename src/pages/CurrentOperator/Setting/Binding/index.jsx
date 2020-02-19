@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { List } from 'antd';
+import { TaobaoOutlined, DingdingOutlined, AlipayOutlined } from '@ant-design/icons';
 
 class BindingView extends Component {
   getData = () => [
@@ -13,7 +13,7 @@ class BindingView extends Component {
           <FormattedMessage id="app.settings.binding.bind" defaultMessage="Bind" />
         </a>,
       ],
-      avatar: <LegacyIcon type="taobao" className="taobao" />,
+      avatar: <TaobaoOutlined className="taobao" />,
     },
     {
       title: formatMessage({ id: 'app.settings.binding.alipay' }, {}),
@@ -23,7 +23,7 @@ class BindingView extends Component {
           <FormattedMessage id="app.settings.binding.bind" defaultMessage="Bind" />
         </a>,
       ],
-      avatar: <LegacyIcon type="alipay" className="alipay" />,
+      avatar: <AlipayOutlined className="alipay" />,
     },
     {
       title: formatMessage({ id: 'app.settings.binding.dingding' }, {}),
@@ -33,7 +33,7 @@ class BindingView extends Component {
           <FormattedMessage id="app.settings.binding.bind" defaultMessage="Bind" />
         </a>,
       ],
-      avatar: <LegacyIcon type="dingding" className="dingding" />,
+      avatar: <DingdingOutlined className="dingding" />,
     },
   ];
 

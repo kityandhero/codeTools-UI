@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
 import { List, Tag, Card, BackTop } from 'antd';
+import { EyeOutlined, StockOutlined, MessageOutlined } from '@ant-design/icons';
 
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
+import IconInfo from '@/customComponents/IconInfo';
 import ArticleListContent from '@/customComponents/ArticleListContent';
 
 const styles = './index.less';
@@ -86,13 +86,6 @@ class ArticleList extends PagerList {
 
     const { list, pagination } = customData;
 
-    const IconText = ({ type, text }) => (
-      <span>
-        <LegacyIcon type={type} style={{ marginRight: 8 }} />
-        {text}
-      </span>
-    );
-
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -122,9 +115,15 @@ class ArticleList extends PagerList {
           <List.Item
             key={item.areaHelpId}
             actions={[
-              <IconText type="eye" text={item.accessCount} />,
-              <IconText type="star-o" text={item.star} />,
-              <IconText type="message" text={item.message} />,
+              <IconInfo text={item.accessCount}>
+                <EyeOutlined />
+              </IconInfo>,
+              <IconInfo text={item.star}>
+                <StockOutlined />
+              </IconInfo>,
+              <IconInfo text={item.message}>
+                <MessageOutlined />
+              </IconInfo>,
             ]}
           >
             <List.Item.Meta

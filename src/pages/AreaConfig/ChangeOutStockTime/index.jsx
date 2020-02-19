@@ -1,9 +1,8 @@
 import React from 'react';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
 import { Form, Switch, TimePicker, Button, Spin, notification } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
+import { SaveOutlined } from '@ant-design/icons';
 
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import UpdateForm from '../../../customComponents/Framework/CustomForm/UpdateForm';
@@ -27,6 +26,8 @@ const fieldLabels = {
 }))
 class ChangeOutStockTime extends UpdateForm {
   componentAuthority = accessWayCollection.areaConfig.get;
+
+  formRef = React.createRef();
 
   constructor(props) {
     super(props);
@@ -129,7 +130,12 @@ class ChangeOutStockTime extends UpdateForm {
       <div className={styles.baseView} ref={this.getViewDom}>
         <div className={styles.left}>
           <Spin spinning={processing || dataLoading}>
-            <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
+            <Form
+              ref={this.formRef}
+              layout="vertical"
+              onSubmit={this.handleSubmit}
+              hideRequiredMark
+            >
               <FormItem label={fieldLabels.outStockTime}>
                 <TimePicker
                   value={
@@ -156,8 +162,10 @@ class ChangeOutStockTime extends UpdateForm {
               </FormItem>
               <Button
                 type="primary"
-                icon={<LegacyIcon type="save" />}
-                onClick={this.validate}
+                icon={<SaveOutlined />}
+                onClick={e => {
+                  this.validate(e, this.formRef.current);
+                }}
                 loading={processing}
                 disabled={
                   processing ||

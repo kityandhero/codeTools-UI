@@ -1,8 +1,9 @@
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Button, Card, Result } from 'antd';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import React from 'react';
+import { CloseCircleOutlined, RightOutlined } from '@ant-design/icons';
 import { GridContent } from '@ant-design/pro-layout';
+
 import styles from './index.less';
 
 const Content = (
@@ -18,12 +19,11 @@ const Content = (
         marginBottom: 16,
       }}
     >
-      <LegacyIcon
+      <CloseCircleOutlined
         style={{
           marginRight: 8,
         }}
         className={styles.error_icon}
-        type="close-circle-o"
       />
       <FormattedMessage
         id="result-fail.error.hint-text1"
@@ -35,16 +35,15 @@ const Content = (
         }}
       >
         <FormattedMessage id="result-fail.error.hint-btn1" defaultMessage="Thaw immediately" />
-        <LegacyIcon type="right" />
+        <RightOutlined />
       </a>
     </div>
     <div>
-      <LegacyIcon
+      <CloseCircleOutlined
         style={{
           marginRight: 8,
         }}
         className={styles.error_icon}
-        type="close-circle-o"
       />
       <FormattedMessage
         id="result-fail.error.hint-text2"
@@ -56,7 +55,7 @@ const Content = (
         }}
       >
         <FormattedMessage id="result-fail.error.hint-btn2" defaultMessage="Upgrade immediately" />
-        <LegacyIcon type="right" />
+        <RightOutlined />
       </a>
     </div>
   </>

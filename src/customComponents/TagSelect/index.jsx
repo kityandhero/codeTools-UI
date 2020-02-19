@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Tag } from 'antd';
+import { UpCircleOutlined, DownOutlined } from '@ant-design/icons';
 
 import styles from './index.less';
 
@@ -114,7 +114,8 @@ class TagSelect extends Component {
           })}
         {expandable && (
           <a className={styles.trigger} onClick={this.handleExpand}>
-            {expand ? '收起' : '展开'} <LegacyIcon type={expand ? 'up' : 'down'} />
+            {expand ? '收起' : '展开'}
+            {expand ? <UpCircleOutlined /> : <DownOutlined />}
           </a>
         )}
       </div>

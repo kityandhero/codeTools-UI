@@ -1,11 +1,7 @@
-import React from 'react';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import { Popover, message } from 'antd';
+import { message } from 'antd';
 
 import { pretreatmentRequestParams } from '@/utils/tools';
 import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
-
-import styles from './index.less';
 
 class UpdateForm extends LoadDataForm {
   goToUpdateWhenProcessed = false;
@@ -18,53 +14,31 @@ class UpdateForm extends LoadDataForm {
     this.reloadData();
   };
 
-  getErrorInfo = () => {
-    const {
-      form: { getFieldsError },
-    } = this.props;
+  getErrorInfo = errorInfo => {
+    const { errorFields } = errorInfo;
 
-    const { errorFieldName } = this.state;
+    const m = [];
 
-    const errors = getFieldsError();
+    Object.values(errorFields).forEach(o => {
+      m.push(o.errors[0]);
+    });
 
-    const errorCount = Object.keys(errors).filter(key => errors[key]).length;
-    if (!errors || errorCount === 0) {
-      return null;
+    const maxLength = 5;
+    let beyondMax = false;
+
+    if (m.length > maxLength) {
+      m.length = maxLength;
+
+      beyondMax = true;
     }
 
-    const scrollToField = fieldKey => {
-      const labelNode = document.querySelector(`label[for="${fieldKey}"]`);
-      if (labelNode) {
-        labelNode.scrollIntoView(true);
-      }
-    };
+    let errorMessage = m.join(', ');
 
-    const errorList = Object.keys(errors).map(key => {
-      if (!errors[key]) {
-        return null;
-      }
-      return (
-        <li key={key} className={styles.errorListItem} onClick={() => scrollToField(key)}>
-          <LegacyIcon type="cross-circle-o" className={styles.errorIcon} />
-          <div className={styles.errorMessage}>{errors[key][0]}</div>
-          <div className={styles.errorField}>{errorFieldName}</div>
-        </li>
-      );
-    });
-    return (
-      <span className={styles.errorIcon}>
-        <Popover
-          title="表单校验信息"
-          content={errorList}
-          overlayClassName={styles.errorPopover}
-          trigger="click"
-          getPopupContainer={trigger => trigger.parentNode}
-        >
-          <LegacyIcon type="exclamation-circle" />
-        </Popover>
-        {errorCount}
-      </span>
-    );
+    if (beyondMax) {
+      errorMessage += ' ...';
+    }
+
+    message.warn(errorMessage);
   };
 
   supplementSubmitRequestParams = o => o;
@@ -77,11 +51,10 @@ class UpdateForm extends LoadDataForm {
 
   afterCheckSubmitRequestParams = o => o;
 
-  validate = () => {
-    const {
-      form: { validateFieldsAndScroll },
-      dispatch,
-    } = this.props;
+  validate = (e, form) => {
+    const { dispatch } = this.props;
+
+    const { validateFields } = form;
 
     const { submitApiPath } = this.state;
 
@@ -90,8 +63,8 @@ class UpdateForm extends LoadDataForm {
       return;
     }
 
-    validateFieldsAndScroll((error, values) => {
-      if (!error) {
+    validateFields()
+      .then(values => {
         let submitData = pretreatmentRequestParams(values);
 
         submitData = this.supplementSubmitRequestParams(submitData);
@@ -133,8 +106,10 @@ class UpdateForm extends LoadDataForm {
             }
           });
         }
-      }
-    });
+      })
+      .catch(errorInfo => {
+        this.getErrorInfo(errorInfo);
+      });
   };
 }
 

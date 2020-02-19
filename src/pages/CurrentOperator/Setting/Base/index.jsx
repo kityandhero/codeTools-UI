@@ -1,8 +1,13 @@
 import React from 'react';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
 import { Form, Input, Upload, Button, Spin, notification } from 'antd';
 import { connect } from 'dva';
+import {
+  UploadOutlined,
+  SaveOutlined,
+  FormOutlined,
+  UserOutlined,
+  EnvironmentOutlined,
+} from '@ant-design/icons';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '@/utils/tools';
 import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
@@ -23,7 +28,7 @@ const AvatarView = ({ avatar }) => (
     </div>
     <Upload fileList={[]}>
       <div className={styles.button_view}>
-        <Button icon={<LegacyIcon type="upload" />}>更换头像</Button>
+        <Button icon={<UploadOutlined />}>更换头像</Button>
       </div>
     </Upload>
   </>
@@ -117,7 +122,7 @@ class BaseView extends UpdateForm {
               <FormItem label={fieldLabels.loginName}>
                 <Input
                   disabled
-                  addonBefore={<LegacyIcon type="user" />}
+                  addonBefore={<UserOutlined />}
                   style={{ maxWidth: 220 }}
                   value={metaData === null ? '' : metaData.loginName || ''}
                 />
@@ -140,7 +145,7 @@ class BaseView extends UpdateForm {
                   ),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="form" />}
+                    addonBefore={<FormOutlined />}
                     style={{ maxWidth: 220 }}
                     placeholder={buildFieldDescription(fieldLabels.name)}
                   />,
@@ -149,7 +154,7 @@ class BaseView extends UpdateForm {
               <FormItem label={fieldLabels.cityName}>
                 <Input
                   disabled
-                  addonBefore={<LegacyIcon type="environment" />}
+                  addonBefore={<EnvironmentOutlined />}
                   style={{ maxWidth: 220 }}
                   value={metaData === null ? '' : metaData.cityName || ''}
                 />
@@ -172,7 +177,7 @@ class BaseView extends UpdateForm {
                   ),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="form" />}
+                    addonBefore={<FormOutlined />}
                     placeholder={buildFieldDescription(fieldLabels.email)}
                   />,
                 )}
@@ -195,7 +200,7 @@ class BaseView extends UpdateForm {
                   ),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="form" />}
+                    addonBefore={<FormOutlined />}
                     placeholder={buildFieldDescription(fieldLabels.phone)}
                   />,
                 )}
@@ -259,7 +264,7 @@ class BaseView extends UpdateForm {
             </FormItem> */}
               <Button
                 type="primary"
-                icon={<LegacyIcon type="save" />}
+                icon={<SaveOutlined />}
                 onClick={this.validate}
                 loading={dataLoading || processing || !loadSuccess}
                 disabled={dataLoading || processing || !loadSuccess}

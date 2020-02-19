@@ -1,9 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
 import {
-  Form,
   Avatar, // Icon,
   Button, //   List,
   //    Tag,
@@ -11,6 +8,7 @@ import {
   Card,
   BackTop,
 } from 'antd';
+import { RollbackOutlined } from '@ant-design/icons';
 
 import { formatDatetime } from '@/utils/tools';
 import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
@@ -77,7 +75,7 @@ class ArticleContent extends LoadDataForm {
 
     return (
       <Button
-        icon={<LegacyIcon type="rollback" />}
+        icon={<RollbackOutlined />}
         size="small"
         onClick={e => {
           this.backToList(e);

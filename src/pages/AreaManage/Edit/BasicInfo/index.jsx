@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-
 import { Form, Card, Row, Col, Spin, notification, Input, Affix, Button, Divider } from 'antd';
+import { ContactsOutlined, SaveOutlined, FormOutlined, ReloadOutlined } from '@ant-design/icons';
 
 import {
   refitFieldDecoratorOption,
@@ -106,7 +103,7 @@ class BasicInfo extends UpdateFormTab {
         <Card
           title={
             <>
-              <LegacyIcon type="contacts" />
+              <ContactsOutlined />
               <span className={styles.cardTitle}>基本信息</span>
             </>
           }
@@ -116,7 +113,7 @@ class BasicInfo extends UpdateFormTab {
             <Affix offsetTop={20}>
               {this.getErrorInfo()}
               <Button
-                icon={<LegacyIcon type="reload" />}
+                icon={<ReloadOutlined />}
                 disabled={dataLoading || processing || !loadSuccess}
                 onClick={this.reloadData}
                 loading={processing}
@@ -126,7 +123,7 @@ class BasicInfo extends UpdateFormTab {
               <Divider type="vertical" />
               <Button
                 type="primary"
-                icon={<LegacyIcon type="save" />}
+                icon={<SaveOutlined />}
                 disabled={dataLoading || processing || !loadSuccess}
                 onClick={this.validate}
                 loading={processing}
@@ -142,7 +139,7 @@ class BasicInfo extends UpdateFormTab {
                 <Col lg={6} md={12} sm={24}>
                   <FormItem label={fieldData.loginName}>
                     <Input
-                      addonBefore={<LegacyIcon type="form" />}
+                      addonBefore={<FormOutlined />}
                       placeholder={buildFieldDescription(fieldData.loginName)}
                       disabled
                       value={metaData === null ? '' : metaData.loginName || ''}
@@ -168,7 +165,7 @@ class BasicInfo extends UpdateFormTab {
                       ),
                     )(
                       <Input
-                        addonBefore={<LegacyIcon type="form" />}
+                        addonBefore={<FormOutlined />}
                         placeholder={buildFieldDescription(fieldData.name)}
                       />,
                     )}
@@ -193,7 +190,7 @@ class BasicInfo extends UpdateFormTab {
                       ),
                     )(
                       <Input
-                        addonBefore={<LegacyIcon type="form" />}
+                        addonBefore={<FormOutlined />}
                         placeholder={buildFieldDescription(fieldData.phone)}
                       />,
                     )}
@@ -206,7 +203,7 @@ class BasicInfo extends UpdateFormTab {
         <Card
           title={
             <>
-              <LegacyIcon type="contacts" />
+              <ContactsOutlined />
               <span className={styles.cardTitle}>其他信息</span>
             </>
           }

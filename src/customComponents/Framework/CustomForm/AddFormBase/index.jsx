@@ -1,6 +1,6 @@
 import React from 'react';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import { BackTop, Popover, Avatar, message } from 'antd';
+import { BackTop, Avatar, message } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import { defaultFormState, pretreatmentRequestParams } from '@/utils/tools';
@@ -31,55 +31,6 @@ class AddFormBase extends CustomAuthorization {
     this.reloadData();
   };
 
-  getErrorInfo = () => {
-    const {
-      form: { getFieldsError },
-    } = this.props;
-
-    const { errorFieldName } = this.state;
-
-    const errors = getFieldsError();
-
-    const errorCount = Object.keys(errors).filter(key => errors[key]).length;
-    if (!errors || errorCount === 0) {
-      return null;
-    }
-
-    const scrollToField = fieldKey => {
-      const labelNode = document.querySelector(`label[for="${fieldKey}"]`);
-      if (labelNode) {
-        labelNode.scrollIntoView(true);
-      }
-    };
-
-    const errorList = Object.keys(errors).map(key => {
-      if (!errors[key]) {
-        return null;
-      }
-      return (
-        <li key={key} className={styles.errorListItem} onClick={() => scrollToField(key)}>
-          <LegacyIcon type="cross-circle-o" className={styles.errorIcon} />
-          <div className={styles.errorMessage}>{errors[key][0]}</div>
-          <div className={styles.errorField}>{errorFieldName}</div>
-        </li>
-      );
-    });
-    return (
-      <span className={styles.errorIcon}>
-        <Popover
-          title="表单校验信息"
-          content={errorList}
-          overlayClassName={styles.errorPopover}
-          trigger="click"
-          getPopupContainer={trigger => trigger.parentNode}
-        >
-          <LegacyIcon type="exclamation-circle" />
-        </Popover>
-        {errorCount}
-      </span>
-    );
-  };
-
   supplementSubmitRequestParams = o => o;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -88,16 +39,15 @@ class AddFormBase extends CustomAuthorization {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkSubmitRequestParams = o => true;
 
-  validate = () => {
-    const {
-      form: { validateFieldsAndScroll },
-      dispatch,
-    } = this.props;
+  validate = (e, form) => {
+    const { dispatch } = this.props;
+
+    const { validateFields } = form;
 
     const { submitApiPath } = this.state;
 
-    validateFieldsAndScroll((error, values) => {
-      if (!error) {
+    validateFields()
+      .then(values => {
         let submitData = pretreatmentRequestParams(values);
 
         submitData = this.supplementSubmitRequestParams(submitData);
@@ -133,19 +83,36 @@ class AddFormBase extends CustomAuthorization {
             }
           });
         }
-      } else {
+      })
+      .catch(error => {
+        const { errorFields } = error;
+
         const m = [];
 
-        Object.values(error).forEach(o => {
-          m.push(o.errors[0].message);
+        Object.values(errorFields).forEach(o => {
+          m.push(o.errors[0]);
         });
 
-        message.warn(m.join(', '));
-      }
-    });
+        const maxLength = 5;
+        let beyondMax = false;
+
+        if (m.length > maxLength) {
+          m.length = maxLength;
+
+          beyondMax = true;
+        }
+
+        let errorMessage = m.join(', ');
+
+        if (beyondMax) {
+          errorMessage += ' ...';
+        }
+
+        message.warn(errorMessage);
+      });
   };
 
-  pageHeaderLogo = () => <Avatar shape="square" icon={<LegacyIcon type="plus" />} />;
+  pageHeaderLogo = () => <Avatar shape="square" icon={<PlusOutlined />} />;
 
   formContent = () => null;
 

@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
 import {
-  Form,
   Row,
   Col,
   Button,
@@ -17,6 +14,14 @@ import {
   message,
   notification,
 } from 'antd';
+import {
+  PlusOutlined,
+  UpCircleOutlined,
+  DownCircleOutlined,
+  TagsOutlined,
+  DeleteOutlined,
+  FormOutlined,
+} from '@ant-design/icons';
 
 import { formatDatetime, copyToClipboard, replaceTargetText } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
@@ -278,7 +283,7 @@ class Standard extends PagerList {
                 key="buttonPlus"
                 disabled={dataLoading || processing}
                 type="primary"
-                icon={<LegacyIcon type="plus" />}
+                icon={<PlusOutlined />}
                 onClick={this.goToAdd}
               >
                 新增账户
@@ -417,33 +422,33 @@ class Standard extends PagerList {
                 {record.state === 0 &&
                 this.checkAuthority(accessWayCollection.areaManage.changeState) ? (
                   <Menu.Item key="on">
-                    <LegacyIcon type="up-circle" />
+                    <UpCircleOutlined />
                     设为生效
                   </Menu.Item>
                 ) : null}
                 {record.state !== 0 &&
                 this.checkAuthority(accessWayCollection.areaManage.changeState) ? (
                   <Menu.Item key="off">
-                    <LegacyIcon type="down-circle" />
+                    <DownCircleOutlined />
                     设为失效
                   </Menu.Item>
                 ) : null}
                 {this.checkAuthority(accessWayCollection.userRole.changeRole) ? (
                   <Menu.Item key="setRole">
-                    <LegacyIcon type="tags" />
+                    <TagsOutlined />
                     设置角色
                   </Menu.Item>
                 ) : null}
                 {this.checkAuthority(accessWayCollection.areaManage.remove) ? (
                   <Menu.Item key="remove">
-                    <LegacyIcon type="delete" />
+                    <DeleteOutlined />
                     删除
                   </Menu.Item>
                 ) : null}
               </Menu>
             }
           >
-            <LegacyIcon type="form" />
+            <FormOutlined />
             编辑
           </Dropdown.Button>
         </>

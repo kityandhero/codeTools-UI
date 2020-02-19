@@ -1,8 +1,7 @@
 import React from 'react';
 import { routerRedux } from 'dva/router';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
 import { Form, Select, Radio, Input, InputNumber, DatePicker, message } from 'antd';
+import { FormOutlined } from '@ant-design/icons';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -365,7 +364,7 @@ class Index extends CustomCore {
     return (
       <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
         <Input
-          addonBefore={<LegacyIcon type="form" />}
+          addonBefore={<FormOutlined />}
           value={formatDatetime(value, 'YYYY-MM-DD HH:mm')}
           disabled
           placeholder={buildFieldDescription(title)}
@@ -428,7 +427,7 @@ class Index extends CustomCore {
     label,
     name,
     helper = null,
-    iconType = 'form',
+    icon = <FormOutlined />,
     inputProps = {},
     canOperate = true,
     formItemLayout = {},
@@ -437,7 +436,7 @@ class Index extends CustomCore {
 
     const otherInputProps = {
       ...{
-        addonBefore: <LegacyIcon type={iconType} />,
+        addonBefore: icon,
         placeholder: buildFieldDescription(title, '输入'),
       },
       ...(inputProps || {}),
@@ -463,7 +462,7 @@ class Index extends CustomCore {
     name,
     required = false,
     helper = null,
-    iconType = 'form',
+    icon = <FormOutlined />,
     inputProps = {},
     canOperate = true,
     formItemLayout = {},
@@ -473,7 +472,7 @@ class Index extends CustomCore {
 
     const otherInputProps = {
       ...{
-        addonBefore: <LegacyIcon type={iconType} />,
+        addonBefore: icon,
         placeholder: buildFieldDescription(title, reminderPrefix),
       },
       ...(inputProps || {}),
@@ -481,7 +480,18 @@ class Index extends CustomCore {
 
     if (!canOperate) {
       return (
-        <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+        <FormItem
+          {...formItemLayout}
+          label={title}
+          name={name}
+          extra={helper}
+          rules={[
+            {
+              required,
+              message: buildFieldDescription(title),
+            },
+          ]}
+        >
           <Input {...otherInputProps} />
         </FormItem>
       );
@@ -510,7 +520,7 @@ class Index extends CustomCore {
     name,
     required = false,
     helper = null,
-    iconType = 'form',
+    icon = <FormOutlined />,
     inputProps = {},
     canOperate = true,
     formItemLayout = {},
@@ -519,7 +529,7 @@ class Index extends CustomCore {
 
     const otherInputProps = {
       ...{
-        addonBefore: <LegacyIcon type={iconType} />,
+        addonBefore: icon,
         placeholder: buildFieldDescription(title, '输入'),
       },
       ...(inputProps || {}),
@@ -527,7 +537,18 @@ class Index extends CustomCore {
 
     if (!canOperate) {
       return (
-        <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+        <FormItem
+          {...formItemLayout}
+          label={title}
+          name={name}
+          extra={helper}
+          rules={[
+            {
+              required,
+              message: buildFieldDescription(title),
+            },
+          ]}
+        >
           <Password {...otherInputProps} />
         </FormItem>
       );
@@ -553,9 +574,8 @@ class Index extends CustomCore {
 
   renderFormOnlyShowInputFormItem = (
     label,
-
     helper = null,
-    iconType = 'form',
+    icon = <FormOutlined />,
     inputProps = {},
     formItemLayout = {},
   ) => {
@@ -564,7 +584,7 @@ class Index extends CustomCore {
       '',
       false,
       helper,
-      iconType,
+      icon,
       inputProps,
       false,
       formItemLayout,
@@ -593,7 +613,18 @@ class Index extends CustomCore {
 
     if (!canOperate) {
       return (
-        <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+        <FormItem
+          {...formItemLayout}
+          label={title}
+          name={name}
+          extra={helper}
+          rules={[
+            {
+              required,
+              message: buildFieldDescription(title),
+            },
+          ]}
+        >
           <InputNumber {...otherInputNumberProps} />
         </FormItem>
       );
@@ -603,6 +634,7 @@ class Index extends CustomCore {
       <FormItem
         {...formItemLayout}
         label={title}
+        name={name}
         extra={helper}
         rules={[
           {
@@ -636,7 +668,18 @@ class Index extends CustomCore {
 
     if (!canOperate) {
       return (
-        <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+        <FormItem
+          {...formItemLayout}
+          label={title}
+          name={name}
+          extra={helper}
+          rules={[
+            {
+              required,
+              message: buildFieldDescription(title),
+            },
+          ]}
+        >
           <TextArea {...otherTextAreaProps} />
         </FormItem>
       );
@@ -647,13 +690,13 @@ class Index extends CustomCore {
         {...formItemLayout}
         label={title}
         name={name}
+        extra={helper}
         rules={[
           {
             required,
             message: buildFieldDescription(title),
           },
         ]}
-        extra={helper}
       >
         <TextArea {...otherTextAreaProps} />
       </FormItem>

@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { formatMessage, setLocale, getLocale } from 'umi-plugin-react/locale';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import { Menu, Dropdown } from 'antd';
 import classNames from 'classnames';
+import { Menu, Dropdown } from 'antd';
+import { GlobalOutlined } from '@ant-design/icons';
+
 import styles from './index.less';
 
 export default class SelectLang extends PureComponent {
@@ -18,33 +19,32 @@ export default class SelectLang extends PureComponent {
         <Menu.Item key="zh-CN">
           <span role="img" aria-label="简体中文">
             🇨🇳
-          </span>{' '}
+          </span>
           简体中文
         </Menu.Item>
         <Menu.Item key="zh-TW">
           <span role="img" aria-label="繁体中文">
             🇭🇰
-          </span>{' '}
+          </span>
           繁体中文
         </Menu.Item>
         <Menu.Item key="en-US">
           <span role="img" aria-label="English">
             🇬🇧
-          </span>{' '}
+          </span>
           English
         </Menu.Item>
         <Menu.Item key="pt-BR">
           <span role="img" aria-label="Português">
             🇵🇹
-          </span>{' '}
+          </span>
           Português
         </Menu.Item>
       </Menu>
     );
     return (
       <Dropdown overlay={langMenu} placement="bottomRight">
-        <LegacyIcon
-          type="global"
+        <GlobalOutlined
           className={classNames(styles.dropDown, className)}
           title={formatMessage({ id: 'navBar.lang' })}
         />

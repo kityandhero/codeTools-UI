@@ -1,10 +1,15 @@
 import React, { PureComponent } from 'react';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Spin, Tag, Menu, Dropdown, Avatar, Tooltip } from 'antd';
 import Link from 'umi/link';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
+import {
+  SettingOutlined,
+  ShopOutlined,
+  LogoutOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons';
 
 import accessWayCollection from '../../customConfig/accessWayCollection';
 import { checkHasAuthority } from '../../utils/authority';
@@ -68,19 +73,19 @@ export default class GlobalHeaderRight extends PureComponent {
         </Menu.Item> */}
         {checkHasAuthority(accessWayCollection.areaConfig.get) ? (
           <Menu.Item key="areaConfig">
-            <LegacyIcon type="setting" />
+            <SettingOutlined />
             地区设置
           </Menu.Item>
         ) : null}
         {checkHasAuthority(accessWayCollection.warehouse.getMaster) ? (
           <Menu.Item key="warehouse">
-            <LegacyIcon type="shop" />
+            <ShopOutlined />
             主仓信息
           </Menu.Item>
         ) : null}
         {checkHasAuthority(accessWayCollection.areaConfig.get) ? <Menu.Divider /> : null}
         <Menu.Item key="logout">
-          <LegacyIcon type="logout" />
+          <LogoutOutlined />
           <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
         </Menu.Item>
       </Menu>
@@ -109,7 +114,7 @@ export default class GlobalHeaderRight extends PureComponent {
         />
         <Tooltip title="帮助文档">
           <Link to="/helpCenter/category/no/list" replace className={styles.action}>
-            <LegacyIcon type="question-circle-o" />
+            <QuestionCircleOutlined />
           </Link>
         </Tooltip>
         <NoticeIconCustom

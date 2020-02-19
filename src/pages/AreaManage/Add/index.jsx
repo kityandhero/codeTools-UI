@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
 import { Form, Card, Button, Input, Spin, notification } from 'antd';
+import { FormOutlined, SaveOutlined } from '@ant-design/icons';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
@@ -93,12 +92,12 @@ class Add extends AddFormBase {
                         message: buildFieldDescription(fieldData.loginName),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="form" />}
+                    addonBefore={<FormOutlined />}
                     placeholder={buildFieldDescription(fieldData.loginName)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label={fieldData.name}>
@@ -111,12 +110,12 @@ class Add extends AddFormBase {
                         message: buildFieldDescription(fieldData.name),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="form" />}
+                    addonBefore={<FormOutlined />}
                     placeholder={buildFieldDescription(fieldData.name)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label={fieldData.phone}>
@@ -129,12 +128,12 @@ class Add extends AddFormBase {
                         message: buildFieldDescription(fieldData.phone),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="form" />}
+                    addonBefore={<FormOutlined />}
                     placeholder={buildFieldDescription(fieldData.phone)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label={fieldData.password}>
@@ -147,13 +146,13 @@ class Add extends AddFormBase {
                         message: buildFieldDescription(fieldData.password),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="form" />}
+                    addonBefore={<FormOutlined />}
                     type="password"
                     placeholder={buildFieldDescription(fieldData.password)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label={fieldData.rePassword}>
@@ -166,13 +165,13 @@ class Add extends AddFormBase {
                         message: buildFieldDescription(fieldData.rePassword),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="form" />}
+                    addonBefore={<FormOutlined />}
                     type="password"
                     placeholder={buildFieldDescription(fieldData.rePassword)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem
@@ -187,7 +186,7 @@ class Add extends AddFormBase {
               >
                 <Button
                   type="primary"
-                  icon={<LegacyIcon type="save" />}
+                  icon={<SaveOutlined />}
                   disabled={processing}
                   loading={processing}
                   onClick={this.validate}

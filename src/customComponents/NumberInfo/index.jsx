@@ -1,6 +1,7 @@
 import React from 'react';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import classNames from 'classnames';
+import { CaretUpFilled, CaretDownOutlined } from '@ant-design/icons';
+
 import styles from './index.less';
 
 const NumberInfo = ({ theme, title, subTitle, total, subTotal, status, suffix, gap, ...rest }) => (
@@ -31,7 +32,8 @@ const NumberInfo = ({ theme, title, subTitle, total, subTotal, status, suffix, g
       {(status || subTotal) && (
         <span className={styles.subTotal}>
           {subTotal}
-          {status && <LegacyIcon type={`caret-${status}`} />}
+          {status === 'up' && <CaretUpFilled />}
+          {status === 'down' && <CaretDownOutlined />}
         </span>
       )}
     </div>

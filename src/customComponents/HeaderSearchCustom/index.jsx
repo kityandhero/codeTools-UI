@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { Input, AutoComplete } from 'antd';
 import classNames from 'classnames';
 import Debounce from 'lodash-decorators/debounce';
@@ -95,7 +94,7 @@ class HeaderSearch extends PureComponent {
           }
         }}
       >
-        <LegacyIcon type="search" key="Icon" />
+        <SearchOutlined key="Icon" />
         <AutoComplete
           key="AutoComplete"
           {...restProps}

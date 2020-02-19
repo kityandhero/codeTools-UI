@@ -2,20 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import moment from 'moment';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import {
-  Form,
-  Row,
-  Col,
-  Dropdown,
-  Menu,
-  Button,
-  Divider,
-  notification,
-  Modal,
-  message,
-} from 'antd';
+import { Row, Col, Dropdown, Menu, Button, Divider, notification, Modal, message } from 'antd';
+import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 import {
   pretreatmentRequestParams,
@@ -181,14 +169,14 @@ class Index extends PagerList {
                   key="buttonPlus"
                   disabled={dataLoading || processing}
                   type="primary"
-                  icon={<LegacyIcon type="plus" />}
+                  icon={<PlusOutlined />}
                   onClick={this.goToAdd}
                 >
                   新增数据连接
                 </Button>
               </>
             ) : null,
-            6
+            6,
           )}
         </Row>
       </>
@@ -278,13 +266,13 @@ class Index extends PagerList {
             overlay={
               <Menu onClick={e => this.handleMenuClick(e, record)}>
                 <Menu.Item key="delete">
-                  <LegacyIcon type="delete" />
+                  <DeleteOutlined />
                   删除
                 </Menu.Item>
               </Menu>
             }
           >
-            <LegacyIcon type="edit" />
+            <EditOutlined />
             修改
           </Dropdown.Button>
         </>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { FormattedMessage } from 'umi-plugin-react/locale';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
+import numeral from 'numeral';
 import {
   Row,
   Col,
@@ -16,7 +16,8 @@ import {
   Spin,
   Alert,
 } from 'antd';
-import numeral from 'numeral';
+import { InfoCircleOutlined, EllipsisOutlined } from '@ant-design/icons';
+
 import { GridContent } from '@ant-design/pro-layout';
 
 import {
@@ -649,7 +650,7 @@ class Analysis extends LoadDataForm {
       () => {
         this.loadSaleCountRange();
         this.loadSaleAmountRange();
-      }
+      },
     );
   };
 
@@ -663,7 +664,7 @@ class Analysis extends LoadDataForm {
       () => {
         this.loadSaleCountRange();
         this.loadSaleAmountRange();
-      }
+      },
     );
   };
 
@@ -722,7 +723,7 @@ class Analysis extends LoadDataForm {
     const iconGroup = (
       <span className={styles.iconGroup}>
         <Dropdown overlay={menu} placement="bottomRight">
-          <LegacyIcon type="ellipsis" />
+          <EllipsisOutlined />
         </Dropdown>
       </span>
     );
@@ -861,10 +862,10 @@ class Analysis extends LoadDataForm {
                     <Tooltip
                       title={`每隔10分钟统计一次,本次统计时间为${formatDatetime(
                         saleAmountData.totalSaleAmountTime,
-                        'YYYY-MM-DD HH:mm'
+                        'YYYY-MM-DD HH:mm',
                       )}`}
                     >
-                      <LegacyIcon type="info-circle-o" />
+                      <InfoCircleOutlined />
                     </Tooltip>
                   </>
                 }
@@ -905,10 +906,10 @@ class Analysis extends LoadDataForm {
                   <Tooltip
                     title={`每隔10分钟统计一次,本次统计时间为${formatDatetime(
                       saleAmountData.totalSaleAmountTime,
-                      'YYYY-MM-DD HH:mm'
+                      'YYYY-MM-DD HH:mm',
                     )}`}
                   >
-                    <LegacyIcon type="info-circle-o" />
+                    <InfoCircleOutlined />
                   </Tooltip>
                 }
                 total={saleCountData.totalSaleCount}
@@ -930,10 +931,10 @@ class Analysis extends LoadDataForm {
                   <Tooltip
                     title={`每隔10分钟统计一次,本次统计时间为${formatDatetime(
                       saleAmountData.totalSaleAmountTime,
-                      'YYYY-MM-DD HH:mm'
+                      'YYYY-MM-DD HH:mm',
                     )}`}
                   >
-                    <LegacyIcon type="info-circle-o" />
+                    <InfoCircleOutlined />
                   </Tooltip>
                 }
                 total={() => <Yuan>{areaAccountBalanceData.totalAreaAccountBalance}</Yuan>}
@@ -944,7 +945,7 @@ class Analysis extends LoadDataForm {
                       value={
                         <>
                           {`￥${numeral(areaAccountBalanceData.availableAreaAccountBalance).format(
-                            '0,0'
+                            '0,0',
                           )}`}
                           {/* <a href="/" className={styles.withdrawal}>
                           [提现]
@@ -969,10 +970,10 @@ class Analysis extends LoadDataForm {
                   <Tooltip
                     title={`每隔10分钟统计一次,本次统计时间为${formatDatetime(
                       saleAmountData.totalSaleAmountTime,
-                      'YYYY-MM-DD HH:mm'
+                      'YYYY-MM-DD HH:mm',
                     )}`}
                   >
-                    <LegacyIcon type="info-circle-o" />
+                    <InfoCircleOutlined />
                   </Tooltip>
                 }
                 total={`${Math.abs(replenishmentStatisticData.rate) * 100}%`}
@@ -1109,7 +1110,7 @@ class Analysis extends LoadDataForm {
                         <span>
                           搜索用户数
                           <Tooltip title="指标说明">
-                            <LegacyIcon style={{ marginLeft: 8 }} type="info-circle-o" />
+                            <InfoCircleOutlined style={{ marginLeft: 8 }} />
                           </Tooltip>
                         </span>
                       }
@@ -1126,7 +1127,7 @@ class Analysis extends LoadDataForm {
                         <span>
                           人均搜索次数
                           <Tooltip title="指标说明">
-                            <LegacyIcon style={{ marginLeft: 8 }} type="info-circle-o" />
+                            <InfoCircleOutlined style={{ marginLeft: 8 }} />
                           </Tooltip>
                         </span>
                       }

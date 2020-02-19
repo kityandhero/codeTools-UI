@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
 import { Form, Button, Spin, message, notification, Input } from 'antd';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '../../../utils/tools';
@@ -110,7 +108,7 @@ class EditMasterWarehouse extends UpdateForm {
                   ),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="form" />}
+                    addonBefore={<FormOutlined />}
                     placeholder={buildFieldDescription(fieldData.name)}
                   />,
                 )}
@@ -133,7 +131,7 @@ class EditMasterWarehouse extends UpdateForm {
                   ),
                 )(
                   <Input
-                    addonBefore={<LegacyIcon type="form" />}
+                    addonBefore={<FormOutlined />}
                     placeholder={buildFieldDescription(fieldData.code)}
                   />,
                 )}
@@ -163,7 +161,7 @@ class EditMasterWarehouse extends UpdateForm {
               </FormItem>
               <Button
                 type="primary"
-                icon={<LegacyIcon type="save" />}
+                icon={<SaveOutlined />}
                 onClick={this.validate}
                 loading={processing}
                 disabled={

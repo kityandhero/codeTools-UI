@@ -1,14 +1,12 @@
 import React from 'react';
 import moment from 'moment';
-import { Icon as LegacyIcon } from '@ant-design/compatible';
 import { List } from 'antd';
+import { ClockCircleOutlined, MessageOutlined } from '@ant-design/icons';
 
 import { getRandomColor } from '@/utils/tools';
 import CustomBase from '@/customComponents/Framework/CustomBase';
 
 import styles from './index.less';
-
-const defaultIcon = 'message';
 
 class TimeLineCustom extends CustomBase {
   constructor(props) {
@@ -86,11 +84,12 @@ class TimeLineCustom extends CustomBase {
 
     return (
       <div className={styles.listItem}>
-        <LegacyIcon type={getIcon(item)} className={styles.fa} style={iconStyle} />
+        <span className={styles.fa} style={iconStyle}>
+          {getIcon(item)}
+        </span>
         <div className={styles.timeLineExItem}>
           <span className={styles.time}>
-            <LegacyIcon
-              type="clock-circle-o"
+            <ClockCircleOutlined
               className={styles.fa}
               style={{
                 marginLeft: '20px',
@@ -187,7 +186,7 @@ TimeLineCustom.defaultProps = {
   iconStyle: {},
   links: [],
   getIcon: () => {
-    return defaultIcon;
+    return <MessageOutlined />;
   },
   getBackgroundColorKey: () => {
     return '';
