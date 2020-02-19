@@ -26,14 +26,14 @@ class Index extends CustomAuthorization {
     };
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
     const { visible, externalData } = nextProps;
 
     return { visible, externalData };
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
     const { visible: visiblePre } = preState;
     const { visible } = this.state;
@@ -47,14 +47,14 @@ class Index extends CustomAuthorization {
     }
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherWhenChangeVisible = (preProps, preState, snapshot) => {};
 
   supplementLoadRequestParams = o => o;
 
   supplementSubmitRequestParams = o => o;
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkSubmitRequestParams = o => true;
 
   handleOk = e => {
@@ -104,7 +104,7 @@ class Index extends CustomAuthorization {
                   listData || [],
                   extra || null,
                   remoteData,
-                  submitData
+                  submitData,
                 );
               }
             }
@@ -122,7 +122,7 @@ class Index extends CustomAuthorization {
     });
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = (singleData, listData, extra, responseOriginalData, submitData) => {
     this.setState({ visible: false });
   };

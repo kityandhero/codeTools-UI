@@ -47,11 +47,11 @@ class Index extends TabPageBase {
       nextProps,
       prevState,
       { id: '' },
-      parseUrlParamsForSetState
+      parseUrlParamsForSetState,
     );
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const { imageName, imageUrl } = metaData;
 
@@ -69,7 +69,7 @@ class Index extends TabPageBase {
     return d;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = (singleData, listData, extra, responseOriginalData, submitData) => {
     requestAnimationFrame(() => {
       notification.success({
@@ -144,7 +144,7 @@ class Index extends TabPageBase {
                       'title',
                       metaData === null ? '' : metaData.title || '',
                       true,
-                      buildFieldHelper(fieldData.nameHelper)
+                      buildFieldHelper(fieldData.nameHelper),
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
@@ -153,7 +153,7 @@ class Index extends TabPageBase {
                       'contactInformation',
                       metaData === null ? '' : metaData.contactInformation || '',
                       true,
-                      buildFieldHelper(fieldData.contactInformationHelper)
+                      buildFieldHelper(fieldData.contactInformationHelper),
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
@@ -162,7 +162,7 @@ class Index extends TabPageBase {
                       'sort',
                       metaData === null ? '' : metaData.sort || '',
                       true,
-                      buildFieldHelper(fieldData.sortHelper)
+                      buildFieldHelper(fieldData.sortHelper),
                     )}
                   </Col>
                 </Row>
@@ -183,7 +183,7 @@ class Index extends TabPageBase {
                       buildFieldHelper(fieldData.descriptionHelper),
                       {
                         autoSize: { minRows: 3, maxRows: 5 },
-                      }
+                      },
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>

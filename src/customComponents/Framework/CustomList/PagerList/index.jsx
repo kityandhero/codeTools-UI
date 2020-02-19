@@ -122,7 +122,7 @@ class PagerList extends ListBase {
     return this.adjustLoadRequestParams(d);
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterGetFirstRequestResult = (submitData, responseData) => {
     const { form } = this.props;
     const { urlParams } = this.state;
@@ -157,7 +157,7 @@ class PagerList extends ListBase {
     }
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   adjustRenderLoadRequestParamsWithKey = d => {};
 
   afterGetRequestResult = () => {

@@ -69,10 +69,10 @@ class UpdateForm extends LoadDataForm {
 
   supplementSubmitRequestParams = o => o;
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = (singleData, listData, extra, responseOriginalData, submitData) => {};
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkSubmitRequestParams = o => true;
 
   afterCheckSubmitRequestParams = o => o;
@@ -120,7 +120,7 @@ class UpdateForm extends LoadDataForm {
                   metaListData || [],
                   metaExtra || null,
                   remoteData,
-                  submitData
+                  submitData,
                 );
               }
 

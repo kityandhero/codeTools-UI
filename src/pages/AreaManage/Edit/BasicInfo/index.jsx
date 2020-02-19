@@ -50,7 +50,7 @@ class BasicInfo extends UpdateFormTab {
       nextProps,
       prevState,
       { id: '' },
-      parseUrlParamsForSetState
+      parseUrlParamsForSetState,
     );
   }
 
@@ -62,7 +62,7 @@ class BasicInfo extends UpdateFormTab {
     return data;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
   };
@@ -85,7 +85,7 @@ class BasicInfo extends UpdateFormTab {
     return d;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = data => {
     requestAnimationFrame(() => {
       notification.success({
@@ -164,13 +164,13 @@ class BasicInfo extends UpdateFormTab {
                               message: buildFieldDescription(fieldData.name),
                             },
                           ],
-                        }
-                      )
+                        },
+                      ),
                     )(
                       <Input
                         addonBefore={<LegacyIcon type="form" />}
                         placeholder={buildFieldDescription(fieldData.name)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>
@@ -189,13 +189,13 @@ class BasicInfo extends UpdateFormTab {
                               message: buildFieldDescription(fieldData.phone),
                             },
                           ],
-                        }
-                      )
+                        },
+                      ),
                     )(
                       <Input
                         addonBefore={<LegacyIcon type="form" />}
                         placeholder={buildFieldDescription(fieldData.phone)}
-                      />
+                      />,
                     )}
                   </FormItem>
                 </Col>

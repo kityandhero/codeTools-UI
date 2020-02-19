@@ -11,8 +11,6 @@ import {
   defaultCommonState,
   formatDatetime,
   buildFieldDescription,
-  stringToMoment,
-  refitFieldDecoratorOption,
   pretreatmentRequestParams,
   buildFieldHelper,
   isUndefined,
@@ -48,11 +46,11 @@ class Index extends CustomCore {
     this.init();
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => false;
 
   // 该方法必须重载覆盖
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getApiData = props => ({
     metaOriginalData: {
       dataSuccess: false,
@@ -71,22 +69,22 @@ class Index extends CustomCore {
     this.initOther();
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   beforeFirstLoadRequest = submitData => {};
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   beforeReLoadRequest = submitData => {};
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   beforeRequest = submitData => {};
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterGetFirstRequestResult = (submitData, responseData) => {};
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterGetRequestResult = (submitData, responseData) => {};
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterGetReLoadRequestResult = (submitData, responseData) => {};
 
   getRequestingData() {
@@ -112,7 +110,7 @@ class Index extends CustomCore {
 
   supplementLoadRequestParams = o => o;
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkLoadRequestParams = o => {
     return true;
   };
@@ -172,7 +170,7 @@ class Index extends CustomCore {
             },
             () => {
               this.initLoadCore(submitData, callback);
-            }
+            },
           );
         }
       }
@@ -226,7 +224,7 @@ class Index extends CustomCore {
             metaData || null,
             metaListData || [],
             metaExtra || null,
-            metaOriginalData
+            metaOriginalData,
           );
         }
 
@@ -255,7 +253,7 @@ class Index extends CustomCore {
               this.afterFirstLoadSuccess();
 
               this.afterGetFirstRequestResult(requestData, metaOriginalData);
-            }
+            },
           );
         }
 
@@ -315,7 +313,7 @@ class Index extends CustomCore {
 
   afterFirstLoadSuccess = () => {};
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {};
 
   afterReloadSuccess = () => {};
@@ -347,7 +345,7 @@ class Index extends CustomCore {
     dispatch(
       routerRedux.replace({
         pathname: `${pathname.replace('/load/', '/update/')}`,
-      })
+      }),
     );
   }
 
@@ -359,7 +357,7 @@ class Index extends CustomCore {
     date = new Date(),
     helper = buildFieldHelper('数据的添加时间'),
     label = '添加时间',
-    formItemLayout = null
+    formItemLayout = null,
   ) => {
     const value = date || new Date();
     const title = label || '添加时间';
@@ -391,7 +389,7 @@ class Index extends CustomCore {
         list.push(
           <Radio key={flag} value={flag}>
             {name}
-          </Radio>
+          </Radio>,
         );
       });
 
@@ -416,7 +414,7 @@ class Index extends CustomCore {
         list.push(
           <Option key={`${flag}_${name}`} value={flag} disabled={disabled || false}>
             {name}
-          </Option>
+          </Option>,
         );
       });
 
@@ -429,16 +427,12 @@ class Index extends CustomCore {
   renderSearchInputFormItem = (
     label,
     name,
-    value = '',
     helper = null,
     iconType = 'form',
     inputProps = {},
     canOperate = true,
-    formItemLayout = {}
+    formItemLayout = {},
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label;
 
     const otherInputProps = {
@@ -451,15 +445,15 @@ class Index extends CustomCore {
 
     if (!canOperate) {
       return (
-        <FormItem {...formItemLayout} label={title} extra={helper}>
-          <Input {...otherInputProps} value={value} />
+        <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+          <Input {...otherInputProps} />
         </FormItem>
       );
     }
 
     return (
-      <FormItem {...formItemLayout} label={title} extra={helper}>
-        {getFieldDecorator(name)(<Input {...otherInputProps} />)}
+      <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+        <Input {...otherInputProps} />
       </FormItem>
     );
   };
@@ -467,18 +461,14 @@ class Index extends CustomCore {
   renderFormInputFormItem = (
     label,
     name,
-    value = '',
     required = false,
     helper = null,
     iconType = 'form',
     inputProps = {},
     canOperate = true,
     formItemLayout = {},
-    reminderPrefix = '输入'
+    reminderPrefix = '输入',
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label;
 
     const otherInputProps = {
@@ -491,25 +481,26 @@ class Index extends CustomCore {
 
     if (!canOperate) {
       return (
-        <FormItem {...formItemLayout} label={title} extra={helper}>
-          <Input {...otherInputProps} value={value} />
+        <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+          <Input {...otherInputProps} />
         </FormItem>
       );
     }
 
     return (
-      <FormItem {...formItemLayout} label={title} extra={helper}>
-        {getFieldDecorator(
-          name,
-          refitFieldDecoratorOption(value, value, value, {
-            rules: [
-              {
-                required,
-                message: buildFieldDescription(title),
-              },
-            ],
-          })
-        )(<Input {...otherInputProps} />)}
+      <FormItem
+        {...formItemLayout}
+        label={title}
+        name={name}
+        extra={helper}
+        rules={[
+          {
+            required,
+            message: buildFieldDescription(title),
+          },
+        ]}
+      >
+        <Input {...otherInputProps} />
       </FormItem>
     );
   };
@@ -517,17 +508,13 @@ class Index extends CustomCore {
   renderFormPasswordFormItem = (
     label,
     name,
-    value = '',
     required = false,
     helper = null,
     iconType = 'form',
     inputProps = {},
     canOperate = true,
-    formItemLayout = {}
+    formItemLayout = {},
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label;
 
     const otherInputProps = {
@@ -540,63 +527,59 @@ class Index extends CustomCore {
 
     if (!canOperate) {
       return (
-        <FormItem {...formItemLayout} label={title} extra={helper}>
-          <Password {...otherInputProps} value={value} />
+        <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+          <Password {...otherInputProps} />
         </FormItem>
       );
     }
 
     return (
-      <FormItem {...formItemLayout} label={title} extra={helper}>
-        {getFieldDecorator(
-          name,
-          refitFieldDecoratorOption(value, value, value, {
-            rules: [
-              {
-                required,
-                message: buildFieldDescription(title),
-              },
-            ],
-          })
-        )(<Password {...otherInputProps} />)}
+      <FormItem
+        {...formItemLayout}
+        label={title}
+        name={name}
+        extra={helper}
+        rules={[
+          {
+            required,
+            message: buildFieldDescription(title),
+          },
+        ]}
+      >
+        <Password {...otherInputProps} />
       </FormItem>
     );
   };
 
   renderFormOnlyShowInputFormItem = (
     label,
-    value = '',
+
     helper = null,
     iconType = 'form',
     inputProps = {},
-    formItemLayout = {}
+    formItemLayout = {},
   ) => {
     return this.renderFormInputFormItem(
       label,
       '',
-      value,
       false,
       helper,
       iconType,
       inputProps,
       false,
-      formItemLayout
+      formItemLayout,
     );
   };
 
   renderFormInputNumberFormItem = (
     label,
     name,
-    value = '',
     required = false,
     helper = null,
     inputNumberProps = {},
     canOperate = true,
-    formItemLayout = {}
+    formItemLayout = {},
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label;
 
     const otherInputNumberProps = {
@@ -610,25 +593,25 @@ class Index extends CustomCore {
 
     if (!canOperate) {
       return (
-        <FormItem {...formItemLayout} label={title} extra={helper}>
-          <InputNumber {...otherInputNumberProps} value={value} />
+        <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+          <InputNumber {...otherInputNumberProps} />
         </FormItem>
       );
     }
 
     return (
-      <FormItem {...formItemLayout} label={title} extra={helper}>
-        {getFieldDecorator(
-          name,
-          refitFieldDecoratorOption(value, value, null, {
-            rules: [
-              {
-                required,
-                message: buildFieldDescription(title),
-              },
-            ],
-          })
-        )(<InputNumber {...otherInputNumberProps} />)}
+      <FormItem
+        {...formItemLayout}
+        label={title}
+        extra={helper}
+        rules={[
+          {
+            required,
+            message: buildFieldDescription(title),
+          },
+        ]}
+      >
+        <InputNumber {...otherInputNumberProps} />
       </FormItem>
     );
   };
@@ -636,16 +619,12 @@ class Index extends CustomCore {
   renderFormTextAreaFormItem = (
     label,
     name,
-    value = '',
     required = false,
     helper = null,
     textAreaProps = {},
     canOperate = true,
-    formItemLayout = {}
+    formItemLayout = {},
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label;
 
     const otherTextAreaProps = {
@@ -657,25 +636,26 @@ class Index extends CustomCore {
 
     if (!canOperate) {
       return (
-        <FormItem {...formItemLayout} label={title} extra={helper}>
-          <TextArea {...otherTextAreaProps} value={value} />
+        <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+          <TextArea {...otherTextAreaProps} />
         </FormItem>
       );
     }
 
     return (
-      <FormItem {...formItemLayout} label={title} extra={helper}>
-        {getFieldDecorator(
-          name,
-          refitFieldDecoratorOption(value, value, value, {
-            rules: [
-              {
-                required,
-                message: buildFieldDescription(title),
-              },
-            ],
-          })
-        )(<TextArea {...otherTextAreaProps} />)}
+      <FormItem
+        {...formItemLayout}
+        label={title}
+        name={name}
+        rules={[
+          {
+            required,
+            message: buildFieldDescription(title),
+          },
+        ]}
+        extra={helper}
+      >
+        <TextArea {...otherTextAreaProps} />
       </FormItem>
     );
   };
@@ -683,16 +663,12 @@ class Index extends CustomCore {
   renderFormDatePickerFormItem = (
     label,
     name,
-    value = null,
     required = false,
     helper = null,
     datePickerProps = {},
     canOperate = true,
-    formItemLayout = {}
+    formItemLayout = {},
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const title = label;
 
     const otherDatePickerProps = {
@@ -708,31 +684,26 @@ class Index extends CustomCore {
 
     if (!canOperate) {
       return (
-        <FormItem {...formItemLayout} label={title} extra={helper}>
-          <DatePicker {...otherDatePickerProps} value={value} />
+        <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+          <DatePicker {...otherDatePickerProps} />
         </FormItem>
       );
     }
 
     return (
-      <FormItem {...formItemLayout} label={title} extra={helper}>
-        {getFieldDecorator(
-          name,
-          refitFieldDecoratorOption(
-            value,
-            value,
-            null,
-            {
-              rules: [
-                {
-                  required,
-                  message: buildFieldDescription(title),
-                },
-              ],
-            },
-            v => stringToMoment(v)
-          )
-        )(<DatePicker {...otherDatePickerProps} />)}
+      <FormItem
+        {...formItemLayout}
+        label={title}
+        name={name}
+        extra={helper}
+        rules={[
+          {
+            required,
+            message: buildFieldDescription(title),
+          },
+        ]}
+      >
+        <DatePicker {...otherDatePickerProps} />
       </FormItem>
     );
   };
@@ -740,17 +711,13 @@ class Index extends CustomCore {
   renderFormSelectFormItem = (
     label,
     name,
-    value,
     renderOptionFunction,
     helper = null,
     onChangeCallback,
     formItemLayout = null,
     required = false,
-    otherProps = null
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const otherSelectProps = {
       ...{
         placeholder: buildFieldDescription(label, '选择'),
@@ -765,22 +732,21 @@ class Index extends CustomCore {
     };
 
     return (
-      <FormItem {...(formItemLayout || {})} label={label} extra={helper}>
-        {getFieldDecorator(
-          name,
-          refitFieldDecoratorOption(value, value, 0, {
-            rules: [
-              {
-                required,
-                message: buildFieldDescription(label, '选择'),
-              },
-            ],
-          })
-        )(
-          <Select {...otherSelectProps}>
-            {isFunction(renderOptionFunction) ? renderOptionFunction() : null}
-          </Select>
-        )}
+      <FormItem
+        {...(formItemLayout || {})}
+        label={label}
+        name={name}
+        extra={helper}
+        rules={[
+          {
+            required,
+            message: buildFieldDescription(label, '选择'),
+          },
+        ]}
+      >
+        <Select {...otherSelectProps}>
+          {isFunction(renderOptionFunction) ? renderOptionFunction() : null}
+        </Select>
       </FormItem>
     );
   };
@@ -788,17 +754,13 @@ class Index extends CustomCore {
   renderFormRadioFormItem = (
     label,
     name,
-    value,
     renderOptionFunction,
     helper = null,
     onChangeCallback,
     formItemLayout = null,
     required = false,
-    otherProps = null
+    otherProps = null,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const otherRadioProps = {
       ...{
         placeholder: buildFieldDescription(label, '选择'),
@@ -813,22 +775,21 @@ class Index extends CustomCore {
     };
 
     return (
-      <FormItem {...(formItemLayout || {})} label={label} extra={helper}>
-        {getFieldDecorator(
-          name,
-          refitFieldDecoratorOption(value, value, 0, {
-            rules: [
-              {
-                required,
-                message: buildFieldDescription(label, '选择'),
-              },
-            ],
-          })
-        )(
-          <RadioGroup {...otherRadioProps}>
-            {isFunction(renderOptionFunction) ? renderOptionFunction() : null}
-          </RadioGroup>
-        )}
+      <FormItem
+        {...(formItemLayout || {})}
+        label={label}
+        name={name}
+        extra={helper}
+        rules={[
+          {
+            required,
+            message: buildFieldDescription(label, '选择'),
+          },
+        ]}
+      >
+        <RadioGroup {...otherRadioProps}>
+          {isFunction(renderOptionFunction) ? renderOptionFunction() : null}
+        </RadioGroup>
       </FormItem>
     );
   };

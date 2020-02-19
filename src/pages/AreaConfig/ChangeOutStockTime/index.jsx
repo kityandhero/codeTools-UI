@@ -51,7 +51,7 @@ class ChangeOutStockTime extends UpdateForm {
     return data;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     const {
       outStockHour,
@@ -78,7 +78,7 @@ class ChangeOutStockTime extends UpdateForm {
     return d;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = data => {
     const { form } = this.props;
     const { metaData, hour, minute, autoCompleteGoodsLogisticsProcessRequestMessage } = this.state;

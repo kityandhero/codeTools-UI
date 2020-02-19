@@ -58,7 +58,7 @@ class ArticleContent extends LoadDataForm {
     return d;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     const { areaHelpCategoryId } = metaData;
 

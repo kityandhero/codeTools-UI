@@ -27,7 +27,7 @@ class UpdateAreaManageRoleModal extends ModalBase {
     };
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
     const { title, sourceData } = nextProps;
 
@@ -50,7 +50,7 @@ class UpdateAreaManageRoleModal extends ModalBase {
     return data;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
     const { title, sourceData } = this.state;
 

@@ -50,7 +50,7 @@ class Index extends AddFormBase {
     return d;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = (singleData, listData, extra, responseOriginalData, submitData) => {
     const { dispatch } = this.props;
 
@@ -101,15 +101,14 @@ class Index extends AddFormBase {
           }
         >
           <Spin spinning={processing}>
-            <Form layout="vertical">
+            <Form initialValues={{ name: '123' }} layout="vertical">
               <Row gutter={24}>
                 <Col lg={18} md={12} sm={24}>
                   {this.renderFormInputFormItem(
                     fieldData.name,
                     'name',
-                    '',
                     true,
-                    buildFieldHelper(fieldData.nameHelper)
+                    buildFieldHelper(fieldData.nameHelper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24}>
@@ -121,18 +120,16 @@ class Index extends AddFormBase {
                   {this.renderFormInputFormItem(
                     fieldData.host,
                     'host',
-                    '',
                     true,
-                    buildFieldHelper(fieldData.hostHelper)
+                    buildFieldHelper(fieldData.hostHelper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24}>
                   {this.renderFormInputNumberFormItem(
                     fieldData.port,
                     'port',
-                    '',
                     true,
-                    buildFieldHelper(fieldData.portHelper)
+                    buildFieldHelper(fieldData.portHelper),
                   )}
                 </Col>
               </Row>
@@ -141,27 +138,24 @@ class Index extends AddFormBase {
                   {this.renderFormInputFormItem(
                     fieldData.userName,
                     'userName',
-                    '',
                     true,
-                    buildFieldHelper(fieldData.userNameHelper)
+                    buildFieldHelper(fieldData.userNameHelper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24}>
                   {this.renderFormPasswordFormItem(
                     fieldData.password,
                     'password',
-                    '',
                     true,
-                    buildFieldHelper(fieldData.passwordHelper)
+                    buildFieldHelper(fieldData.passwordHelper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24}>
                   {this.renderFormInputFormItem(
                     fieldData.schema,
                     'schema',
-                    '',
                     true,
-                    buildFieldHelper(fieldData.schemaHelper)
+                    buildFieldHelper(fieldData.schemaHelper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24}>
@@ -198,36 +192,32 @@ class Index extends AddFormBase {
                     {this.renderFormInputFormItem(
                       fieldData.sshHost,
                       'sshHost',
-                      '',
                       true,
-                      buildFieldHelper(fieldData.sshHostHelper)
+                      buildFieldHelper(fieldData.sshHostHelper),
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
                     {this.renderFormInputNumberFormItem(
                       fieldData.sshPort,
                       'sshPort',
-                      '',
                       true,
-                      buildFieldHelper(fieldData.sshPortHelper)
+                      buildFieldHelper(fieldData.sshPortHelper),
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
                     {this.renderFormInputNumberFormItem(
                       fieldData.localPort,
                       'localPort',
-                      '',
                       true,
-                      buildFieldHelper(fieldData.localPortHelper)
+                      buildFieldHelper(fieldData.localPortHelper),
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
                     {this.renderFormInputNumberFormItem(
                       fieldData.remotePort,
                       'remotePort',
-                      '',
                       true,
-                      buildFieldHelper(fieldData.remotePortHelper)
+                      buildFieldHelper(fieldData.remotePortHelper),
                     )}
                   </Col>
                 </Row>
@@ -236,18 +226,16 @@ class Index extends AddFormBase {
                     {this.renderFormInputFormItem(
                       fieldData.sshUser,
                       'sshUser',
-                      '',
                       true,
-                      buildFieldHelper(fieldData.sshUserHelper)
+                      buildFieldHelper(fieldData.sshUserHelper),
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
                     {this.renderFormPasswordFormItem(
                       fieldData.sshPassword,
                       'sshPassword',
-                      '',
                       true,
-                      buildFieldHelper(fieldData.sshPasswordHelper)
+                      buildFieldHelper(fieldData.sshPasswordHelper),
                     )}
                   </Col>
                 </Row>

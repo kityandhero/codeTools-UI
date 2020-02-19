@@ -26,30 +26,26 @@ export default {
           payload: data,
         });
 
-        console.log(response);
+        const urlParams = new URL(window.location.href);
+        const params = getPageQuery();
+        let { redirect } = params;
 
-        if (response.code === 200) {
-          const urlParams = new URL(window.location.href);
-          const params = getPageQuery();
-          let { redirect } = params;
+        if (redirect) {
+          const redirectUrlParams = new URL(redirect);
 
-          if (redirect) {
-            const redirectUrlParams = new URL(redirect);
+          if (redirectUrlParams.origin === urlParams.origin) {
+            redirect = redirect.substr(urlParams.origin.length);
 
-            if (redirectUrlParams.origin === urlParams.origin) {
-              redirect = redirect.substr(urlParams.origin.length);
-
-              if (redirect.match(/^\/.*#/)) {
-                redirect = redirect.substr(redirect.indexOf('#') + 1);
-              }
-            } else {
-              window.location.href = '/';
-              return;
+            if (redirect.match(/^\/.*#/)) {
+              redirect = redirect.substr(redirect.indexOf('#') + 1);
             }
+          } else {
+            window.location.href = '/';
+            return;
           }
-
-          router.replace(redirect || '/');
         }
+
+        router.replace(redirect || '/');
       }
     },
 
@@ -57,18 +53,21 @@ export default {
       yield call(getFakeCaptcha, payload);
     },
 
-    *logout(_, { put }) {
-      yield put({
-        type: 'changeLoginOutStatus',
-      });
-      yield put(
+    logout() {
+      const { redirect } = getPageQuery(); // Note: There may be security issues, please note
+
+      if (window.location.pathname !== '/user/login' && !redirect) {
+        clearCustomData();
+
+        message.info('退出登录成功！', 0.6);
+
         router.replace({
           pathname: '/user/login',
           search: stringify({
             redirect: window.location.href,
           }),
-        }),
-      );
+        });
+      }
     },
   },
 
@@ -92,15 +91,6 @@ export default {
         ...state,
         status: code,
         role,
-      };
-    },
-    changeLoginOutStatus(state) {
-      clearCustomData();
-
-      message.info('退出登录成功！', 0.6);
-
-      return {
-        ...state,
       };
     },
   },

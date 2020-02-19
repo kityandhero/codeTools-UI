@@ -188,7 +188,7 @@ class SingleList extends CustomAuthorization {
     };
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   renderTable = config => null;
 
   renderAboveTable = () => null;

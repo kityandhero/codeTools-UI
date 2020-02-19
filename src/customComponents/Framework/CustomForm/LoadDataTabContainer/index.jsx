@@ -26,7 +26,7 @@ class LoadDataTabContainer extends LoadDataForm {
     return super.getDerivedStateFromProps(nextProps, prevState);
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
     const { urlParams } = this.state;
 

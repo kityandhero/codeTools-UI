@@ -26,7 +26,7 @@ class AddFormModalBase extends ModalBase {
     return { visible, needReset, externalData };
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
     const { needReset } = this.state;
     const { form } = this.props;

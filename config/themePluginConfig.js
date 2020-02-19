@@ -4,12 +4,16 @@ export default {
       key: 'dark',
       fileName: 'dark.css',
       theme: 'dark',
+      modifyVars: {
+        '@border-radius-base': '4px',
+      },
     },
     {
       key: 'dust',
       fileName: 'dust.css',
       modifyVars: {
         '@primary-color': '#F5222D',
+        '@border-radius-base': '4px',
       },
     },
     {
@@ -17,6 +21,7 @@ export default {
       fileName: 'volcano.css',
       modifyVars: {
         '@primary-color': '#FA541C',
+        '@border-radius-base': '4px',
       },
     },
     {
@@ -24,6 +29,7 @@ export default {
       fileName: 'sunset.css',
       modifyVars: {
         '@primary-color': '#FAAD14',
+        '@border-radius-base': '4px',
       },
     },
     {
@@ -31,6 +37,7 @@ export default {
       fileName: 'cyan.css',
       modifyVars: {
         '@primary-color': '#13C2C2',
+        '@border-radius-base': '4px',
       },
     },
     {
@@ -38,6 +45,8 @@ export default {
       fileName: 'green.css',
       modifyVars: {
         '@primary-color': '#52C41A',
+        '@border-radius-base': '4px',
+        '@border-radius-base': '4px',
       },
     },
     {
@@ -52,6 +61,7 @@ export default {
       fileName: 'purple.css',
       modifyVars: {
         '@primary-color': '#722ED1',
+        '@border-radius-base': '4px',
       },
     },
     {
@@ -60,6 +70,7 @@ export default {
       fileName: 'dark-dust.css',
       modifyVars: {
         '@primary-color': '#F5222D',
+        '@border-radius-base': '4px',
       },
     },
     {
@@ -68,6 +79,7 @@ export default {
       fileName: 'dark-volcano.css',
       modifyVars: {
         '@primary-color': '#FA541C',
+        '@border-radius-base': '4px',
       },
     },
     {
@@ -76,6 +88,7 @@ export default {
       fileName: 'dark-sunset.css',
       modifyVars: {
         '@primary-color': '#FAAD14',
+        '@border-radius-base': '4px',
       },
     },
     {
@@ -84,6 +97,7 @@ export default {
       fileName: 'dark-cyan.css',
       modifyVars: {
         '@primary-color': '#13C2C2',
+        '@border-radius-base': '4px',
       },
     },
     {
@@ -92,6 +106,7 @@ export default {
       fileName: 'dark-green.css',
       modifyVars: {
         '@primary-color': '#52C41A',
+        '@border-radius-base': '4px',
       },
     },
     {
@@ -100,6 +115,7 @@ export default {
       fileName: 'dark-geekblue.css',
       modifyVars: {
         '@primary-color': '#2F54EB',
+        '@border-radius-base': '4px',
       },
     },
     {
@@ -108,6 +124,7 @@ export default {
       fileName: 'dark-purple.css',
       modifyVars: {
         '@primary-color': '#722ED1',
+        '@border-radius-base': '4px',
       },
     },
   ],

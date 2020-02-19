@@ -58,7 +58,7 @@ class ResetPassword extends UpdateFormTab {
       nextProps,
       prevState,
       { id: '' },
-      parseUrlParamsForSetState
+      parseUrlParamsForSetState,
     );
   }
 
@@ -70,7 +70,7 @@ class ResetPassword extends UpdateFormTab {
     return data;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
   };
@@ -93,7 +93,7 @@ class ResetPassword extends UpdateFormTab {
     return d;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = data => {
     requestAnimationFrame(() => {
       notification.success({
@@ -133,13 +133,13 @@ class ResetPassword extends UpdateFormTab {
                         message: buildFieldDescription(fieldData.password),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<LegacyIcon type="form" />}
                     type="password"
                     placeholder={buildFieldDescription(fieldData.password)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label={fieldData.rePassword}>
@@ -152,13 +152,13 @@ class ResetPassword extends UpdateFormTab {
                         message: buildFieldDescription(fieldData.rePassword),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<LegacyIcon type="form" />}
                     type="password"
                     placeholder={buildFieldDescription(fieldData.rePassword)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem

@@ -27,10 +27,7 @@ class AvatarDropdown extends React.Component {
 
   render() {
     const {
-      currentUser = {
-        avatar: '',
-        name: '',
-      },
+      global: { currentOperator = null },
       menu,
     } = this.props;
     const menuHeaderDropdown = (
@@ -55,11 +52,16 @@ class AvatarDropdown extends React.Component {
         </Menu.Item>
       </Menu>
     );
-    return currentUser && currentUser.name ? (
+    return currentOperator != null ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
-          <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-          <span className={styles.name}>{currentUser.name}</span>
+          <Avatar
+            size="small"
+            className={styles.avatar}
+            src={currentOperator.avatar || '/user.png'}
+            alt="avatar"
+          />
+          <span className={styles.name}>{currentOperator.name || '未知用户'}</span>
         </span>
       </HeaderDropdown>
     ) : (
@@ -74,6 +76,6 @@ class AvatarDropdown extends React.Component {
   }
 }
 
-export default connect(({ user }) => ({
-  currentUser: user.currentUser,
+export default connect(({ global }) => ({
+  global,
 }))(AvatarDropdown);

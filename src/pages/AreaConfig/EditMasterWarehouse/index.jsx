@@ -45,7 +45,7 @@ class EditMasterWarehouse extends UpdateForm {
     return data;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     const { exist, message: messageText } = metaExtra;
 
@@ -65,7 +65,7 @@ class EditMasterWarehouse extends UpdateForm {
     return d;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = data => {
     this.reloadData();
 
@@ -106,13 +106,13 @@ class EditMasterWarehouse extends UpdateForm {
                           message: buildFieldDescription(fieldData.name),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
                   <Input
                     addonBefore={<LegacyIcon type="form" />}
                     placeholder={buildFieldDescription(fieldData.name)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldData.code}>
@@ -129,13 +129,13 @@ class EditMasterWarehouse extends UpdateForm {
                           message: buildFieldDescription(fieldData.code),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
                   <Input
                     addonBefore={<LegacyIcon type="form" />}
                     placeholder={buildFieldDescription(fieldData.code)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldData.address}>
@@ -152,10 +152,13 @@ class EditMasterWarehouse extends UpdateForm {
                           message: buildFieldDescription(fieldData.address),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
-                  <Input.TextArea rows={4} placeholder={buildFieldDescription(fieldData.address)} />
+                  <Input.TextArea
+                    rows={4}
+                    placeholder={buildFieldDescription(fieldData.address)}
+                  />,
                 )}
               </FormItem>
               <Button

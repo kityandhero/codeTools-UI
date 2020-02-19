@@ -239,12 +239,12 @@ class Standard extends PagerList {
         },
         () => {
           this.setState({ changeUpdateAreaManageRoleModalVisible: true });
-        }
+        },
       );
     }
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterUpdateAreaManageRoleModalOk = data => {
     this.setState({
       changeUpdateAreaManageRoleModalVisible: false,
@@ -284,7 +284,7 @@ class Standard extends PagerList {
                 新增账户
               </Button>
             </>,
-            7
+            7,
           )}
         </Row>
       </>

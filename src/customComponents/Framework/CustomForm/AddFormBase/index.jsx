@@ -82,10 +82,10 @@ class AddFormBase extends CustomAuthorization {
 
   supplementSubmitRequestParams = o => o;
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = (singleData, listData, extra, responseOriginalData, submitData) => {};
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkSubmitRequestParams = o => true;
 
   validate = () => {
@@ -124,7 +124,7 @@ class AddFormBase extends CustomAuthorization {
                   metaListData || [],
                   metaExtra || null,
                   remoteData,
-                  submitData
+                  submitData,
                 );
               }
 

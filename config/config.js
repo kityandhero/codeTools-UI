@@ -1,6 +1,6 @@
 import slash from 'slash2';
 
-import themePluginConfig from './themePluginConfig';
+// import themePluginConfig from './themePluginConfig';
 import proxy from './proxy';
 import defaultSettings from './defaultSettings'; // https://umijs.org/config/
 import pageRoutes from './router.config';
@@ -56,6 +56,7 @@ const plugins = [
       autoAddMenu: true,
     },
   ],
+  // ['umi-plugin-antd-theme', themePluginConfig],
 ]; // 针对 preview.pro.ant.design 的 GA 统计代码
 
 if (isAntDesignProPreview) {
@@ -65,7 +66,6 @@ if (isAntDesignProPreview) {
       code: 'UA-72788897-6',
     },
   ]);
-  plugins.push(['umi-plugin-antd-theme', themePluginConfig]);
 }
 
 export default {
@@ -76,6 +76,9 @@ export default {
   },
   routes: pageRoutes,
   history: 'hash',
+  theme: {
+    '@border-radius-base': '4px',
+  },
   define: {
     REACT_APP_ENV: REACT_APP_ENV || false,
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:

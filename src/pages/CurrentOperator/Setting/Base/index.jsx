@@ -87,7 +87,7 @@ class BaseView extends UpdateForm {
     return data;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = data => {
     requestAnimationFrame(() => {
       notification.success({
@@ -136,14 +136,14 @@ class BaseView extends UpdateForm {
                           message: buildFieldDescription(fieldLabels.name),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
                   <Input
                     addonBefore={<LegacyIcon type="form" />}
                     style={{ maxWidth: 220 }}
                     placeholder={buildFieldDescription(fieldLabels.name)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldLabels.cityName}>
@@ -168,13 +168,13 @@ class BaseView extends UpdateForm {
                           message: buildFieldDescription(fieldLabels.email),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
                   <Input
                     addonBefore={<LegacyIcon type="form" />}
                     placeholder={buildFieldDescription(fieldLabels.email)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldLabels.phone}>
@@ -191,13 +191,13 @@ class BaseView extends UpdateForm {
                           message: buildFieldDescription(fieldLabels.phone),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
                   <Input
                     addonBefore={<LegacyIcon type="form" />}
                     placeholder={buildFieldDescription(fieldLabels.phone)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldLabels.description}>
@@ -214,13 +214,13 @@ class BaseView extends UpdateForm {
                           message: buildFieldDescription(fieldLabels.description),
                         },
                       ],
-                    }
-                  )
+                    },
+                  ),
                 )(
                   <Input.TextArea
                     rows={4}
                     placeholder={buildFieldDescription(fieldLabels.description)}
-                  />
+                  />,
                 )}
               </FormItem>
               {/* <FormItem label={formatMessage({ id: 'app.settings.basic.geographic' })}>

@@ -68,7 +68,7 @@ class Password extends UpdateForm {
     return d;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = data => {
     const { form } = this.props;
 
@@ -105,13 +105,13 @@ class Password extends UpdateForm {
                         message: buildFieldDescription(fieldLabels.originalWord),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<LegacyIcon type="key" />}
                     style={{ maxWidth: 220 }}
                     placeholder={buildFieldDescription(fieldLabels.originalWord)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldLabels.newWord}>
@@ -124,12 +124,12 @@ class Password extends UpdateForm {
                         message: buildFieldDescription(fieldLabels.newWord),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<LegacyIcon type="key" />}
                     placeholder={buildFieldDescription(fieldLabels.newWord)}
-                  />
+                  />,
                 )}
               </FormItem>
               <FormItem label={fieldLabels.reNewWord}>
@@ -142,12 +142,12 @@ class Password extends UpdateForm {
                         message: buildFieldDescription(fieldLabels.reNewWord),
                       },
                     ],
-                  })
+                  }),
                 )(
                   <Input
                     addonBefore={<LegacyIcon type="key" />}
                     placeholder={buildFieldDescription(fieldLabels.reNewWord)}
-                  />
+                  />,
                 )}
               </FormItem>
               <Button

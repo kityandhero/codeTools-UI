@@ -21,14 +21,14 @@ class PagerDrawer extends PagerList {
     };
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
     const { visible, externalData } = nextProps;
 
     return { visible: visible || false, externalData: externalData || null };
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
     const { visible: visiblePre } = preState;
     const { visible } = this.state;

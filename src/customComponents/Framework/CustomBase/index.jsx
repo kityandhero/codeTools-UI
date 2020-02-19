@@ -17,7 +17,7 @@ class Index extends PureComponent {
     this.state = defaultState;
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
     return null;
   }
@@ -53,7 +53,7 @@ class Index extends PureComponent {
     return null;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doWorkWhenDidUpdate = (preProps, preState, snapshot) => {};
 
   beforeUnmount = () => {};

@@ -409,7 +409,7 @@ export function formatMoney(
   placesSource = 2,
   symbolSource = '￥',
   thousandSource = ',',
-  decimalSource = '.'
+  decimalSource = '.',
 ) {
   let number = numberSource || 0;
   // 保留的小位数 可以写成 formatMoney(542986,3) 后面的是保留的小位数，否则默 认保留两位
@@ -588,35 +588,28 @@ export function getBrowserInfo() {
 }
 
 /**
- * 封装表单项配置
+ * 表单项初始化值
  *
  * @export
  * @param {*} v
  * @param {*} justice
  * @param {*} defaultValue
- * @param {*} originalOption
  * @param {*} convertCallback
  */
-export function refitFieldDecoratorOption(
-  v,
-  justice,
-  defaultValue,
-  originalOption,
-  convertCallback
-) {
-  const result = originalOption;
+export function refitFieldInitialValue(value, justice, defaultValue, convertCallback) {
+  let resultValue = value;
   const justiceV = typeof justice !== 'undefined' && justice !== null;
   const defaultV = typeof defaultValue === 'undefined' ? null : defaultValue;
 
   if (justiceV) {
     if (typeof convertValue === 'function') {
-      result.initialValue = convertCallback(v) || defaultV;
+      resultValue = convertCallback(value) || defaultV;
     } else {
-      result.initialValue = v || defaultV;
+      resultValue = value || defaultV;
     }
   }
 
-  return result;
+  return resultValue;
 }
 
 /**
@@ -1429,7 +1422,7 @@ export function getQueue() {
  * Reacts生命周期getDerivedStateFromProps 辅助函数用于将url参数解析到返回值中用于设定state，
  * @export
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function getDerivedStateFromPropsForUrlParamsCore(nextProps, prevState) {
   const { match } = nextProps;
 
@@ -1452,7 +1445,7 @@ export function getDerivedStateFromPropsForUrlParams(
   nextProps,
   prevState,
   defaultUrlParams = { id: '' },
-  parseUrlParamsForSetState = null
+  parseUrlParamsForSetState = null,
 ) {
   let stateUrlParams = getDerivedStateFromPropsForUrlParamsCore(nextProps, prevState);
 
