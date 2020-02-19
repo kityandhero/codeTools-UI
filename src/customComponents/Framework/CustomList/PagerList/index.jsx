@@ -227,7 +227,7 @@ class PagerList extends ListBase {
       processing,
     } = this.state;
 
-    const { styleSet, columns, expandedRowRender } = this.buildTableConfig();
+    const { styleSet, columns, expandedRowRender, size } = this.buildTableConfig();
 
     const standardTableCustomOption = {
       loading: dataLoading || processing,
@@ -235,6 +235,7 @@ class PagerList extends ListBase {
       showSelect,
       selectedRows: selectedDataTableDataRows,
       columns,
+      size,
       onSelectRow: this.handleSelectRows,
       onChange: this.handleStandardTableChange,
     };

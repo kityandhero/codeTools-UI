@@ -158,8 +158,8 @@ class Index extends PagerList {
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
-          <Col md={6} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.name, 'title')}
+          <Col lg={6} md={12} sm={24}>
+            {/* {this.renderSearchInputFormItem(fieldData.name, 'title')} */}
           </Col>
           {this.renderSimpleFormButton(
             this.checkAuthority(accessWayCollection.connectionConfig.add) ? (
@@ -186,32 +186,32 @@ class Index extends PagerList {
   getColumn = () => [
     {
       title: fieldData.name,
-      dataIndex: 'title',
+      dataIndex: 'name',
       width: 220,
       align: 'left',
     },
+    // {
+    //   title: fieldData.contactInformation,
+    //   dataIndex: 'contactInformation',
+    //   width: 220,
+    //   align: 'center',
+    //   render: val => <>{val || '--'}</>,
+    // },
+    // {
+    //   title: fieldData.description,
+    //   dataIndex: 'description',
+    //   align: 'center',
+    //   render: val => <>{val || '--'}</>,
+    // },
+    // {
+    //   title: fieldData.sort,
+    //   dataIndex: 'sort',
+    //   width: 100,
+    //   align: 'center',
+    // },
     {
-      title: fieldData.contactInformation,
-      dataIndex: 'contactInformation',
-      width: 220,
-      align: 'center',
-      render: val => <>{val || '--'}</>,
-    },
-    {
-      title: fieldData.description,
-      dataIndex: 'description',
-      align: 'center',
-      render: val => <>{val || '--'}</>,
-    },
-    {
-      title: fieldData.sort,
-      dataIndex: 'sort',
-      width: 100,
-      align: 'center',
-    },
-    {
-      title: fieldData.connectionId,
-      dataIndex: 'connectionId',
+      title: fieldData.connectionConfigId,
+      dataIndex: 'connectionConfigId',
       width: 120,
       align: 'center',
       render: val => (
@@ -238,8 +238,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.inTime,
-      dataIndex: 'inTime',
+      title: fieldData.createTime,
+      dataIndex: 'createTime',
       width: 120,
       align: 'center',
       sorter: false,

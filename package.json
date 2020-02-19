@@ -38,9 +38,15 @@
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
     "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
-    "**/*.{js,jsx,tsx,ts,less,md,json}": ["prettier --write"]
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write"
+    ]
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 10"],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ],
   "dependencies": {
     "@ant-design/icons": "^4.0.0-alpha.19",
     "@ant-design/pro-layout": "^5.0.2",
@@ -72,6 +78,8 @@
     "react-amap": "^1.2.8",
     "react-container-query": "^0.11.1",
     "react-copy-to-clipboard": "^5.0.2",
+    "react-dnd": "^10.0.2",
+    "react-dnd-html5-backend": "^10.0.2",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.12.0",
     "react-fittext": "^1.0.0",

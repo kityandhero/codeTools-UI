@@ -1,10 +1,14 @@
 import React from 'react';
-import { Form, Row, Col, Card, Button, DatePicker, BackTop, Divider } from 'antd';
+import { Form, Row, Col, Card, Tooltip, Button, DatePicker, BackTop, Divider } from 'antd';
 import { SearchOutlined, ReloadOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import { defaultListState, buildFieldDescription } from '../../../../utils/tools';
 import CustomAuthorization from '../../CustomAuthorization';
+import { tableSizeConfig } from '../../../StandardTableCustom';
+
+import DensityAction from '../DensityAction';
+import ColumnSetting from '../ColumnSetting';
 
 import styles from './index.less';
 
@@ -22,6 +26,10 @@ class SingleList extends CustomAuthorization {
     this.state = {
       ...this.state,
       ...defaultState,
+      ...{
+        listTitle: '搜索结果',
+        tableSize: tableSizeConfig.middle,
+      },
     };
   }
 
@@ -174,12 +182,19 @@ class SingleList extends CustomAuthorization {
   };
 
   buildTableConfig = () => {
+    const { tableList } = this.state;
+
     const columns = this.getColumn();
 
     return {
       ...this.buildTableOtherConfig(),
       columns,
+      size: tableList,
     };
+  };
+
+  setTableSize = key => {
+    this.setState({ tableSize: key });
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -187,16 +202,71 @@ class SingleList extends CustomAuthorization {
 
   renderAboveTable = () => null;
 
+  renderExtraAction = () => null;
+
+  renderBatchAction = () => null;
+
   render() {
+    const { listTitle, tableSize, refreshing } = this.state;
+
     return (
       <PageHeaderWrapper title={this.getPageName()}>
-        <Card bordered={false} className={styles.containorBox}>
-          <div className={styles.tableList}>
+        <div className={styles.containorBox}>
+          <Card bordered={false} className={styles.containorSearch}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
-            {this.renderAboveTable()}
-            {this.renderTable()}
-          </div>
-        </Card>
+          </Card>
+
+          <Card
+            title={listTitle}
+            headStyle={{ borderBottom: '0px' }}
+            bodyStyle={{ paddingTop: '0', paddingBottom: '0' }}
+            bordered={false}
+            className={styles.containorTable}
+            extra={
+              <>
+                {this.renderExtraAction()}
+                {this.renderBatchAction()}
+                <Divider type="vertical" />
+                <DensityAction
+                  tableSize={tableSize}
+                  setTableSize={key => {
+                    this.setTableSize(key);
+                  }}
+                />
+
+                <Tooltip title="刷新本页">
+                  <Button
+                    shape="circle"
+                    className={styles.iconAction}
+                    loading={refreshing}
+                    icon={<ReloadOutlined />}
+                    onClick={() => {
+                      this.refreshData();
+                    }}
+                  />
+                </Tooltip>
+                <ColumnSetting columns={this.getColumn()} />
+                {/* <Button
+                  type="primary"
+                  icon={<SearchOutlined />}
+                  disabled={processing}
+                  onClick={e => {
+                    this.validate(e, this.formRef.current);
+                  }}
+                  loading={processing}
+                >
+                  保存
+                </Button> */}
+              </>
+            }
+          >
+            <div className={styles.tableList}>
+              {this.renderAboveTable()}
+              {this.renderTable()}
+            </div>
+          </Card>
+        </div>
+
         {this.renderOther()}
         <BackTop />
       </PageHeaderWrapper>

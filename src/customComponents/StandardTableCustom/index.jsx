@@ -3,6 +3,12 @@ import { Table, Alert, Spin } from 'antd';
 
 import styles from './index.less';
 
+export const tableSizeConfig = {
+  middle: 'middle',
+  small: 'small',
+  large: 'large',
+};
+
 function initTotalList(columns) {
   const totalList = [];
   columns.forEach(column => {
@@ -44,7 +50,7 @@ class StandardTableCustom extends PureComponent {
       ...item,
       total: (selectedRows || []).reduce(
         (sum, val) => sum + parseFloat(val[item.dataIndex], 10),
-        0
+        0,
       ),
     }));
     const { onSelectRow } = this.props;
@@ -72,6 +78,7 @@ class StandardTableCustom extends PureComponent {
       data: { list, pagination },
       loading,
       rowKey,
+      size,
       showSelect: showSelectOption,
       ...rest
     } = this.props;
@@ -130,7 +137,7 @@ class StandardTableCustom extends PureComponent {
           <Table
             rowKey={rowKey || 'key'}
             // loading={loading}
-            // size="small"
+            size={size || tableSizeConfig.middle}
             rowSelection={rowSelection}
             dataSource={list}
             pagination={paginationProps}

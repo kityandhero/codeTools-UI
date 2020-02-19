@@ -1,6 +1,6 @@
 module.exports = {
   fieldData: {
-    connectionId: '数据标识',
+    connectionConfigId: '数据标识',
     name: '数据连接名称',
     nameHelper: '名称内不能带有特殊标识',
     databaseType: '数据库类型',
@@ -30,6 +30,7 @@ module.exports = {
     sshPassword: 'SSH用户密码',
     sshPasswordHelper: '数据连接的SSH用户密码',
     createTime: '添加时间',
+    operate: '操作',
   },
   connectionType: {
     TCP_IP: 100,
