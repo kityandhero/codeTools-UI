@@ -1,22 +1,13 @@
-import React from 'react';
-import { Form, Select } from 'antd';
-
 import {
   getDerivedStateFromPropsForUrlParams,
   refitCommonData,
   isInvalid,
   searchFromList,
-  buildFieldDescription,
 } from '../../utils/tools';
+import { unlimitedWithStringFlag } from '../../utils/constants';
 import CustomCommonCore from '../../customComponents/Framework/CustomCommonCore';
 
-const FormItem = Form.Item;
-
-const unlimitedWithStringFlag = {
-  key: '-10000',
-  name: '不限',
-  flag: '-10000',
-};
+import { customFieldCollection } from './customConstants';
 
 /**
  * 该类作为特有项目的补充，视具体项目进行增部方法
@@ -63,44 +54,31 @@ class Index extends CustomCommonCore {
 
   renderSearchDatabaseTypeFormItem = (
     withUnlimited = true,
-    initialValue = -10000,
-    label = '数据库类型'
+    label = customFieldCollection.databaseType.label,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
+    const title = label || customFieldCollection.databaseType.label;
 
-    const title = label || '数据库类型';
-
-    return (
-      <FormItem label={title}>
-        {getFieldDecorator('databaseType', {
-          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
-          initialValue,
-        })(
-          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
-            {this.renderDatabaseTypeOption(withUnlimited)}
-          </Select>
-        )}
-      </FormItem>
+    return this.renderSearchSelectFormItem(
+      title,
+      customFieldCollection.databaseType.name,
+      withUnlimited,
     );
   };
 
   renderFormDatabaseTypeSelectFormItem = (
-    value,
     helper = null,
     onChangeCallback,
-    label = '数据库类型',
+    label = customFieldCollection.databaseType.label,
     formItemLayout = null,
     required = true,
-    name = 'databaseType',
-    otherProps = null
+    name = customFieldCollection.databaseType.name,
+    otherProps = null,
   ) => {
-    const title = label || '数据库类型';
+    const title = label || customFieldCollection.databaseType.label;
 
     return this.renderFormSelectFormItem(
       title,
       name,
-      value,
       () => {
         return this.renderDatabaseTypeOption(false);
       },
@@ -108,26 +86,24 @@ class Index extends CustomCommonCore {
       onChangeCallback,
       formItemLayout,
       required,
-      otherProps
+      otherProps,
     );
   };
 
   renderFormDatabaseTypeFormItemRadio = (
-    value,
     helper = null,
     onChangeCallback,
-    label = '数据库类型',
+    label = customFieldCollection.databaseType.label,
     formItemLayout = null,
     required = true,
-    name = 'databaseType',
-    otherProps = null
+    name = customFieldCollection.databaseType.name,
+    otherProps = null,
   ) => {
-    const title = label || '数据库类型';
+    const title = label || customFieldCollection.databaseType.label;
 
     return this.renderFormRadioFormItem(
       title,
       name,
-      value,
       () => {
         return this.renderDatabaseTypeOption(false);
       },
@@ -135,7 +111,7 @@ class Index extends CustomCommonCore {
       onChangeCallback,
       formItemLayout,
       required,
-      otherProps
+      otherProps,
     );
   };
 
@@ -173,44 +149,31 @@ class Index extends CustomCommonCore {
 
   renderSearchDatabaseEncodingFormItem = (
     withUnlimited = true,
-    initialValue = -10000,
-    label = '数据库编码'
+    label = customFieldCollection.databaseEncoding.label,
   ) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
+    const title = label || customFieldCollection.databaseEncoding.label;
 
-    const title = label || '数据库编码';
-
-    return (
-      <FormItem label={title}>
-        {getFieldDecorator('databaseEncoding', {
-          rules: [{ required: false, message: buildFieldDescription(title, '选择') }],
-          initialValue,
-        })(
-          <Select placeholder={buildFieldDescription(title, '选择')} style={{ width: '100%' }}>
-            {this.renderDatabaseEncodingOption(withUnlimited)}
-          </Select>
-        )}
-      </FormItem>
+    return this.renderSearchSelectFormItem(
+      title,
+      customFieldCollection.databaseEncoding.name,
+      withUnlimited,
     );
   };
 
   renderFormDatabaseEncodingSelectFormItem = (
-    value,
     helper = null,
     onChangeCallback,
-    label = '数据库编码',
+    label = customFieldCollection.databaseEncoding.label,
     formItemLayout = null,
     required = true,
-    name = 'encoding',
-    otherProps = null
+    name = customFieldCollection.databaseEncoding.name,
+    otherProps = null,
   ) => {
-    const title = label || '数据库编码';
+    const title = label || customFieldCollection.databaseEncoding.label;
 
     return this.renderFormSelectFormItem(
       title,
       name,
-      value,
       () => {
         return this.renderDatabaseEncodingOption(false);
       },
@@ -218,26 +181,24 @@ class Index extends CustomCommonCore {
       onChangeCallback,
       formItemLayout,
       required,
-      otherProps
+      otherProps,
     );
   };
 
   renderFormDatabaseEncodingFormItemRadio = (
-    value,
     helper = null,
     onChangeCallback,
-    label = '数据库编码',
+    label = customFieldCollection.databaseEncoding.label,
     formItemLayout = null,
     required = true,
-    name = 'encoding',
-    otherProps = null
+    name = customFieldCollection.databaseEncoding.name,
+    otherProps = null,
   ) => {
-    const title = label || '数据库编码';
+    const title = label || customFieldCollection.databaseEncoding.label;
 
     return this.renderFormRadioFormItem(
       title,
       name,
-      value,
       () => {
         return this.renderDatabaseEncodingOption(false);
       },
@@ -245,7 +206,7 @@ class Index extends CustomCommonCore {
       onChangeCallback,
       formItemLayout,
       required,
-      otherProps
+      otherProps,
     );
   };
 }

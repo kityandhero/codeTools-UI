@@ -8,6 +8,7 @@ import { Form, Card, Button, Row, Col, Switch, Spin, notification, Affix } from 
 import { buildFieldHelper } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import AddFormBase from '../../../customComponents/Framework/CustomForm/AddFormBase';
+import { customFieldCollection } from '../../../customSpecialComponents/CustomCommonSupplement/customConstants';
 
 import { fieldData, connectionType } from '../Common/data';
 import styles from './index.less';
@@ -78,6 +79,11 @@ class Index extends AddFormBase {
   formContent = () => {
     const { processing, selectConnectionType } = this.state;
 
+    const initialValues = { name: '123' };
+
+    initialValues[`${customFieldCollection.databaseType}`] = null;
+    initialValues[`${customFieldCollection.databaseEncoding}`] = null;
+
     return (
       <div className={styles.containorBox}>
         <Card
@@ -101,7 +107,7 @@ class Index extends AddFormBase {
           }
         >
           <Spin spinning={processing}>
-            <Form initialValues={{ name: '123' }} layout="vertical">
+            <Form initialValues={initialValues} layout="vertical">
               <Row gutter={24}>
                 <Col lg={18} md={12} sm={24}>
                   {this.renderFormInputFormItem(

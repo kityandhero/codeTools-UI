@@ -793,6 +793,25 @@ class Index extends CustomCore {
       </FormItem>
     );
   };
+
+  renderSearchSelectFormItem = (label, name, withUnlimited = true) => {
+    return (
+      <FormItem
+        label={label}
+        name={name}
+        rules={[
+          {
+            required: false,
+            message: buildFieldDescription(label, '选择'),
+          },
+        ]}
+      >
+        <Select placeholder={buildFieldDescription(label, '选择')} style={{ width: '100%' }}>
+          {this.renderDatabaseEncodingOption(withUnlimited)}
+        </Select>
+      </FormItem>
+    );
+  };
 }
 
 export default Index;
