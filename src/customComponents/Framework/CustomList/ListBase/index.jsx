@@ -27,7 +27,7 @@ class SingleList extends CustomAuthorization {
       ...this.state,
       ...defaultState,
       ...{
-        listTitle: '搜索结果',
+        listTitle: '检索结果',
         tableSize: tableSizeConfig.middle,
       },
     };
@@ -82,8 +82,8 @@ class SingleList extends CustomAuthorization {
     });
   };
 
-  renderSimpleFormButton = (expandButton, ColMd = 6) => {
-    const { reloading, searching, refreshing } = this.state;
+  renderSimpleFormButton = (ColMd = 6) => {
+    const { reloading, searching } = this.state;
 
     return (
       <Col md={ColMd} sm={24}>
@@ -101,20 +101,6 @@ class SingleList extends CustomAuthorization {
           >
             重置
           </Button>
-          <Divider type="vertical" />
-          <Button
-            loading={refreshing}
-            className={styles.searchButtonMarginLeft}
-            icon={<ReloadOutlined />}
-            onClick={() => {
-              if (!this.checkWorkDoing()) {
-                this.refreshData();
-              }
-            }}
-          >
-            刷新
-          </Button>
-          {expandButton}
         </span>
       </Col>
     );
@@ -219,7 +205,7 @@ class SingleList extends CustomAuthorization {
           <Card
             title={listTitle}
             headStyle={{ borderBottom: '0px' }}
-            bodyStyle={{ paddingTop: '0', paddingBottom: '0' }}
+            bodyStyle={{ paddingTop: '0', paddingBottom: 10 }}
             bordered={false}
             className={styles.containorTable}
             extra={

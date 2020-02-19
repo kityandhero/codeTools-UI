@@ -153,34 +153,35 @@ class Index extends PagerList {
   };
 
   renderSimpleFormRow = () => {
-    const { dataLoading, processing } = this.state;
-
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col lg={6} md={12} sm={24}>
             {/* {this.renderSearchInputFormItem(fieldData.name, 'title')} */}
           </Col>
-          {this.renderSimpleFormButton(
-            this.checkAuthority(accessWayCollection.connectionConfig.add) ? (
-              <>
-                <Divider type="vertical" />
-                <Button
-                  key="buttonPlus"
-                  disabled={dataLoading || processing}
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={this.goToAdd}
-                >
-                  新增数据连接
-                </Button>
-              </>
-            ) : null,
-            6,
-          )}
+          {this.renderSimpleFormButton()}
         </Row>
       </>
     );
+  };
+
+  renderExtraAction = () => {
+    const { dataLoading, processing } = this.state;
+
+    return this.checkAuthority(accessWayCollection.connectionConfig.add) ? (
+      <>
+        <Divider type="vertical" />
+        <Button
+          key="buttonPlus"
+          disabled={dataLoading || processing}
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={this.goToAdd}
+        >
+          新增
+        </Button>
+      </>
+    ) : null;
   };
 
   getColumn = () => [
