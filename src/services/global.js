@@ -6,7 +6,7 @@ import { request } from '../utils/request';
  * @param {*} params
  */
 export async function queryGetData(params) {
-  // if (useVirtualAccess()) {
+  // if (transferToVirtualAccess()) {
   //   const result = await apiVirtualSuccessAccess({
   //     code: 200,
   //     success: true,

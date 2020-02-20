@@ -1,8 +1,8 @@
 import { request } from '../utils/request';
-import { apiVirtualSuccessAccess, useVirtualAccess } from '../utils/tools';
+import { apiVirtualSuccessAccess, transferToVirtualAccess } from '../utils/tools';
 
 export async function queryListData(params) {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       pageSize: 10,
       total: 645,
@@ -20,7 +20,7 @@ export async function queryListData(params) {
 }
 
 export async function queryGetData(params) {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
     });
@@ -35,7 +35,7 @@ export async function queryGetData(params) {
 }
 
 export async function addBasicInfoData(params) {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
     });
@@ -50,7 +50,7 @@ export async function addBasicInfoData(params) {
 }
 
 export async function updateBasicInfoData(params) {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
     });
@@ -65,7 +65,7 @@ export async function updateBasicInfoData(params) {
 }
 
 export async function resetPasswordData(params) {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
     });
@@ -80,7 +80,7 @@ export async function resetPasswordData(params) {
 }
 
 export async function changeStateData(params) {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
     });
@@ -95,7 +95,7 @@ export async function changeStateData(params) {
 }
 
 export async function removeData(params) {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
     });

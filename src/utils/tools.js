@@ -1014,7 +1014,7 @@ export function pretreatmentRequestParams(params, customHandle) {
  * @export
  * @returns
  */
-export function useVirtualAccess() {
+export function transferToVirtualAccess() {
   // return process.env.NODE_ENV === 'development';
   // return true;
   return false;

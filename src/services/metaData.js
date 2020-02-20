@@ -1,12 +1,12 @@
 import { request } from '../utils/request';
-import { apiVirtualSuccessAccess, useVirtualAccess } from '../utils/tools';
+import { apiVirtualSuccessAccess, transferToVirtualAccess } from '../utils/tools';
 
 /**
  * 综合数据
  * @param {*} params
  */
 export async function queryGetData(params) {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       code: 200,
       success: true,

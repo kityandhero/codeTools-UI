@@ -1,12 +1,12 @@
 import { request } from '../utils/request';
-import { apiVirtualSuccessAccess, useVirtualAccess } from '../utils/tools';
+import { apiVirtualSuccessAccess, transferToVirtualAccess } from '../utils/tools';
 
 export async function query() {
   return request('/api/users');
 }
 
 export async function queryCurrent() {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       name: 'Serati Ma',
       avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',

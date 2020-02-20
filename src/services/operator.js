@@ -1,8 +1,8 @@
 import { request } from '../utils/request';
-import { apiVirtualSuccessAccess, useVirtualAccess } from '../utils/tools';
+import { apiVirtualSuccessAccess, transferToVirtualAccess } from '../utils/tools';
 
 export async function getCurrentData() {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       name: 'Li Ma',
       avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
@@ -59,7 +59,7 @@ export async function getCurrentData() {
 }
 
 export async function getCurrentBasicInfoData() {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
     });
@@ -73,7 +73,7 @@ export async function getCurrentBasicInfoData() {
 }
 
 export async function updateCurrentBasicInfoData(params) {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
     });
@@ -88,7 +88,7 @@ export async function updateCurrentBasicInfoData(params) {
 }
 
 export async function changeCurrentPasswordData(params) {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
     });

@@ -2,11 +2,11 @@ import { stringify } from 'qs';
 import moment from 'moment';
 import { request } from '../utils/request';
 import {
-  useVirtualAccess,
   apiVirtualAccess,
   apiVirtualSuccessAccess,
   apiVirtualSuccessData,
   apiVirtualFailData,
+  transferToVirtualAccess,
 } from '../utils/tools';
 
 export async function queryProjectNotice() {
@@ -59,7 +59,7 @@ export async function fakeSubmitForm(params) {
 }
 
 export async function fakeChartData() {
-  // if (useVirtualAccess()) {
+  // if (transferToVirtualAccess()) {
   const visitData = [];
   const beginDay = new Date().getTime();
 
@@ -308,7 +308,7 @@ export async function updateFakeList(params) {
 }
 
 export async function accountLogin(params) {
-  if (useVirtualAccess()) {
+  if (transferToVirtualAccess()) {
     const result = await apiVirtualAccess(resolve => {
       setTimeout(() => {
         const {
@@ -334,8 +334,8 @@ export async function accountLogin(params) {
                   token: '3415136134125',
                 },
               },
-              false
-            )
+              false,
+            ),
           );
         } else if (password === '123456' && userName === 'user') {
           resolve(
@@ -355,8 +355,8 @@ export async function accountLogin(params) {
                   token: '4567357242135',
                 },
               },
-              false
-            )
+              false,
+            ),
           );
         } else {
           resolve(apiVirtualFailData(1001, '用户名不存在或密码错误', false));

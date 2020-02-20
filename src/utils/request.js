@@ -83,7 +83,7 @@ export function request(urlParam, option) {
   };
 
   const corsUrl = corsTarget();
-  // const url = useVirtualAccess() ? urlParam : `${corsUrl}${urlParam}`;
+  // const url = transferToVirtualAccess() ? urlParam : `${corsUrl}${urlParam}`;
   const url = `${corsUrl}${urlParam}`;
 
   /**
