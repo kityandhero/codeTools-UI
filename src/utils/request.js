@@ -133,22 +133,6 @@ export function request(urlParam, option) {
     }
   }
 
-  // const expirys = options.expirys && 60;
-  // // options.expirys !== false, return the cache,
-  // if (options.expirys !== false) {
-  //   const cached = sessionStorage.getItem(hashCode);
-  //   const whenCached = sessionStorage.getItem(`${hashCode}:timestamp`);
-  //   if (cached !== null && whenCached !== null) {
-  //     const age = (Date.now() - whenCached) / 1000;
-  //     if (age < expirys) {
-  //       const response = new Response(new Blob([cached]));
-  //       return response.json();
-  //     }
-  //     sessionStorage.removeItem(hashCode);
-  //     sessionStorage.removeItem(`${hashCode}:timestamp`);
-  //   }
-  // }
-
   return (
     fetch(url, newOptions)
       .then(checkStatus)
