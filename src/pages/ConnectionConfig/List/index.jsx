@@ -9,7 +9,6 @@ import {
   pretreatmentRequestParams,
   copyToClipboard,
   replaceTargetText,
-  merge,
 } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
@@ -37,6 +36,7 @@ class Index extends PagerList {
         pageName: '数据连接列表',
         paramsKey: '938bdc77-66b5-4afe-835b-9aa64a7ead5b',
         loadApiPath: 'connectionConfig/list',
+        showSelect: true,
       },
     };
   }
@@ -166,6 +166,18 @@ class Index extends PagerList {
     );
   };
 
+  // renderAlertContent = () => {
+  //   const { metaExtra } = this.state;
+
+  //   if ((metaExtra || null) != null) {
+  //     const { total } = metaExtra;
+
+  //     return `信息：共${total}页数据`;
+  //   }
+
+  //   return null;
+  // };
+
   renderExtraAction = () => {
     const { dataLoading, processing } = this.state;
 
@@ -189,7 +201,6 @@ class Index extends PagerList {
     {
       title: fieldData.name,
       dataIndex: 'name',
-      width: 220,
       align: 'left',
       render: val => <>{val || '--'}</>,
     },

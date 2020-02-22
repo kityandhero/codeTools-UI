@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Row, Col, Card, Tooltip, Button, DatePicker, BackTop, Divider } from 'antd';
+import { Form, Row, Col, Card, Alert, Tooltip, Button, DatePicker, BackTop, Divider } from 'antd';
 import { SearchOutlined, ReloadOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
@@ -14,6 +14,7 @@ import { tableSizeConfig } from '../../../StandardTableCustom';
 
 import DensityAction from '../DensityAction';
 import ColumnSetting from '../ColumnSetting';
+import BatchAction from '../BatchAction';
 
 import styles from './index.less';
 
@@ -280,16 +281,76 @@ class SingleList extends CustomAuthorization {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onBatchActionSelect = key => {};
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   renderTable = config => null;
 
-  renderAboveTable = () => null;
+  renderAlertContent = () => {
+    return '';
+  };
+
+  renderAlertOption = () => {};
+
+  renderAboveTable = () => {
+    const content = this.renderAlertContent();
+    const option = this.renderAlertOption();
+
+    if (!content && !option) {
+      return null;
+    }
+
+    return (
+      <div className={styles.alertContainor}>
+        <Alert
+          message={
+            <div className={styles.alertInfo}>
+              <div className={styles.alertContent}>{content}</div>
+              {option && <div className={styles.alertOption}>{option}</div>}
+            </div>
+          }
+          type="info"
+          showIcon
+        />
+      </div>
+    );
+  };
 
   renderExtraAction = () => null;
 
-  renderBatchAction = () => null;
+  renderBatchActionMenu = () => [];
+
+  renderBatchAction = () => {
+    const { showSelect } = this.state;
+
+    if (showSelect) {
+      const batchActionMenu = this.renderBatchActionMenu();
+
+      if ((batchActionMenu || []).length > 0) {
+        return (
+          <>
+            <BatchAction.Button
+              onSelect={key => {
+                this.onBatchActionSelect(key);
+              }}
+              menus={batchActionMenu}
+            >
+              批量操作
+            </BatchAction.Button>
+
+            <Divider type="vertical" />
+          </>
+        );
+      }
+    }
+
+    return null;
+  };
 
   render() {
     const { listTitle, tableSize, refreshing } = this.state;
+
+    const extraAction = this.renderExtraAction();
 
     return (
       <PageHeaderWrapper title={this.getPageName()}>
@@ -306,9 +367,11 @@ class SingleList extends CustomAuthorization {
             className={styles.containorTable}
             extra={
               <>
-                {this.renderExtraAction()}
+                {extraAction}
+
+                {extraAction == null ? null : <Divider type="vertical" />}
+
                 {this.renderBatchAction()}
-                <Divider type="vertical" />
                 <DensityAction
                   tableSize={tableSize}
                   setTableSize={key => {
