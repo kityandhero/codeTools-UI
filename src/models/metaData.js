@@ -1,5 +1,5 @@
 import { queryGetData } from '../services/metaData';
-import { pretreatmentRemoteSingleData } from '../utils/tools';
+import { handleCommonDataAssist } from '../utils/tools';
 
 export default {
   namespace: 'metaData',
@@ -20,13 +20,7 @@ export default {
 
   reducers: {
     handleCommonData(state, action) {
-      const d = action.payload;
-      const v = pretreatmentRemoteSingleData(d);
-
-      return {
-        ...state,
-        data: v,
-      };
+      return handleCommonDataAssist(state, action);
     },
   },
 };

@@ -20,6 +20,7 @@ import {
   isDate as isDateLodash,
   isArray as isArrayLodash,
   remove as removeLodash,
+  merge as mergeLodash,
 } from 'lodash';
 
 import { getConfigData } from '../customConfig/config';
@@ -549,7 +550,6 @@ function seededRandom(seed, min, max) {
  * @returns
  */
 export function getRandomColor(seed) {
-  // eslint-disable-next-line
   return `#${`00000${((seededRandom(seed) * 0x1000000) << 0).toString(16)}`.substr(-6)}`;
 }
 
@@ -964,8 +964,8 @@ export function pretreatmentRemotePageListData(d, listItemHandler) {
       count: (list || []).length,
       list,
       pagination: {
-        total: extraData.total,
-        pageSize: extraData.pageSize,
+        total: toNumber(extraData.total),
+        pageSize: toNumber(extraData.pageSize),
         current: parseInt(pageNo || 1, 10) || 1,
       },
       extra: extraData,
@@ -1513,12 +1513,21 @@ export function filter(collection, predicateFunction) {
 }
 
 /**
- * 创建一个元素数组。 以 iteratee 处理的结果升序排序。 这个方法执行稳定排序，也就是说相同元素会保持原始排序。 iteratees 调用1个参数： (value)。
+ * 创建一个元素数组。 以 iteratee 处理的结果升序排序。 这个方法执行稳定排序，也就是说相同元素会保持原始排序。 predicateFunction 调用1个参数： (value)。
  * @param {collection}  (Array|Object), 用来迭代的集合。
  * @param {predicateFunction} 这个函数决定排序
  */
 export function sortBy(collection, predicateFunction) {
   return sortByLodash(collection, predicateFunction);
+}
+
+/**
+ * 该方法类似_.assign， 除了它递归合并 sources 来源对象自身和继承的可枚举属性到 object 目标对象。如果目标值存在，被解析为undefined的sources 来源对象属性将被跳过。数组和普通对象会递归合并，其他对象和值会被直接分配覆盖。源对象从从左到右分配。后续的来源对象属性会覆盖之前分配的属性。 Note: 这方法会改变对象 object.
+ * @param {object}  目标对象。
+ * @param {sources}  (...Object) 来源对象。
+ */
+export function merge(object, sources = []) {
+  return mergeLodash(object, sources);
 }
 
 /**

@@ -9,6 +9,7 @@ import {
   pretreatmentRequestParams,
   copyToClipboard,
   replaceTargetText,
+  merge,
 } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
@@ -190,6 +191,7 @@ class Index extends PagerList {
       dataIndex: 'name',
       width: 220,
       align: 'left',
+      render: val => <>{val || '--'}</>,
     },
     // {
     //   title: fieldData.contactInformation,
@@ -256,6 +258,7 @@ class Index extends PagerList {
     },
     {
       title: fieldData.operate,
+      dataIndex: 'customOperate',
       width: 106,
       fixed: 'right',
       align: 'center',

@@ -52,6 +52,7 @@ const CheckboxListItem = ({ columnKey, columnsMap, title, setColumnsMap, fixed }
   const columnsCollection = columnsMap || [];
 
   const config = columnsCollection[columnKey || 'null'] || { show: true };
+
   return (
     <span className={styles.item} key={columnKey}>
       <Checkbox
@@ -164,7 +165,7 @@ const CheckboxList = ({
   );
 };
 
-const GroupCheckboxList = ({ localColumns, setColumnsMap }) => {
+const GroupCheckboxList = ({ localColumns, columnsMap, setColumnsMap, setSortKeyColumns }) => {
   const rightList = [];
   const leftList = [];
   const list = [];
@@ -189,6 +190,7 @@ const GroupCheckboxList = ({ localColumns, setColumnsMap }) => {
         key="list-leftList"
         title="固定在左侧"
         list={leftList}
+        columnsMap={columnsMap}
         setColumnsMap={setColumnsMap}
       />
       {/* 如果没有任何固定，不需要显示title */}
@@ -196,6 +198,7 @@ const GroupCheckboxList = ({ localColumns, setColumnsMap }) => {
         key="list-list"
         list={list}
         title="不固定"
+        columnsMap={columnsMap}
         showTitle={showLeft || showRight}
         setColumnsMap={setColumnsMap}
       />
@@ -203,7 +206,9 @@ const GroupCheckboxList = ({ localColumns, setColumnsMap }) => {
         key="list-rightList"
         title="固定在右侧"
         list={rightList}
+        columnsMap={columnsMap}
         setColumnsMap={setColumnsMap}
+        setSortKeyColumns={setSortKeyColumns}
       />
     </div>
   );
@@ -234,9 +239,9 @@ const ColumnSetting = props => {
     }
   };
 
-  const selectKeys = Object.values(columnsMap || []).filter(
-    value => !value || value.show === false,
-  );
+  const selectKeys = Object.values(columnsMap || []).filter(value => {
+    return !value || value.show === false;
+  });
 
   const indeterminate = selectKeys.length > 0 && selectKeys.length !== localColumns.length;
 
@@ -275,6 +280,7 @@ const ColumnSetting = props => {
           <div>
             <GroupCheckboxList
               localColumns={localColumns}
+              columnsMap={columnsMap}
               setColumnsMap={setColumnsMap}
               setSortKeyColumns={setSortKeyColumns}
             />

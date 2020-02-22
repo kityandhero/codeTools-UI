@@ -3,7 +3,12 @@ import { Form, Row, Col, Card, Tooltip, Button, DatePicker, BackTop, Divider } f
 import { SearchOutlined, ReloadOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
-import { defaultListState, buildFieldDescription } from '../../../../utils/tools';
+import {
+  defaultListState,
+  buildFieldDescription,
+  isArray,
+  isUndefined,
+} from '../../../../utils/tools';
 import CustomAuthorization from '../../CustomAuthorization';
 import { tableSizeConfig } from '../../../StandardTableCustom';
 
@@ -21,6 +26,8 @@ class SingleList extends CustomAuthorization {
 
     this.lastLoadParams = null;
 
+    this.columnsOtherConfig = [];
+
     const defaultState = defaultListState();
 
     this.state = {
@@ -29,6 +36,7 @@ class SingleList extends CustomAuthorization {
       ...{
         listTitle: '检索结果',
         tableSize: tableSizeConfig.middle,
+        counterSetColumnsOtherConfig: 0,
       },
     };
   }
@@ -53,6 +61,39 @@ class SingleList extends CustomAuthorization {
   };
 
   getColumn = () => [];
+
+  getColumnMerged = () => {
+    let columns = [];
+
+    const columnsSource = this.getColumn();
+
+    const columnsOtherConfigArray = this.columnsOtherConfig || [];
+
+    if (isArray(columnsOtherConfigArray)) {
+      if (columnsOtherConfigArray.length > 0) {
+        if (columnsSource.length !== columnsOtherConfigArray.length) {
+          this.restoreColumnsOtherConfigArray();
+        } else {
+          columnsSource.forEach((item, index) => {
+            const c = { ...item, ...columnsOtherConfigArray[index] };
+
+            const { show } = c || { show: true };
+
+            if (show) {
+              columns.push(c);
+            }
+          });
+        }
+      } else {
+        this.restoreColumnsOtherConfigArray();
+        columns = columnsSource;
+      }
+    } else {
+      columns = columnsSource;
+    }
+
+    return columns;
+  };
 
   handleFormReset = () => {
     // 需要继承重载
@@ -167,10 +208,18 @@ class SingleList extends CustomAuthorization {
     return {};
   };
 
+  restoreColumnsOtherConfigArray = () => {
+    const columnsOtherConfigArray = this.getColumn().map(item => {
+      return { dataIndex: item.dataIndex, show: true, fixed: item.fixed || '' };
+    });
+
+    this.columnsOtherConfig = columnsOtherConfigArray;
+  };
+
   buildTableConfig = () => {
     const { tableSize } = this.state;
 
-    const columns = this.getColumn();
+    const columns = this.getColumnMerged();
 
     return {
       ...this.buildTableOtherConfig(),
@@ -181,6 +230,53 @@ class SingleList extends CustomAuthorization {
 
   setTableSize = key => {
     this.setState({ tableSize: key });
+  };
+
+  setColumnsMap = e => {
+    if (Object.keys(e || {}).length === 0) {
+      this.restoreColumnsOtherConfigArray();
+    } else {
+      const columnsOtherConfigArrayChanged = (this.columnsOtherConfig || []).map(item => {
+        const { dataIndex } = item;
+
+        if (!isUndefined(e[dataIndex])) {
+          const d = e[dataIndex];
+
+          d.show = isUndefined(d.show) ? true : d.show;
+
+          return { ...item, ...d };
+        }
+
+        return item;
+      });
+
+      this.columnsOtherConfig = columnsOtherConfigArrayChanged;
+    }
+
+    const { counterSetColumnsOtherConfig } = this.state;
+
+    this.setState({ counterSetColumnsOtherConfig: counterSetColumnsOtherConfig + 1 });
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setSortKeyColumns = e => {};
+
+  getColumnsMap = () => {
+    const o = {};
+
+    (this.columnsOtherConfig || []).forEach(item => {
+      const { dataIndex } = item;
+
+      const temp = { ...{}, ...item };
+
+      if (temp.delete) {
+        temp.delete('dataIndex');
+      }
+
+      o[`${dataIndex}`] = temp;
+    });
+
+    return o;
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -231,7 +327,16 @@ class SingleList extends CustomAuthorization {
                     }}
                   />
                 </Tooltip>
-                <ColumnSetting columns={this.getColumn()} />
+                <ColumnSetting
+                  columns={this.getColumn()}
+                  columnsMap={this.getColumnsMap()}
+                  setColumnsMap={e => {
+                    this.setColumnsMap(e);
+                  }}
+                  setSortKeyColumns={key => {
+                    this.setSortKeyColumns(key);
+                  }}
+                />
                 {/* <Button
                   type="primary"
                   icon={<SearchOutlined />}

@@ -5,7 +5,7 @@ import {
   updateBasicInfoData,
   removeData,
 } from '../services/connectionConfig';
-import { pretreatmentRemotePageListData, pretreatmentRemoteSingleData } from '../utils/tools';
+import { handlePageListDataAssist, handleCommonDataAssist } from '../utils/tools';
 
 export default {
   namespace: 'connectionConfig',
@@ -52,22 +52,10 @@ export default {
 
   reducers: {
     handlePageListData(state, action) {
-      const d = action.payload;
-      const v = pretreatmentRemotePageListData(d);
-
-      return {
-        ...state,
-        data: v,
-      };
+      return handlePageListDataAssist(state, action);
     },
     handleCommonData(state, action) {
-      const d = action.payload;
-      const v = pretreatmentRemoteSingleData(d);
-
-      return {
-        ...state,
-        data: v,
-      };
+      return handleCommonDataAssist(state, action);
     },
   },
 };
