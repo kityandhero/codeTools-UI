@@ -69,7 +69,11 @@ class Password extends UpdateForm {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = data => {
-    const { form } = this.props;
+    const form = this.getTargetForm();
+
+    if (form == null) {
+      return;
+    }
 
     form.resetFields();
 

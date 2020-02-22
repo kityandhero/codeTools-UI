@@ -6,8 +6,18 @@ import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
 class UpdateForm extends LoadDataForm {
   goToUpdateWhenProcessed = false;
 
+  getTargetForm = () => {
+    message.error('需要重载getTargetForm');
+
+    return null;
+  };
+
   handleFormReset = () => {
-    const { form } = this.props;
+    const form = this.getTargetForm();
+
+    if (form == null) {
+      return;
+    }
 
     form.resetFields();
 
@@ -51,8 +61,15 @@ class UpdateForm extends LoadDataForm {
 
   afterCheckSubmitRequestParams = o => o;
 
-  validate = (e, form) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  validate = e => {
     const { dispatch } = this.props;
+
+    const form = this.getTargetForm();
+
+    if (form == null) {
+      return;
+    }
 
     const { validateFields } = form;
 

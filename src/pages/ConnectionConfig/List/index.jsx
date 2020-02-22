@@ -156,9 +156,9 @@ class Index extends PagerList {
   renderSimpleFormRow = () => {
     return (
       <>
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
-          <Col lg={6} md={12} sm={24}>
-            {/* {this.renderSearchInputFormItem(fieldData.name, 'title')} */}
+        <Row gutter={24}>
+          <Col lg={10} md={12} sm={24}>
+            {this.renderSearchInputFormItem(fieldData.name, 'title')}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>

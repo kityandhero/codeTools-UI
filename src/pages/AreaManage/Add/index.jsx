@@ -73,7 +73,7 @@ class Add extends AddFormBase {
   };
 
   formContent = () => {
-    const { form } = this.props;
+    const form = this.getTargetForm();
     const { processing } = this.state;
     const { getFieldDecorator } = form;
 

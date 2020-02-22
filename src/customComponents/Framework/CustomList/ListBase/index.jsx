@@ -1,5 +1,17 @@
 import React from 'react';
-import { Form, Row, Col, Card, Alert, Tooltip, Button, DatePicker, BackTop, Divider } from 'antd';
+import {
+  Form,
+  Row,
+  Col,
+  Card,
+  Alert,
+  Tooltip,
+  Button,
+  DatePicker,
+  BackTop,
+  Divider,
+  message,
+} from 'antd';
 import { SearchOutlined, ReloadOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
@@ -22,6 +34,8 @@ const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 
 class SingleList extends CustomAuthorization {
+  formRef = React.createRef();
+
   constructor(props) {
     super(props);
 
@@ -110,18 +124,49 @@ class SingleList extends CustomAuthorization {
       return;
     }
 
-    const { form } = this.props;
+    const form = this.getSearchForm();
 
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
+    const { validateFields } = form;
 
-      const values = {
-        ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
-      };
+    validateFields()
+      .then(fieldsValue => {
+        const values = {
+          ...fieldsValue,
+          updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        };
 
-      this.searchData({ formValues: values });
-    });
+        this.searchData({ formValues: values });
+      })
+      .catch(error => {
+        const { errorFields } = error;
+
+        const m = [];
+
+        Object.values(errorFields).forEach(o => {
+          m.push(o.errors[0]);
+        });
+
+        const maxLength = 5;
+        let beyondMax = false;
+
+        if (m.length > maxLength) {
+          m.length = maxLength;
+
+          beyondMax = true;
+        }
+
+        let errorMessage = m.join(', ');
+
+        if (beyondMax) {
+          errorMessage += ' ...';
+        }
+
+        message.warn(errorMessage);
+      });
+  };
+
+  getSearchForm = () => {
+    return this.formRef.current;
   };
 
   renderSimpleFormButton = (ColMd = 6) => {
@@ -130,7 +175,14 @@ class SingleList extends CustomAuthorization {
     return (
       <Col md={ColMd} sm={24}>
         <span className={styles.submitButtons}>
-          <Button loading={searching} type="primary" icon={<SearchOutlined />} htmlType="submit">
+          <Button
+            loading={searching}
+            type="primary"
+            icon={<SearchOutlined />}
+            onClick={e => {
+              this.handleSearch(e);
+            }}
+          >
             查询
           </Button>
           <Button
@@ -149,9 +201,6 @@ class SingleList extends CustomAuthorization {
   };
 
   renderSimpleFormRangePicker = (dateRangeFieldName, ColMd = 8, rangePickerProps = null) => {
-    const { form } = this.props;
-    const { getFieldDecorator } = form;
-
     const p = {
       ...{
         style: { width: '100%' },
@@ -167,15 +216,16 @@ class SingleList extends CustomAuthorization {
 
     return (
       <Col md={ColMd} sm={24}>
-        <FormItem label={dateRangeFieldName}>
-          {getFieldDecorator('dateRange', {
-            rules: [
-              {
-                required: false,
-                message: buildFieldDescription(dateRangeFieldName, '选择'),
-              },
-            ],
-          })(<RangePicker {...p} />)}
+        <FormItem
+          label={dateRangeFieldName}
+          rules={[
+            {
+              required: false,
+              message: buildFieldDescription(dateRangeFieldName, '选择'),
+            },
+          ]}
+        >
+          <RangePicker {...p} />
         </FormItem>
       </Col>
     );
@@ -195,7 +245,7 @@ class SingleList extends CustomAuthorization {
   };
 
   renderSimpleForm = () => (
-    <Form onSubmit={this.handleSearch} layout="inline">
+    <Form ref={this.formRef} onSubmit={this.handleSearch} layout="horizontal">
       {this.renderSimpleFormRow()}
     </Form>
   );

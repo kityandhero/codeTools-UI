@@ -33,7 +33,11 @@ class ModalBase extends CustomAuthorization {
     const { visible } = this.state;
 
     if (visible && !visiblePre) {
-      const { form } = this.props;
+      const form = this.getTargetForm();
+
+      if (form == null) {
+        return;
+      }
 
       form.resetFields();
 
@@ -50,6 +54,12 @@ class ModalBase extends CustomAuthorization {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkSubmitRequestParams = o => true;
+
+  getTargetForm = () => {
+    message.error('需要重载getTargetForm');
+
+    return null;
+  };
 
   handleOk = e => {
     e.preventDefault();

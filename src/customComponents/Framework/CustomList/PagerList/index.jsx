@@ -35,7 +35,8 @@ class PagerList extends ListBase {
       }
     }
 
-    const { form } = this.props;
+    const form = this.getSearchForm();
+
     const { pageSize } = this.state;
 
     form.resetFields();
@@ -124,7 +125,7 @@ class PagerList extends ListBase {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterGetFirstRequestResult = (submitData, responseData) => {
-    const { form } = this.props;
+    const form = this.getSearchForm();
     const { urlParams } = this.state;
 
     let pageKey = 'no';
@@ -175,19 +176,46 @@ class PagerList extends ListBase {
       return;
     }
 
-    const { form } = this.props;
+    const form = this.getSearchForm();
+
+    const { validateFields } = form;
     const { pageSize } = this.state;
 
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
+    validateFields()
+      .then(fieldsValue => {
+        const values = {
+          ...fieldsValue,
+          updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        };
 
-      const values = {
-        ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
-      };
+        this.searchData({ formValues: values, pageNo: 1, pageSize });
+      })
+      .catch(error => {
+        const { errorFields } = error;
 
-      this.searchData({ formValues: values, pageNo: 1, pageSize });
-    });
+        const m = [];
+
+        Object.values(errorFields).forEach(o => {
+          m.push(o.errors[0]);
+        });
+
+        const maxLength = 5;
+        let beyondMax = false;
+
+        if (m.length > maxLength) {
+          m.length = maxLength;
+
+          beyondMax = true;
+        }
+
+        let errorMessage = m.join(', ');
+
+        if (beyondMax) {
+          errorMessage += ' ...';
+        }
+
+        message.warn(errorMessage);
+      });
   };
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {

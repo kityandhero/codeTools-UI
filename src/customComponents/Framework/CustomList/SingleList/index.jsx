@@ -20,7 +20,7 @@ class SingleList extends ListBase {
   }
 
   handleFormReset = () => {
-    const { form } = this.props;
+    const form = this.getSearchForm();
 
     form.resetFields();
 
@@ -87,9 +87,11 @@ class SingleList extends ListBase {
       return;
     }
 
-    const { form } = this.props;
+    const form = this.getSearchForm();
 
-    form.validateFields((err, fieldsValue) => {
+    const { validateFields } = form;
+
+    validateFields((err, fieldsValue) => {
       if (err) return;
 
       const values = {
@@ -99,6 +101,42 @@ class SingleList extends ListBase {
 
       this.searchData({ formValues: values });
     });
+
+    validateFields()
+      .then(fieldsValue => {
+        const values = {
+          ...fieldsValue,
+          updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
+        };
+
+        this.searchData({ formValues: values });
+      })
+      .catch(error => {
+        const { errorFields } = error;
+
+        const m = [];
+
+        Object.values(errorFields).forEach(o => {
+          m.push(o.errors[0]);
+        });
+
+        const maxLength = 5;
+        let beyondMax = false;
+
+        if (m.length > maxLength) {
+          m.length = maxLength;
+
+          beyondMax = true;
+        }
+
+        let errorMessage = m.join(', ');
+
+        if (beyondMax) {
+          errorMessage += ' ...';
+        }
+
+        message.warn(errorMessage);
+      });
   };
 
   renderTable = () => {

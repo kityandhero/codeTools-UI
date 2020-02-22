@@ -103,7 +103,7 @@ class ResetPassword extends UpdateFormTab {
   };
 
   formContent = () => {
-    const { form } = this.props;
+    const form = this.getTargetForm();
     const { getFieldDecorator } = form;
     const { processing, dataLoading } = this.state;
 

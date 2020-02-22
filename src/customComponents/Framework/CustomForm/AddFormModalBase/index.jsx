@@ -29,7 +29,12 @@ class AddFormModalBase extends ModalBase {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
     const { needReset } = this.state;
-    const { form } = this.props;
+
+    const form = this.getTargetForm();
+
+    if (form == null) {
+      return;
+    }
 
     if (needReset) {
       form.resetFields();

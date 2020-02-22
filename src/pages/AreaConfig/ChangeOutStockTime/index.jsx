@@ -81,7 +81,7 @@ class ChangeOutStockTime extends UpdateForm {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = data => {
-    const { form } = this.props;
+    const form = this.getTargetForm();
     const { metaData, hour, minute, autoCompleteGoodsLogisticsProcessRequestMessage } = this.state;
 
     metaData.outStockHour = hour;

@@ -23,8 +23,18 @@ class AddFormBase extends CustomAuthorization {
     };
   }
 
+  getTargetForm = () => {
+    message.error('需要重载getTargetForm');
+
+    return null;
+  };
+
   handleFormReset = () => {
-    const { form } = this.props;
+    const form = this.getTargetForm();
+
+    if (form == null) {
+      return;
+    }
 
     form.resetFields();
 
@@ -39,8 +49,11 @@ class AddFormBase extends CustomAuthorization {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkSubmitRequestParams = o => true;
 
-  validate = (e, form) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  validate = e => {
     const { dispatch } = this.props;
+
+    const form = this.getTargetForm();
 
     const { validateFields } = form;
 

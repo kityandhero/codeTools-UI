@@ -81,7 +81,7 @@ class EditMasterWarehouse extends UpdateForm {
   };
 
   render() {
-    const { form } = this.props;
+    const form = this.getTargetForm();
     const { getFieldDecorator } = form;
     const { metaData, processing, dataLoading, loadSuccess } = this.state;
 

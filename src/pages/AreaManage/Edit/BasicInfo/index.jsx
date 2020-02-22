@@ -94,7 +94,7 @@ class BasicInfo extends UpdateFormTab {
   };
 
   formContent = () => {
-    const { form } = this.props;
+    const form = this.getTargetForm();
     const { getFieldDecorator } = form;
     const { metaData, processing, dataLoading, loadSuccess } = this.state;
 

@@ -77,6 +77,10 @@ class Index extends AddFormBase {
     this.setState({ selectConnectionType: o ? connectionType.SSH : connectionType.TCP_IP });
   };
 
+  getTargetForm = () => {
+    return this.formRef.current;
+  };
+
   formContent = () => {
     const { processing, selectConnectionType } = this.state;
 
@@ -100,7 +104,7 @@ class Index extends AddFormBase {
                     icon={<SaveOutlined />}
                     disabled={processing}
                     onClick={e => {
-                      this.validate(e, this.formRef.current);
+                      this.validate(e);
                     }}
                     loading={processing}
                   >
