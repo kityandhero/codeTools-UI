@@ -22,9 +22,9 @@ class DensityAction extends PureComponent {
               width: 80,
             }}
           >
-            <Menu.Item key={tableSizeConfig.large}>默认</Menu.Item>
-            <Menu.Item key={tableSizeConfig.middle}>中等</Menu.Item>
             <Menu.Item key={tableSizeConfig.small}>紧凑</Menu.Item>
+            <Menu.Item key={tableSizeConfig.middle}>中等</Menu.Item>
+            <Menu.Item key={tableSizeConfig.large}>宽松</Menu.Item>
           </Menu>
         }
       >

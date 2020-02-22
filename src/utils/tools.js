@@ -28,7 +28,7 @@ const storageKeyCollection = {
   metaData: 'metaData',
   token: 'token',
   city: 'city',
-  currentOperator: 'currentOperator',
+  operator: 'operator',
 };
 
 export function defaultBaseState() {
@@ -1400,7 +1400,7 @@ export function clearLocalStorage() {
  */
 export function clearCustomData() {
   removeMetaDataCache();
-  removeCurrentOperatorCache();
+  removeOperatorCache();
   removeToken();
   removeCity();
 }
@@ -1695,8 +1695,8 @@ export function removeUseParamsDataCache(key) {
  * @param {*} fn
  * @returns
  */
-export function getCurrentOperatorCache() {
-  const key = storageKeyCollection.currentOperator;
+export function getOperatorCache() {
+  const key = storageKeyCollection.operator;
 
   const d = getJsonFromLocalStorage(key);
 
@@ -1718,8 +1718,8 @@ export function getCurrentOperatorCache() {
  * @param {o} metaData数据
  * @returns
  */
-export function setCurrentOperatorCache(o) {
-  const key = storageKeyCollection.currentOperator;
+export function setOperatorCache(o) {
+  const key = storageKeyCollection.operator;
 
   const d = {
     data: o || null,
@@ -1736,8 +1736,8 @@ export function setCurrentOperatorCache(o) {
  * @param {*} fn
  * @returns
  */
-export function removeCurrentOperatorCache() {
-  const key = storageKeyCollection.currentOperator;
+export function removeOperatorCache() {
+  const key = storageKeyCollection.operator;
   removeLocalStorage(key);
 }
 

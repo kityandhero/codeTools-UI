@@ -122,37 +122,37 @@ export default [
         ],
       },
       {
-        path: '/currentOperator',
-        name: 'currentOperator',
+        path: '/operator',
+        name: 'operator',
         icon: 'user',
         authority: [accessWayCollection.currentCustomer],
         routes: [
           {
-            path: '/currentOperator',
-            redirect: '/currentOperator/setting',
+            path: '/operator',
+            redirect: '/operator/setting',
           },
           {
-            path: '/currentOperator/setting',
+            path: '/operator/setting',
             name: 'setting',
             icon: 'bars',
             authority: [accessWayCollection.currentCustomer],
-            component: './CurrentOperator/Setting',
+            component: './Operator/Setting',
             routes: [
               {
-                path: '/currentOperator/setting',
-                redirect: '/currentOperator/setting/base',
+                path: '/operator/setting',
+                redirect: '/operator/setting/base',
               },
               {
-                path: '/currentOperator/setting/base',
-                component: './CurrentOperator/Setting/Base',
+                path: '/operator/setting/base',
+                component: './Operator/Setting/Base',
               },
               {
-                path: '/currentOperator/setting/password',
-                component: './CurrentOperator/Setting/Password',
+                path: '/operator/setting/password',
+                component: './Operator/Setting/Password',
               },
               {
-                path: '/currentOperator/setting/security',
-                component: './CurrentOperator/Setting/Security',
+                path: '/operator/setting/security',
+                component: './Operator/Setting/Security',
               },
             ],
           },

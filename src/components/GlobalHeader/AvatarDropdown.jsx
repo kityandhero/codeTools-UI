@@ -27,7 +27,7 @@ class AvatarDropdown extends React.Component {
 
   render() {
     const {
-      global: { currentOperator = null },
+      global: { operator = null },
       menu,
     } = this.props;
     const menuHeaderDropdown = (
@@ -52,16 +52,16 @@ class AvatarDropdown extends React.Component {
         </Menu.Item>
       </Menu>
     );
-    return currentOperator != null ? (
+    return operator != null ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
           <Avatar
             size="small"
             className={styles.avatar}
-            src={currentOperator.avatar || '/user.png'}
+            src={operator.avatar || '/user.png'}
             alt="avatar"
           />
-          <span className={styles.name}>{currentOperator.name || '未知用户'}</span>
+          <span className={styles.name}>{operator.name || '未知用户'}</span>
         </span>
       </HeaderDropdown>
     ) : (

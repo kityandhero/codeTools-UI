@@ -33,18 +33,18 @@ class Index extends CustomCommonWrapper {
 
   checkAuthority = auth => checkHasAuthority(auth);
 
-  getCurrentOperator = () => {
+  getOperator = () => {
     const {
-      global: { currentOperator },
+      global: { operator },
     } = this.props;
-    return currentOperator;
+    return operator;
   };
 
-  reloadCurrentOperator = (callback = null) => {
+  reloadOperator = (callback = null) => {
     const { dispatch } = this.props;
 
     dispatch({
-      type: 'global/getCurrentOperator',
+      type: 'global/getOperator',
       payload: { force: true },
     }).then(() => {
       if (isFunction(callback)) {

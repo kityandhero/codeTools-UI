@@ -116,7 +116,7 @@ const BasicLayout = props => {
         payload: { force: false },
       });
       dispatch({
-        type: 'global/getCurrentOperator',
+        type: 'global/getOperator',
         payload: { force: false },
       });
       dispatch({

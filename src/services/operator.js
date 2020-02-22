@@ -55,7 +55,7 @@ export async function getCurrentData() {
     return result;
   }
 
-  return request('/business/currentOperator/getCurrent');
+  return request('/business/operator/getCurrent');
 }
 
 export async function getCurrentBasicInfoData() {
@@ -67,7 +67,7 @@ export async function getCurrentBasicInfoData() {
     return result;
   }
 
-  return request('/business/currentOperator/getCurrentBasicInfo', {
+  return request('/business/operator/getCurrentBasicInfo', {
     method: 'POST',
   });
 }
@@ -81,7 +81,7 @@ export async function updateCurrentBasicInfoData(params) {
     return result;
   }
 
-  return request('/business/currentOperator/updateCurrentBasicInfo', {
+  return request('/business/operator/updateCurrentBasicInfo', {
     method: 'POST',
     body: params,
   });
@@ -96,7 +96,7 @@ export async function changeCurrentPasswordData(params) {
     return result;
   }
 
-  return request('/business/currentOperator/changeCurrentPassword', {
+  return request('/business/operator/changeCurrentPassword', {
     method: 'POST',
     body: params,
   });

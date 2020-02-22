@@ -58,7 +58,7 @@ class Setting extends Component {
   };
 
   selectKey = ({ key }) => {
-    router.push(`/currentOperator/setting/${key}`);
+    router.push(`/operator/setting/${key}`);
     this.setState({
       selectKey: key,
     });

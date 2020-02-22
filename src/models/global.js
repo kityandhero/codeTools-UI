@@ -2,8 +2,8 @@ import {
   pretreatmentRemoteSingleData,
   getMetaDataCache,
   setMetaDataCache,
-  getCurrentOperatorCache,
-  setCurrentOperatorCache,
+  getOperatorCache,
+  setOperatorCache,
 } from '../utils/tools';
 
 import { queryNotices } from '../services/user';
@@ -16,9 +16,9 @@ const GlobalModel = {
   state: {
     globalLoading: false,
     globalLoadSuccess: false,
-    currentOperatorLoading: false,
-    currentOperatorLoadSuccess: false,
-    currentOperator: null,
+    operatorLoading: false,
+    operatorLoadSuccess: false,
+    operator: null,
     collapsed: false,
     amapObject: null,
     notices: [],
@@ -74,13 +74,13 @@ const GlobalModel = {
         payload: result,
       });
     },
-    *getCurrentOperator({ payload }, { call, put }) {
+    *getOperator({ payload }, { call, put }) {
       const { force } = payload || { force: false };
       let result = {};
       let fromRemote = force || false;
 
       if (!force) {
-        result = getCurrentOperatorCache();
+        result = getOperatorCache();
 
         if ((result || null) == null) {
           fromRemote = true;
@@ -98,12 +98,12 @@ const GlobalModel = {
         if (dataSuccess) {
           result = metaData;
 
-          setCurrentOperatorCache(result);
+          setOperatorCache(result);
         }
       }
 
       yield put({
-        type: 'changeCurrentOperator',
+        type: 'changeOperator',
         payload,
       });
     },
@@ -189,22 +189,22 @@ const GlobalModel = {
         ...payload,
       };
     },
-    changeCurrentOperatorLoading(state, { payload }) {
+    changeOperatorLoading(state, { payload }) {
       return {
         ...state,
-        currentOperatorLoading: payload,
+        operatorLoading: payload,
       };
     },
-    changeCurrentOperatorLoadSuccess(state, { payload }) {
+    changeOperatorLoadSuccess(state, { payload }) {
       return {
         ...state,
-        currentOperatorLoadSuccess: payload,
+        operatorLoadSuccess: payload,
       };
     },
-    changeCurrentOperator(state, { payload }) {
+    changeOperator(state, { payload }) {
       return {
         ...state,
-        currentOperator: payload,
+        operator: payload,
       };
     },
     handleAmapObject(state, { payload }) {

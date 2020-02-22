@@ -168,14 +168,14 @@ class SingleList extends CustomAuthorization {
   };
 
   buildTableConfig = () => {
-    const { tableList } = this.state;
+    const { tableSize } = this.state;
 
     const columns = this.getColumn();
 
     return {
       ...this.buildTableOtherConfig(),
       columns,
-      size: tableList,
+      size: tableSize,
     };
   };
 
