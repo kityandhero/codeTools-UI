@@ -9,6 +9,7 @@ import {
   pretreatmentRequestParams,
   copyToClipboard,
   replaceTargetText,
+  buildFieldHelper,
 } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
@@ -158,7 +159,11 @@ class Index extends PagerList {
       <>
         <Row gutter={24}>
           <Col lg={10} md={12} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.name, 'title')}
+            {this.renderSearchInputFormItem(
+              fieldData.name,
+              'name',
+              buildFieldHelper('依据名称进行检索'),
+            )}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>
