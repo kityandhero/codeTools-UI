@@ -1,16 +1,16 @@
 export function parseUrlParamsForSetState({ urlParams }) {
   const { id } = urlParams;
 
-  return { areaManageId: id };
+  return { accountId: id };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function checkNeedUpdateAssist(currentState, preProps, preState, snapshot) {
-  const { areaManageId } = currentState;
+  const { accountId } = currentState;
 
-  const { areaManageId: areaManageIdPre } = preState;
+  const { accountId: accountIdPre } = preState;
 
-  return areaManageIdPre !== areaManageId;
+  return accountIdPre !== accountId;
 }
 
 /**

@@ -244,8 +244,17 @@ class SingleList extends CustomAuthorization {
     );
   };
 
+  renderSimpleFormInitialValues = () => {
+    return {};
+  };
+
   renderSimpleForm = () => (
-    <Form ref={this.formRef} onSubmit={this.handleSearch} layout="horizontal">
+    <Form
+      ref={this.formRef}
+      initialValues={this.renderSimpleFormInitialValues()}
+      onSubmit={this.handleSearch}
+      layout="horizontal"
+    >
       {this.renderSimpleFormRow()}
     </Form>
   );

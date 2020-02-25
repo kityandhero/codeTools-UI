@@ -24,23 +24,25 @@ import {
 } from '@ant-design/icons';
 
 import { formatDatetime, copyToClipboard, replaceTargetText } from '../../../utils/tools';
+import { unlimitedWithStringFlag } from '../../../utils/constants';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
+import { customFieldCollection } from '../../../customSpecialComponents/CustomCommonSupplement/customConstants';
 import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '../../../customComponents/Ellipsis';
 import EllipsisCustom from '../../../customComponents/EllipsisCustom';
 
-import UpdateAreaManageRoleModal from '../UpdateAreaManageRoleModal';
+import UpdateAccountRoleModal from '../UpdateAccountRoleModal';
 import { fieldData } from '../Common/data';
 
 const { confirm } = Modal;
 
-@connect(({ areaManage, global, loading }) => ({
-  areaManage,
+@connect(({ account, global, loading }) => ({
+  account,
   global,
-  loading: loading.models.areaManage,
+  loading: loading.models.account,
 }))
-class Standard extends PagerList {
-  componentAuthority = accessWayCollection.areaManage.list;
+class Index extends PagerList {
+  componentAuthority = accessWayCollection.account.list;
 
   constructor(props) {
     super(props);
@@ -49,23 +51,23 @@ class Standard extends PagerList {
       ...this.state,
       ...{
         pageName: '账户列表',
-        paramsKey: 'ce7a9a67-d0b7-4040-904e-94092f67cc27',
-        loadApiPath: 'areaManage/list',
+        paramsKey: '6c8efa60-997d-43ca-981e-afc0c466c266',
+        loadApiPath: 'account/list',
         currentRecord: null,
-        changeUpdateAreaManageRoleModalVisible: false,
+        changeUpdateAccountRoleModalVisible: false,
       },
     };
   }
 
   getApiData = props => {
     const {
-      areaManage: { data },
+      account: { data },
     } = props;
 
     return data;
   };
 
-  getAreaManageStateBadgeStatus = v => {
+  getAccountStateBadgeStatus = v => {
     let result = 'default';
 
     switch (v) {
@@ -84,7 +86,7 @@ class Standard extends PagerList {
     const { dispatch } = this.props;
 
     const location = {
-      pathname: `/account/areaManage/add`,
+      pathname: `/account/account/add`,
     };
 
     dispatch(routerRedux.push(location));
@@ -92,9 +94,9 @@ class Standard extends PagerList {
 
   goToEdit = record => {
     const { dispatch } = this.props;
-    const { areaManageId } = record;
+    const { accountId } = record;
     const location = {
-      pathname: `/account/areaManage/edit/load/${areaManageId}/key/basicInfo`,
+      pathname: `/account/account/edit/load/${accountId}/key/basicInfo`,
     };
     dispatch(routerRedux.push(location));
   };
@@ -113,7 +115,7 @@ class Standard extends PagerList {
         this.changeState(record, 0);
         break;
       case 'setRole':
-        this.showUpdateAreaManageRoleModal(record);
+        this.showUpdateAccountRoleModal(record);
         break;
       default:
         break;
@@ -122,14 +124,14 @@ class Standard extends PagerList {
 
   changeState = (record, stateValue) => {
     const { dispatch } = this.props;
-    const { areaManageId } = record;
+    const { accountId } = record;
 
     this.setState({ processing: true });
 
     dispatch({
-      type: 'areaManage/changeState',
+      type: 'account/changeState',
       payload: {
-        areaManageId,
+        accountId,
         state: stateValue,
       },
     }).then(() => {
@@ -158,7 +160,7 @@ class Standard extends PagerList {
           });
         });
 
-        this.handleItem(record.areaManageId, d => {
+        this.handleItem(record.accountId, d => {
           const o = d;
           o.state = stateValue;
           return d;
@@ -187,9 +189,9 @@ class Standard extends PagerList {
         that.setState({ processing: true });
 
         dispatch({
-          type: 'areaManage/remove',
+          type: 'account/remove',
           payload: {
-            areaManageId: record.areaManageId,
+            accountId: record.accountId,
           },
         }).then(() => {
           const data = that.getApiData(that.props);
@@ -223,8 +225,8 @@ class Standard extends PagerList {
     const { customData } = this.state;
     let indexData = -1;
     customData.list.forEach((o, index) => {
-      const { areaManageId } = o;
-      if (areaManageId === dataId) {
+      const { accountId } = o;
+      if (accountId === dataId) {
         indexData = index;
       }
     });
@@ -235,124 +237,135 @@ class Standard extends PagerList {
     }
   };
 
-  showUpdateAreaManageRoleModal = record => {
-    const { changeUpdateAreaManageRoleModalVisible } = this.state;
-    if (!changeUpdateAreaManageRoleModalVisible) {
+  showUpdateAccountRoleModal = record => {
+    const { changeUpdateAccountRoleModalVisible } = this.state;
+    if (!changeUpdateAccountRoleModalVisible) {
       this.setState(
         {
           currentRecord: record,
         },
         () => {
-          this.setState({ changeUpdateAreaManageRoleModalVisible: true });
+          this.setState({ changeUpdateAccountRoleModalVisible: true });
         },
       );
     }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterUpdateAreaManageRoleModalOk = data => {
+  afterUpdateAccountRoleModalOk = data => {
     this.setState({
-      changeUpdateAreaManageRoleModalVisible: false,
+      changeUpdateAccountRoleModalVisible: false,
     });
 
     this.reloadData();
   };
 
-  afterUpdateAreaManageRoleModalCancel = () => {
+  afterUpdateAccountRoleModalCancel = () => {
     this.setState({
-      changeUpdateAreaManageRoleModalVisible: false,
+      changeUpdateAccountRoleModalVisible: false,
     });
   };
 
-  renderSimpleFormRow = () => {
-    const { dataLoading, processing } = this.state;
+  renderSimpleFormInitialValues = () => {
+    const v = {};
 
+    v[customFieldCollection.accountStatus] = unlimitedWithStringFlag.flag;
+
+    return v;
+  };
+
+  renderSimpleFormRow = () => {
     return (
       <>
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
-          <Col md={5} sm={24}>
+        <Row gutter={24}>
+          <Col lg={6} md={12} sm={24}>
             {this.renderSearchInputFormItem(fieldData.name, 'name')}
           </Col>
-          <Col md={4} sm={24}>
-            {this.renderSearchAreaManageStateFormItem(true)}
+          <Col md={6} sm={24}>
+            {this.renderSearchAccountStatusFormItem(true)}
           </Col>
-          {this.renderSimpleFormButton(
-            <>
-              <Divider type="vertical" />
-              <Button
-                key="buttonPlus"
-                disabled={dataLoading || processing}
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={this.goToAdd}
-              >
-                新增账户
-              </Button>
-            </>,
-            7,
-          )}
+          {this.renderSimpleFormButton()}
         </Row>
       </>
     );
   };
 
+  renderExtraAction = () => {
+    const { dataLoading, processing } = this.state;
+
+    return this.checkAuthority(accessWayCollection.connectionConfig.add) ? (
+      <>
+        <Divider type="vertical" />
+        <Button
+          key="buttonPlus"
+          disabled={dataLoading || processing}
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={this.goToAdd}
+        >
+          新增
+        </Button>
+      </>
+    ) : null;
+  };
+
   getColumn = () => [
     {
-      title: '人员名称',
-      dataIndex: 'name',
-      width: 140,
+      title: '登录名',
+      dataIndex: 'userName',
+      width: 180,
       align: 'left',
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {val}
+            {val || '--'}
           </Ellipsis>
         </>
       ),
     },
     {
-      title: '登录名',
-      dataIndex: 'loginName',
-      width: 180,
-      align: 'center',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {val}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: '拥有角色',
-      dataIndex: 'roleName',
-      align: 'center',
-      render: (val, record) => (
-        <>
-          {record.roleNameCollection.length === 0 ? '--' : null}
-
-          {record.roleNameCollection.length > 0 ? (
-            <>{this.renderRoleNameCollection(record.roleNameCollection)}</>
-          ) : null}
-        </>
-      ),
-    },
-    {
-      title: '联系方式',
-      dataIndex: 'phone',
+      title: '姓名',
+      dataIndex: 'name',
       width: 140,
       align: 'center',
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {val}
+            {val || '--'}
           </Ellipsis>
         </>
       ),
     },
+    // {
+    //   title: '拥有角色',
+    //   dataIndex: 'roleName',
+    //   align: 'center',
+    //   render: (val, record) => (
+    //     <>
+    //       {record.roleNameCollection.length === 0 ? '--' : null}
+
+    //       {record.roleNameCollection.length > 0 ? (
+    //         <>{this.renderRoleNameCollection(record.roleNameCollection)}</>
+    //       ) : null}
+    //     </>
+    //   ),
+    // },
+    // {
+    //   title: '联系方式',
+    //   dataIndex: 'phone',
+    //   width: 140,
+    //   align: 'center',
+    //   render: val => (
+    //     <>
+    //       <Ellipsis tooltip lines={1}>
+    //         {val}
+    //       </Ellipsis>
+    //     </>
+    //   ),
+    // },
     {
       title: '数据标识',
-      dataIndex: 'areaManageId',
+      dataIndex: 'accountId',
       width: 120,
       align: 'center',
       render: val => (
@@ -378,23 +391,23 @@ class Standard extends PagerList {
         </>
       ),
     },
-    {
-      title: '状态',
-      dataIndex: 'state',
-      width: 100,
-      align: 'center',
-      render: val => (
-        <>
-          <Badge
-            status={this.getAreaManageStateBadgeStatus(val)}
-            text={this.getAreaManageStateName(val)}
-          />
-        </>
-      ),
-    },
+    // {
+    //   title: '状态',
+    //   dataIndex: 'status',
+    //   width: 100,
+    //   align: 'center',
+    //   render: val => (
+    //     <>
+    //       <Badge
+    //         status={this.getAccountStateBadgeStatus(val)}
+    //         text={this.getAccountStateName(val)}
+    //       />
+    //     </>
+    //   ),
+    // },
     {
       title: '创建时间',
-      dataIndex: 'inTime',
+      dataIndex: 'createTime',
       width: 200,
       align: 'center',
       sorter: false,
@@ -408,6 +421,7 @@ class Standard extends PagerList {
     },
     {
       title: '操作',
+      dataIndex: 'customOperate',
       width: 106,
       fixed: 'right',
       align: 'center',
@@ -416,30 +430,30 @@ class Standard extends PagerList {
           <Dropdown.Button
             size="small"
             onClick={() => this.goToEdit(record)}
-            disabled={!this.checkAuthority(accessWayCollection.areaManage.get)}
+            disabled={!this.checkAuthority(accessWayCollection.account.get)}
             overlay={
               <Menu onClick={e => this.handleMenuClick(e, record)}>
-                {record.state === 0 &&
-                this.checkAuthority(accessWayCollection.areaManage.changeState) ? (
+                {/* {record.state === 0 &&
+                this.checkAuthority(accessWayCollection.account.changeState) ? (
                   <Menu.Item key="on">
                     <UpCircleOutlined />
                     设为生效
                   </Menu.Item>
                 ) : null}
                 {record.state !== 0 &&
-                this.checkAuthority(accessWayCollection.areaManage.changeState) ? (
+                this.checkAuthority(accessWayCollection.account.changeState) ? (
                   <Menu.Item key="off">
                     <DownCircleOutlined />
                     设为失效
                   </Menu.Item>
-                ) : null}
-                {this.checkAuthority(accessWayCollection.userRole.changeRole) ? (
+                ) : null} */}
+                {/* {this.checkAuthority(accessWayCollection.userRole.changeRole) ? (
                   <Menu.Item key="setRole">
                     <TagsOutlined />
                     设置角色
                   </Menu.Item>
-                ) : null}
-                {this.checkAuthority(accessWayCollection.areaManage.remove) ? (
+                ) : null} */}
+                {this.checkAuthority(accessWayCollection.account.remove) ? (
                   <Menu.Item key="remove">
                     <DeleteOutlined />
                     删除
@@ -467,21 +481,21 @@ class Standard extends PagerList {
   );
 
   renderOther = () => {
-    const { changeUpdateAreaManageRoleModalVisible, currentRecord } = this.state;
+    const { changeUpdateAccountRoleModalVisible, currentRecord } = this.state;
 
     return (
-      <UpdateAreaManageRoleModal
+      <UpdateAccountRoleModal
         title={`设置人员“${currentRecord == null ? '' : currentRecord.name}”拥有的角色`}
         sourceDataMark={{
-          areaManageId: currentRecord == null ? '' : currentRecord.areaManageId,
+          accountId: currentRecord == null ? '' : currentRecord.accountId,
         }}
         sourceData={currentRecord == null ? [] : currentRecord.roleCollection}
-        visible={changeUpdateAreaManageRoleModalVisible}
-        afterOK={this.afterUpdateAreaManageRoleModalOk}
-        afterCancel={this.afterUpdateAreaManageRoleModalCancel}
+        visible={changeUpdateAccountRoleModalVisible}
+        afterOK={this.afterUpdateAccountRoleModalOk}
+        afterCancel={this.afterUpdateAccountRoleModalCancel}
       />
     );
   };
 }
 
-export default Standard;
+export default Index;

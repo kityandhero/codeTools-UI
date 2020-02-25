@@ -2,13 +2,9 @@ import React from 'react';
 import { connect } from 'dva';
 import { ContactsOutlined, FormOutlined, SaveOutlined } from '@ant-design/icons';
 
-import { Form, Card, Spin, notification, Input, Button } from 'antd';
+import { Form, Card, Spin, notification, Button } from 'antd';
 
-import {
-  refitFieldDecoratorOption,
-  buildFieldDescription,
-  getDerivedStateFromPropsForUrlParams,
-} from '../../../../utils/tools';
+import { getDerivedStateFromPropsForUrlParams, buildFieldHelper } from '../../../../utils/tools';
 import accessWayCollection from '../../../../customConfig/accessWayCollection';
 import UpdateFormTab from '../../../../customComponents/Framework/CustomForm/UpdateFormTab';
 
@@ -28,13 +24,13 @@ const formItemLayout = {
   },
 };
 
-@connect(({ areaManage, global, loading }) => ({
-  areaManage,
+@connect(({ account, global, loading }) => ({
+  account,
   global,
-  loading: loading.models.areaManage,
+  loading: loading.models.account,
 }))
 class ResetPassword extends UpdateFormTab {
-  componentAuthority = accessWayCollection.areaManage.resetPassword;
+  componentAuthority = accessWayCollection.account.resetPassword;
 
   goToUpdateWhenProcessed = true;
 
@@ -44,7 +40,7 @@ class ResetPassword extends UpdateFormTab {
     this.state = {
       ...this.state,
       ...{
-        submitApiPath: 'areaManage/resetPassword',
+        submitApiPath: 'account/resetPassword',
         dataLoading: false,
         loadDataAfterMount: false,
       },
@@ -62,7 +58,7 @@ class ResetPassword extends UpdateFormTab {
 
   getApiData = props => {
     const {
-      areaManage: { data },
+      account: { data },
     } = props;
 
     return data;
@@ -75,18 +71,18 @@ class ResetPassword extends UpdateFormTab {
 
   supplementLoadRequestParams = o => {
     const d = o;
-    const { areaManageId } = this.state;
+    const { accountId } = this.state;
 
-    d.areaManageId = areaManageId;
+    d.accountId = accountId;
 
     return d;
   };
 
   supplementSubmitRequestParams = o => {
     const d = o;
-    const { areaManageId } = this.state;
+    const { accountId } = this.state;
 
-    d.areaManageId = areaManageId;
+    d.accountId = accountId;
 
     return d;
   };
@@ -103,8 +99,6 @@ class ResetPassword extends UpdateFormTab {
   };
 
   formContent = () => {
-    const form = this.getTargetForm();
-    const { getFieldDecorator } = form;
     const { processing, dataLoading } = this.state;
 
     return (
@@ -121,44 +115,28 @@ class ResetPassword extends UpdateFormTab {
         >
           <Spin spinning={dataLoading || processing}>
             <Form layout="horizontal" className={styles.customForm}>
-              <FormItem {...formItemLayout} label={fieldData.password}>
-                {getFieldDecorator(
-                  'password',
-                  refitFieldDecoratorOption('', null, '', {
-                    rules: [
-                      {
-                        required: false,
-                        message: buildFieldDescription(fieldData.password),
-                      },
-                    ],
-                  }),
-                )(
-                  <Input
-                    addonBefore={<FormOutlined />}
-                    type="password"
-                    placeholder={buildFieldDescription(fieldData.password)}
-                  />,
-                )}
-              </FormItem>
-              <FormItem {...formItemLayout} label={fieldData.rePassword}>
-                {getFieldDecorator(
-                  'rePassword',
-                  refitFieldDecoratorOption('', null, '', {
-                    rules: [
-                      {
-                        required: false,
-                        message: buildFieldDescription(fieldData.rePassword),
-                      },
-                    ],
-                  }),
-                )(
-                  <Input
-                    addonBefore={<FormOutlined />}
-                    type="password"
-                    placeholder={buildFieldDescription(fieldData.rePassword)}
-                  />,
-                )}
-              </FormItem>
+              {this.renderFormPasswordFormItem(
+                fieldData.password,
+                'password',
+                true,
+                buildFieldHelper(fieldData.passwordHelper),
+                <FormOutlined />,
+                {},
+                true,
+                formItemLayout,
+              )}
+
+              {this.renderFormPasswordFormItem(
+                fieldData.rePassword,
+                'rePassword',
+                true,
+                buildFieldHelper(fieldData.rePasswordHelper),
+                <FormOutlined />,
+                {},
+                true,
+                formItemLayout,
+              )}
+
               <FormItem
                 wrapperCol={{
                   xs: { span: 24, offset: 0 },
@@ -173,10 +151,12 @@ class ResetPassword extends UpdateFormTab {
                   type="primary"
                   icon={<SaveOutlined />}
                   disabled={
-                    processing || !this.checkAuthority(accessWayCollection.areaManage.resetPassword)
+                    processing || !this.checkAuthority(accessWayCollection.account.resetPassword)
                   }
                   loading={processing}
-                  onClick={this.validate}
+                  onClick={e => {
+                    this.validate(e);
+                  }}
                 >
                   保存
                 </Button>

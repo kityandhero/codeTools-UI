@@ -6,11 +6,11 @@ import {
   resetPasswordData,
   changeStateData,
   removeData,
-} from '../services/areaManage';
+} from '../services/account';
 import { pretreatmentRemotePageListData, pretreatmentRemoteSingleData } from '../utils/tools';
 
 export default {
-  namespace: 'areaManage',
+  namespace: 'account',
 
   state: {},
 

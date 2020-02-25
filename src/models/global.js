@@ -25,7 +25,7 @@ const GlobalModel = {
     databaseTypeList: [],
     databaseEncodingList: [],
     connectionTypeList: [],
-    operatorStatusList: [],
+    accountStatusList: [],
   },
 
   effects: {
@@ -55,14 +55,14 @@ const GlobalModel = {
             databaseTypeList,
             databaseEncodingList,
             connectionTypeList,
-            operatorStatusList,
+            accountStatusList,
           } = metaData;
 
           result = {
             databaseTypeList,
             databaseEncodingList,
             connectionTypeList,
-            operatorStatusList,
+            accountStatusList,
           };
 
           setMetaDataCache(result);

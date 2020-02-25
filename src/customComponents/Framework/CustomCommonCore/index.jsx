@@ -8,7 +8,6 @@ import {
   isEqual,
   isFunction,
   defaultCommonState,
-  formatDatetime,
   buildFieldDescription,
   pretreatmentRequestParams,
   buildFieldHelper,
@@ -353,22 +352,16 @@ class Index extends CustomCore {
   };
 
   renderFromCreateTimeField = (
-    date = new Date(),
+    name = 'createTime',
     helper = buildFieldHelper('数据的添加时间'),
     label = '添加时间',
     formItemLayout = null,
   ) => {
-    const value = date || new Date();
     const title = label || '添加时间';
 
     return (
-      <FormItem {...(formItemLayout || {})} label={title} extra={helper}>
-        <Input
-          addonBefore={<FormOutlined />}
-          value={formatDatetime(value, 'YYYY-MM-DD HH:mm')}
-          disabled
-          placeholder={buildFieldDescription(title)}
-        />
+      <FormItem {...(formItemLayout || {})} label={title} name={name} extra={helper}>
+        <Input addonBefore={<FormOutlined />} disabled placeholder={buildFieldDescription(title)} />
       </FormItem>
     );
   };
@@ -837,7 +830,7 @@ class Index extends CustomCore {
     );
   };
 
-  renderSearchSelectFormItem = (label, name, withUnlimited = true) => {
+  renderSearchSelectFormItem = (label, name, options) => {
     return (
       <FormItem
         label={label}
@@ -850,7 +843,7 @@ class Index extends CustomCore {
         ]}
       >
         <Select placeholder={buildFieldDescription(label, '选择')} style={{ width: '100%' }}>
-          {this.renderDatabaseEncodingOption(withUnlimited)}
+          {options}
         </Select>
       </FormItem>
     );

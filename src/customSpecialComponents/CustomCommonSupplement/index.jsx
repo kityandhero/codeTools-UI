@@ -200,7 +200,103 @@ class Index extends CustomCommonCore {
       title,
       name,
       () => {
-        return this.renderDatabaseEncodingOption(false);
+        return this.renderDatabaseEncodingRadio(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  accountStatusList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const accountStatusList = global.accountStatusList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(accountStatusList, unlimitedWithStringFlag);
+    }
+
+    return refitCommonData(accountStatusList);
+  };
+
+  getAccountStatusName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.accountStatusList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderAccountStatusOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.accountStatusList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderAccountStatusRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.accountStatusList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchAccountStatusFormItem = (
+    withUnlimited = true,
+    label = customFieldCollection.accountStatus.label,
+  ) => {
+    const title = label || customFieldCollection.accountStatus.label;
+
+    return this.renderSearchSelectFormItem(
+      title,
+      customFieldCollection.accountStatus.name,
+      this.renderAccountStatusOption(withUnlimited),
+      withUnlimited,
+    );
+  };
+
+  renderFormAccountStatusSelectFormItem = (
+    helper = null,
+    onChangeCallback,
+    label = customFieldCollection.accountStatus.label,
+    formItemLayout = null,
+    required = true,
+    name = customFieldCollection.accountStatus.name,
+    otherProps = null,
+  ) => {
+    const title = label || customFieldCollection.accountStatus.label;
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      () => {
+        return this.renderAccountStatusOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormAccountStatusFormItemRadio = (
+    helper = null,
+    onChangeCallback,
+    label = customFieldCollection.accountStatus.label,
+    formItemLayout = null,
+    required = true,
+    name = customFieldCollection.accountStatus.name,
+    otherProps = null,
+  ) => {
+    const title = label || customFieldCollection.accountStatus.label;
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      () => {
+        return this.renderAccountStatusRadio(false);
       },
       helper,
       onChangeCallback,

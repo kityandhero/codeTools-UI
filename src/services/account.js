@@ -13,7 +13,7 @@ export async function queryListData(params) {
     return result;
   }
 
-  return request('/AreaManage/List', {
+  return request('/business/account/list', {
     method: 'POST',
     body: params,
   });
@@ -28,7 +28,7 @@ export async function queryGetData(params) {
     return result;
   }
 
-  return request('/areaManage/get', {
+  return request('/business/account/get', {
     method: 'POST',
     body: params,
   });
@@ -43,7 +43,7 @@ export async function addBasicInfoData(params) {
     return result;
   }
 
-  return request('/AreaManage/AddBasicInfo', {
+  return request('/business/account/addBasicInfo', {
     method: 'POST',
     body: params,
   });
@@ -58,7 +58,7 @@ export async function updateBasicInfoData(params) {
     return result;
   }
 
-  return request('/AreaManage/UpdateBasicInfo', {
+  return request('/business/account/updateBasicInfo', {
     method: 'POST',
     body: params,
   });
@@ -73,7 +73,7 @@ export async function resetPasswordData(params) {
     return result;
   }
 
-  return request('/AreaManage/ResetPassword', {
+  return request('/business/account/resetPassword', {
     method: 'POST',
     body: params,
   });
@@ -88,7 +88,7 @@ export async function changeStateData(params) {
     return result;
   }
 
-  return request('/AreaManage/ChangeState', {
+  return request('/business/account/changeState', {
     method: 'POST',
     body: params,
   });
@@ -103,7 +103,7 @@ export async function removeData(params) {
     return result;
   }
 
-  return request('/AreaManage/Remove', {
+  return request('/business/account/remove', {
     method: 'POST',
     body: params,
   });

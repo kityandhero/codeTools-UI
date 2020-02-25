@@ -10,7 +10,7 @@ import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
   global,
   loading: loading.models.role,
 }))
-class UpdateAreaManageRoleModal extends ModalBase {
+class UpdateAccountRoleModal extends ModalBase {
   constructor(props) {
     super(props);
 
@@ -157,4 +157,4 @@ class UpdateAreaManageRoleModal extends ModalBase {
   };
 }
 
-export default UpdateAreaManageRoleModal;
+export default UpdateAccountRoleModal;

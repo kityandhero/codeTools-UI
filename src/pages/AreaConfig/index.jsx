@@ -7,9 +7,9 @@ import styles from './index.less';
 
 const { Item } = Menu;
 
-@connect(({ areaManage, loading }) => ({
-  areaManage,
-  loading: loading.models.areaManage,
+@connect(({ account, loading }) => ({
+  account,
+  loading: loading.models.account,
 }))
 class SetOutStockTime extends Component {
   constructor(props) {

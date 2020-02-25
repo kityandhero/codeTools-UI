@@ -21,6 +21,10 @@ export function getConfigData() {
   };
 }
 
+export const constants = {
+  createTime: 'createTime',
+};
+
 export const imageContentPreviewMode = {
   html: 1,
   listItem: 2,

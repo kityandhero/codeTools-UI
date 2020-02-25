@@ -8,5 +8,9 @@ module.exports = {
       name: 'encoding',
       label: '数据库编码',
     },
+    accountStatus: {
+      name: 'status',
+      label: '状态',
+    },
   },
 };

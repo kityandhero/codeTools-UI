@@ -14,23 +14,23 @@ import styles from './index.less';
 
 const { Item: Description } = Descriptions;
 
-@connect(({ areaManage, global, loading }) => ({
-  areaManage,
+@connect(({ account, global, loading }) => ({
+  account,
   global,
-  loading: loading.models.areaManage,
+  loading: loading.models.account,
 }))
 class Edit extends LoadDataTabContainer {
-  componentAuthority = accessWayCollection.areaManage.get;
+  componentAuthority = accessWayCollection.account.get;
 
   tabList = [
     {
       key: 'basicInfo',
-      show: this.checkAuthority(accessWayCollection.areaManage.get),
+      show: this.checkAuthority(accessWayCollection.account.get),
       tab: '基本信息',
     },
     {
       key: 'resetPassword',
-      show: this.checkAuthority(accessWayCollection.areaManage.resetPassword),
+      show: this.checkAuthority(accessWayCollection.account.resetPassword),
       tab: '重置密码',
     },
   ];
@@ -42,8 +42,8 @@ class Edit extends LoadDataTabContainer {
       ...this.state,
       ...{
         pageName: '账户名：',
-        loadApiPath: 'areaManage/get',
-        backPath: `/account/areaManage/list/key`,
+        loadApiPath: 'account/get',
+        backPath: `/account/account/list/key`,
       },
     };
   }
@@ -59,7 +59,7 @@ class Edit extends LoadDataTabContainer {
 
   getApiData = props => {
     const {
-      areaManage: { data },
+      account: { data },
     } = props;
 
     return data;
@@ -72,9 +72,9 @@ class Edit extends LoadDataTabContainer {
 
   supplementLoadRequestParams = o => {
     const d = o;
-    const { areaManageId } = this.state;
+    const { accountId } = this.state;
 
-    d.areaManageId = areaManageId;
+    d.accountId = accountId;
 
     return d;
   };
@@ -94,7 +94,6 @@ class Edit extends LoadDataTabContainer {
         <Col xs={24} sm={12}>
           <div className={styles.textSecondary}>{fieldData.inTime}</div>
           <div className={styles.heading}>
-            {' '}
             {formatDatetime(metaData === null ? '' : metaData.inTime, 'HH:mm:ss', '--')}
             <br />
             {formatDatetime(metaData === null ? '' : metaData.inTime, 'YYYY-MM-DD')}
@@ -103,7 +102,7 @@ class Edit extends LoadDataTabContainer {
         <Col xs={24} sm={12}>
           <div className={styles.textSecondary}>{fieldData.state}</div>
           <div className={styles.heading}>
-            {metaData === null ? '' : this.getAreaManageStateName(metaData.state)}
+            {metaData === null ? '' : this.getAccountStateName(metaData.state)}
           </div>
         </Col>
       </Row>
@@ -115,8 +114,8 @@ class Edit extends LoadDataTabContainer {
 
     return (
       <Descriptions className={styles.headerList} size="small" col="2">
-        <Description label={fieldData.areaManageId}>
-          {metaData === null ? '' : metaData.areaManageId}
+        <Description label={fieldData.accountId}>
+          {metaData === null ? '' : metaData.accountId}
         </Description>
         <Description label={fieldData.name}>{metaData === null ? '' : metaData.name}</Description>
         <Description label={fieldData.phone}>{metaData === null ? '' : metaData.phone}</Description>

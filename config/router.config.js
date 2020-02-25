@@ -79,41 +79,41 @@ export default [
         authority: [accessWayCollection.super],
         routes: [
           {
-            path: '/account/areaManage',
-            name: 'areaManage',
+            path: '/account/account',
+            name: 'account',
             icon: 'bars',
             authority: [accessWayCollection.super],
             routes: [
               {
-                path: '/account/areaManage',
-                redirect: '/account/areaManage/list/no',
+                path: '/account/account',
+                redirect: '/account/account/list/no',
               },
               {
-                path: '/account/areaManage/add',
+                path: '/account/account/add',
                 name: 'add',
                 hideInMenu: true,
-                component: './AreaManage/Add',
+                component: './Account/Add',
               },
               {
-                path: '/account/areaManage/list/:pageKey',
+                path: '/account/account/list/:pageKey',
                 hideInMenu: true,
-                component: './AreaManage/List',
+                component: './Account/List',
               },
               {
-                path: '/account/areaManage/edit/:op/:id/:pageKey',
+                path: '/account/account/edit/:op/:id/:pageKey',
                 name: 'edit',
                 hideInMenu: true,
-                component: './AreaManage/Edit',
+                component: './Account/Edit',
                 routes: [
                   {
-                    path: '/account/areaManage/edit/:op/:id/:pageKey/basicInfo',
+                    path: '/account/account/edit/:op/:id/:pageKey/basicInfo',
                     name: 'basicInfo',
-                    component: './AreaManage/Edit/BasicInfo',
+                    component: './Account/Edit/BasicInfo',
                   },
                   {
-                    path: '/account/areaManage/edit/:op/:id/:pageKey/resetPassword',
+                    path: '/account/account/edit/:op/:id/:pageKey/resetPassword',
                     name: 'basicInfo',
-                    component: './AreaManage/Edit/ResetPassword',
+                    component: './Account/Edit/ResetPassword',
                   },
                 ],
               },

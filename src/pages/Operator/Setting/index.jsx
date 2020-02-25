@@ -7,8 +7,8 @@ import styles from './index.less';
 
 const { Item } = Menu;
 
-@connect(({ areaManage }) => ({
-  areaManage,
+@connect(({ account }) => ({
+  account,
 }))
 class Setting extends Component {
   constructor(props) {
