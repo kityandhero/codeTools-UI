@@ -433,20 +433,20 @@ class Index extends PagerList {
             disabled={!this.checkAuthority(accessWayCollection.account.get)}
             overlay={
               <Menu onClick={e => this.handleMenuClick(e, record)}>
-                {/* {record.state === 0 &&
+                {record.state === 0 &&
                 this.checkAuthority(accessWayCollection.account.changeState) ? (
                   <Menu.Item key="on">
                     <UpCircleOutlined />
-                    设为生效
+                    设为启用
                   </Menu.Item>
                 ) : null}
                 {record.state !== 0 &&
                 this.checkAuthority(accessWayCollection.account.changeState) ? (
                   <Menu.Item key="off">
                     <DownCircleOutlined />
-                    设为失效
+                    设为禁用
                   </Menu.Item>
-                ) : null} */}
+                ) : null}
                 {/* {this.checkAuthority(accessWayCollection.userRole.changeRole) ? (
                   <Menu.Item key="setRole">
                     <TagsOutlined />
