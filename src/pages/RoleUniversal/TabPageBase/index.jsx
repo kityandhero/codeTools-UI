@@ -1,0 +1,58 @@
+import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
+import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
+
+import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
+
+class BaseEditTab extends UpdateFormTab {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { id: '' },
+      parseUrlParamsForSetState,
+    );
+  }
+
+  getApiData = props => {
+    const {
+      roleTemplate: { data },
+    } = props;
+
+    return data;
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
+    const { urlParams } = this.state;
+
+    const { urlParams: urlParamsPrev } = preState;
+
+    if ((urlParams || null) == null || (urlParamsPrev || null) == null) {
+      return;
+    }
+
+    const { dataLoading } = this.state;
+
+    if (!dataLoading) {
+      if (this.checkNeedUpdate(preProps, preState, snapshot)) {
+        this.reloadData();
+      }
+    }
+  };
+
+  // eslint-disable-next-line no-unused-vars
+  checkNeedUpdate = (preProps, preState, snapshot) => {
+    return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
+  };
+
+  supplementLoadRequestParams = o => {
+    const d = o;
+    const { roleTemplateId } = this.state;
+
+    d.roleTemplateId = roleTemplateId;
+
+    return d;
+  };
+}
+
+export default BaseEditTab;
