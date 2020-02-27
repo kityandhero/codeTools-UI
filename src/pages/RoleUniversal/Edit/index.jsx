@@ -60,7 +60,7 @@ class Edit extends LoadDataTabContainer {
     return data;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkNeedUpdate = (preProps, preState, snapshot) => {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
   };
@@ -74,7 +74,7 @@ class Edit extends LoadDataTabContainer {
     return d;
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
     this.setState({
       pageName: `公用角色名：${metaData === null ? '' : metaData.name || ''}`,

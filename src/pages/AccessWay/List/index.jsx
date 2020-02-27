@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Form } from 'antd';
+import router from 'umi/router';
+import { Row, Col, Dropdown, Menu } from 'antd';
+import { ReadOutlined, BookOutlined } from '@ant-design/icons';
 
 import {
   isInvalid,
@@ -9,10 +11,11 @@ import {
   refitCommonData,
   copyToClipboard,
   replaceTargetText,
-} from '@/utils/tools';
-import PagerList from '@/customComponents/Framework/CustomList/PagerList';
-import Ellipsis from '@/customComponents/Ellipsis';
-import EllipsisCustom from '@/customComponents/EllipsisCustom';
+} from '../../../utils/tools';
+import accessWayCollection from '../../../customConfig/accessWayCollection';
+import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
+import Ellipsis from '../../../customComponents/Ellipsis';
+import EllipsisCustom from '../../../customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
 
@@ -21,7 +24,6 @@ import { fieldData } from '../Common/data';
   global,
   loading: loading.models.accessWay,
 }))
-@Form.create()
 class Index extends PagerList {
   constructor(props) {
     super(props);
@@ -45,38 +47,46 @@ class Index extends PagerList {
     return data;
   };
 
-  managementChannelList = () => {
-    const { global } = this.props;
-    return refitCommonData(global.managementChannelList, {
-      key: -10000,
-      name: '不限',
-      flag: -10000,
-    });
-  };
+  // managementChannelList = () => {
+  //   const { global } = this.props;
+  //   return refitCommonData(global.managementChannelList, {
+  //     key: -10000,
+  //     name: '不限',
+  //     flag: -10000,
+  //   });
+  // };
 
-  getManagementChannelName = (v, defaultValue = '') => {
-    if (isInvalid(v)) {
-      return defaultValue;
-    }
+  // getManagementChannelName = (v, defaultValue = '') => {
+  //   if (isInvalid(v)) {
+  //     return defaultValue;
+  //   }
 
-    const item = searchFromList('flag', v, this.managementChannelList());
-    return item == null ? '未知' : item.name;
+  //   const item = searchFromList('flag', v, this.managementChannelList());
+  //   return item == null ? '未知' : item.name;
+  // };
+
+  goToEdit = record => {
+    const { dispatch } = this.props;
+    const { accessWayId } = record;
+
+    const location = {
+      pathname: `/accessWay/edit/load/${accessWayId}/key/basicInfo`,
+    };
+
+    dispatch(router.push(location));
   };
 
   renderSimpleFormRow = () => {
-    const { dateRangeFieldName } = this.state;
-
     return (
       <>
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
-          <Col md={4} sm={24}>
-            {this.renderSearchManagementChannelFormItem()}
+        <Row gutter={24}>
+          <Col md={6} sm={24}>
+            {this.renderSearchInputFormItem(fieldData.name, 'name')}
           </Col>
-          <Col md={4} sm={24}>
-            {this.renderSearchInputFormItem('关键词', 'keywords', '', null)}
+          <Col md={6} sm={24}>
+            {this.renderSearchInputFormItem(fieldData.relativePath, 'relativePath')}
           </Col>
-          {this.renderSimpleFormRangePicker(dateRangeFieldName, 8)}
-          {this.renderSimpleFormButton(null, 4)}
+          {this.renderSimpleFormButton()}
         </Row>
       </>
     );
@@ -173,6 +183,33 @@ class Index extends PagerList {
           <Ellipsis tooltip lines={1}>
             {formatDatetime(val, 'MM-DD HH:mm', '--')}
           </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: '操作',
+      dataIndex: 'customOperate',
+      width: 120,
+      fixed: 'right',
+      align: 'center',
+      render: (text, record) => (
+        <>
+          <Dropdown.Button
+            size="small"
+            onClick={() => this.goToEdit(record)}
+            disabled={!this.checkAuthority(accessWayCollection.account.get)}
+            overlay={
+              <Menu onClick={e => this.handleMenuClick(e, record)}>
+                <Menu.Item key="analysis" disabled>
+                  <BookOutlined />
+                  分析
+                </Menu.Item>
+              </Menu>
+            }
+          >
+            <ReadOutlined />
+            查看
+          </Dropdown.Button>
         </>
       ),
     },

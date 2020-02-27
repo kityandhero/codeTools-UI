@@ -26,12 +26,12 @@ class ModuleDrawer extends PagerDrawer {
     };
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
     return super.getDerivedStateFromProps(nextProps, prevState);
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
     // 设置界面效果为加载中，减少用户误解
     this.setState({ dataLoading: true });
@@ -61,7 +61,7 @@ class ModuleDrawer extends PagerDrawer {
 
   supplementRequestSelectModuleParams = o => o;
 
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getSelectModuleApiData = props => ({});
 
   selectModule = (e, record) => {

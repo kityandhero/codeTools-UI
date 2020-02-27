@@ -4,7 +4,8 @@ export function parseUrlParamsForSetState({ urlParams }) {
   return { accessWayId: id };
 }
 
-// eslint-disable-next-line no-unused-vars
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function checkNeedUpdateAssist(currentState, preProps, preState, snapshot) {
   const { accessWayId } = currentState;
 

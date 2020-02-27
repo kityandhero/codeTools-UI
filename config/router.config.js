@@ -122,6 +122,43 @@ export default [
         ],
       },
       {
+        name: 'accessWay',
+        icon: 'shop',
+        path: '/accessWay',
+        authority: [
+          accessWayCollection.super,
+          accessWayCollection.accessWay.addBasicInfo,
+          accessWayCollection.accessWay.list,
+        ],
+        routes: [
+          {
+            path: '/accessWay/list/:pageKey',
+            hideInMenu: true,
+            component: './AccessWay/List',
+          },
+          { path: '/accessWay/list/', redirect: '/accessWay/list/no' },
+          {
+            path: '/accessWay/list/no',
+            name: 'list',
+            icon: 'bars',
+            authority: [accessWayCollection.super, accessWayCollection.accessWay.list],
+          },
+          {
+            path: '/accessWay/edit/:op/:id/:pageKey',
+            name: 'edit',
+            hideInMenu: true,
+            component: './AccessWay/Edit',
+            routes: [
+              {
+                path: '/accessWay/edit/:op/:id/:pageKey/basicInfo',
+                name: 'basicInfo',
+                component: './AccessWay/Edit/BasicInfo',
+              },
+            ],
+          },
+        ],
+      },
+      {
         path: '/operator',
         name: 'operator',
         icon: 'user',
