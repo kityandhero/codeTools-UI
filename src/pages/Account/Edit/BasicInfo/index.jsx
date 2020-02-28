@@ -98,7 +98,7 @@ class BasicInfo extends UpdateFormTab {
       description: metaData === null ? '' : metaData.description || '',
     };
 
-    initialValues[constants.createTime] =
+    initialValues[constants.createTimeName] =
       metaData === null ? '' : toDatetime(metaData.createTime) || '';
 
     return (
@@ -196,7 +196,7 @@ class BasicInfo extends UpdateFormTab {
             <Spin spinning={processing}>
               <Row gutter={24}>
                 <Col lg={24} md={12} sm={24}>
-                  {this.renderFromCreateTimeField(constants.createTime)}
+                  {this.renderFromCreateTimeField(constants.createTimeName)}
                 </Col>
               </Row>
             </Spin>

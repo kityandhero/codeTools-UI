@@ -366,6 +366,21 @@ class Index extends CustomCore {
     );
   };
 
+  renderFromUpdateTimeField = (
+    name = 'updateTime',
+    helper = buildFieldHelper('数据的最后修改时间'),
+    label = '最后修改时间',
+    formItemLayout = null,
+  ) => {
+    const title = label || '最后修改时间';
+
+    return (
+      <FormItem {...(formItemLayout || {})} label={title} name={name} extra={helper}>
+        <Input addonBefore={<FormOutlined />} disabled placeholder={buildFieldDescription(title)} />
+      </FormItem>
+    );
+  };
+
   renderFromRadioCore = (listDataSource, adjustListDataCallback = null) => {
     let listData = listDataSource || [];
 

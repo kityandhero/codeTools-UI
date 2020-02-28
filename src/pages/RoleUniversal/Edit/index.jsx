@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-
 import { Row, Col, Descriptions } from 'antd';
+import { SnippetsOutlined } from '@ant-design/icons';
 
 import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
@@ -82,7 +82,7 @@ class Edit extends LoadDataTabContainer {
   };
 
   pageHeaderAvatar = () => {
-    return { icon: 'snippets' };
+    return { icon: <SnippetsOutlined /> };
   };
 
   pageHeaderExtraContent = () => {

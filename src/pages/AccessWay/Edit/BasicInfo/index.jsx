@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Card, Button, Row, Col, Input, Spin, BackTop, Affix } from 'antd';
-import { FormOutlined, SaveOutlined } from '@ant-design/icons';
+import { Form, Card, Button, Row, Col, Spin, BackTop, Affix } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 
 import {
-  formatDatetime,
-  buildFieldDescription,
   getDerivedStateFromPropsForUrlParams,
   buildFieldHelper,
+  toDatetime,
 } from '../../../../utils/tools';
+import { constants } from '../../../../customConfig/config';
 import accessWayCollection from '../../../../customConfig/accessWayCollection';
 
 import TabPageBase from '../../TabPageBase';
@@ -17,8 +17,6 @@ import { fieldData } from '../../Common/data';
 
 import styles from './index.less';
 
-const FormItem = Form.Item;
-
 @connect(({ accessWay, global, loading }) => ({
   accessWay,
   global,
@@ -26,6 +24,8 @@ const FormItem = Form.Item;
 }))
 class Index extends TabPageBase {
   componentAuthority = accessWayCollection.accessWay.get;
+
+  formRef = React.createRef();
 
   constructor(props) {
     super(props);
@@ -47,70 +47,83 @@ class Index extends TabPageBase {
     );
   }
 
+  getTargetForm = () => {
+    return this.formRef.current;
+  };
+
   formContent = () => {
     const { dataLoading, processing, metaData } = this.state;
+
+    const initialValues = {
+      name: metaData === null ? '' : metaData.name || '',
+      description: metaData === null ? '' : metaData.description || '',
+      tag: metaData === null ? '' : metaData.tag || '',
+      relativePath: metaData === null ? '' : metaData.relativePath || '',
+    };
+
+    initialValues[constants.createTimeName] =
+      metaData === null ? '' : toDatetime(metaData.createTime) || '';
+    initialValues[constants.updateTimeName] =
+      metaData === null ? '' : toDatetime(metaData.updateTime) || '';
 
     return (
       <>
         <div className={styles.containorBox}>
-          <Card
-            title="基本信息"
-            className={styles.card}
-            bordered={false}
-            extra={
-              <Affix offsetTop={20}>
-                <>
-                  <Button
-                    type="primary"
-                    icon={<SaveOutlined />}
-                    disabled={dataLoading || processing}
-                    onClick={this.validate}
-                    loading={processing}
-                  >
-                    保存
-                  </Button>
-                </>
-              </Affix>
-            }
-          >
-            <Spin spinning={dataLoading || processing}>
-              <Form layout="vertical">
+          <Form ref={this.formRef} initialValues={initialValues} layout="vertical">
+            <Card
+              title="基本信息"
+              className={styles.card}
+              bordered={false}
+              extra={
+                <Affix offsetTop={20}>
+                  <>
+                    <Button
+                      type="default"
+                      icon={<ReloadOutlined />}
+                      disabled={dataLoading || processing}
+                      onClick={() => {
+                        this.reloadData();
+                      }}
+                      loading={processing}
+                    >
+                      刷新
+                    </Button>
+                  </>
+                </Affix>
+              }
+            >
+              <Spin spinning={dataLoading || processing}>
                 <Row gutter={24}>
                   <Col lg={12} md={12} sm={24}>
                     {this.renderFormInputFormItem(
                       fieldData.name,
-                      'title',
-                      metaData === null ? '' : metaData.title || '',
+                      'name',
                       true,
                       buildFieldHelper(fieldData.nameHelper),
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
                     {this.renderFormInputFormItem(
-                      fieldData.contactInformation,
-                      'contactInformation',
-                      metaData === null ? '' : metaData.contactInformation || '',
+                      fieldData.tag,
+                      'tag',
                       true,
-                      buildFieldHelper(fieldData.contactInformationHelper),
+                      buildFieldHelper(fieldData.tagHelper),
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
                     {this.renderFormInputNumberFormItem(
-                      fieldData.sort,
-                      'sort',
-                      metaData === null ? '' : metaData.sort || '',
+                      fieldData.relativePath,
+                      'relativePath',
                       true,
-                      buildFieldHelper(fieldData.sortHelper),
+                      buildFieldHelper(fieldData.relativePathHelper),
                     )}
                   </Col>
                 </Row>
-              </Form>
-            </Spin>
-          </Card>
+              </Spin>
+            </Card>
 
-          <Card title="其他信息" className={styles.card} bordered={false}>
-            <Spin spinning={processing}>
-              <Form layout="vertical">
+            <Card title="其他信息" className={styles.card} bordered={false}>
+              <Spin spinning={processing}>
                 <Row gutter={24}>
                   <Col span={24}>
                     {this.renderFormTextAreaFormItem(
@@ -124,20 +137,23 @@ class Index extends TabPageBase {
                       },
                     )}
                   </Col>
+                </Row>
+              </Spin>
+            </Card>
+
+            <Card title="其他信息" className={styles.card} bordered={false}>
+              <Spin spinning={processing}>
+                <Row gutter={24}>
                   <Col lg={6} md={12} sm={24}>
-                    <FormItem label={fieldData.inTime}>
-                      <Input
-                        addonBefore={<FormOutlined />}
-                        value={formatDatetime(new Date(), 'YYYY-MM-DD HH:mm')}
-                        disabled
-                        placeholder={buildFieldDescription(fieldData.url)}
-                      />
-                    </FormItem>
+                    {this.renderFromCreateTimeField()}
+                  </Col>
+                  <Col lg={6} md={12} sm={24}>
+                    {this.renderFromUpdateTimeField()}
                   </Col>
                 </Row>
-              </Form>
-            </Spin>
-          </Card>
+              </Spin>
+            </Card>
+          </Form>
         </div>
         <BackTop />
       </>

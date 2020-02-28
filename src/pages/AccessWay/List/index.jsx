@@ -1,17 +1,10 @@
 import React from 'react';
 import { connect } from 'dva';
-import router from 'umi/router';
+import { routerRedux } from 'dva/router';
 import { Row, Col, Dropdown, Menu } from 'antd';
 import { ReadOutlined, BookOutlined } from '@ant-design/icons';
 
-import {
-  isInvalid,
-  formatDatetime,
-  searchFromList,
-  refitCommonData,
-  copyToClipboard,
-  replaceTargetText,
-} from '../../../utils/tools';
+import { formatDatetime, copyToClipboard, replaceTargetText } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '../../../customComponents/Ellipsis';
@@ -32,7 +25,7 @@ class Index extends PagerList {
       ...this.state,
       ...{
         pageName: '模块列表',
-        paramsKey: '3c7c3102-ad12-47b4-86ef-7d38c855bddc',
+        paramsKey: '53e093b4-70d0-4a37-8eee-e8bf2ff3f687',
         loadApiPath: 'accessWay/list',
         dateRangeFieldName: '生成时段',
       },
@@ -47,24 +40,6 @@ class Index extends PagerList {
     return data;
   };
 
-  // managementChannelList = () => {
-  //   const { global } = this.props;
-  //   return refitCommonData(global.managementChannelList, {
-  //     key: -10000,
-  //     name: '不限',
-  //     flag: -10000,
-  //   });
-  // };
-
-  // getManagementChannelName = (v, defaultValue = '') => {
-  //   if (isInvalid(v)) {
-  //     return defaultValue;
-  //   }
-
-  //   const item = searchFromList('flag', v, this.managementChannelList());
-  //   return item == null ? '未知' : item.name;
-  // };
-
   goToEdit = record => {
     const { dispatch } = this.props;
     const { accessWayId } = record;
@@ -73,7 +48,7 @@ class Index extends PagerList {
       pathname: `/accessWay/edit/load/${accessWayId}/key/basicInfo`,
     };
 
-    dispatch(router.push(location));
+    dispatch(routerRedux.push(location));
   };
 
   renderSimpleFormRow = () => {

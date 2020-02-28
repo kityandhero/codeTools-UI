@@ -36,8 +36,8 @@ class Edit extends LoadDataTabContainer {
       ...{
         pageName: '名称：',
         loadApiPath: 'connectionConfig/get',
-        backPath: `/assistTools/connectionConfig/list/key`,
-        connectionId: null,
+        backPath: `/connectionConfig/list/key`,
+        connectionConfigId: null,
       },
     };
   }
@@ -66,9 +66,9 @@ class Edit extends LoadDataTabContainer {
 
   supplementLoadRequestParams = o => {
     const d = o;
-    const { connectionId } = this.state;
+    const { connectionConfigId } = this.state;
 
-    d.connectionId = connectionId;
+    d.connectionConfigId = connectionConfigId;
 
     return d;
   };
@@ -117,7 +117,9 @@ class Edit extends LoadDataTabContainer {
 
     return (
       <Descriptions className={styles.headerList} size="small" column="2">
-        <Description label="标识">{metaData === null ? '' : metaData.connectionId}</Description>
+        <Description label="标识">
+          {metaData === null ? '' : metaData.connectionConfigId}
+        </Description>
         <Description label="联系方式">
           {metaData === null ? '' : metaData.contactInformation}
         </Description>

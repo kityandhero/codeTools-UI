@@ -32,9 +32,9 @@ class BaseEditTab extends UpdateFormTab {
 
   supplementLoadRequestParams = o => {
     const d = o;
-    const { connectionId } = this.state;
+    const { accessWayId } = this.state;
 
-    d.connectionId = connectionId;
+    d.accessWayId = accessWayId;
 
     return d;
   };

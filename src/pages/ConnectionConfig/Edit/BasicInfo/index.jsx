@@ -6,7 +6,6 @@ import { FormOutlined, SaveOutlined } from '@ant-design/icons';
 import {
   formatDatetime,
   buildFieldDescription,
-  pretreatmentRemoteSingleData,
   getDerivedStateFromPropsForUrlParams,
   buildFieldHelper,
 } from '../../../../utils/tools';
@@ -36,7 +35,7 @@ class Index extends TabPageBase {
       ...{
         loadApiPath: 'connectionConfig/get',
         submitApiPath: 'connectionConfig/updateBasicInfo',
-        connectionId: null,
+        connectionConfigId: null,
       },
     };
   }
@@ -50,20 +49,11 @@ class Index extends TabPageBase {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    const { imageName, imageUrl } = metaData;
-
-    this.setState({ imageName, imageUrl });
-  };
-
   supplementSubmitRequestParams = o => {
     const d = o;
-    const { connectionId, imageUrl, imageName } = this.state;
+    const { connectionConfigId } = this.state;
 
-    d.connectionId = connectionId;
-    d.imageUrl = imageUrl;
-    d.imageName = imageName;
+    d.connectionConfigId = connectionConfigId;
 
     return d;
   };
@@ -77,35 +67,6 @@ class Index extends TabPageBase {
         description: '数据已经保存成功，请进行后续操作。',
       });
     });
-  };
-
-  handleMainUploadChange = info => {
-    if (info.file.status === 'uploading') {
-      this.setState({ imageUploading: true });
-      return;
-    }
-    if (info.file.status === 'done') {
-      const { response } = info.file;
-
-      const v = pretreatmentRemoteSingleData(response);
-
-      const { dataSuccess } = v;
-
-      if (dataSuccess) {
-        const {
-          data: { imageUrl, name },
-        } = v;
-
-        this.setState({
-          imageUrl,
-          imageName: name,
-        });
-      }
-
-      this.setState({
-        imageUploading: false,
-      });
-    }
   };
 
   formContent = () => {
@@ -140,8 +101,8 @@ class Index extends TabPageBase {
                   <Col lg={12} md={12} sm={24}>
                     {this.renderFormInputFormItem(
                       fieldData.name,
-                      'title',
-                      metaData === null ? '' : metaData.title || '',
+                      'name',
+                      metaData === null ? '' : metaData.name || '',
                       true,
                       buildFieldHelper(fieldData.nameHelper),
                     )}

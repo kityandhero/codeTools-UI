@@ -134,11 +134,12 @@ class Index extends PagerList {
 
   goToEdit = record => {
     const { dispatch } = this.props;
-    const { pageNo } = this.state;
-    const { connectionId } = record;
+    const { connectionConfigId } = record;
+
     const location = {
-      pathname: `/connectionConfig/edit/load/${connectionId}/${pageNo}/basicInfo`,
+      pathname: `/connectionConfig/edit/load/${connectionConfigId}/key/basicInfo`,
     };
+
     dispatch(routerRedux.push(location));
   };
 

@@ -1,6 +1,11 @@
 import React from 'react';
 import { BackTop, Button, Avatar, Dropdown, Popconfirm, Menu, Tooltip, message } from 'antd';
-import { PlusOutlined, EllipsisOutlined, ReloadOutlined } from '@ant-design/icons';
+import {
+  PlusOutlined,
+  RollbackOutlined,
+  EllipsisOutlined,
+  ReloadOutlined,
+} from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import { getDerivedStateFromPropsForUrlParams, defaultFormState } from '@/utils/tools';
@@ -49,7 +54,10 @@ class Index extends LoadDataCore {
       return null;
     }
 
-    const props = { ...{ icon: 'rollback', type: 'dashed' }, ...(this.actionBackProps || {}) };
+    const props = {
+      ...{ icon: <RollbackOutlined />, type: 'dashed' },
+      ...(this.actionBackProps || {}),
+    };
 
     return (
       <Tooltip placement="top" title="返回列表页">

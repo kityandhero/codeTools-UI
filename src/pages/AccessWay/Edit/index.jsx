@@ -7,6 +7,7 @@ import accessWayCollection from '../../../customConfig/accessWayCollection';
 import LoadDataTabContainer from '../../../customComponents/Framework/CustomForm/LoadDataTabContainer';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
+import { fieldData } from '../Common/data';
 
 import styles from './index.less';
 
@@ -36,8 +37,8 @@ class Edit extends LoadDataTabContainer {
       ...{
         pageName: '名称：',
         loadApiPath: 'accessWay/get',
-        backPath: `/assistTools/accessWay/list/key`,
-        connectionId: null,
+        backPath: `/accessWay/list/key`,
+        accessWayId: null,
       },
     };
   }
@@ -66,9 +67,9 @@ class Edit extends LoadDataTabContainer {
 
   supplementLoadRequestParams = o => {
     const d = o;
-    const { connectionId } = this.state;
+    const { accessWayId } = this.state;
 
-    d.connectionId = connectionId;
+    d.accessWayId = accessWayId;
 
     return d;
   };
@@ -76,7 +77,7 @@ class Edit extends LoadDataTabContainer {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
     this.setState({
-      pageName: `名称：${metaData === null ? '' : metaData.title || ''}`,
+      pageName: `名称：${metaData === null ? '' : metaData.name || ''}`,
     });
   };
 
@@ -99,9 +100,9 @@ class Edit extends LoadDataTabContainer {
         <Col xs={24} sm={12}>
           <div className={styles.textSecondary}>创建日期</div>
           <div className={styles.heading}>
-            {formatDatetime(metaData === null ? '' : metaData.inTime, 'HH:mm:ss', '--')}
+            {formatDatetime(metaData === null ? '' : metaData.createTime, 'HH:mm:ss', '--')}
             <br />
-            {formatDatetime(metaData === null ? '' : metaData.inTime, 'YYYY-MM-DD')}
+            {formatDatetime(metaData === null ? '' : metaData.createTime, 'YYYY-MM-DD')}
           </div>
         </Col>
         <Col xs={24} sm={12}>
@@ -115,13 +116,40 @@ class Edit extends LoadDataTabContainer {
   pageHeaderContent = () => {
     const { metaData } = this.state;
 
+    const list = [];
+
+    list.push({
+      label: fieldData.accessWayId,
+      value: metaData === null ? '' : metaData.accessWayId,
+    });
+
+    list.push({
+      label: fieldData.tag,
+      value: metaData === null ? '' : metaData.tag,
+    });
+
+    list.push({
+      label: fieldData.createTime,
+      value: metaData === null ? '' : metaData.createTime,
+    });
+
+    const dataList = list.map((o, index) => {
+      const d = { ...{}, ...o };
+
+      d.key = `item_${index}`;
+
+      return d;
+    });
+
     return (
       <Descriptions className={styles.headerList} size="small" column="2">
-        <Description label="标识">{metaData === null ? '' : metaData.connectionId}</Description>
-        <Description label="联系方式">
-          {metaData === null ? '' : metaData.contactInformation}
-        </Description>
-        <Description label="排序值">{metaData === null ? '' : metaData.sort}</Description>
+        {dataList.map(item => {
+          return (
+            <Description key={item.key} label={item.label}>
+              {item.value}
+            </Description>
+          );
+        })}
       </Descriptions>
     );
   };

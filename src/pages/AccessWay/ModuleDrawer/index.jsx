@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col, Button, Divider, notification, Popconfirm } from 'antd';
+import { ImportOutlined } from '@ant-design/icons';
 
 import {
   replaceTargetText,
@@ -210,7 +211,12 @@ class ModuleDrawer extends PagerDrawer {
             <>
               <Divider type="vertical" />
               {dataLoading || processing || selectCount === 0 ? (
-                <Button key="buttonMultiPlusDisabled" disabled type="primary" icon="import">
+                <Button
+                  key="buttonMultiPlusDisabled"
+                  disabled
+                  type="primary"
+                  icon={<ImportOutlined />}
+                >
                   添加所选模块
                 </Button>
               ) : (
@@ -221,14 +227,19 @@ class ModuleDrawer extends PagerDrawer {
                   okText="确定"
                   cancelText="取消"
                 >
-                  <Button key="buttonMultiPlus" type="primary" icon="import">
+                  <Button key="buttonMultiPlus" type="primary" icon={<ImportOutlined />}>
                     添加所选模块
                   </Button>
                 </Popconfirm>
               )}
               <Divider type="vertical" />
               {dataLoading || processing ? (
-                <Button key="buttonAllPlusDisabled" disabled type="primary" icon="import">
+                <Button
+                  key="buttonAllPlusDisabled"
+                  disabled
+                  type="primary"
+                  icon={<ImportOutlined />}
+                >
                   添加所有模块
                 </Button>
               ) : (
@@ -243,7 +254,7 @@ class ModuleDrawer extends PagerDrawer {
                     key="buttonAllPlus"
                     disabled={dataLoading || processing}
                     type="primary"
-                    icon="import"
+                    icon={<ImportOutlined />}
                   >
                     添加所有模块
                   </Button>
@@ -352,7 +363,7 @@ class ModuleDrawer extends PagerDrawer {
             okText="确定"
             cancelText="取消"
           >
-            <Button size="small" icon="import" text="选取" />
+            <Button size="small" icon={<ImportOutlined />} text="选取" />
           </Popconfirm>
         </>
       ),

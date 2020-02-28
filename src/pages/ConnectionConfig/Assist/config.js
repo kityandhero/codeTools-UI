@@ -1,16 +1,16 @@
 export function parseUrlParamsForSetState({ urlParams }) {
   const { id } = urlParams;
 
-  return { connectionId: id };
+  return { connectionConfigId: id };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function checkNeedUpdateAssist(currentState, preProps, preState, snapshot) {
-  const { connectionId } = currentState;
+  const { connectionConfigId } = currentState;
 
-  const { connectionId: connectionIdPre } = preState;
+  const { connectionConfigId: connectionIdPre } = preState;
 
-  return connectionIdPre !== connectionId;
+  return connectionIdPre !== connectionConfigId;
 }
 
 /**
