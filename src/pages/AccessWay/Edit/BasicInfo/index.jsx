@@ -7,6 +7,7 @@ import {
   getDerivedStateFromPropsForUrlParams,
   buildFieldHelper,
   toDatetime,
+  formatDatetime,
 } from '../../../../utils/tools';
 import { constants } from '../../../../customConfig/config';
 import accessWayCollection from '../../../../customConfig/accessWayCollection';
@@ -51,25 +52,32 @@ class Index extends TabPageBase {
     return this.formRef.current;
   };
 
-  formContent = () => {
-    const { dataLoading, processing, metaData } = this.state;
-
-    const initialValues = {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+    const values = {
       name: metaData === null ? '' : metaData.name || '',
       description: metaData === null ? '' : metaData.description || '',
       tag: metaData === null ? '' : metaData.tag || '',
       relativePath: metaData === null ? '' : metaData.relativePath || '',
     };
 
-    initialValues[constants.createTimeName] =
-      metaData === null ? '' : toDatetime(metaData.createTime) || '';
-    initialValues[constants.updateTimeName] =
-      metaData === null ? '' : toDatetime(metaData.updateTime) || '';
+    values[constants.createTime.name] =
+      metaData === null ? '' : formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
+    values[constants.updateTime.name] =
+      metaData === null ? '' : formatDatetime(metaData.updateTime, 'YYYY-MM-DD HH:mm') || '';
+
+    const form = this.getTargetForm();
+
+    form.setFieldsValue(values);
+  };
+
+  formContent = () => {
+    const { dataLoading, processing, metaData } = this.state;
 
     return (
       <>
         <div className={styles.containorBox}>
-          <Form ref={this.formRef} initialValues={initialValues} layout="vertical">
+          <Form ref={this.formRef} layout="vertical">
             <Card
               title="基本信息"
               className={styles.card}
@@ -129,12 +137,9 @@ class Index extends TabPageBase {
                     {this.renderFormTextAreaFormItem(
                       fieldData.description,
                       'description',
-                      metaData === null ? '' : metaData.description || '',
                       false,
                       buildFieldHelper(fieldData.descriptionHelper),
-                      {
-                        autoSize: { minRows: 3, maxRows: 5 },
-                      },
+                      null,
                     )}
                   </Col>
                 </Row>

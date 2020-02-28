@@ -22,12 +22,16 @@ export function getConfigData() {
 }
 
 export const constants = {
-  createTimeName: 'createTime',
-  createTimeLabel: '创建时间',
-  createTimeHelper: '数据创建的时间',
-  updateTimeName: 'updateTime',
-  updateTimeLabel: '最后更新时间',
-  updateTimeHelper: '数据最后更新的时间',
+  createTime: {
+    name: 'createTime',
+    label: '创建时间',
+    helper: '数据创建的时间',
+  },
+  updateTime: {
+    name: 'updateTime',
+    label: '最后更新时间',
+    helper: '数据最后更新的时间',
+  },
 };
 
 export const imageContentPreviewMode = {

@@ -4,8 +4,9 @@ import { routerRedux } from 'dva/router';
 import { Form, Card, Button, Row, Col, Switch, Spin, notification, Affix } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
 
-import { buildFieldHelper } from '../../../utils/tools';
+import { buildFieldHelper, formatDatetime } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
+import { constants } from '../../../customConfig/config';
 import AddFormBase from '../../../customComponents/Framework/CustomForm/AddFormBase';
 import { customFieldCollection } from '../../../customSpecialComponents/CustomCommonSupplement/customConstants';
 
@@ -64,10 +65,10 @@ class Index extends AddFormBase {
       });
     });
 
-    const { connectionId } = singleData;
+    const { connectionConfigId } = singleData;
 
     const location = {
-      pathname: `/connectionConfig/edit/load/${connectionId}/1/basicInfo`,
+      pathname: `/connectionConfig/edit/load/${connectionConfigId}/1/basicInfo`,
     };
 
     dispatch(routerRedux.replace(location));
@@ -86,8 +87,9 @@ class Index extends AddFormBase {
 
     const initialValues = {};
 
-    initialValues[`${customFieldCollection.databaseType}`] = null;
-    initialValues[`${customFieldCollection.databaseEncoding}`] = null;
+    initialValues[customFieldCollection.databaseType.name] = null;
+    initialValues[customFieldCollection.databaseEncoding.name] = null;
+    initialValues[constants.createTime.name] = formatDatetime(new Date(), 'YYYY-MM-DD HH:mm');
 
     return (
       <div className={styles.containorBox}>
