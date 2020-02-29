@@ -482,6 +482,7 @@ class Index extends CustomCore {
       ...{
         addonBefore: icon,
         placeholder: buildFieldDescription(title, reminderPrefix),
+        disabled: !canOperate,
       },
       ...(inputProps || {}),
     };
@@ -615,6 +616,7 @@ class Index extends CustomCore {
         style: { width: '100%' },
         min: 0,
         placeholder: buildFieldDescription(title, '输入'),
+        disabled: !canOperate,
       },
       ...(inputNumberProps || {}),
     };
@@ -670,6 +672,7 @@ class Index extends CustomCore {
     const otherTextAreaProps = {
       ...{
         placeholder: buildFieldDescription(title, '输入'),
+        disabled: !canOperate,
       },
       ...(textAreaProps || {}),
     };

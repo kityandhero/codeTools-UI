@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Form, Card, Button, Row, Col, Spin, BackTop, Affix } from 'antd';
-import { ReloadOutlined } from '@ant-design/icons';
+import { ReloadOutlined, FormOutlined } from '@ant-design/icons';
 
 import {
   getDerivedStateFromPropsForUrlParams,
   buildFieldHelper,
-  toDatetime,
   formatDatetime,
 } from '../../../../utils/tools';
 import { constants } from '../../../../customConfig/config';
@@ -72,7 +71,7 @@ class Index extends TabPageBase {
   };
 
   formContent = () => {
-    const { dataLoading, processing, metaData } = this.state;
+    const { dataLoading, processing } = this.state;
 
     return (
       <>
@@ -108,6 +107,9 @@ class Index extends TabPageBase {
                       'name',
                       true,
                       buildFieldHelper(fieldData.nameHelper),
+                      <FormOutlined />,
+                      null,
+                      false,
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
@@ -116,6 +118,9 @@ class Index extends TabPageBase {
                       'tag',
                       true,
                       buildFieldHelper(fieldData.tagHelper),
+                      <FormOutlined />,
+                      null,
+                      false,
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24}>
@@ -124,6 +129,8 @@ class Index extends TabPageBase {
                       'relativePath',
                       true,
                       buildFieldHelper(fieldData.relativePathHelper),
+                      null,
+                      false,
                     )}
                   </Col>
                 </Row>
@@ -140,6 +147,7 @@ class Index extends TabPageBase {
                       false,
                       buildFieldHelper(fieldData.descriptionHelper),
                       null,
+                      false,
                     )}
                   </Col>
                 </Row>

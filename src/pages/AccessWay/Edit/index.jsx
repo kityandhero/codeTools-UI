@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Avatar } from 'antd';
 
-import { getDerivedStateFromPropsForUrlParams } from '../../../utils/tools';
+import { getDerivedStateFromPropsForUrlParams, toDatetime } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import { constants } from '../../../customConfig/config';
 import LoadDataTabContainer from '../../../customComponents/Framework/CustomForm/LoadDataTabContainer';
@@ -96,7 +96,7 @@ class Edit extends LoadDataTabContainer {
       textLabel: constants.statusNote.label,
       text: metaData === null ? '' : metaData.statusNote,
       timeLabel: constants.createTime.label,
-      time: metaData === null ? null : new Date(metaData.createTime),
+      time: metaData === null ? null : toDatetime(metaData.createTime),
     };
   };
 
