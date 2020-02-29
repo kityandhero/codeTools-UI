@@ -159,6 +159,39 @@ export default [
         ],
       },
       {
+        name: 'errorLog',
+        icon: 'shop',
+        path: '/errorLog',
+        authority: [accessWayCollection.super, accessWayCollection.errorLog.list],
+        routes: [
+          {
+            path: '/errorLog/list/:pageKey',
+            hideInMenu: true,
+            component: './ErrorLog/List',
+          },
+          { path: '/errorLog/list/', redirect: '/errorLog/list/no' },
+          {
+            path: '/errorLog/list/no',
+            name: 'list',
+            icon: 'bars',
+            authority: [accessWayCollection.super, accessWayCollection.errorLog.list],
+          },
+          {
+            path: '/errorLog/edit/:op/:id/:pageKey',
+            name: 'edit',
+            hideInMenu: true,
+            component: './ErrorLog/Edit',
+            routes: [
+              {
+                path: '/errorLog/edit/:op/:id/:pageKey/basicInfo',
+                name: 'basicInfo',
+                component: './ErrorLog/Edit/BasicInfo',
+              },
+            ],
+          },
+        ],
+      },
+      {
         path: '/operator',
         name: 'operator',
         icon: 'user',

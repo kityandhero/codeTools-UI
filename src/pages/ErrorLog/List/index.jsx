@@ -13,10 +13,10 @@ import EllipsisCustom from '../../../customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
 
-@connect(({ accessWay, global, loading }) => ({
-  accessWay,
+@connect(({ errorLog, global, loading }) => ({
+  errorLog,
   global,
-  loading: loading.models.accessWay,
+  loading: loading.models.errorLog,
 }))
 class Index extends PagerList {
   constructor(props) {
@@ -27,7 +27,7 @@ class Index extends PagerList {
       ...{
         pageName: '模块列表',
         paramsKey: '53e093b4-70d0-4a37-8eee-e8bf2ff3f687',
-        loadApiPath: 'accessWay/list',
+        loadApiPath: 'errorLog/list',
         dateRangeFieldName: '生成时段',
       },
     };
@@ -35,7 +35,7 @@ class Index extends PagerList {
 
   getApiData = props => {
     const {
-      accessWay: { data },
+      errorLog: { data },
     } = props;
 
     return data;
@@ -43,10 +43,10 @@ class Index extends PagerList {
 
   goToEdit = record => {
     const { dispatch } = this.props;
-    const { accessWayId } = record;
+    const { errorLogId } = record;
 
     const location = {
-      pathname: `/accessWay/edit/load/${accessWayId}/key/basicInfo`,
+      pathname: `/errorLog/edit/load/${errorLogId}/key/basicInfo`,
     };
 
     dispatch(routerRedux.push(location));
@@ -57,11 +57,11 @@ class Index extends PagerList {
       <>
         <Row gutter={24}>
           <Col md={6} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.name, 'name')}
+            {this.renderSearchInputFormItem(fieldData.message, 'message')}
           </Col>
-          <Col md={6} sm={24}>
+          {/* <Col md={6} sm={24}>
             {this.renderSearchInputFormItem(fieldData.relativePath, 'relativePath')}
-          </Col>
+          </Col> */}
           {this.renderSimpleFormButton()}
         </Row>
       </>
@@ -70,8 +70,8 @@ class Index extends PagerList {
 
   getColumn = () => [
     {
-      title: fieldData.name,
-      dataIndex: 'name',
+      title: fieldData.message,
+      dataIndex: 'message',
       align: 'left',
       render: val => (
         <>
@@ -82,21 +82,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.relativePath,
-      dataIndex: 'relativePath',
-      width: 300,
-      align: 'left',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {val || '--'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: fieldData.tag,
-      dataIndex: 'tag',
+      title: fieldData.errorLogId,
+      dataIndex: 'errorLogId',
       width: 120,
       align: 'center',
       render: val => (
@@ -119,19 +106,6 @@ class Index extends PagerList {
           >
             {val} [点击复制]
           </EllipsisCustom>
-        </>
-      ),
-    },
-    {
-      title: fieldData.expand,
-      dataIndex: 'expand',
-      width: 340,
-      align: 'center',
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {val || '--'}
-          </Ellipsis>
         </>
       ),
     },

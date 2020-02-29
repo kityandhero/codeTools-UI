@@ -18,4 +18,8 @@ module.exports = {
     list: 'c44e3865-1fa0-48df-ad0a-bd3f79807a38',
     get: 'a0664bb2-75ff-406b-9463-9e5aae7af56e',
   },
+  errorLog: {
+    list: '',
+    get: '',
+  },
 };
