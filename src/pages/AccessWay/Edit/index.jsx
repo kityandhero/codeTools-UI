@@ -1,17 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Avatar, Descriptions } from 'antd';
+import { Avatar } from 'antd';
 
-import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '../../../utils/tools';
+import { getDerivedStateFromPropsForUrlParams } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
+import { constants } from '../../../customConfig/config';
 import LoadDataTabContainer from '../../../customComponents/Framework/CustomForm/LoadDataTabContainer';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 import { fieldData } from '../Common/data';
-
-import styles from './index.less';
-
-const { Item: Description } = Descriptions;
 
 @connect(({ accessWay, global, loading }) => ({
   accessWay,
@@ -92,28 +89,18 @@ class Edit extends LoadDataTabContainer {
     );
   };
 
-  pageHeaderExtraContent = () => {
+  pageHeaderExtraContentData = () => {
     const { metaData } = this.state;
 
-    return (
-      <Row>
-        <Col xs={24} sm={12}>
-          <div className={styles.textSecondary}>创建日期</div>
-          <div className={styles.heading}>
-            {formatDatetime(metaData === null ? '' : metaData.createTime, 'HH:mm:ss', '--')}
-            <br />
-            {formatDatetime(metaData === null ? '' : metaData.createTime, 'YYYY-MM-DD')}
-          </div>
-        </Col>
-        <Col xs={24} sm={12}>
-          <div className={styles.textSecondary}>当前状态</div>
-          <div className={styles.heading}>正常</div>
-        </Col>
-      </Row>
-    );
+    return {
+      textLabel: constants.statusNote.label,
+      text: metaData === null ? '' : metaData.statusNote,
+      timeLabel: constants.createTime.label,
+      time: metaData === null ? null : new Date(metaData.createTime),
+    };
   };
 
-  pageHeaderContent = () => {
+  pageHeaderContentData = () => {
     const { metaData } = this.state;
 
     const list = [];
@@ -121,37 +108,31 @@ class Edit extends LoadDataTabContainer {
     list.push({
       label: fieldData.accessWayId,
       value: metaData === null ? '' : metaData.accessWayId,
+      canCopy: true,
     });
 
     list.push({
       label: fieldData.tag,
       value: metaData === null ? '' : metaData.tag,
+      canCopy: false,
     });
 
     list.push({
-      label: fieldData.createTime,
+      label: constants.channelNote.label,
+      value: metaData === null ? '' : metaData.channelNote,
+    });
+
+    list.push({
+      label: constants.createTime.label,
       value: metaData === null ? '' : metaData.createTime,
     });
 
-    const dataList = list.map((o, index) => {
-      const d = { ...{}, ...o };
-
-      d.key = `item_${index}`;
-
-      return d;
+    list.push({
+      label: constants.updateTime.label,
+      value: metaData === null ? '' : metaData.createTime,
     });
 
-    return (
-      <Descriptions className={styles.headerList} size="small" column="2">
-        {dataList.map(item => {
-          return (
-            <Description key={item.key} label={item.label}>
-              {item.value}
-            </Description>
-          );
-        })}
-      </Descriptions>
-    );
+    return list;
   };
 }
 

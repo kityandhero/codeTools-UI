@@ -13,6 +13,5 @@ module.exports = {
     descriptionHelper: '模块的简介描述',
     channel: '目标系统',
     channelHelper: '模块所属的系统',
-    createTime: '创建时间',
   },
 };

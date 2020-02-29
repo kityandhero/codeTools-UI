@@ -1,14 +1,20 @@
 import React from 'react';
 import {
   // Avatar,
+  Descriptions,
   Spin,
+  Row,
+  Col,
 } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
+import { isArray, copyToClipboard, formatDatetime } from '../../../../utils/tools';
 import LoadDataForm from '../LoadDataForm';
 
 import styles from './index.less';
+
+const { Item: Description } = Descriptions;
 
 class LoadDataTabContainer extends LoadDataForm {
   tabList = [];
@@ -114,9 +120,74 @@ class LoadDataTabContainer extends LoadDataForm {
 
   pageHeaderSubTitle = () => null;
 
-  pageHeaderContent = () => null;
+  pageHeaderContentData = () => null;
 
-  pageHeaderExtraContent = () => null;
+  pageHeaderContent = () => {
+    const list = this.pageHeaderContentData();
+
+    if (isArray(list)) {
+      const dataList = list.map((o, index) => {
+        const d = { ...{}, ...o };
+
+        d.key = `item_${index}`;
+
+        return { ...{ canCopy: false }, ...d };
+      });
+
+      return (
+        <Descriptions className={styles.headerList} size="small" column="2">
+          {dataList.map(item => {
+            return (
+              <Description key={item.key} label={item.label}>
+                {item.value}
+                {item.canCopy && (item.canCopy || null) != null ? (
+                  <a
+                    style={{ marginLeft: '10px' }}
+                    onClick={() => {
+                      copyToClipboard(item.value);
+                    }}
+                  >
+                    [复制]
+                  </a>
+                ) : null}
+              </Description>
+            );
+          })}
+        </Descriptions>
+      );
+    }
+
+    return null;
+  };
+
+  pageHeaderExtraContentData = () => null;
+
+  pageHeaderExtraContent = () => {
+    const data = this.pageHeaderExtraContentData();
+
+    if ((data || null) == null) {
+      return null;
+    }
+
+    const v = { ...{ textLabel: '描述', text: '', tileLabel: '时间', time: new Date() }, ...data };
+
+    return (
+      <Row>
+        <Col xs={24} sm={12}>
+          <div className={styles.textSecondary}>创建日期</div>
+          <div className={styles.heading}>
+            {formatDatetime(v.time, 'HH:mm:ss', '--')}
+            <br />
+            {formatDatetime(v.time, 'YYYY-MM-DD')}
+          </div>
+        </Col>
+        <Col xs={24} sm={12}>
+          <div className={styles.textSecondary}>{v.textLabel}</div>
+          <div className={styles.heading}>{v.text}</div>
+        </Col>
+      </Row>
+    );
+  };
 
   render() {
     const { match, children } = this.props;

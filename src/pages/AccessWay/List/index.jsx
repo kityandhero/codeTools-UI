@@ -94,8 +94,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.guidTag,
-      dataIndex: 'guidTag',
+      title: fieldData.tag,
+      dataIndex: 'tag',
       width: 120,
       align: 'center',
       render: val => (
