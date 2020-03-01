@@ -103,7 +103,7 @@ class Add extends AddFormBase {
           >
             <Spin spinning={processing}>
               <Row gutter={24}>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
                     fieldData.userName,
                     'userName',
@@ -111,7 +111,7 @@ class Add extends AddFormBase {
                     buildFieldHelper(fieldData.userNameHelper),
                   )}
                 </Col>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
                     fieldData.name,
                     'name',
@@ -119,7 +119,7 @@ class Add extends AddFormBase {
                     buildFieldHelper(fieldData.nameHelper),
                   )}
                 </Col>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormPasswordFormItem(
                     fieldData.password,
                     'password',
@@ -127,7 +127,7 @@ class Add extends AddFormBase {
                     buildFieldHelper(fieldData.passwordHelper),
                   )}
                 </Col>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormPasswordFormItem(
                     fieldData.rePassword,
                     'rePassword',
@@ -142,7 +142,7 @@ class Add extends AddFormBase {
           <Card title="描述信息" className={styles.card} bordered={false}>
             <Spin spinning={processing}>
               <Row gutter={24}>
-                <Col lg={24} md={12} sm={24}>
+                <Col lg={24} md={12} sm={24} xs={24}>
                   {this.renderFormTextAreaFormItem(
                     fieldData.description,
                     'description',
@@ -157,7 +157,7 @@ class Add extends AddFormBase {
           <Card title="其他信息" className={styles.card} bordered={false}>
             <Spin spinning={processing}>
               <Row gutter={24}>
-                <Col lg={24} md={12} sm={24}>
+                <Col lg={24} md={12} sm={24} xs={24}>
                   {this.renderFromCreateTimeField(formNameCollection.createTime)}
                 </Col>
               </Row>

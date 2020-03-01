@@ -10,7 +10,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: '商城管理系统',
+  title: '代码生成工具',
   pwa: false,
   iconfontUrl: '',
   defaultEmptyImage: '/noImageSmall.png',
@@ -38,7 +38,7 @@ export default {
       }
     }
 
-    return result || '商城管理系统';
+    return result || '代码生成工具';
   },
   getLoginLogo: () => {
     let result = '';

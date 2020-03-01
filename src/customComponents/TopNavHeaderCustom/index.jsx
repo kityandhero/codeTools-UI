@@ -34,7 +34,7 @@ export default class TopNavHeaderCustom extends PureComponent {
             <div className={styles.logo} key="logo" id="logo">
               <Link to="/">
                 <img src={logo} alt="logo" />
-                <h1>商城管理系统</h1>
+                <h1>代码生成工具</h1>
               </Link>
             </div>
             <div
