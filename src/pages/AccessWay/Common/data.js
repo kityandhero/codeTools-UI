@@ -11,7 +11,5 @@ module.exports = {
     expandHelper: '模块的附加权限',
     description: '简介描述',
     descriptionHelper: '模块的简介描述',
-    channel: '目标系统',
-    channelHelper: '模块所属的系统',
   },
 };

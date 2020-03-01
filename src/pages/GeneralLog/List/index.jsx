@@ -59,9 +59,9 @@ class Index extends PagerList {
           <Col md={6} sm={24}>
             {this.renderSearchInputFormItem(fieldData.message, 'message')}
           </Col>
-          {/* <Col md={6} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.relativePath, 'relativePath')}
-          </Col> */}
+          <Col md={6} sm={24}>
+            {this.renderSearchChannelFormItem(true)}
+          </Col>
           {this.renderSimpleFormButton()}
         </Row>
       </>

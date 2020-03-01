@@ -6,6 +6,7 @@ import {
 } from '../../utils/tools';
 import { unlimitedWithStringFlag } from '../../utils/constants';
 import CustomCommonCore from '../../customComponents/Framework/CustomCommonCore';
+import { constants } from '../../customConfig/config';
 
 import { customFieldCollection } from './customConstants';
 
@@ -19,6 +20,94 @@ class Index extends CustomCommonCore {
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(nextProps, prevState);
   }
+
+  channelList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const channelList = global.channelList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(channelList, unlimitedWithStringFlag);
+    }
+
+    return refitCommonData(channelList);
+  };
+
+  getChannelName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.channelList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderChannelOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.channelList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderChannelRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.channelList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchChannelFormItem = (withUnlimited = true, label = constants.channel.label) => {
+    const title = label || constants.channel.label;
+
+    return this.renderSearchSelectFormItem(title, constants.channel.name, withUnlimited);
+  };
+
+  renderFormChannelSelectFormItem = (
+    helper = null,
+    onChangeCallback,
+    label = constants.channel.label,
+    formItemLayout = null,
+    required = true,
+    name = constants.channel.name,
+    otherProps = null,
+  ) => {
+    const title = label || constants.channel.label;
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      () => {
+        return this.renderChannelOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormChannelFormItemRadio = (
+    helper = null,
+    onChangeCallback,
+    label = constants.channel.label,
+    formItemLayout = null,
+    required = true,
+    name = constants.channel.name,
+    otherProps = null,
+  ) => {
+    const title = label || constants.channel.label;
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      () => {
+        return this.renderChannelOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
 
   databaseTypeList = (withUnlimited = true) => {
     const { global } = this.props;

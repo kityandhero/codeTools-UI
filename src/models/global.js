@@ -22,6 +22,7 @@ const GlobalModel = {
     collapsed: false,
     amapObject: null,
     notices: [],
+    channelList: [],
     databaseTypeList: [],
     databaseEncodingList: [],
     connectionTypeList: [],
@@ -52,6 +53,7 @@ const GlobalModel = {
 
         if (dataSuccess) {
           const {
+            channelList,
             databaseTypeList,
             databaseEncodingList,
             connectionTypeList,
@@ -59,6 +61,7 @@ const GlobalModel = {
           } = metaData;
 
           result = {
+            channelList,
             databaseTypeList,
             databaseEncodingList,
             connectionTypeList,
