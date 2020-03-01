@@ -192,6 +192,39 @@ export default [
         ],
       },
       {
+        name: 'generalLog',
+        icon: 'shop',
+        path: '/generalLog',
+        authority: [accessWayCollection.super, accessWayCollection.generalLog.list],
+        routes: [
+          {
+            path: '/generalLog/list/:pageKey',
+            hideInMenu: true,
+            component: './GeneralLog/List',
+          },
+          { path: '/generalLog/list/', redirect: '/generalLog/list/no' },
+          {
+            path: '/generalLog/list/no',
+            name: 'list',
+            icon: 'bars',
+            authority: [accessWayCollection.super, accessWayCollection.generalLog.list],
+          },
+          {
+            path: '/generalLog/edit/:op/:id/:pageKey',
+            name: 'edit',
+            hideInMenu: true,
+            component: './GeneralLog/Edit',
+            routes: [
+              {
+                path: '/generalLog/edit/:op/:id/:pageKey/basicInfo',
+                name: 'basicInfo',
+                component: './GeneralLog/Edit/BasicInfo',
+              },
+            ],
+          },
+        ],
+      },
+      {
         path: '/operator',
         name: 'operator',
         icon: 'user',
