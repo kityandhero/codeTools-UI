@@ -135,7 +135,7 @@ class LoadDataTabContainer extends LoadDataForm {
       });
 
       return (
-        <Descriptions className={styles.headerList} size="small" column="2">
+        <Descriptions className={styles.headerList} size="small">
           {dataList.map(item => {
             return (
               <Description key={item.key} label={item.label}>

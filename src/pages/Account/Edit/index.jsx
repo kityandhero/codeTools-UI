@@ -75,11 +75,10 @@ class Edit extends LoadDataTabContainer {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
-    console.log(metaData);
     if ((metaData || null) != null) {
-      const { name } = metaData || { name: '' };
+      const { userName } = metaData || { userName: '' };
 
-      this.setState({ pageName: `账户名：${name}` });
+      this.setState({ pageName: `${fieldData.userName}：${userName}` });
     }
   };
 

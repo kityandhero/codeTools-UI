@@ -156,7 +156,7 @@ class BasicInfo extends UpdateFormTab {
           >
             <Spin spinning={dataLoading || processing}>
               <Row gutter={24}>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
                     fieldData.userName,
                     'userName',
@@ -167,7 +167,7 @@ class BasicInfo extends UpdateFormTab {
                     false,
                   )}
                 </Col>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
                     fieldData.name,
                     'name',
@@ -180,9 +180,9 @@ class BasicInfo extends UpdateFormTab {
           </Card>
 
           <Card title="描述信息" className={styles.card} bordered={false}>
-            <Spin spinning={processing}>
+            <Spin spinning={dataLoading || processing}>
               <Row gutter={24}>
-                <Col lg={24} md={12} sm={24}>
+                <Col lg={24} md={24} sm={24} xs={24}>
                   {this.renderFormTextAreaFormItem(
                     fieldData.description,
                     'description',
@@ -195,12 +195,12 @@ class BasicInfo extends UpdateFormTab {
           </Card>
 
           <Card title="其他信息" className={styles.card} bordered={false}>
-            <Spin spinning={processing}>
+            <Spin spinning={dataLoading || processing}>
               <Row gutter={24}>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFromCreateTimeField()}
                 </Col>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFromUpdateTimeField()}
                 </Col>
               </Row>
