@@ -101,7 +101,7 @@ class Index extends TabPageBase {
             >
               <Spin spinning={dataLoading || processing}>
                 <Row gutter={24}>
-                  <Col lg={12} md={12} sm={24}>
+                  <Col lg={12} md={12} sm={24} xs={24}>
                     {this.renderFormInputFormItem(
                       fieldData.name,
                       'name',
@@ -112,7 +112,7 @@ class Index extends TabPageBase {
                       false,
                     )}
                   </Col>
-                  <Col lg={6} md={12} sm={24}>
+                  <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFormInputFormItem(
                       fieldData.tag,
                       'tag',
@@ -123,7 +123,7 @@ class Index extends TabPageBase {
                       false,
                     )}
                   </Col>
-                  <Col lg={6} md={12} sm={24}>
+                  <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFormInputNumberFormItem(
                       fieldData.relativePath,
                       'relativePath',
@@ -157,10 +157,10 @@ class Index extends TabPageBase {
             <Card title="其他信息" className={styles.card} bordered={false}>
               <Spin spinning={dataLoading || processing}>
                 <Row gutter={24}>
-                  <Col lg={6} md={12} sm={24}>
+                  <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFromCreateTimeField()}
                   </Col>
-                  <Col lg={6} md={12} sm={24}>
+                  <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFromUpdateTimeField()}
                   </Col>
                 </Row>
