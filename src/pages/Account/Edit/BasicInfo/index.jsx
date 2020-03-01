@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Spin, notification, Affix, Button, Divider } from 'antd';
-import { ContactsOutlined, SaveOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Form, Card, Row, Col, Spin, notification, Affix, Button, Divider } from 'antd';
+import { FormOutlined, ContactsOutlined, SaveOutlined, ReloadOutlined } from '@ant-design/icons';
 
 import {
   getDerivedStateFromPropsForUrlParams,
   buildFieldHelper,
-  toDatetime,
+  formatDatetime,
 } from '../../../../utils/tools';
 import accessWayCollection from '../../../../customConfig/accessWayCollection';
 import { constants } from '../../../../customConfig/config';
@@ -26,6 +26,8 @@ class BasicInfo extends UpdateFormTab {
   componentAuthority = accessWayCollection.account.get;
 
   goToUpdateWhenProcessed = true;
+
+  formRef = React.createRef();
 
   constructor(props) {
     super(props);
@@ -47,6 +49,10 @@ class BasicInfo extends UpdateFormTab {
       parseUrlParamsForSetState,
     );
   }
+
+  getTargetForm = () => {
+    return this.formRef.current;
+  };
 
   getApiData = props => {
     const {
@@ -70,6 +76,24 @@ class BasicInfo extends UpdateFormTab {
     return d;
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+    const values = {
+      userName: metaData === null ? '' : metaData.userName || '',
+      name: metaData === null ? '' : metaData.name || '',
+      description: metaData === null ? '' : metaData.description || '',
+    };
+
+    values[constants.createTime.name] =
+      metaData === null ? '' : formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
+    values[constants.updateTime.name] =
+      metaData === null ? '' : formatDatetime(metaData.updateTime, 'YYYY-MM-DD HH:mm') || '';
+
+    const form = this.getTargetForm();
+
+    form.setFieldsValue(values);
+  };
+
   supplementSubmitRequestParams = o => {
     const d = o;
     const { accountId } = this.state;
@@ -91,19 +115,11 @@ class BasicInfo extends UpdateFormTab {
   };
 
   formContent = () => {
-    const { metaData, processing, dataLoading, loadSuccess } = this.state;
-
-    const initialValues = {
-      name: metaData === null ? '' : metaData.name || '',
-      description: metaData === null ? '' : metaData.description || '',
-    };
-
-    initialValues[constants.createTimeName] =
-      metaData === null ? '' : toDatetime(metaData.createTime) || '';
+    const { processing, dataLoading, loadSuccess } = this.state;
 
     return (
       <div className={styles.containorBox}>
-        <Spin ref={this.formRef} initialValues={initialValues} layout="vertical">
+        <Form ref={this.formRef} layout="vertical">
           <Card
             title={
               <>
@@ -115,7 +131,6 @@ class BasicInfo extends UpdateFormTab {
             bordered={false}
             extra={
               <Affix offsetTop={20}>
-                {this.getErrorInfo()}
                 <Button
                   icon={<ReloadOutlined />}
                   disabled={dataLoading || processing || !loadSuccess}
@@ -147,6 +162,9 @@ class BasicInfo extends UpdateFormTab {
                     'userName',
                     true,
                     buildFieldHelper(fieldData.userNameHelper),
+                    <FormOutlined />,
+                    null,
+                    false,
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24}>
@@ -155,22 +173,6 @@ class BasicInfo extends UpdateFormTab {
                     'name',
                     true,
                     buildFieldHelper(fieldData.nameHelper),
-                  )}
-                </Col>
-                <Col lg={6} md={12} sm={24}>
-                  {this.renderFormPasswordFormItem(
-                    fieldData.password,
-                    'password',
-                    true,
-                    buildFieldHelper(fieldData.passwordHelper),
-                  )}
-                </Col>
-                <Col lg={6} md={12} sm={24}>
-                  {this.renderFormPasswordFormItem(
-                    fieldData.rePassword,
-                    'rePassword',
-                    true,
-                    buildFieldHelper(fieldData.rePasswordHelper),
                   )}
                 </Col>
               </Row>
@@ -184,7 +186,7 @@ class BasicInfo extends UpdateFormTab {
                   {this.renderFormTextAreaFormItem(
                     fieldData.description,
                     'description',
-                    true,
+                    false,
                     buildFieldHelper(fieldData.descriptionHelper),
                   )}
                 </Col>
@@ -195,13 +197,16 @@ class BasicInfo extends UpdateFormTab {
           <Card title="其他信息" className={styles.card} bordered={false}>
             <Spin spinning={processing}>
               <Row gutter={24}>
-                <Col lg={24} md={12} sm={24}>
-                  {this.renderFromCreateTimeField(constants.createTimeName)}
+                <Col lg={6} md={12} sm={24}>
+                  {this.renderFromCreateTimeField()}
+                </Col>
+                <Col lg={6} md={12} sm={24}>
+                  {this.renderFromUpdateTimeField()}
                 </Col>
               </Row>
             </Spin>
           </Card>
-        </Spin>
+        </Form>
       </div>
     );
   };

@@ -73,9 +73,11 @@ class Edit extends LoadDataTabContainer {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    this.setState({
-      pageName: `名称：${metaData === null ? '' : metaData.name || ''}`,
-    });
+    if ((metaData || null) != null) {
+      const { name } = metaData || { name: '' };
+
+      this.setState({ pageName: `名称：${name}` });
+    }
   };
 
   pageHeaderLogo = () => {

@@ -400,7 +400,7 @@ class Index extends PagerList {
     //     <>
     //       <Badge
     //         status={this.getAccountStateBadgeStatus(val)}
-    //         text={this.getAccountStateName(val)}
+    //         text={this.getAccountStatusName(val)}
     //       />
     //     </>
     //   ),

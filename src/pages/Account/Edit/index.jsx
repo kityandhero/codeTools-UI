@@ -1,18 +1,12 @@
-import React from 'react';
 import { connect } from 'dva';
 
-import { Row, Col, Descriptions } from 'antd';
-
-import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '../../../utils/tools';
+import { getDerivedStateFromPropsForUrlParams, toDatetime } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
+import { constants } from '../../../customConfig/config';
 import LoadDataTabContainer from '../../../customComponents/Framework/CustomForm/LoadDataTabContainer';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 import { fieldData } from '../Common/data';
-
-import styles from './index.less';
-
-const { Item: Description } = Descriptions;
 
 @connect(({ account, global, loading }) => ({
   account,
@@ -81,46 +75,59 @@ class Edit extends LoadDataTabContainer {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
-    const { name } = metaData;
+    console.log(metaData);
+    if ((metaData || null) != null) {
+      const { name } = metaData || { name: '' };
 
-    this.setState({ pageName: `账户名：${name}` });
+      this.setState({ pageName: `账户名：${name}` });
+    }
   };
 
-  pageHeaderExtraContent = () => {
+  pageHeaderExtraContentData = () => {
     const { metaData } = this.state;
 
-    return (
-      <Row>
-        <Col xs={24} sm={12}>
-          <div className={styles.textSecondary}>{fieldData.inTime}</div>
-          <div className={styles.heading}>
-            {formatDatetime(metaData === null ? '' : metaData.inTime, 'HH:mm:ss', '--')}
-            <br />
-            {formatDatetime(metaData === null ? '' : metaData.inTime, 'YYYY-MM-DD')}
-          </div>
-        </Col>
-        <Col xs={24} sm={12}>
-          <div className={styles.textSecondary}>{fieldData.state}</div>
-          <div className={styles.heading}>
-            {metaData === null ? '' : this.getAccountStateName(metaData.state)}
-          </div>
-        </Col>
-      </Row>
-    );
+    return {
+      textLabel: constants.statusNote.label,
+      text: metaData === null ? '' : metaData.statusNote,
+      timeLabel: constants.createTime.label,
+      time: metaData === null ? null : toDatetime(metaData.createTime),
+    };
   };
 
-  pageHeaderContent = () => {
+  pageHeaderContentData = () => {
     const { metaData } = this.state;
 
-    return (
-      <Descriptions className={styles.headerList} size="small" col="2">
-        <Description label={fieldData.accountId}>
-          {metaData === null ? '' : metaData.accountId}
-        </Description>
-        <Description label={fieldData.name}>{metaData === null ? '' : metaData.name}</Description>
-        <Description label={fieldData.phone}>{metaData === null ? '' : metaData.phone}</Description>
-      </Descriptions>
-    );
+    const list = [];
+
+    list.push({
+      label: fieldData.accountId,
+      value: metaData === null ? '' : metaData.accountId,
+      canCopy: true,
+    });
+
+    list.push({
+      label: fieldData.userName,
+      value: metaData === null ? '' : metaData.userName,
+      canCopy: false,
+    });
+
+    list.push({
+      label: fieldData.name,
+      value: metaData === null ? '' : metaData.name,
+      canCopy: false,
+    });
+
+    list.push({
+      label: constants.createTime.label,
+      value: metaData === null ? '' : metaData.createTime,
+    });
+
+    list.push({
+      label: constants.updateTime.label,
+      value: metaData === null ? '' : metaData.createTime,
+    });
+
+    return list;
   };
 }
 

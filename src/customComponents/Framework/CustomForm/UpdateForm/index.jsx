@@ -24,32 +24,7 @@ class UpdateForm extends LoadDataForm {
     this.reloadData();
   };
 
-  getErrorInfo = errorInfo => {
-    const { errorFields } = errorInfo;
 
-    const m = [];
-
-    Object.values(errorFields).forEach(o => {
-      m.push(o.errors[0]);
-    });
-
-    const maxLength = 5;
-    let beyondMax = false;
-
-    if (m.length > maxLength) {
-      m.length = maxLength;
-
-      beyondMax = true;
-    }
-
-    let errorMessage = m.join(', ');
-
-    if (beyondMax) {
-      errorMessage += ' ...';
-    }
-
-    message.warn(errorMessage);
-  };
 
   supplementSubmitRequestParams = o => o;
 
@@ -124,8 +99,31 @@ class UpdateForm extends LoadDataForm {
           });
         }
       })
-      .catch(errorInfo => {
-        this.getErrorInfo(errorInfo);
+      .catch(error => {
+        const { errorFields } = error;
+
+        const m = [];
+
+        Object.values(errorFields).forEach(o => {
+          m.push(o.errors[0]);
+        });
+
+        const maxLength = 5;
+        let beyondMax = false;
+
+        if (m.length > maxLength) {
+          m.length = maxLength;
+
+          beyondMax = true;
+        }
+
+        let errorMessage = m.join(', ');
+
+        if (beyondMax) {
+          errorMessage += ' ...';
+        }
+
+        message.warn(errorMessage);
       });
   };
 }
