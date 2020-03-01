@@ -96,7 +96,7 @@ class Index extends TabPageBase {
             >
               <Spin spinning={dataLoading || processing}>
                 <Row gutter={24}>
-                  <Col lg={24} md={24} sm={24}>
+                  <Col span={24}>
                     <HtmlBox>{metaData === null ? '' : metaData.message || '无'}</HtmlBox>
                   </Col>
                 </Row>
@@ -123,10 +123,10 @@ class Index extends TabPageBase {
             <Card title="其他信息" className={styles.card} bordered={false}>
               <Spin spinning={dataLoading || processing}>
                 <Row gutter={24}>
-                  <Col lg={6} md={12} sm={24}>
+                  <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFromCreateTimeField()}
                   </Col>
-                  <Col lg={6} md={12} sm={24}>
+                  <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFromUpdateTimeField()}
                   </Col>
                 </Row>

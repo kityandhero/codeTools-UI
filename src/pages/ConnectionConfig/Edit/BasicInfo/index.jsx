@@ -98,7 +98,7 @@ class Index extends TabPageBase {
             <Spin spinning={dataLoading || processing}>
               <Form layout="vertical">
                 <Row gutter={24}>
-                  <Col lg={12} md={12} sm={24}>
+                  <Col lg={12} md={12} sm={24} xs={24}>
                     {this.renderFormInputFormItem(
                       fieldData.name,
                       'name',
@@ -107,7 +107,7 @@ class Index extends TabPageBase {
                       buildFieldHelper(fieldData.nameHelper),
                     )}
                   </Col>
-                  <Col lg={6} md={12} sm={24}>
+                  <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFormInputFormItem(
                       fieldData.contactInformation,
                       'contactInformation',
@@ -116,7 +116,7 @@ class Index extends TabPageBase {
                       buildFieldHelper(fieldData.contactInformationHelper),
                     )}
                   </Col>
-                  <Col lg={6} md={12} sm={24}>
+                  <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFormInputNumberFormItem(
                       fieldData.sort,
                       'sort',

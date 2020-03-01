@@ -118,7 +118,7 @@ class Index extends AddFormBase {
           >
             <Spin spinning={processing}>
               <Row gutter={24}>
-                <Col lg={18} md={12} sm={24}>
+                <Col lg={18} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
                     fieldData.name,
                     'name',
@@ -126,12 +126,12 @@ class Index extends AddFormBase {
                     buildFieldHelper(fieldData.nameHelper),
                   )}
                 </Col>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormDatabaseTypeSelectFormItem()}
                 </Col>
               </Row>
               <Row gutter={24}>
-                <Col lg={18} md={12} sm={24}>
+                <Col lg={18} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
                     fieldData.host,
                     'host',
@@ -139,7 +139,7 @@ class Index extends AddFormBase {
                     buildFieldHelper(fieldData.hostHelper),
                   )}
                 </Col>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputNumberFormItem(
                     fieldData.port,
                     'port',
@@ -149,7 +149,7 @@ class Index extends AddFormBase {
                 </Col>
               </Row>
               <Row gutter={24}>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
                     fieldData.userName,
                     'userName',
@@ -157,7 +157,7 @@ class Index extends AddFormBase {
                     buildFieldHelper(fieldData.userNameHelper),
                   )}
                 </Col>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormPasswordFormItem(
                     fieldData.password,
                     'password',
@@ -165,7 +165,7 @@ class Index extends AddFormBase {
                     buildFieldHelper(fieldData.passwordHelper),
                   )}
                 </Col>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
                     fieldData.schema,
                     'schema',
@@ -173,7 +173,7 @@ class Index extends AddFormBase {
                     buildFieldHelper(fieldData.schemaHelper),
                   )}
                 </Col>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormDatabaseEncodingSelectFormItem()}
                 </Col>
               </Row>
@@ -202,7 +202,7 @@ class Index extends AddFormBase {
               {selectConnectionType === connectionType.SSH ? (
                 <>
                   <Row gutter={24}>
-                    <Col lg={6} md={12} sm={24}>
+                    <Col lg={6} md={12} sm={24} xs={24}>
                       {this.renderFormInputFormItem(
                         fieldData.sshHost,
                         'sshHost',
@@ -210,7 +210,7 @@ class Index extends AddFormBase {
                         buildFieldHelper(fieldData.sshHostHelper),
                       )}
                     </Col>
-                    <Col lg={6} md={12} sm={24}>
+                    <Col lg={6} md={12} sm={24} xs={24}>
                       {this.renderFormInputNumberFormItem(
                         fieldData.sshPort,
                         'sshPort',
@@ -218,7 +218,7 @@ class Index extends AddFormBase {
                         buildFieldHelper(fieldData.sshPortHelper),
                       )}
                     </Col>
-                    <Col lg={6} md={12} sm={24}>
+                    <Col lg={6} md={12} sm={24} xs={24}>
                       {this.renderFormInputNumberFormItem(
                         fieldData.localPort,
                         'localPort',
@@ -226,7 +226,7 @@ class Index extends AddFormBase {
                         buildFieldHelper(fieldData.localPortHelper),
                       )}
                     </Col>
-                    <Col lg={6} md={12} sm={24}>
+                    <Col lg={6} md={12} sm={24} xs={24}>
                       {this.renderFormInputNumberFormItem(
                         fieldData.remotePort,
                         'remotePort',
@@ -236,7 +236,7 @@ class Index extends AddFormBase {
                     </Col>
                   </Row>
                   <Row gutter={24}>
-                    <Col lg={6} md={12} sm={24}>
+                    <Col lg={6} md={12} sm={24} xs={24}>
                       {this.renderFormInputFormItem(
                         fieldData.sshUser,
                         'sshUser',
@@ -244,7 +244,7 @@ class Index extends AddFormBase {
                         buildFieldHelper(fieldData.sshUserHelper),
                       )}
                     </Col>
-                    <Col lg={6} md={12} sm={24}>
+                    <Col lg={6} md={12} sm={24} xs={24}>
                       {this.renderFormPasswordFormItem(
                         fieldData.sshPassword,
                         'sshPassword',
@@ -261,7 +261,7 @@ class Index extends AddFormBase {
           <Card title="其他信息" className={styles.card} bordered={false}>
             <Spin spinning={processing}>
               <Row gutter={24}>
-                <Col lg={6} md={12} sm={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFromCreateTimeField()}
                 </Col>
               </Row>
