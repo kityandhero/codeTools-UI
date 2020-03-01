@@ -28,7 +28,7 @@ class Edit extends LoadDataTabContainer {
 
   constructor(props) {
     super(props);
-
+    console.log(props);
     this.state = {
       ...this.state,
       ...{

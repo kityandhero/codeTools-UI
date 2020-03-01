@@ -24,12 +24,12 @@ export function getConfigData() {
 export const constants = {
   channel: {
     name: 'channel',
-    label: '适用渠道标识',
+    label: '适用渠道',
     helper: '数据的适用渠道标识',
   },
   channelNote: {
     name: 'channelNote',
-    label: '适用渠道名称',
+    label: '适用渠道',
     helper: '数据的适用渠道名称',
   },
   status: {

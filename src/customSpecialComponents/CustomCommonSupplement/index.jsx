@@ -56,7 +56,11 @@ class Index extends CustomCommonCore {
   renderSearchChannelFormItem = (withUnlimited = true, label = constants.channel.label) => {
     const title = label || constants.channel.label;
 
-    return this.renderSearchSelectFormItem(title, constants.channel.name, withUnlimited);
+    return this.renderSearchSelectFormItem(
+      title,
+      constants.channel.name,
+      this.renderChannelOption(withUnlimited),
+    );
   };
 
   renderFormChannelSelectFormItem = (
@@ -150,7 +154,7 @@ class Index extends CustomCommonCore {
     return this.renderSearchSelectFormItem(
       title,
       customFieldCollection.databaseType.name,
-      withUnlimited,
+      this.renderDatabaseTypeOption(withUnlimited),
     );
   };
 
@@ -245,7 +249,7 @@ class Index extends CustomCommonCore {
     return this.renderSearchSelectFormItem(
       title,
       customFieldCollection.databaseEncoding.name,
-      withUnlimited,
+      this.renderDatabaseEncodingOption(withUnlimited),
     );
   };
 
@@ -341,7 +345,6 @@ class Index extends CustomCommonCore {
       title,
       customFieldCollection.accountStatus.name,
       this.renderAccountStatusOption(withUnlimited),
-      withUnlimited,
     );
   };
 
