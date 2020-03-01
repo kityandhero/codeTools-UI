@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Card, Button, Row, Col, Spin, BackTop, Affix } from 'antd';
-import { ReloadOutlined, FormOutlined } from '@ant-design/icons';
+import { Form, Card, Button, Row, Col, Spin, BackTop } from 'antd';
+import { ReloadOutlined, ContactsOutlined, FormOutlined } from '@ant-design/icons';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -10,6 +10,7 @@ import {
 } from '../../../../utils/tools';
 import { constants } from '../../../../customConfig/config';
 import accessWayCollection from '../../../../customConfig/accessWayCollection';
+import HtmlBox from '../../../../customComponents/HtmlBox';
 
 import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';
@@ -17,13 +18,13 @@ import { fieldData } from '../../Common/data';
 
 import styles from './index.less';
 
-@connect(({ errorLog, global, loading }) => ({
-  errorLog,
+@connect(({ generalLog, global, loading }) => ({
+  generalLog,
   global,
-  loading: loading.models.errorLog,
+  loading: loading.models.generalLog,
 }))
 class Index extends TabPageBase {
-  componentAuthority = accessWayCollection.errorLog.get;
+  componentAuthority = accessWayCollection.generalLog.get;
 
   formRef = React.createRef();
 
@@ -33,7 +34,7 @@ class Index extends TabPageBase {
     this.state = {
       ...this.state,
       ...{
-        loadApiPath: 'errorLog/get',
+        loadApiPath: 'generalLog/get',
       },
     };
   }
@@ -53,13 +54,9 @@ class Index extends TabPageBase {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    const values = {
-      name: metaData === null ? '' : metaData.name || '',
-      description: metaData === null ? '' : metaData.description || '',
-      tag: metaData === null ? '' : metaData.tag || '',
-      relativePath: metaData === null ? '' : metaData.relativePath || '',
-    };
+    const values = {};
 
+    values[constants.channelNote.name] = metaData === null ? '' : metaData.channelNote || '';
     values[constants.createTime.name] =
       metaData === null ? '' : formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
     values[constants.updateTime.name] =
@@ -71,92 +68,74 @@ class Index extends TabPageBase {
   };
 
   formContent = () => {
-    const { dataLoading, processing } = this.state;
+    const { dataLoading, processing, metaData } = this.state;
 
     return (
       <>
         <div className={styles.containorBox}>
-          <Form ref={this.formRef} layout="vertical">
-            <Card
-              title="基本信息"
-              className={styles.card}
-              bordered={false}
-              extra={
-                <Affix offsetTop={20}>
-                  <>
-                    <Button
-                      type="default"
-                      icon={<ReloadOutlined />}
-                      disabled={dataLoading || processing}
-                      onClick={() => {
-                        this.reloadData();
-                      }}
-                      loading={processing}
-                    >
-                      刷新
-                    </Button>
-                  </>
-                </Affix>
-              }
-            >
-              <Spin spinning={dataLoading || processing}>
+          <Card
+            title="基本信息"
+            className={styles.card}
+            bordered={false}
+            extra={
+              <>
+                <Button
+                  type="default"
+                  icon={<ReloadOutlined />}
+                  disabled={dataLoading || processing}
+                  onClick={() => {
+                    this.reloadData();
+                  }}
+                  loading={processing}
+                >
+                  刷新
+                </Button>
+              </>
+            }
+          >
+            <Spin spinning={dataLoading || processing}>
+              <Row gutter={24}>
+                <Col lg={24} md={24} sm={24}>
+                  <HtmlBox>{metaData === null ? '' : metaData.message || '无'}</HtmlBox>
+                </Col>
+              </Row>
+            </Spin>
+          </Card>
+
+          <Card
+            title={
+              <>
+                <ContactsOutlined />
+                <span className={styles.cardTitle}>{fieldData.content}</span>
+              </>
+            }
+            className={styles.card}
+            bordered={false}
+          >
+            <Spin spinning={dataLoading || processing}>
+              <Row gutter={24}>
+                <Col lg={24} md={12} sm={24}>
+                  <HtmlBox>{metaData === null ? '' : metaData.content || '无'}</HtmlBox>
+                </Col>
+              </Row>
+            </Spin>
+          </Card>
+
+          <Card title="其他信息" className={styles.card} bordered={false}>
+            <Spin spinning={dataLoading || processing}>
+              <Form layout="vertical">
                 <Row gutter={24}>
-                  <Col lg={12} md={12} sm={24}>
+                  <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFormInputFormItem(
-                      fieldData.name,
-                      'name',
+                      constants.channelNote.label,
+                      'channelNote',
                       true,
-                      buildFieldHelper(fieldData.nameHelper),
+                      buildFieldHelper(constants.channelNote.helper),
                       <FormOutlined />,
                       null,
                       false,
                     )}
                   </Col>
-                  <Col lg={6} md={12} sm={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.tag,
-                      'tag',
-                      true,
-                      buildFieldHelper(fieldData.tagHelper),
-                      <FormOutlined />,
-                      null,
-                      false,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24}>
-                    {this.renderFormInputNumberFormItem(
-                      fieldData.relativePath,
-                      'relativePath',
-                      true,
-                      buildFieldHelper(fieldData.relativePathHelper),
-                      null,
-                      false,
-                    )}
-                  </Col>
-                </Row>
-              </Spin>
-            </Card>
-
-            <Card title="其他信息" className={styles.card} bordered={false}>
-              <Spin spinning={processing}>
-                <Row gutter={24}>
-                  <Col span={24}>
-                    {this.renderFormTextAreaFormItem(
-                      fieldData.description,
-                      'description',
-                      false,
-                      buildFieldHelper(fieldData.descriptionHelper),
-                      null,
-                      false,
-                    )}
-                  </Col>
-                </Row>
-              </Spin>
-            </Card>
-
-            <Card title="其他信息" className={styles.card} bordered={false}>
-              <Spin spinning={processing}>
-                <Row gutter={24}>
                   <Col lg={6} md={12} sm={24}>
                     {this.renderFromCreateTimeField()}
                   </Col>
@@ -164,9 +143,9 @@ class Index extends TabPageBase {
                     {this.renderFromUpdateTimeField()}
                   </Col>
                 </Row>
-              </Spin>
-            </Card>
-          </Form>
+              </Form>
+            </Spin>
+          </Card>
         </div>
         <BackTop />
       </>

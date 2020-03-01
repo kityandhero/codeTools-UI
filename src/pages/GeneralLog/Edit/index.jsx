@@ -28,11 +28,11 @@ class Edit extends LoadDataTabContainer {
 
   constructor(props) {
     super(props);
-    console.log(props);
+
     this.state = {
       ...this.state,
       ...{
-        pageName: '名称：',
+        pageName: `${fieldData.message}：`,
         loadApiPath: 'generalLog/get',
         backPath: `/generalLog/list/key`,
         generalLogId: null,
@@ -73,9 +73,13 @@ class Edit extends LoadDataTabContainer {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    this.setState({
-      pageName: `名称：${metaData === null ? '' : metaData.name || ''}`,
-    });
+    if ((metaData || null) != null) {
+      const { message } = metaData || { message: '' };
+
+      this.setState({
+        pageName: `${fieldData.message}：：${message}`,
+      });
+    }
   };
 
   pageHeaderLogo = () => {

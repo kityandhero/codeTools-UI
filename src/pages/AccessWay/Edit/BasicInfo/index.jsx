@@ -138,7 +138,7 @@ class Index extends TabPageBase {
             </Card>
 
             <Card title="其他信息" className={styles.card} bordered={false}>
-              <Spin spinning={processing}>
+              <Spin spinning={dataLoading || processing}>
                 <Row gutter={24}>
                   <Col span={24}>
                     {this.renderFormTextAreaFormItem(
@@ -155,7 +155,7 @@ class Index extends TabPageBase {
             </Card>
 
             <Card title="其他信息" className={styles.card} bordered={false}>
-              <Spin spinning={processing}>
+              <Spin spinning={dataLoading || processing}>
                 <Row gutter={24}>
                   <Col lg={6} md={12} sm={24}>
                     {this.renderFromCreateTimeField()}

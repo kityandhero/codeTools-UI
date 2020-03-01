@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Card, Button, Row, Col, Spin, BackTop, Affix } from 'antd';
-import { ReloadOutlined, FormOutlined } from '@ant-design/icons';
+import { Form, Card, Button, Row, Col, Spin, BackTop } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -10,6 +10,7 @@ import {
 } from '../../../../utils/tools';
 import { constants } from '../../../../customConfig/config';
 import accessWayCollection from '../../../../customConfig/accessWayCollection';
+import HtmlBox from '../../../../customComponents/HtmlBox';
 
 import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';
@@ -53,13 +54,9 @@ class Index extends TabPageBase {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    const values = {
-      name: metaData === null ? '' : metaData.name || '',
-      description: metaData === null ? '' : metaData.description || '',
-      tag: metaData === null ? '' : metaData.tag || '',
-      relativePath: metaData === null ? '' : metaData.relativePath || '',
-    };
+    const values = {};
 
+    values[constants.channelNote.name] = metaData === null ? '' : metaData.channelNote || '';
     values[constants.createTime.name] =
       metaData === null ? '' : formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
     values[constants.updateTime.name] =
@@ -71,7 +68,7 @@ class Index extends TabPageBase {
   };
 
   formContent = () => {
-    const { dataLoading, processing } = this.state;
+    const { dataLoading, processing, metaData } = this.state;
 
     return (
       <>
@@ -82,56 +79,25 @@ class Index extends TabPageBase {
               className={styles.card}
               bordered={false}
               extra={
-                <Affix offsetTop={20}>
-                  <>
-                    <Button
-                      type="default"
-                      icon={<ReloadOutlined />}
-                      disabled={dataLoading || processing}
-                      onClick={() => {
-                        this.reloadData();
-                      }}
-                      loading={processing}
-                    >
-                      刷新
-                    </Button>
-                  </>
-                </Affix>
+                <>
+                  <Button
+                    type="default"
+                    icon={<ReloadOutlined />}
+                    disabled={dataLoading || processing}
+                    onClick={() => {
+                      this.reloadData();
+                    }}
+                    loading={processing}
+                  >
+                    刷新
+                  </Button>
+                </>
               }
             >
               <Spin spinning={dataLoading || processing}>
                 <Row gutter={24}>
-                  <Col lg={12} md={12} sm={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.name,
-                      'name',
-                      true,
-                      buildFieldHelper(fieldData.nameHelper),
-                      <FormOutlined />,
-                      null,
-                      false,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.tag,
-                      'tag',
-                      true,
-                      buildFieldHelper(fieldData.tagHelper),
-                      <FormOutlined />,
-                      null,
-                      false,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24}>
-                    {this.renderFormInputNumberFormItem(
-                      fieldData.relativePath,
-                      'relativePath',
-                      true,
-                      buildFieldHelper(fieldData.relativePathHelper),
-                      null,
-                      false,
-                    )}
+                  <Col lg={24} md={24} sm={24}>
+                    <HtmlBox>{metaData === null ? '' : metaData.message || '无'}</HtmlBox>
                   </Col>
                 </Row>
               </Spin>
@@ -155,7 +121,7 @@ class Index extends TabPageBase {
             </Card>
 
             <Card title="其他信息" className={styles.card} bordered={false}>
-              <Spin spinning={processing}>
+              <Spin spinning={dataLoading || processing}>
                 <Row gutter={24}>
                   <Col lg={6} md={12} sm={24}>
                     {this.renderFromCreateTimeField()}

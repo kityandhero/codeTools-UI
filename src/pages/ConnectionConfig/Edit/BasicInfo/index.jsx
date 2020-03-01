@@ -131,7 +131,7 @@ class Index extends TabPageBase {
           </Card>
 
           <Card title="其他信息" className={styles.card} bordered={false}>
-            <Spin spinning={processing}>
+            <Spin spinning={dataLoading || processing}>
               <Form layout="vertical">
                 <Row gutter={24}>
                   <Col span={24}>
