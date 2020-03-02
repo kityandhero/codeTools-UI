@@ -106,10 +106,10 @@ export default class GlobalHeaderRight extends PureComponent {
             formatMessage({ id: 'component.globalHeader.search.example3' }),
           ]}
           onSearch={value => {
-            console.log('input', value); // eslint-disable-line
+            console.log('input', value);
           }}
           onPressEnter={value => {
-            console.log('enter', value); // eslint-disable-line
+            console.log('enter', value); 
           }}
         />
         <Tooltip title="帮助文档">
