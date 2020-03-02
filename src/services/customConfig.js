@@ -1,7 +1,7 @@
 import { request } from '../utils/request';
 import { apiVirtualSuccessAccess, transferToVirtualAccess } from '../utils/tools';
 
-export async function pageData(params) {
+export async function listData(params) {
   if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       pagesize: 10,
@@ -13,7 +13,7 @@ export async function pageData(params) {
     return result;
   }
 
-  return request('/business/generalLog/page', {
+  return request('/business/customConfig/list', {
     method: 'POST',
     body: params,
   });
@@ -28,7 +28,22 @@ export async function getData(params) {
     return result;
   }
 
-  return request('/business/generalLog/get', {
+  return request('/business/customConfig/get', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function setData(params) {
+  if (transferToVirtualAccess()) {
+    const result = await apiVirtualSuccessAccess({
+      data: {},
+    });
+
+    return result;
+  }
+
+  return request('/business/customConfig/set', {
     method: 'POST',
     body: params,
   });

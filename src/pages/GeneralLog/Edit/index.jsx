@@ -34,7 +34,7 @@ class Edit extends LoadDataTabContainer {
       ...{
         pageName: `${fieldData.message}：`,
         loadApiPath: 'generalLog/get',
-        backPath: `/generalLog/list/key`,
+        backPath: `/generalLog/page/key`,
         generalLogId: null,
       },
     };
@@ -111,29 +111,28 @@ class Edit extends LoadDataTabContainer {
 
     list.push({
       label: fieldData.generalLogId,
-      value: metaData === null ? '' : metaData.generalLogId,
+      value: metaData === null ? '' : metaData.generalLogId || '',
       canCopy: true,
     });
 
     list.push({
-      label: fieldData.tag,
-      value: metaData === null ? '' : metaData.tag,
-      canCopy: false,
+      label: constants.ip.label,
+      value: metaData === null ? '' : metaData.ip || '',
     });
 
     list.push({
       label: constants.channelNote.label,
-      value: metaData === null ? '' : metaData.channelNote,
+      value: metaData === null ? '' : metaData.channelNote || '',
     });
 
     list.push({
       label: constants.createTime.label,
-      value: metaData === null ? '' : metaData.createTime,
+      value: metaData === null ? '' : metaData.createTime || '',
     });
 
     list.push({
       label: constants.updateTime.label,
-      value: metaData === null ? '' : metaData.createTime,
+      value: metaData === null ? '' : metaData.createTime || '',
     });
 
     return list;

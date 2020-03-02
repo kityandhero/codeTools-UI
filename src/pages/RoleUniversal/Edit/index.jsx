@@ -37,7 +37,7 @@ class Edit extends LoadDataTabContainer {
       ...{
         pageName: '公用角色名：',
         loadApiPath: 'roleTemplate/get',
-        backPath: `/permission/roleTemplate/list/key`,
+        backPath: `/permission/roleTemplate/page/key`,
         roleTemplateId: null,
       },
     };

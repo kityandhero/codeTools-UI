@@ -1,4 +1,4 @@
-import { listData, getData } from '../services/accessWay';
+import { pageData, getData } from '../services/accessWay';
 import { handlePageListDataAssist, handleCommonDataAssist } from '../utils/tools';
 
 export default {
@@ -7,8 +7,8 @@ export default {
   state: {},
 
   effects: {
-    *list({ payload }, { call, put }) {
-      const response = yield call(listData, payload);
+    *page({ payload }, { call, put }) {
+      const response = yield call(pageData, payload);
       yield put({
         type: 'handlePageListData',
         payload: response,

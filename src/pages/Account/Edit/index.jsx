@@ -37,7 +37,7 @@ class Edit extends LoadDataTabContainer {
       ...{
         pageName: '账户名：',
         loadApiPath: 'account/get',
-        backPath: `/account/account/list/key`,
+        backPath: `/account/account/page/key`,
       },
     };
   }

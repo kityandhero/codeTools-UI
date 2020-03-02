@@ -15,7 +15,7 @@ export default {
   state: {},
 
   effects: {
-    *list({ payload }, { call, put }) {
+    *page({ payload }, { call, put }) {
       const response = yield call(queryListData, payload);
       yield put({
         type: 'handlePageListData',

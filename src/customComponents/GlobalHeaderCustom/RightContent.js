@@ -113,7 +113,7 @@ export default class GlobalHeaderRight extends PureComponent {
           }}
         />
         <Tooltip title="帮助文档">
-          <Link to="/helpCenter/category/no/list" replace className={styles.action}>
+          <Link to="/helpCenter/category/no/page" replace className={styles.action}>
             <QuestionCircleOutlined />
           </Link>
         </Tooltip>

@@ -18,7 +18,7 @@ class UpdateAccountRoleModal extends ModalBase {
       ...this.state,
       ...{
         pageName: '设置用户拥有的角色',
-        loadApiPath: 'role/listSelect',
+        loadApiPath: 'role/pageSelect',
         submitApiPath: 'userRole/changeRole',
         customData: [],
         targetKeys: [],

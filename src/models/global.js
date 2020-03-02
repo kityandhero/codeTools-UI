@@ -23,6 +23,7 @@ const GlobalModel = {
     amapObject: null,
     notices: [],
     channelList: [],
+    customConfigCategoryList: [],
     databaseTypeList: [],
     databaseEncodingList: [],
     connectionTypeList: [],
@@ -54,6 +55,7 @@ const GlobalModel = {
         if (dataSuccess) {
           const {
             channelList,
+            customConfigCategoryList,
             databaseTypeList,
             databaseEncodingList,
             connectionTypeList,
@@ -62,6 +64,7 @@ const GlobalModel = {
 
           result = {
             channelList,
+            customConfigCategoryList,
             databaseTypeList,
             databaseEncodingList,
             connectionTypeList,

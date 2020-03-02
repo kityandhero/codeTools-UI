@@ -57,6 +57,7 @@ class Index extends TabPageBase {
     const values = {};
 
     values[constants.channelNote.name] = metaData === null ? '' : metaData.channelNote || '';
+    values[constants.ip.name] = metaData === null ? '' : metaData.ip || '';
     values[constants.createTime.name] =
       metaData === null ? '' : formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
     values[constants.updateTime.name] =
@@ -123,12 +124,23 @@ class Index extends TabPageBase {
 
           <Card title="其他信息" className={styles.card} bordered={false}>
             <Spin spinning={dataLoading || processing}>
-              <Form layout="vertical">
+              <Form ref={this.formRef} layout="vertical">
                 <Row gutter={24}>
                   <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFormInputFormItem(
+                      constants.ip.label,
+                      constants.ip.name,
+                      true,
+                      buildFieldHelper(constants.ip.helper),
+                      <FormOutlined />,
+                      null,
+                      false,
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormInputFormItem(
                       constants.channelNote.label,
-                      'channelNote',
+                      constants.channelNote.name,
                       true,
                       buildFieldHelper(constants.channelNote.helper),
                       <FormOutlined />,
