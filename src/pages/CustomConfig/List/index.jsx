@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
 import { List, Tag, Card, BackTop } from 'antd';
 import { EyeOutlined, StockOutlined, MessageOutlined } from '@ant-design/icons';
 
@@ -43,9 +42,12 @@ class ArticleList extends PagerList {
 
   supplementLoadRequestParams = o => {
     const d = o;
+
     const { match } = this.props;
     const { params } = match;
     const { category } = params;
+
+    d.category = category;
 
     return d;
   };
@@ -61,21 +63,6 @@ class ArticleList extends PagerList {
       total,
       pageName: categoryName,
     });
-  };
-
-  goToDetail = record => {
-    const { match, dispatch } = this.props;
-    const { params } = match;
-    const { categoryId } = params;
-
-    const { pageNo } = this.state;
-    const { customConfigId } = record;
-
-    const location = {
-      pathname: `/helpCenter/category/${categoryId}/detail/${customConfigId}/${pageNo}`,
-    };
-
-    dispatch(routerRedux.push(location));
   };
 
   renderTable = () => {

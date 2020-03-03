@@ -7,19 +7,25 @@ import styles from './index.less';
 
 const { Item } = Menu;
 
-@connect(({ customConfig, loading }) => ({
+@connect(({ customConfig, global, loading }) => ({
   customConfig,
+  global,
   loading: loading.models.customConfig,
 }))
 class Index extends Component {
   constructor(props) {
     super(props);
-    const { match, location } = props;
+
+    const { match, location, global } = props;
+
+    console.log(global);
+
     const menuMap = {
       changeOutStockTime: '商品出库时间',
       setOutboundNotice: '配送消息设置',
       editMasterWarehouse: '设置主仓信息',
     };
+
     const key = location.pathname.replace(`${match.path}/`, '');
 
     this.state = {
