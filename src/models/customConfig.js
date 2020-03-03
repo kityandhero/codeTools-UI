@@ -1,4 +1,4 @@
-import { handlePageListDataAssist, handleCommonDataAssist } from '../utils/tools';
+import { handleListDataAssist, handleCommonDataAssist } from '../utils/tools';
 
 import { listData, getData } from '../services/customConfig';
 
@@ -11,7 +11,7 @@ export default {
     *list({ payload }, { call, put }) {
       const response = yield call(listData, payload);
       yield put({
-        type: 'handlePageListData',
+        type: 'handleListData',
         payload: response,
       });
     },
@@ -25,8 +25,8 @@ export default {
   },
 
   reducers: {
-    handlePageListData(state, action) {
-      return handlePageListDataAssist(state, action);
+    handleListData(state, action) {
+      return handleListDataAssist(state, action);
     },
     handleCommonData(state, action) {
       return handleCommonDataAssist(state, action);

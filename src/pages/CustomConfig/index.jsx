@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 import { Menu } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
+
+import CustomAuthorization from '../../customComponents/Framework/CustomAuthorization';
+
 import styles from './index.less';
+import { isArray } from '../../utils/tools';
 
 const { Item } = Menu;
 
@@ -12,26 +16,34 @@ const { Item } = Menu;
   global,
   loading: loading.models.customConfig,
 }))
-class Index extends Component {
+class Index extends CustomAuthorization {
   constructor(props) {
     super(props);
 
-    const { match, location, global } = props;
+    const {
+      match,
+      location,
+      global: { customConfigCategoryList },
+    } = props;
 
-    console.log(global);
+    const menuMap = {};
 
-    const menuMap = {
-      changeOutStockTime: '商品出库时间',
-      setOutboundNotice: '配送消息设置',
-      editMasterWarehouse: '设置主仓信息',
-    };
+    if (isArray(customConfigCategoryList)) {
+      (customConfigCategoryList || []).forEach(o => {
+        menuMap[`c${o.flag}`] = o.name;
+      });
+    }
 
     const key = location.pathname.replace(`${match.path}/`, '');
 
     this.state = {
-      mode: 'inline',
-      menuMap,
-      selectKey: menuMap[key] ? key : 'changeOutStockTime',
+      ...this.state,
+      ...{
+        loadDataAfterMount: false,
+        mode: 'inline',
+        menuMap,
+        selectKey: menuMap[key] ? key : 'changeOutStockTime',
+      },
     };
   }
 
@@ -50,12 +62,15 @@ class Index extends Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.resize);
+
     this.resize();
   }
 
-  componentWillUnmount() {
+  doDidMountTask = () => {};
+
+  beforeUnmount = () => {
     window.removeEventListener('resize', this.resize);
-  }
+  };
 
   getMenu = () => {
     const { menuMap } = this.state;

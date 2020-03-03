@@ -1,15 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
-import { List, Tag, Card, BackTop } from 'antd';
+import { List, Card, BackTop } from 'antd';
 import { EyeOutlined, StockOutlined, MessageOutlined } from '@ant-design/icons';
 
 import PagerList from '@/customComponents/Framework/CustomList/PagerList';
 import IconInfo from '@/customComponents/IconInfo';
-import ArticleListContent from '@/customComponents/ArticleListContent';
 
 const styles = './index.less';
-
-const logo = '/logo.png';
 
 @connect(({ customConfig, global, loading }) => ({
   customConfig,
@@ -23,11 +20,9 @@ class ArticleList extends PagerList {
     this.state = {
       ...this.state,
       ...{
-        pageName: '帮助条目',
-        paramsKey: '00750d5f-e00d-498e-a55a-12a8d3b8b19d',
+        pageName: '设置项：',
+        paramsKey: '446d0048-94e9-40ee-9b8b-7f394bc94b09',
         loadApiPath: 'customConfig/list',
-        pageSize: 4,
-        total: 0,
       },
     };
   }
@@ -66,25 +61,7 @@ class ArticleList extends PagerList {
   };
 
   renderTable = () => {
-    const { customData, dataLoading, pageSize, total } = this.state;
-
-    const { list, pagination } = customData;
-
-    const paginationProps = {
-      showSizeChanger: true,
-      showQuickJumper: true,
-      ...pagination,
-      total,
-      pageSize,
-      onChange: page => {
-        const params = {
-          pageNo: page,
-          pageSize,
-        };
-
-        this.loadData(params);
-      },
-    };
+    const { metaListData, dataLoading } = this.state;
 
     return (
       <List
@@ -92,9 +69,9 @@ class ArticleList extends PagerList {
         className={styles.articleList}
         rowKey="customConfigId"
         itemLayout="vertical"
-        dataSource={list}
+        dataSource={metaListData}
         loading={dataLoading}
-        pagination={paginationProps}
+        pagination={false}
         renderItem={item => (
           <List.Item
             key={item.customConfigId}
@@ -120,22 +97,7 @@ class ArticleList extends PagerList {
                   {item.title}
                 </a>
               }
-              description={
-                <span>
-                  {(item.tagList || []).map(o => (
-                    <Tag key={`${item.customConfigId}-${o}`}>{o}</Tag>
-                  ))}
-                </span>
-              }
-            />
-            <ArticleListContent
-              data={{
-                content: item.description,
-                updatedAt: item.inTime,
-                avatar: logo,
-                owner: item.author,
-                href: 'http://www.yurukeji.cn',
-              }}
+              description={<span>{item.description}</span>}
             />
           </List.Item>
         )}

@@ -49,6 +49,7 @@ class Index extends PureComponent {
 
   doDidMountTask = () => {};
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doWhenGetSnapshotBeforeUpdate = (preProps, preState) => {
     return null;
   };

@@ -267,6 +267,7 @@ export default [
         icon: 'user',
         authority: [accessWayCollection.currentCustomer],
         routes: [
+          { path: '/customConfig/', redirect: '/customConfig/category/' },
           { path: '/customConfig/category/', redirect: '/customConfig/category/no' },
           {
             path: '/customConfig/category',
@@ -277,7 +278,7 @@ export default [
           {
             path: '/customConfig/category/:category',
             hideInMenu: true,
-            component: './HelpCenter',
+            component: './CustomConfig',
             routes: [
               {
                 path: '/customConfig/category/:category',
