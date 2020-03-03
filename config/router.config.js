@@ -225,36 +225,6 @@ export default [
         ],
       },
       {
-        path: '/customConfig',
-        name: 'operator',
-        icon: 'user',
-        authority: [accessWayCollection.currentCustomer],
-        routes: [
-          { path: '/customConfig/category/', redirect: '/customConfig/category/no' },
-          {
-            path: '/customConfig/category',
-            name: 'category',
-            icon: 'form',
-            authority: [accessWayCollection.currentCustomer],
-          },
-          {
-            path: '/customConfig/category/:category',
-            hideInMenu: true,
-            component: './HelpCenter',
-            routes: [
-              {
-                path: '/customConfig/category/:category',
-                redirect: '/customConfig/category/:category/list',
-              },
-              {
-                path: '/customConfig/category/:category/list',
-                component: './CustomConfig/List',
-              },
-            ],
-          },
-        ],
-      },
-      {
         path: '/operator',
         name: 'operator',
         icon: 'user',
@@ -286,6 +256,36 @@ export default [
               {
                 path: '/operator/setting/security',
                 component: './Operator/Setting/Security',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: '/customConfig',
+        name: 'customConfig',
+        icon: 'user',
+        authority: [accessWayCollection.currentCustomer],
+        routes: [
+          { path: '/customConfig/category/', redirect: '/customConfig/category/no' },
+          {
+            path: '/customConfig/category',
+            name: 'category',
+            icon: 'form',
+            authority: [accessWayCollection.currentCustomer],
+          },
+          {
+            path: '/customConfig/category/:category',
+            hideInMenu: true,
+            component: './HelpCenter',
+            routes: [
+              {
+                path: '/customConfig/category/:category',
+                redirect: '/customConfig/category/:category/list',
+              },
+              {
+                path: '/customConfig/category/:category/list',
+                component: './CustomConfig/List',
               },
             ],
           },
