@@ -3,8 +3,15 @@ import { connect } from 'dva';
 import { List, Card, BackTop } from 'antd';
 import { EyeOutlined, StockOutlined, MessageOutlined } from '@ant-design/icons';
 
-import PagerList from '@/customComponents/Framework/CustomList/PagerList';
-import IconInfo from '@/customComponents/IconInfo';
+import {
+  isArray,
+  stringIsNullOrWhiteSpace,
+  getDerivedStateFromPropsForUrlParams,
+} from '../../../utils/tools';
+import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
+import IconInfo from '../../../customComponents/IconInfo';
+
+import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 
 const styles = './index.less';
 
@@ -17,15 +24,53 @@ class ArticleList extends PagerList {
   constructor(props) {
     super(props);
 
+    const {
+      global: { customConfigCategoryList },
+    } = props;
+
+    let firstCategory = null;
+
+    if (isArray(customConfigCategoryList)) {
+      (customConfigCategoryList || []).forEach((o, index) => {
+        if (index === 0) {
+          firstCategory = o.flag;
+        }
+      });
+    }
+
     this.state = {
       ...this.state,
       ...{
+        firstCategory,
+        category: firstCategory,
         pageName: '设置项：',
         paramsKey: '446d0048-94e9-40ee-9b8b-7f394bc94b09',
         loadApiPath: 'customConfig/list',
       },
     };
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const result = getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { category: '' },
+      parseUrlParamsForSetState,
+    );
+
+    const { category } = result;
+
+    if (stringIsNullOrWhiteSpace(category) || category === 'no') {
+      result.category = result.firstCategory;
+    }
+
+    return result;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  checkNeedUpdate = (preProps, preState, snapshot) => {
+    return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
+  };
 
   getApiData = props => {
     const {
@@ -38,9 +83,7 @@ class ArticleList extends PagerList {
   supplementLoadRequestParams = o => {
     const d = o;
 
-    const { match } = this.props;
-    const { params } = match;
-    const { category } = params;
+    const { category } = this.state;
 
     d.category = category;
 

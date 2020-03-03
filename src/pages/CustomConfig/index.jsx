@@ -4,10 +4,10 @@ import router from 'umi/router';
 import { Menu } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 
+import { isArray, stringIsNullOrWhiteSpace } from '../../utils/tools';
 import CustomAuthorization from '../../customComponents/Framework/CustomAuthorization';
 
 import styles from './index.less';
-import { isArray } from '../../utils/tools';
 
 const { Item } = Menu;
 
@@ -26,15 +26,35 @@ class Index extends CustomAuthorization {
       global: { customConfigCategoryList },
     } = props;
 
+    const {
+      params: { category },
+    } = match;
+
     const menuMap = {};
 
+    let firstKey = null;
+    let firstCategory = null;
+
     if (isArray(customConfigCategoryList)) {
-      (customConfigCategoryList || []).forEach(o => {
-        menuMap[`c${o.flag}`] = o.name;
+      (customConfigCategoryList || []).forEach((o, index) => {
+        const k = `c${o.flag}`;
+
+        menuMap[k] = o.name;
+
+        if (index === 0) {
+          firstKey = k;
+          firstCategory = o.flag;
+        }
       });
     }
 
     const key = location.pathname.replace(`${match.path}/`, '');
+
+    const currentCategory = stringIsNullOrWhiteSpace(category)
+      ? firstCategory
+      : category === 'no'
+      ? firstCategory
+      : category;
 
     this.state = {
       ...this.state,
@@ -42,31 +62,19 @@ class Index extends CustomAuthorization {
         loadDataAfterMount: false,
         mode: 'inline',
         menuMap,
-        selectKey: menuMap[key] ? key : 'changeOutStockTime',
+        firstKey,
+        firstCategory,
+        currentCategory,
+        selectKey: menuMap[key] ? key : firstKey,
       },
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const { match, location } = props;
-    let selectKey = location.pathname.replace(`${match.path}/`, '');
-
-    selectKey = state.menuMap[selectKey] ? selectKey : 'changeOutStockTime';
-
-    if (selectKey !== state.selectKey) {
-      return { selectKey };
-    }
-
-    return null;
-  }
-
-  componentDidMount() {
+  doDidMountTask = () => {
     window.addEventListener('resize', this.resize);
 
     this.resize();
-  }
-
-  doDidMountTask = () => {};
+  };
 
   beforeUnmount = () => {
     window.removeEventListener('resize', this.resize);
@@ -83,7 +91,8 @@ class Index extends CustomAuthorization {
   };
 
   selectKey = ({ key }) => {
-    router.push(`/system/areaConfig/${key}`);
+    router.push(`/customConfig/category/${key}`);
+
     this.setState({
       selectKey: key,
     });
