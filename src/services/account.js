@@ -13,7 +13,7 @@ export async function queryListData(params) {
     return result;
   }
 
-  return request('/business/account/list', {
+  return request('/business/account/page', {
     method: 'POST',
     body: params,
   });

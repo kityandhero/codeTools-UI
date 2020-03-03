@@ -52,7 +52,7 @@ class Index extends PagerList {
       ...{
         pageName: '账户列表',
         paramsKey: '6c8efa60-997d-43ca-981e-afc0c466c266',
-        loadApiPath: 'account/list',
+        loadApiPath: 'account/page',
         currentRecord: null,
         changeUpdateAccountRoleModalVisible: false,
       },

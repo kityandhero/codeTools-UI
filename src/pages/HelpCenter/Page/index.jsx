@@ -27,7 +27,7 @@ class ArticleList extends PagerList {
       ...{
         pageName: '帮助条目',
         paramsKey: '00750d5f-e00d-498e-a55a-12a8d3b8b19d',
-        loadApiPath: 'areaHelp/list',
+        loadApiPath: 'areaHelp/page',
         pageSize: 4,
         total: 0,
       },

@@ -1,18 +1,15 @@
-import {
-  handlePageListDataAssist,
-  handleListDataAssist,
-  handleCommonDataAssist,
-} from '../utils/tools';
-import { pageData, getData } from '../services/roleUniversal';
+import { handlePageListDataAssist, handleCommonDataAssist } from '../utils/tools';
+
+import { listData, getData } from '../services/customConfig';
 
 export default {
-  namespace: 'roleUniversal',
+  namespace: 'customConfig',
 
   state: {},
 
   effects: {
-    *page({ payload }, { call, put }) {
-      const response = yield call(pageData, payload);
+    *list({ payload }, { call, put }) {
+      const response = yield call(listData, payload);
       yield put({
         type: 'handlePageListData',
         payload: response,
@@ -28,9 +25,6 @@ export default {
   },
 
   reducers: {
-    handleListData(state, action) {
-      return handleListDataAssist(state, action);
-    },
     handlePageListData(state, action) {
       return handlePageListDataAssist(state, action);
     },

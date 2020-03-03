@@ -22,15 +22,20 @@ export function getConfigData() {
 }
 
 export const constants = {
+  ip: {
+    name: 'ip',
+    label: 'IP记录',
+    helper: '数据的IP记录',
+  },
   channel: {
     name: 'channel',
-    label: '适用渠道',
-    helper: '数据的适用渠道标识',
+    label: '来源通道',
+    helper: '数据的来源通道标识',
   },
   channelNote: {
     name: 'channelNote',
-    label: '适用渠道',
-    helper: '数据的适用渠道名称',
+    label: '来源通道',
+    helper: '数据的来源通道名称',
   },
   status: {
     name: 'status',

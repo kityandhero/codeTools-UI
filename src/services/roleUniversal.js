@@ -1,7 +1,7 @@
 import { request } from '../utils/request';
 import { apiVirtualSuccessAccess, transferToVirtualAccess } from '../utils/tools';
 
-export async function listData(params) {
+export async function pageData(params) {
   if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       pageSize: 10,
@@ -13,7 +13,7 @@ export async function listData(params) {
     return result;
   }
 
-  return request('/business/roleUniversal/list', {
+  return request('/business/roleUniversal/page', {
     method: 'POST',
     body: params,
   });

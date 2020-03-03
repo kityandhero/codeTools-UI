@@ -36,7 +36,7 @@ class Index extends PagerList {
       ...{
         pageName: '数据连接列表',
         paramsKey: '938bdc77-66b5-4afe-835b-9aa64a7ead5b',
-        loadApiPath: 'connectionConfig/list',
+        loadApiPath: 'connectionConfig/page',
         showSelect: true,
       },
     };

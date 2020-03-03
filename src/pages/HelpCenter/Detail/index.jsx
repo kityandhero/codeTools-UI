@@ -32,7 +32,7 @@ class ArticleContent extends LoadDataForm {
       ...{
         pageName: '帮助详情',
         loadApiPath: 'areaHelp/get',
-        backPath: '/helpCenter/category/no/list',
+        backPath: '/helpCenter/category/no/page',
       },
     };
   }
@@ -62,7 +62,7 @@ class ArticleContent extends LoadDataForm {
 
     this.setState({
       pageName: metaData.areaHelpCategoryName,
-      backPath: `/helpCenter/category/${areaHelpCategoryId}/list`,
+      backPath: `/helpCenter/category/${areaHelpCategoryId}/page`,
     });
   };
 

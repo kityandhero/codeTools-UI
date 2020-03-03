@@ -1,6 +1,6 @@
 import { handlePageListDataAssist, handleCommonDataAssist } from '../utils/tools';
 
-import { listData, getData } from '../services/errorLog';
+import { pageData, getData } from '../services/errorLog';
 
 export default {
   namespace: 'errorLog',
@@ -8,8 +8,8 @@ export default {
   state: {},
 
   effects: {
-    *list({ payload }, { call, put }) {
-      const response = yield call(listData, payload);
+    *page({ payload }, { call, put }) {
+      const response = yield call(pageData, payload);
       yield put({
         type: 'handlePageListData',
         payload: response,
