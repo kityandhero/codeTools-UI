@@ -21,6 +21,23 @@ class Index extends CustomCommonCore {
     return getDerivedStateFromPropsForUrlParams(nextProps, prevState);
   }
 
+  getCustomConfigCategoryList = () => {
+    const { global } = this.props;
+
+    const customConfigCategoryList = global.customConfigCategoryList || [];
+
+    return refitCommonData(customConfigCategoryList);
+  };
+
+  getChannelName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.channelList(false));
+    return item == null ? '未知' : item.name;
+  };
+
   channelList = (withUnlimited = true) => {
     const { global } = this.props;
 

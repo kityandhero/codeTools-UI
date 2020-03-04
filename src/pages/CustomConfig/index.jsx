@@ -31,6 +31,7 @@ class Index extends CustomAuthorization {
     } = match;
 
     const menuMap = {};
+    const menuCategory = {};
 
     let firstKey = null;
     let firstCategory = null;
@@ -40,6 +41,7 @@ class Index extends CustomAuthorization {
         const k = `c${o.flag}`;
 
         menuMap[k] = o.name;
+        menuCategory[k] = o.flag;
 
         if (index === 0) {
           firstKey = k;
@@ -62,6 +64,7 @@ class Index extends CustomAuthorization {
         loadDataAfterMount: false,
         mode: 'inline',
         menuMap,
+        menuCategory,
         firstKey,
         firstCategory,
         currentCategory,
@@ -87,11 +90,14 @@ class Index extends CustomAuthorization {
 
   getRightTitle = () => {
     const { selectKey, menuMap } = this.state;
+
     return menuMap[selectKey];
   };
 
   selectKey = ({ key }) => {
-    router.push(`/customConfig/category/${key}`);
+    const { menuCategory } = this.state;
+
+    router.push(`/customConfig/category/${menuCategory[key]}`);
 
     this.setState({
       selectKey: key,

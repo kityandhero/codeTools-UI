@@ -1,6 +1,6 @@
 import { handleListDataAssist, handleCommonDataAssist } from '../utils/tools';
 
-import { listData, getData } from '../services/customConfig';
+import { listData, setData } from '../services/customConfig';
 
 export default {
   namespace: 'customConfig',
@@ -15,8 +15,8 @@ export default {
         payload: response,
       });
     },
-    *get({ payload }, { call, put }) {
-      const response = yield call(getData, payload);
+    *set({ payload }, { call, put }) {
+      const response = yield call(setData, payload);
       yield put({
         type: 'handleCommonData',
         payload: response,

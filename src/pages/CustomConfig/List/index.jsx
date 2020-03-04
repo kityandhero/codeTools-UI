@@ -1,17 +1,16 @@
 import React from 'react';
 import { connect } from 'dva';
-import { List, Card, BackTop } from 'antd';
-import { EyeOutlined, StockOutlined, MessageOutlined } from '@ant-design/icons';
+import router from 'umi/router';
+import { List, Switch, BackTop, message } from 'antd';
 
 import {
   isArray,
   stringIsNullOrWhiteSpace,
   getDerivedStateFromPropsForUrlParams,
 } from '../../../utils/tools';
-import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
-import IconInfo from '../../../customComponents/IconInfo';
+import CustomAuthorization from '../../../customComponents/Framework/CustomAuthorization';
 
-import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
+import { parseUrlParamsForSetState } from '../Assist/config';
 
 const styles = './index.less';
 
@@ -20,56 +19,90 @@ const styles = './index.less';
   global,
   loading: loading.models.customConfig,
 }))
-class ArticleList extends PagerList {
+class ArticleList extends CustomAuthorization {
   constructor(props) {
     super(props);
-
-    const {
-      global: { customConfigCategoryList },
-    } = props;
-
-    let firstCategory = null;
-
-    if (isArray(customConfigCategoryList)) {
-      (customConfigCategoryList || []).forEach((o, index) => {
-        if (index === 0) {
-          firstCategory = o.flag;
-        }
-      });
-    }
 
     this.state = {
       ...this.state,
       ...{
-        firstCategory,
-        category: firstCategory,
+        category: '',
+        categoryName: '',
         pageName: '设置项：',
         paramsKey: '446d0048-94e9-40ee-9b8b-7f394bc94b09',
         loadApiPath: 'customConfig/list',
+        loadDataAfterMount: false,
+        dataLoading: false,
+        total: 0,
       },
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const result = getDerivedStateFromPropsForUrlParams(
+    return getDerivedStateFromPropsForUrlParams(
       nextProps,
       prevState,
       { category: '' },
       parseUrlParamsForSetState,
     );
-
-    const { category } = result;
-
-    if (stringIsNullOrWhiteSpace(category) || category === 'no') {
-      result.category = result.firstCategory;
-    }
-
-    return result;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  checkNeedUpdate = (preProps, preState, snapshot) => {
-    return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
+  doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
+    const { category } = this.state;
+
+    const { category: categoryPrev } = preState;
+
+    if ((category || null) == null || (categoryPrev || null) == null) {
+      return;
+    }
+
+    const { loadSuccess, dataLoading } = this.state;
+
+    if (category !== categoryPrev) {
+      if (!dataLoading) {
+        this.reloadData();
+      }
+    }
+
+    if (!loadSuccess) {
+      if (!dataLoading) {
+        this.reloadData();
+      }
+    }
+  };
+
+  doDidMountTask = () => {
+    const { category: categoryPre, categoryName: categoryNamePre } = this.state;
+
+    const customConfigCategoryList = this.getCustomConfigCategoryList();
+
+    let category = categoryPre;
+    let categoryName = categoryNamePre;
+
+    if (stringIsNullOrWhiteSpace(categoryPre) || categoryPre === 'no') {
+      if (isArray(customConfigCategoryList)) {
+        (customConfigCategoryList || []).forEach((o, index) => {
+          if (index === 0) {
+            category = o.flag;
+          }
+        });
+      }
+    }
+
+    if (isArray(customConfigCategoryList)) {
+      (customConfigCategoryList || []).forEach(o => {
+        if (o.flag === category) {
+          categoryName = o.name;
+        }
+      });
+    }
+
+    if (stringIsNullOrWhiteSpace(category) || category === 'no') {
+      router.replace(`/`);
+    } else {
+      this.setState({ category, categoryName });
+    }
   };
 
   getApiData = props => {
@@ -92,14 +125,41 @@ class ArticleList extends PagerList {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
-    const {
-      total,
-      other: { categoryName },
-    } = metaExtra;
-
     this.setState({
-      total,
-      pageName: categoryName,
+      total: (metaListData || []).length,
+    });
+  };
+
+  onSwitchChange = (record, e) => {
+    const { uuid } = record;
+
+    this.setBooleanValue(uuid, e ? '1' : '0');
+  };
+
+  setBooleanValue = (uuid, value) => {
+    const { dispatch } = this.props;
+
+    this.setState({ processing: true });
+
+    dispatch({
+      type: 'customConfig/set',
+      payload: {
+        uuid,
+        value,
+      },
+    }).then(() => {
+      const data = this.getApiData(this.props);
+
+      const { dataSuccess } = data;
+      if (dataSuccess) {
+        requestAnimationFrame(() => {
+          message.success('已经成功提交，请稍后查看设置是否成功');
+        });
+
+        this.setState({ processing: false });
+
+        this.reloadData();
+      }
     });
   };
 
@@ -110,38 +170,25 @@ class ArticleList extends PagerList {
       <List
         size="large"
         className={styles.articleList}
-        rowKey="customConfigId"
-        itemLayout="vertical"
+        rowKey="uuid"
         dataSource={metaListData}
         loading={dataLoading}
         pagination={false}
         renderItem={item => (
           <List.Item
-            key={item.customConfigId}
+            key={item.uuid}
             actions={[
-              <IconInfo text={item.accessCount}>
-                <EyeOutlined />
-              </IconInfo>,
-              <IconInfo text={item.star}>
-                <StockOutlined />
-              </IconInfo>,
-              <IconInfo text={item.message}>
-                <MessageOutlined />
-              </IconInfo>,
+              <Switch
+                checkedChildren="开"
+                unCheckedChildren="关"
+                defaultChecked={item.value === '1'}
+                onChange={e => {
+                  this.onSwitchChange(item, e);
+                }}
+              />,
             ]}
           >
-            <List.Item.Meta
-              title={
-                <a
-                  className={styles.listItemMetaTitle}
-                  href={item.href}
-                  onClick={() => this.goToDetail(item)}
-                >
-                  {item.title}
-                </a>
-              }
-              description={<span>{item.description}</span>}
-            />
+            <List.Item.Meta title={item.name} description={item.description} />
           </List.Item>
         )}
       />
@@ -149,13 +196,11 @@ class ArticleList extends PagerList {
   };
 
   render() {
-    const { pageName } = this.state;
-
     return (
-      <Card title={pageName} bordered={false} className={styles.containorBox}>
+      <div className={styles.containorBox}>
         {this.renderTable()}
         <BackTop />
-      </Card>
+      </div>
     );
   }
 }
