@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 import { Menu } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
+
+import CustomAuthorization from '../../../customComponents/Framework/CustomAuthorization';
+
 import styles from './index.less';
 
 const { Item } = Menu;
@@ -10,7 +13,7 @@ const { Item } = Menu;
 @connect(({ account }) => ({
   account,
 }))
-class Setting extends Component {
+class Setting extends CustomAuthorization {
   constructor(props) {
     super(props);
     const { match, location } = props;
@@ -38,27 +41,31 @@ class Setting extends Component {
     return null;
   }
 
-  componentDidMount() {
+  doDidMountTask = () => {
     window.addEventListener('resize', this.resize);
-    this.resize();
-  }
 
-  componentWillUnmount() {
+    this.resize();
+  };
+
+  beforeUnmount = () => {
     window.removeEventListener('resize', this.resize);
-  }
+  };
 
   getMenu = () => {
     const { menuMap } = this.state;
+
     return Object.keys(menuMap).map(item => <Item key={item}>{menuMap[item]}</Item>);
   };
 
   getRightTitle = () => {
     const { selectKey, menuMap } = this.state;
+
     return menuMap[selectKey];
   };
 
   selectKey = ({ key }) => {
     router.push(`/operator/setting/${key}`);
+
     this.setState({
       selectKey: key,
     });
@@ -68,15 +75,23 @@ class Setting extends Component {
     if (!this.main) {
       return;
     }
+
     requestAnimationFrame(() => {
+      if (!this.main) {
+        return;
+      }
+
       let mode = 'inline';
       const { offsetWidth } = this.main;
+
       if (this.main.offsetWidth < 641 && offsetWidth > 400) {
         mode = 'horizontal';
       }
+
       if (window.innerWidth < 768 && offsetWidth > 400) {
         mode = 'horizontal';
       }
+
       this.setState({
         mode,
       });

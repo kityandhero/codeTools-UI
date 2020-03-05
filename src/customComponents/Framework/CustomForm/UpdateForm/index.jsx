@@ -24,8 +24,6 @@ class UpdateForm extends LoadDataForm {
     this.reloadData();
   };
 
-
-
   supplementSubmitRequestParams = o => o;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

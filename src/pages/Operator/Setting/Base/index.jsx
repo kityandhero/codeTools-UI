@@ -1,23 +1,15 @@
 import React from 'react';
-import { Form, Input, Upload, Button, Spin, notification } from 'antd';
+import { Form, Upload, Button, Spin, notification } from 'antd';
 import { connect } from 'dva';
-import {
-  UploadOutlined,
-  SaveOutlined,
-  FormOutlined,
-  UserOutlined,
-  EnvironmentOutlined,
-} from '@ant-design/icons';
+import { UploadOutlined, SaveOutlined, FormOutlined } from '@ant-design/icons';
 
-import { refitFieldDecoratorOption, buildFieldDescription } from '@/utils/tools';
-import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
+import { buildFieldHelper } from '../../../../utils/tools';
+import UpdateForm from '../../../../customComponents/Framework/CustomForm/UpdateForm';
 
 import styles from './index.less';
 // import GeographicView from '../Geographic';
 // import PhoneView from '../Phone';
 // import { getTimeDistance } from '@/utils/utils';
-
-const FormItem = Form.Item;
 
 // 头像组件 方便以后独立，增加裁剪之类的功能
 const AvatarView = ({ avatar }) => (
@@ -34,36 +26,21 @@ const AvatarView = ({ avatar }) => (
   </>
 );
 
-// const validatorGeographic = (rule, value, callback) => {
-//   const { province, city } = value;
-//   if (!province.key) {
-//     callback('Please input your province!');
-//   }
-//   if (!city.key) {
-//     callback('Please input your city!');
-//   }
-//   callback();
-// };
-
-// const validatorPhone = (rule, value, callback) => {
-//   const values = value.split('-');
-//   if (!values[0]) {
-//     callback('Please input your area code!');
-//   }
-//   if (!values[1]) {
-//     callback('Please input your phone number!');
-//   }
-//   callback();
-// };
-
-const fieldLabels = {
-  loginName: '账户名',
+const fieldData = {
+  userName: '登录名',
+  userNameHelper: '登录名不可修改',
   name: '姓名',
+  nameHelper: '设置账户姓名',
   email: '邮箱',
-  phone: '手机号码',
-  cityId: '地区代码',
+  emailHelper: '设置账户邮箱',
+  phone: '联系方式',
+  phoneHelper: '设置联系方式',
+  cityCode: '地区代码',
+  cityCodeHelper: '设置地区代码',
   cityName: '所属地区',
-  description: '个人描述',
+  cityNameHelper: '设置所属地区',
+  description: '简介描述',
+  descriptionHelper: '设置账户得简介描述',
 };
 
 @connect(({ operator, global, loading }) => ({
@@ -72,6 +49,8 @@ const fieldLabels = {
   loading: loading.models.operator,
 }))
 class BaseView extends UpdateForm {
+  formRef = React.createRef();
+
   constructor(props) {
     super(props);
 
@@ -83,6 +62,10 @@ class BaseView extends UpdateForm {
       },
     };
   }
+
+  getTargetForm = () => {
+    return this.formRef.current;
+  };
 
   getApiData = props => {
     const {
@@ -107,167 +90,82 @@ class BaseView extends UpdateForm {
     this.view = ref;
   };
 
-  render() {
-    const {
-      form: { getFieldDecorator },
-    } = this.props;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+    const values = {
+      userName: metaData === null ? '' : metaData.userName || '',
+      name: metaData === null ? '' : metaData.name || '',
+      cityName: metaData === null ? '' : metaData.cityName || '',
+      cityCode: metaData === null ? 0 : metaData.cityCode || 0,
+      email: metaData === null ? '' : metaData.email || '',
+      phone: metaData === null ? '' : metaData.phone || '',
+      description: metaData === null ? '' : metaData.description || '',
+    };
 
+    const form = this.getTargetForm();
+
+    form.setFieldsValue(values);
+  };
+
+  render() {
     const { metaData, dataLoading, processing, loadSuccess } = this.state;
 
     return (
       <div className={styles.baseView} ref={this.getViewDom}>
         <div className={styles.left}>
           <Spin spinning={dataLoading || processing}>
-            <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
-              <FormItem label={fieldLabels.loginName}>
-                <Input
-                  disabled
-                  addonBefore={<UserOutlined />}
-                  style={{ maxWidth: 220 }}
-                  value={metaData === null ? '' : metaData.loginName || ''}
-                />
-              </FormItem>
-              <FormItem label={fieldLabels.name}>
-                {getFieldDecorator(
-                  'name',
-                  refitFieldDecoratorOption(
-                    metaData === null ? '' : metaData.name || '',
-                    metaData === null ? '' : metaData.name || '',
-                    '',
-                    {
-                      rules: [
-                        {
-                          required: false,
-                          message: buildFieldDescription(fieldLabels.name),
-                        },
-                      ],
-                    },
-                  ),
-                )(
-                  <Input
-                    addonBefore={<FormOutlined />}
-                    style={{ maxWidth: 220 }}
-                    placeholder={buildFieldDescription(fieldLabels.name)}
-                  />,
-                )}
-              </FormItem>
-              <FormItem label={fieldLabels.cityName}>
-                <Input
-                  disabled
-                  addonBefore={<EnvironmentOutlined />}
-                  style={{ maxWidth: 220 }}
-                  value={metaData === null ? '' : metaData.cityName || ''}
-                />
-              </FormItem>
-              <FormItem label={fieldLabels.email}>
-                {getFieldDecorator(
-                  'email',
-                  refitFieldDecoratorOption(
-                    metaData === null ? '' : metaData.email || '',
-                    metaData === null ? '' : metaData.email || '',
-                    '',
-                    {
-                      rules: [
-                        {
-                          required: false,
-                          message: buildFieldDescription(fieldLabels.email),
-                        },
-                      ],
-                    },
-                  ),
-                )(
-                  <Input
-                    addonBefore={<FormOutlined />}
-                    placeholder={buildFieldDescription(fieldLabels.email)}
-                  />,
-                )}
-              </FormItem>
-              <FormItem label={fieldLabels.phone}>
-                {getFieldDecorator(
-                  'phone',
-                  refitFieldDecoratorOption(
-                    metaData === null ? '' : metaData.phone || '',
-                    metaData === null ? '' : metaData.phone || '',
-                    '',
-                    {
-                      rules: [
-                        {
-                          required: false,
-                          message: buildFieldDescription(fieldLabels.phone),
-                        },
-                      ],
-                    },
-                  ),
-                )(
-                  <Input
-                    addonBefore={<FormOutlined />}
-                    placeholder={buildFieldDescription(fieldLabels.phone)}
-                  />,
-                )}
-              </FormItem>
-              <FormItem label={fieldLabels.description}>
-                {getFieldDecorator(
-                  'description',
-                  refitFieldDecoratorOption(
-                    metaData === null ? '' : metaData.description || '',
-                    metaData === null ? '' : metaData.description || '',
-                    '',
-                    {
-                      rules: [
-                        {
-                          required: false,
-                          message: buildFieldDescription(fieldLabels.description),
-                        },
-                      ],
-                    },
-                  ),
-                )(
-                  <Input.TextArea
-                    rows={4}
-                    placeholder={buildFieldDescription(fieldLabels.description)}
-                  />,
-                )}
-              </FormItem>
-              {/* <FormItem label={formatMessage({ id: 'app.settings.basic.geographic' })}>
-              {getFieldDecorator('geographic', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'app.settings.basic.geographic-message' }, {}),
-                  },
-                  {
-                    validator: validatorGeographic,
-                  },
-                ],
-              })(<GeographicView />)}
-            </FormItem>
-            <FormItem label={formatMessage({ id: 'app.settings.basic.address' })}>
-              {getFieldDecorator('address', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'app.settings.basic.address-message' }, {}),
-                  },
-                ],
-              })(<Input />)}
-            </FormItem>
-            <FormItem label={formatMessage({ id: 'app.settings.basic.phone' })}>
-              {getFieldDecorator('phone', {
-                rules: [
-                  {
-                    required: true,
-                    message: formatMessage({ id: 'app.settings.basic.phone-message' }, {}),
-                  },
-                  { validator: validatorPhone },
-                ],
-              })(<PhoneView />)}
-            </FormItem> */}
+            <Form ref={this.formRef} layout="vertical">
+              {this.renderFormInputFormItem(
+                fieldData.userName,
+                'userName',
+                true,
+                buildFieldHelper(fieldData.userNameHelper),
+                <FormOutlined />,
+                null,
+                false,
+              )}
+              {this.renderFormInputFormItem(
+                fieldData.name,
+                'name',
+                true,
+                buildFieldHelper(fieldData.nameHelper),
+                <FormOutlined />,
+              )}
+              {/* {this.renderFormInputFormItem(
+                fieldData.cityName,
+                'cityName',
+                true,
+                buildFieldHelper(fieldData.cityNameHelper),
+                <FormOutlined />,
+              )} */}
+              {this.renderFormInputFormItem(
+                fieldData.email,
+                'email',
+                true,
+                buildFieldHelper(fieldData.emailHelper),
+                <FormOutlined />,
+              )}
+              {this.renderFormInputFormItem(
+                fieldData.phone,
+                'phone',
+                true,
+                buildFieldHelper(fieldData.phoneHelper),
+                <FormOutlined />,
+              )}
+              {this.renderFormTextAreaFormItem(
+                fieldData.description,
+                'description',
+                false,
+                buildFieldHelper(fieldData.descriptionHelper),
+              )}
               <Button
                 type="primary"
                 icon={<SaveOutlined />}
-                onClick={this.validate}
-                loading={dataLoading || processing || !loadSuccess}
                 disabled={dataLoading || processing || !loadSuccess}
+                onClick={e => {
+                  this.validate(e);
+                }}
+                loading={processing}
               >
                 更新基本信息
               </Button>

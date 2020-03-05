@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
-import { List, Switch, BackTop, message } from 'antd';
+import { List, Switch, BackTop, notification } from 'antd';
 
 import {
   isArray,
@@ -153,7 +153,11 @@ class ArticleList extends CustomAuthorization {
       const { dataSuccess } = data;
       if (dataSuccess) {
         requestAnimationFrame(() => {
-          message.success('已经成功提交，请稍后查看设置是否成功');
+          notification.success({
+            placement: 'bottomRight',
+            message: '操作结果',
+            description: '数据已经成功提交，请稍后查看设置是否成功。',
+          });
         });
 
         this.setState({ processing: false });

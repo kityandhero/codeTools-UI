@@ -1,7 +1,7 @@
 import { request } from '../utils/request';
 import { apiVirtualSuccessAccess, transferToVirtualAccess } from '../utils/tools';
 
-export async function queryGetMenuData(params) {
+export async function pageData(params) {
   if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       pageSize: 10,
@@ -13,7 +13,22 @@ export async function queryGetMenuData(params) {
     return result;
   }
 
-  return request('/areaHelpCategory/getMenu', {
+  return request('/business/help/page', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function getData(params) {
+  if (transferToVirtualAccess()) {
+    const result = await apiVirtualSuccessAccess({
+      data: {},
+    });
+
+    return result;
+  }
+
+  return request('/business/help/get', {
     method: 'POST',
     body: params,
   });
