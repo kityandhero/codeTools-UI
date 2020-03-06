@@ -57,18 +57,18 @@ export default class BaseMenu extends PureComponent {
               name
             )
           }
-          key={item.areaHelpCategoryId}
+          key={item.helpCategoryId}
         >
           {this.getNavMenuItems(item.children)}
         </SubMenu>
       );
     }
-    return <Menu.Item key={item.areaHelpCategoryId}>{this.getMenuItemPath(item)}</Menu.Item>;
+    return <Menu.Item key={item.helpCategoryId}>{this.getMenuItemPath(item)}</Menu.Item>;
   };
 
   getMenuItemPath = item => {
     const { name } = item;
-    const itemPath = `/helpCenter/category/${item.areaHelpCategoryId}`;
+    const itemPath = `/helpCenter/category/${item.helpCategoryId}`;
     const icon = <BarsOutlined />;
     // const { target } = item;
 

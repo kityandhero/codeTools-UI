@@ -2,16 +2,19 @@ import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Row, Col, Card, Spin, message } from 'antd';
-
 import { GridContent } from '@ant-design/pro-layout';
-import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
+
+import { getDerivedStateFromPropsForUrlParams } from '../../utils/tools';
+import LoadDataForm from '../../customComponents/Framework/CustomForm/LoadDataForm';
+
+import { parseUrlParamsForSetState } from './Assist/config';
 
 import CategoryMenu from './CategoryMenu';
 
-@connect(({ areaHelpCategory, global, loading }) => ({
-  areaHelpCategory,
+@connect(({ helpCategory, global, loading }) => ({
+  helpCategory,
   global,
-  loading: loading.models.areaHelpCategory,
+  loading: loading.models.helpCategory,
 }))
 class HelpCenter extends LoadDataForm {
   constructor(props) {
@@ -21,15 +24,23 @@ class HelpCenter extends LoadDataForm {
       ...this.state,
       ...{
         pageName: '',
-        loadApiPath: 'areaHelpCategory/getMenu',
-        menuData: [],
+        loadApiPath: 'helpCategory/list',
       },
     };
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { category: '' },
+      parseUrlParamsForSetState,
+    );
+  }
+
   getApiData = props => {
     const {
-      areaHelpCategory: { data },
+      helpCategory: { data },
     } = props;
 
     return data;
@@ -37,19 +48,15 @@ class HelpCenter extends LoadDataForm {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
-    const { menu } = metaData;
+    const {
+      urlParams: { helpCategoryId },
+    } = this.state;
 
-    this.setState({ menuData: menu });
-
-    const { match } = this.props;
-    const { params } = match;
-    const { categoryId } = params;
-
-    if (categoryId === 'no') {
-      if ((menu || []).length === 0) {
+    if (helpCategoryId === 'no') {
+      if ((metaListData || []).length === 0) {
         message.error('暂无帮助信息！');
       } else {
-        const cid = menu[0].areaHelpCategoryId;
+        const cid = metaListData[0].helpCategoryId;
 
         const { dispatch } = this.props;
 
@@ -65,18 +72,22 @@ class HelpCenter extends LoadDataForm {
   goToList = record => {
     const { dispatch } = this.props;
     const { pageNo } = this.state;
-    const { areaHelpCategoryId } = record;
+    const { helpCategoryId } = record;
+
     const location = {
-      pathname: `/helpCenter/detail/load/${areaHelpCategoryId}/${pageNo}/basicInfo`,
+      pathname: `/helpCenter/detail/load/${helpCategoryId}/${pageNo}/basicInfo`,
     };
+
     dispatch(routerRedux.push(location));
   };
 
   render() {
-    const { match, children } = this.props;
-    const { params } = match;
-    const { categoryId } = params;
-    const { dataLoading, menuData } = this.state;
+    const { children } = this.props;
+    const {
+      urlParams: { helpCategoryId },
+      dataLoading,
+      metaListData,
+    } = this.state;
 
     return (
       <GridContent>
@@ -84,7 +95,7 @@ class HelpCenter extends LoadDataForm {
           <Col lg={5} md={24}>
             <Card title="帮助导航" bordered={false} style={{ marginBottom: 24 }}>
               <Spin spinning={dataLoading}>
-                <CategoryMenu currentCategoryId={categoryId} menuData={menuData || []} />
+                <CategoryMenu currentCategoryId={helpCategoryId} menuData={metaListData || []} />
               </Spin>
             </Card>
           </Col>

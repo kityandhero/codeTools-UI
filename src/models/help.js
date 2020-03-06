@@ -1,9 +1,9 @@
-import { pageData, getData } from '../services/help';
-
 import { handlePageListDataAssist, handleCommonDataAssist } from '../utils/tools';
 
+import { pageData, getData } from '../services/help';
+
 export default {
-  namespace: 'areaHelp',
+  namespace: 'help',
 
   state: {},
 

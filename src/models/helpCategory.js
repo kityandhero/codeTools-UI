@@ -1,15 +1,22 @@
-import { getMenuData } from '../services/helpCategory';
+import { handleListDataAssist, handleCommonDataAssist } from '../utils/tools';
 
-import { handleCommonDataAssist } from '../utils/tools';
+import { listData, getData } from '../services/helpCategory';
 
 export default {
-  namespace: 'business/helpCategory',
+  namespace: 'helpCategory',
 
   state: {},
 
   effects: {
-    *getMenu({ payload }, { call, put }) {
-      const response = yield call(getMenuData, payload);
+    *list({ payload }, { call, put }) {
+      const response = yield call(listData, payload);
+      yield put({
+        type: 'handleListData',
+        payload: response,
+      });
+    },
+    *get({ payload }, { call, put }) {
+      const response = yield call(getData, payload);
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -18,6 +25,9 @@ export default {
   },
 
   reducers: {
+    handleListData(state, action) {
+      return handleListDataAssist(state, action);
+    },
     handleCommonData(state, action) {
       return handleCommonDataAssist(state, action);
     },

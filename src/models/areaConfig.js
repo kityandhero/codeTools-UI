@@ -1,5 +1,6 @@
+import { handleCommonDataAssist } from '../utils/tools';
+
 import { getCurrentData, changeOutStockTimeData } from '../services/areaConfig';
-import { pretreatmentRemoteSingleData } from '../utils/tools';
 
 export default {
   namespace: 'areaConfig',
@@ -25,13 +26,7 @@ export default {
 
   reducers: {
     handleCommonData(state, action) {
-      const d = action.payload;
-      const v = pretreatmentRemoteSingleData(d);
-
-      return {
-        ...state,
-        data: v,
-      };
+      return handleCommonDataAssist(state, action);
     },
   },
 };

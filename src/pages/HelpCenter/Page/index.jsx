@@ -4,19 +4,22 @@ import { routerRedux } from 'dva/router';
 import { List, Tag, Card, BackTop } from 'antd';
 import { EyeOutlined, StockOutlined, MessageOutlined } from '@ant-design/icons';
 
-import PagerList from '@/customComponents/Framework/CustomList/PagerList';
-import IconInfo from '@/customComponents/IconInfo';
-import ArticleListContent from '@/customComponents/ArticleListContent';
+import { getDerivedStateFromPropsForUrlParams } from '../../../utils/tools';
+import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
+import IconInfo from '../../../customComponents/IconInfo';
+import ArticleListContent from '../../../customComponents/ArticleListContent';
 
-const styles = './index.less';
+import { parseUrlParamsForSetState } from '../Assist/config';
+
+import styles from './index.less';
 
 const logo = '/logo.png';
 
-@connect(({ areaHelpCategory, areaHelp, global, loading }) => ({
-  areaHelpCategory,
-  areaHelp,
+@connect(({ helpCategory, help, global, loading }) => ({
+  helpCategory,
+  help,
   global,
-  loading: loading.models.areaHelpCategory,
+  loading: loading.models.helpCategory,
 }))
 class ArticleList extends PagerList {
   constructor(props) {
@@ -26,17 +29,90 @@ class ArticleList extends PagerList {
       ...this.state,
       ...{
         pageName: '帮助条目',
-        paramsKey: '00750d5f-e00d-498e-a55a-12a8d3b8b19d',
-        loadApiPath: 'areaHelp/page',
+        paramsKey: '1ea077b5-e4a7-4985-9baf-14800efc9db4',
+        loadApiPath: 'help/page',
+        loadDataAfterMount: false,
+        dataLoading: false,
         pageSize: 4,
         total: 0,
       },
     };
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(
+      nextProps,
+      prevState,
+      { category: '' },
+      parseUrlParamsForSetState,
+    );
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
+    const {
+      urlParams: { helpCategoryId },
+    } = this.state;
+
+    const {
+      urlParams: { helpCategoryId: helpCategoryIdPrev },
+    } = preState;
+
+    if ((helpCategoryId || null) == null || (helpCategoryIdPrev || null) == null || (helpCategoryId || null) === 'no') {
+      return;
+    }
+
+    const { loadSuccess, dataLoading } = this.state;
+
+    if (helpCategoryId !== helpCategoryIdPrev) {
+      if (!dataLoading) {
+        this.reloadData();
+      }
+    }
+
+    if (!loadSuccess) {
+      if (!dataLoading) {
+        this.reloadData();
+      }
+    }
+  };
+
+  // doDidMountTask = () => {
+  //   const { category: categoryPre, categoryName: categoryNamePre } = this.state;
+
+  //   const customConfigCategoryList = this.getCustomConfigCategoryList();
+
+  //   let category = categoryPre;
+  //   let categoryName = categoryNamePre;
+
+  //   if (stringIsNullOrWhiteSpace(categoryPre) || categoryPre === 'no') {
+  //     if (isArray(customConfigCategoryList)) {
+  //       (customConfigCategoryList || []).forEach((o, index) => {
+  //         if (index === 0) {
+  //           category = o.flag;
+  //         }
+  //       });
+  //     }
+  //   }
+
+  //   if (isArray(customConfigCategoryList)) {
+  //     (customConfigCategoryList || []).forEach(o => {
+  //       if (o.flag === category) {
+  //         categoryName = o.name;
+  //       }
+  //     });
+  //   }
+
+  //   if (stringIsNullOrWhiteSpace(category) || category === 'no') {
+  //     router.replace(`/`);
+  //   } else {
+  //     this.setState({ category, categoryName });
+  //   }
+  // };
+
   getApiData = props => {
     const {
-      areaHelp: { data },
+      help: { data },
     } = props;
 
     return data;
@@ -44,11 +120,12 @@ class ArticleList extends PagerList {
 
   supplementLoadRequestParams = o => {
     const d = o;
-    const { match } = this.props;
-    const { params } = match;
-    const { categoryId } = params;
 
-    d.areaHelpCategoryId = categoryId;
+    const {
+      urlParams: { helpCategoryId },
+    } = this.state;
+
+    d.helpCategoryId = helpCategoryId;
 
     return d;
   };
@@ -57,34 +134,35 @@ class ArticleList extends PagerList {
   afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
     const {
       total,
-      other: { areaHelpCategoryName },
+      other: { helpCategoryName },
     } = metaExtra;
 
     this.setState({
       total,
-      pageName: areaHelpCategoryName,
+      pageName: helpCategoryName,
     });
   };
 
   goToDetail = record => {
-    const { match, dispatch } = this.props;
-    const { params } = match;
-    const { categoryId } = params;
+    const { dispatch } = this.props;
+    const {
+      urlParams: { helpCategoryId },
+    } = this.state;
 
     const { pageNo } = this.state;
-    const { areaHelpId } = record;
+    const { helpId } = record;
 
     const location = {
-      pathname: `/helpCenter/category/${categoryId}/detail/${areaHelpId}/${pageNo}`,
+      pathname: `/helpCenter/category/${helpCategoryId}/detail/${helpId}/${pageNo}`,
     };
 
     dispatch(routerRedux.push(location));
   };
 
   renderTable = () => {
-    const { customData, dataLoading, pageSize, total } = this.state;
+    const { metaOriginalData, dataLoading, pageSize, total } = this.state;
 
-    const { list, pagination } = customData;
+    const { list, pagination } = metaOriginalData || { list: [], pagination: {} };
 
     const paginationProps = {
       showSizeChanger: true,
@@ -106,14 +184,14 @@ class ArticleList extends PagerList {
       <List
         size="large"
         className={styles.articleList}
-        rowKey="areaHelpId"
+        rowKey="helpId"
         itemLayout="vertical"
         dataSource={list}
         loading={dataLoading}
         pagination={paginationProps}
         renderItem={item => (
           <List.Item
-            key={item.areaHelpId}
+            key={item.helpId}
             actions={[
               <IconInfo text={item.accessCount}>
                 <EyeOutlined />
@@ -139,7 +217,7 @@ class ArticleList extends PagerList {
               description={
                 <span>
                   {(item.tagList || []).map(o => (
-                    <Tag key={`${item.areaHelpId}-${o}`}>{o}</Tag>
+                    <Tag key={`${item.helpId}-${o}`}>{o}</Tag>
                   ))}
                 </span>
               }

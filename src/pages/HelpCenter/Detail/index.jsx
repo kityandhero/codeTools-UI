@@ -1,27 +1,25 @@
 import React from 'react';
 import { connect } from 'dva';
 import {
-  Avatar, // Icon,
-  Button, //   List,
-  //    Tag,
-  //     Divider,
+  Avatar,
+  Button,
   Card,
   BackTop,
 } from 'antd';
 import { RollbackOutlined } from '@ant-design/icons';
 
-import { formatDatetime } from '@/utils/tools';
-import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
-import HtmlBox from '@/customComponents/HtmlBox';
+import { formatDatetime } from '../../../utils/tools';
+import LoadDataForm from '../../../customComponents/Framework/CustomForm/LoadDataForm';
+import HtmlBox from '../../../customComponents/HtmlBox';
 
 const styles = './index.less';
 
 const logo = '/logo.png';
 
-@connect(({ areaHelp, global, loading }) => ({
-  areaHelp,
+@connect(({ help, global, loading }) => ({
+  help,
   global,
-  loading: loading.models.areaHelp,
+  loading: loading.models.help,
 }))
 class ArticleContent extends LoadDataForm {
   constructor(props) {
@@ -31,7 +29,7 @@ class ArticleContent extends LoadDataForm {
       ...this.state,
       ...{
         pageName: '帮助详情',
-        loadApiPath: 'areaHelp/get',
+        loadApiPath: 'help/get',
         backPath: '/helpCenter/category/no/page',
       },
     };
@@ -39,7 +37,7 @@ class ArticleContent extends LoadDataForm {
 
   getApiData = props => {
     const {
-      areaHelp: { data },
+      help: { data },
     } = props;
 
     return data;
@@ -51,18 +49,18 @@ class ArticleContent extends LoadDataForm {
     const { params } = match;
     const { id } = params;
 
-    d.areaHelpId = id;
+    d.helpId = id;
 
     return d;
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, data) => {
-    const { areaHelpCategoryId } = metaData;
+    const { helpCategoryId } = metaData;
 
     this.setState({
-      pageName: metaData.areaHelpCategoryName,
-      backPath: `/helpCenter/category/${areaHelpCategoryId}/page`,
+      pageName: metaData.helpCategoryName,
+      backPath: `/helpCenter/category/${helpCategoryId}/page`,
     });
   };
 

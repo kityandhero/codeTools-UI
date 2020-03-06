@@ -334,20 +334,20 @@ export default [
             authority: [accessWayCollection.currentCustomer],
           },
           {
-            path: '/helpCenter/category/:categoryId',
+            path: '/helpCenter/category/:helpCategoryId',
             hideInMenu: true,
             component: './HelpCenter',
             routes: [
               {
-                path: '/helpCenter/category/:categoryId',
-                redirect: '/helpCenter/category/:categoryId/page',
+                path: '/helpCenter/category/:helpCategoryId',
+                redirect: '/helpCenter/category/:helpCategoryId/page',
               },
               {
-                path: '/helpCenter/category/:categoryId/page',
+                path: '/helpCenter/category/:helpCategoryId/page',
                 component: './HelpCenter/Page',
               },
               {
-                path: '/helpCenter/category/:categoryId/detail/:id/:pageKey',
+                path: '/helpCenter/category/:helpCategoryId/detail/:id/:pageKey',
                 component: './HelpCenter/Detail',
               },
             ],
