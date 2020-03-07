@@ -12,11 +12,14 @@ import {
   buildFieldHelper,
 } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
+import { unlimitedWithStringFlag } from '../../../utils/constants';
+import { customFieldCollection } from '../../../customSpecialComponents/CustomCommonSupplement/customConstants';
 import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '../../../customComponents/Ellipsis';
 import EllipsisCustom from '../../../customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
+import { constants } from '@/customConfig/config';
 
 const { confirm } = Modal;
 
@@ -155,16 +158,31 @@ class Index extends PagerList {
     }
   };
 
+  renderSimpleFormInitialValues = () => {
+    const v = {};
+
+    v[customFieldCollection.databaseEncoding.name] = unlimitedWithStringFlag.flag;
+    v[customFieldCollection.databaseType.name] = unlimitedWithStringFlag.flag;
+
+    return v;
+  };
+
   renderSimpleFormRow = () => {
     return (
       <>
         <Row gutter={24}>
-          <Col lg={10} md={12} sm={24}>
+          <Col lg={6} md={12} sm={24} xs={24}>
             {this.renderSearchInputFormItem(
               fieldData.name,
               'name',
               buildFieldHelper('依据名称进行检索'),
             )}
+          </Col>
+          <Col lg={6} md={12} sm={24} xs={24}>
+            {this.renderSearchDatabaseEncodingFormItem(true)}
+          </Col>
+          <Col lg={6} md={12} sm={24} xs={24}>
+            {this.renderSearchDatabaseTypeFormItem(true)}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>
@@ -258,9 +276,22 @@ class Index extends PagerList {
       ),
     },
     {
+      title: constants.channelNote.label,
+      dataIndex: constants.channelNote.name,
+      width: 160,
+      align: 'center',
+      render: (val, record) => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {record.channelNote}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
       title: fieldData.createTime,
       dataIndex: 'createTime',
-      width: 120,
+      width: 140,
       align: 'center',
       sorter: false,
       render: val => (
@@ -268,7 +299,7 @@ class Index extends PagerList {
           <Ellipsis tooltip lines={1}>
             {(val || '') === ''
               ? '--'
-              : moment(new Date(val.replace('/', '-'))).format('YYYY-MM-DD')}
+              : moment(new Date(val.replace('/', '-'))).format('YYYY-MM-DD HH:mm')}
           </Ellipsis>
         </>
       ),

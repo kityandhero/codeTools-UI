@@ -848,7 +848,7 @@ class Index extends CustomCore {
     );
   };
 
-  renderSearchSelectFormItem = (label, name, options) => {
+  renderSearchSelectFormItem = (label, name, options, helper = null) => {
     return (
       <FormItem
         label={label}
@@ -859,6 +859,7 @@ class Index extends CustomCore {
             message: buildFieldDescription(label, '选择'),
           },
         ]}
+        help={helper}
       >
         <Select placeholder={buildFieldDescription(label, '选择')} style={{ width: '100%' }}>
           {options}

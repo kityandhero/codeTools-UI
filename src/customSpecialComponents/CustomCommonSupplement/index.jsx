@@ -166,6 +166,7 @@ class Index extends CustomCommonCore {
   renderSearchDatabaseTypeFormItem = (
     withUnlimited = true,
     label = customFieldCollection.databaseType.label,
+    helper = buildFieldHelper(customFieldCollection.databaseType.helper),
   ) => {
     const title = label || customFieldCollection.databaseType.label;
 
@@ -173,6 +174,7 @@ class Index extends CustomCommonCore {
       title,
       customFieldCollection.databaseType.name,
       this.renderDatabaseTypeOption(withUnlimited),
+      helper,
     );
   };
 
@@ -261,6 +263,7 @@ class Index extends CustomCommonCore {
   renderSearchDatabaseEncodingFormItem = (
     withUnlimited = true,
     label = customFieldCollection.databaseEncoding.label,
+    helper = buildFieldHelper(customFieldCollection.databaseEncoding.helper),
   ) => {
     const title = label || customFieldCollection.databaseEncoding.label;
 
@@ -268,6 +271,7 @@ class Index extends CustomCommonCore {
       title,
       customFieldCollection.databaseEncoding.name,
       this.renderDatabaseEncodingOption(withUnlimited),
+      helper,
     );
   };
 
