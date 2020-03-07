@@ -80,9 +80,14 @@ module.exports = {
       label: 'SSH用户密码',
       helper: '数据连接的SSH用户密码',
     },
+    description: {
+      name: 'description',
+      label: '简介描述',
+      helper: '数据连接的简介描述',
+    },
   },
   connectionType: {
-    TCP_IP: 100,
-    SSH: 101,
+    TCP_IP: '100',
+    SSH: '101',
   },
 };

@@ -124,7 +124,7 @@ class Index extends AddFormBase {
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFormDatabaseTypeSelectFormItem()}
+                  {this.renderFormDatabaseDatabaseTypeSelectFormItem()}
                 </Col>
               </Row>
               <Row gutter={24}>
@@ -252,6 +252,21 @@ class Index extends AddFormBase {
                   </Row>
                 </>
               ) : null}
+            </Spin>
+          </Card>
+
+          <Card title="描述信息" className={styles.card} bordered={false}>
+            <Spin spinning={processing}>
+              <Row gutter={24}>
+                <Col lg={24} md={24} sm={24} xs={24}>
+                  {this.renderFormTextAreaFormItem(
+                    fieldData.description.label,
+                    fieldData.description.name,
+                    false,
+                    buildFieldHelper(fieldData.description.helper),
+                  )}
+                </Col>
+              </Row>
             </Spin>
           </Card>
 

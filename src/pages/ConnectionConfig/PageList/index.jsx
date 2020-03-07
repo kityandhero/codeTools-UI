@@ -247,14 +247,47 @@ class Index extends PagerList {
     //   align: 'center',
     // },
     {
+      title: fieldData.schema.label,
+      dataIndex: fieldData.schema.name,
+      width: 200,
+      align: 'center',
+      render: val => <>{val || '--'}</>,
+    },
+    {
+      title: fieldData.databaseType.label,
+      dataIndex: fieldData.databaseType.name,
+      width: 120,
+      align: 'center',
+      render: val => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {this.getDatabaseDatabaseTypeName(`${val || ''}`)}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
       title: fieldData.connectionType.label,
       dataIndex: fieldData.connectionType.name,
-      width: 160,
+      width: 120,
       align: 'center',
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
             {this.getDatabaseConnectionTypeName(`${val || ''}`)}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldData.encoding.label,
+      dataIndex: fieldData.encoding.name,
+      width: 120,
+      align: 'center',
+      render: val => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {this.getDatabaseEncodingName(`${val || ''}`)}
           </Ellipsis>
         </>
       ),

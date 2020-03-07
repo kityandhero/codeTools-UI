@@ -1,16 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Avatar, Descriptions } from 'antd';
+import { Avatar } from 'antd';
 
-import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '../../../utils/tools';
+import { toDatetime, getDerivedStateFromPropsForUrlParams } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
+import { constants } from '../../../customConfig/config';
 import LoadDataTabContainer from '../../../customComponents/Framework/CustomForm/LoadDataTabContainer';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
-
-import styles from './index.less';
-
-const { Item: Description } = Descriptions;
+import { fieldData } from '../Common/data';
 
 @connect(({ connectionConfig, global, loading }) => ({
   connectionConfig,
@@ -34,7 +32,7 @@ class Edit extends LoadDataTabContainer {
     this.state = {
       ...this.state,
       ...{
-        pageName: '名称：',
+        pageName: `${fieldData.name.label}：`,
         loadApiPath: 'connectionConfig/get',
         backPath: `/connectionConfig/pageList/key`,
         connectionConfigId: null,
@@ -76,7 +74,7 @@ class Edit extends LoadDataTabContainer {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
     this.setState({
-      pageName: `名称：${metaData === null ? '' : metaData.title || ''}`,
+      pageName: `${fieldData.name.label}：${metaData === null ? '' : metaData.name || ''}`,
     });
   };
 
@@ -91,41 +89,55 @@ class Edit extends LoadDataTabContainer {
     );
   };
 
-  pageHeaderExtraContent = () => {
+  pageHeaderExtraContentData = () => {
     const { metaData } = this.state;
 
-    return (
-      <Row>
-        <Col xs={24} sm={12}>
-          <div className={styles.textSecondary}>创建日期</div>
-          <div className={styles.heading}>
-            {formatDatetime(metaData === null ? '' : metaData.inTime, 'HH:mm:ss', '--')}
-            <br />
-            {formatDatetime(metaData === null ? '' : metaData.inTime, 'YYYY-MM-DD')}
-          </div>
-        </Col>
-        <Col xs={24} sm={12}>
-          <div className={styles.textSecondary}>当前状态</div>
-          <div className={styles.heading}>正常</div>
-        </Col>
-      </Row>
-    );
+    return {
+      textLabel: constants.statusNote.label,
+      text: metaData === null ? '' : metaData.statusNote,
+      timeLabel: constants.createTime.label,
+      time: metaData === null ? null : toDatetime(metaData.createTime),
+    };
   };
 
-  pageHeaderContent = () => {
+  pageHeaderContentData = () => {
     const { metaData } = this.state;
 
-    return (
-      <Descriptions className={styles.headerList} size="small" column="2">
-        <Description label="标识">
-          {metaData === null ? '' : metaData.connectionConfigId}
-        </Description>
-        <Description label="联系方式">
-          {metaData === null ? '' : metaData.contactInformation}
-        </Description>
-        <Description label="排序值">{metaData === null ? '' : metaData.sort}</Description>
-      </Descriptions>
-    );
+    const list = [];
+
+    list.push({
+      label: fieldData.connectionConfigId.label,
+      value: metaData === null ? '' : metaData.connectionConfigId,
+      canCopy: true,
+    });
+
+    list.push({
+      label: fieldData.schema.label,
+      value: metaData === null ? '' : metaData.schema,
+      canCopy: false,
+    });
+
+    list.push({
+      label: fieldData.connectionType.label,
+      value: this.getDatabaseConnectionTypeName(
+        metaData === null ? '' : `${metaData.connectionType || ''}`,
+      ),
+      canCopy: false,
+    });
+
+    list.push({
+      label: fieldData.databaseType.label,
+      value: this.getDatabaseDatabaseTypeName(
+        metaData === null ? '' : `${metaData.databaseType || ''}`,
+      ),
+    });
+
+    list.push({
+      label: fieldData.encoding.label,
+      value: this.getDatabaseEncodingName(metaData === null ? '' : `${metaData.encoding || ''}`),
+    });
+
+    return list;
   };
 }
 
