@@ -3,6 +3,7 @@ import {
   refitCommonData,
   isInvalid,
   searchFromList,
+  buildFieldHelper,
 } from '../../utils/tools';
 import { unlimitedWithStringFlag } from '../../utils/constants';
 import CustomCommonCore from '../../customComponents/Framework/CustomCommonCore';
@@ -176,7 +177,7 @@ class Index extends CustomCommonCore {
   };
 
   renderFormDatabaseTypeSelectFormItem = (
-    helper = null,
+    helper = buildFieldHelper(customFieldCollection.databaseType.helper),
     onChangeCallback,
     label = customFieldCollection.databaseType.label,
     formItemLayout = null,
@@ -271,7 +272,7 @@ class Index extends CustomCommonCore {
   };
 
   renderFormDatabaseEncodingSelectFormItem = (
-    helper = null,
+    helper = buildFieldHelper(customFieldCollection.databaseEncoding.helper),
     onChangeCallback,
     label = customFieldCollection.databaseEncoding.label,
     formItemLayout = null,

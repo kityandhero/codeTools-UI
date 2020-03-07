@@ -8,7 +8,6 @@ import { buildFieldHelper, formatDatetime } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import { constants } from '../../../customConfig/config';
 import AddFormBase from '../../../customComponents/Framework/CustomForm/AddFormBase';
-import { customFieldCollection } from '../../../customSpecialComponents/CustomCommonSupplement/customConstants';
 
 import { fieldData, connectionType } from '../Common/data';
 import styles from './index.less';
@@ -87,8 +86,6 @@ class Index extends AddFormBase {
 
     const initialValues = {};
 
-    initialValues[customFieldCollection.databaseType.name] = null;
-    initialValues[customFieldCollection.databaseEncoding.name] = null;
     initialValues[constants.createTime.name] = formatDatetime(new Date(), 'YYYY-MM-DD HH:mm');
 
     return (
