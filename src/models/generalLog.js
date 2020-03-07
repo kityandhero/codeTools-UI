@@ -1,6 +1,6 @@
 import { handlePageListDataAssist, handleCommonDataAssist } from '../utils/tools';
 
-import { pageData, getData } from '../services/generalLog';
+import { pageListData, getData } from '../services/generalLog';
 
 export default {
   namespace: 'generalLog',
@@ -8,8 +8,8 @@ export default {
   state: {},
 
   effects: {
-    *page({ payload }, { call, put }) {
-      const response = yield call(pageData, payload);
+    *pageList({ payload }, { call, put }) {
+      const response = yield call(pageListData, payload);
       yield put({
         type: 'handlePageListData',
         payload: response,

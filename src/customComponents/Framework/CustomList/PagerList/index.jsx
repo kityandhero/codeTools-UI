@@ -242,7 +242,7 @@ class PagerList extends ListBase {
       params.sorter = { sorter: `${sorter.field}_${sorter.order}` };
     }
 
-    this.pageData(params);
+    this.pageListData(params);
   };
 
   renderTable = () => {

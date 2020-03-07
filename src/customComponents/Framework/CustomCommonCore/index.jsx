@@ -266,7 +266,7 @@ class Index extends CustomCore {
     }
   };
 
-  pageData = (otherState, callback = null) => {
+  pageListData = (otherState, callback = null) => {
     const s = { ...(otherState || {}), ...{ paging: true } };
 
     this.setState(s, () => {

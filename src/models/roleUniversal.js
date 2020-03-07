@@ -3,7 +3,7 @@ import {
   handleListDataAssist,
   handleCommonDataAssist,
 } from '../utils/tools';
-import { pageData, getData } from '../services/roleUniversal';
+import { pageListData, getData } from '../services/roleUniversal';
 
 export default {
   namespace: 'roleUniversal',
@@ -11,8 +11,8 @@ export default {
   state: {},
 
   effects: {
-    *page({ payload }, { call, put }) {
-      const response = yield call(pageData, payload);
+    *pageList({ payload }, { call, put }) {
+      const response = yield call(pageListData, payload);
       yield put({
         type: 'handlePageListData',
         payload: response,
