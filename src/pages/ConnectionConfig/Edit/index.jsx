@@ -36,7 +36,7 @@ class Edit extends LoadDataTabContainer {
       ...{
         pageName: '名称：',
         loadApiPath: 'connectionConfig/get',
-        backPath: `/connectionConfig/page/key`,
+        backPath: `/connectionConfig/pageList/key`,
         connectionConfigId: null,
       },
     };

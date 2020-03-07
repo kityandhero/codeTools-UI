@@ -13,7 +13,7 @@ export async function pageData(params) {
     return result;
   }
 
-  return request('/business/roleUniversal/page', {
+  return request('/business/roleUniversal/pageList', {
     method: 'POST',
     body: params,
   });

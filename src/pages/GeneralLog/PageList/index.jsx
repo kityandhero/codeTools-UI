@@ -27,7 +27,7 @@ class Index extends PagerList {
       ...{
         pageName: '模块列表',
         paramsKey: '53e093b4-70d0-4a37-8eee-e8bf2ff3f687',
-        loadApiPath: 'generalLog/page',
+        loadApiPath: 'generalLog/pageList',
         dateRangeFieldName: '生成时段',
       },
     };

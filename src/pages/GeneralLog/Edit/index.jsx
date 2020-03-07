@@ -34,7 +34,7 @@ class Edit extends LoadDataTabContainer {
       ...{
         pageName: `${fieldData.message}：`,
         loadApiPath: 'generalLog/get',
-        backPath: `/generalLog/page/key`,
+        backPath: `/generalLog/pageList/key`,
         generalLogId: null,
       },
     };

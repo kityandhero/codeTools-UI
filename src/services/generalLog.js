@@ -13,7 +13,7 @@ export async function pageData(params) {
     return result;
   }
 
-  return request('/business/generalLog/page', {
+  return request('/business/generalLog/pageList', {
     method: 'POST',
     body: params,
   });

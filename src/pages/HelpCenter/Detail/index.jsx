@@ -1,11 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import {
-  Avatar,
-  Button,
-  Card,
-  BackTop,
-} from 'antd';
+import { Avatar, Button, Card, BackTop } from 'antd';
 import { RollbackOutlined } from '@ant-design/icons';
 
 import { formatDatetime } from '../../../utils/tools';
@@ -30,7 +25,7 @@ class ArticleContent extends LoadDataForm {
       ...{
         pageName: '帮助详情',
         loadApiPath: 'help/get',
-        backPath: '/helpCenter/category/no/page',
+        backPath: '/helpCenter/category/no/pageList',
       },
     };
   }

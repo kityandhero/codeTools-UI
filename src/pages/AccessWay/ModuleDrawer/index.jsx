@@ -21,7 +21,7 @@ class ModuleDrawer extends PagerDrawer {
       ...this.state,
       ...{
         tableScroll: { x: 1320 },
-        loadApiPath: 'accessWay/page',
+        loadApiPath: 'accessWay/pageList',
         dateRangeFieldName: '创建时间',
       },
     };

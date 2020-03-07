@@ -34,7 +34,7 @@ class Edit extends LoadDataTabContainer {
       ...{
         pageName: '名称：',
         loadApiPath: 'accessWay/get',
-        backPath: `/accessWay/page/key`,
+        backPath: `/accessWay/pageList/key`,
         accessWayId: null,
       },
     };

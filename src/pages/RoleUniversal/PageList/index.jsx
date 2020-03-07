@@ -30,7 +30,7 @@ class Index extends PagerList {
       ...{
         pageName: '公用角色列表',
         paramsKey: '089b510e-345a-42fb-abc9-6cd2ced7b728',
-        loadApiPath: 'roleTemplate/page',
+        loadApiPath: 'roleTemplate/pageList',
       },
     };
   }

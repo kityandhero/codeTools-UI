@@ -30,7 +30,7 @@ class ArticleList extends PagerList {
       ...{
         pageName: '帮助条目',
         paramsKey: '1ea077b5-e4a7-4985-9baf-14800efc9db4',
-        loadApiPath: 'help/page',
+        loadApiPath: 'help/pageList',
         loadDataAfterMount: false,
         dataLoading: false,
         pageSize: 4,
@@ -58,7 +58,11 @@ class ArticleList extends PagerList {
       urlParams: { helpCategoryId: helpCategoryIdPrev },
     } = preState;
 
-    if ((helpCategoryId || null) == null || (helpCategoryIdPrev || null) == null || (helpCategoryId || null) === 'no') {
+    if (
+      (helpCategoryId || null) == null ||
+      (helpCategoryIdPrev || null) == null ||
+      (helpCategoryId || null) === 'no'
+    ) {
       return;
     }
 

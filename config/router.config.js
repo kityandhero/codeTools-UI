@@ -36,13 +36,13 @@ export default [
             component: './ConnectionConfig/Add',
           },
           {
-            path: '/connectionConfig/page/:pageKey',
+            path: '/connectionConfig/pageList/:pageKey',
             hideInMenu: true,
-            component: './ConnectionConfig/Page',
+            component: './ConnectionConfig/PageList',
           },
-          { path: '/connectionConfig/page/', redirect: '/connectionConfig/page/no' },
+          { path: '/connectionConfig/pageList/', redirect: '/connectionConfig/pageList/no' },
           {
-            path: '/connectionConfig/page/no',
+            path: '/connectionConfig/pageList/no',
             name: 'list',
             icon: 'bars',
             authority: [accessWayCollection.super, accessWayCollection.connectionConfig.list],
@@ -64,7 +64,7 @@ export default [
               //   routes: [
               //     {
               //       path: '/connectionConfig/edit/:op/:id/:pageKey/operateLog',
-              //       redirect: '/connectionConfig/edit/:op/:id/:pageKey/operateLog/page',
+              //       redirect: '/connectionConfig/edit/:op/:id/:pageKey/operateLog/pageList',
               //     },
               //   ],
               // },
@@ -86,7 +86,7 @@ export default [
             routes: [
               {
                 path: '/account/account',
-                redirect: '/account/account/page/no',
+                redirect: '/account/account/pageList/no',
               },
               {
                 path: '/account/account/add',
@@ -95,9 +95,9 @@ export default [
                 component: './Account/Add',
               },
               {
-                path: '/account/account/page/:pageKey',
+                path: '/account/account/pageList/:pageKey',
                 hideInMenu: true,
-                component: './Account/Page',
+                component: './Account/PageList',
               },
               {
                 path: '/account/account/edit/:op/:id/:pageKey',
@@ -132,13 +132,13 @@ export default [
         ],
         routes: [
           {
-            path: '/accessWay/page/:pageKey',
+            path: '/accessWay/pageList/:pageKey',
             hideInMenu: true,
-            component: './AccessWay/Page',
+            component: './AccessWay/PageList',
           },
-          { path: '/accessWay/page/', redirect: '/accessWay/page/no' },
+          { path: '/accessWay/pageList/', redirect: '/accessWay/pageList/no' },
           {
-            path: '/accessWay/page/no',
+            path: '/accessWay/pageList/no',
             name: 'list',
             icon: 'bars',
             authority: [accessWayCollection.super, accessWayCollection.accessWay.list],
@@ -165,13 +165,13 @@ export default [
         authority: [accessWayCollection.super, accessWayCollection.errorLog.list],
         routes: [
           {
-            path: '/errorLog/page/:pageKey',
+            path: '/errorLog/pageList/:pageKey',
             hideInMenu: true,
-            component: './ErrorLog/Page',
+            component: './ErrorLog/PageList',
           },
-          { path: '/errorLog/page/', redirect: '/errorLog/page/no' },
+          { path: '/errorLog/pageList/', redirect: '/errorLog/pageList/no' },
           {
-            path: '/errorLog/page/no',
+            path: '/errorLog/pageList/no',
             name: 'list',
             icon: 'bars',
             authority: [accessWayCollection.super, accessWayCollection.errorLog.list],
@@ -198,13 +198,13 @@ export default [
         authority: [accessWayCollection.super, accessWayCollection.generalLog.list],
         routes: [
           {
-            path: '/generalLog/page/:pageKey',
+            path: '/generalLog/pageList/:pageKey',
             hideInMenu: true,
-            component: './GeneralLog/Page',
+            component: './GeneralLog/PageList',
           },
-          { path: '/generalLog/page/', redirect: '/generalLog/page/no' },
+          { path: '/generalLog/pageList/', redirect: '/generalLog/pageList/no' },
           {
-            path: '/generalLog/page/no',
+            path: '/generalLog/pageList/no',
             name: 'list',
             icon: 'bars',
             authority: [accessWayCollection.super, accessWayCollection.generalLog.list],
@@ -340,11 +340,11 @@ export default [
             routes: [
               {
                 path: '/helpCenter/category/:helpCategoryId',
-                redirect: '/helpCenter/category/:helpCategoryId/page',
+                redirect: '/helpCenter/category/:helpCategoryId/pageList',
               },
               {
-                path: '/helpCenter/category/:helpCategoryId/page',
-                component: './HelpCenter/Page',
+                path: '/helpCenter/category/:helpCategoryId/pageList',
+                component: './HelpCenter/PageList',
               },
               {
                 path: '/helpCenter/category/:helpCategoryId/detail/:id/:pageKey',

@@ -13,7 +13,7 @@ export async function pageData(params) {
     return result;
   }
 
-  return request('/business/accessWay/page', {
+  return request('/business/accessWay/pageList', {
     method: 'POST',
     body: params,
   });
