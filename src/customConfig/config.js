@@ -57,6 +57,11 @@ export const constants = {
     label: '最后更新时间',
     helper: '数据最后更新的时间',
   },
+  customOperate: {
+    name: 'customOperate',
+    label: '操作',
+    helper: '各项操作',
+  },
 };
 
 export const imageContentPreviewMode = {

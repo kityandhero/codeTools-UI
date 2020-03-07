@@ -117,10 +117,10 @@ class Index extends AddFormBase {
               <Row gutter={24}>
                 <Col lg={18} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
-                    fieldData.name,
-                    'name',
+                    fieldData.name.label,
+                    fieldData.name.name,
                     true,
-                    buildFieldHelper(fieldData.nameHelper),
+                    buildFieldHelper(fieldData.name.helper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24} xs={24}>
@@ -130,44 +130,44 @@ class Index extends AddFormBase {
               <Row gutter={24}>
                 <Col lg={18} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
-                    fieldData.host,
-                    'host',
+                    fieldData.host.label,
+                    fieldData.host.name,
                     true,
-                    buildFieldHelper(fieldData.hostHelper),
+                    buildFieldHelper(fieldData.host.helper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputNumberFormItem(
-                    fieldData.port,
-                    'port',
+                    fieldData.port.label,
+                    fieldData.port.name,
                     true,
-                    buildFieldHelper(fieldData.portHelper),
+                    buildFieldHelper(fieldData.port.helper),
                   )}
                 </Col>
               </Row>
               <Row gutter={24}>
                 <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
-                    fieldData.userName,
-                    'userName',
+                    fieldData.userName.label,
+                    fieldData.userName.name,
                     true,
-                    buildFieldHelper(fieldData.userNameHelper),
+                    buildFieldHelper(fieldData.userName.helper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormPasswordFormItem(
-                    fieldData.password,
-                    'password',
+                    fieldData.password.label,
+                    fieldData.password.name,
                     true,
-                    buildFieldHelper(fieldData.passwordHelper),
+                    buildFieldHelper(fieldData.password.helper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
-                    fieldData.schema,
-                    'schema',
+                    fieldData.schema.label,
+                    fieldData.schema.name,
                     true,
-                    buildFieldHelper(fieldData.schemaHelper),
+                    buildFieldHelper(fieldData.schema.helper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24} xs={24}>
@@ -201,52 +201,52 @@ class Index extends AddFormBase {
                   <Row gutter={24}>
                     <Col lg={6} md={12} sm={24} xs={24}>
                       {this.renderFormInputFormItem(
-                        fieldData.sshHost,
-                        'sshHost',
+                        fieldData.sshHost.label,
+                        fieldData.sshHost.name,
                         true,
-                        buildFieldHelper(fieldData.sshHostHelper),
+                        buildFieldHelper(fieldData.sshHost.helper),
                       )}
                     </Col>
                     <Col lg={6} md={12} sm={24} xs={24}>
                       {this.renderFormInputNumberFormItem(
-                        fieldData.sshPort,
-                        'sshPort',
+                        fieldData.sshPort.label,
+                        fieldData.sshPort.name,
                         true,
-                        buildFieldHelper(fieldData.sshPortHelper),
+                        buildFieldHelper(fieldData.sshPort.helper),
                       )}
                     </Col>
                     <Col lg={6} md={12} sm={24} xs={24}>
                       {this.renderFormInputNumberFormItem(
-                        fieldData.localPort,
-                        'localPort',
+                        fieldData.localPort.label,
+                        fieldData.localPort.name,
                         true,
-                        buildFieldHelper(fieldData.localPortHelper),
+                        buildFieldHelper(fieldData.localPort.helper),
                       )}
                     </Col>
                     <Col lg={6} md={12} sm={24} xs={24}>
                       {this.renderFormInputNumberFormItem(
-                        fieldData.remotePort,
-                        'remotePort',
+                        fieldData.remotePort.label,
+                        fieldData.remotePort.name,
                         true,
-                        buildFieldHelper(fieldData.remotePortHelper),
+                        buildFieldHelper(fieldData.remotePort.helper),
                       )}
                     </Col>
                   </Row>
                   <Row gutter={24}>
                     <Col lg={6} md={12} sm={24} xs={24}>
                       {this.renderFormInputFormItem(
-                        fieldData.sshUser,
-                        'sshUser',
+                        fieldData.sshUser.label,
+                        fieldData.sshUser.name,
                         true,
-                        buildFieldHelper(fieldData.sshUserHelper),
+                        buildFieldHelper(fieldData.sshUser.helper),
                       )}
                     </Col>
                     <Col lg={6} md={12} sm={24} xs={24}>
                       {this.renderFormPasswordFormItem(
-                        fieldData.sshPassword,
-                        'sshPassword',
+                        fieldData.sshPassword.label,
+                        fieldData.sshPassword.name,
                         true,
-                        buildFieldHelper(fieldData.sshPasswordHelper),
+                        buildFieldHelper(fieldData.sshPassword.helper),
                       )}
                     </Col>
                   </Row>

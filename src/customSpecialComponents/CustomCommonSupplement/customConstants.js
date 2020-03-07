@@ -1,6 +1,11 @@
 module.exports = {
   customFieldCollection: {
-    databaseType: {
+    databaseConnectionType: {
+      name: 'connectionType',
+      label: '连接方式',
+      helper: '数据库的连接方式',
+    },
+    databaseDatabaseType: {
       name: 'databaseType',
       label: '数据库类型',
       helper: '选择数据库的类型',

@@ -131,69 +131,69 @@ class Index extends CustomCommonCore {
     );
   };
 
-  databaseTypeList = (withUnlimited = true) => {
+  databaseConnectionTypeList = (withUnlimited = true) => {
     const { global } = this.props;
 
-    const databaseTypeList = global.databaseTypeList || [];
+    const databaseConnectionTypeList = global.databaseConnectionTypeList || [];
 
     if (withUnlimited) {
-      return refitCommonData(databaseTypeList, unlimitedWithStringFlag);
+      return refitCommonData(databaseConnectionTypeList, unlimitedWithStringFlag);
     }
 
-    return refitCommonData(databaseTypeList);
+    return refitCommonData(databaseConnectionTypeList);
   };
 
-  getDatabaseTypeName = (v, defaultValue = '') => {
+  getDatabaseConnectionTypeName = (v, defaultValue = '') => {
     if (isInvalid(v)) {
       return defaultValue;
     }
 
-    const item = searchFromList('flag', v, this.databaseTypeList(false));
+    const item = searchFromList('flag', v, this.databaseConnectionTypeList(false));
     return item == null ? '未知' : item.name;
   };
 
-  renderDatabaseTypeOption = (withUnlimited = true, adjustListDataCallback = null) => {
-    const listData = this.databaseTypeList(withUnlimited);
+  renderDatabaseConnectionTypeOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.databaseConnectionTypeList(withUnlimited);
     return this.renderFormOptionCore(listData, adjustListDataCallback);
   };
 
-  renderDatabaseTypeRadio = (withUnlimited = true, adjustListDataCallback = null) => {
-    const listData = this.databaseTypeList(withUnlimited);
+  renderDatabaseConnectionTypeRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.databaseConnectionTypeList(withUnlimited);
 
     return this.renderFromRadioCore(listData, adjustListDataCallback);
   };
 
-  renderSearchDatabaseTypeFormItem = (
+  renderSearchDatabaseConnectionTypeFormItem = (
     withUnlimited = true,
-    label = customFieldCollection.databaseType.label,
-    helper = buildFieldHelper(customFieldCollection.databaseType.helper),
+    label = customFieldCollection.databaseConnectionType.label,
+    helper = buildFieldHelper(customFieldCollection.databaseConnectionType.helper),
   ) => {
-    const title = label || customFieldCollection.databaseType.label;
+    const title = label || customFieldCollection.databaseConnectionType.label;
 
     return this.renderSearchSelectFormItem(
       title,
-      customFieldCollection.databaseType.name,
-      this.renderDatabaseTypeOption(withUnlimited),
+      customFieldCollection.databaseConnectionType.name,
+      this.renderDatabaseConnectionTypeOption(withUnlimited),
       helper,
     );
   };
 
-  renderFormDatabaseTypeSelectFormItem = (
-    helper = buildFieldHelper(customFieldCollection.databaseType.helper),
+  renderFormDatabaseConnectionTypeSelectFormItem = (
+    helper = buildFieldHelper(customFieldCollection.databaseConnectionType.helper),
     onChangeCallback,
-    label = customFieldCollection.databaseType.label,
+    label = customFieldCollection.databaseConnectionType.label,
     formItemLayout = null,
     required = true,
-    name = customFieldCollection.databaseType.name,
+    name = customFieldCollection.databaseConnectionType.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.databaseType.label;
+    const title = label || customFieldCollection.databaseConnectionType.label;
 
     return this.renderFormSelectFormItem(
       title,
       name,
       () => {
-        return this.renderDatabaseTypeOption(false);
+        return this.renderDatabaseConnectionTypeOption(false);
       },
       helper,
       onChangeCallback,
@@ -203,22 +203,119 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormDatabaseTypeFormItemRadio = (
+  renderFormDatabaseConnectionTypeFormItemRadio = (
     helper = null,
     onChangeCallback,
-    label = customFieldCollection.databaseType.label,
+    label = customFieldCollection.databaseConnectionType.label,
     formItemLayout = null,
     required = true,
-    name = customFieldCollection.databaseType.name,
+    name = customFieldCollection.databaseConnectionType.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.databaseType.label;
+    const title = label || customFieldCollection.databaseConnectionType.label;
 
     return this.renderFormRadioFormItem(
       title,
       name,
       () => {
-        return this.renderDatabaseTypeOption(false);
+        return this.renderDatabaseConnectionTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  databaseDatabaseTypeList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const databaseDatabaseTypeList = global.databaseDatabaseTypeList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(databaseDatabaseTypeList, unlimitedWithStringFlag);
+    }
+
+    return refitCommonData(databaseDatabaseTypeList);
+  };
+
+  getDatabaseDatabaseTypeName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.databaseDatabaseTypeList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderDatabaseDatabaseTypeOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.databaseDatabaseTypeList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderDatabaseDatabaseTypeRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.databaseDatabaseTypeList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchDatabaseDatabaseTypeFormItem = (
+    withUnlimited = true,
+    label = customFieldCollection.databaseDatabaseType.label,
+    helper = buildFieldHelper(customFieldCollection.databaseDatabaseType.helper),
+  ) => {
+    const title = label || customFieldCollection.databaseDatabaseType.label;
+
+    return this.renderSearchSelectFormItem(
+      title,
+      customFieldCollection.databaseDatabaseType.name,
+      this.renderDatabaseDatabaseTypeOption(withUnlimited),
+      helper,
+    );
+  };
+
+  renderFormDatabaseDatabaseTypeSelectFormItem = (
+    helper = buildFieldHelper(customFieldCollection.databaseDatabaseType.helper),
+    onChangeCallback,
+    label = customFieldCollection.databaseDatabaseType.label,
+    formItemLayout = null,
+    required = true,
+    name = customFieldCollection.databaseDatabaseType.name,
+    otherProps = null,
+  ) => {
+    const title = label || customFieldCollection.databaseDatabaseType.label;
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      () => {
+        return this.renderDatabaseDatabaseTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormDatabaseDatabaseTypeFormItemRadio = (
+    helper = null,
+    onChangeCallback,
+    label = customFieldCollection.databaseDatabaseType.label,
+    formItemLayout = null,
+    required = true,
+    name = customFieldCollection.databaseDatabaseType.name,
+    otherProps = null,
+  ) => {
+    const title = label || customFieldCollection.databaseDatabaseType.label;
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      () => {
+        return this.renderDatabaseDatabaseTypeOption(false);
       },
       helper,
       onChangeCallback,

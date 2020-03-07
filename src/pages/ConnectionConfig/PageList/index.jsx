@@ -13,13 +13,12 @@ import {
 } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import { unlimitedWithStringFlag } from '../../../utils/constants';
-import { customFieldCollection } from '../../../customSpecialComponents/CustomCommonSupplement/customConstants';
+import { constants } from '../../../customConfig/config';
 import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '../../../customComponents/Ellipsis';
 import EllipsisCustom from '../../../customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
-import { constants } from '@/customConfig/config';
 
 const { confirm } = Modal;
 
@@ -161,8 +160,8 @@ class Index extends PagerList {
   renderSimpleFormInitialValues = () => {
     const v = {};
 
-    v[customFieldCollection.databaseEncoding.name] = unlimitedWithStringFlag.flag;
-    v[customFieldCollection.databaseType.name] = unlimitedWithStringFlag.flag;
+    v[fieldData.encoding.name] = unlimitedWithStringFlag.flag;
+    v[fieldData.databaseType.name] = unlimitedWithStringFlag.flag;
 
     return v;
   };
@@ -173,8 +172,8 @@ class Index extends PagerList {
         <Row gutter={24}>
           <Col lg={6} md={12} sm={24} xs={24}>
             {this.renderSearchInputFormItem(
-              fieldData.name,
-              'name',
+              fieldData.name.label,
+              fieldData.name.name,
               buildFieldHelper('依据名称进行检索'),
             )}
           </Col>
@@ -182,7 +181,7 @@ class Index extends PagerList {
             {this.renderSearchDatabaseEncodingFormItem(true)}
           </Col>
           <Col lg={6} md={12} sm={24} xs={24}>
-            {this.renderSearchDatabaseTypeFormItem(true)}
+            {this.renderSearchDatabaseDatabaseTypeFormItem(true)}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>
@@ -223,8 +222,8 @@ class Index extends PagerList {
 
   getColumn = () => [
     {
-      title: fieldData.name,
-      dataIndex: 'name',
+      title: fieldData.name.label,
+      dataIndex: fieldData.name.name,
       align: 'left',
       render: val => <>{val || '--'}</>,
     },
@@ -248,8 +247,21 @@ class Index extends PagerList {
     //   align: 'center',
     // },
     {
-      title: fieldData.connectionConfigId,
-      dataIndex: 'connectionConfigId',
+      title: fieldData.connectionType.label,
+      dataIndex: fieldData.connectionType.name,
+      width: 160,
+      align: 'center',
+      render: val => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {this.getDatabaseConnectionTypeName(`${val || ''}`)}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldData.connectionConfigId.label,
+      dataIndex: fieldData.connectionConfigId.name,
       width: 120,
       align: 'center',
       render: val => (
@@ -289,8 +301,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.createTime,
-      dataIndex: 'createTime',
+      title: constants.createTime.label,
+      dataIndex: constants.createTime.name,
       width: 140,
       align: 'center',
       sorter: false,
@@ -305,8 +317,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.operate,
-      dataIndex: 'customOperate',
+      title: constants.customOperate.label,
+      dataIndex: constants.customOperate.name,
       width: 106,
       fixed: 'right',
       align: 'center',
