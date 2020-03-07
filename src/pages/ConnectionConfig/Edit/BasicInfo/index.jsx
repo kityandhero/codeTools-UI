@@ -50,6 +50,10 @@ class Index extends TabPageBase {
     );
   }
 
+  onConnectionTypeChange = o => {
+    this.setState({ selectConnectionType: o ? connectionType.SSH : connectionType.TCP_IP });
+  };
+
   getTargetForm = () => {
     return this.formRef.current;
   };
