@@ -1,16 +1,19 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Row, Col, Form, Icon, Dropdown, Menu, Badge } from 'antd';
+import { Row, Col, Form, Icon, Dropdown, Menu } from 'antd';
 
 import {
+  toDatetime,
   formatDatetime,
   copyToClipboard,
   replaceTargetText,
   getDerivedStateFromPropsForUrlParams,
-} from '@/utils/tools';
-import PagerList from '@/customComponents/Framework/CustomList/PagerList';
-import Ellipsis from '@/customComponents/Ellipsis';
-import EllipsisCustom from '@/customComponents/EllipsisCustom';
+} from '../../../utils/tools';
+import { unlimitedWithStringFlag } from '../../../utils/constants';
+import { constants } from '../../../customConfig/config';
+import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
+import Ellipsis from '../../../customComponents/Ellipsis';
+import EllipsisCustom from '../../../customComponents/EllipsisCustom';
 
 import { parseUrlParamsForSetState } from '../Assist/config';
 import { fieldData } from '../Common/data';
@@ -76,12 +79,20 @@ class Index extends PagerList {
     this.goToPath(`/account/roleTemplate/edit/load/${roleTemplateId}/key/basicInfo`);
   };
 
+  renderSimpleFormInitialValues = () => {
+    const v = {};
+
+    v[constants.channel.name] = unlimitedWithStringFlag.flag;
+
+    return v;
+  };
+
   renderSimpleFormRow = () => {
     return (
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.name, 'name')}
+            {this.renderSearchInputFormItem(fieldData.name.label, fieldData.name.name)}
           </Col>
           {this.renderSimpleFormButton(null, 12)}
         </Row>
@@ -91,8 +102,8 @@ class Index extends PagerList {
 
   getColumn = () => [
     {
-      title: fieldData.name,
-      dataIndex: 'name',
+      title: fieldData.name.label,
+      dataIndex: fieldData.name.name,
       width: 200,
       align: 'left',
       render: val => (
@@ -104,8 +115,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.description,
-      dataIndex: 'description',
+      title: fieldData.description.label,
+      dataIndex: fieldData.description.name,
       align: 'center',
       render: val => (
         <>
@@ -116,8 +127,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.moduleCount,
-      dataIndex: 'moduleCount',
+      title: fieldData.moduleCount.label,
+      dataIndex: fieldData.moduleCount.name,
       width: 120,
       align: 'center',
       render: val => (
@@ -129,8 +140,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.createTime,
-      dataIndex: 'roleTemplateId',
+      title: fieldData.roleUniversal.label,
+      dataIndex: fieldData.roleUniversal.name,
       width: 120,
       align: 'center',
       render: val => (
@@ -157,33 +168,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.createTime,
-      dataIndex: 'state',
-      width: 100,
-      align: 'center',
-      render: (val, record) => (
-        <>
-          <Badge status={this.getRoleTemplateStateBadgeStatus(val)} text={record.stateNote} />
-        </>
-      ),
-    },
-    {
-      title: fieldData.createTime,
-      dataIndex: 'createTime',
-      width: 140,
-      align: 'center',
-      sorter: false,
-      render: val => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {formatDatetime(val, 'MM-DD HH:mm', '--')}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: fieldData.channel,
-      dataIndex: 'channel',
+      title: constants.channel.label,
+      dataIndex: constants.channel.name,
       width: 160,
       align: 'center',
       render: (val, record) => (
@@ -195,7 +181,22 @@ class Index extends PagerList {
       ),
     },
     {
-      title: '操作',
+      title: constants.createTime.label,
+      dataIndex: constants.createTime.name,
+      width: 140,
+      align: 'center',
+      sorter: false,
+      render: val => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {(val || '') === '' ? '--' : formatDatetime(toDatetime(val), 'YYYY-MM-DD HH:mm')}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: constants.customOperate.label,
+      dataIndex: constants.customOperate.name,
       width: 106,
       fixed: 'right',
       align: 'center',

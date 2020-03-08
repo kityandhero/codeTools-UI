@@ -4,7 +4,12 @@ import { routerRedux } from 'dva/router';
 import { Row, Col, Dropdown, Menu } from 'antd';
 import { ReadOutlined, BookOutlined } from '@ant-design/icons';
 
-import { formatDatetime, copyToClipboard, replaceTargetText } from '../../../utils/tools';
+import {
+  toDatetime,
+  formatDatetime,
+  copyToClipboard,
+  replaceTargetText,
+} from '../../../utils/tools';
 import { unlimitedWithStringFlag } from '../../../utils/constants';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import { constants } from '../../../customConfig/config';
@@ -140,7 +145,7 @@ class Index extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {formatDatetime(val, 'MM-DD HH:mm', '--')}
+            {(val || '') === '' ? '--' : formatDatetime(toDatetime(val), 'YYYY-MM-DD HH:mm')}
           </Ellipsis>
         </>
       ),

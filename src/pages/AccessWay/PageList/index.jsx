@@ -10,6 +10,7 @@ import {
   copyToClipboard,
   replaceTargetText,
 } from '../../../utils/tools';
+import { unlimitedWithStringFlag } from '../../../utils/constants';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import { constants } from '../../../customConfig/config';
 import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
@@ -57,6 +58,14 @@ class Index extends PagerList {
     dispatch(routerRedux.push(location));
   };
 
+  renderSimpleFormInitialValues = () => {
+    const v = {};
+
+    v[constants.channel.name] = unlimitedWithStringFlag.flag;
+
+    return v;
+  };
+
   renderSimpleFormRow = () => {
     return (
       <>
@@ -69,6 +78,9 @@ class Index extends PagerList {
               fieldData.relativePath.label,
               fieldData.relativePath.name,
             )}
+          </Col>
+          <Col md={6} sm={24}>
+            {this.renderSearchChannelFormItem(true)}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>

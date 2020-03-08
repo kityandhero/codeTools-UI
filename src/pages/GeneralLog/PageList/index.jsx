@@ -4,7 +4,13 @@ import { routerRedux } from 'dva/router';
 import { Row, Col, Dropdown, Menu } from 'antd';
 import { ReadOutlined, BookOutlined } from '@ant-design/icons';
 
-import { formatDatetime, copyToClipboard, replaceTargetText } from '../../../utils/tools';
+import {
+  toDatetime,
+  formatDatetime,
+  copyToClipboard,
+  replaceTargetText,
+} from '../../../utils/tools';
+import { unlimitedWithStringFlag } from '../../../utils/constants';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import { constants } from '../../../customConfig/config';
 import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
@@ -52,12 +58,20 @@ class Index extends PagerList {
     dispatch(routerRedux.push(location));
   };
 
+  renderSimpleFormInitialValues = () => {
+    const v = {};
+
+    v[constants.channel.name] = unlimitedWithStringFlag.flag;
+
+    return v;
+  };
+
   renderSimpleFormRow = () => {
     return (
       <>
         <Row gutter={24}>
           <Col md={6} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.message, 'message')}
+            {this.renderSearchInputFormItem(fieldData.message.label, fieldData.message.name)}
           </Col>
           <Col md={6} sm={24}>
             {this.renderSearchChannelFormItem(true)}
@@ -70,8 +84,8 @@ class Index extends PagerList {
 
   getColumn = () => [
     {
-      title: fieldData.message,
-      dataIndex: 'message',
+      title: fieldData.message.label,
+      dataIndex: fieldData.message.name,
       align: 'left',
       render: val => (
         <>
@@ -82,8 +96,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.generalLogId,
-      dataIndex: 'generalLogId',
+      title: fieldData.generalLogId.label,
+      dataIndex: fieldData.generalLogId.name,
       width: 120,
       align: 'center',
       render: val => (
@@ -131,14 +145,14 @@ class Index extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {formatDatetime(val, 'MM-DD HH:mm', '--')}
+            {(val || '') === '' ? '--' : formatDatetime(toDatetime(val), 'YYYY-MM-DD HH:mm')}
           </Ellipsis>
         </>
       ),
     },
     {
-      title: '操作',
-      dataIndex: 'customOperate',
+      title: constants.customOperate.label,
+      dataIndex: constants.customOperate.name,
       width: 120,
       fixed: 'right',
       align: 'center',

@@ -1,9 +1,19 @@
 module.exports = {
   fieldData: {
-    generalLogId: '模块标识',
-    message: '简介描述',
-    messageHelper: '日志的简介描述',
-    content: '详细内容',
-    contentHelper: '日志的详细内容',
+    generalLogId: {
+      name: 'generalLogId',
+      label: '数据标识',
+      helper: '普通日志的数据标识',
+    },
+    message: {
+      name: 'message',
+      label: '简介描述',
+      helper: '普通日志的简介描述',
+    },
+    content: {
+      name: 'content',
+      label: '详细信息',
+      helper: '普通日志的详细信息',
+    },
   },
 };
