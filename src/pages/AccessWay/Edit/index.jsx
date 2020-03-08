@@ -32,7 +32,7 @@ class Edit extends LoadDataTabContainer {
     this.state = {
       ...this.state,
       ...{
-        pageName: '名称：',
+        pageName: `${fieldData.name.label}：`,
         loadApiPath: 'accessWay/get',
         backPath: `/accessWay/pageList/key`,
         accessWayId: null,
@@ -76,7 +76,7 @@ class Edit extends LoadDataTabContainer {
     if ((metaData || null) != null) {
       const { name } = metaData || { name: '' };
 
-      this.setState({ pageName: `名称：${name}` });
+      this.setState({ pageName: `${fieldData.name.label}：${name}` });
     }
   };
 
@@ -108,13 +108,13 @@ class Edit extends LoadDataTabContainer {
     const list = [];
 
     list.push({
-      label: fieldData.accessWayId,
+      label: fieldData.accessWayId.label,
       value: metaData === null ? '' : metaData.accessWayId,
       canCopy: true,
     });
 
     list.push({
-      label: fieldData.tag,
+      label: fieldData.tag.label,
       value: metaData === null ? '' : metaData.tag,
       canCopy: false,
     });

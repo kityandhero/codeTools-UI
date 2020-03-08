@@ -53,13 +53,12 @@ class Index extends TabPageBase {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    const values = {
-      name: metaData === null ? '' : metaData.name || '',
-      description: metaData === null ? '' : metaData.description || '',
-      tag: metaData === null ? '' : metaData.tag || '',
-      relativePath: metaData === null ? '' : metaData.relativePath || '',
-    };
+    const values = {};
 
+    values[fieldData.name.name] = metaData === null ? '' : metaData.name || '';
+    values[fieldData.description.name] = metaData === null ? '' : metaData.description || '';
+    values[fieldData.tag.name] = metaData === null ? '' : metaData.tag || '';
+    values[fieldData.relativePath.name] = metaData === null ? '' : metaData.relativePath || '';
     values[constants.createTime.name] =
       metaData === null ? '' : formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
     values[constants.updateTime.name] =
@@ -103,10 +102,10 @@ class Index extends TabPageBase {
                 <Row gutter={24}>
                   <Col lg={12} md={12} sm={24} xs={24}>
                     {this.renderFormInputFormItem(
-                      fieldData.name,
-                      'name',
+                      fieldData.name.label,
+                      fieldData.name.name,
                       true,
-                      buildFieldHelper(fieldData.nameHelper),
+                      buildFieldHelper(fieldData.name.helper),
                       <FormOutlined />,
                       null,
                       false,
@@ -114,10 +113,10 @@ class Index extends TabPageBase {
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFormInputFormItem(
-                      fieldData.tag,
-                      'tag',
+                      fieldData.tag.label,
+                      fieldData.tag.name,
                       true,
-                      buildFieldHelper(fieldData.tagHelper),
+                      buildFieldHelper(fieldData.tag.helper),
                       <FormOutlined />,
                       null,
                       false,
@@ -125,10 +124,10 @@ class Index extends TabPageBase {
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFormInputNumberFormItem(
-                      fieldData.relativePath,
-                      'relativePath',
+                      fieldData.relativePath.label,
+                      fieldData.relativePath.name,
                       true,
-                      buildFieldHelper(fieldData.relativePathHelper),
+                      buildFieldHelper(fieldData.relativePath.helper),
                       null,
                       false,
                     )}
@@ -142,10 +141,10 @@ class Index extends TabPageBase {
                 <Row gutter={24}>
                   <Col span={24}>
                     {this.renderFormTextAreaFormItem(
-                      fieldData.description,
-                      'description',
+                      fieldData.description.label,
+                      fieldData.description.name,
                       false,
-                      buildFieldHelper(fieldData.descriptionHelper),
+                      buildFieldHelper(fieldData.description.helper),
                       null,
                       false,
                     )}
