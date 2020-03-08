@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import moment from 'moment';
 import { Row, Col, Dropdown, Menu, Button, Divider, notification, Modal, message } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
@@ -10,6 +9,8 @@ import {
   copyToClipboard,
   replaceTargetText,
   buildFieldHelper,
+  formatDatetime,
+  toDatetime,
 } from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import { unlimitedWithStringFlag } from '../../../utils/constants';
@@ -342,9 +343,7 @@ class Index extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {(val || '') === ''
-              ? '--'
-              : moment(new Date(val.replace('/', '-'))).format('YYYY-MM-DD HH:mm')}
+            {(val || '') === '' ? '--' : formatDatetime(toDatetime(val), 'YYYY-MM-DD HH:mm')}
           </Ellipsis>
         </>
       ),

@@ -4,7 +4,12 @@ import { routerRedux } from 'dva/router';
 import { Row, Col, Dropdown, Menu } from 'antd';
 import { ReadOutlined, BookOutlined } from '@ant-design/icons';
 
-import { formatDatetime, copyToClipboard, replaceTargetText } from '../../../utils/tools';
+import {
+  toDatetime,
+  formatDatetime,
+  copyToClipboard,
+  replaceTargetText,
+} from '../../../utils/tools';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import { constants } from '../../../customConfig/config';
 import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
@@ -57,10 +62,13 @@ class Index extends PagerList {
       <>
         <Row gutter={24}>
           <Col md={6} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.name, 'name')}
+            {this.renderSearchInputFormItem(fieldData.name.label, fieldData.name.name)}
           </Col>
           <Col md={6} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.relativePath, 'relativePath')}
+            {this.renderSearchInputFormItem(
+              fieldData.relativePath.label,
+              fieldData.relativePath.name,
+            )}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>
@@ -70,8 +78,8 @@ class Index extends PagerList {
 
   getColumn = () => [
     {
-      title: fieldData.name,
-      dataIndex: 'name',
+      title: fieldData.name.label,
+      dataIndex: fieldData.name.name,
       align: 'left',
       render: val => (
         <>
@@ -82,10 +90,10 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.relativePath,
-      dataIndex: 'relativePath',
+      title: fieldData.relativePath.label,
+      dataIndex: fieldData.relativePath.name,
       width: 300,
-      align: 'left',
+      align: 'center',
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
@@ -95,8 +103,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.tag,
-      dataIndex: 'tag',
+      title: fieldData.tag.label,
+      dataIndex: fieldData.tag.name,
       width: 120,
       align: 'center',
       render: val => (
@@ -123,8 +131,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: fieldData.expand,
-      dataIndex: 'expand',
+      title: fieldData.expand.label,
+      dataIndex: fieldData.expand.name,
       width: 340,
       align: 'center',
       render: val => (
@@ -157,14 +165,14 @@ class Index extends PagerList {
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>
-            {formatDatetime(val, 'MM-DD HH:mm', '--')}
+            {(val || '') === '' ? '--' : formatDatetime(toDatetime(val), 'YYYY-MM-DD HH:mm')}
           </Ellipsis>
         </>
       ),
     },
     {
-      title: '操作',
-      dataIndex: 'customOperate',
+      title: constants.customOperate.label,
+      dataIndex: constants.customOperate.name,
       width: 120,
       fixed: 'right',
       align: 'center',
