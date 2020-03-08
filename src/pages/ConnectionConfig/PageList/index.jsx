@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Row, Col, Dropdown, Menu, Button, Divider, notification, Modal, message } from 'antd';
-import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, EditOutlined, DatabaseOutlined } from '@ant-design/icons';
 
 import {
   pretreatmentRequestParams,
@@ -153,9 +153,43 @@ class Index extends PagerList {
       case 'delete':
         this.removeConfirm(record);
         break;
+      case 'openDatabase':
+        this.openDatabase(record);
+        break;
       default:
         break;
     }
+  };
+
+  openDatabase = record => {
+    const { dispatch } = this.props;
+    const { connectionConfigId } = record;
+
+    this.setState({ processing: true });
+
+    dispatch({
+      type: 'connectionConfig/openDatabase',
+      payload: {
+        connectionConfigId,
+      },
+    }).then(() => {
+      const {
+        connectionConfig: { data },
+      } = this.props;
+
+      const { dataSuccess } = data;
+      if (dataSuccess) {
+        requestAnimationFrame(() => {
+          notification.success({
+            placement: 'bottomRight',
+            message: '操作结果',
+            description: `即将打开数据连接 “${record.name}”`,
+          });
+        });
+      }
+
+      this.setState({ processing: false });
+    });
   };
 
   renderBatchActionMenu = () => [
@@ -383,9 +417,13 @@ class Index extends PagerList {
             onClick={() => this.goToEdit(record)}
             overlay={
               <Menu onClick={e => this.handleMenuClick(e, record)}>
+                <Menu.Item key="openDatabase">
+                  <DatabaseOutlined />
+                  连接数据库
+                </Menu.Item>
                 <Menu.Item key="delete">
                   <DeleteOutlined />
-                  删除
+                  删除连接
                 </Menu.Item>
               </Menu>
             }

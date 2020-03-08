@@ -79,6 +79,21 @@ export async function removeData(params) {
   });
 }
 
+export async function openDatabaseData(params) {
+  if (transferToVirtualAccess()) {
+    const result = await apiVirtualSuccessAccess({
+      data: {},
+    });
+
+    return result;
+  }
+
+  return request('/business/connectionConfig/openDatabase', {
+    method: 'POST',
+    body: params,
+  });
+}
+
 /**
  * 占位函数
  *

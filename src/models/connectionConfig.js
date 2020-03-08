@@ -1,11 +1,13 @@
+import { handlePageListDataAssist, handleCommonDataAssist } from '../utils/tools';
+
 import {
   queryListData,
   queryGetData,
   addBasicInfoData,
   updateBasicInfoData,
   removeData,
+  openDatabaseData,
 } from '../services/connectionConfig';
-import { handlePageListDataAssist, handleCommonDataAssist } from '../utils/tools';
 
 export default {
   namespace: 'connectionConfig',
@@ -43,6 +45,13 @@ export default {
     },
     *updateBasicInfo({ payload }, { call, put }) {
       const response = yield call(updateBasicInfoData, payload);
+      yield put({
+        type: 'handleCommonData',
+        payload: response,
+      });
+    },
+    *openDatabase({ payload }, { call, put }) {
+      const response = yield call(openDatabaseData, payload);
       yield put({
         type: 'handleCommonData',
         payload: response,
