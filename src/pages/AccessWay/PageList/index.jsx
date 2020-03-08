@@ -93,7 +93,7 @@ class Index extends PagerList {
       title: fieldData.relativePath.label,
       dataIndex: fieldData.relativePath.name,
       width: 300,
-      align: 'center',
+      align: 'left',
       render: val => (
         <>
           <Ellipsis tooltip lines={1}>

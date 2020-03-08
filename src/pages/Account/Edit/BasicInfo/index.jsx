@@ -78,12 +78,11 @@ class BasicInfo extends UpdateFormTab {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    const values = {
-      userName: metaData === null ? '' : metaData.userName || '',
-      name: metaData === null ? '' : metaData.name || '',
-      description: metaData === null ? '' : metaData.description || '',
-    };
+    const values = {};
 
+    values[fieldData.userName.name] = metaData === null ? '' : metaData.userName || '';
+    values[fieldData.name.name] = metaData === null ? '' : metaData.name || '';
+    values[fieldData.description.name] = metaData === null ? '' : metaData.description || '';
     values[constants.createTime.name] =
       metaData === null ? '' : formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
     values[constants.updateTime.name] =
@@ -158,10 +157,10 @@ class BasicInfo extends UpdateFormTab {
               <Row gutter={24}>
                 <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
-                    fieldData.userName,
-                    'userName',
+                    fieldData.userName.label,
+                    fieldData.userName.name,
                     true,
-                    buildFieldHelper(fieldData.userNameHelper),
+                    buildFieldHelper(fieldData.userName.helper),
                     <FormOutlined />,
                     null,
                     false,
@@ -169,10 +168,10 @@ class BasicInfo extends UpdateFormTab {
                 </Col>
                 <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
-                    fieldData.name,
-                    'name',
+                    fieldData.name.label,
+                    fieldData.name.name,
                     true,
-                    buildFieldHelper(fieldData.nameHelper),
+                    buildFieldHelper(fieldData.name.helper),
                   )}
                 </Col>
               </Row>
@@ -184,10 +183,10 @@ class BasicInfo extends UpdateFormTab {
               <Row gutter={24}>
                 <Col lg={24} md={24} sm={24} xs={24}>
                   {this.renderFormTextAreaFormItem(
-                    fieldData.description,
-                    'description',
+                    fieldData.description.label,
+                    fieldData.description.name,
                     false,
-                    buildFieldHelper(fieldData.descriptionHelper),
+                    buildFieldHelper(fieldData.description.helper),
                   )}
                 </Col>
               </Row>

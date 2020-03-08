@@ -99,19 +99,19 @@ class Edit extends LoadDataTabContainer {
     const list = [];
 
     list.push({
-      label: fieldData.accountId,
+      label: fieldData.accountId.label,
       value: metaData === null ? '' : metaData.accountId,
       canCopy: true,
     });
 
     list.push({
-      label: fieldData.userName,
+      label: fieldData.userName.label,
       value: metaData === null ? '' : metaData.userName,
       canCopy: false,
     });
 
     list.push({
-      label: fieldData.name,
+      label: fieldData.name.label,
       value: metaData === null ? '' : metaData.name,
       canCopy: false,
     });

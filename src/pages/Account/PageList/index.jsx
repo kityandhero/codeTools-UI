@@ -18,15 +18,20 @@ import {
   PlusOutlined,
   UpCircleOutlined,
   DownCircleOutlined,
-  TagsOutlined,
   DeleteOutlined,
   FormOutlined,
 } from '@ant-design/icons';
 
-import { formatDatetime, copyToClipboard, replaceTargetText } from '../../../utils/tools';
+import {
+  toDatetime,
+  formatDatetime,
+  copyToClipboard,
+  replaceTargetText,
+} from '../../../utils/tools';
 import { unlimitedWithStringFlag } from '../../../utils/constants';
 import accessWayCollection from '../../../customConfig/accessWayCollection';
 import { customFieldCollection } from '../../../customSpecialComponents/CustomCommonSupplement/customConstants';
+import { constants } from '../../../customConfig/config';
 import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
 import Ellipsis from '../../../customComponents/Ellipsis';
 import EllipsisCustom from '../../../customComponents/EllipsisCustom';
@@ -279,7 +284,7 @@ class Index extends PagerList {
       <>
         <Row gutter={24}>
           <Col lg={6} md={12} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.name, 'name')}
+            {this.renderSearchInputFormItem(fieldData.name.label, fieldData.name.name)}
           </Col>
           <Col md={6} sm={24}>
             {this.renderSearchAccountStatusFormItem(true)}
@@ -311,9 +316,8 @@ class Index extends PagerList {
 
   getColumn = () => [
     {
-      title: '登录名',
-      dataIndex: 'userName',
-      width: 180,
+      title: fieldData.userName.label,
+      dataIndex: fieldData.userName.name,
       align: 'left',
       render: val => (
         <>
@@ -324,8 +328,8 @@ class Index extends PagerList {
       ),
     },
     {
-      title: '姓名',
-      dataIndex: 'name',
+      title: fieldData.name.label,
+      dataIndex: fieldData.name.name,
       width: 140,
       align: 'center',
       render: val => (
@@ -364,8 +368,8 @@ class Index extends PagerList {
     //   ),
     // },
     {
-      title: '数据标识',
-      dataIndex: 'accountId',
+      title: fieldData.accountId.label,
+      dataIndex: fieldData.accountId.name,
       width: 120,
       align: 'center',
       render: val => (
@@ -391,37 +395,50 @@ class Index extends PagerList {
         </>
       ),
     },
-    // {
-    //   title: '状态',
-    //   dataIndex: 'status',
-    //   width: 100,
-    //   align: 'center',
-    //   render: val => (
-    //     <>
-    //       <Badge
-    //         status={this.getAccountStateBadgeStatus(val)}
-    //         text={this.getAccountStatusName(val)}
-    //       />
-    //     </>
-    //   ),
-    // },
     {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      width: 200,
+      title: constants.status.label,
+      dataIndex: constants.status.name,
+      width: 100,
       align: 'center',
-      sorter: false,
       render: val => (
         <>
+          <Badge
+            status={this.getAccountStateBadgeStatus(`${val}`)}
+            text={this.getAccountStatusName(`${val}`)}
+          />
+        </>
+      ),
+    },
+    {
+      title: constants.channel.label,
+      dataIndex: constants.channel.name,
+      width: 160,
+      align: 'center',
+      render: (val, record) => (
+        <>
           <Ellipsis tooltip lines={1}>
-            {(val || '') === '' ? '--' : formatDatetime(val, 'YYYY-MM-DD HH:mm', '--')}
+            {record.channelNote}
           </Ellipsis>
         </>
       ),
     },
     {
-      title: '操作',
-      dataIndex: 'customOperate',
+      title: constants.createTime.label,
+      dataIndex: constants.createTime.name,
+      width: 140,
+      align: 'center',
+      sorter: false,
+      render: val => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {(val || '') === '' ? '--' : formatDatetime(toDatetime(val), 'YYYY-MM-DD HH:mm')}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: constants.customOperate.label,
+      dataIndex: constants.customOperate.name,
       width: 106,
       fixed: 'right',
       align: 'center',

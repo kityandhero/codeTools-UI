@@ -105,34 +105,34 @@ class Add extends AddFormBase {
               <Row gutter={24}>
                 <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
-                    fieldData.userName,
-                    'userName',
+                    fieldData.userName.label,
+                    fieldData.userName.name,
                     true,
-                    buildFieldHelper(fieldData.userNameHelper),
+                    buildFieldHelper(fieldData.userName.helper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormInputFormItem(
-                    fieldData.name,
-                    'name',
+                    fieldData.name.label,
+                    fieldData.name.name,
                     true,
-                    buildFieldHelper(fieldData.nameHelper),
+                    buildFieldHelper(fieldData.name.helper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormPasswordFormItem(
-                    fieldData.password,
-                    'password',
+                    fieldData.password.label,
+                    fieldData.password.name,
                     true,
-                    buildFieldHelper(fieldData.passwordHelper),
+                    buildFieldHelper(fieldData.password.helper),
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24} xs={24}>
                   {this.renderFormPasswordFormItem(
-                    fieldData.rePassword,
-                    'rePassword',
+                    fieldData.rePassword.label,
+                    fieldData.rePassword.name,
                     true,
-                    buildFieldHelper(fieldData.rePasswordHelper),
+                    buildFieldHelper(fieldData.rePassword.helper),
                   )}
                 </Col>
               </Row>
@@ -142,12 +142,12 @@ class Add extends AddFormBase {
           <Card title="描述信息" className={styles.card} bordered={false}>
             <Spin spinning={processing}>
               <Row gutter={24}>
-                <Col lg={24} md={12} sm={24} xs={24}>
+                <Col lg={24} md={24} sm={24} xs={24}>
                   {this.renderFormTextAreaFormItem(
-                    fieldData.description,
-                    'description',
-                    true,
-                    buildFieldHelper(fieldData.descriptionHelper),
+                    fieldData.description.label,
+                    fieldData.description.name,
+                    false,
+                    buildFieldHelper(fieldData.description.helper),
                   )}
                 </Col>
               </Row>
@@ -157,8 +157,8 @@ class Add extends AddFormBase {
           <Card title="其他信息" className={styles.card} bordered={false}>
             <Spin spinning={processing}>
               <Row gutter={24}>
-                <Col lg={24} md={12} sm={24} xs={24}>
-                  {this.renderFromCreateTimeField(formNameCollection.createTime)}
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFromCreateTimeField()}
                 </Col>
               </Row>
             </Spin>

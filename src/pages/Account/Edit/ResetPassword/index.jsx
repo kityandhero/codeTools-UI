@@ -20,7 +20,9 @@ const formItemLayout = {
     span: 5,
   },
   wrapperCol: {
-    span: 19,
+    xs: {
+      span: 14,
+    },
   },
 };
 
@@ -116,10 +118,10 @@ class ResetPassword extends UpdateFormTab {
           <Spin spinning={dataLoading || processing}>
             <Form layout="horizontal" className={styles.customForm}>
               {this.renderFormPasswordFormItem(
-                fieldData.password,
-                'password',
+                fieldData.password.label,
+                fieldData.password.name,
                 true,
-                buildFieldHelper(fieldData.passwordHelper),
+                buildFieldHelper(fieldData.password.helper),
                 <FormOutlined />,
                 {},
                 true,
@@ -127,10 +129,10 @@ class ResetPassword extends UpdateFormTab {
               )}
 
               {this.renderFormPasswordFormItem(
-                fieldData.rePassword,
-                'rePassword',
+                fieldData.rePassword.label,
+                fieldData.rePassword.name,
                 true,
-                buildFieldHelper(fieldData.rePasswordHelper),
+                buildFieldHelper(fieldData.rePassword.helper),
                 <FormOutlined />,
                 {},
                 true,
