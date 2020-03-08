@@ -274,7 +274,7 @@ class Index extends PagerList {
   renderSimpleFormInitialValues = () => {
     const v = {};
 
-    v[customFieldCollection.accountStatus] = unlimitedWithStringFlag.flag;
+    v[customFieldCollection.accountStatus.name] = unlimitedWithStringFlag.flag;
 
     return v;
   };
