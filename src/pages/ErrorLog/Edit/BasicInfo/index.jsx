@@ -103,15 +103,15 @@ class Index extends TabPageBase {
               </Spin>
             </Card>
 
-            <Card title="其他信息" className={styles.card} bordered={false}>
-              <Spin spinning={processing}>
+            <Card title="详细信息" className={styles.card} bordered={false}>
+              <Spin spinning={dataLoading || processing}>
                 <Row gutter={24}>
-                  <Col span={24}>
+                  <Col lg={24} md={24} sm={24} xs={24}>
                     {this.renderFormTextAreaFormItem(
-                      fieldData.description,
-                      'description',
+                      fieldData.content.label,
+                      fieldData.content.name,
                       false,
-                      buildFieldHelper(fieldData.descriptionHelper),
+                      buildFieldHelper(fieldData.content.helper),
                       null,
                       false,
                     )}

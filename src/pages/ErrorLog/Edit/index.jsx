@@ -110,7 +110,7 @@ class Edit extends LoadDataTabContainer {
     const list = [];
 
     list.push({
-      label: fieldData.errorLogId,
+      label: fieldData.errorLogId.label,
       value: metaData === null ? '' : metaData.errorLogId,
       canCopy: true,
     });
