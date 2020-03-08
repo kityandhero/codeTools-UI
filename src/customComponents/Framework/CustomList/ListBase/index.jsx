@@ -380,7 +380,9 @@ class SingleList extends CustomAuthorization {
   renderBatchActionMenu = () => [];
 
   renderBatchAction = () => {
-    const { showSelect } = this.state;
+    const { showSelect, selectedDataTableDataRows } = this.state;
+
+    const selectRows = isArray(selectedDataTableDataRows) ? selectedDataTableDataRows : [];
 
     if (showSelect) {
       const batchActionMenu = this.renderBatchActionMenu();
@@ -393,6 +395,7 @@ class SingleList extends CustomAuthorization {
                 this.onBatchActionSelect(key);
               }}
               menus={batchActionMenu}
+              disabled={selectRows.length === 0}
             >
               批量操作
             </BatchAction.Button>

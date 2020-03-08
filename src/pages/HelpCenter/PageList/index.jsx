@@ -197,15 +197,9 @@ class ArticleList extends PagerList {
           <List.Item
             key={item.helpId}
             actions={[
-              <IconInfo text={item.accessCount}>
-                <EyeOutlined />
-              </IconInfo>,
-              <IconInfo text={item.star}>
-                <StockOutlined />
-              </IconInfo>,
-              <IconInfo text={item.message}>
-                <MessageOutlined />
-              </IconInfo>,
+              <IconInfo icon={<EyeOutlined />} text={item.accessCount} />,
+              <IconInfo icon={<StockOutlined />} text={item.star} />,
+              <IconInfo icon={<MessageOutlined />} text={item.message} />,
             ]}
           >
             <List.Item.Meta

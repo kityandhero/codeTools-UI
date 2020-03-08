@@ -7,12 +7,14 @@ import styles from './index.less';
  */
 class Index extends PureComponent {
   render() {
-    const { children, text } = this.props;
+    const { text, icon } = this.props;
+
+    const iconItem = (icon || null) == null ? null : <span className={styles.iconBox}>{icon}</span>;
 
     return (
       <>
         <div className={styles.containor}>
-          {children}
+          {iconItem}
           <span>{text}</span>
         </div>
       </>

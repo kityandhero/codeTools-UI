@@ -158,6 +158,28 @@ class Index extends PagerList {
     }
   };
 
+  renderBatchActionMenu = () => [
+    {
+      key: 'batchDelete',
+      name: '批量删除',
+      icon: <DeleteOutlined />,
+    },
+  ];
+
+  onBatchActionSelect = key => {
+    switch (key) {
+      case 'batchDelete':
+        this.onBatchDelete();
+        break;
+      default:
+        break;
+    }
+  };
+
+  onBatchDelete = () => {
+    message.info('onBatchDelete');
+  };
+
   renderSimpleFormInitialValues = () => {
     const v = {};
 
