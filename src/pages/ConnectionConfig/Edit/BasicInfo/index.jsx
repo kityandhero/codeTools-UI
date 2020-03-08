@@ -1,7 +1,19 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Card, Button, Row, Col, Spin, Switch, BackTop, notification, Affix } from 'antd';
-import { SaveOutlined } from '@ant-design/icons';
+import {
+  Form,
+  Card,
+  Button,
+  Row,
+  Col,
+  Spin,
+  Switch,
+  Divider,
+  BackTop,
+  notification,
+  Affix,
+} from 'antd';
+import { SaveOutlined, ReloadOutlined } from '@ant-design/icons';
 
 import {
   formatDatetime,
@@ -118,7 +130,7 @@ class Index extends TabPageBase {
   };
 
   formContent = () => {
-    const { dataLoading, processing, selectConnectionType } = this.state;
+    const { loadSuccess, dataLoading, processing, selectConnectionType } = this.state;
 
     return (
       <>
@@ -131,6 +143,15 @@ class Index extends TabPageBase {
               extra={
                 <Affix offsetTop={20}>
                   <>
+                    <Button
+                      icon={<ReloadOutlined />}
+                      disabled={dataLoading || processing || !loadSuccess}
+                      onClick={this.reloadData}
+                      loading={processing}
+                    >
+                      刷新
+                    </Button>
+                    <Divider type="vertical" />
                     <Button
                       type="primary"
                       icon={<SaveOutlined />}
