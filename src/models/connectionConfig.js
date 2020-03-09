@@ -6,7 +6,7 @@ import {
   addBasicInfoData,
   updateBasicInfoData,
   removeData,
-  openDatabaseData,
+  tryConnectionData,
 } from '../services/connectionConfig';
 
 export default {
@@ -50,8 +50,8 @@ export default {
         payload: response,
       });
     },
-    *openDatabase({ payload }, { call, put }) {
-      const response = yield call(openDatabaseData, payload);
+    *tryConnection({ payload }, { call, put }) {
+      const response = yield call(tryConnectionData, payload);
       yield put({
         type: 'handleCommonData',
         payload: response,

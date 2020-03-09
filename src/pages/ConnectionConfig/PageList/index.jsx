@@ -168,7 +168,7 @@ class Index extends PagerList {
     this.setState({ processing: true });
 
     dispatch({
-      type: 'connectionConfig/openDatabase',
+      type: 'connectionConfig/tryConnection',
       payload: {
         connectionConfigId,
       },

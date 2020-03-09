@@ -79,7 +79,7 @@ export async function removeData(params) {
   });
 }
 
-export async function openDatabaseData(params) {
+export async function tryConnectionData(params) {
   if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
@@ -88,7 +88,7 @@ export async function openDatabaseData(params) {
     return result;
   }
 
-  return request('/business/connectionConfig/openDatabase', {
+  return request('/business/connectionConfig/tryConnection', {
     method: 'POST',
     body: params,
   });
