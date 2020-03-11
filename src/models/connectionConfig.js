@@ -1,8 +1,8 @@
 import { handlePageListDataAssist, handleCommonDataAssist } from '../utils/tools';
 
 import {
-  queryListData,
-  queryGetData,
+  pageListData,
+  getData,
   addBasicInfoData,
   updateBasicInfoData,
   removeData,
@@ -16,14 +16,14 @@ export default {
 
   effects: {
     *pageList({ payload }, { call, put }) {
-      const response = yield call(queryListData, payload);
+      const response = yield call(pageListData, payload);
       yield put({
         type: 'handlePageListData',
         payload: response,
       });
     },
     *get({ payload }, { call, put }) {
-      const response = yield call(queryGetData, payload);
+      const response = yield call(getData, payload);
       yield put({
         type: 'handleCommonData',
         payload: response,

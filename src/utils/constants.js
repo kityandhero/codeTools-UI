@@ -7,4 +7,9 @@ module.exports = {
     name: '不限',
     flag: '-10000',
   },
+  logLevel: {
+    debug: 'debug',
+    warn: 'warn',
+    error: 'error',
+  },
 };

@@ -24,6 +24,11 @@ class Edit extends LoadDataTabContainer {
       show: this.checkAuthority(accessWayCollection.connectionConfig.get),
       tab: '基本信息',
     },
+    {
+      key: 'dataTable/pageList',
+      show: this.checkAuthority(accessWayCollection.dataTable.pageList),
+      tab: '数据库表',
+    },
   ];
 
   constructor(props) {

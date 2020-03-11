@@ -47,7 +47,7 @@ const { confirm } = Modal;
   loading: loading.models.account,
 }))
 class Index extends PagerList {
-  componentAuthority = accessWayCollection.account.list;
+  componentAuthority = accessWayCollection.account.pageList;
 
   constructor(props) {
     super(props);

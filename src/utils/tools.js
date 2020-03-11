@@ -25,6 +25,8 @@ import {
 
 import { getConfigData } from '../customConfig/config';
 
+import { logLevel } from './constants';
+
 const storageKeyCollection = {
   metaData: 'metaData',
   token: 'token',
@@ -194,6 +196,24 @@ export function replaceTargetText(text, replaceText, beforeKeepNumber, afterKeep
 
 export function checkDevelopment() {
   return process.env.NODE_ENV === 'development';
+}
+
+/**
+ * 记录日志
+ *
+ * @export
+ * @param {*} str
+ * @returns
+ */
+export function recordLog(record, level = logLevel.debug) {
+  if (logShowInConsole()) {
+    console.log(level);
+    console.log(record);
+  }
+}
+
+function logShowInConsole() {
+  return true;
 }
 
 /**

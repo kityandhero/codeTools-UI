@@ -1,5 +1,9 @@
 import React from 'react';
-import { Card, BackTop } from 'antd';
+import { Card, Button, Tooltip, Divider, BackTop } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
+
+import DensityAction from '../../DensityAction';
+import ColumnSetting from '../../ColumnSetting';
 
 import PagerList from '../index';
 
@@ -19,15 +23,79 @@ class InnerPagerList extends PagerList {
   }
 
   render() {
+    const { listTitle, tableSize, refreshing } = this.state;
+
+    const extraAction = this.renderExtraAction();
+
     return (
       <>
-        <Card bordered={false}>
-          <div className={styles.tableList}>
+        <div className={styles.containorBox}>
+          <Card bordered={false} className={styles.containorSearch}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
-            {this.renderAboveTable()}
-            {this.renderTable()}
-          </div>
-        </Card>
+          </Card>
+
+          <Card
+            title={listTitle}
+            headStyle={{ borderBottom: '0px' }}
+            bodyStyle={{ paddingTop: '0', paddingBottom: 10 }}
+            bordered={false}
+            className={styles.containorTable}
+            extra={
+              <>
+                {extraAction}
+
+                {extraAction == null ? null : <Divider type="vertical" />}
+
+                {this.renderBatchAction()}
+                <DensityAction
+                  tableSize={tableSize}
+                  setTableSize={key => {
+                    this.setTableSize(key);
+                  }}
+                />
+
+                <Tooltip title="刷新本页">
+                  <Button
+                    shape="circle"
+                    className={styles.iconAction}
+                    loading={refreshing}
+                    icon={<ReloadOutlined />}
+                    onClick={() => {
+                      this.refreshData();
+                    }}
+                  />
+                </Tooltip>
+                <ColumnSetting
+                  columns={this.getColumn()}
+                  columnsMap={this.getColumnsMap()}
+                  setColumnsMap={e => {
+                    this.setColumnsMap(e);
+                  }}
+                  setSortKeyColumns={key => {
+                    this.setSortKeyColumns(key);
+                  }}
+                />
+                {/* <Button
+                  type="primary"
+                  icon={<SearchOutlined />}
+                  disabled={processing}
+                  onClick={e => {
+                    this.validate(e, this.formRef.current);
+                  }}
+                  loading={processing}
+                >
+                  保存
+                </Button> */}
+              </>
+            }
+          >
+            <div className={styles.tableList}>
+              {this.renderAboveTable()}
+              {this.renderTable()}
+            </div>
+          </Card>
+        </div>
+
         {this.renderOther()}
         <BackTop />
       </>

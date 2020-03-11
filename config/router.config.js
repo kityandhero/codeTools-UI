@@ -22,7 +22,7 @@ export default [
         authority: [
           accessWayCollection.super,
           accessWayCollection.connectionConfig.addBasicInfo,
-          accessWayCollection.connectionConfig.list,
+          accessWayCollection.connectionConfig.pageList,
         ],
         routes: [
           {
@@ -45,7 +45,7 @@ export default [
             path: '/connectionConfig/pageList/no',
             name: 'list',
             icon: 'bars',
-            authority: [accessWayCollection.super, accessWayCollection.connectionConfig.list],
+            authority: [accessWayCollection.super, accessWayCollection.connectionConfig.pageList],
           },
           {
             path: '/connectionConfig/edit/:op/:id/:pageKey',
@@ -57,6 +57,20 @@ export default [
                 path: '/connectionConfig/edit/:op/:id/:pageKey/basicInfo',
                 name: 'basicInfo',
                 component: './ConnectionConfig/Edit/BasicInfo',
+              },
+              {
+                path: '/connectionConfig/edit/:op/:id/:pageKey/dataTable',
+                name: 'dataTable',
+                routes: [
+                  {
+                    path: '/connectionConfig/edit/:op/:id/:pageKey/dataTable',
+                    redirect: '/connectionConfig/edit/:op/:id/:pageKey/dataTable/pageList',
+                  },
+                  {
+                    path: '/connectionConfig/edit/:op/:id/:pageKey/dataTable/pageList',
+                    component: './ConnectionConfig/Edit/DataTable/pageList',
+                  },
+                ],
               },
               // {
               //   path: '/connectionConfig/edit/:op/:id/:pageKey/operateLog',
@@ -128,7 +142,7 @@ export default [
         authority: [
           accessWayCollection.super,
           accessWayCollection.accessWay.addBasicInfo,
-          accessWayCollection.accessWay.list,
+          accessWayCollection.accessWay.pageList,
         ],
         routes: [
           {
@@ -141,7 +155,7 @@ export default [
             path: '/accessWay/pageList/no',
             name: 'list',
             icon: 'bars',
-            authority: [accessWayCollection.super, accessWayCollection.accessWay.list],
+            authority: [accessWayCollection.super, accessWayCollection.accessWay.pageList],
           },
           {
             path: '/accessWay/edit/:op/:id/:pageKey',
@@ -162,7 +176,7 @@ export default [
         name: 'errorLog',
         icon: 'shop',
         path: '/errorLog',
-        authority: [accessWayCollection.super, accessWayCollection.errorLog.list],
+        authority: [accessWayCollection.super, accessWayCollection.errorLog.pageList],
         routes: [
           {
             path: '/errorLog/pageList/:pageKey',
@@ -174,7 +188,7 @@ export default [
             path: '/errorLog/pageList/no',
             name: 'list',
             icon: 'bars',
-            authority: [accessWayCollection.super, accessWayCollection.errorLog.list],
+            authority: [accessWayCollection.super, accessWayCollection.errorLog.pageList],
           },
           {
             path: '/errorLog/edit/:op/:id/:pageKey',
@@ -195,7 +209,7 @@ export default [
         name: 'generalLog',
         icon: 'shop',
         path: '/generalLog',
-        authority: [accessWayCollection.super, accessWayCollection.generalLog.list],
+        authority: [accessWayCollection.super, accessWayCollection.generalLog.pageList],
         routes: [
           {
             path: '/generalLog/pageList/:pageKey',
@@ -207,7 +221,7 @@ export default [
             path: '/generalLog/pageList/no',
             name: 'list',
             icon: 'bars',
-            authority: [accessWayCollection.super, accessWayCollection.generalLog.list],
+            authority: [accessWayCollection.super, accessWayCollection.generalLog.pageList],
           },
           {
             path: '/generalLog/edit/:op/:id/:pageKey',

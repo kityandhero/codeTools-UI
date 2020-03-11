@@ -146,6 +146,17 @@ class Index extends PagerList {
     dispatch(routerRedux.push(location));
   };
 
+  goToDataTablePageList = record => {
+    const { dispatch } = this.props;
+    const { connectionConfigId } = record;
+
+    const location = {
+      pathname: `/connectionConfig/edit/load/${connectionConfigId}/key/dataTable/pageList`,
+    };
+
+    dispatch(routerRedux.push(location));
+  };
+
   handleMenuClick = (e, record) => {
     const { key } = e;
 
@@ -179,16 +190,12 @@ class Index extends PagerList {
 
       const { dataSuccess } = data;
       if (dataSuccess) {
-        requestAnimationFrame(() => {
-          notification.success({
-            placement: 'bottomRight',
-            message: '操作结果',
-            description: `即将打开数据连接 “${record.name}”`,
-          });
+        this.setState({ processing: false }, () => {
+          this.goToDataTablePageList(record);
         });
+      } else {
+        this.setState({ processing: false });
       }
-
-      this.setState({ processing: false });
     });
   };
 

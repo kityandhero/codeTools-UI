@@ -1,7 +1,7 @@
 import { request } from '../utils/request';
 import { apiVirtualSuccessAccess, transferToVirtualAccess } from '../utils/tools';
 
-export async function queryListData(params) {
+export async function pageListData(params) {
   if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       pageSize: 10,
@@ -19,7 +19,7 @@ export async function queryListData(params) {
   });
 }
 
-export async function queryGetData(params) {
+export async function getData(params) {
   if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
