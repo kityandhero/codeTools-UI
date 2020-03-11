@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Modal, Row, Col, Dropdown, Menu, Icon, notification, message } from 'antd';
+import { Modal, Row, Col, Dropdown, Menu, notification, message } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 
-import { recordLog, getDerivedStateFromPropsForUrlParams } from '../../../../../utils/tools';
+import { getDerivedStateFromPropsForUrlParams } from '../../../../../utils/tools';
 import accessWayCollection from '../../../../../customConfig/accessWayCollection';
 import { constants } from '../../../../../customConfig/config';
 import InnerPagerList from '../../../../../customComponents/Framework/CustomList/PagerList/InnerPagerList';
@@ -11,9 +12,7 @@ import Ellipsis from '../../../../../customComponents/Ellipsis';
 // import AddModal from '../AddModal';
 // import UpdateModal from '../UpdateModal';
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../../Assist/config';
-// import { fieldData } from '../../../../ConnectionConfig/Common/data';
-
-import { fieldData } from '../../../Common/data';
+import { fieldData as fieldDataDataTable } from '../../../../DataTable/Common/data';
 
 const { confirm } = Modal;
 
@@ -38,8 +37,6 @@ class Index extends InnerPagerList {
         loadApiPath: 'dataTable/pageList',
       },
     };
-
-    recordLog(this.state);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -66,9 +63,9 @@ class Index extends InnerPagerList {
 
   supplementLoadRequestParams = o => {
     const d = o;
-    const { dataTableId } = this.state;
+    const { connectionConfigId } = this.state;
 
-    d.dataTableId = dataTableId;
+    d.connectionConfigId = connectionConfigId;
 
     return d;
   };
@@ -286,8 +283,8 @@ class Index extends InnerPagerList {
         <Row gutter={24}>
           <Col lg={6} md={12} sm={24} xs={24}>
             {this.renderSearchInputFormItem(
-              fieldData.name.label,
-              fieldData.name.name,
+              fieldDataDataTable.name.label,
+              fieldDataDataTable.name.name,
               // buildFieldHelper('依据名称进行检索'),
             )}
           </Col>
@@ -328,8 +325,8 @@ class Index extends InnerPagerList {
 
   getColumn = () => [
     {
-      title: fieldData.name.label,
-      dataIndex: fieldData.name.name,
+      title: fieldDataDataTable.name.label,
+      dataIndex: fieldDataDataTable.name.name,
       align: 'left',
       render: val => (
         <>
@@ -342,7 +339,7 @@ class Index extends InnerPagerList {
     {
       title: constants.customOperate.label,
       dataIndex: constants.customOperate.name,
-      width: 106,
+      width: 126,
       fixed: 'right',
       align: 'center',
       render: (text, record) => (
@@ -353,42 +350,18 @@ class Index extends InnerPagerList {
             disabled={!this.checkAuthority(accessWayCollection.dataTable.get)}
             overlay={
               <Menu onClick={e => this.handleMenuClick(e, record)}>
-                {this.checkAuthority(accessWayCollection.connectionConfig.setWait) &&
-                record.state === 10 ? (
-                  <Menu.Item key="setWait">
-                    <Icon type="pause-circle" />
-                    暂停
-                  </Menu.Item>
-                ) : null}
-
-                {this.checkAuthority(accessWayCollection.connectionConfig.setOpening) &&
-                record.state === 0 ? (
-                  <Menu.Item key="setOpening">
-                    <Icon type="play-circle" />
-                    开始
-                  </Menu.Item>
-                ) : null}
-
-                {this.checkAuthority(accessWayCollection.connectionConfig.setOver) &&
-                record.state === 10 ? (
-                  <Menu.Item key="setOver">
-                    <Icon type="minus-circle" />
-                    完结
-                  </Menu.Item>
-                ) : null}
-
-                {this.checkAuthority(accessWayCollection.connectionConfig.remove) &&
+                {/* {this.checkAuthority(accessWayCollection.connectionConfig.remove) &&
                 record.state === 0 ? (
                   <Menu.Item key="remove">
                     <Icon type="delete" />
                     移除
                   </Menu.Item>
-                ) : null}
+                ) : null} */}
               </Menu>
             }
           >
-            <Icon type="edit" />
-            修改
+            <EditOutlined />
+            定制列
           </Dropdown.Button>
         </>
       ),
