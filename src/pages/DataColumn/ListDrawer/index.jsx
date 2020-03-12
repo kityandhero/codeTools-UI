@@ -127,11 +127,7 @@ class Index extends PagerDrawer {
       <>
         <Row gutter={24}>
           <Col lg={6} md={12} sm={24} xs={24}>
-            {this.renderSearchInputFormItem(
-              fieldData.name.label,
-              fieldData.name.name,
-              // buildFieldHelper('依据名称进行检索'),
-            )}
+            {this.renderSearchInputFormItem(fieldData.name.label, fieldData.name.name)}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>

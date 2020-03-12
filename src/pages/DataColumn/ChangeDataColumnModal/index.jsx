@@ -53,6 +53,12 @@ class ChangeLineModal extends ModalBase {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
+    this.clientMessage = '';
+
+    const form = this.getTargetForm();
+
+    form.resetFields();
+
     this.reloadData();
   };
 
