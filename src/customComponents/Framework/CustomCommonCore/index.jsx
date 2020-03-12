@@ -197,6 +197,12 @@ class Index extends CustomCore {
     ) {
       this.setRequestingData({ type: loadApiPath, payload: requestData });
 
+      recordLog(dispatch);
+      recordLog({
+        type: loadApiPath,
+        payload: requestData,
+      });
+
       dispatch({
         type: loadApiPath,
         payload: requestData,

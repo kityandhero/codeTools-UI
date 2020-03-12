@@ -11,10 +11,11 @@ import { GithubOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
 import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
 
+import { getQueue } from '../utils/tools';
+import { isAntDesignPro, getAuthorityFromRouter } from '../utils/utils';
 import Authorized from '../utils/Authorized';
 import RightContent from '../components/GlobalHeader/RightContent';
-import { isAntDesignPro, getAuthorityFromRouter } from '../utils/utils';
-import { getQueue } from '../utils/tools';
+
 import defaultSettings from '../../config/defaultSettings'; // https://umijs.org/config/
 
 // import styles from './BasicLayout.less';

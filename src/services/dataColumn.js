@@ -31,6 +31,21 @@ export async function getData(params) {
   });
 }
 
+export async function setData(params) {
+  if (transferToVirtualAccess()) {
+    const result = await apiVirtualSuccessAccess({
+      data: {},
+    });
+
+    return result;
+  }
+
+  return request('/business/dataColumn/set', {
+    method: 'POST',
+    body: params,
+  });
+}
+
 /**
  * 占位函数
  *

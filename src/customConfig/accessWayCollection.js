@@ -32,5 +32,7 @@ module.exports = {
   },
   dataColumn: {
     list: '75bcfe2e-849b-4d26-83ab-fba103e3b0a9',
+    get: '303175ed-6c19-42ab-8690-f52a9a23120b',
+    set: 'd455d085-d60a-4c4a-b3f7-5e6c7a9bf3fc',
   },
 };

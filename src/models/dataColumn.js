@@ -1,6 +1,6 @@
 import { handleListDataAssist, handleCommonDataAssist } from '../utils/tools';
 
-import { listData, getData } from '../services/dataColumn';
+import { listData, getData, setData } from '../services/dataColumn';
 
 export default {
   namespace: 'dataColumn',
@@ -17,6 +17,13 @@ export default {
     },
     *get({ payload }, { call, put }) {
       const response = yield call(getData, payload);
+      yield put({
+        type: 'handleCommonData',
+        payload: response,
+      });
+    },
+    *set({ payload }, { call, put }) {
+      const response = yield call(setData, payload);
       yield put({
         type: 'handleCommonData',
         payload: response,

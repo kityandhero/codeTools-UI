@@ -516,6 +516,101 @@ class Index extends CustomCommonCore {
       otherProps,
     );
   };
+
+  dataColumnStatusList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const dataColumnStatusList = global.dataColumnStatusList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(dataColumnStatusList, unlimitedWithStringFlag);
+    }
+
+    return refitCommonData(dataColumnStatusList);
+  };
+
+  getDataColumnStatusName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.dataColumnStatusList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderDataColumnStatusOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.dataColumnStatusList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderDataColumnStatusRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.dataColumnStatusList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchDataColumnStatusFormItem = (
+    withUnlimited = true,
+    label = customFieldCollection.dataColumnStatus.label,
+  ) => {
+    const title = label || customFieldCollection.dataColumnStatus.label;
+
+    return this.renderSearchSelectFormItem(
+      title,
+      customFieldCollection.dataColumnStatus.name,
+      this.renderDataColumnStatusOption(withUnlimited),
+    );
+  };
+
+  renderFormDataColumnStatusSelectFormItem = (
+    helper = null,
+    onChangeCallback,
+    label = customFieldCollection.dataColumnStatus.label,
+    formItemLayout = null,
+    required = true,
+    name = customFieldCollection.dataColumnStatus.name,
+    otherProps = null,
+  ) => {
+    const title = label || customFieldCollection.dataColumnStatus.label;
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      () => {
+        return this.renderDataColumnStatusOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormDataColumnStatusFormItemRadio = (
+    helper = null,
+    onChangeCallback,
+    label = customFieldCollection.dataColumnStatus.label,
+    formItemLayout = null,
+    required = true,
+    name = customFieldCollection.dataColumnStatus.name,
+    otherProps = null,
+  ) => {
+    const title = label || customFieldCollection.dataColumnStatus.label;
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      () => {
+        return this.renderDataColumnStatusRadio(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
 }
 
 export default Index;

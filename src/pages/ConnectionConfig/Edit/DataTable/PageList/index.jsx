@@ -32,11 +32,11 @@ class Index extends InnerPagerList {
     this.state = {
       ...this.state,
       ...{
-        currentConnectionConfigId: '',
         addModalVisible: false,
         updateModalVisible: false,
         loadApiPath: 'dataTable/pageList',
         dataColumnListDrawerVisible: false,
+        currentRecord: null,
       },
     };
   }
@@ -76,11 +76,9 @@ class Index extends InnerPagerList {
     this.setState({ addModalVisible: true });
   };
 
-  showUpdateModal = record => {
-    const { connectionConfigId } = record;
-
-    this.setState({ updateModalVisible: true, currentConnectionConfigId: connectionConfigId });
-  };
+  // showUpdateModal = record => {
+  //   this.setState({ updateModalVisible: true });
+  // };
 
   afterAddModalCancel = () => {
     this.setState({ addModalVisible: false });
@@ -102,9 +100,10 @@ class Index extends InnerPagerList {
     this.refreshData();
   };
 
-  showDataColumnListDrawer = () => {
+  showDataColumnListDrawer = record => {
     this.setState({
       dataColumnListDrawerVisible: true,
+      currentRecord: record,
     });
   };
 
@@ -307,7 +306,7 @@ class Index extends InnerPagerList {
   };
 
   renderOther = () => {
-    const { dataColumnListDrawerVisible } = this.state;
+    const { connectionConfigId, dataColumnListDrawerVisible, currentRecord } = this.state;
     // const { dataTableId, currentConnectionConfigId, addModalVisible, updateModalVisible } = this.state;
 
     const dataColumnListDrawerRender = this.checkAuthority(accessWayCollection.dataColumn.list);
@@ -338,6 +337,10 @@ class Index extends InnerPagerList {
         {dataColumnListDrawerRender ? (
           <DataColumnListDrawer
             visible={dataColumnListDrawerVisible || false}
+            externalData={{
+              connectionConfigId,
+              tableData: currentRecord,
+            }}
             width={1200}
             afterClose={this.afterDataColumnListDrawerClose}
           />

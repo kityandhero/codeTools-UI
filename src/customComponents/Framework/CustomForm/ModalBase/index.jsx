@@ -5,6 +5,8 @@ import { defaultFormState, pretreatmentRequestParams, isFunction } from '../../.
 import CustomAuthorization from '../../CustomAuthorization';
 
 class ModalBase extends CustomAuthorization {
+  formRef = React.createRef();
+
   constructor(props) {
     super(props);
 
@@ -56,9 +58,7 @@ class ModalBase extends CustomAuthorization {
   checkSubmitRequestParams = o => true;
 
   getTargetForm = () => {
-    message.error('需要重载getTargetForm');
-
-    return null;
+    return this.formRef.current;
   };
 
   handleOk = e => {
@@ -159,7 +159,7 @@ class ModalBase extends CustomAuthorization {
         onCancel={this.handleCancel}
       >
         <Spin spinning={processing || dataLoading}>
-          <Form>{this.formContent()}</Form>
+          <Form ref={this.formRef}>{this.formContent()}</Form>
         </Spin>
       </Modal>
     );
