@@ -11,6 +11,7 @@ import Ellipsis from '../../../../../customComponents/Ellipsis';
 
 // import AddModal from '../AddModal';
 // import UpdateModal from '../UpdateModal';
+import DataColumnListDrawer from '../../../../DataColumn/ListDrawer';
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../../Assist/config';
 import { fieldData as fieldDataDataTable } from '../../../../DataTable/Common/data';
 
@@ -35,6 +36,7 @@ class Index extends InnerPagerList {
         addModalVisible: false,
         updateModalVisible: false,
         loadApiPath: 'dataTable/pageList',
+        dataColumnListDrawerVisible: false,
       },
     };
   }
@@ -98,6 +100,16 @@ class Index extends InnerPagerList {
     this.setState({ updateModalVisible: false });
 
     this.refreshData();
+  };
+
+  showDataColumnListDrawer = () => {
+    this.setState({
+      dataColumnListDrawerVisible: true,
+    });
+  };
+
+  afterDataColumnListDrawerClose = () => {
+    this.setState({ dataColumnListDrawerVisible: false });
   };
 
   handleMenuClick = (e, record) => {
@@ -295,7 +307,10 @@ class Index extends InnerPagerList {
   };
 
   renderOther = () => {
+    const { dataColumnListDrawerVisible } = this.state;
     // const { dataTableId, currentConnectionConfigId, addModalVisible, updateModalVisible } = this.state;
+
+    const dataColumnListDrawerRender = this.checkAuthority(accessWayCollection.dataColumn.list);
 
     return (
       <>
@@ -319,6 +334,14 @@ class Index extends InnerPagerList {
             this.afterUpdateModalCancel();
           }}
         /> */}
+
+        {dataColumnListDrawerRender ? (
+          <DataColumnListDrawer
+            visible={dataColumnListDrawerVisible || false}
+            width={1200}
+            afterClose={this.afterDataColumnListDrawerClose}
+          />
+        ) : null}
       </>
     );
   };
@@ -346,7 +369,7 @@ class Index extends InnerPagerList {
         <>
           <Dropdown.Button
             size="small"
-            onClick={() => this.showUpdateModal(record)}
+            onClick={() => this.showDataColumnListDrawer(record)}
             disabled={!this.checkAuthority(accessWayCollection.dataTable.get)}
             overlay={
               <Menu onClick={e => this.handleMenuClick(e, record)}>

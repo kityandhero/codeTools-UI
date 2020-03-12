@@ -30,4 +30,7 @@ module.exports = {
     pageList: 'c501156d-5ff4-4ebd-89f2-2a1692cef567',
     get: '',
   },
+  dataColumn: {
+    list: '75bcfe2e-849b-4d26-83ab-fba103e3b0a9',
+  },
 };

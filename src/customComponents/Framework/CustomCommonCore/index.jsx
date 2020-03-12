@@ -12,6 +12,7 @@ import {
   pretreatmentRequestParams,
   buildFieldHelper,
   isUndefined,
+  recordLog,
 } from '../../../utils/tools';
 import CustomCore from '../CustomCore';
 
@@ -184,6 +185,8 @@ class Index extends CustomCore {
     const requestingDataPre = this.getRequestingData();
 
     const { loadApiPath, firstLoadSuccess } = this.state;
+
+    recordLog(`initLoadCore loadApiPath ${loadApiPath}`);
 
     // 处理频繁的相同请求
     if (
