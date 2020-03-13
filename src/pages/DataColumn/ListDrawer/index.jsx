@@ -115,6 +115,8 @@ class Index extends PagerDrawer {
   };
 
   afterDataColumnModalOk = () => {
+    this.refreshData();
+
     this.setState({ dataColumnModalVisible: false });
   };
 

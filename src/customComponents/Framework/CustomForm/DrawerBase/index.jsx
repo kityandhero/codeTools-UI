@@ -71,27 +71,32 @@ class Index extends CustomAuthorization {
     e.preventDefault();
     const {
       dispatch,
-      form,
       //  afterOk
     } = this.props;
     const { submitApiPath } = this.state;
 
-    form.validateFields((err, values) => {
-      if (!err) {
-        let submitData = pretreatmentRequestParams(values, d => {
-          const o = d;
+    if ((submitApiPath || '') === '') {
+      message.error(`缺少 submitApiPath 配置！`);
+      return;
+    }
 
-          return o;
-        });
+    const form = this.getTargetForm();
+
+    if (form == null) {
+      return;
+    }
+
+    const { validateFields } = form;
+
+    validateFields()
+      .then(values => {
+        let submitData = pretreatmentRequestParams(values);
 
         submitData = this.supplementSubmitRequestParams(submitData);
 
         const checkResult = this.checkSubmitRequestParams(submitData);
 
-        if ((submitApiPath || '') === '') {
-          message.error(`缺少 submitApiPath 配置！`);
-          return;
-        }
+        submitData = this.afterCheckSubmitRequestParams(submitData);
 
         if (checkResult) {
           this.setState({ processing: true });
@@ -105,31 +110,54 @@ class Index extends CustomAuthorization {
 
               const { dataSuccess } = remoteData;
 
-              this.setState({ processing: false });
               if (dataSuccess) {
-                const { list: listData, data: singleData, extra } = remoteData;
+                const { list: metaListData, data: metaData, extra: metaExtra } = remoteData;
 
                 this.afterSubmitSuccess(
-                  singleData || null,
-                  listData || [],
-                  extra || null,
+                  metaData || null,
+                  metaListData || [],
+                  metaExtra || null,
                   remoteData,
                   submitData,
                 );
               }
+
+              // eslint-disable-next-line react/no-unused-state
+              this.setState({ processing: false }, () => {
+                if (this.goToUpdateWhenProcessed) {
+                  this.reloadByUrl();
+                }
+              });
             }
           });
         }
-      } else {
+      })
+      .catch(error => {
+        const { errorFields } = error;
+
         const m = [];
 
-        Object.values(err).forEach(o => {
-          m.push(o.errors[0].message);
+        Object.values(errorFields).forEach(o => {
+          m.push(o.errors[0]);
         });
 
-        message.warn(m.join());
-      }
-    });
+        const maxLength = 5;
+        let beyondMax = false;
+
+        if (m.length > maxLength) {
+          m.length = maxLength;
+
+          beyondMax = true;
+        }
+
+        let errorMessage = m.join(', ');
+
+        if (beyondMax) {
+          errorMessage += ' ...';
+        }
+
+        message.warn(errorMessage);
+      });
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

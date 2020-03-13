@@ -91,17 +91,6 @@ class SingleList extends ListBase {
 
     const { validateFields } = form;
 
-    validateFields((err, fieldsValue) => {
-      if (err) return;
-
-      const values = {
-        ...fieldsValue,
-        updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
-      };
-
-      this.searchData({ formValues: values });
-    });
-
     validateFields()
       .then(fieldsValue => {
         const values = {

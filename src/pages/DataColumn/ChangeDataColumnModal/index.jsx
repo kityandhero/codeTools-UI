@@ -169,7 +169,7 @@ class Index extends ModalBase {
         {this.renderFormInputFormItem(
           fieldData.typeHandler.label,
           fieldData.typeHandler.name,
-          true,
+          false,
           buildFieldHelper(fieldData.typeHandler.helper),
           <FormOutlined />,
           null,
