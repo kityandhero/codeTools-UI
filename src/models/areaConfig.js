@@ -10,6 +10,7 @@ export default {
   effects: {
     *getCurrent({ payload }, { call, put }) {
       const response = yield call(getCurrentData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -17,6 +18,7 @@ export default {
     },
     *changeOutStockTime({ payload }, { call, put }) {
       const response = yield call(changeOutStockTimeData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,

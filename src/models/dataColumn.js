@@ -10,6 +10,7 @@ export default {
   effects: {
     *list({ payload }, { call, put }) {
       const response = yield call(listData, payload);
+
       yield put({
         type: 'handleListData',
         payload: response,
@@ -17,6 +18,7 @@ export default {
     },
     *get({ payload }, { call, put }) {
       const response = yield call(getData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -24,6 +26,7 @@ export default {
     },
     *set({ payload }, { call, put }) {
       const response = yield call(setData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,

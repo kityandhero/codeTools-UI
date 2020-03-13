@@ -18,6 +18,7 @@ export default {
   effects: {
     *pageList({ payload }, { call, put }) {
       const response = yield call(queryListData, payload);
+
       yield put({
         type: 'handlePageListData',
         payload: response,
@@ -25,6 +26,7 @@ export default {
     },
     *get({ payload }, { call, put }) {
       const response = yield call(queryGetData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -32,6 +34,7 @@ export default {
     },
     *addBasicInfo({ payload }, { call, put }) {
       const response = yield call(addBasicInfoData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -39,6 +42,7 @@ export default {
     },
     *changeState({ payload }, { call, put }) {
       const response = yield call(changeStateData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -46,6 +50,7 @@ export default {
     },
     *remove({ payload }, { call, put }) {
       const response = yield call(removeData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -53,6 +58,7 @@ export default {
     },
     *updateBasicInfo({ payload }, { call, put }) {
       const response = yield call(updateBasicInfoData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -60,6 +66,7 @@ export default {
     },
     *resetPassword({ payload }, { call, put }) {
       const response = yield call(resetPasswordData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,

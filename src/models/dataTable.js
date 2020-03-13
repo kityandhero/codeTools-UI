@@ -10,6 +10,7 @@ export default {
   effects: {
     *pageList({ payload }, { call, put }) {
       const response = yield call(pageListData, payload);
+
       yield put({
         type: 'handlePageListData',
         payload: response,
@@ -17,6 +18,7 @@ export default {
     },
     *get({ payload }, { call, put }) {
       const response = yield call(getData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,

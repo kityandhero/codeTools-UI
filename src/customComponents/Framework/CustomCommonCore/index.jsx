@@ -206,72 +206,81 @@ class Index extends CustomCore {
       dispatch({
         type: loadApiPath,
         payload: requestData,
-      }).then(() => {
-        const metaOriginalData = this.getApiData(this.props);
+      });
 
-        if (isUndefined(metaOriginalData)) {
-          return;
-        }
+      dispatch({
+        type: loadApiPath,
+        payload: requestData,
+      })
+        .then(() => {
+          const metaOriginalData = this.getApiData(this.props);
 
-        this.lastLoadParams = requestData;
+          if (isUndefined(metaOriginalData)) {
+            return;
+          }
 
-        const { dataSuccess } = metaOriginalData;
+          this.lastLoadParams = requestData;
 
-        if (dataSuccess) {
-          const { list: metaListData, data: metaData, extra: metaExtra } = metaOriginalData;
+          const { dataSuccess } = metaOriginalData;
+
+          if (dataSuccess) {
+            const { list: metaListData, data: metaData, extra: metaExtra } = metaOriginalData;
+
+            this.setState({
+              metaData: metaData || null,
+              metaExtra: metaExtra || null,
+              metaListData: metaListData || [],
+              metaOriginalData,
+            });
+
+            this.afterLoadSuccess(
+              metaData || null,
+              metaListData || [],
+              metaExtra || null,
+              metaOriginalData,
+            );
+          }
+
+          const { reloading: reloadingComplete } = this.state;
+
+          if (reloadingComplete) {
+            this.afterReloadSuccess();
+            this.afterGetReLoadRequestResult(requestData, metaOriginalData);
+          }
 
           this.setState({
-            metaData: metaData || null,
-            metaExtra: metaExtra || null,
-            metaListData: metaListData || [],
-            metaOriginalData,
+            dataLoading: false,
+            loadSuccess: dataSuccess,
+            reloading: false,
+            searching: false,
+            refreshing: false,
+            paging: false,
           });
 
-          this.afterLoadSuccess(
-            metaData || null,
-            metaListData || [],
-            metaExtra || null,
-            metaOriginalData,
-          );
-        }
+          if (!firstLoadSuccess) {
+            this.setState(
+              {
+                firstLoadSuccess: true,
+              },
+              () => {
+                this.afterFirstLoadSuccess();
 
-        const { reloading: reloadingComplete } = this.state;
+                this.afterGetFirstRequestResult(requestData, metaOriginalData);
+              },
+            );
+          }
 
-        if (reloadingComplete) {
-          this.afterReloadSuccess();
-          this.afterGetReLoadRequestResult(requestData, metaOriginalData);
-        }
+          this.afterGetRequestResult(requestData, metaOriginalData);
 
-        this.setState({
-          dataLoading: false,
-          loadSuccess: dataSuccess,
-          reloading: false,
-          searching: false,
-          refreshing: false,
-          paging: false,
+          if (typeof callback === 'function') {
+            callback();
+          }
+
+          this.clearRequestingData();
+        })
+        .catch(res => {
+          recordLog(res);
         });
-
-        if (!firstLoadSuccess) {
-          this.setState(
-            {
-              firstLoadSuccess: true,
-            },
-            () => {
-              this.afterFirstLoadSuccess();
-
-              this.afterGetFirstRequestResult(requestData, metaOriginalData);
-            },
-          );
-        }
-
-        this.afterGetRequestResult(requestData, metaOriginalData);
-
-        if (typeof callback === 'function') {
-          callback();
-        }
-
-        this.clearRequestingData();
-      });
     }
   };
 

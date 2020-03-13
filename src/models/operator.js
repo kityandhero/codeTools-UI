@@ -14,6 +14,7 @@ export default {
   effects: {
     *getCurrent({ payload }, { call, put }) {
       const response = yield call(getCurrentData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -21,6 +22,7 @@ export default {
     },
     *getCurrentBasicInfo({ payload }, { call, put }) {
       const response = yield call(getCurrentBasicInfoData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -28,6 +30,7 @@ export default {
     },
     *updateCurrentBasicInfo({ payload }, { call, put }) {
       const response = yield call(updateCurrentBasicInfoData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -35,6 +38,7 @@ export default {
     },
     *changeCurrentPassword({ payload }, { call, put }) {
       const response = yield call(changeCurrentPasswordData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,

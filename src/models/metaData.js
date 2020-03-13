@@ -11,6 +11,7 @@ export default {
   effects: {
     *get({ payload }, { call, put }) {
       const response = yield call(queryGetData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,

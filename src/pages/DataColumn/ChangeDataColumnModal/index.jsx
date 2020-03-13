@@ -23,7 +23,7 @@ const formItemLayout = {
   global,
   loading: loading.models.dateColumn,
 }))
-class ChangeLineModal extends ModalBase {
+class Index extends ModalBase {
   constructor(props) {
     super(props);
 
@@ -33,7 +33,6 @@ class ChangeLineModal extends ModalBase {
         pageName: '更新列定制信息',
         loadApiPath: 'dateColumn/get',
         submitApiPath: 'dateColumn/set',
-        dataLoading: false,
       },
     };
   }
@@ -54,10 +53,6 @@ class ChangeLineModal extends ModalBase {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
     this.clientMessage = '';
-
-    const form = this.getTargetForm();
-
-    form.resetFields();
 
     this.reloadData();
   };
@@ -183,4 +178,4 @@ class ChangeLineModal extends ModalBase {
   };
 }
 
-export default ChangeLineModal;
+export default Index;

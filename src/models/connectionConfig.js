@@ -17,6 +17,7 @@ export default {
   effects: {
     *pageList({ payload }, { call, put }) {
       const response = yield call(pageListData, payload);
+
       yield put({
         type: 'handlePageListData',
         payload: response,
@@ -24,6 +25,7 @@ export default {
     },
     *get({ payload }, { call, put }) {
       const response = yield call(getData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -31,6 +33,7 @@ export default {
     },
     *addBasicInfo({ payload }, { call, put }) {
       const response = yield call(addBasicInfoData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -38,6 +41,7 @@ export default {
     },
     *remove({ payload }, { call, put }) {
       const response = yield call(removeData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -45,6 +49,7 @@ export default {
     },
     *updateBasicInfo({ payload }, { call, put }) {
       const response = yield call(updateBasicInfoData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
@@ -52,6 +57,7 @@ export default {
     },
     *tryConnection({ payload }, { call, put }) {
       const response = yield call(tryConnectionData, payload);
+
       yield put({
         type: 'handleCommonData',
         payload: response,
