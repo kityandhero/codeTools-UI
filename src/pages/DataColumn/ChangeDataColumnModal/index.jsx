@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { FormOutlined } from '@ant-design/icons';
 
-import { buildFieldHelper } from '../../../utils/tools';
+import { buildFieldHelper, recordLog } from '../../../utils/tools';
 import ModalBase from '../../../customComponents/Framework/CustomForm/ModalBase';
 
 import { fieldData } from '../Common/data';
@@ -10,7 +10,7 @@ import { fieldData } from '../Common/data';
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 4 },
+    sm: { span: 5 },
   },
   wrapperCol: {
     xs: { span: 24 },
@@ -18,10 +18,10 @@ const formItemLayout = {
   },
 };
 
-@connect(({ dateColumn, global, loading }) => ({
-  dateColumn,
+@connect(({ dataColumn, global, loading }) => ({
+  dataColumn,
   global,
-  loading: loading.models.dateColumn,
+  loading: loading.models.dataColumn,
 }))
 class Index extends ModalBase {
   constructor(props) {
@@ -31,8 +31,9 @@ class Index extends ModalBase {
       ...this.state,
       ...{
         pageName: '更新列定制信息',
-        loadApiPath: 'dateColumn/get',
-        submitApiPath: 'dateColumn/set',
+        loadApiPath: 'dataColumn/get',
+        submitApiPath: 'dataColumn/set',
+        width: 580,
       },
     };
   }
@@ -54,12 +55,14 @@ class Index extends ModalBase {
   doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
     this.clientMessage = '';
 
+    recordLog(123123);
+
     this.reloadData();
   };
 
   getApiData = props => {
     const {
-      dateColumn: { data },
+      dataColumn: { data },
     } = props;
     return data;
   };

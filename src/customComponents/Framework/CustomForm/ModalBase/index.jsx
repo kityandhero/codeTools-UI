@@ -37,11 +37,9 @@ class ModalBase extends CustomAuthorization {
     if (visible && !visiblePre) {
       const form = this.getTargetForm();
 
-      if (form == null) {
-        return;
+      if (form != null) {
+        form.resetFields();
       }
-
-      form.resetFields();
 
       this.doOtherWhenChangeVisible(preProps, preState, snapshot);
     }
