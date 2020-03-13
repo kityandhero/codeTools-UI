@@ -32,7 +32,7 @@ class Edit extends LoadDataTabContainer {
     this.state = {
       ...this.state,
       ...{
-        pageName: `${fieldData.message}：`,
+        pageName: `${fieldData.message.label}：`,
         loadApiPath: 'generalLog/get',
         backPath: `/generalLog/pageList/key`,
         generalLogId: null,
@@ -77,7 +77,7 @@ class Edit extends LoadDataTabContainer {
       const { message } = metaData || { message: '' };
 
       this.setState({
-        pageName: `${fieldData.message}：：${message}`,
+        pageName: `${fieldData.message.label}：：${message}`,
       });
     }
   };
@@ -110,7 +110,7 @@ class Edit extends LoadDataTabContainer {
     const list = [];
 
     list.push({
-      label: fieldData.generalLogId,
+      label: fieldData.generalLogId.label,
       value: metaData === null ? '' : metaData.generalLogId || '',
       canCopy: true,
     });

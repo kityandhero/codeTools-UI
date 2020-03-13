@@ -107,7 +107,7 @@ class Index extends TabPageBase {
             title={
               <>
                 <ContactsOutlined />
-                <span className={styles.cardTitle}>{fieldData.content}</span>
+                <span className={styles.cardTitle}>{fieldData.content.label}</span>
               </>
             }
             className={styles.card}
