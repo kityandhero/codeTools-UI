@@ -237,7 +237,7 @@ class LoadDataTabContainer extends LoadDataForm {
         tags={this.pageHeaderTagWrapper()}
         extra={this.pageHeaderAction()}
         // eslint-disable-next-line no-restricted-globals
-        tabActiveKey={location.hash.replace(`#${match.url}/`, '')}
+        tabActiveKey={this.getTabActiveKey()}
         content={this.pageHeaderContent()}
         extraContent={this.pageHeaderExtraContent()}
         tabList={tabListAvailable}
