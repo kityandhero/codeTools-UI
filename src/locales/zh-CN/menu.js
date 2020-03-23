@@ -37,6 +37,7 @@ export default {
   'menu.connectionConfig.add': '新增连接',
   'menu.connectionConfig.edit': '编辑连接',
   'menu.connectionConfig.edit.basicInfo': '基本信息',
+  'menu.connectionConfig.edit.dataBaseGeneratorConfig': '生成配置',
   'menu.connectionConfig.edit.dataTable': '数据表信息',
   'menu.connectionConfig.edit.dataTable.pageList': '数据表列表',
   'menu.marketing': '营销活动',

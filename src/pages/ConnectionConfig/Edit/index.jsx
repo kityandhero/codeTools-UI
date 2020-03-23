@@ -25,6 +25,11 @@ class Edit extends LoadDataTabContainer {
       tab: '基本信息',
     },
     {
+      key: 'dataBaseGeneratorConfig',
+      show: this.checkAuthority(accessWayCollection.dataBaseGeneratorConfig.getByConnectionId),
+      tab: '生成配置',
+    },
+    {
       key: 'dataTable/pageList',
       show: this.checkAuthority(accessWayCollection.dataTable.pageList),
       tab: '数据库表',
