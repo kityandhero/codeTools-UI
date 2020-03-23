@@ -10,6 +10,7 @@ import { constants } from '../../../customConfig/config';
 import AddFormBase from '../../../customComponents/Framework/CustomForm/AddFormBase';
 
 import { fieldData, connectionType } from '../Common/data';
+
 import styles from './index.less';
 
 @connect(({ connectionConfig, global, loading }) => ({

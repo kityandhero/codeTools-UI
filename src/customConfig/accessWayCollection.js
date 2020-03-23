@@ -35,4 +35,10 @@ module.exports = {
     get: '303175ed-6c19-42ab-8690-f52a9a23120b',
     set: 'd455d085-d60a-4c4a-b3f7-5e6c7a9bf3fc',
   },
+  dataBaseGeneratorConfig: {
+    pageList: 'f201e035-bfcc-4eee-a263-70fdc2968e64',
+    get: '6552cd29-5cdb-48b3-9a74-7541e6879839',
+    getByConnectionId: '6b0d1fbe-9e31-48ce-86ab-5dc1ebe387db',
+    set: '94520b18-bcb8-499c-90fd-afb82f45f3f0',
+  },
 };
