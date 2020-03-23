@@ -22,6 +22,10 @@ const GlobalModel = {
     collapsed: false,
     amapObject: null,
     notices: [],
+    whetherList: [
+      { flag: '1', name: '是', description: '是' },
+      { flag: '0', name: '否', description: '否' },
+    ],
     channelList: [],
     customConfigCategoryList: [],
     databaseDatabaseTypeList: [],

@@ -13,7 +13,12 @@ import {
   buildFieldHelper,
   isUndefined,
   recordLog,
+  refitCommonData,
+  isInvalid,
+  searchFromList,
+  stringIsNullOrWhiteSpace,
 } from '../../../utils/tools';
+import { unlimitedWithStringFlag } from '../../../utils/constants';
 import CustomCore from '../CustomCore';
 
 const FormItem = Form.Item;
@@ -878,6 +883,118 @@ class Index extends CustomCore {
           {options}
         </Select>
       </FormItem>
+    );
+  };
+
+  whetherList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const whetherList = global.whetherList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(whetherList, unlimitedWithStringFlag);
+    }
+
+    return refitCommonData(whetherList);
+  };
+
+  getWhetherName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.whetherList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderWhetherOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.whetherList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderWhetherRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.whetherList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchWhetherFormItem = (label, name, withUnlimited = true) => {
+    const title = label || '未知';
+
+    if (stringIsNullOrWhiteSpace(label)) {
+      message.error('renderSearchWhetherFormItem need param label。');
+    }
+
+    if (stringIsNullOrWhiteSpace(name)) {
+      message.error('renderSearchWhetherFormItem need param name。');
+    }
+
+    return this.renderSearchSelectFormItem(title, name, this.renderWhetherOption(withUnlimited));
+  };
+
+  renderFormWhetherSelectFormItem = (
+    label,
+    name,
+    helper = null,
+    onChangeCallback,
+    formItemLayout = null,
+    required = true,
+    otherProps = null,
+  ) => {
+    const title = label || '未知';
+
+    if (stringIsNullOrWhiteSpace(label)) {
+      message.error('renderSearchWhetherFormItem need param label。');
+    }
+
+    if (stringIsNullOrWhiteSpace(name)) {
+      message.error('renderSearchWhetherFormItem need param name。');
+    }
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      () => {
+        return this.renderWhetherOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormWhetherFormItemRadio = (
+    label,
+    name,
+    helper = null,
+    onChangeCallback,
+    formItemLayout = null,
+    required = true,
+    otherProps = null,
+  ) => {
+    const title = label || '未知';
+
+    if (stringIsNullOrWhiteSpace(label)) {
+      message.error('renderSearchWhetherFormItem need param label。');
+    }
+
+    if (stringIsNullOrWhiteSpace(name)) {
+      message.error('renderSearchWhetherFormItem need param name。');
+    }
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      () => {
+        return this.renderWhetherOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
     );
   };
 }
