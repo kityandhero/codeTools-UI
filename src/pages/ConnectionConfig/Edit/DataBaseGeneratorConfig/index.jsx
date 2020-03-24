@@ -7,7 +7,9 @@ import {
   formatDatetime,
   getDerivedStateFromPropsForUrlParams,
   buildFieldHelper,
+  recordLog,
 } from '../../../../utils/tools';
+import { zeroInt } from '../../../../utils/constants';
 import accessWayCollection from '../../../../customConfig/accessWayCollection';
 import { constants } from '../../../../customConfig/config';
 
@@ -57,6 +59,10 @@ class Index extends TabPageBase {
     return data;
   };
 
+  getTargetForm = () => {
+    return this.formRef.current;
+  };
+
   supplementLoadRequestParams = o => {
     const d = o;
     const { connectionConfigId } = this.state;
@@ -64,6 +70,53 @@ class Index extends TabPageBase {
     d.connectionConfigId = connectionConfigId;
 
     return d;
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+    const values = {};
+
+    if (metaData != null) {
+      values[fieldData.dataBaseGeneratorConfigId.name] =
+        metaData.dataBaseGeneratorConfigId || zeroInt;
+      values[fieldData.connectionConfigId.name] = metaData.connectionConfigId || zeroInt;
+
+      values[fieldData.connectorJarPath.name] = metaData.connectorJarPath || '';
+      values[fieldData.projectFolder.name] = metaData.projectFolder || '';
+      values[fieldData.modelPackage.name] = metaData.modelPackage || '';
+      values[fieldData.modelTargetFolder.name] = metaData.modelTargetFolder || '';
+      values[fieldData.daoPackage.name] = metaData.daoPackage || '';
+      values[fieldData.daoTargetFolder.name] = metaData.daoTargetFolder || '';
+      values[fieldData.mappingXMLPackage.name] = metaData.mappingXMLPackage || '';
+      values[fieldData.mappingXMLTargetFolder.name] = metaData.mappingXMLTargetFolder || '';
+      values[fieldData.generateKeys.name] = metaData.generateKeys || '';
+      values[fieldData.encoding.name] = metaData.encoding || '';
+
+      values[fieldData.offsetLimit.name] = `${metaData.offsetLimit || zeroInt}`;
+      values[fieldData.needToStringHashCodeEquals.name] = `${metaData.needToStringHashCodeEquals ||
+        zeroInt}`;
+      values[fieldData.needForUpdate.name] = `${metaData.needForUpdate || zeroInt}`;
+      values[fieldData.annotationDAO.name] = `${metaData.annotationDAO || zeroInt}`;
+      values[fieldData.annotation.name] = `${metaData.annotation || zeroInt}`;
+      values[fieldData.useActualColumnNames.name] = `${metaData.useActualColumnNames || zeroInt}`;
+      values[fieldData.useExample.name] = `${metaData.useExample || zeroInt}`;
+      values[fieldData.useTableNameAlias.name] = `${metaData.useTableNameAlias || zeroInt}`;
+      values[fieldData.useDAOExtendStyle.name] = `${metaData.useDAOExtendStyle || zeroInt}`;
+      values[fieldData.useSchemaPrefix.name] = `${metaData.useSchemaPrefix || zeroInt}`;
+      values[fieldData.jsr310Support.name] = `${metaData.jsr310Support || zeroInt}`;
+      values[fieldData.overrideXML.name] = `${metaData.overrideXML || zeroInt}`;
+
+      values[constants.createTime.name] =
+        formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
+      values[constants.updateTime.name] =
+        formatDatetime(metaData.updateTime, 'YYYY-MM-DD HH:mm') || '';
+
+      const form = this.getTargetForm();
+
+      form.setFieldsValue(values);
+
+      recordLog(values);
+    }
   };
 
   supplementSubmitRequestParams = o => {
@@ -75,28 +128,6 @@ class Index extends TabPageBase {
     d.dataBaseGeneratorConfigId = dataBaseGeneratorConfigId || '';
 
     return d;
-  };
-
-  getTargetForm = () => {
-    return this.formRef.current;
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    const values = {};
-
-    values[fieldData.dataBaseGeneratorConfigId.name] =
-      metaData === null ? '' : metaData.dataBaseGeneratorConfigId || '';
-    values[fieldData.connectionConfigId.name] =
-      metaData === null ? '' : metaData.connectionConfigId || '';
-    values[constants.createTime.name] =
-      metaData === null ? '' : formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
-    values[constants.updateTime.name] =
-      metaData === null ? '' : formatDatetime(metaData.updateTime, 'YYYY-MM-DD HH:mm') || '';
-
-    const form = this.getTargetForm();
-
-    form.setFieldsValue(values);
   };
 
   supplementSubmitRequestParams = o => {
@@ -166,6 +197,163 @@ class Index extends TabPageBase {
                       <FormOutlined />,
                       {},
                       false,
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormInputFormItem(
+                      fieldData.connectorJarPath.label,
+                      fieldData.connectorJarPath.name,
+                      true,
+                      buildFieldHelper(fieldData.connectorJarPath.helper),
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormInputFormItem(
+                      fieldData.projectFolder.label,
+                      fieldData.projectFolder.name,
+                      true,
+                      buildFieldHelper(fieldData.projectFolder.helper),
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormInputFormItem(
+                      fieldData.modelPackage.label,
+                      fieldData.modelPackage.name,
+                      true,
+                      buildFieldHelper(fieldData.modelPackage.helper),
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormInputFormItem(
+                      fieldData.modelTargetFolder.label,
+                      fieldData.modelTargetFolder.name,
+                      true,
+                      buildFieldHelper(fieldData.modelTargetFolder.helper),
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormInputFormItem(
+                      fieldData.daoPackage.label,
+                      fieldData.daoPackage.name,
+                      true,
+                      buildFieldHelper(fieldData.daoPackage.helper),
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormInputFormItem(
+                      fieldData.daoTargetFolder.label,
+                      fieldData.daoTargetFolder.name,
+                      true,
+                      buildFieldHelper(fieldData.daoTargetFolder.helper),
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormInputFormItem(
+                      fieldData.mappingXMLPackage.label,
+                      fieldData.mappingXMLPackage.name,
+                      true,
+                      buildFieldHelper(fieldData.mappingXMLPackage.helper),
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormInputFormItem(
+                      fieldData.mappingXMLTargetFolder.label,
+                      fieldData.mappingXMLTargetFolder.name,
+                      true,
+                      buildFieldHelper(fieldData.mappingXMLTargetFolder.helper),
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormInputFormItem(
+                      fieldData.generateKeys.label,
+                      fieldData.generateKeys.name,
+                      true,
+                      buildFieldHelper(fieldData.generateKeys.helper),
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormInputFormItem(
+                      fieldData.encoding.label,
+                      fieldData.encoding.name,
+                      true,
+                      buildFieldHelper(fieldData.encoding.helper),
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormWhetherSelectFormItem(
+                      fieldData.offsetLimit.label,
+                      fieldData.offsetLimit.name,
+                      fieldData.offsetLimit.helper,
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormWhetherSelectFormItem(
+                      fieldData.needToStringHashCodeEquals.label,
+                      fieldData.needToStringHashCodeEquals.name,
+                      fieldData.needToStringHashCodeEquals.helper,
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormWhetherSelectFormItem(
+                      fieldData.needForUpdate.label,
+                      fieldData.needForUpdate.name,
+                      fieldData.needForUpdate.helper,
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormWhetherSelectFormItem(
+                      fieldData.annotationDAO.label,
+                      fieldData.annotationDAO.name,
+                      fieldData.annotationDAO.helper,
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormWhetherSelectFormItem(
+                      fieldData.annotation.label,
+                      fieldData.annotation.name,
+                      fieldData.annotation.helper,
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormWhetherSelectFormItem(
+                      fieldData.useActualColumnNames.label,
+                      fieldData.useActualColumnNames.name,
+                      fieldData.useActualColumnNames.helper,
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormWhetherSelectFormItem(
+                      fieldData.useExample.label,
+                      fieldData.useExample.name,
+                      fieldData.useExample.helper,
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormWhetherSelectFormItem(
+                      fieldData.useTableNameAlias.label,
+                      fieldData.useTableNameAlias.name,
+                      fieldData.useTableNameAlias.helper,
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormWhetherSelectFormItem(
+                      fieldData.useDAOExtendStyle.label,
+                      fieldData.useDAOExtendStyle.name,
+                      fieldData.useDAOExtendStyle.helper,
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormWhetherSelectFormItem(
+                      fieldData.jsr310Support.label,
+                      fieldData.jsr310Support.name,
+                      fieldData.jsr310Support.helper,
+                    )}
+                  </Col>
+                  <Col lg={6} md={12} sm={24} xs={24}>
+                    {this.renderFormWhetherSelectFormItem(
+                      fieldData.overrideXML.label,
+                      fieldData.overrideXML.name,
+                      fieldData.overrideXML.helper,
                     )}
                   </Col>
                 </Row>

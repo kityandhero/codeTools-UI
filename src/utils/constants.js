@@ -1,4 +1,6 @@
 module.exports = {
+  zeroString: '0',
+  zeroInt: 0,
   formNameCollection: {
     createTime: 'createTime',
   },

@@ -25,20 +25,20 @@ module.exports = {
       label: 'modelPackage',
       helper: '生成的modelPackage',
     },
-    modelPackageTargetFolder: {
-      name: 'modelPackageTargetFolder',
-      label: 'modelPackage文件夹',
-      helper: '生成的modelPackage的文件夹',
+    modelTargetFolder: {
+      name: 'modelTargetFolder',
+      label: 'model文件夹',
+      helper: '生成的model的文件夹',
     },
     daoPackage: {
       name: 'daoPackage',
       label: 'daoPackage',
       helper: '生成的daoPackage',
     },
-    daoPackageTargetFolder: {
-      name: 'daoPackageTargetFolder',
-      label: 'daoPackage文件夹',
-      helper: '生成的daoPackage的文件夹',
+    daoTargetFolder: {
+      name: 'daoTargetFolder',
+      label: 'dao文件夹',
+      helper: '生成的dao的文件夹',
     },
     mappingXMLPackage: {
       name: 'mappingXMLPackage',

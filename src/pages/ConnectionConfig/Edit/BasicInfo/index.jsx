@@ -62,10 +62,6 @@ class Index extends TabPageBase {
     );
   }
 
-  onConnectionTypeChange = o => {
-    this.setState({ selectConnectionType: o ? connectionType.SSH : connectionType.TCP_IP });
-  };
-
   getTargetForm = () => {
     return this.formRef.current;
   };
@@ -127,6 +123,10 @@ class Index extends TabPageBase {
         description: '数据已经保存成功，请进行后续操作。',
       });
     });
+  };
+
+  onConnectionTypeChange = o => {
+    this.setState({ selectConnectionType: o ? connectionType.SSH : connectionType.TCP_IP });
   };
 
   formContent = () => {
