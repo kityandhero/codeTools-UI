@@ -213,7 +213,13 @@ export function recordLog(record, level = logLevel.debug) {
 }
 
 function logShowInConsole() {
-  return true;
+  const { NODE_ENV } = process.env;
+
+  if (NODE_ENV === 'development') {
+    return true;
+  }
+
+  return false;
 }
 
 /**

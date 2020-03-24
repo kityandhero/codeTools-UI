@@ -129,158 +129,168 @@ class Index extends CustomCore {
       loadDataAfterMount,
     } = this.state;
 
-    if (loadDataAfterMount) {
-      if ((loadApiPath || '') === '') {
-        message.error('loadApiPath需要配置');
-
-        this.setState({
-          dataLoading: false,
-          loadSuccess: false,
-          reloading: false,
-          searching: false,
-          refreshing: false,
-          paging: false,
-        });
-
-        return;
-      }
-
-      let submitData = this.initLoadRequestParams() || {};
-
-      submitData = pretreatmentRequestParams(submitData);
-
-      submitData = this.supplementLoadRequestParams(submitData);
-
-      const checkResult = this.checkLoadRequestParams(submitData);
-
-      if (checkResult) {
-        if (!firstLoadSuccess) {
-          this.beforeFirstLoadRequest(submitData);
-        }
-
-        if (reloadingBefore) {
-          this.beforeReLoadRequest(submitData);
-        }
-
-        this.beforeRequest(submitData);
-
-        if (dataLoading && !loadSuccess) {
-          this.initLoadCore(submitData, callback);
-        } else {
-          this.setState(
-            {
-              dataLoading: true,
-              loadSuccess: false,
-            },
-            () => {
-              this.initLoadCore(submitData, callback);
-            },
-          );
-        }
-      }
-    } else {
-      // 加载时执行完第一次方法之后设置为true
-      this.setState({ loadDataAfterMount: true });
-    }
-  };
-
-  initLoadCore = (requestData, callback) => {
-    const { dispatch } = this.props;
-
-    const requestingDataPre = this.getRequestingData();
-
-    const { loadApiPath, firstLoadSuccess } = this.state;
-
-    recordLog(`initLoadCore loadApiPath ${loadApiPath}`);
-
-    // 处理频繁的相同请求
-    if (
-      !isEqual(requestingDataPre, {
-        type: loadApiPath,
-        payload: requestData,
-      })
-    ) {
-      this.setRequestingData({ type: loadApiPath, payload: requestData });
-
-      // recordLog(dispatch);
-      // recordLog({
-      //   type: loadApiPath,
-      //   payload: requestData,
-      // });
-
-      dispatch({
-        type: loadApiPath,
-        payload: requestData,
-      })
-        .then(() => {
-          const metaOriginalData = this.getApiData(this.props);
-
-          if (isUndefined(metaOriginalData)) {
-            return;
-          }
-
-          this.lastLoadParams = requestData;
-
-          const { dataSuccess } = metaOriginalData;
-
-          if (dataSuccess) {
-            const { list: metaListData, data: metaData, extra: metaExtra } = metaOriginalData;
-
-            this.setState({
-              metaData: metaData || null,
-              metaExtra: metaExtra || null,
-              metaListData: metaListData || [],
-              metaOriginalData,
-            });
-
-            this.afterLoadSuccess(
-              metaData || null,
-              metaListData || [],
-              metaExtra || null,
-              metaOriginalData,
-            );
-          }
-
-          const { reloading: reloadingComplete } = this.state;
-
-          if (reloadingComplete) {
-            this.afterReloadSuccess();
-            this.afterGetReLoadRequestResult(requestData, metaOriginalData);
-          }
+    try {
+      if (loadDataAfterMount) {
+        if ((loadApiPath || '') === '') {
+          message.error('loadApiPath需要配置');
 
           this.setState({
             dataLoading: false,
-            loadSuccess: dataSuccess,
+            loadSuccess: false,
             reloading: false,
             searching: false,
             refreshing: false,
             paging: false,
           });
 
+          return;
+        }
+
+        let submitData = this.initLoadRequestParams() || {};
+
+        submitData = pretreatmentRequestParams(submitData);
+
+        submitData = this.supplementLoadRequestParams(submitData);
+
+        const checkResult = this.checkLoadRequestParams(submitData);
+
+        if (checkResult) {
           if (!firstLoadSuccess) {
+            this.beforeFirstLoadRequest(submitData);
+          }
+
+          if (reloadingBefore) {
+            this.beforeReLoadRequest(submitData);
+          }
+
+          this.beforeRequest(submitData);
+
+          if (dataLoading && !loadSuccess) {
+            this.initLoadCore(submitData, callback);
+          } else {
             this.setState(
               {
-                firstLoadSuccess: true,
+                dataLoading: true,
+                loadSuccess: false,
               },
               () => {
-                this.afterFirstLoadSuccess();
-
-                this.afterGetFirstRequestResult(requestData, metaOriginalData);
+                this.initLoadCore(submitData, callback);
               },
             );
           }
+        }
+      } else {
+        // 加载时执行完第一次方法之后设置为true
+        this.setState({ loadDataAfterMount: true });
+      }
+    } catch (error) {
+      recordLog({ loadApiPath });
 
-          this.afterGetRequestResult(requestData, metaOriginalData);
+      throw error;
+    }
+  };
 
-          if (typeof callback === 'function') {
-            callback();
-          }
+  initLoadCore = (requestData, callback) => {
+    try {
+      const { dispatch } = this.props;
 
-          this.clearRequestingData();
+      const requestingDataPre = this.getRequestingData();
+
+      const { loadApiPath, firstLoadSuccess } = this.state;
+
+      // 处理频繁的相同请求
+      if (
+        !isEqual(requestingDataPre, {
+          type: loadApiPath,
+          payload: requestData,
         })
-        .catch(res => {
-          recordLog(res);
-        });
+      ) {
+        this.setRequestingData({ type: loadApiPath, payload: requestData });
+
+        // recordLog(dispatch);
+        // recordLog({
+        //   type: loadApiPath,
+        //   payload: requestData,
+        // });
+
+        dispatch({
+          type: loadApiPath,
+          payload: requestData,
+        })
+          .then(() => {
+            const metaOriginalData = this.getApiData(this.props);
+
+            if (isUndefined(metaOriginalData)) {
+              return;
+            }
+
+            this.lastLoadParams = requestData;
+
+            const { dataSuccess } = metaOriginalData;
+
+            if (dataSuccess) {
+              const { list: metaListData, data: metaData, extra: metaExtra } = metaOriginalData;
+
+              this.setState({
+                metaData: metaData || null,
+                metaExtra: metaExtra || null,
+                metaListData: metaListData || [],
+                metaOriginalData,
+              });
+
+              this.afterLoadSuccess(
+                metaData || null,
+                metaListData || [],
+                metaExtra || null,
+                metaOriginalData,
+              );
+            }
+
+            const { reloading: reloadingComplete } = this.state;
+
+            if (reloadingComplete) {
+              this.afterReloadSuccess();
+              this.afterGetReLoadRequestResult(requestData, metaOriginalData);
+            }
+
+            this.setState({
+              dataLoading: false,
+              loadSuccess: dataSuccess,
+              reloading: false,
+              searching: false,
+              refreshing: false,
+              paging: false,
+            });
+
+            if (!firstLoadSuccess) {
+              this.setState(
+                {
+                  firstLoadSuccess: true,
+                },
+                () => {
+                  this.afterFirstLoadSuccess();
+
+                  this.afterGetFirstRequestResult(requestData, metaOriginalData);
+                },
+              );
+            }
+
+            this.afterGetRequestResult(requestData, metaOriginalData);
+
+            if (typeof callback === 'function') {
+              callback();
+            }
+
+            this.clearRequestingData();
+          })
+          .catch(res => {
+            recordLog(res);
+          });
+      }
+    } catch (error) {
+      recordLog({ requestData });
+
+      throw error;
     }
   };
 
