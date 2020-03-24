@@ -54,7 +54,7 @@ class Index extends AddFormBase {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterSubmitSuccess = (singleData, listData, extra, responseOriginalData, submitData) => {
+  afterSubmitSuccess = (singleData, listData, extraData, responseOriginalData, submitData) => {
     const { dispatch } = this.props;
 
     requestAnimationFrame(() => {
@@ -68,7 +68,7 @@ class Index extends AddFormBase {
     const { connectionConfigId } = singleData;
 
     const location = {
-      pathname: `/connectionConfig/edit/load/${connectionConfigId}/1/basicInfo`,
+      pathname: `/connectionConfig/edit/load/${connectionConfigId}/key/basicInfo`,
     };
 
     dispatch(routerRedux.replace(location));

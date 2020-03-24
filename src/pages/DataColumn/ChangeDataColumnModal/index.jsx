@@ -107,7 +107,7 @@ class Index extends ModalBase {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterSubmitSuccess = (singleData, listData, extra, responseOriginalData, submitData) => {
+  afterSubmitSuccess = (singleData, listData, extraData, responseOriginalData, submitData) => {
     const { afterOK } = this.props;
 
     const { metaData } = this.state;
