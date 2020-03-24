@@ -76,11 +76,11 @@ class Index extends PagerList {
     let result = 'default';
 
     switch (v) {
-      case 1:
+      case '1':
         result = 'processing';
         break;
       default:
-        result = 'error';
+        result = 'default';
         break;
     }
 
