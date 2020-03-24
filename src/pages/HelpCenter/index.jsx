@@ -61,7 +61,7 @@ class HelpCenter extends LoadDataForm {
         const { dispatch } = this.props;
 
         const location = {
-          pathname: `/helpCenter/category/${cid}/page`,
+          pathname: `/helpCenter/category/${cid}/pageList`,
         };
 
         dispatch(routerRedux.replace(location));

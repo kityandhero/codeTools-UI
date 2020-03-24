@@ -55,7 +55,7 @@ class ArticleContent extends LoadDataForm {
 
     this.setState({
       pageName: metaData.helpCategoryName,
-      backPath: `/helpCenter/category/${helpCategoryId}/page`,
+      backPath: `/helpCenter/category/${helpCategoryId}/pageList`,
     });
   };
 
