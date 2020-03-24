@@ -130,26 +130,28 @@ class BasicInfo extends UpdateFormTab {
             bordered={false}
             extra={
               <Affix offsetTop={20}>
-                <Button
-                  icon={<ReloadOutlined />}
-                  disabled={dataLoading || processing || !loadSuccess}
-                  onClick={this.reloadData}
-                  loading={processing}
-                >
-                  刷新
-                </Button>
-                <Divider type="vertical" />
-                <Button
-                  type="primary"
-                  icon={<SaveOutlined />}
-                  disabled={dataLoading || processing || !loadSuccess}
-                  onClick={e => {
-                    this.validate(e);
-                  }}
-                  loading={processing}
-                >
-                  保存
-                </Button>
+                <div>
+                  <Button
+                    icon={<ReloadOutlined />}
+                    disabled={dataLoading || processing || !loadSuccess}
+                    onClick={this.reloadData}
+                    loading={processing}
+                  >
+                    刷新
+                  </Button>
+                  <Divider type="vertical" />
+                  <Button
+                    type="primary"
+                    icon={<SaveOutlined />}
+                    disabled={dataLoading || processing || !loadSuccess}
+                    onClick={e => {
+                      this.validate(e);
+                    }}
+                    loading={processing}
+                  >
+                    保存
+                  </Button>
+                </div>
               </Affix>
             }
           >

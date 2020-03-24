@@ -98,7 +98,7 @@ class Index extends AddFormBase {
             bordered={false}
             extra={
               <Affix offsetTop={20}>
-                <>
+                <div>
                   <Button
                     type="primary"
                     icon={<SaveOutlined />}
@@ -110,7 +110,7 @@ class Index extends AddFormBase {
                   >
                     保存
                   </Button>
-                </>
+                </div>
               </Affix>
             }
           >

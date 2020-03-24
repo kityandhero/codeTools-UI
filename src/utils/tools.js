@@ -207,7 +207,9 @@ export function checkDevelopment() {
  */
 export function recordLog(record, level = logLevel.debug) {
   if (logShowInConsole()) {
+    // eslint-disable-next-line no-console
     console.log(level);
+    // eslint-disable-next-line no-console
     console.log(record);
   }
 }

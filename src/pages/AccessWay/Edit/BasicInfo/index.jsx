@@ -82,7 +82,7 @@ class Index extends TabPageBase {
               bordered={false}
               extra={
                 <Affix offsetTop={20}>
-                  <>
+                  <div>
                     <Button
                       type="default"
                       icon={<ReloadOutlined />}
@@ -94,7 +94,7 @@ class Index extends TabPageBase {
                     >
                       刷新
                     </Button>
-                  </>
+                  </div>
                 </Affix>
               }
             >

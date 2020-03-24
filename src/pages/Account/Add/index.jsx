@@ -85,7 +85,7 @@ class Add extends AddFormBase {
             bordered={false}
             extra={
               <Affix offsetTop={20}>
-                <>
+                <div>
                   <Button
                     type="primary"
                     icon={<SaveOutlined />}
@@ -97,7 +97,7 @@ class Add extends AddFormBase {
                   >
                     保存
                   </Button>
-                </>
+                </div>
               </Affix>
             }
           >
