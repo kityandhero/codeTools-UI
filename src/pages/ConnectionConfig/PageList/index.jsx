@@ -58,8 +58,8 @@ class Index extends PagerList {
     let indexData = -1;
 
     metaOriginalData.list.forEach((o, index) => {
-      const { connectionId } = o;
-      if (connectionId === dataId) {
+      const { connectionConfigId } = o;
+      if (connectionConfigId === dataId) {
         indexData = index;
       }
     });
@@ -96,7 +96,7 @@ class Index extends PagerList {
     const submitData = pretreatmentRequestParams({}, d => {
       const o = d;
 
-      o.connectionId = record.connectionId;
+      o.connectionConfigId = record.connectionConfigId;
 
       return o;
     });
