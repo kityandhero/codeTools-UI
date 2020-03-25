@@ -105,10 +105,12 @@ class Index extends TabPageBase {
     });
   };
 
-  supplementSubmitRequestParams = o => {
+  supplementSubmitRequestParams = (o) => {
     const d = o;
-    const { connectionConfigId } = this.state;
+    const { connectionConfigId, metaData } = this.state;
+    const { dataBaseGeneratorConfigId } = metaData;
 
+    d.dataBaseGeneratorConfigId = dataBaseGeneratorConfigId;
     d.connectionConfigId = connectionConfigId;
 
     return d;
@@ -125,7 +127,7 @@ class Index extends TabPageBase {
     });
   };
 
-  onConnectionTypeChange = o => {
+  onConnectionTypeChange = (o) => {
     this.setState({ selectConnectionType: o ? connectionType.SSH : connectionType.TCP_IP });
   };
 
@@ -240,7 +242,7 @@ class Index extends TabPageBase {
                     checkedChildren="开"
                     unCheckedChildren="关"
                     defaultChecked={selectConnectionType === connectionType.SSH}
-                    onChange={o => {
+                    onChange={(o) => {
                       this.onConnectionTypeChange(o);
                     }}
                   />
