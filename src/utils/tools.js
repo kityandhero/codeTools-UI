@@ -25,7 +25,7 @@ import {
 
 import { getConfigData } from '../customConfig/config';
 
-import { logLevel, authenticationFailCode } from './constants';
+import { logLevel, logShowMode, authenticationFailCode } from './constants';
 
 const storageKeyCollection = {
   metaData: 'metaData',
@@ -205,10 +205,19 @@ export function checkDevelopment() {
  * @param {*} str
  * @returns
  */
-export function recordLog(record, level = logLevel.debug) {
+export function recordLog(record, level = logLevel.debug, showMode = logShowMode.text) {
   if (logShowInConsole()) {
-    // eslint-disable-next-line no-console
-    console.log({ level, record });
+    if (showMode === logShowMode.text) {
+      const data = { level, record };
+
+      // eslint-disable-next-line no-console
+      console.log(JSON.stringify(data));
+    }
+
+    if (showMode === logShowMode.object) {
+      // eslint-disable-next-line no-console
+      console.log({ level, record });
+    }
   }
 }
 

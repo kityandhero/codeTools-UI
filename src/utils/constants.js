@@ -15,4 +15,8 @@ module.exports = {
     warn: 'warn',
     error: 'error',
   },
+  logShowMode: {
+    text: 'text',
+    object: 'object',
+  },
 };
