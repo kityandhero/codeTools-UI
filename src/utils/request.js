@@ -5,7 +5,7 @@ import { history } from 'umi';
 
 import { authenticationFailCode } from './constants';
 
-import { getTokenKeyName, corsTarget, getToken, clearCustomData, recordLog } from './tools';
+import { getTokenKeyName, corsTarget, getToken, clearCustomData, recordText } from './tools';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -44,7 +44,7 @@ const errorHandler = (error) => {
       notification.error(data);
     });
 
-    recordLog(data);
+    recordText(data);
   } else if (!response) {
     notification.error({
       description: '您的网络发生异常，无法连接服务器',
@@ -114,7 +114,7 @@ request.interceptors.response.use((response, options) => {
       }
     })
     .catch((o) => {
-      recordLog(o);
+      recordText(o);
     });
 
   return response;

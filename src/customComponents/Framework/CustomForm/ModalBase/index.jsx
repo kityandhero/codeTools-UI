@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Modal, Spin, message } from 'antd';
 
-import { defaultFormState, pretreatmentRequestParams, isFunction, recordLog } from '@/utils/tools';
+import { defaultFormState, pretreatmentRequestParams, isFunction, recordText } from '@/utils/tools';
 import CustomAuthorization from '../../CustomAuthorization';
 
 class ModalBase extends CustomAuthorization {
@@ -128,7 +128,7 @@ class ModalBase extends CustomAuthorization {
         }
       })
       .catch((error) => {
-        recordLog(error);
+        recordText(error);
         const { errorFields } = error;
 
         const m = [];

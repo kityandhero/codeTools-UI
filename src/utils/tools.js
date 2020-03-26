@@ -205,7 +205,7 @@ export function checkDevelopment() {
  * @param {*} str
  * @returns
  */
-export function recordLog(record, showMode = logShowMode.text, level = logLevel.debug) {
+export function recordLog(record, showMode, level = logLevel.debug) {
   if (logShowInConsole()) {
     if (showMode === logShowMode.text) {
       const data = { level, record };
@@ -219,6 +219,28 @@ export function recordLog(record, showMode = logShowMode.text, level = logLevel.
       console.log({ level, record });
     }
   }
+}
+
+/**
+ * 记录日志
+ *
+ * @export
+ * @param {*} str
+ * @returns
+ */
+export function recordText(record, level = logLevel.debug) {
+  recordLog(record, logShowMode.text, level);
+}
+
+/**
+ * 记录日志
+ *
+ * @export
+ * @param {*} str
+ * @returns
+ */
+export function recordObject(record, level = logLevel.debug) {
+  recordLog(record, logShowMode.object, level);
 }
 
 function logShowInConsole() {

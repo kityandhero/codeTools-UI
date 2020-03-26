@@ -12,13 +12,14 @@ import {
   pretreatmentRequestParams,
   buildFieldHelper,
   isUndefined,
-  recordLog,
+  recordText,
   refitCommonData,
   isInvalid,
   searchFromList,
   stringIsNullOrWhiteSpace,
+  recordObject,
 } from '@/utils/tools';
-import { unlimitedWithStringFlag, logShowMode } from '@/utils/constants';
+import { unlimitedWithStringFlag } from '@/utils/constants';
 import CustomCore from '../CustomCore';
 
 const FormItem = Form.Item;
@@ -184,7 +185,7 @@ class Index extends CustomCore {
         this.setState({ loadDataAfterMount: true });
       }
     } catch (error) {
-      recordLog({ loadApiPath });
+      recordText({ loadApiPath });
 
       throw error;
     }
@@ -278,11 +279,11 @@ class Index extends CustomCore {
             this.clearRequestingData();
           })
           .catch((res) => {
-            recordLog(res, logShowMode.object);
+            recordObject(res);
           });
       }
     } catch (error) {
-      recordLog({ requestData });
+      recordObject({ requestData });
 
       throw error;
     }
