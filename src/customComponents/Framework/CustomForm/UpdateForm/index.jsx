@@ -24,18 +24,18 @@ class UpdateForm extends LoadDataForm {
     this.reloadData();
   };
 
-  supplementSubmitRequestParams = o => o;
+  supplementSubmitRequestParams = (o) => o;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = (singleData, listData, extraData, responseOriginalData, submitData) => {};
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  checkSubmitRequestParams = o => true;
+  checkSubmitRequestParams = (o) => true;
 
-  afterCheckSubmitRequestParams = o => o;
+  afterCheckSubmitRequestParams = (o) => o;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  validate = e => {
+  validate = (e) => {
     const { dispatch } = this.props;
 
     const form = this.getTargetForm();
@@ -54,7 +54,7 @@ class UpdateForm extends LoadDataForm {
     }
 
     validateFields()
-      .then(values => {
+      .then((values) => {
         let submitData = pretreatmentRequestParams(values);
 
         submitData = this.supplementSubmitRequestParams(submitData);
@@ -97,12 +97,12 @@ class UpdateForm extends LoadDataForm {
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         const { errorFields } = error;
 
         const m = [];
 
-        Object.values(errorFields).forEach(o => {
+        Object.values(errorFields).forEach((o) => {
           m.push(o.errors[0]);
         });
 

@@ -7,7 +7,6 @@ import {
   formatDatetime,
   getDerivedStateFromPropsForUrlParams,
   buildFieldHelper,
-  recordObject,
 } from '@/utils/tools';
 import { zeroInt } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
@@ -86,8 +85,6 @@ class Index extends TabPageBase {
 
     d.connectionConfigId = connectionConfigId;
     d.dataBaseGeneratorConfigId = dataBaseGeneratorConfigId || '';
-
-    recordObject(d);
 
     return d;
   };
