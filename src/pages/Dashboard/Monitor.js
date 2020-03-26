@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
+import { formatMessage } from 'umi';
 import { Row, Col, Card, Tooltip } from 'antd';
 import numeral from 'numeral';
 import { GridContent } from '@ant-design/pro-layout';
@@ -18,7 +18,7 @@ const { Secured } = Authorized;
 const targetTime = new Date().getTime() + 3900000;
 
 // use permission as a parameter
-const havePermissionAsync = new Promise(resolve => {
+const havePermissionAsync = new Promise((resolve) => {
   // Call resolve on behalf of passed
   setTimeout(() => resolve(), 300);
 });
@@ -44,72 +44,37 @@ class Monitor extends PureComponent {
       <GridContent>
         <Row gutter={24}>
           <Col xl={18} lg={24} md={24} sm={24} xs={24} style={{ marginBottom: 24 }}>
-            <Card
-              title={
-                <FormattedMessage
-                  id="app.monitor.trading-activity"
-                  defaultMessage="Real-Time Trading Activity"
-                />
-              }
-              bordered={false}
-            >
+            <Card title={formatMessage({ id: 'app.monitor.trading-activity' })} bordered={false}>
               <Row>
                 <Col md={6} sm={12} xs={24}>
                   <NumberInfo
-                    subTitle={
-                      <FormattedMessage
-                        id="app.monitor.total-transactions"
-                        defaultMessage="Total transactions today"
-                      />
-                    }
+                    subTitle={formatMessage({ id: 'app.monitor.total-transactions' })}
                     suffix="元"
                     total={numeral(124543233).format('0,0')}
                   />
                 </Col>
                 <Col md={6} sm={12} xs={24}>
                   <NumberInfo
-                    subTitle={
-                      <FormattedMessage
-                        id="app.monitor.sales-target"
-                        defaultMessage="Sales target completion rate"
-                      />
-                    }
+                    subTitle={formatMessage({ id: 'app.monitor.sales-target' })}
                     total="92%"
                   />
                 </Col>
                 <Col md={6} sm={12} xs={24}>
                   <NumberInfo
-                    subTitle={
-                      <FormattedMessage
-                        id="app.monitor.remaining-time"
-                        defaultMessage="Remaining time of activity"
-                      />
-                    }
+                    subTitle={formatMessage({ id: 'app.monitor.remaining-time' })}
                     total={<CountDown target={targetTime} />}
                   />
                 </Col>
                 <Col md={6} sm={12} xs={24}>
                   <NumberInfo
-                    subTitle={
-                      <FormattedMessage
-                        id="app.monitor.total-transactions-per-second"
-                        defaultMessage="Total transactions per second"
-                      />
-                    }
+                    subTitle={formatMessage({ id: 'app.monitor.total-transactions-per-second' })}
                     suffix="元"
                     total={numeral(234).format('0,0')}
                   />
                 </Col>
               </Row>
               <div className={styles.mapChart}>
-                <Tooltip
-                  title={
-                    <FormattedMessage
-                      id="app.monitor.waiting-for-implementation"
-                      defaultMessage="Waiting for implementation"
-                    />
-                  }
-                >
+                <Tooltip title={formatMessage({ id: 'app.monitor.waiting-for-implementation' })}>
                   <img
                     src="https://gw.alipayobjects.com/zos/rmsportal/HBWnDEUXCnGnGrRfrpKa.png"
                     alt="map"
@@ -120,19 +85,14 @@ class Monitor extends PureComponent {
           </Col>
           <Col xl={6} lg={24} md={24} sm={24} xs={24}>
             <Card
-              title={
-                <FormattedMessage
-                  id="app.monitor.activity-forecast"
-                  defaultMessage="Activity forecast"
-                />
-              }
+              title={formatMessage({ id: 'app.monitor.activity-forecast' })}
               style={{ marginBottom: 24 }}
               bordered={false}
             >
               <ActiveChart />
             </Card>
             <Card
-              title={<FormattedMessage id="app.monitor.efficiency" defaultMessage="Efficiency" />}
+              title={formatMessage({ id: 'app.monitor.efficiency' })}
               style={{ marginBottom: 24 }}
               bodyStyle={{ textAlign: 'center' }}
               bordered={false}
@@ -148,12 +108,7 @@ class Monitor extends PureComponent {
         <Row gutter={24}>
           <Col xl={12} lg={24} sm={24} xs={24} style={{ marginBottom: 24 }}>
             <Card
-              title={
-                <FormattedMessage
-                  id="app.monitor.proportion-per-category"
-                  defaultMessage="Proportion Per Category"
-                />
-              }
+              title={formatMessage({ id: 'app.monitor.proportion-per-category' })}
               bordered={false}
               className={styles.pieCard}
             >
@@ -162,9 +117,7 @@ class Monitor extends PureComponent {
                   <Pie
                     animate={false}
                     percent={28}
-                    subTitle={
-                      <FormattedMessage id="app.monitor.fast-food" defaultMessage="Fast food" />
-                    }
+                    subTitle={formatMessage({ id: 'app.monitor.fast-food' })}
                     total="28%"
                     height={128}
                     lineWidth={2}
@@ -175,12 +128,7 @@ class Monitor extends PureComponent {
                     animate={false}
                     color="#5DDECF"
                     percent={22}
-                    subTitle={
-                      <FormattedMessage
-                        id="app.monitor.western-food"
-                        defaultMessage="Western food"
-                      />
-                    }
+                    subTitle={formatMessage({ id: 'app.monitor.western-food' })}
                     total="22%"
                     height={128}
                     lineWidth={2}
@@ -191,9 +139,7 @@ class Monitor extends PureComponent {
                     animate={false}
                     color="#2FC25B"
                     percent={32}
-                    subTitle={
-                      <FormattedMessage id="app.monitor.hot-pot" defaultMessage="Hot pot" />
-                    }
+                    subTitle={formatMessage({ id: 'app.monitor.hot-pot' })}
                     total="32%"
                     height={128}
                     lineWidth={2}
@@ -204,12 +150,7 @@ class Monitor extends PureComponent {
           </Col>
           <Col xl={6} lg={12} sm={24} xs={24} style={{ marginBottom: 24 }}>
             <Card
-              title={
-                <FormattedMessage
-                  id="app.monitor.popular-searches"
-                  defaultMessage="Popular Searches"
-                />
-              }
+              title={formatMessage({ id: 'app.monitor.popular-searches' })}
               loading={loading}
               bordered={false}
               bodyStyle={{ overflow: 'hidden' }}
@@ -219,20 +160,13 @@ class Monitor extends PureComponent {
           </Col>
           <Col xl={6} lg={12} sm={24} xs={24} style={{ marginBottom: 24 }}>
             <Card
-              title={
-                <FormattedMessage
-                  id="app.monitor.resource-surplus"
-                  defaultMessage="Resource Surplus"
-                />
-              }
+              title={formatMessage({ id: 'app.monitor.resource-surplus' })}
               bodyStyle={{ textAlign: 'center', fontSize: 0 }}
               bordered={false}
             >
               <WaterWave
                 height={161}
-                title={
-                  <FormattedMessage id="app.monitor.fund-surplus" defaultMessage="Fund Surplus" />
-                }
+                title={formatMessage({ id: 'app.monitor.fund-surplus' })}
                 percent={34}
               />
             </Card>

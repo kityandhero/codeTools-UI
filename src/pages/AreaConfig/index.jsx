@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import router from 'umi/router';
+import { history } from 'umi';
 import { Menu } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 import styles from './index.less';
@@ -58,7 +58,7 @@ class SetOutStockTime extends Component {
   };
 
   selectKey = ({ key }) => {
-    router.push(`/system/areaConfig/${key}`);
+    history.push(`/system/areaConfig/${key}`);
     this.setState({
       selectKey: key,
     });

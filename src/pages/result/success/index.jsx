@@ -1,5 +1,5 @@
 import { Button, Card, Steps, Result, Descriptions } from 'antd';
-import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
+import { formatMessage } from 'umi';
 import React from 'react';
 import { DingdingOutlined, DingdingOutlined } from '@ant-design/icons';
 import { GridContent } from '@ant-design/pro-layout';
@@ -14,7 +14,7 @@ const desc1 = (
         margin: '8px 0 4px',
       }}
     >
-      <FormattedMessage id="result-success.success.step1-operator" defaultMessage="Qu Lili" />
+      {formatMessage({ id: 'result-success.success.step1-operator' })}
       <DingdingOutlined
         style={{
           marginLeft: 8,
@@ -37,7 +37,7 @@ const desc2 = (
         margin: '8px 0 4px',
       }}
     >
-      <FormattedMessage id="result-success.success.step2-operator" defaultMessage="Zhou Maomao" />
+      {formatMessage({ id: 'result-success.success.step2-operator' })}
       <a href="">
         <DingdingOutlined
           style={{
@@ -45,7 +45,7 @@ const desc2 = (
             marginLeft: 8,
           }}
         />
-        <FormattedMessage id="result-success.success.step2-extra" defaultMessage="Urge" />
+        {formatMessage({ id: 'result-success.success.step2-extra' })}
       </a>
     </div>
   </div>
@@ -58,28 +58,13 @@ const content = (
         defaultMessage: 'Project Name',
       })}
     >
-      <Descriptions.Item
-        label={
-          <FormattedMessage id="result-success.success.operate-id" defaultMessage="Project ID：" />
-        }
-      >
+      <Descriptions.Item label={formatMessage({ id: 'result-success.success.operate-id' })}>
         23421
       </Descriptions.Item>
-      <Descriptions.Item
-        label={
-          <FormattedMessage id="result-success.success.principal" defaultMessage="Principal：" />
-        }
-      >
-        <FormattedMessage id="result-success.success.step1-operator" defaultMessage="Qu Lili" />
+      <Descriptions.Item label={formatMessage({ id: 'result-success.success.principal' })}>
+        {formatMessage({ id: 'result-success.success.step1-operator' })}
       </Descriptions.Item>
-      <Descriptions.Item
-        label={
-          <FormattedMessage
-            id="result-success.success.operate-time"
-            defaultMessage="Effective time："
-          />
-        }
-      >
+      <Descriptions.Item label={formatMessage({ id: 'result-success.success.operate-time' })}>
         2016-12-12 ~ 2017-12-12
       </Descriptions.Item>
     </Descriptions>
@@ -92,10 +77,7 @@ const content = (
               fontSize: 14,
             }}
           >
-            <FormattedMessage
-              id="result-success.success.step1-title"
-              defaultMessage="Create project"
-            />
+            {formatMessage({ id: 'result-success.success.step1-title' })}
           </span>
         }
         description={desc1}
@@ -107,10 +89,7 @@ const content = (
               fontSize: 14,
             }}
           >
-            <FormattedMessage
-              id="result-success.success.step2-title"
-              defaultMessage="Departmental preliminary review"
-            />
+            {formatMessage({ id: 'result-success.success.step2-title' })}
           </span>
         }
         description={desc2}
@@ -122,10 +101,7 @@ const content = (
               fontSize: 14,
             }}
           >
-            <FormattedMessage
-              id="result-success.success.step3-title"
-              defaultMessage="Financial review"
-            />
+            {formatMessage({ id: 'result-success.success.step3-title' })}
           </span>
         }
       />
@@ -136,7 +112,7 @@ const content = (
               fontSize: 14,
             }}
           >
-            <FormattedMessage id="result-success.success.step4-title" defaultMessage="Finish" />
+            {formatMessage({ id: 'result-success.success.step4-title' })}
           </span>
         }
       />
@@ -145,15 +121,9 @@ const content = (
 );
 const extra = (
   <>
-    <Button type="primary">
-      <FormattedMessage id="result-success.success.btn-return" defaultMessage="Back to list" />
-    </Button>
-    <Button>
-      <FormattedMessage id="result-success.success.btn-project" defaultMessage="View project" />
-    </Button>
-    <Button>
-      <FormattedMessage id="result-success.success.btn-print" defaultMessage="Print" />
-    </Button>
+    <Button type="primary">{formatMessage({ id: 'result-success.success.btn-return' })}</Button>
+    <Button>{formatMessage({ id: 'result-success.success.btn-project' })}</Button>
+    <Button>{formatMessage({ id: 'result-success.success.btn-print' })}</Button>
   </>
 );
 export default () => (

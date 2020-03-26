@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
-import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
+import { formatMessage } from 'umi';
 import { List } from 'antd';
 // import { getTimeDistance } from '@/utils/utils';
 
 const passwordStrength = {
-  strong: (
-    <font className="strong">
-      <FormattedMessage id="app.settings.security.strong" defaultMessage="Strong" />
-    </font>
-  ),
-  medium: (
-    <font className="medium">
-      <FormattedMessage id="app.settings.security.medium" defaultMessage="Medium" />
-    </font>
-  ),
+  strong: <font className="strong">{formatMessage({ id: 'app.settings.security.strong' })}</font>,
+  medium: <font className="medium">{formatMessage({ id: 'app.settings.security.medium' })}</font>,
   weak: (
     <font className="weak">
-      <FormattedMessage id="app.settings.security.weak" defaultMessage="Weak" />
+      {formatMessage({ id: 'app.settings.security.weak' })}
       Weak
     </font>
   ),
@@ -32,53 +24,33 @@ class SecurityView extends Component {
           {passwordStrength.strong}
         </>
       ),
-      actions: [
-        <a>
-          <FormattedMessage id="app.settings.security.modify" defaultMessage="Modify" />
-        </a>,
-      ],
+      actions: [<a>{formatMessage({ id: 'app.settings.security.modify' })}</a>],
     },
     {
       title: formatMessage({ id: 'app.settings.security.phone' }, {}),
       description: `${formatMessage(
         { id: 'app.settings.security.phone-description' },
-        {}
+        {},
       )}：138****8293`,
-      actions: [
-        <a>
-          <FormattedMessage id="app.settings.security.modify" defaultMessage="Modify" />
-        </a>,
-      ],
+      actions: [<a>{formatMessage({ id: 'app.settings.security.modify' })}</a>],
     },
     {
       title: formatMessage({ id: 'app.settings.security.question' }, {}),
       description: formatMessage({ id: 'app.settings.security.question-description' }, {}),
-      actions: [
-        <a>
-          <FormattedMessage id="app.settings.security.set" defaultMessage="Set" />
-        </a>,
-      ],
+      actions: [<a>{formatMessage({ id: 'app.settings.security.set' })}</a>],
     },
     {
       title: formatMessage({ id: 'app.settings.security.email' }, {}),
       description: `${formatMessage(
         { id: 'app.settings.security.email-description' },
-        {}
+        {},
       )}：ant***sign.com`,
-      actions: [
-        <a>
-          <FormattedMessage id="app.settings.security.modify" defaultMessage="Modify" />
-        </a>,
-      ],
+      actions: [<a>{formatMessage({ id: 'app.settings.security.modify' })}</a>],
     },
     {
       title: formatMessage({ id: 'app.settings.security.mfa' }, {}),
       description: formatMessage({ id: 'app.settings.security.mfa-description' }, {}),
-      actions: [
-        <a>
-          <FormattedMessage id="app.settings.security.bind" defaultMessage="Bind" />
-        </a>,
-      ],
+      actions: [<a>{formatMessage({ id: 'app.settings.security.bind' })}</a>],
     },
   ];
 
@@ -88,7 +60,7 @@ class SecurityView extends Component {
         <List
           itemLayout="horizontal"
           dataSource={this.getData()}
-          renderItem={item => (
+          renderItem={(item) => (
             <List.Item actions={item.actions}>
               <List.Item.Meta title={item.title} description={item.description} />
             </List.Item>

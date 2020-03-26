@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import router from 'umi/router';
+import { history } from 'umi';
 import { Menu } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 
@@ -97,7 +97,7 @@ class Index extends CustomAuthorization {
   selectKey = ({ key }) => {
     const { menuCategory } = this.state;
 
-    router.push(`/customConfig/category/${menuCategory[key]}`);
+    history.push(`/customConfig/category/${menuCategory[key]}`);
 
     this.setState({
       selectKey: key,

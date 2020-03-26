@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import router from 'umi/router';
+import { history } from 'umi';
 import { Menu } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 
@@ -64,7 +64,7 @@ class Setting extends CustomAuthorization {
   };
 
   selectKey = ({ key }) => {
-    router.push(`/operator/setting/${key}`);
+    history.push(`/operator/setting/${key}`);
 
     this.setState({
       selectKey: key,

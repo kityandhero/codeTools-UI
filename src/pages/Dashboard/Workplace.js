@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import Link from 'umi/link';
+import { Link } from 'umi';
 import { Row, Col, Card, List, Avatar } from 'antd';
 
 import { Radar } from '@/customComponents/Charts';
@@ -74,8 +74,8 @@ class Workplace extends PureComponent {
     const {
       activities: { list },
     } = this.props;
-    return list.map(item => {
-      const events = item.template.split(/@\{([^{}]*)\}/gi).map(key => {
+    return list.map((item) => {
+      const events = item.template.split(/@\{([^{}]*)\}/gi).map((key) => {
         if (item[key]) {
           return (
             <a href={item[key].link} key={item[key].name}>
@@ -172,7 +172,7 @@ class Workplace extends PureComponent {
               loading={projectLoading}
               bodyStyle={{ padding: 0 }}
             >
-              {notice.map(item => (
+              {notice.map((item) => (
                 <Card.Grid className={styles.projectGrid} key={item.id}>
                   <Card bodyStyle={{ padding: 0 }} bordered={false}>
                     <Card.Meta
@@ -235,7 +235,7 @@ class Workplace extends PureComponent {
             >
               <div className={styles.members}>
                 <Row gutter={48}>
-                  {notice.map(item => (
+                  {notice.map((item) => (
                     <Col span={12} key={`members-item-${item.id}`}>
                       <Link to={item.href}>
                         <Avatar src={item.logo} size="small" />

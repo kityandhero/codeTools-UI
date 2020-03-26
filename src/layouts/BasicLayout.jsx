@@ -4,9 +4,7 @@
  * https://github.com/ant-design/ant-design-pro-layout
  */
 import React, { useEffect } from 'react';
-import { Link } from 'umi';
-import { connect } from 'dva';
-import { formatMessage } from 'umi-plugin-react/locale';
+import { Link, useIntl, connect } from 'umi';
 import { GithubOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
 import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
@@ -38,8 +36,8 @@ const noMatch = (
 /**
  * use Authorized check all menu item
  */
-const menuDataRender = menuList =>
-  menuList.map(item => {
+const menuDataRender = (menuList) =>
+  menuList.map((item) => {
     const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
     return Authorized.check(item.authority, localItem, null);
   });
@@ -96,7 +94,7 @@ const footerRender = () => {
   );
 };
 
-const BasicLayout = props => {
+const BasicLayout = (props) => {
   const {
     dispatch,
     children,
@@ -129,7 +127,7 @@ const BasicLayout = props => {
    * init variables
    */
 
-  const handleMenuCollapse = payload => {
+  const handleMenuCollapse = (payload) => {
     if (dispatch) {
       dispatch({
         type: 'global/changeLayoutCollapsed',
@@ -143,6 +141,8 @@ const BasicLayout = props => {
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
+
+  const { formatMessage } = useIntl();
 
   return (
     <>

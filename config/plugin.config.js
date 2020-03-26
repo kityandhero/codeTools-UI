@@ -14,15 +14,20 @@ function getModulePackageName(module) {
 
   if (packageName && packageName.match('^_')) {
     // eslint-disable-next-line prefer-destructuring
-    packageName = packageName.match(/^_(@?[^@]+)/)[1];
+    const matchResult = packageName.match(/^_(@?[^@]+)/) || [];
+
+    if (matchResult.length > 0) {
+      packageName = packageName.match(/^_(@?[^@]+)/)[1];
+    }
   }
 
   return packageName;
 }
 
-export const webpackPlugin = config => {
+const webpackPlugin = (config) => {
   // optimize chunks
-  config.optimization // share the same chunks across different modules
+  config.optimization
+    // share the same chunks across different modules
     .runtimeChunk(false)
     .splitChunks({
       chunks: 'async',
@@ -31,32 +36,28 @@ export const webpackPlugin = config => {
       minSize: 0,
       cacheGroups: {
         vendors: {
-          test: module => {
+          test: (module) => {
             const packageName = getModulePackageName(module) || '';
-
             if (packageName) {
               return [
                 'bizcharts',
                 'gg-editor',
                 'g6',
                 '@antv',
+                'l7',
                 'gg-editor-core',
                 'bizcharts-plugin-slider',
               ].includes(packageName);
             }
-
             return false;
           },
-
           name(module) {
             const packageName = getModulePackageName(module);
-
             if (packageName) {
               if (['bizcharts', '@antv_data-set'].indexOf(packageName) >= 0) {
                 return 'viz'; // visualization package
               }
             }
-
             return 'misc';
           },
         },
@@ -64,12 +65,4 @@ export const webpackPlugin = config => {
     });
 };
 
-/**
- * 占位函数
- *
- * @export
- * @returns
- */
-export async function empty() {
-  return {};
-}
+export default webpackPlugin;

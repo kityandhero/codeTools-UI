@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
-import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
+import { formatMessage } from 'umi';
 import { Spin, Tag, Menu, Dropdown, Avatar, Tooltip } from 'antd';
-import Link from 'umi/link';
+import { Link } from 'umi';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import {
@@ -26,7 +26,7 @@ export default class GlobalHeaderRight extends PureComponent {
     if (notices.length === 0) {
       return {};
     }
-    const newNotices = notices.map(notice => {
+    const newNotices = notices.map((notice) => {
       const newNotice = { ...notice };
       if (newNotice.datetime) {
         newNotice.datetime = moment(notice.datetime).fromNow();
@@ -65,11 +65,11 @@ export default class GlobalHeaderRight extends PureComponent {
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         {/* <Menu.Item key="userCenter">
           <Icon type="user" />
-          <FormattedMessage id="menu.account.center" defaultMessage="account center" />
+          {{formatMessage({ id: 'menu.account.center' })}}
         </Menu.Item>
         <Menu.Item key="userinfo">
           <Icon type="setting" />
-          <FormattedMessage id="menu.account.settings" defaultMessage="account settings" />
+          {{formatMessage({ id: 'menu.account.settings' })}}
         </Menu.Item> */}
         {checkHasAuthority(accessWayCollection.areaConfig.get) ? (
           <Menu.Item key="areaConfig">
@@ -86,7 +86,7 @@ export default class GlobalHeaderRight extends PureComponent {
         {checkHasAuthority(accessWayCollection.areaConfig.get) ? <Menu.Divider /> : null}
         <Menu.Item key="logout">
           <LogoutOutlined />
-          <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
+          {formatMessage({ id: 'menu.account.logout' })}
         </Menu.Item>
       </Menu>
     );
@@ -105,11 +105,11 @@ export default class GlobalHeaderRight extends PureComponent {
             formatMessage({ id: 'component.globalHeader.search.example2' }),
             formatMessage({ id: 'component.globalHeader.search.example3' }),
           ]}
-          onSearch={value => {
+          onSearch={(value) => {
             console.log('input', value);
           }}
-          onPressEnter={value => {
-            console.log('enter', value); 
+          onPressEnter={(value) => {
+            console.log('enter', value);
           }}
         />
         <Tooltip title="帮助文档">

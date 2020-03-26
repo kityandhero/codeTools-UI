@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Link from 'umi/link';
+import { Link } from 'umi';
 import RightContent from '../GlobalHeaderCustom/RightContent';
 import BaseMenu from '@/customComponents/SiderMenu/BaseMenu';
 import styles from './index.less';
@@ -25,7 +25,7 @@ export default class TopNavHeaderCustom extends PureComponent {
     return (
       <div className={`${styles.head} ${theme === 'light' ? styles.light : ''}`}>
         <div
-          ref={ref => {
+          ref={(ref) => {
             this.maim = ref;
           }}
           className={`${styles.main} ${contentWidth === 'Fixed' ? styles.wide : ''}`}

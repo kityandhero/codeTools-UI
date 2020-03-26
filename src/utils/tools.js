@@ -1,4 +1,4 @@
-import router from 'umi/router';
+import { history } from 'umi';
 import { message } from 'antd';
 import moment from 'moment';
 import uuidv4 from 'uuid/v4';
@@ -845,7 +845,7 @@ function dataExceptionNotice(d) {
 
     if (code === 2001) {
       requestAnimationFrame(() => {
-        router.replace('/user/login');
+        history.replace('/user/login');
       });
     }
   }
@@ -1143,7 +1143,7 @@ export async function apiVirtualSuccessAccess(dataVirtual, needAuthorize = true)
   const { code } = result;
 
   if (code === 2001) {
-    router.push('/user/login');
+    history.push('/user/login');
   }
 
   return result;
@@ -1173,7 +1173,7 @@ export async function apiVirtualFailAccess(dataVirtual, needAuthorize = true) {
   const { code, message: messageText } = result;
 
   if (code === 2001) {
-    router.push('/user/login');
+    history.push('/user/login');
   } else if (code !== 200) {
     message.warn(messageText);
   }

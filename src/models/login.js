@@ -1,4 +1,4 @@
-import { router } from 'umi';
+import { history } from 'umi';
 import { message } from 'antd';
 import { stringify } from 'querystring';
 import { accountLogin, getFakeCaptcha } from '../services/api';
@@ -45,7 +45,7 @@ export default {
           }
         }
 
-        router.replace(redirect || '/');
+        history.replace(redirect || '/');
       }
     },
 
@@ -61,7 +61,7 @@ export default {
 
         message.info('退出登录成功！', 0.6);
 
-        router.replace({
+       history.replace({
           pathname: '/user/login',
           search: stringify({
             redirect: window.location.href,

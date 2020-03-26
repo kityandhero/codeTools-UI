@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
+import { formatMessage } from 'umi';
 import { List } from 'antd';
 import { TaobaoOutlined, DingdingOutlined, AlipayOutlined } from '@ant-design/icons';
 
@@ -8,31 +8,19 @@ class BindingView extends Component {
     {
       title: formatMessage({ id: 'app.settings.binding.taobao' }, {}),
       description: formatMessage({ id: 'app.settings.binding.taobao-description' }, {}),
-      actions: [
-        <a>
-          <FormattedMessage id="app.settings.binding.bind" defaultMessage="Bind" />
-        </a>,
-      ],
+      actions: [<a>{formatMessage({ id: 'app.settings.binding.bind' })}</a>],
       avatar: <TaobaoOutlined className="taobao" />,
     },
     {
       title: formatMessage({ id: 'app.settings.binding.alipay' }, {}),
       description: formatMessage({ id: 'app.settings.binding.alipay-description' }, {}),
-      actions: [
-        <a>
-          <FormattedMessage id="app.settings.binding.bind" defaultMessage="Bind" />
-        </a>,
-      ],
+      actions: [<a>{formatMessage({ id: 'app.settings.binding.bind' })}</a>],
       avatar: <AlipayOutlined className="alipay" />,
     },
     {
       title: formatMessage({ id: 'app.settings.binding.dingding' }, {}),
       description: formatMessage({ id: 'app.settings.binding.dingding-description' }, {}),
-      actions: [
-        <a>
-          <FormattedMessage id="app.settings.binding.bind" defaultMessage="Bind" />
-        </a>,
-      ],
+      actions: [<a>{formatMessage({ id: 'app.settings.binding.bind' })}</a>],
       avatar: <DingdingOutlined className="dingding" />,
     },
   ];
@@ -43,7 +31,7 @@ class BindingView extends Component {
         <List
           itemLayout="horizontal"
           dataSource={this.getData()}
-          renderItem={item => (
+          renderItem={(item) => (
             <List.Item actions={item.actions}>
               <List.Item.Meta
                 avatar={item.avatar}

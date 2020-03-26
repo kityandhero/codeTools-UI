@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Menu } from 'antd';
 import { BarsOutlined } from '@ant-design/icons';
 
-import Link from 'umi/link';
+import { Link } from 'umi';
 
 const { SubMenu } = Menu;
 
@@ -16,9 +16,9 @@ export default class BaseMenu extends PureComponent {
       return [];
     }
     return menusData
-      .filter(item => item.name && !item.hideInMenu)
-      .map(item => this.getSubMenuOrItem(item, parent))
-      .filter(item => item);
+      .filter((item) => item.name && !item.hideInMenu)
+      .map((item) => this.getSubMenuOrItem(item, parent))
+      .filter((item) => item);
   };
 
   getSelectedMenuKeys = () => {
@@ -41,9 +41,9 @@ export default class BaseMenu extends PureComponent {
   /**
    * get SubMenu or Item
    */
-  getSubMenuOrItem = item => {
+  getSubMenuOrItem = (item) => {
     // doc: add hideChildrenInMenu
-    if (item.children && !item.hideChildrenInMenu && item.children.some(child => child.name)) {
+    if (item.children && !item.hideChildrenInMenu && item.children.some((child) => child.name)) {
       const { name } = item;
       return (
         <SubMenu
@@ -66,7 +66,7 @@ export default class BaseMenu extends PureComponent {
     return <Menu.Item key={item.helpCategoryId}>{this.getMenuItemPath(item)}</Menu.Item>;
   };
 
-  getMenuItemPath = item => {
+  getMenuItemPath = (item) => {
     const { name } = item;
     const itemPath = `/helpCenter/category/${item.helpCategoryId}`;
     const icon = <BarsOutlined />;

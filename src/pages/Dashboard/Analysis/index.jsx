@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { FormattedMessage } from 'umi-plugin-react/locale';
+import { formatMessage } from 'umi';
 import numeral from 'numeral';
 import {
   Row,
@@ -163,7 +163,7 @@ class Analysis extends LoadDataForm {
   loadSaleCount = () => {
     const { dispatch } = this.props;
 
-    const submitData = pretreatmentRequestParams({}, d => {
+    const submitData = pretreatmentRequestParams({}, (d) => {
       const o = d;
 
       return o;
@@ -188,7 +188,7 @@ class Analysis extends LoadDataForm {
 
           const saleCountRange = [];
 
-          (saleCountRangeData || []).forEach(item => {
+          (saleCountRangeData || []).forEach((item) => {
             const o = {
               x: item.title,
               y: item.data,
@@ -214,7 +214,7 @@ class Analysis extends LoadDataForm {
   loadSaleAmount = () => {
     const { dispatch } = this.props;
 
-    const submitData = pretreatmentRequestParams({}, d => {
+    const submitData = pretreatmentRequestParams({}, (d) => {
       const o = d;
 
       return o;
@@ -262,7 +262,7 @@ class Analysis extends LoadDataForm {
   loadAreaAccountBalance = () => {
     const { dispatch } = this.props;
 
-    const submitData = pretreatmentRequestParams({}, d => {
+    const submitData = pretreatmentRequestParams({}, (d) => {
       const o = d;
 
       return o;
@@ -291,7 +291,7 @@ class Analysis extends LoadDataForm {
 
           const areaAccountBalanceRange = [];
 
-          (areaAccountBalanceRangeData || []).forEach(item => {
+          (areaAccountBalanceRangeData || []).forEach((item) => {
             const o = {
               x: item.title,
               y: item.data,
@@ -317,7 +317,7 @@ class Analysis extends LoadDataForm {
   loadReplenishmentStatistic = () => {
     const { dispatch } = this.props;
 
-    const submitData = pretreatmentRequestParams({}, d => {
+    const submitData = pretreatmentRequestParams({}, (d) => {
       const o = d;
 
       return o;
@@ -357,7 +357,7 @@ class Analysis extends LoadDataForm {
   loadSaleAmountRange = () => {
     const { dispatch } = this.props;
 
-    const submitData = pretreatmentRequestParams({}, d => {
+    const submitData = pretreatmentRequestParams({}, (d) => {
       const { saleRangeMode, saleStartTime, saleEndTime } = this.state;
       const o = d;
 
@@ -387,7 +387,7 @@ class Analysis extends LoadDataForm {
 
           const saleAmountRange = [];
 
-          (saleAmountRangeSource || []).forEach(item => {
+          (saleAmountRangeSource || []).forEach((item) => {
             const o = {
               x: item.title,
               y: item.data,
@@ -412,7 +412,7 @@ class Analysis extends LoadDataForm {
   loadSaleCountRange = () => {
     const { dispatch } = this.props;
 
-    const submitData = pretreatmentRequestParams({}, d => {
+    const submitData = pretreatmentRequestParams({}, (d) => {
       const { saleRangeMode, saleStartTime, saleEndTime } = this.state;
       const o = d;
 
@@ -442,7 +442,7 @@ class Analysis extends LoadDataForm {
 
           const saleCountRange = [];
 
-          (saleCountRangeSource || []).forEach(item => {
+          (saleCountRangeSource || []).forEach((item) => {
             const o = {
               x: item.title,
               y: item.data,
@@ -467,7 +467,7 @@ class Analysis extends LoadDataForm {
   loadSearchRange = () => {
     const { dispatch } = this.props;
 
-    const submitData = pretreatmentRequestParams({}, d => {
+    const submitData = pretreatmentRequestParams({}, (d) => {
       const o = d;
 
       return o;
@@ -497,7 +497,7 @@ class Analysis extends LoadDataForm {
 
           const searchRange = [];
 
-          (searchRangeSource || []).forEach(item => {
+          (searchRangeSource || []).forEach((item) => {
             const o = {
               x: item.title,
               y: item.data,
@@ -524,7 +524,7 @@ class Analysis extends LoadDataForm {
   loadRankStatistic = () => {
     const { dispatch } = this.props;
 
-    const submitData = pretreatmentRequestParams({}, d => {
+    const submitData = pretreatmentRequestParams({}, (d) => {
       const o = d;
 
       return o;
@@ -557,21 +557,21 @@ class Analysis extends LoadDataForm {
           const rankSaleOnLine = [];
           const rankSaleOffLine = [];
 
-          (rankListData || []).forEach(item => {
+          (rankListData || []).forEach((item) => {
             rankSale.push({
               x: item.rankName,
               y: item.saleAmount,
             });
           });
 
-          (onLineRankListData || []).forEach(item => {
+          (onLineRankListData || []).forEach((item) => {
             rankSaleOnLine.push({
               x: item.rankName,
               y: item.saleAmount,
             });
           });
 
-          (offLineRankListData || []).forEach(item => {
+          (offLineRankListData || []).forEach((item) => {
             rankSaleOffLine.push({
               x: item.rankName,
               y: item.saleAmount,
@@ -597,7 +597,7 @@ class Analysis extends LoadDataForm {
   loadStoreStatistic = () => {
     const { dispatch } = this.props;
 
-    const submitData = pretreatmentRequestParams({}, d => {
+    const submitData = pretreatmentRequestParams({}, (d) => {
       const o = d;
 
       return o;
@@ -628,13 +628,13 @@ class Analysis extends LoadDataForm {
     });
   };
 
-  handleChangeSalesType = e => {
+  handleChangeSalesType = (e) => {
     this.setState({
       salesType: e.target.value,
     });
   };
 
-  handleTabChange = key => {
+  handleTabChange = (key) => {
     this.setState({
       currentTabKey: key,
     });
@@ -654,7 +654,7 @@ class Analysis extends LoadDataForm {
     );
   };
 
-  saleRangeChange = type => {
+  saleRangeChange = (type) => {
     this.setState(
       {
         saleRangeMode: type,
@@ -779,7 +779,7 @@ class Analysis extends LoadDataForm {
         title: '搜索关键词',
         dataIndex: 'name',
         key: 'name',
-        render: text => <a href="/">{text}</a>,
+        render: (text) => <a href="/">{text}</a>,
       },
       {
         title: '用户数',
@@ -809,12 +809,7 @@ class Analysis extends LoadDataForm {
         <Col span={12}>
           <NumberInfo
             title={data.name}
-            subTitle={
-              <FormattedMessage
-                id="app.analysis.conversion-rate"
-                defaultMessage="Conversion Rate"
-              />
-            }
+            subTitle={formatMessage({ id: 'app.analysis.conversion-rate' })}
             gap={2}
             total={`${data.cvr * 100}%`}
             theme={currentKey !== data.name && 'light'}
@@ -1140,7 +1135,7 @@ class Analysis extends LoadDataForm {
                   </Col>
                 </Row>
                 <Table
-                  rowKey={record => record.ranking}
+                  rowKey={(record) => record.ranking}
                   size="small"
                   columns={columns}
                   dataSource={searchData.topSearchList}
@@ -1176,7 +1171,7 @@ class Analysis extends LoadDataForm {
                   subTitle="月销售额"
                   total={() => <Yuan>{salesPieData.reduce((pre, now) => now.y + pre, 0)}</Yuan>}
                   data={salesPieData}
-                  valueFormat={value => <Yuan>{value}</Yuan>}
+                  valueFormat={(value) => <Yuan>{value}</Yuan>}
                   height={248}
                   lineWidth={4}
                 />
@@ -1193,7 +1188,7 @@ class Analysis extends LoadDataForm {
         >
           <Spin spinning={offlineDataLoading}>
             <Tabs activeKey={activeKey} onChange={this.handleTabChange}>
-              {offlineData.map(shop => (
+              {offlineData.map((shop) => (
                 <TabPane tab={<CustomTab data={shop} currentTabKey={activeKey} />} key={shop.key}>
                   <div style={{ padding: '0 24px' }}>
                     <TimelineChart

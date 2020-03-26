@@ -1,5 +1,5 @@
 import { Button, Card, Result } from 'antd';
-import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
+import { formatMessage } from 'umi';
 import React from 'react';
 import { CloseCircleOutlined, RightOutlined } from '@ant-design/icons';
 import { GridContent } from '@ant-design/pro-layout';
@@ -8,12 +8,7 @@ import styles from './index.less';
 
 const Content = (
   <>
-    <div className={styles.title}>
-      <FormattedMessage
-        id="result-fail.error.hint-title"
-        defaultMessage="The content you submitted has the following error:"
-      />
-    </div>
+    <div className={styles.title}>{formatMessage({ id: 'result-fail.error.hint-title' })}</div>
     <div
       style={{
         marginBottom: 16,
@@ -25,16 +20,13 @@ const Content = (
         }}
         className={styles.error_icon}
       />
-      <FormattedMessage
-        id="result-fail.error.hint-text1"
-        defaultMessage="Your account has been frozen"
-      />
+      {formatMessage({ id: 'result-fail.error.hint-text1' })}
       <a
         style={{
           marginLeft: 16,
         }}
       >
-        <FormattedMessage id="result-fail.error.hint-btn1" defaultMessage="Thaw immediately" />
+        {formatMessage({ id: 'result-fail.error.hint-btn1' })}
         <RightOutlined />
       </a>
     </div>
@@ -45,16 +37,13 @@ const Content = (
         }}
         className={styles.error_icon}
       />
-      <FormattedMessage
-        id="result-fail.error.hint-text2"
-        defaultMessage="Your account is not yet eligible to apply"
-      />
+      {formatMessage({ id: 'result-fail.error.hint-text2' })}
       <a
         style={{
           marginLeft: 16,
         }}
       >
-        <FormattedMessage id="result-fail.error.hint-btn2" defaultMessage="Upgrade immediately" />
+        {formatMessage({ id: 'result-fail.error.hint-btn2' })}
         <RightOutlined />
       </a>
     </div>
@@ -72,9 +61,7 @@ export default () => (
           id: 'result-fail.error.description',
         })}
         extra={
-          <Button type="primary">
-            <FormattedMessage id="result-fail.error.btn-text" defaultMessage="Return to modify" />
-          </Button>
+          <Button type="primary">{formatMessage({ id: 'result-fail.error.btn-text' })}</Button>
         }
         style={{
           marginTop: 48,

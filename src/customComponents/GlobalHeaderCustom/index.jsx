@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import Link from 'umi/link';
+import { Link } from 'umi';
 import Debounce from 'lodash-decorators/debounce';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 

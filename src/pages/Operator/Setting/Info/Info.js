@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import router from 'umi/router';
-import { FormattedMessage } from 'umi-plugin-react/locale';
+import { history } from 'umi';
 import { Menu } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 import styles from './index.less';
@@ -16,19 +15,10 @@ class Info extends Component {
     super(props);
     const { match, location } = props;
     const menuMap = {
-      base: <FormattedMessage id="app.settings.menuMap.basic" defaultMessage="Basic Settings" />,
-      security: (
-        <FormattedMessage id="app.settings.menuMap.security" defaultMessage="Security Settings" />
-      ),
-      binding: (
-        <FormattedMessage id="app.settings.menuMap.binding" defaultMessage="Account Binding" />
-      ),
-      notification: (
-        <FormattedMessage
-          id="app.settings.menuMap.notification"
-          defaultMessage="New Message Notification"
-        />
-      ),
+      base: "Basic Settings",
+      security:"Security Settings",
+      binding:"Account Binding",
+      notification: "New Message Notification",
     };
     const key = location.pathname.replace(`${match.path}/`, '');
     this.state = {
@@ -68,7 +58,7 @@ class Info extends Component {
   };
 
   selectKey = ({ key }) => {
-    router.push(`/account/settings/${key}`);
+    history.push(`/account/settings/${key}`);
     this.setState({
       selectKey: key,
     });

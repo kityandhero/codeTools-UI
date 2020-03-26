@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import router from 'umi/router';
+import { history } from 'umi';
 import { List, Switch, BackTop, notification } from 'antd';
 
 import {
@@ -99,7 +99,7 @@ class ArticleList extends CustomAuthorization {
     }
 
     if (stringIsNullOrWhiteSpace(category) || category === 'no') {
-      router.replace(`/`);
+      history.replace(`/`);
     } else {
       this.setState({ category, categoryName });
     }
