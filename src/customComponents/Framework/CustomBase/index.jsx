@@ -68,17 +68,15 @@ class Index extends PureComponent {
       pathname: path,
     };
 
-    dispatch(history.push(location));
+    history.push(location);
   };
 
   redirectToPath = (path) => {
-    const { dispatch } = this.props;
-
     const location = {
       pathname: path,
     };
 
-    dispatch(history.replace(location));
+    history.replace(location);
   };
 
   checkHasMore = (pageNo, pageSize, total) => {

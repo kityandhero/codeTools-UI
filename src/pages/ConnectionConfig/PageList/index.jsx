@@ -132,7 +132,7 @@ class Index extends PagerList {
     const location = {
       pathname: `/connectionConfig/add`,
     };
-    dispatch(history.push(location));
+    history.push(location);
   };
 
   goToEdit = (record) => {
@@ -143,18 +143,17 @@ class Index extends PagerList {
       pathname: `/connectionConfig/edit/load/${connectionConfigId}/key/basicInfo`,
     };
 
-    dispatch(history.push(location));
+    history.push(location);
   };
 
   goToDataTablePageList = (record) => {
-    const { dispatch } = this.props;
     const { connectionConfigId } = record;
 
     const location = {
       pathname: `/connectionConfig/edit/load/${connectionConfigId}/key/dataTable/pageList`,
     };
 
-    dispatch(history.push(location));
+    history.push(location);
   };
 
   handleMenuClick = (e, record) => {

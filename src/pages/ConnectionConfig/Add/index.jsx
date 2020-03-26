@@ -71,7 +71,7 @@ class Index extends AddFormBase {
       pathname: `/connectionConfig/edit/load/${connectionConfigId}/key/basicInfo`,
     };
 
-    dispatch(history.replace(location));
+    history.replace(location);
   };
 
   onConnectionTypeChange = (o) => {

@@ -94,7 +94,7 @@ class Index extends PagerList {
       pathname: `/account/account/add`,
     };
 
-    dispatch(history.push(location));
+    history.push(location);
   };
 
   goToEdit = (record) => {
@@ -103,7 +103,7 @@ class Index extends PagerList {
     const location = {
       pathname: `/account/account/edit/load/${accountId}/key/basicInfo`,
     };
-    dispatch(history.push(location));
+    history.push(location);
   };
 
   handleMenuClick = (e, record) => {

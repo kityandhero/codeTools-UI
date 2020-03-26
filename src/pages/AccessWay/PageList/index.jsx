@@ -55,7 +55,7 @@ class Index extends PagerList {
       pathname: `/accessWay/edit/load/${accessWayId}/key/basicInfo`,
     };
 
-    dispatch(history.push(location));
+    history.push(location);
   };
 
   renderSimpleFormInitialValues = () => {

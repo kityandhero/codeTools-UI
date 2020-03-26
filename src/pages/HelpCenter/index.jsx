@@ -64,7 +64,7 @@ class HelpCenter extends LoadDataForm {
           pathname: `/helpCenter/category/${cid}/pageList`,
         };
 
-        dispatch(history.replace(location));
+        history.replace(location);
       }
     }
   };
@@ -78,7 +78,7 @@ class HelpCenter extends LoadDataForm {
       pathname: `/helpCenter/detail/load/${helpCategoryId}/${pageNo}/basicInfo`,
     };
 
-    dispatch(history.push(location));
+    history.push(location);
   };
 
   render() {

@@ -160,7 +160,7 @@ class ArticleList extends PagerList {
       pathname: `/helpCenter/category/${helpCategoryId}/detail/${helpId}/${pageNo}`,
     };
 
-    dispatch(history.push(location));
+    history.push(location);
   };
 
   renderTable = () => {

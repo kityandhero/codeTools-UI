@@ -55,7 +55,7 @@ class Index extends PagerList {
       pathname: `/generalLog/edit/load/${generalLogId}/key/basicInfo`,
     };
 
-    dispatch(history.push(location));
+    history.push(location);
   };
 
   renderSimpleFormInitialValues = () => {

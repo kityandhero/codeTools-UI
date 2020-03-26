@@ -66,7 +66,7 @@ class Add extends AddFormBase {
       pathname: `/account/account/edit/load/${accountId}/1/basicInfo`,
     };
 
-    dispatch(history.replace(location));
+    history.replace(location);
   };
 
   formContent = () => {

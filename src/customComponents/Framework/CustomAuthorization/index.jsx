@@ -21,9 +21,7 @@ class Index extends CustomCommonWrapper {
       this.init();
       needDoOther = true;
     } else {
-      const { dispatch } = this.props;
-
-      dispatch(history.replace('/exception/404'));
+      history.replace('/exception/404');
     }
 
     if (needDoOther) {
