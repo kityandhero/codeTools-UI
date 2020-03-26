@@ -88,8 +88,6 @@ class Index extends PagerList {
   };
 
   goToAdd = () => {
-    const { dispatch } = this.props;
-
     const location = {
       pathname: `/account/account/add`,
     };
@@ -98,7 +96,6 @@ class Index extends PagerList {
   };
 
   goToEdit = (record) => {
-    const { dispatch } = this.props;
     const { accountId } = record;
     const location = {
       pathname: `/account/account/edit/load/${accountId}/key/basicInfo`,

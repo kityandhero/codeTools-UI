@@ -48,8 +48,6 @@ class Add extends AddFormBase {
   };
 
   afterSubmitSuccess = (data) => {
-    const { dispatch } = this.props;
-
     requestAnimationFrame(() => {
       notification.success({
         placement: 'bottomRight',

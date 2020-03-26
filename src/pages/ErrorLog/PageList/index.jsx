@@ -48,7 +48,6 @@ class Index extends PagerList {
   };
 
   goToEdit = (record) => {
-    const { dispatch } = this.props;
     const { errorLogId } = record;
 
     const location = {

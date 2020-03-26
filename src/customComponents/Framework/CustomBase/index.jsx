@@ -62,8 +62,6 @@ class Index extends PureComponent {
   afterUnmount = () => {};
 
   goToPath = (path) => {
-    const { dispatch } = this.props;
-
     const location = {
       pathname: path,
     };

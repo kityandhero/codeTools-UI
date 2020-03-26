@@ -128,7 +128,6 @@ class Index extends PagerList {
   };
 
   goToAdd = () => {
-    const { dispatch } = this.props;
     const location = {
       pathname: `/connectionConfig/add`,
     };
@@ -136,7 +135,6 @@ class Index extends PagerList {
   };
 
   goToEdit = (record) => {
-    const { dispatch } = this.props;
     const { connectionConfigId } = record;
 
     const location = {

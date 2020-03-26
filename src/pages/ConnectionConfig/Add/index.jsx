@@ -55,8 +55,6 @@ class Index extends AddFormBase {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = (singleData, listData, extraData, responseOriginalData, submitData) => {
-    const { dispatch } = this.props;
-
     requestAnimationFrame(() => {
       notification.success({
         placement: 'bottomRight',

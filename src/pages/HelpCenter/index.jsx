@@ -58,8 +58,6 @@ class HelpCenter extends LoadDataForm {
       } else {
         const cid = metaListData[0].helpCategoryId;
 
-        const { dispatch } = this.props;
-
         const location = {
           pathname: `/helpCenter/category/${cid}/pageList`,
         };
@@ -70,7 +68,6 @@ class HelpCenter extends LoadDataForm {
   };
 
   goToList = (record) => {
-    const { dispatch } = this.props;
     const { pageNo } = this.state;
     const { helpCategoryId } = record;
 

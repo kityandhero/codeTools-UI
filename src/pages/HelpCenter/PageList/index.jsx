@@ -148,7 +148,6 @@ class ArticleList extends PagerList {
   };
 
   goToDetail = (record) => {
-    const { dispatch } = this.props;
     const {
       urlParams: { helpCategoryId },
     } = this.state;
