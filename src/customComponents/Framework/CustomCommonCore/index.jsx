@@ -18,7 +18,7 @@ import {
   searchFromList,
   stringIsNullOrWhiteSpace,
 } from '@/utils/tools';
-import { unlimitedWithStringFlag,logShowMode } from '@/utils/constants';
+import { unlimitedWithStringFlag, logShowMode } from '@/utils/constants';
 import CustomCore from '../CustomCore';
 
 const FormItem = Form.Item;
@@ -358,15 +358,12 @@ class Index extends CustomCore {
 
   reloadByUrl() {
     const {
-      dispatch,
       location: { pathname },
     } = this.props;
 
-    dispatch(
-      history.replace({
-        pathname: `${pathname.replace('/load/', '/update/')}`,
-      }),
-    );
+    history.replace({
+      pathname: `${pathname.replace('/load/', '/update/')}`,
+    });
   }
 
   renderOther = () => {
