@@ -4,8 +4,8 @@ import { history } from 'umi';
 import { Row, Col, Card, Spin, message } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 
-import { getDerivedStateFromPropsForUrlParams } from '../../utils/tools';
-import LoadDataForm from '../../customComponents/Framework/CustomForm/LoadDataForm';
+import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
+import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
 
 import { parseUrlParamsForSetState } from './Assist/config';
 

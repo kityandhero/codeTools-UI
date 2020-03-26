@@ -5,6 +5,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 import { isFunction, trim, replace } from '../../utils/tools';
 import defaultSettings from '../../../config/defaultSettings';
+
 import CustomBase from '../Framework/CustomBase';
 
 import styles from './index.less';

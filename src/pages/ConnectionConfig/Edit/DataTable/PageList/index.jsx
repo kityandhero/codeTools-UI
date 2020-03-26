@@ -3,11 +3,11 @@ import { connect } from 'dva';
 import { Modal, Row, Col, Dropdown, Menu, notification, message } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 
-import { getDerivedStateFromPropsForUrlParams } from '../../../../../utils/tools';
-import accessWayCollection from '../../../../../customConfig/accessWayCollection';
-import { constants } from '../../../../../customConfig/config';
-import InnerPagerList from '../../../../../customComponents/Framework/CustomList/PagerList/InnerPagerList';
-import Ellipsis from '../../../../../customComponents/Ellipsis';
+import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
+import accessWayCollection from '@/customConfig/accessWayCollection';
+import { constants } from '@/customConfig/config';
+import InnerPagerList from '@/customComponents/Framework/CustomList/PagerList/InnerPagerList';
+import Ellipsis from '@/customComponents/Ellipsis';
 
 // import AddModal from '../AddModal';
 // import UpdateModal from '../UpdateModal';
@@ -50,7 +50,7 @@ class Index extends InnerPagerList {
     );
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       dataTable: { data },
     } = props;
@@ -63,7 +63,7 @@ class Index extends InnerPagerList {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
     const { connectionConfigId } = this.state;
 
@@ -100,7 +100,7 @@ class Index extends InnerPagerList {
     this.refreshData();
   };
 
-  showDataColumnListDrawer = record => {
+  showDataColumnListDrawer = (record) => {
     this.setState({
       dataColumnListDrawerVisible: true,
       currentRecord: record,
@@ -132,7 +132,7 @@ class Index extends InnerPagerList {
     }
   };
 
-  setWait = record => {
+  setWait = (record) => {
     const { dispatch } = this.props;
     const { connectionConfigId } = record;
 
@@ -165,7 +165,7 @@ class Index extends InnerPagerList {
     });
   };
 
-  setOpening = record => {
+  setOpening = (record) => {
     const { dispatch } = this.props;
     const { connectionConfigId } = record;
 
@@ -206,7 +206,7 @@ class Index extends InnerPagerList {
     });
   };
 
-  setOver = record => {
+  setOver = (record) => {
     const { dispatch } = this.props;
     const { connectionConfigId } = record;
 
@@ -239,7 +239,7 @@ class Index extends InnerPagerList {
     });
   };
 
-  removeConfirm = record => {
+  removeConfirm = (record) => {
     const that = this;
     const { processing } = that.state;
 
@@ -257,7 +257,7 @@ class Index extends InnerPagerList {
     });
   };
 
-  remove = record => {
+  remove = (record) => {
     const { dispatch } = this.props;
     const { connectionConfigId } = record;
 
@@ -354,7 +354,7 @@ class Index extends InnerPagerList {
       title: fieldDataDataTable.name.label,
       dataIndex: fieldDataDataTable.name.name,
       align: 'left',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip={{ placement: 'topLeft' }} lines={1}>
             {val}
@@ -375,7 +375,7 @@ class Index extends InnerPagerList {
             onClick={() => this.showDataColumnListDrawer(record)}
             disabled={!this.checkAuthority(accessWayCollection.dataTable.get)}
             overlay={
-              <Menu onClick={e => this.handleMenuClick(e, record)}>
+              <Menu onClick={(e) => this.handleMenuClick(e, record)}>
                 {/* {this.checkAuthority(accessWayCollection.connectionConfig.remove) &&
                 record.state === 0 ? (
                   <Menu.Item key="remove">
