@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
+import { history } from 'umi';
 import { Row, Col, Dropdown, Menu } from 'antd';
 import { ReadOutlined, BookOutlined } from '@ant-design/icons';
 
@@ -39,7 +39,7 @@ class Index extends PagerList {
     };
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       accessWay: { data },
     } = props;
@@ -47,7 +47,7 @@ class Index extends PagerList {
     return data;
   };
 
-  goToEdit = record => {
+  goToEdit = (record) => {
     const { dispatch } = this.props;
     const { accessWayId } = record;
 
@@ -55,7 +55,7 @@ class Index extends PagerList {
       pathname: `/accessWay/edit/load/${accessWayId}/key/basicInfo`,
     };
 
-    dispatch(routerRedux.push(location));
+    dispatch(history.push(location));
   };
 
   renderSimpleFormInitialValues = () => {
@@ -93,7 +93,7 @@ class Index extends PagerList {
       title: fieldData.name.label,
       dataIndex: fieldData.name.name,
       align: 'left',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val}
@@ -106,7 +106,7 @@ class Index extends PagerList {
       dataIndex: fieldData.relativePath.name,
       width: 300,
       align: 'left',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val || '--'}
@@ -119,7 +119,7 @@ class Index extends PagerList {
       dataIndex: fieldData.tag.name,
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <EllipsisCustom
             tooltip
@@ -147,7 +147,7 @@ class Index extends PagerList {
       dataIndex: fieldData.expand.name,
       width: 340,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val || '--'}
@@ -174,7 +174,7 @@ class Index extends PagerList {
       width: 140,
       align: 'center',
       sorter: false,
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {(val || '') === '' ? '--' : formatDatetime(toDatetime(val), 'YYYY-MM-DD HH:mm')}
@@ -195,7 +195,7 @@ class Index extends PagerList {
             onClick={() => this.goToEdit(record)}
             disabled={!this.checkAuthority(accessWayCollection.account.get)}
             overlay={
-              <Menu onClick={e => this.handleMenuClick(e, record)}>
+              <Menu onClick={(e) => this.handleMenuClick(e, record)}>
                 <Menu.Item key="analysis" disabled>
                   <BookOutlined />
                   分析

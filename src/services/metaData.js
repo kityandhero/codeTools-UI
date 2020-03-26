@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import request from '@/utils/request';
 import { apiVirtualSuccessAccess, transferToVirtualAccess } from '@/utils/tools';
 
 /**
@@ -19,7 +19,7 @@ export async function queryGetData(params) {
 
   return request('/business/metaData/get', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 

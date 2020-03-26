@@ -1,5 +1,5 @@
 import React from 'react';
-import { routerRedux } from 'dva/router';
+import { history } from 'umi';
 import { Form, Select, Radio, Input, InputNumber, DatePicker, message } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
@@ -55,7 +55,7 @@ class Index extends CustomCore {
 
   // 该方法必须重载覆盖
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getApiData = props => ({
+  getApiData = (props) => ({
     metaOriginalData: {
       dataSuccess: false,
     },
@@ -74,13 +74,13 @@ class Index extends CustomCore {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  beforeFirstLoadRequest = submitData => {};
+  beforeFirstLoadRequest = (submitData) => {};
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  beforeReLoadRequest = submitData => {};
+  beforeReLoadRequest = (submitData) => {};
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  beforeRequest = submitData => {};
+  beforeRequest = (submitData) => {};
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterGetFirstRequestResult = (submitData, responseData) => {};
@@ -110,12 +110,12 @@ class Index extends CustomCore {
     this.setRequestingData({ type: '', payload: {} });
   }
 
-  initLoadRequestParams = o => o || {};
+  initLoadRequestParams = (o) => o || {};
 
-  supplementLoadRequestParams = o => o;
+  supplementLoadRequestParams = (o) => o;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  checkLoadRequestParams = o => {
+  checkLoadRequestParams = (o) => {
     return true;
   };
 
@@ -283,7 +283,7 @@ class Index extends CustomCore {
 
             this.clearRequestingData();
           })
-          .catch(res => {
+          .catch((res) => {
             recordLog(res);
           });
       }
@@ -369,7 +369,7 @@ class Index extends CustomCore {
     } = this.props;
 
     dispatch(
-      routerRedux.replace({
+      history.replace({
         pathname: `${pathname.replace('/load/', '/update/')}`,
       }),
     );
@@ -419,7 +419,7 @@ class Index extends CustomCore {
     const list = [];
 
     if (listData.length > 0) {
-      listData.forEach(item => {
+      listData.forEach((item) => {
         const { name, flag } = item;
         list.push(
           <Radio key={flag} value={flag}>
@@ -444,7 +444,7 @@ class Index extends CustomCore {
     const list = [];
 
     if (listData.length > 0) {
-      listData.forEach(item => {
+      listData.forEach((item) => {
         const { name, flag, disabled } = item;
         list.push(
           <Option key={`${flag}_${name}`} value={flag} disabled={disabled || false}>

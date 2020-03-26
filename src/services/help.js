@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import request from '@/utils/request';
 import { apiVirtualSuccessAccess, transferToVirtualAccess } from '@/utils/tools';
 
 export async function pageListData(params) {
@@ -15,7 +15,7 @@ export async function pageListData(params) {
 
   return request('/business/help/pageList', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -30,7 +30,7 @@ export async function getData(params) {
 
   return request('/business/help/get', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 

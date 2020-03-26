@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import request from '@/utils/request';
 import { apiVirtualSuccessAccess, transferToVirtualAccess } from '@/utils/tools';
 
 export async function pageListData(params) {
@@ -15,7 +15,7 @@ export async function pageListData(params) {
 
   return request('/business/connectionConfig/pageList', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -30,7 +30,7 @@ export async function getData(params) {
 
   return request('/business/connectionConfig/get', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -45,7 +45,7 @@ export async function addBasicInfoData(params) {
 
   return request('/business/connectionConfig/addBasicInfo', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -60,7 +60,7 @@ export async function updateBasicInfoData(params) {
 
   return request('/business/connectionConfig/updateBasicInfo', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -75,7 +75,7 @@ export async function removeData(params) {
 
   return request('/business/connectionConfig/remove', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -90,7 +90,7 @@ export async function tryConnectionData(params) {
 
   return request('/business/connectionConfig/tryConnection', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 

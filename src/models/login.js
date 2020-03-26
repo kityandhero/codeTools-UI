@@ -1,7 +1,7 @@
 import { history } from 'umi';
 import { message } from 'antd';
 import { stringify } from 'querystring';
-import { accountLogin, getFakeCaptcha } from '../services/api';
+import { accountLogin, getFakeCaptcha } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 

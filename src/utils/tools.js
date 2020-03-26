@@ -25,7 +25,7 @@ import {
 
 import { getConfigData } from '../customConfig/config';
 
-import { logLevel } from './constants';
+import { logLevel, authenticationFailCode } from './constants';
 
 const storageKeyCollection = {
   metaData: 'metaData',
@@ -125,7 +125,7 @@ export function defaultFormState() {
 
 export function getValue(obj) {
   return Object.keys(obj)
-    .map(key => obj[key])
+    .map((key) => obj[key])
     .join(',');
 }
 
@@ -786,7 +786,7 @@ export function searchFromList(itemKey, itemValue, sourceData) {
   const d = sourceData || [];
   let result = null;
 
-  d.forEach(o => {
+  d.forEach((o) => {
     if (o[itemKey] === itemValue) {
       result = o;
     }
@@ -843,7 +843,7 @@ function dataExceptionNotice(d) {
       }
     }
 
-    if (code === 2001) {
+    if (code === authenticationFailCode) {
       requestAnimationFrame(() => {
         history.replace('/user/login');
       });
@@ -1076,7 +1076,7 @@ export function apiVirtualFailData(statusCode, messageText, needAuthorize = true
     }
 
     return {
-      code: 2001,
+      code: authenticationFailCode,
       msg: '未授权的访问',
     };
   }
@@ -1107,7 +1107,7 @@ export function apiVirtualSuccessData(successData, needAuthorize = true) {
     }
 
     return {
-      code: 2001,
+      code: authenticationFailCode,
       msg: '未授权的访问',
     };
   }
@@ -1130,11 +1130,11 @@ export function apiVirtualSuccessData(successData, needAuthorize = true) {
 export async function apiVirtualSuccessAccess(dataVirtual, needAuthorize = true) {
   let result = {};
   // eslint-disable-next-line compat/compat
-  await new Promise(resolve => {
+  await new Promise((resolve) => {
     setTimeout(() => {
       resolve(apiVirtualSuccessData(dataVirtual, needAuthorize));
     }, 300);
-  }).then(data => {
+  }).then((data) => {
     result = data;
   });
 
@@ -1142,7 +1142,7 @@ export async function apiVirtualSuccessAccess(dataVirtual, needAuthorize = true)
 
   const { code } = result;
 
-  if (code === 2001) {
+  if (code === authenticationFailCode) {
     history.push('/user/login');
   }
 
@@ -1160,11 +1160,11 @@ export async function apiVirtualSuccessAccess(dataVirtual, needAuthorize = true)
 export async function apiVirtualFailAccess(dataVirtual, needAuthorize = true) {
   let result = {};
   // eslint-disable-next-line compat/compat
-  await new Promise(resolve => {
+  await new Promise((resolve) => {
     setTimeout(() => {
       resolve(apiVirtualFailData(dataVirtual, needAuthorize));
     }, 300);
-  }).then(data => {
+  }).then((data) => {
     result = data;
   });
 
@@ -1172,7 +1172,7 @@ export async function apiVirtualFailAccess(dataVirtual, needAuthorize = true) {
 
   const { code, message: messageText } = result;
 
-  if (code === 2001) {
+  if (code === authenticationFailCode) {
     history.push('/user/login');
   } else if (code !== 200) {
     message.warn(messageText);
@@ -1228,11 +1228,11 @@ export async function apiVirtualFailAccess(dataVirtual, needAuthorize = true) {
 export async function apiVirtualAccess(dataBuildFunction) {
   let result = {};
   // eslint-disable-next-line compat/compat
-  await new Promise(resolve => {
+  await new Promise((resolve) => {
     if (typeof dataBuildFunction === 'function') {
       setTimeout(dataBuildFunction(resolve));
     }
-  }).then(data => {
+  }).then((data) => {
     result = data;
   });
 

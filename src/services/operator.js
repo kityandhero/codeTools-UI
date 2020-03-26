@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import request from '@/utils/request';
 import { apiVirtualSuccessAccess, transferToVirtualAccess } from '@/utils/tools';
 
 export async function getCurrentData() {
@@ -67,9 +67,7 @@ export async function getCurrentBasicInfoData() {
     return result;
   }
 
-  return request('/business/operator/getCurrentBasicInfo', {
-    method: 'POST',
-  });
+  return request('/business/operator/getCurrentBasicInfo', {});
 }
 
 export async function updateCurrentBasicInfoData(params) {
@@ -83,7 +81,7 @@ export async function updateCurrentBasicInfoData(params) {
 
   return request('/business/operator/updateCurrentBasicInfo', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -98,7 +96,7 @@ export async function changeCurrentPasswordData(params) {
 
   return request('/business/operator/changeCurrentPassword', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 

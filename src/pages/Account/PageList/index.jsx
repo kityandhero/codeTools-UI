@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
+import { history } from 'umi';
 import {
   Row,
   Col,
@@ -64,7 +64,7 @@ class Index extends PagerList {
     };
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       account: { data },
     } = props;
@@ -72,7 +72,7 @@ class Index extends PagerList {
     return data;
   };
 
-  getAccountStateBadgeStatus = v => {
+  getAccountStateBadgeStatus = (v) => {
     let result = 'default';
 
     switch (v) {
@@ -94,16 +94,16 @@ class Index extends PagerList {
       pathname: `/account/account/add`,
     };
 
-    dispatch(routerRedux.push(location));
+    dispatch(history.push(location));
   };
 
-  goToEdit = record => {
+  goToEdit = (record) => {
     const { dispatch } = this.props;
     const { accountId } = record;
     const location = {
       pathname: `/account/account/edit/load/${accountId}/key/basicInfo`,
     };
-    dispatch(routerRedux.push(location));
+    dispatch(history.push(location));
   };
 
   handleMenuClick = (e, record) => {
@@ -165,7 +165,7 @@ class Index extends PagerList {
           });
         });
 
-        this.handleItem(record.accountId, d => {
+        this.handleItem(record.accountId, (d) => {
           const o = d;
           o.state = stateValue;
           return d;
@@ -176,7 +176,7 @@ class Index extends PagerList {
     });
   };
 
-  removeItem = record => {
+  removeItem = (record) => {
     const that = this;
 
     const { processing } = that.state;
@@ -242,7 +242,7 @@ class Index extends PagerList {
     }
   };
 
-  showUpdateAccountRoleModal = record => {
+  showUpdateAccountRoleModal = (record) => {
     const { changeUpdateAccountRoleModalVisible } = this.state;
     if (!changeUpdateAccountRoleModalVisible) {
       this.setState(
@@ -257,7 +257,7 @@ class Index extends PagerList {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterUpdateAccountRoleModalOk = data => {
+  afterUpdateAccountRoleModalOk = (data) => {
     this.setState({
       changeUpdateAccountRoleModalVisible: false,
     });
@@ -319,7 +319,7 @@ class Index extends PagerList {
       title: fieldData.userName.label,
       dataIndex: fieldData.userName.name,
       align: 'left',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val || '--'}
@@ -332,7 +332,7 @@ class Index extends PagerList {
       dataIndex: fieldData.name.name,
       width: 140,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val || '--'}
@@ -372,7 +372,7 @@ class Index extends PagerList {
       dataIndex: fieldData.accountId.name,
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <EllipsisCustom
             tooltip
@@ -400,7 +400,7 @@ class Index extends PagerList {
       dataIndex: constants.status.name,
       width: 100,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Badge
             status={this.getAccountStateBadgeStatus(`${val}`)}
@@ -428,7 +428,7 @@ class Index extends PagerList {
       width: 140,
       align: 'center',
       sorter: false,
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {(val || '') === '' ? '--' : formatDatetime(toDatetime(val), 'YYYY-MM-DD HH:mm')}
@@ -449,7 +449,7 @@ class Index extends PagerList {
             onClick={() => this.goToEdit(record)}
             disabled={!this.checkAuthority(accessWayCollection.account.get)}
             overlay={
-              <Menu onClick={e => this.handleMenuClick(e, record)}>
+              <Menu onClick={(e) => this.handleMenuClick(e, record)}>
                 {record.state === 0 &&
                 this.checkAuthority(accessWayCollection.account.changeState) ? (
                   <Menu.Item key="on">
@@ -487,9 +487,9 @@ class Index extends PagerList {
     },
   ];
 
-  renderRoleNameCollection = roleNameCollection => (
+  renderRoleNameCollection = (roleNameCollection) => (
     <>
-      {roleNameCollection.map(item => (
+      {roleNameCollection.map((item) => (
         <Tag key={`${item}`} color="#87d068">
           {item}
         </Tag>

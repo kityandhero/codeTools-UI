@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import request from '@/utils/request';
 import { apiVirtualSuccessAccess, transferToVirtualAccess } from '@/utils/tools';
 
 export async function queryListData(params) {
@@ -15,7 +15,7 @@ export async function queryListData(params) {
 
   return request('/business/account/pageList', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -30,7 +30,7 @@ export async function queryGetData(params) {
 
   return request('/business/account/get', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -45,7 +45,7 @@ export async function addBasicInfoData(params) {
 
   return request('/business/account/addBasicInfo', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -60,7 +60,7 @@ export async function updateBasicInfoData(params) {
 
   return request('/business/account/updateBasicInfo', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -75,7 +75,7 @@ export async function resetPasswordData(params) {
 
   return request('/business/account/resetPassword', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -90,7 +90,7 @@ export async function changeStateData(params) {
 
   return request('/business/account/changeState', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -105,7 +105,7 @@ export async function removeData(params) {
 
   return request('/business/account/remove', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 

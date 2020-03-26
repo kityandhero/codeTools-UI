@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import request from '@/utils/request';
 import { apiVirtualSuccessAccess, transferToVirtualAccess } from '@/utils/tools';
 
 export async function getCurrentData() {
@@ -69,7 +69,7 @@ export async function changeOutStockTimeData(params) {
 
   return request('/areaConfig/changeOutStockTime', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 

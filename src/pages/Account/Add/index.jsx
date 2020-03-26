@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
+import { history } from 'umi';
 import { Affix, Form, Row, Col, Card, Button, Spin, notification } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
 
@@ -39,7 +39,7 @@ class Add extends AddFormBase {
     return this.formRef.current;
   };
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       account: { data },
     } = props;
@@ -47,7 +47,7 @@ class Add extends AddFormBase {
     return data;
   };
 
-  afterSubmitSuccess = data => {
+  afterSubmitSuccess = (data) => {
     const { dispatch } = this.props;
 
     requestAnimationFrame(() => {
@@ -66,7 +66,7 @@ class Add extends AddFormBase {
       pathname: `/account/account/edit/load/${accountId}/1/basicInfo`,
     };
 
-    dispatch(routerRedux.replace(location));
+    dispatch(history.replace(location));
   };
 
   formContent = () => {
@@ -90,7 +90,7 @@ class Add extends AddFormBase {
                     type="primary"
                     icon={<SaveOutlined />}
                     disabled={processing}
-                    onClick={e => {
+                    onClick={(e) => {
                       this.validate(e);
                     }}
                     loading={processing}

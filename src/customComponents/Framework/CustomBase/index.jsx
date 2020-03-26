@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { PureComponent } from 'react';
-import { routerRedux } from 'dva/router';
+import { history } from 'umi';
 
 import { defaultBaseState } from '@/utils/tools';
 
@@ -61,24 +61,24 @@ class Index extends PureComponent {
 
   afterUnmount = () => {};
 
-  goToPath = path => {
+  goToPath = (path) => {
     const { dispatch } = this.props;
 
     const location = {
       pathname: path,
     };
 
-    dispatch(routerRedux.push(location));
+    dispatch(history.push(location));
   };
 
-  redirectToPath = path => {
+  redirectToPath = (path) => {
     const { dispatch } = this.props;
 
     const location = {
       pathname: path,
     };
 
-    dispatch(routerRedux.replace(location));
+    dispatch(history.replace(location));
   };
 
   checkHasMore = (pageNo, pageSize, total) => {

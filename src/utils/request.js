@@ -1,17 +1,11 @@
-import fetch from 'dva/fetch';
-import {
-  notification,
-  //  message
-} from 'antd';
+import { extend } from 'umi-request';
+import { stringify } from 'qs';
+import { message, notification } from 'antd';
 import { history } from 'umi';
-import hash from 'hash.js';
 
-import {
-  // useVirtualAccess,
-  getTokenKeyName,
-  corsTarget,
-  getToken,
-} from './tools';
+import { authenticationFailCode } from './constants';
+
+import { getTokenKeyName, corsTarget, getToken, clearCustomData, recordLog } from './tools';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -31,190 +25,97 @@ const codeMessage = {
   504: '网关超时。',
 };
 
-const checkStatus = response => {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
+/**
+ * 异常处理程序
+ */
+const errorHandler = (error) => {
+  const { response } = error;
+
+  if (response && response.status) {
+    const errorText = codeMessage[response.status] || response.statusText;
+    const { status, url } = response;
+
+    const data = {
+      message: `请求错误 ${status}: ${url}`,
+      description: errorText,
+    };
+
+    notification.error(data);
+
+    recordLog(data);
+  } else if (!response) {
+    notification.error({
+      description: '您的网络发生异常，无法连接服务器',
+      message: '网络异常',
+    });
   }
 
-  const errorText = codeMessage[response.status] || response.statusText;
-
-  notification.error({
-    message: `请求错误 ${response.status}: ${response.url}`,
-    description: errorText,
-  });
-
-  const error = new Error(errorText);
-
-  error.name = response.status;
-  error.response = response;
-
-  throw error;
-};
-
-const cachedSave = (response, hashCode) => {
-  /**
-   * Clone a response data and store it in sessionStorage
-   * Does not support data other than json, Cache only json
-   */
-  const contentType = response.headers.get('Content-Type');
-  if (contentType && contentType.match(/application\/json/i)) {
-    // All data is saved as text
-    response
-      .clone()
-      .text()
-      .then(content => {
-        sessionStorage.setItem(hashCode, content);
-        sessionStorage.setItem(`${hashCode}:timestamp`, Date.now());
-      });
-  }
   return response;
 };
 
 /**
- * Requests a URL, returning a promise.
- *
- * @param  {string} urlParam       The URL we want to request
- * @param  {object} [option] The options we want to pass to "fetch"
- * @return {object}           An object containing either "data" or "err"
+ * 配置request请求时的默认参数
  */
-export function request(urlParam, option) {
-  const options = {
-    ...option,
-  };
+const request = extend({
+  errorHandler, // 默认错误处理
+  // credentials: 'include', // 默认请求是否带上cookie，跨域时不需要
+});
+
+// request拦截器, 改变url 或 options.
+request.interceptors.request.use(async (url, options) => {
+  const token = getToken() || '';
 
   const corsUrl = corsTarget();
   // const url = transferToVirtualAccess() ? urlParam : `${corsUrl}${urlParam}`;
-  const url = `${corsUrl}${urlParam}`;
+  const urlChange = `${corsUrl}${url}`;
 
-  /**
-   * Produce fingerprints based on url and parameters
-   * Maybe url has the same parameters
-   */
-  const fingerprint = url + (options.body ? JSON.stringify(options.body) : '');
-  const hashCode = hash
-    .sha256()
-    .update(fingerprint)
-    .digest('hex');
+  if (token) {
+    const headers = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    };
 
-  const tokenSet = {};
+    headers[`${getTokenKeyName()}`] = token;
 
-  tokenSet[`${getTokenKeyName()}`] = getToken() || '';
-
-  const defaultOptions = {
-    // credentials: 'include',
-    headers: {
-      ...tokenSet,
-    },
-  };
-
-  const newOptions = {
-    ...defaultOptions,
-    ...options,
-  };
-
-  if (
-    newOptions.method === 'POST' ||
-    newOptions.method === 'PUT' ||
-    newOptions.method === 'DELETE'
-  ) {
-    if (!(newOptions.body instanceof FormData)) {
-      newOptions.headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json; charset=utf-8',
-        ...newOptions.headers,
-      };
-      newOptions.body = JSON.stringify(newOptions.body);
-    } else {
-      // newOptions.body is FormData
-      newOptions.headers = {
-        Accept: 'application/json',
-        ...newOptions.headers,
-      };
-    }
+    return {
+      url: urlChange,
+      options: { ...options, headers },
+    };
   }
 
-  return (
-    fetch(url, newOptions)
-      .then(checkStatus)
-      .then(response => cachedSave(response, hashCode))
-      .then(response => {
-        // DELETE and 204 do not return data by default
-        // using .json will report an error.
-        if (newOptions.method === 'DELETE' || response.code === 204) {
-          return response.text();
-        }
-        return response.json();
-      })
-      // .then(response => {
-      //   const { code } = response;
+  return {
+    url: urlChange,
+    options: { ...options },
+  };
+});
 
-      //   if (code !== undefined) {
-      //     if (code === 405) {
-      //       throw new Error('405');
-      //     }
+// response拦截器, 处理response
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+request.interceptors.response.use((response, options) => {
+  response
+    .clone()
+    .json()
+    .then((o) => {
+      const { code } = o;
 
-      //     if (code === 451) {
-      //       const { message: messageText } = response;
-      //       message.error(messageText);
-      //     }
-
-      //     if (code === 452) {
-      //       const { message: messageText } = response;
-      //       message.error(messageText);
-      //       throw new Error('452');
-      //     }
-
-      //     if (code === 500) {
-      //       const { message: messageText } = response;
-      //       message.error(messageText);
-      //     }
-
-      //     if (code === 201) {
-      //       const { message: messageText } = response;
-      //       message.error(messageText);
-      //     }
-
-      //     if (code === 1001) {
-      //       const { message: messageText } = response;
-
-      //       message.error(messageText);
-      //     }
-      //   }
-
-      //   return response;
-      // })
-      .catch(e => {
-        const status = e.name;
-        if (status === 401) {
-          // @HACK
-          /* eslint-disable no-underscore-dangle */
-          window.g_app._store.dispatch({
-            type: 'login/logout',
+      if (code === authenticationFailCode) {
+        setTimeout(() => {
+          clearCustomData();
+          message.info('登陆超时，请重新登录！', 0.6);
+          history.replace({
+            pathname: '/user/login',
+            search: stringify({
+              redirect: window.location.href,
+            }),
           });
-          return;
-        }
-        // environment should not be used
-        if (status === 403) {
-          history.push('/exception/403');
-          return;
-        }
-        if (status <= 504 && status >= 500) {
-          history.push('/exception/500');
-          return;
-        }
-        if (status >= 404 && status < 422) {
-          history.push('/exception/404');
-        }
-      })
-  );
-}
+        }, 200);
+      }
+    })
+    .catch((o) => {
+      recordLog(o);
+    });
 
-/**
- * 占位函数
- *
- * @export
- * @returns
- */
-export async function empty() {
-  return {};
-}
+  return response;
+});
+
+export default request;

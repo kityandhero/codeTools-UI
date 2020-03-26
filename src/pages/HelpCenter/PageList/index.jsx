@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
+import { history } from 'umi';
 import { List, Tag, Card, BackTop } from 'antd';
 import { EyeOutlined, StockOutlined, MessageOutlined } from '@ant-design/icons';
 
@@ -114,7 +114,7 @@ class ArticleList extends PagerList {
   //   }
   // };
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       help: { data },
     } = props;
@@ -122,7 +122,7 @@ class ArticleList extends PagerList {
     return data;
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
 
     const {
@@ -147,7 +147,7 @@ class ArticleList extends PagerList {
     });
   };
 
-  goToDetail = record => {
+  goToDetail = (record) => {
     const { dispatch } = this.props;
     const {
       urlParams: { helpCategoryId },
@@ -160,7 +160,7 @@ class ArticleList extends PagerList {
       pathname: `/helpCenter/category/${helpCategoryId}/detail/${helpId}/${pageNo}`,
     };
 
-    dispatch(routerRedux.push(location));
+    dispatch(history.push(location));
   };
 
   renderTable = () => {
@@ -174,7 +174,7 @@ class ArticleList extends PagerList {
       ...pagination,
       total,
       pageSize,
-      onChange: page => {
+      onChange: (page) => {
         const params = {
           pageNo: page,
           pageSize,
@@ -193,7 +193,7 @@ class ArticleList extends PagerList {
         dataSource={list}
         loading={dataLoading}
         pagination={paginationProps}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item
             key={item.helpId}
             actions={[
@@ -214,7 +214,7 @@ class ArticleList extends PagerList {
               }
               description={
                 <span>
-                  {(item.tagList || []).map(o => (
+                  {(item.tagList || []).map((o) => (
                     <Tag key={`${item.helpId}-${o}`}>{o}</Tag>
                   ))}
                 </span>

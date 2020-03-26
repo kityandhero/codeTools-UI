@@ -1,4 +1,4 @@
-import { routerRedux } from 'dva/router';
+import { history } from 'umi';
 
 import { getDerivedStateFromPropsForUrlParams, isFunction } from '../../../utils/tools';
 import { checkHasAuthority } from '../../../utils/authority';
@@ -23,7 +23,7 @@ class Index extends CustomCommonWrapper {
     } else {
       const { dispatch } = this.props;
 
-      dispatch(routerRedux.replace('/exception/404'));
+      dispatch(history.replace('/exception/404'));
     }
 
     if (needDoOther) {
@@ -31,7 +31,7 @@ class Index extends CustomCommonWrapper {
     }
   };
 
-  checkAuthority = auth => checkHasAuthority(auth);
+  checkAuthority = (auth) => checkHasAuthority(auth);
 
   getOperator = () => {
     const {

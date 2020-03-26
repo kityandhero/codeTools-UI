@@ -1,6 +1,7 @@
 module.exports = {
   zeroString: '0',
   zeroInt: 0,
+  authenticationFailCode: 2001,
   formNameCollection: {
     createTime: 'createTime',
   },

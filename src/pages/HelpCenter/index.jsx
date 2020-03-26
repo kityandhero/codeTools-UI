@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
+import { history } from 'umi';
 import { Row, Col, Card, Spin, message } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 
@@ -38,7 +38,7 @@ class HelpCenter extends LoadDataForm {
     );
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       helpCategory: { data },
     } = props;
@@ -64,12 +64,12 @@ class HelpCenter extends LoadDataForm {
           pathname: `/helpCenter/category/${cid}/pageList`,
         };
 
-        dispatch(routerRedux.replace(location));
+        dispatch(history.replace(location));
       }
     }
   };
 
-  goToList = record => {
+  goToList = (record) => {
     const { dispatch } = this.props;
     const { pageNo } = this.state;
     const { helpCategoryId } = record;
@@ -78,7 +78,7 @@ class HelpCenter extends LoadDataForm {
       pathname: `/helpCenter/detail/load/${helpCategoryId}/${pageNo}/basicInfo`,
     };
 
-    dispatch(routerRedux.push(location));
+    dispatch(history.push(location));
   };
 
   render() {

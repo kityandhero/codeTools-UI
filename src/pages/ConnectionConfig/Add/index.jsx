@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
+import { history } from 'umi';
 import { Form, Card, Button, Row, Col, Switch, Spin, notification, Affix } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
 
@@ -36,7 +36,7 @@ class Index extends AddFormBase {
     };
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       connectionConfig: { data },
     } = props;
@@ -44,7 +44,7 @@ class Index extends AddFormBase {
     return data;
   };
 
-  supplementSubmitRequestParams = o => {
+  supplementSubmitRequestParams = (o) => {
     const d = o;
     const { selectConnectionType } = this.state;
 
@@ -71,10 +71,10 @@ class Index extends AddFormBase {
       pathname: `/connectionConfig/edit/load/${connectionConfigId}/key/basicInfo`,
     };
 
-    dispatch(routerRedux.replace(location));
+    dispatch(history.replace(location));
   };
 
-  onConnectionTypeChange = o => {
+  onConnectionTypeChange = (o) => {
     this.setState({ selectConnectionType: o ? connectionType.SSH : connectionType.TCP_IP });
   };
 
@@ -103,7 +103,7 @@ class Index extends AddFormBase {
                     type="primary"
                     icon={<SaveOutlined />}
                     disabled={processing}
-                    onClick={e => {
+                    onClick={(e) => {
                       this.validate(e);
                     }}
                     loading={processing}
@@ -189,7 +189,7 @@ class Index extends AddFormBase {
                   checkedChildren="开"
                   unCheckedChildren="关"
                   defaultChecked={selectConnectionType === connectionType.SSH}
-                  onChange={o => {
+                  onChange={(o) => {
                     this.onConnectionTypeChange(o);
                   }}
                 />

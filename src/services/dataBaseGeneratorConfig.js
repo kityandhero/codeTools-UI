@@ -1,4 +1,4 @@
-import { request } from '@/utils/request';
+import request from '@/utils/request';
 import { apiVirtualSuccessAccess, transferToVirtualAccess } from '@/utils/tools';
 
 export async function listData(params) {
@@ -12,7 +12,7 @@ export async function listData(params) {
 
   return request('/business/dataBaseGeneratorConfig/list', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -27,7 +27,7 @@ export async function getData(params) {
 
   return request('/business/dataBaseGeneratorConfig/get', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -42,7 +42,7 @@ export async function getByConnectionIdData(params) {
 
   return request('/business/dataBaseGeneratorConfig/getByConnectionId', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 
@@ -57,7 +57,7 @@ export async function setData(params) {
 
   return request('/business/dataBaseGeneratorConfig/set', {
     method: 'POST',
-    body: params,
+    data: params,
   });
 }
 

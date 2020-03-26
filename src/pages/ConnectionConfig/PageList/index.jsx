@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
+import { history } from 'umi';
 import { Row, Col, Dropdown, Menu, Button, Divider, notification, Modal, message } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined, DatabaseOutlined } from '@ant-design/icons';
 
@@ -45,7 +45,7 @@ class Index extends PagerList {
     };
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       connectionConfig: { data },
     } = props;
@@ -70,7 +70,7 @@ class Index extends PagerList {
     }
   };
 
-  removeConfirm = record => {
+  removeConfirm = (record) => {
     const that = this;
     const { processing } = that.state;
 
@@ -90,10 +90,10 @@ class Index extends PagerList {
     });
   };
 
-  remove = record => {
+  remove = (record) => {
     const { dispatch } = this.props;
 
-    const submitData = pretreatmentRequestParams({}, d => {
+    const submitData = pretreatmentRequestParams({}, (d) => {
       const o = d;
 
       o.connectionConfigId = record.connectionConfigId;
@@ -132,10 +132,10 @@ class Index extends PagerList {
     const location = {
       pathname: `/connectionConfig/add`,
     };
-    dispatch(routerRedux.push(location));
+    dispatch(history.push(location));
   };
 
-  goToEdit = record => {
+  goToEdit = (record) => {
     const { dispatch } = this.props;
     const { connectionConfigId } = record;
 
@@ -143,10 +143,10 @@ class Index extends PagerList {
       pathname: `/connectionConfig/edit/load/${connectionConfigId}/key/basicInfo`,
     };
 
-    dispatch(routerRedux.push(location));
+    dispatch(history.push(location));
   };
 
-  goToDataTablePageList = record => {
+  goToDataTablePageList = (record) => {
     const { dispatch } = this.props;
     const { connectionConfigId } = record;
 
@@ -154,7 +154,7 @@ class Index extends PagerList {
       pathname: `/connectionConfig/edit/load/${connectionConfigId}/key/dataTable/pageList`,
     };
 
-    dispatch(routerRedux.push(location));
+    dispatch(history.push(location));
   };
 
   handleMenuClick = (e, record) => {
@@ -172,7 +172,7 @@ class Index extends PagerList {
     }
   };
 
-  openDatabase = record => {
+  openDatabase = (record) => {
     const { dispatch } = this.props;
     const { connectionConfigId } = record;
 
@@ -207,7 +207,7 @@ class Index extends PagerList {
     },
   ];
 
-  onBatchActionSelect = key => {
+  onBatchActionSelect = (key) => {
     switch (key) {
       case 'batchDelete':
         this.onBatchDelete();
@@ -289,7 +289,7 @@ class Index extends PagerList {
       title: fieldData.name.label,
       dataIndex: fieldData.name.name,
       align: 'left',
-      render: val => <>{val || '--'}</>,
+      render: (val) => <>{val || '--'}</>,
     },
     // {
     //   title: fieldData.contactInformation,
@@ -315,14 +315,14 @@ class Index extends PagerList {
       dataIndex: fieldData.schema.name,
       width: 200,
       align: 'center',
-      render: val => <>{val || '--'}</>,
+      render: (val) => <>{val || '--'}</>,
     },
     {
       title: fieldData.databaseType.label,
       dataIndex: fieldData.databaseType.name,
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {this.getDatabaseDatabaseTypeName(`${val || ''}`)}
@@ -335,7 +335,7 @@ class Index extends PagerList {
       dataIndex: fieldData.connectionType.name,
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {this.getDatabaseConnectionTypeName(`${val || ''}`)}
@@ -348,7 +348,7 @@ class Index extends PagerList {
       dataIndex: fieldData.encoding.name,
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {this.getDatabaseEncodingName(`${val || ''}`)}
@@ -361,7 +361,7 @@ class Index extends PagerList {
       dataIndex: fieldData.connectionConfigId.name,
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <EllipsisCustom
             tooltip
@@ -403,7 +403,7 @@ class Index extends PagerList {
       width: 140,
       align: 'center',
       sorter: false,
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {(val || '') === '' ? '--' : formatDatetime(toDatetime(val), 'YYYY-MM-DD HH:mm')}
@@ -423,7 +423,7 @@ class Index extends PagerList {
             size="small"
             onClick={() => this.goToEdit(record)}
             overlay={
-              <Menu onClick={e => this.handleMenuClick(e, record)}>
+              <Menu onClick={(e) => this.handleMenuClick(e, record)}>
                 <Menu.Item key="openDatabase">
                   <DatabaseOutlined />
                   连接数据库
