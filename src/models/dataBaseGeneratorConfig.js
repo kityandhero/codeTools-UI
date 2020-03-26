@@ -5,7 +5,7 @@ import {
   getData,
   getByConnectionIdData,
   setData,
-} from '../services/dataBaseGeneratorConfig';
+} from '@/services/dataBaseGeneratorConfig';
 
 export default {
   namespace: 'dataBaseGeneratorConfig',

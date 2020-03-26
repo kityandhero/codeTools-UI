@@ -8,7 +8,7 @@ import {
   resetPasswordData,
   changeStateData,
   removeData,
-} from '../services/account';
+} from '@/services/account';
 
 export default {
   namespace: 'account',

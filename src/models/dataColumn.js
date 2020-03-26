@@ -1,6 +1,6 @@
 import { handleListDataAssist, handleCommonDataAssist } from '@/utils/tools';
 
-import { listData, getData, setData } from '../services/dataColumn';
+import { listData, getData, setData } from '@/services/dataColumn';
 
 export default {
   namespace: 'dataColumn',

@@ -1,6 +1,6 @@
 import { handleListDataAssist, handleCommonDataAssist } from '@/utils/tools';
 
-import { listData, getData } from '../services/helpCategory';
+import { listData, getData } from '@/services/helpCategory';
 
 export default {
   namespace: 'helpCategory',

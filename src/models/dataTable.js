@@ -1,6 +1,6 @@
 import { handlePageListDataAssist, handleCommonDataAssist } from '@/utils/tools';
 
-import { pageListData, getData } from '../services/dataTable';
+import { pageListData, getData } from '@/services/dataTable';
 
 export default {
   namespace: 'dataTable',

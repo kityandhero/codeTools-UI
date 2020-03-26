@@ -1,10 +1,11 @@
+import { pretreatmentRemoteSingleData } from '@/utils/tools';
+
 import {
   getCurrentData,
   getCurrentBasicInfoData,
   updateCurrentBasicInfoData,
   changeCurrentPasswordData,
-} from '../services/operator';
-import { pretreatmentRemoteSingleData } from '@/utils/tools';
+} from '@/services/operator';
 
 export default {
   namespace: 'operator',

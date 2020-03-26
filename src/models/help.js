@@ -1,6 +1,6 @@
 import { handlePageListDataAssist, handleCommonDataAssist } from '@/utils/tools';
 
-import { pageListData, getData } from '../services/help';
+import { pageListData, getData } from '@/services/help';
 
 export default {
   namespace: 'help',

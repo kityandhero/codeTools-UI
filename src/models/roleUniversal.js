@@ -3,7 +3,7 @@ import {
   handleListDataAssist,
   handleCommonDataAssist,
 } from '@/utils/tools';
-import { pageListData, getData } from '../services/roleUniversal';
+import { pageListData, getData } from '@/services/roleUniversal';
 
 export default {
   namespace: 'roleUniversal',

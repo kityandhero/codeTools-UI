@@ -1,6 +1,6 @@
 import { handleListDataAssist, handleCommonDataAssist } from '@/utils/tools';
 
-import { listData, setData } from '../services/customConfig';
+import { listData, setData } from '@/services/customConfig';
 
 export default {
   namespace: 'customConfig',

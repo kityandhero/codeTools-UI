@@ -1,6 +1,6 @@
 import { handleCommonDataAssist } from '@/utils/tools';
 
-import { getCurrentData, changeOutStockTimeData } from '../services/areaConfig';
+import { getCurrentData, changeOutStockTimeData } from '@/services/areaConfig';
 
 export default {
   namespace: 'areaConfig',

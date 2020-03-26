@@ -1,6 +1,6 @@
 import { handlePageListDataAssist, handleCommonDataAssist } from '@/utils/tools';
 
-import { pageListData, getData } from '../services/errorLog';
+import { pageListData, getData } from '@/services/errorLog';
 
 export default {
   namespace: 'errorLog',

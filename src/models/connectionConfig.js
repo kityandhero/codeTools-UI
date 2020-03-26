@@ -7,7 +7,7 @@ import {
   updateBasicInfoData,
   removeData,
   tryConnectionData,
-} from '../services/connectionConfig';
+} from '@/services/connectionConfig';
 
 export default {
   namespace: 'connectionConfig',
