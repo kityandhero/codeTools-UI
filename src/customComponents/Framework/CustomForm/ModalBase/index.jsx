@@ -1,12 +1,7 @@
 import React from 'react';
 import { Form, Modal, Spin, message } from 'antd';
 
-import {
-  defaultFormState,
-  pretreatmentRequestParams,
-  isFunction,
-  recordLog,
-} from '../../../../utils/tools';
+import { defaultFormState, pretreatmentRequestParams, isFunction, recordLog } from '@/utils/tools';
 import CustomAuthorization from '../../CustomAuthorization';
 
 class ModalBase extends CustomAuthorization {
@@ -53,20 +48,20 @@ class ModalBase extends CustomAuthorization {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherWhenChangeVisible = (preProps, preState, snapshot) => {};
 
-  supplementLoadRequestParams = o => o;
+  supplementLoadRequestParams = (o) => o;
 
-  supplementSubmitRequestParams = o => o;
+  supplementSubmitRequestParams = (o) => o;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  checkSubmitRequestParams = o => true;
+  checkSubmitRequestParams = (o) => true;
 
-  afterCheckSubmitRequestParams = o => o;
+  afterCheckSubmitRequestParams = (o) => o;
 
   getTargetForm = () => {
     return this.formRef.current;
   };
 
-  handleOk = e => {
+  handleOk = (e) => {
     e.preventDefault();
 
     const {
@@ -89,7 +84,7 @@ class ModalBase extends CustomAuthorization {
     const { validateFields } = form;
 
     validateFields()
-      .then(values => {
+      .then((values) => {
         let submitData = pretreatmentRequestParams(values);
 
         submitData = this.supplementSubmitRequestParams(submitData);
@@ -132,13 +127,13 @@ class ModalBase extends CustomAuthorization {
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         recordLog(error);
         const { errorFields } = error;
 
         const m = [];
 
-        Object.values(errorFields).forEach(o => {
+        Object.values(errorFields).forEach((o) => {
           m.push(o.errors[0]);
         });
 
@@ -166,7 +161,7 @@ class ModalBase extends CustomAuthorization {
     this.setState({ visible: false });
   };
 
-  handleCancel = e => {
+  handleCancel = (e) => {
     e.preventDefault();
 
     const { afterCancel } = this.props;

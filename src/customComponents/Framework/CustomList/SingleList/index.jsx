@@ -1,7 +1,7 @@
 import React from 'react';
 import { message } from 'antd';
 
-import { defaultListState, stringIsNullOrWhiteSpace } from '../../../../utils/tools';
+import { defaultListState, stringIsNullOrWhiteSpace } from '@/utils/tools';
 import ListBase from '../ListBase';
 import StandardTableCustom from '../../../StandardTableCustom';
 
@@ -80,7 +80,7 @@ class SingleList extends ListBase {
     return d;
   };
 
-  handleSearch = e => {
+  handleSearch = (e) => {
     e.preventDefault();
 
     if (this.checkWorkDoing()) {
@@ -92,7 +92,7 @@ class SingleList extends ListBase {
     const { validateFields } = form;
 
     validateFields()
-      .then(fieldsValue => {
+      .then((fieldsValue) => {
         const values = {
           ...fieldsValue,
           updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
@@ -100,12 +100,12 @@ class SingleList extends ListBase {
 
         this.searchData({ formValues: values });
       })
-      .catch(error => {
+      .catch((error) => {
         const { errorFields } = error;
 
         const m = [];
 
-        Object.values(errorFields).forEach(o => {
+        Object.values(errorFields).forEach((o) => {
           m.push(o.errors[0]);
         });
 

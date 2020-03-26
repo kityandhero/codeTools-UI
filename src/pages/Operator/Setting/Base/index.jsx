@@ -3,8 +3,8 @@ import { Form, Upload, Button, Spin, notification } from 'antd';
 import { connect } from 'dva';
 import { UploadOutlined, SaveOutlined, FormOutlined } from '@ant-design/icons';
 
-import { buildFieldHelper } from '../../../../utils/tools';
-import UpdateForm from '../../../../customComponents/Framework/CustomForm/UpdateForm';
+import { buildFieldHelper } from '@/utils/tools';
+import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
 
 import styles from './index.less';
 // import GeographicView from '../Geographic';
@@ -67,7 +67,7 @@ class BaseView extends UpdateForm {
     return this.formRef.current;
   };
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       operator: { data },
     } = props;
@@ -76,7 +76,7 @@ class BaseView extends UpdateForm {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterSubmitSuccess = data => {
+  afterSubmitSuccess = (data) => {
     requestAnimationFrame(() => {
       notification.success({
         placement: 'bottomRight',
@@ -86,7 +86,7 @@ class BaseView extends UpdateForm {
     });
   };
 
-  getViewDom = ref => {
+  getViewDom = (ref) => {
     this.view = ref;
   };
 
@@ -162,7 +162,7 @@ class BaseView extends UpdateForm {
                 type="primary"
                 icon={<SaveOutlined />}
                 disabled={dataLoading || processing || !loadSuccess}
-                onClick={e => {
+                onClick={(e) => {
                   this.validate(e);
                 }}
                 loading={processing}

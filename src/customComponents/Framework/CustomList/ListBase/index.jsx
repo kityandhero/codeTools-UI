@@ -15,12 +15,7 @@ import {
 import { SearchOutlined, ReloadOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
-import {
-  defaultListState,
-  buildFieldDescription,
-  isArray,
-  isUndefined,
-} from '../../../../utils/tools';
+import { defaultListState, buildFieldDescription, isArray, isUndefined } from '@/utils/tools';
 import CustomAuthorization from '../../CustomAuthorization';
 import { tableSizeConfig } from '../../../StandardTableCustom';
 
@@ -63,7 +58,7 @@ class SingleList extends CustomAuthorization {
     });
   };
 
-  handleSelectRows = rows => {
+  handleSelectRows = (rows) => {
     this.setState({
       selectedDataTableDataRows: rows,
     });
@@ -117,7 +112,7 @@ class SingleList extends CustomAuthorization {
   // 其他项重置
   handleFormOtherReset = () => {};
 
-  handleSearch = e => {
+  handleSearch = (e) => {
     e.preventDefault();
 
     if (this.checkWorkDoing()) {
@@ -129,7 +124,7 @@ class SingleList extends CustomAuthorization {
     const { validateFields } = form;
 
     validateFields()
-      .then(fieldsValue => {
+      .then((fieldsValue) => {
         const values = {
           ...fieldsValue,
           updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
@@ -137,12 +132,12 @@ class SingleList extends CustomAuthorization {
 
         this.searchData({ formValues: values });
       })
-      .catch(error => {
+      .catch((error) => {
         const { errorFields } = error;
 
         const m = [];
 
-        Object.values(errorFields).forEach(o => {
+        Object.values(errorFields).forEach((o) => {
           m.push(o.errors[0]);
         });
 
@@ -179,7 +174,7 @@ class SingleList extends CustomAuthorization {
             loading={searching}
             type="primary"
             icon={<SearchOutlined />}
-            onClick={e => {
+            onClick={(e) => {
               this.handleSearch(e);
             }}
           >
@@ -269,7 +264,7 @@ class SingleList extends CustomAuthorization {
   };
 
   restoreColumnsOtherConfigArray = () => {
-    const columnsOtherConfigArray = this.getColumn().map(item => {
+    const columnsOtherConfigArray = this.getColumn().map((item) => {
       return { dataIndex: item.dataIndex, show: true, fixed: item.fixed || '' };
     });
 
@@ -288,15 +283,15 @@ class SingleList extends CustomAuthorization {
     };
   };
 
-  setTableSize = key => {
+  setTableSize = (key) => {
     this.setState({ tableSize: key });
   };
 
-  setColumnsMap = e => {
+  setColumnsMap = (e) => {
     if (Object.keys(e || {}).length === 0) {
       this.restoreColumnsOtherConfigArray();
     } else {
-      const columnsOtherConfigArrayChanged = (this.columnsOtherConfig || []).map(item => {
+      const columnsOtherConfigArrayChanged = (this.columnsOtherConfig || []).map((item) => {
         const { dataIndex } = item;
 
         if (!isUndefined(e[dataIndex])) {
@@ -319,12 +314,12 @@ class SingleList extends CustomAuthorization {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setSortKeyColumns = e => {};
+  setSortKeyColumns = (e) => {};
 
   getColumnsMap = () => {
     const o = {};
 
-    (this.columnsOtherConfig || []).forEach(item => {
+    (this.columnsOtherConfig || []).forEach((item) => {
       const { dataIndex } = item;
 
       const temp = { ...{}, ...item };
@@ -340,10 +335,10 @@ class SingleList extends CustomAuthorization {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onBatchActionSelect = key => {};
+  onBatchActionSelect = (key) => {};
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  renderTable = config => null;
+  renderTable = (config) => null;
 
   renderAlertContent = () => {
     return '';
@@ -391,7 +386,7 @@ class SingleList extends CustomAuthorization {
         return (
           <>
             <BatchAction.Button
-              onSelect={key => {
+              onSelect={(key) => {
                 this.onBatchActionSelect(key);
               }}
               menus={batchActionMenu}
@@ -436,7 +431,7 @@ class SingleList extends CustomAuthorization {
                 {this.renderBatchAction()}
                 <DensityAction
                   tableSize={tableSize}
-                  setTableSize={key => {
+                  setTableSize={(key) => {
                     this.setTableSize(key);
                   }}
                 />
@@ -455,10 +450,10 @@ class SingleList extends CustomAuthorization {
                 <ColumnSetting
                   columns={this.getColumn()}
                   columnsMap={this.getColumnsMap()}
-                  setColumnsMap={e => {
+                  setColumnsMap={(e) => {
                     this.setColumnsMap(e);
                   }}
-                  setSortKeyColumns={key => {
+                  setSortKeyColumns={(key) => {
                     this.setSortKeyColumns(key);
                   }}
                 />

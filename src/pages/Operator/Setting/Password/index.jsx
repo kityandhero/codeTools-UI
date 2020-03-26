@@ -3,8 +3,8 @@ import { Form, Button, Spin, notification, message } from 'antd';
 import { connect } from 'dva';
 import { FormOutlined, SaveOutlined } from '@ant-design/icons';
 
-import { buildFieldHelper } from '../../../../utils/tools';
-import UpdateForm from '../../../../customComponents/Framework/CustomForm/UpdateForm';
+import { buildFieldHelper } from '@/utils/tools';
+import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
 
 import styles from './index.less';
 
@@ -40,7 +40,7 @@ class Password extends UpdateForm {
     return this.formRef.current;
   };
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       operator: { data },
     } = props;
@@ -48,11 +48,11 @@ class Password extends UpdateForm {
     return data;
   };
 
-  getViewDom = ref => {
+  getViewDom = (ref) => {
     this.view = ref;
   };
 
-  checkSubmitRequestParams = o => {
+  checkSubmitRequestParams = (o) => {
     if (o.password.length < 6) {
       message.error('新密码长度太短，请输入6~32位的新密码！');
       return false;
@@ -66,14 +66,14 @@ class Password extends UpdateForm {
     return true;
   };
 
-  afterCheckSubmitRequestParams = o => {
+  afterCheckSubmitRequestParams = (o) => {
     const d = o;
 
     return d;
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterSubmitSuccess = data => {
+  afterSubmitSuccess = (data) => {
     const form = this.getTargetForm();
 
     if (form == null) {
@@ -125,7 +125,7 @@ class Password extends UpdateForm {
                 type="primary"
                 icon={<SaveOutlined />}
                 disabled={processing}
-                onClick={e => {
+                onClick={(e) => {
                   this.validate(e);
                 }}
               >

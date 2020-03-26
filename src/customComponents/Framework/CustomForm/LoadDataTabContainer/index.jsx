@@ -9,7 +9,7 @@ import {
 import { LoadingOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
-import { isArray, copyToClipboard, formatDatetime } from '../../../../utils/tools';
+import { isArray, copyToClipboard, formatDatetime } from '@/utils/tools';
 import LoadDataForm from '../LoadDataForm';
 
 import styles from './index.less';
@@ -64,17 +64,17 @@ class LoadDataTabContainer extends LoadDataForm {
     }
   };
 
-  handleTabChange = key => {
+  handleTabChange = (key) => {
     const { match } = this.props;
 
-    (this.tabList || []).forEach(item => {
+    (this.tabList || []).forEach((item) => {
       if (item.key === key) {
         this.redirectToPath(`${match.url.replace('/update', '/load')}/${item.key}`);
       }
     });
   };
 
-  adjustTabListAvailable = tabListAvailable => tabListAvailable;
+  adjustTabListAvailable = (tabListAvailable) => tabListAvailable;
 
   getTabActiveKey = () => {
     const {
@@ -136,7 +136,7 @@ class LoadDataTabContainer extends LoadDataForm {
 
       return (
         <Descriptions className={styles.headerList} size="small">
-          {dataList.map(item => {
+          {dataList.map((item) => {
             return (
               <Description key={item.key} label={item.label}>
                 {item.value}
@@ -190,12 +190,12 @@ class LoadDataTabContainer extends LoadDataForm {
   };
 
   render() {
-    const { match, children } = this.props;
+    const { children } = this.props;
     const { customTabActiveKey } = this.state;
 
     let tabListAvailable = [];
 
-    (this.tabList || []).forEach(o => {
+    (this.tabList || []).forEach((o) => {
       const v = typeof o.show === 'undefined' ? true : o.show === true;
 
       if (v) {

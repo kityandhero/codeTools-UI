@@ -7,10 +7,10 @@ import {
   formatDatetime,
   getDerivedStateFromPropsForUrlParams,
   buildFieldHelper,
-} from '../../../../utils/tools';
-import { zeroInt } from '../../../../utils/constants';
-import accessWayCollection from '../../../../customConfig/accessWayCollection';
-import { constants } from '../../../../customConfig/config';
+} from '@/utils/tools';
+import { zeroInt } from '@/utils/constants';
+import accessWayCollection from '@/customConfig/accessWayCollection';
+import { constants } from '@/customConfig/config';
 
 import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';

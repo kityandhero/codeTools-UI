@@ -7,14 +7,14 @@ import {
   getDerivedStateFromPropsForUrlParams,
   buildFieldHelper,
   formatDatetime,
-} from '../../../../utils/tools';
-import accessWayCollection from '../../../../customConfig/accessWayCollection';
-import { constants } from '../../../../customConfig/config';
-import UpdateFormTab from '../../../../customComponents/Framework/CustomForm/UpdateFormTab';
+} from '@/utils/tools';
+import accessWayCollection from '@/customConfig/accessWayCollection';
+import { constants } from '@/customConfig/config';
+import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../Assist/config';
-
 import { fieldData } from '../../Common/data';
+
 import styles from './index.less';
 
 @connect(({ account, global, loading }) => ({
@@ -54,7 +54,7 @@ class BasicInfo extends UpdateFormTab {
     return this.formRef.current;
   };
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       account: { data },
     } = props;
@@ -67,7 +67,7 @@ class BasicInfo extends UpdateFormTab {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
     const { accountId } = this.state;
 
@@ -93,7 +93,7 @@ class BasicInfo extends UpdateFormTab {
     form.setFieldsValue(values);
   };
 
-  supplementSubmitRequestParams = o => {
+  supplementSubmitRequestParams = (o) => {
     const d = o;
     const { accountId } = this.state;
 
@@ -103,7 +103,7 @@ class BasicInfo extends UpdateFormTab {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterSubmitSuccess = data => {
+  afterSubmitSuccess = (data) => {
     requestAnimationFrame(() => {
       notification.success({
         placement: 'bottomRight',
@@ -144,7 +144,7 @@ class BasicInfo extends UpdateFormTab {
                     type="primary"
                     icon={<SaveOutlined />}
                     disabled={dataLoading || processing || !loadSuccess}
-                    onClick={e => {
+                    onClick={(e) => {
                       this.validate(e);
                     }}
                     loading={processing}

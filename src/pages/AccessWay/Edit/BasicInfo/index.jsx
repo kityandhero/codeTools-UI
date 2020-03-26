@@ -7,9 +7,9 @@ import {
   getDerivedStateFromPropsForUrlParams,
   buildFieldHelper,
   formatDatetime,
-} from '../../../../utils/tools';
-import { constants } from '../../../../customConfig/config';
-import accessWayCollection from '../../../../customConfig/accessWayCollection';
+} from '@/utils/tools';
+import { constants } from '@/customConfig/config';
+import accessWayCollection from '@/customConfig/accessWayCollection';
 
 import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';

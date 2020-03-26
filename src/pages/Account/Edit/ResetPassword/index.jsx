@@ -4,9 +4,9 @@ import { ContactsOutlined, FormOutlined, SaveOutlined } from '@ant-design/icons'
 
 import { Form, Card, Spin, notification, Button } from 'antd';
 
-import { getDerivedStateFromPropsForUrlParams, buildFieldHelper } from '../../../../utils/tools';
-import accessWayCollection from '../../../../customConfig/accessWayCollection';
-import UpdateFormTab from '../../../../customComponents/Framework/CustomForm/UpdateFormTab';
+import { getDerivedStateFromPropsForUrlParams, buildFieldHelper } from '@/utils/tools';
+import accessWayCollection from '@/customConfig/accessWayCollection';
+import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
@@ -58,7 +58,7 @@ class ResetPassword extends UpdateFormTab {
     );
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       account: { data },
     } = props;
@@ -71,7 +71,7 @@ class ResetPassword extends UpdateFormTab {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
     const { accountId } = this.state;
 
@@ -80,7 +80,7 @@ class ResetPassword extends UpdateFormTab {
     return d;
   };
 
-  supplementSubmitRequestParams = o => {
+  supplementSubmitRequestParams = (o) => {
     const d = o;
     const { accountId } = this.state;
 
@@ -90,7 +90,7 @@ class ResetPassword extends UpdateFormTab {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterSubmitSuccess = data => {
+  afterSubmitSuccess = (data) => {
     requestAnimationFrame(() => {
       notification.success({
         placement: 'bottomRight',
@@ -156,7 +156,7 @@ class ResetPassword extends UpdateFormTab {
                     processing || !this.checkAuthority(accessWayCollection.account.resetPassword)
                   }
                   loading={processing}
-                  onClick={e => {
+                  onClick={(e) => {
                     this.validate(e);
                   }}
                 >

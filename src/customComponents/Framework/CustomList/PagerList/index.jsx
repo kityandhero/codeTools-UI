@@ -8,7 +8,7 @@ import {
   getUseParamsDataCache,
   dateToMoment,
   stringIsNullOrWhiteSpace,
-} from '../../../../utils/tools';
+} from '@/utils/tools';
 import ListBase from '../ListBase';
 import StandardTableCustom from '../../../StandardTableCustom';
 
@@ -62,14 +62,14 @@ class PagerList extends ListBase {
    *
    * @memberof PagerList
    */
-  adjustLoadRequestParams = o => o || {};
+  adjustLoadRequestParams = (o) => o || {};
 
   /**
    * 创建初始化请求数据体
    *
    * @memberof PagerList
    */
-  initLoadRequestParams = o => {
+  initLoadRequestParams = (o) => {
     let d = o || {};
 
     const { paramsKey, loadApiPath, formValues, filters, sorter } = this.state;
@@ -144,7 +144,7 @@ class PagerList extends ListBase {
 
       const d = form.getFieldsValue();
 
-      Object.keys(d).forEach(key => {
+      Object.keys(d).forEach((key) => {
         const c = p[key] === 0 ? 0 : p[key] || null;
 
         if (c != null) {
@@ -159,7 +159,7 @@ class PagerList extends ListBase {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  adjustRenderLoadRequestParamsWithKey = d => {};
+  adjustRenderLoadRequestParamsWithKey = (d) => {};
 
   afterGetRequestResult = () => {
     const { paramsKey } = this.state;
@@ -169,7 +169,7 @@ class PagerList extends ListBase {
     }
   };
 
-  handleSearch = e => {
+  handleSearch = (e) => {
     e.preventDefault();
 
     if (this.checkWorkDoing()) {
@@ -182,7 +182,7 @@ class PagerList extends ListBase {
     const { pageSize } = this.state;
 
     validateFields()
-      .then(fieldsValue => {
+      .then((fieldsValue) => {
         const values = {
           ...fieldsValue,
           updatedAt: fieldsValue.updatedAt && fieldsValue.updatedAt.valueOf(),
@@ -190,12 +190,12 @@ class PagerList extends ListBase {
 
         this.searchData({ formValues: values, pageNo: 1, pageSize });
       })
-      .catch(error => {
+      .catch((error) => {
         const { errorFields } = error;
 
         const m = [];
 
-        Object.values(errorFields).forEach(o => {
+        Object.values(errorFields).forEach((o) => {
           m.push(o.errors[0]);
         });
 
