@@ -3,12 +3,12 @@ import { connect } from 'dva';
 import { Row, Col, Dropdown, Menu, Badge } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 
-import { isFunction, copyToClipboard, replaceTargetText } from '../../../utils/tools';
-import accessWayCollection from '../../../customConfig/accessWayCollection';
-import { constants } from '../../../customConfig/config';
-import PagerDrawer from '../../../customComponents/Framework/CustomList/PagerList/PagerDrawer';
-import Ellipsis from '../../../customComponents/Ellipsis';
-import EllipsisCustom from '../../../customComponents/EllipsisCustom';
+import { isFunction, copyToClipboard, replaceTargetText } from '@/utils/tools';
+import accessWayCollection from '@/customConfig/accessWayCollection';
+import { constants } from '@/customConfig/config';
+import PagerDrawer from '@/customComponents/Framework/CustomList/PagerList/PagerDrawer';
+import Ellipsis from '@/customComponents/Ellipsis';
+import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import ChangeDataColumnModal from '../ChangeDataColumnModal';
 
@@ -55,7 +55,7 @@ class Index extends PagerDrawer {
     }, 700);
   };
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       dataColumn: { data },
     } = props;
@@ -63,7 +63,7 @@ class Index extends PagerDrawer {
     return data;
   };
 
-  supplementLoadRequestParams = d => {
+  supplementLoadRequestParams = (d) => {
     const o = d;
     const { externalData } = this.props;
     const { connectionConfigId, tableData } = externalData;
@@ -89,7 +89,7 @@ class Index extends PagerDrawer {
     this.hideDrawer();
   };
 
-  getDataColumnStatusBadgeStatus = v => {
+  getDataColumnStatusBadgeStatus = (v) => {
     let result = 'default';
 
     switch (v) {
@@ -107,7 +107,7 @@ class Index extends PagerDrawer {
     return result;
   };
 
-  showDataColumnModal = record => {
+  showDataColumnModal = (record) => {
     this.setState({
       dataColumnModalVisible: true,
       currentRecord: record,
@@ -170,7 +170,7 @@ class Index extends PagerDrawer {
       title: fieldData.name.label,
       dataIndex: fieldData.name.name,
       align: 'left',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip={{ placement: 'topLeft' }} lines={1}>
             {val || '--'}
@@ -183,7 +183,7 @@ class Index extends PagerDrawer {
       dataIndex: fieldData.type.name,
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val || '--'}
@@ -196,7 +196,7 @@ class Index extends PagerDrawer {
       dataIndex: fieldData.aliasName.name,
       width: 160,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val || '--'}
@@ -209,7 +209,7 @@ class Index extends PagerDrawer {
       dataIndex: fieldData.javaType.name,
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val || '--'}
@@ -222,7 +222,7 @@ class Index extends PagerDrawer {
       dataIndex: fieldData.typeHandler.name,
       width: 220,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val || '--'}
@@ -235,7 +235,7 @@ class Index extends PagerDrawer {
       dataIndex: constants.status.name,
       width: 100,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Badge
             status={this.getDataColumnStatusBadgeStatus(`${val}`)}
@@ -249,7 +249,7 @@ class Index extends PagerDrawer {
       dataIndex: fieldData.tableName.name,
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val || '--'}
@@ -262,7 +262,7 @@ class Index extends PagerDrawer {
       dataIndex: fieldData.connectionConfigId.name,
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           {`${val}` === '0' ? (
             '--'
@@ -315,7 +315,7 @@ class Index extends PagerDrawer {
             onClick={() => this.showDataColumnModal(record)}
             disabled={!this.checkAuthority(accessWayCollection.dataTable.get)}
             overlay={
-              <Menu onClick={e => this.handleMenuClick(e, record)}>
+              <Menu onClick={(e) => this.handleMenuClick(e, record)}>
                 {/* {this.checkAuthority(accessWayCollection.connectionConfig.remove) &&
               record.state === 0 ? (
                 <Menu.Item key="remove">

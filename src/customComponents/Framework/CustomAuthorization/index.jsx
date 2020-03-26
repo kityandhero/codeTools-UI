@@ -1,7 +1,7 @@
 import { history } from 'umi';
 
-import { getDerivedStateFromPropsForUrlParams, isFunction } from '../../../utils/tools';
-import { checkHasAuthority } from '../../../utils/authority';
+import { getDerivedStateFromPropsForUrlParams, isFunction } from '@/utils/tools';
+import { checkHasAuthority } from '@/utils/authority';
 import CustomCommonWrapper from '../CustomCommonWrapper';
 
 class Index extends CustomCommonWrapper {

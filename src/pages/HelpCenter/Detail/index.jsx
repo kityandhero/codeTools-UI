@@ -3,9 +3,9 @@ import { connect } from 'dva';
 import { Avatar, Button, Card, BackTop } from 'antd';
 import { RollbackOutlined } from '@ant-design/icons';
 
-import { formatDatetime } from '../../../utils/tools';
-import LoadDataForm from '../../../customComponents/Framework/CustomForm/LoadDataForm';
-import HtmlBox from '../../../customComponents/HtmlBox';
+import { formatDatetime } from '@/utils/tools';
+import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
+import HtmlBox from '@/customComponents/HtmlBox';
 
 const styles = './index.less';
 
@@ -30,7 +30,7 @@ class ArticleContent extends LoadDataForm {
     };
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       help: { data },
     } = props;
@@ -38,7 +38,7 @@ class ArticleContent extends LoadDataForm {
     return data;
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
     const { match } = this.props;
     const { params } = match;
@@ -70,7 +70,7 @@ class ArticleContent extends LoadDataForm {
       <Button
         icon={<RollbackOutlined />}
         size="small"
-        onClick={e => {
+        onClick={(e) => {
           this.backToList(e);
         }}
       >

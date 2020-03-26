@@ -1,9 +1,9 @@
 import { connect } from 'dva';
 
-import { getDerivedStateFromPropsForUrlParams, toDatetime } from '../../../utils/tools';
-import accessWayCollection from '../../../customConfig/accessWayCollection';
-import { constants } from '../../../customConfig/config';
-import LoadDataTabContainer from '../../../customComponents/Framework/CustomForm/LoadDataTabContainer';
+import { getDerivedStateFromPropsForUrlParams, toDatetime } from '@/utils/tools';
+import accessWayCollection from '@/customConfig/accessWayCollection';
+import { constants } from '@/customConfig/config';
+import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 import { fieldData } from '../Common/data';
@@ -51,7 +51,7 @@ class Edit extends LoadDataTabContainer {
     );
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       account: { data },
     } = props;
@@ -64,7 +64,7 @@ class Edit extends LoadDataTabContainer {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
     const { accountId } = this.state;
 

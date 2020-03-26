@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Form, Button, Spin, message, notification, Input } from 'antd';
+import { FormOutlined, SaveOutlined } from '@ant-design/icons';
 
-import { refitFieldDecoratorOption, buildFieldDescription } from '../../../utils/tools';
-import accessWayCollection from '../../../customConfig/accessWayCollection';
-import UpdateForm from '../../../customComponents/Framework/CustomForm/UpdateForm';
+import { refitFieldDecoratorOption, buildFieldDescription } from '@/utils/tools';
+import accessWayCollection from '@/customConfig/accessWayCollection';
+import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
 
 import styles from './index.less';
 
@@ -35,7 +36,7 @@ class EditMasterWarehouse extends UpdateForm {
     };
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       warehouse: { data },
     } = props;
@@ -52,7 +53,7 @@ class EditMasterWarehouse extends UpdateForm {
     }
   };
 
-  supplementSubmitRequestParams = o => {
+  supplementSubmitRequestParams = (o) => {
     const d = o;
 
     const { hour, minute } = this.state;
@@ -64,7 +65,7 @@ class EditMasterWarehouse extends UpdateForm {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterSubmitSuccess = data => {
+  afterSubmitSuccess = (data) => {
     this.reloadData();
 
     requestAnimationFrame(() => {
@@ -76,7 +77,7 @@ class EditMasterWarehouse extends UpdateForm {
     });
   };
 
-  getViewDom = ref => {
+  getViewDom = (ref) => {
     this.view = ref;
   };
 

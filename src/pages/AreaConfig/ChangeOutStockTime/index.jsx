@@ -4,8 +4,8 @@ import { connect } from 'dva';
 import moment from 'moment';
 import { SaveOutlined } from '@ant-design/icons';
 
-import accessWayCollection from '../../../customConfig/accessWayCollection';
-import UpdateForm from '../../../customComponents/Framework/CustomForm/UpdateForm';
+import accessWayCollection from '@/customConfig/accessWayCollection';
+import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
 
 import styles from './index.less';
 
@@ -44,7 +44,7 @@ class ChangeOutStockTime extends UpdateForm {
     };
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       areaConfig: { data },
     } = props;
@@ -67,7 +67,7 @@ class ChangeOutStockTime extends UpdateForm {
     });
   };
 
-  supplementSubmitRequestParams = o => {
+  supplementSubmitRequestParams = (o) => {
     const d = o;
 
     const { hour, minute, autoCompleteGoodsLogisticsProcessRequestMessage } = this.state;
@@ -80,7 +80,7 @@ class ChangeOutStockTime extends UpdateForm {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterSubmitSuccess = data => {
+  afterSubmitSuccess = (data) => {
     const form = this.getTargetForm();
     const { metaData, hour, minute, autoCompleteGoodsLogisticsProcessRequestMessage } = this.state;
 
@@ -103,15 +103,15 @@ class ChangeOutStockTime extends UpdateForm {
     });
   };
 
-  getViewDom = ref => {
+  getViewDom = (ref) => {
     this.view = ref;
   };
 
-  onTimePickerChange = time => {
+  onTimePickerChange = (time) => {
     this.setState({ hour: time.hour(), minute: time.minute() });
   };
 
-  onSwitchChange = checked => {
+  onSwitchChange = (checked) => {
     this.setState({ autoCompleteGoodsLogisticsProcessRequestMessage: checked ? 1 : 0 });
   };
 
@@ -163,7 +163,7 @@ class ChangeOutStockTime extends UpdateForm {
               <Button
                 type="primary"
                 icon={<SaveOutlined />}
-                onClick={e => {
+                onClick={(e) => {
                   this.validate(e, this.formRef.current);
                 }}
                 loading={processing}

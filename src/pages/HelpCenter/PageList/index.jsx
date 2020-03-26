@@ -4,10 +4,10 @@ import { history } from 'umi';
 import { List, Tag, Card, BackTop } from 'antd';
 import { EyeOutlined, StockOutlined, MessageOutlined } from '@ant-design/icons';
 
-import { getDerivedStateFromPropsForUrlParams } from '../../../utils/tools';
-import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
-import IconInfo from '../../../customComponents/IconInfo';
-import ArticleListContent from '../../../customComponents/ArticleListContent';
+import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
+import PagerList from '@/customComponents/Framework/CustomList/PagerList';
+import IconInfo from '@/customComponents/IconInfo';
+import ArticleListContent from '@/customComponents/ArticleListContent';
 
 import { parseUrlParamsForSetState } from '../Assist/config';
 

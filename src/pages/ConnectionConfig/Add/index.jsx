@@ -4,10 +4,10 @@ import { history } from 'umi';
 import { Form, Card, Button, Row, Col, Switch, Spin, notification, Affix } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
 
-import { buildFieldHelper, formatDatetime } from '../../../utils/tools';
-import accessWayCollection from '../../../customConfig/accessWayCollection';
-import { constants } from '../../../customConfig/config';
-import AddFormBase from '../../../customComponents/Framework/CustomForm/AddFormBase';
+import { buildFieldHelper, formatDatetime } from '@/utils/tools';
+import accessWayCollection from '@/customConfig/accessWayCollection';
+import { constants } from '@/customConfig/config';
+import AddFormBase from '@/customComponents/Framework/CustomForm/AddFormBase';
 
 import { fieldData, connectionType } from '../Common/data';
 

@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import { FormOutlined } from '@ant-design/icons';
 
-import { buildFieldHelper, recordLog } from '../../../utils/tools';
-import ModalBase from '../../../customComponents/Framework/CustomForm/ModalBase';
+import { buildFieldHelper } from '@/utils/tools';
+import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
 
 import { fieldData } from '../Common/data';
 
@@ -55,12 +55,10 @@ class Index extends ModalBase {
   doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
     this.clientMessage = '';
 
-    recordLog(123123);
-
     this.reloadData();
   };
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       dataColumn: { data },
     } = props;
@@ -82,7 +80,7 @@ class Index extends ModalBase {
     form.setFieldsValue(values);
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
     const { externalData } = this.state;
     const { connectionConfigId, tableName, name } = externalData;
@@ -94,7 +92,7 @@ class Index extends ModalBase {
     return d;
   };
 
-  supplementSubmitRequestParams = o => {
+  supplementSubmitRequestParams = (o) => {
     const d = o;
     const { externalData } = this.state;
     const { connectionConfigId, tableName, name } = externalData;

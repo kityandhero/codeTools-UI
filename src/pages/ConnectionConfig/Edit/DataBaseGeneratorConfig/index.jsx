@@ -7,7 +7,6 @@ import {
   formatDatetime,
   getDerivedStateFromPropsForUrlParams,
   buildFieldHelper,
-  recordLog,
 } from '../../../../utils/tools';
 import { zeroInt } from '../../../../utils/constants';
 import accessWayCollection from '../../../../customConfig/accessWayCollection';
@@ -51,7 +50,7 @@ class Index extends TabPageBase {
     );
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       dataBaseGeneratorConfig: { data },
     } = props;
@@ -63,7 +62,7 @@ class Index extends TabPageBase {
     return this.formRef.current;
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
     const { connectionConfigId } = this.state;
 
@@ -93,8 +92,9 @@ class Index extends TabPageBase {
       values[fieldData.encoding.name] = metaData.encoding || '';
 
       values[fieldData.offsetLimit.name] = `${metaData.offsetLimit || zeroInt}`;
-      values[fieldData.needToStringHashCodeEquals.name] = `${metaData.needToStringHashCodeEquals ||
-        zeroInt}`;
+      values[fieldData.needToStringHashCodeEquals.name] = `${
+        metaData.needToStringHashCodeEquals || zeroInt
+      }`;
       values[fieldData.needForUpdate.name] = `${metaData.needForUpdate || zeroInt}`;
       values[fieldData.annotationDAO.name] = `${metaData.annotationDAO || zeroInt}`;
       values[fieldData.annotation.name] = `${metaData.annotation || zeroInt}`;
@@ -114,12 +114,10 @@ class Index extends TabPageBase {
       const form = this.getTargetForm();
 
       form.setFieldsValue(values);
-
-      recordLog(values);
     }
   };
 
-  supplementSubmitRequestParams = o => {
+  supplementSubmitRequestParams = (o) => {
     const d = o;
     const { metaData } = this.state;
     const { dataBaseGeneratorConfigId, connectionConfigId } = metaData;
@@ -130,7 +128,7 @@ class Index extends TabPageBase {
     return d;
   };
 
-  supplementSubmitRequestParams = o => {
+  supplementSubmitRequestParams = (o) => {
     const d = o;
     const { dataBaseGeneratorConfigId } = this.state;
 

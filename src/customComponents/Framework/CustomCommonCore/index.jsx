@@ -17,8 +17,8 @@ import {
   isInvalid,
   searchFromList,
   stringIsNullOrWhiteSpace,
-} from '../../../utils/tools';
-import { unlimitedWithStringFlag } from '../../../utils/constants';
+} from '@/utils/tools';
+import { unlimitedWithStringFlag,logShowMode } from '@/utils/constants';
 import CustomCore from '../CustomCore';
 
 const FormItem = Form.Item;
@@ -207,12 +207,6 @@ class Index extends CustomCore {
       ) {
         this.setRequestingData({ type: loadApiPath, payload: requestData });
 
-        // recordLog(dispatch);
-        // recordLog({
-        //   type: loadApiPath,
-        //   payload: requestData,
-        // });
-
         dispatch({
           type: loadApiPath,
           payload: requestData,
@@ -284,7 +278,7 @@ class Index extends CustomCore {
             this.clearRequestingData();
           })
           .catch((res) => {
-            recordLog(res);
+            recordLog(res, logShowMode.object);
           });
       }
     } catch (error) {

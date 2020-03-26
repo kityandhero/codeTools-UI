@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 
-import { getDerivedStateFromPropsForUrlParams } from '../../../utils/tools';
-import UpdateFormTab from '../../../customComponents/Framework/CustomForm/UpdateFormTab';
+import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
+import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 
@@ -17,7 +17,7 @@ class BaseEditTab extends UpdateFormTab {
     );
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       connectionConfig: { data },
     } = props;
@@ -30,7 +30,7 @@ class BaseEditTab extends UpdateFormTab {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
     const { connectionConfigId } = this.state;
 

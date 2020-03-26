@@ -7,8 +7,8 @@ import {
   isArray,
   stringIsNullOrWhiteSpace,
   getDerivedStateFromPropsForUrlParams,
-} from '../../../utils/tools';
-import CustomAuthorization from '../../../customComponents/Framework/CustomAuthorization';
+} from '@/utils/tools';
+import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
 
 import { parseUrlParamsForSetState } from '../Assist/config';
 
@@ -91,7 +91,7 @@ class ArticleList extends CustomAuthorization {
     }
 
     if (isArray(customConfigCategoryList)) {
-      (customConfigCategoryList || []).forEach(o => {
+      (customConfigCategoryList || []).forEach((o) => {
         if (o.flag === category) {
           categoryName = o.name;
         }
@@ -105,7 +105,7 @@ class ArticleList extends CustomAuthorization {
     }
   };
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       customConfig: { data },
     } = props;
@@ -113,7 +113,7 @@ class ArticleList extends CustomAuthorization {
     return data;
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
 
     const { category } = this.state;
@@ -178,7 +178,7 @@ class ArticleList extends CustomAuthorization {
         dataSource={metaListData}
         loading={dataLoading}
         pagination={false}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item
             key={item.uuid}
             actions={[
@@ -186,7 +186,7 @@ class ArticleList extends CustomAuthorization {
                 checkedChildren="开"
                 unCheckedChildren="关"
                 defaultChecked={item.value === '1'}
-                onChange={e => {
+                onChange={(e) => {
                   this.onSwitchChange(item, e);
                 }}
               />,

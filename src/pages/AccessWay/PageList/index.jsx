@@ -4,18 +4,13 @@ import { history } from 'umi';
 import { Row, Col, Dropdown, Menu } from 'antd';
 import { ReadOutlined, BookOutlined } from '@ant-design/icons';
 
-import {
-  toDatetime,
-  formatDatetime,
-  copyToClipboard,
-  replaceTargetText,
-} from '../../../utils/tools';
-import { unlimitedWithStringFlag } from '../../../utils/constants';
-import accessWayCollection from '../../../customConfig/accessWayCollection';
-import { constants } from '../../../customConfig/config';
-import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
-import Ellipsis from '../../../customComponents/Ellipsis';
-import EllipsisCustom from '../../../customComponents/EllipsisCustom';
+import { toDatetime, formatDatetime, copyToClipboard, replaceTargetText } from '@/utils/tools';
+import { unlimitedWithStringFlag } from '@/utils/constants';
+import accessWayCollection from '@/customConfig/accessWayCollection';
+import { constants } from '@/customConfig/config';
+import PagerList from '@/customComponents/Framework/CustomList/PagerList';
+import Ellipsis from '@/customComponents/Ellipsis';
+import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
 

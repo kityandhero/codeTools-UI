@@ -11,13 +11,13 @@ import {
   buildFieldHelper,
   formatDatetime,
   toDatetime,
-} from '../../../utils/tools';
-import accessWayCollection from '../../../customConfig/accessWayCollection';
-import { unlimitedWithStringFlag } from '../../../utils/constants';
-import { constants } from '../../../customConfig/config';
-import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
-import Ellipsis from '../../../customComponents/Ellipsis';
-import EllipsisCustom from '../../../customComponents/EllipsisCustom';
+} from '@/utils/tools';
+import accessWayCollection from '@/customConfig/accessWayCollection';
+import { unlimitedWithStringFlag } from '@/utils/constants';
+import { constants } from '@/customConfig/config';
+import PagerList from '@/customComponents/Framework/CustomList/PagerList';
+import Ellipsis from '@/customComponents/Ellipsis';
+import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { fieldData } from '../Common/data';
 

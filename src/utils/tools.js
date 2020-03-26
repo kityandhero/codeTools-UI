@@ -205,7 +205,7 @@ export function checkDevelopment() {
  * @param {*} str
  * @returns
  */
-export function recordLog(record, level = logLevel.debug, showMode = logShowMode.text) {
+export function recordLog(record, showMode = logShowMode.text, level = logLevel.debug) {
   if (logShowInConsole()) {
     if (showMode === logShowMode.text) {
       const data = { level, record };

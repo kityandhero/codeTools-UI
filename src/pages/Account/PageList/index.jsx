@@ -22,19 +22,14 @@ import {
   FormOutlined,
 } from '@ant-design/icons';
 
-import {
-  toDatetime,
-  formatDatetime,
-  copyToClipboard,
-  replaceTargetText,
-} from '../../../utils/tools';
-import { unlimitedWithStringFlag } from '../../../utils/constants';
-import accessWayCollection from '../../../customConfig/accessWayCollection';
-import { customFieldCollection } from '../../../customSpecialComponents/CustomCommonSupplement/customConstants';
-import { constants } from '../../../customConfig/config';
-import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
-import Ellipsis from '../../../customComponents/Ellipsis';
-import EllipsisCustom from '../../../customComponents/EllipsisCustom';
+import { toDatetime, formatDatetime, copyToClipboard, replaceTargetText } from '@/utils/tools';
+import { unlimitedWithStringFlag } from '@/utils/constants';
+import accessWayCollection from '@/customConfig/accessWayCollection';
+import { customFieldCollection } from '@/customSpecialComponents/CustomCommonSupplement/customConstants';
+import { constants } from '@/customConfig/config';
+import PagerList from '@/customComponents/Framework/CustomList/PagerList';
+import Ellipsis from '@/customComponents/Ellipsis';
+import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import UpdateAccountRoleModal from '../UpdateAccountRoleModal';
 import { fieldData } from '../Common/data';

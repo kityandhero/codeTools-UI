@@ -8,12 +8,12 @@ import {
   copyToClipboard,
   replaceTargetText,
   getDerivedStateFromPropsForUrlParams,
-} from '../../../utils/tools';
-import { unlimitedWithStringFlag } from '../../../utils/constants';
-import { constants } from '../../../customConfig/config';
-import PagerList from '../../../customComponents/Framework/CustomList/PagerList';
-import Ellipsis from '../../../customComponents/Ellipsis';
-import EllipsisCustom from '../../../customComponents/EllipsisCustom';
+} from '@/utils/tools';
+import { unlimitedWithStringFlag } from '@/utils/constants';
+import { constants } from '@/customConfig/config';
+import PagerList from '@/customComponents/Framework/CustomList/PagerList';
+import Ellipsis from '@/customComponents/Ellipsis';
+import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 import { parseUrlParamsForSetState } from '../Assist/config';
 import { fieldData } from '../Common/data';
@@ -47,7 +47,7 @@ class Index extends PagerList {
     );
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       roleTemplate: { data },
     } = props;
@@ -55,7 +55,7 @@ class Index extends PagerList {
     return data;
   };
 
-  getRoleTemplateStateBadgeStatus = v => {
+  getRoleTemplateStateBadgeStatus = (v) => {
     let result = 'default';
 
     switch (v) {
@@ -73,7 +73,7 @@ class Index extends PagerList {
     return result;
   };
 
-  goToEdit = record => {
+  goToEdit = (record) => {
     const { roleTemplateId } = record;
 
     this.goToPath(`/account/roleTemplate/edit/load/${roleTemplateId}/key/basicInfo`);
@@ -106,7 +106,7 @@ class Index extends PagerList {
       dataIndex: fieldData.name.name,
       width: 200,
       align: 'left',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val}
@@ -118,7 +118,7 @@ class Index extends PagerList {
       title: fieldData.description.label,
       dataIndex: fieldData.description.name,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val || '--'}
@@ -131,7 +131,7 @@ class Index extends PagerList {
       dataIndex: fieldData.moduleCount.name,
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val || '0'}
@@ -144,7 +144,7 @@ class Index extends PagerList {
       dataIndex: fieldData.roleUniversal.name,
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <EllipsisCustom
             tooltip
@@ -186,7 +186,7 @@ class Index extends PagerList {
       width: 140,
       align: 'center',
       sorter: false,
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {(val || '') === '' ? '--' : formatDatetime(toDatetime(val), 'YYYY-MM-DD HH:mm')}
@@ -206,7 +206,7 @@ class Index extends PagerList {
             size="small"
             onClick={() => this.goToEdit(record)}
             overlay={
-              <Menu onClick={e => this.handleMenuClick(e, record)}>
+              <Menu onClick={(e) => this.handleMenuClick(e, record)}>
                 {/* <Menu.Item key="remove">
                   <Icon type="delete" />
                   删除

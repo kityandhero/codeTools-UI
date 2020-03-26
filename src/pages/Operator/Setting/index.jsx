@@ -4,7 +4,7 @@ import { history } from 'umi';
 import { Menu } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 
-import CustomAuthorization from '../../../customComponents/Framework/CustomAuthorization';
+import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
 
 import styles from './index.less';
 
@@ -54,7 +54,7 @@ class Setting extends CustomAuthorization {
   getMenu = () => {
     const { menuMap } = this.state;
 
-    return Object.keys(menuMap).map(item => <Item key={item}>{menuMap[item]}</Item>);
+    return Object.keys(menuMap).map((item) => <Item key={item}>{menuMap[item]}</Item>);
   };
 
   getRightTitle = () => {
@@ -106,7 +106,7 @@ class Setting extends CustomAuthorization {
       <GridContent>
         <div
           className={styles.main}
-          ref={ref => {
+          ref={(ref) => {
             this.main = ref;
           }}
         >
