@@ -2,10 +2,10 @@ import { history } from 'umi';
 import { message } from 'antd';
 import { stringify } from 'querystring';
 import { accountLogin, getFakeCaptcha } from '../services/api';
-import { setAuthority } from '../utils/authority';
-import { getPageQuery } from '../utils/utils';
+import { setAuthority } from '@/utils/authority';
+import { getPageQuery } from '@/utils/utils';
 
-import { pretreatmentRemoteSingleData, setToken, clearCustomData } from '../utils/tools';
+import { pretreatmentRemoteSingleData, setToken, clearCustomData } from '@/utils/tools';
 
 export default {
   namespace: 'login',
@@ -61,7 +61,7 @@ export default {
 
         message.info('退出登录成功！', 0.6);
 
-       history.replace({
+        history.replace({
           pathname: '/user/login',
           search: stringify({
             redirect: window.location.href,

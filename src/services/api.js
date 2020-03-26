@@ -1,13 +1,13 @@
 import { stringify } from 'qs';
 import moment from 'moment';
-import { request } from '../utils/request';
+import { request } from '@/utils/request';
 import {
   apiVirtualAccess,
   apiVirtualSuccessAccess,
   apiVirtualSuccessData,
   apiVirtualFailData,
   transferToVirtualAccess,
-} from '../utils/tools';
+} from '@/utils/tools';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -225,8 +225,8 @@ export async function fakeChartData() {
     contribute: '贡献',
     hot: '热度',
   };
-  radarOriginData.forEach(item => {
-    Object.keys(item).forEach(key => {
+  radarOriginData.forEach((item) => {
+    Object.keys(item).forEach((key) => {
       if (key !== 'name') {
         radarData.push({
           name: item.name,
@@ -309,7 +309,7 @@ export async function updateFakeList(params) {
 
 export async function accountLogin(params) {
   if (transferToVirtualAccess()) {
-    const result = await apiVirtualAccess(resolve => {
+    const result = await apiVirtualAccess((resolve) => {
       setTimeout(() => {
         const {
           password,

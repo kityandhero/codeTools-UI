@@ -1,5 +1,5 @@
 import { query as queryUsers, queryCurrent } from '../services/user';
-import { pretreatmentRemoteSingleData } from '../utils/tools';
+import { pretreatmentRemoteSingleData } from '@/utils/tools';
 
 export default {
   namespace: 'user',

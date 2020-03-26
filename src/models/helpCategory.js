@@ -1,4 +1,4 @@
-import { handleListDataAssist, handleCommonDataAssist } from '../utils/tools';
+import { handleListDataAssist, handleCommonDataAssist } from '@/utils/tools';
 
 import { listData, getData } from '../services/helpCategory';
 

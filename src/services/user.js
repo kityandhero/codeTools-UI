@@ -1,5 +1,5 @@
-import { request } from '../utils/request';
-import { apiVirtualSuccessAccess, transferToVirtualAccess } from '../utils/tools';
+import { request } from '@/utils/request';
+import { apiVirtualSuccessAccess, transferToVirtualAccess } from '@/utils/tools';
 
 export async function query() {
   return request('/api/users');

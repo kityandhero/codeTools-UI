@@ -1,4 +1,4 @@
-import { handlePageListDataAssist, handleCommonDataAssist } from '../utils/tools';
+import { handlePageListDataAssist, handleCommonDataAssist } from '@/utils/tools';
 
 import { pageListData, getData } from '../services/dataTable';
 

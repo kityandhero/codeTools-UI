@@ -1,5 +1,5 @@
 import { queryGetData } from '../services/metaData';
-import { handleCommonDataAssist } from '../utils/tools';
+import { handleCommonDataAssist } from '@/utils/tools';
 
 export default {
   namespace: 'metaData',

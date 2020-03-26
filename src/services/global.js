@@ -1,5 +1,5 @@
-import { request } from '../utils/request';
-// import { apiVirtualSuccessAccess, useVirtualAccess } from '../utils/tools';
+import { request } from '@/utils/request';
+// import { apiVirtualSuccessAccess, useVirtualAccess } from '@/utils/tools';
 
 /**
  * 综合数据

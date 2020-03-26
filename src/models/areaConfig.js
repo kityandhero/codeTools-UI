@@ -1,4 +1,4 @@
-import { handleCommonDataAssist } from '../utils/tools';
+import { handleCommonDataAssist } from '@/utils/tools';
 
 import { getCurrentData, changeOutStockTimeData } from '../services/areaConfig';
 

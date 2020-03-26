@@ -58,7 +58,6 @@
     "braft-editor": "^2.3.9",
     "classnames": "^2.2.6",
     "copy-to-clipboard": "^3.3.1",
-    "dva": "^2.4.1",
     "enquire-js": "^0.2.1",
     "hash.js": "^1.1.7",
     "lodash": "^4.17.15",

@@ -1,5 +1,5 @@
 import { pageListData, getData } from '../services/accessWay';
-import { handlePageListDataAssist, handleCommonDataAssist } from '../utils/tools';
+import { handlePageListDataAssist, handleCommonDataAssist } from '@/utils/tools';
 
 export default {
   namespace: 'accessWay',

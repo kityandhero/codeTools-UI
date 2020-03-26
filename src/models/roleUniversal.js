@@ -2,7 +2,7 @@ import {
   handlePageListDataAssist,
   handleListDataAssist,
   handleCommonDataAssist,
-} from '../utils/tools';
+} from '@/utils/tools';
 import { pageListData, getData } from '../services/roleUniversal';
 
 export default {

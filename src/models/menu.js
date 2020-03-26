@@ -1,14 +1,14 @@
 import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
 import { formatMessage } from 'umi';
-import Authorized from '../utils/Authorized';
+import Authorized from '@/utils/Authorized';
 
 const { check } = Authorized;
 
 // Conversion router to menu.
 function formatter(data, parentAuthority, parentName) {
   return data
-    .map(item => {
+    .map((item) => {
       if (!item.name || !item.path) {
         return null;
       }
@@ -34,7 +34,7 @@ function formatter(data, parentAuthority, parentName) {
       delete result.routes;
       return result;
     })
-    .filter(item => item);
+    .filter((item) => item);
 }
 
 const memoizeOneFormatter = memoizeOne(formatter, isEqual);
@@ -42,9 +42,9 @@ const memoizeOneFormatter = memoizeOne(formatter, isEqual);
 /**
  * get SubMenu or Item
  */
-const getSubMenu = item => {
+const getSubMenu = (item) => {
   // doc: add hideChildrenInMenu
-  if (item.children && !item.hideChildrenInMenu && item.children.some(child => child.name)) {
+  if (item.children && !item.hideChildrenInMenu && item.children.some((child) => child.name)) {
     return {
       ...item,
       children: filterMenuData(item.children), // eslint-disable-line
@@ -56,24 +56,24 @@ const getSubMenu = item => {
 /**
  * filter menuData
  */
-const filterMenuData = menuData => {
+const filterMenuData = (menuData) => {
   if (!menuData) {
     return [];
   }
   return menuData
-    .filter(item => item.name && !item.hideInMenu)
-    .map(item => check(item.authority, getSubMenu(item)))
-    .filter(item => item);
+    .filter((item) => item.name && !item.hideInMenu)
+    .map((item) => check(item.authority, getSubMenu(item)))
+    .filter((item) => item);
 };
 /**
  * 获取面包屑映射
  * @param {Object} menuData 菜单配置
  */
-const getBreadcrumbNameMap = menuData => {
+const getBreadcrumbNameMap = (menuData) => {
   const routerMap = {};
 
-  const flattenMenuData = data => {
-    data.forEach(menuItem => {
+  const flattenMenuData = (data) => {
+    data.forEach((menuItem) => {
       if (menuItem.children) {
         flattenMenuData(menuItem.children);
       }

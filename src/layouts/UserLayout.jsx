@@ -1,13 +1,15 @@
 import { DefaultFooter, getMenuData, getPageTitle } from '@ant-design/pro-layout';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { Link,formatMessage } from 'umi';
+import { Link, formatMessage } from 'umi';
 import React from 'react';
 import { connect } from 'dva';
+
 import SelectLang from '@/components/SelectLang';
-import logo from '../assets/logo.svg';
+import logo from '@/assets/logo.svg';
+
 import styles from './UserLayout.less';
 
-const UserLayout = props => {
+const UserLayout = (props) => {
   const {
     route = {
       routes: [],
