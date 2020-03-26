@@ -40,7 +40,9 @@ const errorHandler = (error) => {
       description: errorText,
     };
 
-    notification.error(data);
+    requestAnimationFrame(() => {
+      notification.error(data);
+    });
 
     recordLog(data);
   } else if (!response) {
