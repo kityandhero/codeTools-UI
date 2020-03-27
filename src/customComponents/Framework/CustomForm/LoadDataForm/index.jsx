@@ -7,6 +7,7 @@ import {
   ReloadOutlined,
   LoadingOutlined,
   SaveOutlined,
+  ContactsOutlined,
 } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
@@ -202,6 +203,15 @@ class Index extends LoadDataCore {
     message.error('buildInitialValues 方法需要重新实现。');
 
     return {};
+  };
+
+  renderBasicInfoTitle = () => {
+    return (
+      <>
+        <ContactsOutlined />
+        <span className={styles.cardTitle}>基本信息</span>
+      </>
+    );
   };
 
   renderRefreshButton = () => {

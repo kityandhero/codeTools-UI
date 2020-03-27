@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Card, Row, Col, Spin, notification, Affix, Divider } from 'antd';
-import { FormOutlined, ContactsOutlined } from '@ant-design/icons';
+import { FormOutlined } from '@ant-design/icons';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -112,12 +112,7 @@ class BasicInfo extends UpdateFormTab {
     return (
       <>
         <Card
-          title={
-            <>
-              <ContactsOutlined />
-              <span className={styles.cardTitle}>基本信息</span>
-            </>
-          }
+          title={this.renderBasicInfoTitle()}
           className={styles.card}
           bordered={false}
           extra={

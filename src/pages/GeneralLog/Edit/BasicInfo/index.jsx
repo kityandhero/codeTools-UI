@@ -67,7 +67,7 @@ class Index extends TabPageBase {
     return (
       <>
         <Card
-          title="基本信息"
+          title={this.renderBasicInfoTitle()}
           className={styles.card}
           bordered={false}
           extra={
