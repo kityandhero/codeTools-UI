@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Card, Row, Col, Spin, Switch, Divider, BackTop, notification, Affix } from 'antd';
+import { Card, Row, Col, Spin, Switch, Divider, notification, Affix } from 'antd';
 
 import {
   formatDatetime,
