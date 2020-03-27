@@ -39,7 +39,7 @@ class Index extends TabPageBase {
     );
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       roleTemplate: { data },
     } = props;
@@ -47,7 +47,7 @@ class Index extends TabPageBase {
     return data;
   };
 
-  supplementSubmitRequestParams = o => {
+  supplementSubmitRequestParams = (o) => {
     const d = o;
     const { roleTemplateId } = this.state;
 
@@ -56,7 +56,7 @@ class Index extends TabPageBase {
     return d;
   };
 
-  supplementSubmitRequestParams = o => {
+  supplementSubmitRequestParams = (o) => {
     const d = o;
     const { roleTemplateId } = this.state;
 
@@ -70,37 +70,27 @@ class Index extends TabPageBase {
 
     return (
       <>
-        <Card
-          title={
-            <>
-              <Icon type="contacts" />
-              <span className={styles.cardTitle}>基本信息</span>
-            </>
-          }
-          className={styles.card}
-          bordered={false}
-        >
+        <Card title={this.renderBasicInfoTitle()} className={styles.card} bordered={false}>
           <Spin spinning={dataLoading || processing}>
-            <Form layout="vertical">
-              <Row gutter={24}>
-                <Col lg={24} md={12} sm={24}>
-                  <FromDisplayItem
-                    name={fieldData.name}
-                    value={metaData === null ? '' : metaData.name || ''}
-                  />
-                </Col>
-              </Row>
-              <Row gutter={24}>
-                <Col lg={24} md={12} sm={24}>
-                  <FromDisplayItem
-                    name={fieldData.description}
-                    value={metaData === null ? '' : metaData.description || ''}
-                  />
-                </Col>
-              </Row>
-            </Form>
+            <Row gutter={24}>
+              <Col lg={24} md={12} sm={24}>
+                <FromDisplayItem
+                  name={fieldData.name}
+                  value={metaData === null ? '' : metaData.name || ''}
+                />
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col lg={24} md={12} sm={24}>
+                <FromDisplayItem
+                  name={fieldData.description}
+                  value={metaData === null ? '' : metaData.description || ''}
+                />
+              </Col>
+            </Row>
           </Spin>
         </Card>
+
         <Card
           title={
             <>
@@ -112,28 +102,26 @@ class Index extends TabPageBase {
           bordered={false}
         >
           <Spin spinning={dataLoading || processing}>
-            <Form layout="vertical">
-              <Row gutter={24}>
-                <Col lg={6} md={12} sm={24}>
-                  <FromDisplayItem
-                    name={fieldData.moduleCount}
-                    value={metaData === null ? '' : metaData.moduleCount || '0'}
-                  />
-                </Col>
-                <Col lg={6} md={12} sm={24}>
-                  <FromDisplayItem
-                    name={fieldData.channel}
-                    value={metaData === null ? '' : metaData.channelNote || ''}
-                  />
-                </Col>
-                <Col lg={6} md={12} sm={24}>
-                  <FromDisplayItem
-                    name={fieldData.createTime}
-                    value={metaData === null ? '' : metaData.createTime || ''}
-                  />
-                </Col>
-              </Row>
-            </Form>
+            <Row gutter={24}>
+              <Col lg={6} md={12} sm={24}>
+                <FromDisplayItem
+                  name={fieldData.moduleCount}
+                  value={metaData === null ? '' : metaData.moduleCount || '0'}
+                />
+              </Col>
+              <Col lg={6} md={12} sm={24}>
+                <FromDisplayItem
+                  name={fieldData.channel}
+                  value={metaData === null ? '' : metaData.channelNote || ''}
+                />
+              </Col>
+              <Col lg={6} md={12} sm={24}>
+                <FromDisplayItem
+                  name={fieldData.createTime}
+                  value={metaData === null ? '' : metaData.createTime || ''}
+                />
+              </Col>
+            </Row>
           </Spin>
         </Card>
       </>
