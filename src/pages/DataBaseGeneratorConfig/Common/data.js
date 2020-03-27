@@ -10,10 +10,10 @@ module.exports = {
       label: '连接标识',
       helper: '数据连接标识，不可更改',
     },
-    connectorJarPath: {
-      name: 'connectorJarPath',
-      label: '连接器路径',
-      helper: '数据连接的连接器路径',
+    connectorJarFile: {
+      name: 'connectorJarFile',
+      label: '数据连接器',
+      helper: '数据连接的连接器',
     },
     projectFolder: {
       name: 'projectFolder',

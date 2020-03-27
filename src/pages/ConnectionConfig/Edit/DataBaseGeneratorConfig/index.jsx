@@ -110,7 +110,7 @@ class Index extends TabPageBase {
     values[fieldData.dataBaseGeneratorConfigId.name] = data.dataBaseGeneratorConfigId || zeroInt;
     values[fieldData.connectionConfigId.name] = data.connectionConfigId || zeroInt;
 
-    values[fieldData.connectorJarPath.name] = data.connectorJarPath || '';
+    values[fieldData.connectorJarFile.name] = data.connectorJarFile || '';
     values[fieldData.projectFolder.name] = data.projectFolder || '';
     values[fieldData.modelPackage.name] = data.modelPackage || '';
     values[fieldData.modelTargetFolder.name] = data.modelTargetFolder || '';
@@ -195,10 +195,10 @@ class Index extends TabPageBase {
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFormInputFormItem(
-                      fieldData.connectorJarPath.label,
-                      fieldData.connectorJarPath.name,
+                      fieldData.connectorJarFile.label,
+                      fieldData.connectorJarFile.name,
                       true,
-                      buildFieldHelper(fieldData.connectorJarPath.helper),
+                      buildFieldHelper(fieldData.connectorJarFile.helper),
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
