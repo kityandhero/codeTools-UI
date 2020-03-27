@@ -13,7 +13,7 @@ import {
   notification,
   Affix,
 } from 'antd';
-import { SaveOutlined, ReloadOutlined } from '@ant-design/icons';
+import { SaveOutlined, LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
 
 import {
   formatDatetime,
@@ -147,21 +147,19 @@ class Index extends TabPageBase {
                 <Affix offsetTop={20}>
                   <div>
                     <Button
-                      icon={<ReloadOutlined />}
                       disabled={dataLoading || processing || !loadSuccess}
                       onClick={this.reloadData}
-                      loading={processing}
                     >
+                      {dataLoading ? <LoadingOutlined /> : <ReloadOutlined />}
                       刷新
                     </Button>
                     <Divider type="vertical" />
                     <Button
                       type="primary"
-                      icon={<SaveOutlined />}
                       disabled={dataLoading || processing}
                       onClick={this.validate}
-                      loading={processing}
                     >
+                      {processing ? <LoadingOutlined /> : <SaveOutlined />}
                       保存
                     </Button>
                   </div>

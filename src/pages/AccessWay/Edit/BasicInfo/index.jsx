@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Form, Card, Button, Row, Col, Spin, BackTop, Affix } from 'antd';
-import { ReloadOutlined, FormOutlined } from '@ant-design/icons';
+import { LoadingOutlined, ReloadOutlined, FormOutlined } from '@ant-design/icons';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -90,8 +90,8 @@ class Index extends TabPageBase {
                       onClick={() => {
                         this.reloadData();
                       }}
-                      loading={processing}
                     >
+                      {processing ? <LoadingOutlined /> : <ReloadOutlined />}
                       刷新
                     </Button>
                   </div>

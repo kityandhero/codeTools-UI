@@ -12,7 +12,7 @@ import {
   Divider,
   message,
 } from 'antd';
-import { SearchOutlined, ReloadOutlined } from '@ant-design/icons';
+import { SearchOutlined, ReloadOutlined, LoadingOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import { defaultListState, buildFieldDescription, isArray, isUndefined } from '@/utils/tools';
@@ -165,29 +165,29 @@ class SingleList extends CustomAuthorization {
   };
 
   renderSimpleFormButton = (ColMd = 6) => {
-    const { reloading, searching } = this.state;
+    const { dataLoading, reloading, searching } = this.state;
 
     return (
       <Col md={ColMd} sm={24}>
         <span className={styles.submitButtons}>
           <Button
-            loading={searching}
+            disabled={dataLoading || reloading || searching}
             type="primary"
-            icon={<SearchOutlined />}
             onClick={(e) => {
               this.handleSearch(e);
             }}
           >
+            {searching ? <LoadingOutlined /> : <SearchOutlined />}
             查询
           </Button>
           <Button
-            loading={reloading}
+            disabled={dataLoading || reloading || searching}
             style={{ marginLeft: 8 }}
-            icon={<ReloadOutlined />}
             onClick={() => {
               this.handleFormReset();
             }}
           >
+            {reloading ? <LoadingOutlined /> : <ReloadOutlined />}
             重置
           </Button>
         </span>
