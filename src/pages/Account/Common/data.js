@@ -35,5 +35,10 @@ module.exports = {
       label: '角色信息',
       helper: '账户的角色信息',
     },
+    canSetStatus: {
+      name: 'canSetStatus',
+      label: '允许变更状态',
+      helper: '账户是否允许变更状态',
+    },
   },
 };

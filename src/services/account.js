@@ -79,7 +79,7 @@ export async function resetPasswordData(params) {
   });
 }
 
-export async function changeStateData(params) {
+export async function setEnableData(params) {
   if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
@@ -88,7 +88,22 @@ export async function changeStateData(params) {
     return result;
   }
 
-  return request('/business/account/changeState', {
+  return request('/business/account/setEnable', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+export async function setDisableData(params) {
+  if (transferToVirtualAccess()) {
+    const result = await apiVirtualSuccessAccess({
+      data: {},
+    });
+
+    return result;
+  }
+
+  return request('/business/account/setDisable', {
     method: 'POST',
     data: params,
   });

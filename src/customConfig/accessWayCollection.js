@@ -13,6 +13,8 @@ module.exports = {
     addBasicInfo: 'eb0105b1-f2db-4c44-ae8a-356c6f57e726',
     updateBasicInfo: 'fd1b4b9d-4b92-4986-a695-986b16cad8a8',
     resetPassword: 'fd1b4b9d-4b92-4986-a695-986b16cad8a8',
+    setEnable: '72c3771b-6c5e-411c-9e49-d8555ab99743',
+    setDisable: '2ab71d44-ecda-462c-822c-8f37d3000847',
   },
   accessWay: {
     pageList: 'c44e3865-1fa0-48df-ad0a-bd3f79807a38',

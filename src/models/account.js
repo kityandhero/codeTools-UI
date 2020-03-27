@@ -6,7 +6,8 @@ import {
   addBasicInfoData,
   updateBasicInfoData,
   resetPasswordData,
-  changeStateData,
+  setEnableData,
+  setDisableData,
   removeData,
 } from '@/services/account';
 
@@ -40,22 +41,6 @@ export default {
         payload: response,
       });
     },
-    *changeState({ payload }, { call, put }) {
-      const response = yield call(changeStateData, payload);
-
-      yield put({
-        type: 'handleCommonData',
-        payload: response,
-      });
-    },
-    *remove({ payload }, { call, put }) {
-      const response = yield call(removeData, payload);
-
-      yield put({
-        type: 'handleCommonData',
-        payload: response,
-      });
-    },
     *updateBasicInfo({ payload }, { call, put }) {
       const response = yield call(updateBasicInfoData, payload);
 
@@ -66,6 +51,30 @@ export default {
     },
     *resetPassword({ payload }, { call, put }) {
       const response = yield call(resetPasswordData, payload);
+
+      yield put({
+        type: 'handleCommonData',
+        payload: response,
+      });
+    },
+    *setEnable({ payload }, { call, put }) {
+      const response = yield call(setEnableData, payload);
+
+      yield put({
+        type: 'handleCommonData',
+        payload: response,
+      });
+    },
+    *setDisable({ payload }, { call, put }) {
+      const response = yield call(setDisableData, payload);
+
+      yield put({
+        type: 'handleCommonData',
+        payload: response,
+      });
+    },
+    *remove({ payload }, { call, put }) {
+      const response = yield call(removeData, payload);
 
       yield put({
         type: 'handleCommonData',

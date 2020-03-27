@@ -105,11 +105,11 @@ class Index extends PagerList {
       case 'remove':
         this.removeItem(record);
         break;
-      case 'on':
-        this.changeState(record, 1);
+      case 'setEnable':
+        this.setEnable(record);
         break;
-      case 'off':
-        this.changeState(record, 0);
+      case 'setDisable':
+        this.setDisable(record);
         break;
       case 'setRole':
         this.showUpdateAccountRoleModal(record);
@@ -119,17 +119,16 @@ class Index extends PagerList {
     }
   };
 
-  changeState = (record, stateValue) => {
+  setEnable = (record) => {
     const { dispatch } = this.props;
     const { accountId } = record;
 
     this.setState({ processing: true });
 
     dispatch({
-      type: 'account/changeState',
+      type: 'account/setEnable',
       payload: {
         accountId,
-        state: stateValue,
       },
     }).then(() => {
       const data = this.getApiData(this.props);
@@ -137,31 +136,45 @@ class Index extends PagerList {
       const { dataSuccess } = data;
       if (dataSuccess) {
         requestAnimationFrame(() => {
-          let m = '';
-
-          switch (stateValue) {
-            case 0:
-              m = '设为失效';
-              break;
-            case 1:
-              m = '设为生效';
-              break;
-            default:
-              break;
-          }
-
           notification.success({
             placement: 'bottomRight',
             message: '设置操作结果',
-            description: `${record.name}已${m}`,
+            description: `${record.name}已设置为启用`,
           });
         });
 
-        this.handleItem(record.accountId, (d) => {
-          const o = d;
-          o.state = stateValue;
-          return d;
+        this.refreshData();
+      }
+
+      this.setState({ processing: false });
+    });
+  };
+
+  setDisable = (record) => {
+    const { dispatch } = this.props;
+    const { accountId } = record;
+
+    this.setState({ processing: true });
+
+    dispatch({
+      type: 'account/setDisable',
+      payload: {
+        accountId,
+      },
+    }).then(() => {
+      const data = this.getApiData(this.props);
+
+      const { dataSuccess } = data;
+      if (dataSuccess) {
+        requestAnimationFrame(() => {
+          notification.success({
+            placement: 'bottomRight',
+            message: '设置操作结果',
+            description: `${record.name}已已设置为禁用`,
+          });
         });
+
+        this.refreshData();
       }
 
       this.setState({ processing: false });
@@ -216,22 +229,6 @@ class Index extends PagerList {
     });
 
     return false;
-  };
-
-  handleItem = (dataId, handler) => {
-    const { customData } = this.state;
-    let indexData = -1;
-    customData.list.forEach((o, index) => {
-      const { accountId } = o;
-      if (accountId === dataId) {
-        indexData = index;
-      }
-    });
-
-    if (indexData >= 0) {
-      customData.list[indexData] = handler(customData.list[indexData]);
-      this.setState({ customData });
-    }
   };
 
   showUpdateAccountRoleModal = (record) => {
@@ -442,16 +439,18 @@ class Index extends PagerList {
             disabled={!this.checkAuthority(accessWayCollection.account.get)}
             overlay={
               <Menu onClick={(e) => this.handleMenuClick(e, record)}>
-                {record.state === 0 &&
-                this.checkAuthority(accessWayCollection.account.changeState) ? (
-                  <Menu.Item key="on">
+                {record.status === 0 &&
+                record.canSetStatus === 1 &&
+                this.checkAuthority(accessWayCollection.account.setEnable) ? (
+                  <Menu.Item key="setEnable">
                     <UpCircleOutlined />
                     设为启用
                   </Menu.Item>
                 ) : null}
-                {record.state !== 0 &&
-                this.checkAuthority(accessWayCollection.account.changeState) ? (
-                  <Menu.Item key="off">
+                {record.status !== 0 &&
+                record.canSetStatus === 1 &&
+                this.checkAuthority(accessWayCollection.account.setDisable) ? (
+                  <Menu.Item key="setDisable">
                     <DownCircleOutlined />
                     设为禁用
                   </Menu.Item>
@@ -462,7 +461,8 @@ class Index extends PagerList {
                     设置角色
                   </Menu.Item>
                 ) : null} */}
-                {this.checkAuthority(accessWayCollection.account.remove) ? (
+                {record.canSetStatus === 1 &&
+                this.checkAuthority(accessWayCollection.account.remove) ? (
                   <Menu.Item key="remove">
                     <DeleteOutlined />
                     删除
