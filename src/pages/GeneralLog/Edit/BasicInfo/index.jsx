@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Card, Affix, Row, Col, Spin, BackTop } from 'antd';
+import { Form, Card, Affix, Row, Col, Spin } from 'antd';
 import { ContactsOutlined, FormOutlined } from '@ant-design/icons';
 
 import {
@@ -140,7 +140,6 @@ class Index extends TabPageBase {
             </Form>
           </Spin>
         </Card>
-        <BackTop />
       </>
     );
   };

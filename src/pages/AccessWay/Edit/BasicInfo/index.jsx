@@ -67,86 +67,83 @@ class Index extends TabPageBase {
 
     return (
       <>
-        <>
-          <Card
-            title={this.renderBasicInfoTitle()}
-            className={styles.card}
-            bordered={false}
-            extra={
-              <Affix offsetTop={20}>
-                <div>{this.renderRefreshButton()}</div>
-              </Affix>
-            }
-          >
-            <Spin spinning={dataLoading || processing}>
-              <Row gutter={24}>
-                <Col lg={12} md={12} sm={24} xs={24}>
-                  {this.renderFormInputFormItem(
-                    fieldData.name.label,
-                    fieldData.name.name,
-                    true,
-                    buildFieldHelper(fieldData.name.helper),
-                    <FormOutlined />,
-                    null,
-                    false,
-                  )}
-                </Col>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFormInputFormItem(
-                    fieldData.tag.label,
-                    fieldData.tag.name,
-                    true,
-                    buildFieldHelper(fieldData.tag.helper),
-                    <FormOutlined />,
-                    null,
-                    false,
-                  )}
-                </Col>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFormInputNumberFormItem(
-                    fieldData.relativePath.label,
-                    fieldData.relativePath.name,
-                    true,
-                    buildFieldHelper(fieldData.relativePath.helper),
-                    null,
-                    false,
-                  )}
-                </Col>
-              </Row>
-            </Spin>
-          </Card>
+        <Card
+          title={this.renderBasicInfoTitle()}
+          className={styles.card}
+          bordered={false}
+          extra={
+            <Affix offsetTop={20}>
+              <div>{this.renderRefreshButton()}</div>
+            </Affix>
+          }
+        >
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col lg={12} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.name.label,
+                  fieldData.name.name,
+                  true,
+                  buildFieldHelper(fieldData.name.helper),
+                  <FormOutlined />,
+                  null,
+                  false,
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.tag.label,
+                  fieldData.tag.name,
+                  true,
+                  buildFieldHelper(fieldData.tag.helper),
+                  <FormOutlined />,
+                  null,
+                  false,
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInputNumberFormItem(
+                  fieldData.relativePath.label,
+                  fieldData.relativePath.name,
+                  true,
+                  buildFieldHelper(fieldData.relativePath.helper),
+                  null,
+                  false,
+                )}
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
 
-          <Card title="其他信息" className={styles.card} bordered={false}>
-            <Spin spinning={dataLoading || processing}>
-              <Row gutter={24}>
-                <Col span={24}>
-                  {this.renderFormTextAreaFormItem(
-                    fieldData.description.label,
-                    fieldData.description.name,
-                    false,
-                    buildFieldHelper(fieldData.description.helper),
-                    null,
-                    false,
-                  )}
-                </Col>
-              </Row>
-            </Spin>
-          </Card>
+        <Card title="其他信息" className={styles.card} bordered={false}>
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col span={24}>
+                {this.renderFormTextAreaFormItem(
+                  fieldData.description.label,
+                  fieldData.description.name,
+                  false,
+                  buildFieldHelper(fieldData.description.helper),
+                  null,
+                  false,
+                )}
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
 
-          <Card title="其他信息" className={styles.card} bordered={false}>
-            <Spin spinning={dataLoading || processing}>
-              <Row gutter={24}>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFromCreateTimeField()}
-                </Col>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFromUpdateTimeField()}
-                </Col>
-              </Row>
-            </Spin>
-          </Card>
-        </>
-        <BackTop />
+        <Card title="其他信息" className={styles.card} bordered={false}>
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFromCreateTimeField()}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFromUpdateTimeField()}
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
       </>
     );
   };

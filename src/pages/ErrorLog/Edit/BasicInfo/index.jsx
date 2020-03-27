@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Card, Affix, Row, Col, Spin, BackTop } from 'antd';
+import { Card, Affix, Row, Col, Spin } from 'antd';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -64,57 +64,54 @@ class Index extends TabPageBase {
 
     return (
       <>
-        <>
-          <Card
-            title={this.renderBasicInfoTitle()}
-            className={styles.card}
-            bordered={false}
-            extra={
-              <Affix offsetTop={20}>
-                <div>{this.renderRefreshButton()}</div>
-              </Affix>
-            }
-          >
-            <Spin spinning={dataLoading || processing}>
-              <Row gutter={24}>
-                <Col span={24}>
-                  <HtmlBox>{metaData === null ? '' : metaData.message || '无'}</HtmlBox>
-                </Col>
-              </Row>
-            </Spin>
-          </Card>
+        <Card
+          title={this.renderBasicInfoTitle()}
+          className={styles.card}
+          bordered={false}
+          extra={
+            <Affix offsetTop={20}>
+              <div>{this.renderRefreshButton()}</div>
+            </Affix>
+          }
+        >
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col span={24}>
+                <HtmlBox>{metaData === null ? '' : metaData.message || '无'}</HtmlBox>
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
 
-          <Card title="详细信息" className={styles.card} bordered={false}>
-            <Spin spinning={dataLoading || processing}>
-              <Row gutter={24}>
-                <Col lg={24} md={24} sm={24} xs={24}>
-                  {this.renderFormTextAreaFormItem(
-                    fieldData.content.label,
-                    fieldData.content.name,
-                    false,
-                    buildFieldHelper(fieldData.content.helper),
-                    null,
-                    false,
-                  )}
-                </Col>
-              </Row>
-            </Spin>
-          </Card>
+        <Card title="详细信息" className={styles.card} bordered={false}>
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col lg={24} md={24} sm={24} xs={24}>
+                {this.renderFormTextAreaFormItem(
+                  fieldData.content.label,
+                  fieldData.content.name,
+                  false,
+                  buildFieldHelper(fieldData.content.helper),
+                  null,
+                  false,
+                )}
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
 
-          <Card title="其他信息" className={styles.card} bordered={false}>
-            <Spin spinning={dataLoading || processing}>
-              <Row gutter={24}>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFromCreateTimeField()}
-                </Col>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFromUpdateTimeField()}
-                </Col>
-              </Row>
-            </Spin>
-          </Card>
-        </>
-        <BackTop />
+        <Card title="其他信息" className={styles.card} bordered={false}>
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFromCreateTimeField()}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFromUpdateTimeField()}
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
       </>
     );
   };

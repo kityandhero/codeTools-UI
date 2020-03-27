@@ -35,7 +35,7 @@ class Edit extends LoadDataTabContainer {
     this.state = {
       ...this.state,
       ...{
-        pageName: '账户名：',
+        pageName: `${fieldData.userName.label}：`,
         loadApiPath: 'account/get',
         backPath: `/account/account/pageList/key`,
       },
@@ -78,7 +78,7 @@ class Edit extends LoadDataTabContainer {
     if ((metaData || null) != null) {
       const { userName } = metaData || { userName: '' };
 
-      this.setState({ pageName: `${fieldData.userName}：${userName}` });
+      this.setState({ pageName: `${fieldData.userName.label}：${userName}` });
     }
   };
 
