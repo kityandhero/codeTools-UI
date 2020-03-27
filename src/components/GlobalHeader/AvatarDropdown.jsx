@@ -3,7 +3,11 @@ import { Avatar, Menu, Spin } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
 import { history } from 'umi';
+
+import { recordObject } from '@/utils/tools';
+
 import HeaderDropdown from '../HeaderDropdown';
+
 import styles from './index.less';
 
 class AvatarDropdown extends React.Component {
@@ -30,6 +34,9 @@ class AvatarDropdown extends React.Component {
       global: { operator = null },
       menu,
     } = this.props;
+
+    recordObject(this.props.global);
+
     const menuHeaderDropdown = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
         {menu && (

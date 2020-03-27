@@ -120,7 +120,7 @@ const GlobalModel = {
 
       yield put({
         type: 'changeOperator',
-        payload,
+        payload: result,
       });
     },
     *setAMapObject({ payload }, { put }) {
