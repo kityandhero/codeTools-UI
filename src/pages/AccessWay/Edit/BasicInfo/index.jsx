@@ -25,8 +25,6 @@ import styles from './index.less';
 class Index extends TabPageBase {
   componentAuthority = accessWayCollection.accessWay.get;
 
-  formRef = React.createRef();
-
   constructor(props) {
     super(props);
 
@@ -47,26 +45,21 @@ class Index extends TabPageBase {
     );
   }
 
-  getTargetForm = () => {
-    return this.formRef.current;
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+  buildInitialValues = (metaData) => {
     const values = {};
 
-    values[fieldData.name.name] = metaData === null ? '' : metaData.name || '';
-    values[fieldData.description.name] = metaData === null ? '' : metaData.description || '';
-    values[fieldData.tag.name] = metaData === null ? '' : metaData.tag || '';
-    values[fieldData.relativePath.name] = metaData === null ? '' : metaData.relativePath || '';
-    values[constants.createTime.name] =
-      metaData === null ? '' : formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
-    values[constants.updateTime.name] =
-      metaData === null ? '' : formatDatetime(metaData.updateTime, 'YYYY-MM-DD HH:mm') || '';
+    if (metaData != null) {
+      values[fieldData.name.name] = metaData.name || '';
+      values[fieldData.description.name] = metaData.description || '';
+      values[fieldData.tag.name] = metaData.tag || '';
+      values[fieldData.relativePath.name] = metaData.relativePath || '';
+      values[constants.createTime.name] =
+        formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
+      values[constants.updateTime.name] =
+        formatDatetime(metaData.updateTime, 'YYYY-MM-DD HH:mm') || '';
+    }
 
-    const form = this.getTargetForm();
-
-    form.setFieldsValue(values);
+    return values;
   };
 
   formContent = () => {

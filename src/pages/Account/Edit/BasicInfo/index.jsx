@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Card, Row, Col, Spin, notification, Affix, Button, Divider } from 'antd';
-import { FormOutlined, ContactsOutlined, SaveOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Spin, notification, Affix, Divider } from 'antd';
+import { FormOutlined, ContactsOutlined } from '@ant-design/icons';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -27,8 +27,6 @@ class BasicInfo extends UpdateFormTab {
 
   goToUpdateWhenProcessed = true;
 
-  formRef = React.createRef();
-
   constructor(props) {
     super(props);
 
@@ -50,16 +48,28 @@ class BasicInfo extends UpdateFormTab {
     );
   }
 
-  getTargetForm = () => {
-    return this.formRef.current;
-  };
-
   getApiData = (props) => {
     const {
       account: { data },
     } = props;
 
     return data;
+  };
+
+  buildInitialValues = (metaData) => {
+    const values = {};
+
+    if (metaData != null) {
+      values[fieldData.userName.name] = metaData.userName || '';
+      values[fieldData.name.name] = metaData.name || '';
+      values[fieldData.description.name] = metaData.description || '';
+      values[constants.createTime.name] =
+        formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
+      values[constants.updateTime.name] =
+        formatDatetime(metaData.updateTime, 'YYYY-MM-DD HH:mm') || '';
+    }
+
+    return values;
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -74,23 +84,6 @@ class BasicInfo extends UpdateFormTab {
     d.accountId = accountId;
 
     return d;
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    const values = {};
-
-    values[fieldData.userName.name] = metaData === null ? '' : metaData.userName || '';
-    values[fieldData.name.name] = metaData === null ? '' : metaData.name || '';
-    values[fieldData.description.name] = metaData === null ? '' : metaData.description || '';
-    values[constants.createTime.name] =
-      metaData === null ? '' : formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
-    values[constants.updateTime.name] =
-      metaData === null ? '' : formatDatetime(metaData.updateTime, 'YYYY-MM-DD HH:mm') || '';
-
-    const form = this.getTargetForm();
-
-    form.setFieldsValue(values);
   };
 
   supplementSubmitRequestParams = (o) => {
@@ -114,101 +107,82 @@ class BasicInfo extends UpdateFormTab {
   };
 
   formContent = () => {
-    const { processing, dataLoading, loadSuccess } = this.state;
+    const { processing, dataLoading } = this.state;
 
     return (
-      <div className={styles.containorBox}>
-        <Form ref={this.formRef} layout="vertical">
-          <Card
-            title={
-              <>
-                <ContactsOutlined />
-                <span className={styles.cardTitle}>基本信息</span>
-              </>
-            }
-            className={styles.card}
-            bordered={false}
-            extra={
-              <Affix offsetTop={20}>
-                <div>
-                  <Button
-                    icon={<ReloadOutlined />}
-                    disabled={dataLoading || processing || !loadSuccess}
-                    onClick={this.reloadData}
-                    loading={processing}
-                  >
-                    刷新
-                  </Button>
-                  <Divider type="vertical" />
-                  <Button
-                    type="primary"
-                    icon={<SaveOutlined />}
-                    disabled={dataLoading || processing || !loadSuccess}
-                    onClick={(e) => {
-                      this.validate(e);
-                    }}
-                    loading={processing}
-                  >
-                    保存
-                  </Button>
-                </div>
-              </Affix>
-            }
-          >
-            <Spin spinning={dataLoading || processing}>
-              <Row gutter={24}>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFormInputFormItem(
-                    fieldData.userName.label,
-                    fieldData.userName.name,
-                    true,
-                    buildFieldHelper(fieldData.userName.helper),
-                    <FormOutlined />,
-                    null,
-                    false,
-                  )}
-                </Col>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFormInputFormItem(
-                    fieldData.name.label,
-                    fieldData.name.name,
-                    true,
-                    buildFieldHelper(fieldData.name.helper),
-                  )}
-                </Col>
-              </Row>
-            </Spin>
-          </Card>
+      <>
+        <Card
+          title={
+            <>
+              <ContactsOutlined />
+              <span className={styles.cardTitle}>基本信息</span>
+            </>
+          }
+          className={styles.card}
+          bordered={false}
+          extra={
+            <Affix offsetTop={20}>
+              <div>
+                {this.renderRefreshButton()}
+                <Divider type="vertical" />
+                {this.renderSaveButton()}
+              </div>
+            </Affix>
+          }
+        >
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.userName.label,
+                  fieldData.userName.name,
+                  true,
+                  buildFieldHelper(fieldData.userName.helper),
+                  <FormOutlined />,
+                  null,
+                  false,
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.name.label,
+                  fieldData.name.name,
+                  true,
+                  buildFieldHelper(fieldData.name.helper),
+                )}
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
 
-          <Card title="描述信息" className={styles.card} bordered={false}>
-            <Spin spinning={dataLoading || processing}>
-              <Row gutter={24}>
-                <Col lg={24} md={24} sm={24} xs={24}>
-                  {this.renderFormTextAreaFormItem(
-                    fieldData.description.label,
-                    fieldData.description.name,
-                    false,
-                    buildFieldHelper(fieldData.description.helper),
-                  )}
-                </Col>
-              </Row>
-            </Spin>
-          </Card>
+        <Card title="描述信息" className={styles.card} bordered={false}>
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col lg={24} md={24} sm={24} xs={24}>
+                {this.renderFormTextAreaFormItem(
+                  fieldData.description.label,
+                  fieldData.description.name,
+                  false,
+                  buildFieldHelper(fieldData.description.helper),
+                )}
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
 
-          <Card title="其他信息" className={styles.card} bordered={false}>
-            <Spin spinning={dataLoading || processing}>
-              <Row gutter={24}>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFromCreateTimeField()}
-                </Col>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFromUpdateTimeField()}
-                </Col>
-              </Row>
-            </Spin>
-          </Card>
-        </Form>
-      </div>
+        <Card title="其他信息" className={styles.card} bordered={false}>
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFromCreateTimeField()}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFromUpdateTimeField()}
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
+      </>
     );
   };
 }

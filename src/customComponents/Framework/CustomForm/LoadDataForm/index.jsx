@@ -1,10 +1,12 @@
 import React from 'react';
-import { BackTop, Button, Avatar, Dropdown, Popconfirm, Menu, Tooltip, message } from 'antd';
+import { Form, BackTop, Button, Avatar, Dropdown, Popconfirm, Menu, Tooltip, message } from 'antd';
 import {
   PlusOutlined,
   RollbackOutlined,
   EllipsisOutlined,
   ReloadOutlined,
+  LoadingOutlined,
+  SaveOutlined,
 } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
@@ -19,6 +21,8 @@ class Index extends LoadDataCore {
   enableActionBack = true;
 
   actionBackProps = {};
+
+  formRef = React.createRef();
 
   constructor(props) {
     super(props);
@@ -38,6 +42,26 @@ class Index extends LoadDataCore {
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(nextProps, prevState);
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+    this.fillForm(metaData);
+  };
+
+  fillForm = (metaData) => {
+    const form = this.getTargetForm();
+
+    const initialValues = this.buildInitialValues(metaData);
+
+    form.setFieldsValue(initialValues);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterSetFieldsValue = (metaData) => {};
+
+  getTargetForm = () => {
+    return this.formRef.current;
+  };
 
   pageHeaderLogo = () => <Avatar shape="square" icon={<PlusOutlined />} />;
 
@@ -63,7 +87,7 @@ class Index extends LoadDataCore {
       <Tooltip placement="top" title="返回列表页">
         <Button
           {...props}
-          onClick={e => {
+          onClick={(e) => {
             this.backToList(e);
           }}
         >
@@ -83,7 +107,7 @@ class Index extends LoadDataCore {
         <div className={styles.buttonBox}>
           {(buttonGroupData || null) != null ? (
             <ButtonGroup>
-              {(buttonGroupData.buttons || []).map(item => {
+              {(buttonGroupData.buttons || []).map((item) => {
                 const { confirmMode, confirmProps } = item;
 
                 const { disabled, onClick } = item.buttonProps || {
@@ -134,7 +158,7 @@ class Index extends LoadDataCore {
                   <Dropdown
                     overlay={
                       <Menu {...(buttonGroupData.menu.props || {})}>
-                        {buttonGroupData.menu.items.map(item => (
+                        {buttonGroupData.menu.items.map((item) => (
                           <Menu.Item {...(item.props || {})} key={item.key}>
                             {item.children}
                           </Menu.Item>
@@ -173,6 +197,54 @@ class Index extends LoadDataCore {
     );
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  buildInitialValues = (metaData) => {
+    message.error('buildInitialValues 方法需要重新实现。');
+
+    return {};
+  };
+
+  renderRefreshButton = () => {
+    const { dataLoading, reloading, processing, loadSuccess } = this.state;
+
+    return (
+      <Button
+        disabled={dataLoading || reloading || processing || !loadSuccess}
+        onClick={this.reloadData}
+      >
+        {reloading ? <LoadingOutlined /> : <ReloadOutlined />}
+        刷新
+      </Button>
+    );
+  };
+
+  renderSaveButton = () => {
+    const { processing } = this.state;
+
+    return (
+      <Button
+        type="primary"
+        disabled={processing}
+        onClick={(e) => {
+          this.validate(e);
+        }}
+      >
+        {processing ? <LoadingOutlined /> : <SaveOutlined />}
+        保存
+      </Button>
+    );
+  };
+
+  renderForm = () => {
+    return (
+      <div className={styles.containorBox}>
+        <Form ref={this.formRef} layout="vertical">
+          {this.formContent()}
+        </Form>
+      </div>
+    );
+  };
+
   formContent = () => null;
 
   render() {
@@ -181,7 +253,7 @@ class Index extends LoadDataCore {
     return (
       <PageHeaderWrapper title={pageName} logo={this.pageHeaderLogo()}>
         <div className={styles.containorBox}>
-          {this.formContent()}
+          {this.renderForm()}
           {this.renderOther()}
         </div>
         <BackTop />

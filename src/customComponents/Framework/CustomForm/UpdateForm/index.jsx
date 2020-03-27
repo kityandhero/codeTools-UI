@@ -6,12 +6,6 @@ import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
 class UpdateForm extends LoadDataForm {
   goToUpdateWhenProcessed = false;
 
-  getTargetForm = () => {
-    message.error('需要重载getTargetForm');
-
-    return null;
-  };
-
   handleFormReset = () => {
     const form = this.getTargetForm();
 
@@ -50,6 +44,7 @@ class UpdateForm extends LoadDataForm {
 
     if ((submitApiPath || '') === '') {
       message.error(`缺少 submitApiPath 配置！`);
+      
       return;
     }
 

@@ -1,14 +1,17 @@
 import React from 'react';
-import { BackTop, Avatar, message } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Form, Button, BackTop, Avatar, message } from 'antd';
+import { LoadingOutlined, SaveOutlined, PlusOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
-import { defaultFormState, pretreatmentRequestParams } from '@/utils/tools';
+import { defaultFormState, pretreatmentRequestParams, formatDatetime } from '@/utils/tools';
+import { formNameCollection } from '@/utils/constants';
 import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
 
 import styles from './index.less';
 
 class AddFormBase extends CustomAuthorization {
+  formRef = React.createRef();
+
   constructor(props) {
     super(props);
 
@@ -24,9 +27,7 @@ class AddFormBase extends CustomAuthorization {
   }
 
   getTargetForm = () => {
-    message.error('需要重载getTargetForm');
-
-    return null;
+    return this.formRef.current;
   };
 
   handleFormReset = () => {
@@ -41,16 +42,16 @@ class AddFormBase extends CustomAuthorization {
     this.reloadData();
   };
 
-  supplementSubmitRequestParams = o => o;
+  supplementSubmitRequestParams = (o) => o;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = (singleData, listData, extraData, responseOriginalData, submitData) => {};
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  checkSubmitRequestParams = o => true;
+  checkSubmitRequestParams = (o) => true;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  validate = e => {
+  validate = (e) => {
     const { dispatch } = this.props;
 
     const form = this.getTargetForm();
@@ -60,7 +61,7 @@ class AddFormBase extends CustomAuthorization {
     const { submitApiPath } = this.state;
 
     validateFields()
-      .then(values => {
+      .then((values) => {
         let submitData = pretreatmentRequestParams(values);
 
         submitData = this.supplementSubmitRequestParams(submitData);
@@ -97,12 +98,12 @@ class AddFormBase extends CustomAuthorization {
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         const { errorFields } = error;
 
         const m = [];
 
-        Object.values(errorFields).forEach(o => {
+        Object.values(errorFields).forEach((o) => {
           m.push(o.errors[0]);
         });
 
@@ -127,6 +128,43 @@ class AddFormBase extends CustomAuthorization {
 
   pageHeaderLogo = () => <Avatar shape="square" icon={<PlusOutlined />} />;
 
+  buildInitialValues = () => {
+    const initialValues = {};
+
+    initialValues[formNameCollection.createTime] = formatDatetime(new Date(), 'YYYY-MM-DD HH:mm');
+
+    return initialValues;
+  };
+
+  renderSaveButton = () => {
+    const { processing } = this.state;
+
+    return (
+      <Button
+        type="primary"
+        disabled={processing}
+        onClick={(e) => {
+          this.validate(e);
+        }}
+      >
+        {processing ? <LoadingOutlined /> : <SaveOutlined />}
+        保存
+      </Button>
+    );
+  };
+
+  renderForm = () => {
+    const initialValues = this.buildInitialValues();
+
+    return (
+      <div className={styles.containorBox}>
+        <Form ref={this.formRef} initialValues={initialValues} layout="vertical">
+          {this.formContent()}
+        </Form>
+      </div>
+    );
+  };
+
   formContent = () => null;
 
   render() {
@@ -135,7 +173,7 @@ class AddFormBase extends CustomAuthorization {
     return (
       <PageHeaderWrapper title={pageName} logo={this.pageHeaderLogo()}>
         <div className={styles.containorBox}>
-          {this.formContent()}
+          {this.renderForm()}
           {this.renderOther()}
         </div>
         <BackTop />

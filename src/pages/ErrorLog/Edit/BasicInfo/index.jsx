@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Card, Button, Row, Col, Spin, BackTop } from 'antd';
-import { ReloadOutlined } from '@ant-design/icons';
+import { Card, Affix, Row, Col, Spin, BackTop } from 'antd';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -26,8 +25,6 @@ import styles from './index.less';
 class Index extends TabPageBase {
   componentAuthority = accessWayCollection.errorLog.get;
 
-  formRef = React.createRef();
-
   constructor(props) {
     super(props);
 
@@ -48,23 +45,18 @@ class Index extends TabPageBase {
     );
   }
 
-  getTargetForm = () => {
-    return this.formRef.current;
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+  buildInitialValues = (metaData) => {
     const values = {};
 
-    values[constants.channelNote.name] = metaData === null ? '' : metaData.channelNote || '';
-    values[constants.createTime.name] =
-      metaData === null ? '' : formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
-    values[constants.updateTime.name] =
-      metaData === null ? '' : formatDatetime(metaData.updateTime, 'YYYY-MM-DD HH:mm') || '';
+    if (metaData != null) {
+      values[constants.channelNote.name] = metaData.channelNote || '';
+      values[constants.createTime.name] =
+        formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
+      values[constants.updateTime.name] =
+        formatDatetime(metaData.updateTime, 'YYYY-MM-DD HH:mm') || '';
+    }
 
-    const form = this.getTargetForm();
-
-    form.setFieldsValue(values);
+    return values;
   };
 
   formContent = () => {
@@ -72,68 +64,56 @@ class Index extends TabPageBase {
 
     return (
       <>
-        <div className={styles.containorBox}>
-          <Form ref={this.formRef} layout="vertical">
-            <Card
-              title="基本信息"
-              className={styles.card}
-              bordered={false}
-              extra={
-                <>
-                  <Button
-                    type="default"
-                    icon={<ReloadOutlined />}
-                    disabled={dataLoading || processing}
-                    onClick={() => {
-                      this.reloadData();
-                    }}
-                    loading={processing}
-                  >
-                    刷新
-                  </Button>
-                </>
-              }
-            >
-              <Spin spinning={dataLoading || processing}>
-                <Row gutter={24}>
-                  <Col span={24}>
-                    <HtmlBox>{metaData === null ? '' : metaData.message || '无'}</HtmlBox>
-                  </Col>
-                </Row>
-              </Spin>
-            </Card>
+        <>
+          <Card
+            title="基本信息"
+            className={styles.card}
+            bordered={false}
+            extra={
+              <Affix offsetTop={20}>
+                <div>{this.renderRefreshButton()}</div>
+              </Affix>
+            }
+          >
+            <Spin spinning={dataLoading || processing}>
+              <Row gutter={24}>
+                <Col span={24}>
+                  <HtmlBox>{metaData === null ? '' : metaData.message || '无'}</HtmlBox>
+                </Col>
+              </Row>
+            </Spin>
+          </Card>
 
-            <Card title="详细信息" className={styles.card} bordered={false}>
-              <Spin spinning={dataLoading || processing}>
-                <Row gutter={24}>
-                  <Col lg={24} md={24} sm={24} xs={24}>
-                    {this.renderFormTextAreaFormItem(
-                      fieldData.content.label,
-                      fieldData.content.name,
-                      false,
-                      buildFieldHelper(fieldData.content.helper),
-                      null,
-                      false,
-                    )}
-                  </Col>
-                </Row>
-              </Spin>
-            </Card>
+          <Card title="详细信息" className={styles.card} bordered={false}>
+            <Spin spinning={dataLoading || processing}>
+              <Row gutter={24}>
+                <Col lg={24} md={24} sm={24} xs={24}>
+                  {this.renderFormTextAreaFormItem(
+                    fieldData.content.label,
+                    fieldData.content.name,
+                    false,
+                    buildFieldHelper(fieldData.content.helper),
+                    null,
+                    false,
+                  )}
+                </Col>
+              </Row>
+            </Spin>
+          </Card>
 
-            <Card title="其他信息" className={styles.card} bordered={false}>
-              <Spin spinning={dataLoading || processing}>
-                <Row gutter={24}>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFromCreateTimeField()}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFromUpdateTimeField()}
-                  </Col>
-                </Row>
-              </Spin>
-            </Card>
-          </Form>
-        </div>
+          <Card title="其他信息" className={styles.card} bordered={false}>
+            <Spin spinning={dataLoading || processing}>
+              <Row gutter={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFromCreateTimeField()}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFromUpdateTimeField()}
+                </Col>
+              </Row>
+            </Spin>
+          </Card>
+        </>
         <BackTop />
       </>
     );

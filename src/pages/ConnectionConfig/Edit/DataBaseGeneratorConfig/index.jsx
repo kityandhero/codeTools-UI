@@ -26,8 +26,6 @@ import styles from './index.less';
 class Index extends TabPageBase {
   componentAuthority = accessWayCollection.dataBaseGeneratorConfig.get;
 
-  formRef = React.createRef();
-
   constructor(props) {
     super(props);
 
@@ -50,16 +48,55 @@ class Index extends TabPageBase {
     );
   }
 
+  buildInitialValues = (metaData) => {
+    const values = {};
+
+    if (metaData != null) {
+      values[fieldData.dataBaseGeneratorConfigId.name] =
+        metaData.dataBaseGeneratorConfigId || zeroInt;
+      values[fieldData.connectionConfigId.name] = metaData.connectionConfigId || zeroInt;
+
+      values[fieldData.connectorJarFile.name] = metaData.connectorJarFile || '';
+      values[fieldData.projectFolder.name] = metaData.projectFolder || '';
+      values[fieldData.modelPackage.name] = metaData.modelPackage || '';
+      values[fieldData.modelTargetFolder.name] = metaData.modelTargetFolder || '';
+      values[fieldData.daoPackage.name] = metaData.daoPackage || '';
+      values[fieldData.daoTargetFolder.name] = metaData.daoTargetFolder || '';
+      values[fieldData.mappingXmlPackage.name] = metaData.mappingXmlPackage || '';
+      values[fieldData.mappingXmlTargetFolder.name] = metaData.mappingXmlTargetFolder || '';
+      values[fieldData.generateKeys.name] = metaData.generateKeys || '';
+      values[fieldData.encoding.name] = metaData.encoding || '';
+
+      values[fieldData.offsetLimit.name] = `${metaData.offsetLimit || zeroInt}`;
+      values[fieldData.needToStringHashCodeEquals.name] = `${
+        metaData.needToStringHashCodeEquals || zeroInt
+      }`;
+      values[fieldData.needForUpdate.name] = `${metaData.needForUpdate || zeroInt}`;
+      values[fieldData.annotationDAO.name] = `${metaData.annotationDAO || zeroInt}`;
+      values[fieldData.annotation.name] = `${metaData.annotation || zeroInt}`;
+      values[fieldData.useActualColumnNames.name] = `${metaData.useActualColumnNames || zeroInt}`;
+      values[fieldData.useExample.name] = `${metaData.useExample || zeroInt}`;
+      values[fieldData.useTableNameAlias.name] = `${metaData.useTableNameAlias || zeroInt}`;
+      values[fieldData.useDAOExtendStyle.name] = `${metaData.useDAOExtendStyle || zeroInt}`;
+      values[fieldData.useSchemaPrefix.name] = `${metaData.useSchemaPrefix || zeroInt}`;
+      values[fieldData.jsr310Support.name] = `${metaData.jsr310Support || zeroInt}`;
+      values[fieldData.overrideXML.name] = `${metaData.overrideXML || zeroInt}`;
+
+      values[constants.createTime.name] =
+        formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
+      values[constants.updateTime.name] =
+        formatDatetime(metaData.updateTime, 'YYYY-MM-DD HH:mm') || '';
+    }
+
+    return values;
+  };
+
   getApiData = (props) => {
     const {
       dataBaseGeneratorConfig: { data },
     } = props;
 
     return data;
-  };
-
-  getTargetForm = () => {
-    return this.formRef.current;
   };
 
   supplementLoadRequestParams = (o) => {
@@ -69,13 +106,6 @@ class Index extends TabPageBase {
     d.connectionConfigId = connectionConfigId;
 
     return d;
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    if (metaData != null) {
-      this.fillForm(metaData);
-    }
   };
 
   supplementSubmitRequestParams = (o) => {
@@ -102,46 +132,6 @@ class Index extends TabPageBase {
         description: '数据已经保存成功，请进行后续操作。',
       });
     });
-  };
-
-  fillForm = (data) => {
-    const values = {};
-
-    values[fieldData.dataBaseGeneratorConfigId.name] = data.dataBaseGeneratorConfigId || zeroInt;
-    values[fieldData.connectionConfigId.name] = data.connectionConfigId || zeroInt;
-
-    values[fieldData.connectorJarFile.name] = data.connectorJarFile || '';
-    values[fieldData.projectFolder.name] = data.projectFolder || '';
-    values[fieldData.modelPackage.name] = data.modelPackage || '';
-    values[fieldData.modelTargetFolder.name] = data.modelTargetFolder || '';
-    values[fieldData.daoPackage.name] = data.daoPackage || '';
-    values[fieldData.daoTargetFolder.name] = data.daoTargetFolder || '';
-    values[fieldData.mappingXmlPackage.name] = data.mappingXmlPackage || '';
-    values[fieldData.mappingXmlTargetFolder.name] = data.mappingXmlTargetFolder || '';
-    values[fieldData.generateKeys.name] = data.generateKeys || '';
-    values[fieldData.encoding.name] = data.encoding || '';
-
-    values[fieldData.offsetLimit.name] = `${data.offsetLimit || zeroInt}`;
-    values[fieldData.needToStringHashCodeEquals.name] = `${
-      data.needToStringHashCodeEquals || zeroInt
-    }`;
-    values[fieldData.needForUpdate.name] = `${data.needForUpdate || zeroInt}`;
-    values[fieldData.annotationDAO.name] = `${data.annotationDAO || zeroInt}`;
-    values[fieldData.annotation.name] = `${data.annotation || zeroInt}`;
-    values[fieldData.useActualColumnNames.name] = `${data.useActualColumnNames || zeroInt}`;
-    values[fieldData.useExample.name] = `${data.useExample || zeroInt}`;
-    values[fieldData.useTableNameAlias.name] = `${data.useTableNameAlias || zeroInt}`;
-    values[fieldData.useDAOExtendStyle.name] = `${data.useDAOExtendStyle || zeroInt}`;
-    values[fieldData.useSchemaPrefix.name] = `${data.useSchemaPrefix || zeroInt}`;
-    values[fieldData.jsr310Support.name] = `${data.jsr310Support || zeroInt}`;
-    values[fieldData.overrideXML.name] = `${data.overrideXML || zeroInt}`;
-
-    values[constants.createTime.name] = formatDatetime(data.createTime, 'YYYY-MM-DD HH:mm') || '';
-    values[constants.updateTime.name] = formatDatetime(data.updateTime, 'YYYY-MM-DD HH:mm') || '';
-
-    const form = this.getTargetForm();
-
-    form.setFieldsValue(values);
   };
 
   formContent = () => {
