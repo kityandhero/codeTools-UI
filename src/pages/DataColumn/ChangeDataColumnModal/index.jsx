@@ -69,8 +69,8 @@ class Index extends ModalBase {
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const values = {};
 
-    values[fieldData.name.name] = metaData === null ? '' : metaData.name || '';
-    values[fieldData.type.name] = metaData === null ? '' : metaData.type || '';
+    values[fieldData.columnName.name] = metaData === null ? '' : metaData.columnName || '';
+    values[fieldData.columnType.name] = metaData === null ? '' : metaData.columnType || '';
     values[fieldData.aliasName.name] = metaData === null ? '' : metaData.aliasName || '';
     values[fieldData.javaType.name] = metaData === null ? '' : metaData.javaType || '';
     values[fieldData.typeHandler.name] = metaData === null ? '' : metaData.typeHandler || '';
@@ -125,20 +125,20 @@ class Index extends ModalBase {
     return (
       <>
         {this.renderFormInputFormItem(
-          fieldData.name.label,
-          fieldData.name.name,
+          fieldData.columnName.label,
+          fieldData.columnName.name,
           true,
-          buildFieldHelper(fieldData.name.helper),
+          buildFieldHelper(fieldData.columnName.helper),
           <FormOutlined />,
           { readOnly: true },
           false,
           formItemLayout,
         )}
         {this.renderFormInputFormItem(
-          fieldData.type.label,
-          fieldData.type.name,
+          fieldData.columnType.label,
+          fieldData.columnType.name,
           true,
-          buildFieldHelper(fieldData.type.helper),
+          buildFieldHelper(fieldData.columnType.helper),
           <FormOutlined />,
           { readOnly: true },
           false,

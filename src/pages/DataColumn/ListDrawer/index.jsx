@@ -129,7 +129,7 @@ class Index extends PagerDrawer {
       <>
         <Row gutter={24}>
           <Col lg={6} md={12} sm={24} xs={24}>
-            {this.renderSearchInputFormItem(fieldData.name.label, fieldData.name.name)}
+            {this.renderSearchInputFormItem(fieldData.columnName.label, fieldData.columnName.name)}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>
@@ -167,8 +167,8 @@ class Index extends PagerDrawer {
 
   getColumn = () => [
     {
-      title: fieldData.name.label,
-      dataIndex: fieldData.name.name,
+      title: fieldData.columnName.label,
+      dataIndex: fieldData.columnName.name,
       align: 'left',
       render: (val) => (
         <>
@@ -179,8 +179,8 @@ class Index extends PagerDrawer {
       ),
     },
     {
-      title: fieldData.type.label,
-      dataIndex: fieldData.type.name,
+      title: fieldData.columnType.label,
+      dataIndex: fieldData.columnType.name,
       width: 120,
       align: 'center',
       render: (val) => (

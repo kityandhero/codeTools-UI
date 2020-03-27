@@ -40,15 +40,15 @@ module.exports = {
       label: 'dao文件夹',
       helper: '生成的dao的文件夹',
     },
-    mappingXMLPackage: {
-      name: 'mappingXMLPackage',
-      label: 'mappingXMLPackage',
-      helper: '生成的mappingXMLPackage',
+    mappingXmlPackage: {
+      name: 'mappingXmlPackage',
+      label: 'mappingXmlPackage',
+      helper: '生成的mappingXmlPackage',
     },
-    mappingXMLTargetFolder: {
-      name: 'mappingXMLTargetFolder',
-      label: 'mappingXML文件夹',
-      helper: '生成的mappingXML的文件夹',
+    mappingXmlTargetFolder: {
+      name: 'mappingXmlTargetFolder',
+      label: 'mappingXml文件夹',
+      helper: '生成的mappingXml的文件夹',
     },
     offsetLimit: {
       name: 'offsetLimit',

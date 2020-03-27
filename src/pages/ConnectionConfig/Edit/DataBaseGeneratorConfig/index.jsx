@@ -116,8 +116,8 @@ class Index extends TabPageBase {
     values[fieldData.modelTargetFolder.name] = data.modelTargetFolder || '';
     values[fieldData.daoPackage.name] = data.daoPackage || '';
     values[fieldData.daoTargetFolder.name] = data.daoTargetFolder || '';
-    values[fieldData.mappingXMLPackage.name] = data.mappingXMLPackage || '';
-    values[fieldData.mappingXMLTargetFolder.name] = data.mappingXMLTargetFolder || '';
+    values[fieldData.mappingXmlPackage.name] = data.mappingXmlPackage || '';
+    values[fieldData.mappingXmlTargetFolder.name] = data.mappingXmlTargetFolder || '';
     values[fieldData.generateKeys.name] = data.generateKeys || '';
     values[fieldData.encoding.name] = data.encoding || '';
 
@@ -246,18 +246,18 @@ class Index extends TabPageBase {
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFormInputFormItem(
-                      fieldData.mappingXMLPackage.label,
-                      fieldData.mappingXMLPackage.name,
+                      fieldData.mappingXmlPackage.label,
+                      fieldData.mappingXmlPackage.name,
                       true,
-                      buildFieldHelper(fieldData.mappingXMLPackage.helper),
+                      buildFieldHelper(fieldData.mappingXmlPackage.helper),
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
                     {this.renderFormInputFormItem(
-                      fieldData.mappingXMLTargetFolder.label,
-                      fieldData.mappingXMLTargetFolder.name,
+                      fieldData.mappingXmlTargetFolder.label,
+                      fieldData.mappingXmlTargetFolder.name,
                       true,
-                      buildFieldHelper(fieldData.mappingXMLTargetFolder.helper),
+                      buildFieldHelper(fieldData.mappingXmlTargetFolder.helper),
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>

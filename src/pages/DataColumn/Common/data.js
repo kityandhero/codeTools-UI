@@ -10,13 +10,13 @@ module.exports = {
       label: '表名',
       helper: '数据库表列的表名',
     },
-    name: {
-      name: 'name',
+    columnName: {
+      name: 'columnName',
       label: '列名',
       helper: '数据库表列的名称',
     },
-    type: {
-      name: 'type',
+    columnType: {
+      name: 'columnType',
       label: 'JDBC类型',
       helper: '数据库表列的JDBC类型',
     },
