@@ -205,11 +205,27 @@ class Index extends LoadDataCore {
     return {};
   };
 
+  getFormLayout = () => {
+    return 'vertical';
+  };
+
+  getFormClassName = () => {
+    return null;
+  };
+
+  renderBasicInfoTitleIcon = () => {
+    return <ContactsOutlined />;
+  };
+
+  renderBasicInfoTitleText = () => {
+    return '基本信息';
+  };
+
   renderBasicInfoTitle = () => {
     return (
       <>
-        <ContactsOutlined />
-        <span className={styles.cardTitle}>基本信息</span>
+        {this.renderBasicInfoTitleIcon()}
+        <span className={styles.cardTitle}> {this.renderBasicInfoTitleText()}</span>
       </>
     );
   };
@@ -248,7 +264,7 @@ class Index extends LoadDataCore {
   renderForm = () => {
     return (
       <div className={styles.containorBox}>
-        <Form ref={this.formRef} layout="vertical">
+        <Form ref={this.formRef} className={this.getFormClassName()} layout={this.getFormLayout()}>
           {this.formContent()}
         </Form>
       </div>

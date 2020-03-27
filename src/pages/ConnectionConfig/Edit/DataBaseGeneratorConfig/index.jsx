@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Form, Card, Button, Row, Col, Spin, Divider, BackTop, notification, Affix } from 'antd';
-import { SaveOutlined, ReloadOutlined, FormOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Spin, Divider, BackTop, notification, Affix } from 'antd';
+import { FormOutlined } from '@ant-design/icons';
 
 import {
   formatDatetime,
@@ -135,232 +135,215 @@ class Index extends TabPageBase {
   };
 
   formContent = () => {
-    const { loadSuccess, dataLoading, processing } = this.state;
+    const { dataLoading, processing } = this.state;
 
     return (
       <>
-        <div className={styles.containorBox}>
-          <Form ref={this.formRef} layout="vertical">
-            <Card
-              title="基本信息"
-              className={styles.card}
-              bordered={false}
-              extra={
-                <Affix offsetTop={20}>
-                  <div>
-                    <Button
-                      icon={<ReloadOutlined />}
-                      disabled={dataLoading || processing || !loadSuccess}
-                      onClick={this.reloadData}
-                      loading={processing}
-                    >
-                      刷新
-                    </Button>
-                    <Divider type="vertical" />
-                    <Button
-                      type="primary"
-                      icon={<SaveOutlined />}
-                      disabled={dataLoading || processing}
-                      onClick={this.validate}
-                      loading={processing}
-                    >
-                      保存
-                    </Button>
-                  </div>
-                </Affix>
-              }
-            >
-              <Spin spinning={dataLoading || processing}>
-                <Row gutter={24}>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.connectionConfigId.label,
-                      fieldData.connectionConfigId.name,
-                      true,
-                      buildFieldHelper(fieldData.connectionConfigId.helper),
-                      <FormOutlined />,
-                      {},
-                      false,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.connectorJarFile.label,
-                      fieldData.connectorJarFile.name,
-                      true,
-                      buildFieldHelper(fieldData.connectorJarFile.helper),
-                      <FormOutlined />,
-                      {},
-                      false,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.projectFolder.label,
-                      fieldData.projectFolder.name,
-                      true,
-                      buildFieldHelper(fieldData.projectFolder.helper),
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.modelPackage.label,
-                      fieldData.modelPackage.name,
-                      true,
-                      buildFieldHelper(fieldData.modelPackage.helper),
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.modelTargetFolder.label,
-                      fieldData.modelTargetFolder.name,
-                      true,
-                      buildFieldHelper(fieldData.modelTargetFolder.helper),
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.daoPackage.label,
-                      fieldData.daoPackage.name,
-                      true,
-                      buildFieldHelper(fieldData.daoPackage.helper),
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.daoTargetFolder.label,
-                      fieldData.daoTargetFolder.name,
-                      true,
-                      buildFieldHelper(fieldData.daoTargetFolder.helper),
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.mappingXmlPackage.label,
-                      fieldData.mappingXmlPackage.name,
-                      true,
-                      buildFieldHelper(fieldData.mappingXmlPackage.helper),
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.mappingXmlTargetFolder.label,
-                      fieldData.mappingXmlTargetFolder.name,
-                      true,
-                      buildFieldHelper(fieldData.mappingXmlTargetFolder.helper),
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.generateKeys.label,
-                      fieldData.generateKeys.name,
-                      true,
-                      buildFieldHelper(fieldData.generateKeys.helper),
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
-                      fieldData.encoding.label,
-                      fieldData.encoding.name,
-                      true,
-                      buildFieldHelper(fieldData.encoding.helper),
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormWhetherSelectFormItem(
-                      fieldData.offsetLimit.label,
-                      fieldData.offsetLimit.name,
-                      fieldData.offsetLimit.helper,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormWhetherSelectFormItem(
-                      fieldData.needToStringHashCodeEquals.label,
-                      fieldData.needToStringHashCodeEquals.name,
-                      fieldData.needToStringHashCodeEquals.helper,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormWhetherSelectFormItem(
-                      fieldData.needForUpdate.label,
-                      fieldData.needForUpdate.name,
-                      fieldData.needForUpdate.helper,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormWhetherSelectFormItem(
-                      fieldData.annotationDAO.label,
-                      fieldData.annotationDAO.name,
-                      fieldData.annotationDAO.helper,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormWhetherSelectFormItem(
-                      fieldData.annotation.label,
-                      fieldData.annotation.name,
-                      fieldData.annotation.helper,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormWhetherSelectFormItem(
-                      fieldData.useActualColumnNames.label,
-                      fieldData.useActualColumnNames.name,
-                      fieldData.useActualColumnNames.helper,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormWhetherSelectFormItem(
-                      fieldData.useExample.label,
-                      fieldData.useExample.name,
-                      fieldData.useExample.helper,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormWhetherSelectFormItem(
-                      fieldData.useTableNameAlias.label,
-                      fieldData.useTableNameAlias.name,
-                      fieldData.useTableNameAlias.helper,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormWhetherSelectFormItem(
-                      fieldData.useDAOExtendStyle.label,
-                      fieldData.useDAOExtendStyle.name,
-                      fieldData.useDAOExtendStyle.helper,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormWhetherSelectFormItem(
-                      fieldData.jsr310Support.label,
-                      fieldData.jsr310Support.name,
-                      fieldData.jsr310Support.helper,
-                    )}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormWhetherSelectFormItem(
-                      fieldData.overrideXML.label,
-                      fieldData.overrideXML.name,
-                      fieldData.overrideXML.helper,
-                    )}
-                  </Col>
-                </Row>
-              </Spin>
-            </Card>
+        <>
+          <Card
+            title={this.renderBasicInfoTitle()}
+            className={styles.card}
+            bordered={false}
+            extra={
+              <Affix offsetTop={20}>
+                <div>
+                  {this.renderRefreshButton()}
+                  <Divider type="vertical" />
+                  {this.renderSaveButton()}
+                </div>
+              </Affix>
+            }
+          >
+            <Spin spinning={dataLoading || processing}>
+              <Row gutter={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.connectionConfigId.label,
+                    fieldData.connectionConfigId.name,
+                    true,
+                    buildFieldHelper(fieldData.connectionConfigId.helper),
+                    <FormOutlined />,
+                    {},
+                    false,
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.connectorJarFile.label,
+                    fieldData.connectorJarFile.name,
+                    true,
+                    buildFieldHelper(fieldData.connectorJarFile.helper),
+                    <FormOutlined />,
+                    {},
+                    false,
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.projectFolder.label,
+                    fieldData.projectFolder.name,
+                    true,
+                    buildFieldHelper(fieldData.projectFolder.helper),
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.modelPackage.label,
+                    fieldData.modelPackage.name,
+                    true,
+                    buildFieldHelper(fieldData.modelPackage.helper),
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.modelTargetFolder.label,
+                    fieldData.modelTargetFolder.name,
+                    true,
+                    buildFieldHelper(fieldData.modelTargetFolder.helper),
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.daoPackage.label,
+                    fieldData.daoPackage.name,
+                    true,
+                    buildFieldHelper(fieldData.daoPackage.helper),
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.daoTargetFolder.label,
+                    fieldData.daoTargetFolder.name,
+                    true,
+                    buildFieldHelper(fieldData.daoTargetFolder.helper),
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.mappingXmlPackage.label,
+                    fieldData.mappingXmlPackage.name,
+                    true,
+                    buildFieldHelper(fieldData.mappingXmlPackage.helper),
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.mappingXmlTargetFolder.label,
+                    fieldData.mappingXmlTargetFolder.name,
+                    true,
+                    buildFieldHelper(fieldData.mappingXmlTargetFolder.helper),
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.generateKeys.label,
+                    fieldData.generateKeys.name,
+                    true,
+                    buildFieldHelper(fieldData.generateKeys.helper),
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormInputFormItem(
+                    fieldData.encoding.label,
+                    fieldData.encoding.name,
+                    true,
+                    buildFieldHelper(fieldData.encoding.helper),
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormWhetherSelectFormItem(
+                    fieldData.offsetLimit.label,
+                    fieldData.offsetLimit.name,
+                    fieldData.offsetLimit.helper,
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormWhetherSelectFormItem(
+                    fieldData.needToStringHashCodeEquals.label,
+                    fieldData.needToStringHashCodeEquals.name,
+                    fieldData.needToStringHashCodeEquals.helper,
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormWhetherSelectFormItem(
+                    fieldData.needForUpdate.label,
+                    fieldData.needForUpdate.name,
+                    fieldData.needForUpdate.helper,
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormWhetherSelectFormItem(
+                    fieldData.annotationDAO.label,
+                    fieldData.annotationDAO.name,
+                    fieldData.annotationDAO.helper,
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormWhetherSelectFormItem(
+                    fieldData.annotation.label,
+                    fieldData.annotation.name,
+                    fieldData.annotation.helper,
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormWhetherSelectFormItem(
+                    fieldData.useActualColumnNames.label,
+                    fieldData.useActualColumnNames.name,
+                    fieldData.useActualColumnNames.helper,
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormWhetherSelectFormItem(
+                    fieldData.useExample.label,
+                    fieldData.useExample.name,
+                    fieldData.useExample.helper,
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormWhetherSelectFormItem(
+                    fieldData.useTableNameAlias.label,
+                    fieldData.useTableNameAlias.name,
+                    fieldData.useTableNameAlias.helper,
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormWhetherSelectFormItem(
+                    fieldData.useDAOExtendStyle.label,
+                    fieldData.useDAOExtendStyle.name,
+                    fieldData.useDAOExtendStyle.helper,
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormWhetherSelectFormItem(
+                    fieldData.jsr310Support.label,
+                    fieldData.jsr310Support.name,
+                    fieldData.jsr310Support.helper,
+                  )}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFormWhetherSelectFormItem(
+                    fieldData.overrideXML.label,
+                    fieldData.overrideXML.name,
+                    fieldData.overrideXML.helper,
+                  )}
+                </Col>
+              </Row>
+            </Spin>
+          </Card>
 
-            <Card title="其他信息" className={styles.card} bordered={false}>
-              <Spin spinning={dataLoading || processing}>
-                <Row gutter={24}>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFromCreateTimeField()}
-                  </Col>
-                  <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFromUpdateTimeField()}
-                  </Col>
-                </Row>
-              </Spin>
-            </Card>
-          </Form>
-        </div>
+          <Card title="其他信息" className={styles.card} bordered={false}>
+            <Spin spinning={dataLoading || processing}>
+              <Row gutter={24}>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFromCreateTimeField()}
+                </Col>
+                <Col lg={6} md={12} sm={24} xs={24}>
+                  {this.renderFromUpdateTimeField()}
+                </Col>
+              </Row>
+            </Spin>
+          </Card>
+        </>
         <BackTop />
       </>
     );

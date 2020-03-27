@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { ContactsOutlined, FormOutlined, SaveOutlined } from '@ant-design/icons';
+import { FormOutlined, SaveOutlined } from '@ant-design/icons';
 
 import { Form, Card, Spin, notification, Button } from 'antd';
 
@@ -100,70 +100,71 @@ class ResetPassword extends UpdateFormTab {
     });
   };
 
+  getFormLayout = () => {
+    return 'horizontal';
+  };
+
+  getFormClassName = () => {
+    return styles.card;
+  };
+
+  renderBasicInfoTitleText = () => {
+    return '重置密码';
+  };
+
   formContent = () => {
     const { processing, dataLoading } = this.state;
 
     return (
       <>
-        <Card
-          title={
-            <>
-              <ContactsOutlined />
-              <span className={styles.cardTitle}>重置密码</span>
-            </>
-          }
-          className={styles.card}
-          bordered={false}
-        >
+        <Card title={this.renderBasicInfoTitle()} className={styles.card} bordered={false}>
           <Spin spinning={dataLoading || processing}>
-            <Form layout="horizontal" className={styles.customForm}>
-              {this.renderFormPasswordFormItem(
-                fieldData.password.label,
-                fieldData.password.name,
-                true,
-                buildFieldHelper(fieldData.password.helper),
-                <FormOutlined />,
-                {},
-                true,
-                formItemLayout,
-              )}
+            {this.renderFormPasswordFormItem(
+              fieldData.password.label,
+              fieldData.password.name,
+              true,
+              buildFieldHelper(fieldData.password.helper),
+              <FormOutlined />,
+              {},
+              true,
+              formItemLayout,
+            )}
 
-              {this.renderFormPasswordFormItem(
-                fieldData.rePassword.label,
-                fieldData.rePassword.name,
-                true,
-                buildFieldHelper(fieldData.rePassword.helper),
-                <FormOutlined />,
-                {},
-                true,
-                formItemLayout,
-              )}
+            {this.renderFormPasswordFormItem(
+              fieldData.rePassword.label,
+              fieldData.rePassword.name,
+              true,
+              buildFieldHelper(fieldData.rePassword.helper),
+              <FormOutlined />,
+              {},
+              true,
+              formItemLayout,
+            )}
 
-              <FormItem
-                wrapperCol={{
-                  xs: { span: 24, offset: 0 },
-                  sm: {
-                    span: formItemLayout.wrapperCol.span,
-                    offset: formItemLayout.labelCol.span,
-                  },
+            <FormItem
+              wrapperCol={{
+                xs: { span: 24, offset: 0 },
+                sm: {
+                  span: formItemLayout.wrapperCol.span,
+                  offset: formItemLayout.labelCol.span,
+                },
+              }}
+              label=""
+            >
+              <Button
+                type="primary"
+                icon={<SaveOutlined />}
+                disabled={
+                  processing || !this.checkAuthority(accessWayCollection.account.resetPassword)
+                }
+                loading={processing}
+                onClick={(e) => {
+                  this.validate(e);
                 }}
-                label=""
               >
-                <Button
-                  type="primary"
-                  icon={<SaveOutlined />}
-                  disabled={
-                    processing || !this.checkAuthority(accessWayCollection.account.resetPassword)
-                  }
-                  loading={processing}
-                  onClick={(e) => {
-                    this.validate(e);
-                  }}
-                >
-                  保存
-                </Button>
-              </FormItem>
-            </Form>
+                保存
+              </Button>
+            </FormItem>
           </Spin>
         </Card>
       </>
