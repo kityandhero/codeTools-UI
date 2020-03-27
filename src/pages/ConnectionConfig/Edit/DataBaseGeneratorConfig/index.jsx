@@ -199,6 +199,9 @@ class Index extends TabPageBase {
                       fieldData.connectorJarFile.name,
                       true,
                       buildFieldHelper(fieldData.connectorJarFile.helper),
+                      <FormOutlined />,
+                      {},
+                      false,
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>

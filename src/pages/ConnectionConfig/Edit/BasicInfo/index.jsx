@@ -73,14 +73,15 @@ class Index extends TabPageBase {
     values[fieldData.connectionConfigId.name] =
       metaData === null ? '' : metaData.connectionConfigId || '';
     values[fieldData.name.name] = metaData === null ? '' : metaData.name || '';
-    values[fieldData.connectionType.name] = metaData === null ? '' : metaData.connectionType || '';
-    values[fieldData.databaseType.name] = metaData === null ? '' : metaData.databaseType || '';
+    values[fieldData.connectionType.name] =
+      metaData === null ? '' : `${metaData.connectionType || ''}`;
+    values[fieldData.databaseType.name] = metaData === null ? '' : `${metaData.databaseType || ''}`;
     values[fieldData.host.name] = metaData === null ? '' : metaData.host || '';
     values[fieldData.port.name] = metaData === null ? '' : metaData.port || '';
     values[fieldData.userName.name] = metaData === null ? '' : metaData.userName || '';
     values[fieldData.password.name] = metaData === null ? '' : metaData.password || '';
     values[fieldData.schema.name] = metaData === null ? '' : metaData.schema || '';
-    values[fieldData.encoding.name] = metaData === null ? '' : metaData.encoding || '';
+    values[fieldData.encoding.name] = metaData === null ? '' : `${metaData.encoding || ''}`;
     values[fieldData.sshHost.name] = metaData === null ? '' : metaData.sshHost || '';
     values[fieldData.sshPort.name] = metaData === null ? '' : metaData.sshPort || '';
     values[fieldData.localPort.name] = metaData === null ? '' : metaData.localPort || '';
