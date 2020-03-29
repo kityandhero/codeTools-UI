@@ -5,6 +5,7 @@ import {
   getData,
   setData,
   initializeData,
+  generateData,
 } from '@/services/dataTableGeneratorConfig';
 
 export default {
@@ -39,6 +40,14 @@ export default {
     },
     *initialize({ payload }, { call, put }) {
       const response = yield call(initializeData, payload);
+
+      yield put({
+        type: 'handleCommonData',
+        payload: response,
+      });
+    },
+    *generate({ payload }, { call, put }) {
+      const response = yield call(generateData, payload);
 
       yield put({
         type: 'handleCommonData',

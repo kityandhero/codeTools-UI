@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Row, Col, Dropdown, Menu, notification } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, PlayCircleOutlined } from '@ant-design/icons';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -154,6 +154,44 @@ class Index extends InnerPagerList {
             placement: 'bottomRight',
             message: '操作结果',
             description: '生成配置初始化成功',
+          });
+        });
+
+        this.reloadData();
+      }
+
+      this.setState({ processing: false });
+    });
+  };
+
+  generate = (record) => {
+    const { dispatch } = this.props;
+    const { connectionConfigId } = this.state;
+    const {
+      dataTableGeneratorConfig: { dataTableGeneratorConfigId },
+    } = record;
+
+    this.setState({ processing: true });
+
+    dispatch({
+      type: 'dataTableGeneratorConfig/generate',
+      payload: {
+        connectionConfigId,
+        dataTableGeneratorConfigId,
+      },
+    }).then(() => {
+      const {
+        dataTableGeneratorConfig: { data },
+      } = this.props;
+
+      const { dataSuccess } = data;
+
+      if (dataSuccess) {
+        requestAnimationFrame(() => {
+          notification.success({
+            placement: 'bottomRight',
+            message: '操作结果',
+            description: '执行生成成功',
           });
         });
 
@@ -348,6 +386,12 @@ class Index extends InnerPagerList {
                   <Menu.Item disabled={record.initialized === 0} key="showDataColumnListDrawer">
                     <EditOutlined />
                     定制列
+                  </Menu.Item>
+                ) : null}
+                {this.checkAuthority(accessWayCollection.dataTableGeneratorConfig.generate) ? (
+                  <Menu.Item disabled={record.initialized === 0} key="generate">
+                    <PlayCircleOutlined />
+                    执行生成
                   </Menu.Item>
                 ) : null}
               </Menu>

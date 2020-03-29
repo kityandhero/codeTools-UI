@@ -61,6 +61,21 @@ export async function initializeData(params) {
   });
 }
 
+export async function generateData(params) {
+  if (transferToVirtualAccess()) {
+    const result = await apiVirtualSuccessAccess({
+      data: {},
+    });
+
+    return result;
+  }
+
+  return request('/business/dataTableGeneratorConfig/generate', {
+    method: 'POST',
+    data: params,
+  });
+}
+
 /**
  * 占位函数
  *
