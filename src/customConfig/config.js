@@ -1,5 +1,5 @@
 export function getConfigData() {
-  let corsTargetProduction = 'http://localhost:9090';
+  let corsTargetProduction = 'http://localhost:9990';
 
   if (window.appInitCustom != null) {
     if (window.appInitCustom.apiPrefix != null) {
@@ -14,9 +14,9 @@ export function getConfigData() {
   }
 
   return {
-    // corsTargetDevelopment: 'http://localhost:9090',
-    corsTargetDevelopment: 'http://localhost:9090',
-    // corsTargetDevelopment: 'http://localhost:9090',
+    // corsTargetDevelopment: 'http://localhost:9990',
+    corsTargetDevelopment: 'http://localhost:9990',
+    // corsTargetDevelopment: 'http://localhost:9990',
     corsTargetProduction,
   };
 }
