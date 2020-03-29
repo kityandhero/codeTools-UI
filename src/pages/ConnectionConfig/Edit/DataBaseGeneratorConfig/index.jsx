@@ -14,17 +14,17 @@ import { constants } from '@/customConfig/config';
 
 import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';
-import { fieldData } from '../../../DataBaseGeneratorConfig/Common/data';
+import { fieldData } from '../../../DatabaseGeneratorConfig/Common/data';
 
 import styles from './index.less';
 
-@connect(({ dataBaseGeneratorConfig, global, loading }) => ({
-  dataBaseGeneratorConfig,
+@connect(({ databaseGeneratorConfig, global, loading }) => ({
+  databaseGeneratorConfig,
   global,
-  loading: loading.models.dataBaseGeneratorConfig,
+  loading: loading.models.databaseGeneratorConfig,
 }))
 class Index extends TabPageBase {
-  componentAuthority = accessWayCollection.dataBaseGeneratorConfig.get;
+  componentAuthority = accessWayCollection.databaseGeneratorConfig.get;
 
   constructor(props) {
     super(props);
@@ -32,8 +32,8 @@ class Index extends TabPageBase {
     this.state = {
       ...this.state,
       ...{
-        loadApiPath: 'dataBaseGeneratorConfig/getByConnectionId',
-        submitApiPath: 'dataBaseGeneratorConfig/set',
+        loadApiPath: 'databaseGeneratorConfig/getByConnectionId',
+        submitApiPath: 'databaseGeneratorConfig/set',
         connectionConfigId: null,
       },
     };
@@ -52,8 +52,8 @@ class Index extends TabPageBase {
     const values = {};
 
     if (metaData != null) {
-      values[fieldData.dataBaseGeneratorConfigId.name] =
-        metaData.dataBaseGeneratorConfigId || zeroInt;
+      values[fieldData.databaseGeneratorConfigId.name] =
+        metaData.databaseGeneratorConfigId || zeroInt;
       values[fieldData.connectionConfigId.name] = metaData.connectionConfigId || zeroInt;
 
       values[fieldData.connectorJarFile.name] = metaData.connectorJarFile || '';
@@ -93,7 +93,7 @@ class Index extends TabPageBase {
 
   getApiData = (props) => {
     const {
-      dataBaseGeneratorConfig: { data },
+      databaseGeneratorConfig: { data },
     } = props;
 
     return data;
@@ -111,10 +111,10 @@ class Index extends TabPageBase {
   supplementSubmitRequestParams = (o) => {
     const d = o;
     const { metaData } = this.state;
-    const { dataBaseGeneratorConfigId, connectionConfigId } = metaData;
+    const { databaseGeneratorConfigId, connectionConfigId } = metaData;
 
     d.connectionConfigId = connectionConfigId;
-    d.dataBaseGeneratorConfigId = dataBaseGeneratorConfigId || '';
+    d.databaseGeneratorConfigId = databaseGeneratorConfigId || '';
 
     return d;
   };

@@ -5,10 +5,10 @@ import {
   getData,
   getByConnectionIdData,
   setData,
-} from '@/services/dataBaseGeneratorConfig';
+} from '@/services/databaseGeneratorConfig';
 
 export default {
-  namespace: 'dataBaseGeneratorConfig',
+  namespace: 'databaseGeneratorConfig',
 
   state: {},
 

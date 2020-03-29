@@ -89,9 +89,9 @@ class Index extends TabPageBase {
   supplementSubmitRequestParams = (o) => {
     const d = o;
     const { connectionConfigId, metaData } = this.state;
-    const { dataBaseGeneratorConfigId } = metaData;
+    const { databaseGeneratorConfigId } = metaData;
 
-    d.dataBaseGeneratorConfigId = dataBaseGeneratorConfigId;
+    d.databaseGeneratorConfigId = databaseGeneratorConfigId;
     d.connectionConfigId = connectionConfigId;
 
     return d;

@@ -59,9 +59,9 @@ export default [
                 component: './ConnectionConfig/Edit/BasicInfo',
               },
               {
-                path: '/connectionConfig/edit/:op/:id/:pageKey/dataBaseGeneratorConfig',
-                name: 'dataBaseGeneratorConfig',
-                component: './ConnectionConfig/Edit/DataBaseGeneratorConfig',
+                path: '/connectionConfig/edit/:op/:id/:pageKey/databaseGeneratorConfig',
+                name: 'databaseGeneratorConfig',
+                component: './ConnectionConfig/Edit/DatabaseGeneratorConfig',
               },
               {
                 path: '/connectionConfig/edit/:op/:id/:pageKey/dataTable',

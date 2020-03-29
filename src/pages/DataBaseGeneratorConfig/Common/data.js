@@ -1,7 +1,7 @@
 module.exports = {
   fieldData: {
-    dataBaseGeneratorConfigId: {
-      name: 'dataBaseGeneratorConfigId',
+    databaseGeneratorConfigId: {
+      name: 'databaseGeneratorConfigId',
       label: '数据标识',
       helper: '数据标识，不可更改',
     },

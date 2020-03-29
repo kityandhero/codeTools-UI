@@ -10,7 +10,7 @@ export async function listData(params) {
     return result;
   }
 
-  return request('/business/dataBaseGeneratorConfig/list', {
+  return request('/business/databaseGeneratorConfig/list', {
     method: 'POST',
     data: params,
   });
@@ -25,7 +25,7 @@ export async function getData(params) {
     return result;
   }
 
-  return request('/business/dataBaseGeneratorConfig/get', {
+  return request('/business/databaseGeneratorConfig/get', {
     method: 'POST',
     data: params,
   });
@@ -40,7 +40,7 @@ export async function getByConnectionIdData(params) {
     return result;
   }
 
-  return request('/business/dataBaseGeneratorConfig/getByConnectionId', {
+  return request('/business/databaseGeneratorConfig/getByConnectionId', {
     method: 'POST',
     data: params,
   });
@@ -55,7 +55,7 @@ export async function setData(params) {
     return result;
   }
 
-  return request('/business/dataBaseGeneratorConfig/set', {
+  return request('/business/databaseGeneratorConfig/set', {
     method: 'POST',
     data: params,
   });
