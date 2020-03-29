@@ -16,7 +16,7 @@ import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';
 import { fieldData } from '../../../DatabaseGeneratorConfig/Common/data';
 
-import styles from './index.less';
+import styles from './index.less'; 
 
 @connect(({ databaseGeneratorConfig, global, loading }) => ({
   databaseGeneratorConfig,

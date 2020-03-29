@@ -1,25 +1,30 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Modal, Row, Col, Dropdown, Menu, notification, message } from 'antd';
+import { Row, Col, Dropdown, Menu, notification } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 
-import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
+import {
+  getDerivedStateFromPropsForUrlParams,
+  copyToClipboard,
+  replaceTargetText,
+} from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
 import InnerPagerList from '@/customComponents/Framework/CustomList/PagerList/InnerPagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
+import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
 // import AddModal from '../AddModal';
 // import UpdateModal from '../UpdateModal';
 import DataColumnListDrawer from '../../../../DataColumn/ListDrawer';
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../../Assist/config';
 import { fieldData as fieldDataDataTable } from '../../../../DataTable/Common/data';
+import { fieldData as fieldDataDataTableGeneratorConfig } from '../../../../DataTableGeneratorConfig/Common/data';
 
-const { confirm } = Modal;
-
-@connect(({ dataTable, connectionConfig, global, loading }) => ({
+@connect(({ dataTable, connectionConfig, dataTableGeneratorConfig, global, loading }) => ({
   dataTable,
   connectionConfig,
+  dataTableGeneratorConfig,
   global,
   loading: loading.models.dataTable,
 }))
@@ -115,169 +120,40 @@ class Index extends InnerPagerList {
     const { key } = e;
 
     switch (key) {
-      case 'setWait':
-        this.setWait(record);
-        break;
-      case 'setOpening':
-        this.setOpening(record);
-        break;
-      case 'setOver':
-        this.setOver(record);
-        break;
-      case 'remove':
-        this.removeConfirm(record);
+      case 'showDataColumnListDrawer':
+        this.showDataColumnListDrawer(record);
         break;
       default:
         break;
     }
   };
 
-  setWait = (record) => {
+  initialize = (record) => {
     const { dispatch } = this.props;
-    const { connectionConfigId } = record;
+    const { connectionConfigId } = this.state;
+    const { name: tableName } = record;
 
     this.setState({ processing: true });
 
     dispatch({
-      type: 'connectionConfig/setWait',
-      payload: { connectionConfigId },
-    }).then(() => {
-      const {
-        connectionConfig: { data },
-      } = this.props;
-
-      const { dataSuccess } = data;
-      if (dataSuccess) {
-        requestAnimationFrame(() => {
-          notification.success({
-            placement: 'bottomRight',
-            message: '操作结果',
-            description: '预售已暂停',
-          });
-        });
-
-        this.reloadData();
-
-        this.reloadByUrl();
-      }
-
-      this.setState({ processing: false });
-    });
-  };
-
-  setOpening = (record) => {
-    const { dispatch } = this.props;
-    const { connectionConfigId } = record;
-
-    this.setState({ processing: true });
-
-    dispatch({
-      type: 'connectionConfig/setOpening',
-      payload: { connectionConfigId },
-    }).then(() => {
-      const {
-        connectionConfig: { data },
-      } = this.props;
-
-      const { dataSuccess } = data;
-      if (dataSuccess) {
-        requestAnimationFrame(() => {
-          notification.success({
-            placement: 'bottomRight',
-            message: '操作结果',
-            description: '预售已开始',
-          });
-
-          if (record.dataTableState !== 1) {
-            message.warn('该产品目前未上架，请上架该产品');
-          }
-
-          if (record.storeCount <= 0) {
-            message.warn('该产品库存不足了');
-          }
-        });
-
-        this.reloadData();
-
-        this.reloadByUrl();
-      }
-
-      this.setState({ processing: false });
-    });
-  };
-
-  setOver = (record) => {
-    const { dispatch } = this.props;
-    const { connectionConfigId } = record;
-
-    this.setState({ processing: true });
-
-    dispatch({
-      type: 'connectionConfig/setOver',
-      payload: { connectionConfigId },
-    }).then(() => {
-      const {
-        connectionConfig: { data },
-      } = this.props;
-
-      const { dataSuccess } = data;
-      if (dataSuccess) {
-        requestAnimationFrame(() => {
-          notification.success({
-            placement: 'bottomRight',
-            message: '操作结果',
-            description: '预售已完结',
-          });
-        });
-
-        this.reloadData();
-
-        this.reloadByUrl();
-      }
-
-      this.setState({ processing: false });
-    });
-  };
-
-  removeConfirm = (record) => {
-    const that = this;
-    const { processing } = that.state;
-
-    confirm({
-      title: '移除预售设置',
-      content: `确定要移除吗？`,
-      okText: '确定',
-      okType: 'danger',
-      cancelText: '取消',
-      confirmLoading: { processing },
-      onOk() {
-        that.remove(record);
+      type: 'dataTableGeneratorConfig/initialize',
+      payload: {
+        connectionConfigId,
+        tableName,
       },
-      onCancel() {},
-    });
-  };
-
-  remove = (record) => {
-    const { dispatch } = this.props;
-    const { connectionConfigId } = record;
-
-    this.setState({ processing: true });
-
-    dispatch({
-      type: 'connectionConfig/remove',
-      payload: { connectionConfigId },
     }).then(() => {
       const {
-        connectionConfig: { data },
+        dataTableGeneratorConfig: { data },
       } = this.props;
 
       const { dataSuccess } = data;
+
       if (dataSuccess) {
         requestAnimationFrame(() => {
           notification.success({
             placement: 'bottomRight',
             message: '操作结果',
-            description: '预售已移除',
+            description: '生成配置初始化成功',
           });
         });
 
@@ -354,6 +230,7 @@ class Index extends InnerPagerList {
       title: fieldDataDataTable.name.label,
       dataIndex: fieldDataDataTable.name.name,
       align: 'left',
+      width: 220,
       render: (val) => (
         <>
           <Ellipsis tooltip={{ placement: 'topLeft' }} lines={1}>
@@ -363,31 +240,121 @@ class Index extends InnerPagerList {
       ),
     },
     {
+      title: fieldDataDataTable.initialized.label,
+      dataIndex: fieldDataDataTable.initialized.name,
+      align: 'center',
+      width: 120,
+      render: (val) => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {val === 1 ? '是' : '否'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldDataDataTableGeneratorConfig.domainObjectName.label,
+      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
+      align: 'center',
+      width: 160,
+      render: (val) => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {val.domainObjectName || '--'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldDataDataTableGeneratorConfig.mapperName.label,
+      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
+      align: 'center',
+      width: 160,
+      render: (val) => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {val.mapperName || '--'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldDataDataTableGeneratorConfig.comment.label,
+      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
+      align: 'center',
+      render: (val) => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {val.comment || '--'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldDataDataTableGeneratorConfig.dataTableGeneratorConfigId.label,
+      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
+      width: 120,
+      align: 'center',
+      render: (val) => (
+        <>
+          {(val.dataTableGeneratorConfigId || '') === '' ? (
+            '--'
+          ) : (
+            <EllipsisCustom
+              tooltip
+              lines={1}
+              removeChildren
+              extraContent={
+                <>
+                  <a
+                    onClick={() => {
+                      copyToClipboard(val);
+                    }}
+                  >
+                    {replaceTargetText(val, '***', 2, 6)}
+                  </a>
+                </>
+              }
+            >
+              {val} [点击复制]
+            </EllipsisCustom>
+          )}
+        </>
+      ),
+    },
+    {
       title: constants.customOperate.label,
       dataIndex: constants.customOperate.name,
-      width: 126,
+      width: 140,
       fixed: 'right',
       align: 'center',
       render: (text, record) => (
         <>
           <Dropdown.Button
             size="small"
-            onClick={() => this.showDataColumnListDrawer(record)}
+            onClick={() => {
+              if (record.initialized === 1) {
+                this.showDataColumnListDrawer(record);
+              }
+
+              if (record.initialized === 0) {
+                this.initialize(record);
+              }
+            }}
             disabled={!this.checkAuthority(accessWayCollection.dataTable.get)}
             overlay={
               <Menu onClick={(e) => this.handleMenuClick(e, record)}>
-                {/* {this.checkAuthority(accessWayCollection.connectionConfig.remove) &&
-                record.state === 0 ? (
-                  <Menu.Item key="remove">
-                    <Icon type="delete" />
-                    移除
+                {this.checkAuthority(accessWayCollection.dataTableGeneratorConfig.initialize) ? (
+                  <Menu.Item disabled={record.initialized === 0} key="showDataColumnListDrawer">
+                    <EditOutlined />
+                    定制列
                   </Menu.Item>
-                ) : null} */}
+                ) : null}
               </Menu>
             }
           >
             <EditOutlined />
-            定制列
+            {record.initialized === 1 ? '定制列' : '初始化'}
           </Dropdown.Button>
         </>
       ),

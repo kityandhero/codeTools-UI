@@ -43,4 +43,10 @@ module.exports = {
     getByConnectionId: '6b0d1fbe-9e31-48ce-86ab-5dc1ebe387db',
     set: '94520b18-bcb8-499c-90fd-afb82f45f3f0',
   },
+  dataTableGeneratorConfig: {
+    pageList: '',
+    get: '',
+    set: '',
+    initialize: '',
+  },
 };
