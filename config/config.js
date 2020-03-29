@@ -121,6 +121,9 @@ export default defineConfig({
   manifest: {
     basePath: '/',
   },
+  history: {
+    type: 'hash',
+  },
   proxy: proxy[REACT_APP_ENV || 'dev'],
   chainWebpack: webpackPlugin,
   /*
