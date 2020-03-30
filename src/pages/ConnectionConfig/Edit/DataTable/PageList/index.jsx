@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Row, Col, Dropdown, Menu, notification } from 'antd';
-import { EditOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { EditOutlined, PlayCircleOutlined, SyncOutlined } from '@ant-design/icons';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -397,7 +397,7 @@ class Index extends InnerPagerList {
               </Menu>
             }
           >
-            <EditOutlined />
+            {record.initialized === 1 ? <EditOutlined /> : <SyncOutlined />}
             {record.initialized === 1 ? '定制列' : '初始化'}
           </Dropdown.Button>
         </>
