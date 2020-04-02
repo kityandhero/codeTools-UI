@@ -98,7 +98,10 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={24} md={12} sm={24}>
-                <HtmlBox>{metaData === null ? '' : metaData.content || '无'}</HtmlBox>
+                {this.renderFormDisplayFormItem(
+                  fieldData.message.label,
+                  metaData == null ? '无' : metaData.message || '无',
+                )}
               </Col>
             </Row>
           </Spin>

@@ -20,7 +20,10 @@ import {
   recordObject,
 } from '@/utils/tools';
 import { unlimitedWithStringFlag } from '@/utils/constants';
+
 import CustomCore from '../CustomCore';
+
+import styles from './index.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -481,6 +484,16 @@ class Index extends CustomCore {
     return (
       <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
         <Input {...otherInputProps} />
+      </FormItem>
+    );
+  };
+
+  renderFormDisplayFormItem = (label, content, formItemLayout = {}, useDisplayBoxStyle = true) => {
+    const title = label;
+
+    return (
+      <FormItem {...formItemLayout} label={title}>
+        <div className={useDisplayBoxStyle ? styles.displayBox : null}>{content}</div>
       </FormItem>
     );
   };

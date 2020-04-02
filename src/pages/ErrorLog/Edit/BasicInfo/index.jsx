@@ -9,7 +9,6 @@ import {
 } from '@/utils/tools';
 import { constants } from '@/customConfig/config';
 import accessWayCollection from '@/customConfig/accessWayCollection';
-import HtmlBox from '@/customComponents/HtmlBox';
 
 import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';
@@ -59,6 +58,10 @@ class Index extends TabPageBase {
     return values;
   };
 
+  getFormLayout = () => {
+    return 'horizontal';
+  };
+
   formContent = () => {
     const { dataLoading, processing, metaData } = this.state;
 
@@ -68,6 +71,7 @@ class Index extends TabPageBase {
           title={this.renderBasicInfoTitle()}
           className={styles.card}
           bordered={false}
+          bodyStyle={{ paddingBottom: 0 }}
           extra={
             <Affix offsetTop={20}>
               <div>{this.renderRefreshButton()}</div>
@@ -77,7 +81,16 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col span={24}>
-                <HtmlBox>{metaData === null ? '' : metaData.message || '无'}</HtmlBox>
+                {this.renderFormDisplayFormItem(
+                  fieldData.message.label,
+                  metaData == null ? '无' : metaData.message || '无',
+                )}
+              </Col>
+              <Col span={24}>
+                {this.renderFormDisplayFormItem(
+                  fieldData.url.label,
+                  metaData == null ? '无' : metaData.url || '无',
+                )}
               </Col>
             </Row>
           </Spin>
@@ -104,10 +117,52 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFromCreateTimeField()}
+                {this.renderFormDisplayFormItem(
+                  fieldData.typeNote.label,
+                  metaData == null ? '无' : metaData.typeNote || '无',
+                )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFromUpdateTimeField()}
+                {this.renderFormDisplayFormItem(
+                  fieldData.degreeNote.label,
+                  metaData == null ? '无' : metaData.degreeNote || '无',
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormDisplayFormItem(
+                  fieldData.resolveNote.label,
+                  metaData == null ? '无' : metaData.resolveNote || '无',
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormDisplayFormItem(
+                  constants.statusNote.label,
+                  metaData == null ? '无' : metaData.statusNote || '无',
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormDisplayFormItem(
+                  constants.channelNote.label,
+                  metaData == null ? '无' : metaData.channelNote || '无',
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormDisplayFormItem(
+                  constants.ip.label,
+                  metaData == null ? '无' : metaData.ip || '无',
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormDisplayFormItem(
+                  constants.createTime.label,
+                  metaData == null ? '无' : metaData.createTime || '无',
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormDisplayFormItem(
+                  constants.updateTime.label,
+                  metaData == null ? '无' : metaData.updateTime || '无',
+                )}
               </Col>
             </Row>
           </Spin>

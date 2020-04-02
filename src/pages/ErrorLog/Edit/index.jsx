@@ -32,7 +32,7 @@ class Edit extends LoadDataTabContainer {
     this.state = {
       ...this.state,
       ...{
-        pageName: `${fieldData.message}：`,
+        pageName: `${fieldData.message.label}：`,
         loadApiPath: 'errorLog/get',
         backPath: `/errorLog/pageList/key`,
         errorLogId: null,
@@ -77,7 +77,7 @@ class Edit extends LoadDataTabContainer {
       const { message } = metaData || { message: '' };
 
       this.setState({
-        pageName: `${fieldData.message}：${message}`,
+        pageName: `${fieldData.message.label}：${message}`,
       });
     }
   };
