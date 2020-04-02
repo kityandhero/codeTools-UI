@@ -3,6 +3,7 @@ import { history } from 'umi';
 import { getDerivedStateFromPropsForUrlParams, isFunction } from '@/utils/tools';
 import { checkHasAuthority } from '@/utils/authority';
 import CustomCommonWrapper from '../CustomCommonWrapper';
+import { message } from 'antd';
 
 class Index extends CustomCommonWrapper {
   componentAuthority = null;
@@ -21,6 +22,8 @@ class Index extends CustomCommonWrapper {
       this.init();
       needDoOther = true;
     } else {
+      message.error(`缺少权限：${this.componentAuthority}`);
+
       history.replace('/exception/404');
     }
 
