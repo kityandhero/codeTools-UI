@@ -91,8 +91,8 @@ class Index extends TabPageBase {
             <Row gutter={24}>
               <Col span={24}>
                 {this.renderFormDisplayFormItem(
-                  fieldData.url.label,
-                  metaData == null ? '无' : metaData.url || '无',
+                  fieldData.uri.label,
+                  metaData == null ? '无' : metaData.uri || '无',
                 )}
               </Col>
               <Col span={24}>

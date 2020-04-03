@@ -10,10 +10,10 @@ module.exports = {
       label: '错误描述',
       helper: '错误日志的描述',
     },
-    url: {
-      name: 'url',
-      label: '请求Url',
-      helper: '错误日志的请求Url',
+    uri: {
+      name: 'uri',
+      label: '请求Uri',
+      helper: '错误日志的请求Uri',
     },
     content: {
       name: 'content',
@@ -79,6 +79,11 @@ module.exports = {
       name: 'requestQueryString',
       label: 'Get参数',
       helper: '引起错误的请求的Get参数',
+    },
+    requestBody: {
+      name: 'requestBody',
+      label: '请求Body',
+      helper: '引起错误的请求的请求Body',
     },
     source: {
       name: 'source',

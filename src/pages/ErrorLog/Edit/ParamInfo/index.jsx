@@ -4,7 +4,7 @@ import { Card, Affix, Row, Col, Spin } from 'antd';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 
 import { getDerivedStateFromPropsForUrlParams, formatDatetime } from '@/utils/tools';
-import { errorLogDataType } from '@/utils/constants';
+import { dataType } from '@/utils/constants';
 import { constants } from '@/customConfig/config';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 
@@ -67,6 +67,17 @@ class Index extends TabPageBase {
   formContent = () => {
     const { dataLoading, processing, metaData } = this.state;
 
+    const requestBody = metaData == null ? '' : metaData.requestBody || '';
+    let requestBodyJson = null;
+    let requestBodyIsJson = false;
+
+    try {
+      requestBodyJson = JSON.parse(requestBody);
+      requestBodyIsJson = true;
+    } catch (error) {
+      requestBodyJson = {};
+    }
+
     return (
       <>
         <Card
@@ -126,13 +137,55 @@ class Index extends TabPageBase {
           </Spin>
         </Card>
 
+        {requestBodyIsJson ? (
+          <Card
+            title="请求Body"
+            className={styles.card}
+            extra={`数据类型：${dataType.jsonObject.name}`}
+            bordered={false}
+          >
+            <Spin spinning={dataLoading || processing}>
+              <Row gutter={24}>
+                <Col span={24}>
+                  {metaData === null ? null : (
+                    <SyntaxHighlighter
+                      language="javascript"
+                      // style={docco}
+                    >
+                      {JSON.stringify(requestBodyJson || '', null, '    ')}
+                    </SyntaxHighlighter>
+                  )}
+                </Col>
+              </Row>
+            </Spin>
+          </Card>
+        ) : (
+          <Card
+            title="附加数据"
+            className={styles.card}
+            extra={`数据类型：${dataType.CommonValue.name}`}
+            bordered={false}
+          >
+            <Spin spinning={dataLoading || processing}>
+              <Row gutter={24}>
+                <Col span={24}>
+                  {this.renderFormDisplayFormItem(
+                    fieldData.data.label,
+                    metaData == null ? '无' : requestBody || '无',
+                  )}
+                </Col>
+              </Row>
+            </Spin>
+          </Card>
+        )}
+
         {metaData === null ? null : (
           <>
-            {metaData.dataType === errorLogDataType.jsonObject.flag ? (
+            {metaData.dataType === dataType.jsonObject.flag ? (
               <Card
                 title="附加数据"
                 className={styles.card}
-                extra={`数据类型：${errorLogDataType.jsonObject.name}`}
+                extra={`数据类型：${dataType.jsonObject.name}`}
                 bordered={false}
               >
                 <Spin spinning={dataLoading || processing}>
@@ -152,11 +205,11 @@ class Index extends TabPageBase {
               </Card>
             ) : null}
 
-            {metaData.dataType === errorLogDataType.JsonObjectList.flag ? (
+            {metaData.dataType === dataType.JsonObjectList.flag ? (
               <Card
                 title="附加数据"
                 className={styles.card}
-                extra={`数据类型：${errorLogDataType.JsonObjectList.name}`}
+                extra={`数据类型：${dataType.JsonObjectList.name}`}
                 bordered={false}
               >
                 <Spin spinning={dataLoading || processing}>
@@ -176,11 +229,11 @@ class Index extends TabPageBase {
               </Card>
             ) : null}
 
-            {metaData.dataType === errorLogDataType.CommonValue.flag ? (
+            {metaData.dataType === dataType.CommonValue.flag ? (
               <Card
                 title="附加数据"
                 className={styles.card}
-                extra={`数据类型：${errorLogDataType.CommonValue.name}`}
+                extra={`数据类型：${dataType.CommonValue.name}`}
                 bordered={false}
               >
                 <Spin spinning={dataLoading || processing}>

@@ -19,7 +19,7 @@ module.exports = {
     text: 'text',
     object: 'object',
   },
-  errorLogDataType: {
+  dataType: {
     jsonObject: {
       flag: 100,
       name: 'Json单体',
