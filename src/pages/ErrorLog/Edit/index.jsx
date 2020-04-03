@@ -24,6 +24,16 @@ class Edit extends LoadDataTabContainer {
       show: this.checkAuthority(accessWayCollection.errorLog.get),
       tab: '基本信息',
     },
+    {
+      key: 'paramInfo',
+      show: this.checkAuthority(accessWayCollection.errorLog.get),
+      tab: '参数信息',
+    },
+    {
+      key: 'stackTraceInfo',
+      show: this.checkAuthority(accessWayCollection.errorLog.get),
+      tab: '堆栈信息',
+    },
   ];
 
   constructor(props) {

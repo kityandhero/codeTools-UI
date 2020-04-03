@@ -206,6 +206,16 @@ export default [
                 name: 'basicInfo',
                 component: './ErrorLog/Edit/BasicInfo',
               },
+              {
+                path: '/errorLog/edit/:op/:id/:pageKey/paramInfo',
+                name: 'paramInfo',
+                component: './ErrorLog/Edit/ParamInfo',
+              },
+              {
+                path: '/errorLog/edit/:op/:id/:pageKey/stackTraceInfo',
+                name: 'stackTraceInfo',
+                component: './ErrorLog/Edit/StackTraceInfo',
+              },
             ],
           },
         ],

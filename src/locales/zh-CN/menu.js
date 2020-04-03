@@ -187,6 +187,8 @@ export default {
   'menu.errorLog.list': '日志列表',
   'menu.errorLog.edit': '日志信息',
   'menu.errorLog.edit.basicInfo': '基本信息',
+  'menu.errorLog.edit.paramInfo': '参数信息',
+  'menu.errorLog.edit.stackTraceInfo': '堆栈信息',
   'menu.generalLog': '一般日志',
   'menu.generalLog.list': '日志列表',
   'menu.generalLog.edit': '日志信息',

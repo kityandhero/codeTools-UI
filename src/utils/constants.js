@@ -19,4 +19,18 @@ module.exports = {
     text: 'text',
     object: 'object',
   },
+  errorLogDataType: {
+    jsonObject: {
+      flag: 100,
+      name: 'Json单体',
+    },
+    JsonObjectList: {
+      flag: 200,
+      name: 'Json列表',
+    },
+    CommonValue: {
+      flag: 300,
+      name: '一般值',
+    },
+  },
 };

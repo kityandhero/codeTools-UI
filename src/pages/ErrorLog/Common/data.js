@@ -50,5 +50,60 @@ module.exports = {
       label: '错误类型',
       helper: '错误日志的错误类型',
     },
+    sendNotification: {
+      name: 'sendNotification',
+      label: '发送通知',
+      helper: '错误是否需要发送通知',
+    },
+    sendResult: {
+      name: 'sendResult',
+      label: '发送结果',
+      helper: '发生错误的消息是否已经被发送',
+    },
+    sendUnixTime: {
+      name: 'sendUnixTime',
+      label: '发送时间',
+      helper: '发生错误的消息发送时间',
+    },
+    host: {
+      name: 'host',
+      label: '发生host',
+      helper: '引起错误的请求host',
+    },
+    port: {
+      name: 'port',
+      label: '请求端口',
+      helper: '引起错误的请求端口',
+    },
+    requestQueryString: {
+      name: 'requestQueryString',
+      label: 'Get参数',
+      helper: '引起错误的请求的Get参数',
+    },
+    source: {
+      name: 'source',
+      label: '发生场景',
+      helper: '错误是否的发生场景',
+    },
+    otherLog: {
+      name: 'otherLog',
+      label: '附加日志',
+      helper: '错误的附加日志',
+    },
+    exceptionTypeName: {
+      name: 'exceptionTypeName',
+      label: '异常类型',
+      helper: '错误的异常类型',
+    },
+    data: {
+      name: 'data',
+      label: '附加数据',
+      helper: '错误记录的附加数据',
+    },
+    dataType: {
+      name: 'dataType',
+      label: '数据类型',
+      helper: '错误记录的附加数据的类型',
+    },
   },
 };

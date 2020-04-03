@@ -2,11 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Card, Affix, Row, Col, Spin } from 'antd';
 
-import {
-  getDerivedStateFromPropsForUrlParams,
-  buildFieldHelper,
-  formatDatetime,
-} from '@/utils/tools';
+import { getDerivedStateFromPropsForUrlParams, formatDatetime } from '@/utils/tools';
 import { constants } from '@/customConfig/config';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 
@@ -86,27 +82,35 @@ class Index extends TabPageBase {
                   metaData == null ? '无' : metaData.message || '无',
                 )}
               </Col>
+            </Row>
+          </Spin>
+        </Card>
+
+        <Card title="其他信息" className={styles.card} bordered={false}>
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
               <Col span={24}>
                 {this.renderFormDisplayFormItem(
                   fieldData.url.label,
                   metaData == null ? '无' : metaData.url || '无',
                 )}
               </Col>
-            </Row>
-          </Spin>
-        </Card>
-
-        <Card title="详细信息" className={styles.card} bordered={false}>
-          <Spin spinning={dataLoading || processing}>
-            <Row gutter={24}>
-              <Col lg={24} md={24} sm={24} xs={24}>
-                {this.renderFormTextAreaFormItem(
-                  fieldData.content.label,
-                  fieldData.content.name,
-                  false,
-                  buildFieldHelper(fieldData.content.helper),
-                  null,
-                  false,
+              <Col span={24}>
+                {this.renderFormDisplayFormItem(
+                  fieldData.exceptionTypeName.label,
+                  metaData == null ? '无' : metaData.exceptionTypeName || '无',
+                )}
+              </Col>
+              <Col span={24}>
+                {this.renderFormDisplayFormItem(
+                  fieldData.source.label,
+                  metaData == null ? '无' : metaData.source || '无',
+                )}
+              </Col>
+              <Col span={24}>
+                {this.renderFormDisplayFormItem(
+                  fieldData.otherLog.label,
+                  metaData == null ? '无' : metaData.otherLog || '无',
                 )}
               </Col>
             </Row>
@@ -118,8 +122,40 @@ class Index extends TabPageBase {
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormDisplayFormItem(
-                  fieldData.typeNote.label,
-                  metaData == null ? '无' : metaData.typeNote || '无',
+                  fieldData.host.label,
+                  metaData == null ? '无' : metaData.host || '无',
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormDisplayFormItem(
+                  fieldData.port.label,
+                  metaData == null ? '无 | 默认' : metaData.port || '无 | 默认',
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormDisplayFormItem(
+                  fieldData.sendNotification.label,
+                  metaData == null
+                    ? '否'
+                    : (metaData.sendNotification || 0) === 0
+                    ? '否'
+                    : '是' || '否',
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormDisplayFormItem(
+                  fieldData.sendResult.label,
+                  metaData == null ? '否' : (metaData.sendResult || 0) === 0 ? '否' : '是' || '否',
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormDisplayFormItem(
+                  fieldData.sendUnixTime.label,
+                  metaData == null
+                    ? '无'
+                    : `${metaData.sendUnixTime || 0}` === '0'
+                    ? '无'
+                    : metaData.sendUnixTime || '无',
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
