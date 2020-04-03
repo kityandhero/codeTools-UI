@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { history } from 'umi';
 import { Row, Col, Dropdown, Menu } from 'antd';
-import { ReadOutlined, BookOutlined } from '@ant-design/icons';
+import { ReadOutlined, ProfileOutlined, CreditCardOutlined } from '@ant-design/icons';
 
 import { toDatetime, formatDatetime, copyToClipboard, replaceTargetText } from '@/utils/tools';
 import { unlimitedWithStringFlag } from '@/utils/constants';
@@ -50,6 +50,22 @@ class Index extends PagerList {
     };
 
     history.push(location);
+  };
+
+  handleMenuClick = (e, record) => {
+    const { key } = e;
+    const { errorLogId } = record;
+
+    switch (key) {
+      case 'paramInfo':
+        history.push({ pathname: `/errorLog/edit/load/${errorLogId}/key/paramInfo` });
+        break;
+      case 'stackTraceInfo':
+        history.push({ pathname: `/errorLog/edit/load/${errorLogId}/key/stackTraceInfo` });
+        break;
+      default:
+        break;
+    }
   };
 
   renderSimpleFormInitialValues = () => {
@@ -147,7 +163,7 @@ class Index extends PagerList {
     {
       title: constants.customOperate.label,
       dataIndex: constants.customOperate.name,
-      width: 120,
+      width: 140,
       fixed: 'right',
       align: 'center',
       render: (text, record) => (
@@ -158,15 +174,19 @@ class Index extends PagerList {
             disabled={!this.checkAuthority(accessWayCollection.account.get)}
             overlay={
               <Menu onClick={(e) => this.handleMenuClick(e, record)}>
-                <Menu.Item key="analysis" disabled>
-                  <BookOutlined />
-                  分析
+                <Menu.Item key="paramInfo">
+                  <ProfileOutlined />
+                  参数信息
+                </Menu.Item>
+                <Menu.Item key="stackTraceInfo">
+                  <CreditCardOutlined />
+                  堆栈信息
                 </Menu.Item>
               </Menu>
             }
           >
             <ReadOutlined />
-            查看
+            基本信息
           </Dropdown.Button>
         </>
       ),
