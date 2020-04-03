@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { history } from 'umi';
 import { Avatar, Menu, Spin } from 'antd';
-import { MonitorOutlined, LogoutOutlined } from '@ant-design/icons';
+import { ApiOutlined, MonitorOutlined, LogoutOutlined } from '@ant-design/icons';
 
 import { checkIsSuper } from '../../utils/authority';
 
@@ -13,6 +13,12 @@ import styles from './index.less';
 class AvatarDropdown extends React.Component {
   onMenuClick = (event) => {
     const { key } = event;
+
+    if (key === 'swagger') {
+      window.open('/swagger-ui.html', '_blank');
+
+      return;
+    }
 
     if (key === 'monitor') {
       window.open('/monitor', '_blank');
@@ -43,6 +49,12 @@ class AvatarDropdown extends React.Component {
     const menuItems = [];
 
     if (checkIsSuper()) {
+      menuItems.push({
+        key: 'swagger',
+        icon: <ApiOutlined />,
+        text: 'Swagger文档',
+      });
+
       menuItems.push({
         key: 'monitor',
         icon: <MonitorOutlined />,
