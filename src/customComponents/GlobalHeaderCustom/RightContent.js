@@ -1,18 +1,11 @@
 import React, { PureComponent } from 'react';
-import { formatMessage } from 'umi';
+import { formatMessage, Link } from 'umi';
 import { Spin, Tag, Menu, Dropdown, Avatar, Tooltip } from 'antd';
-import { Link } from 'umi';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
-import {
-  SettingOutlined,
-  ShopOutlined,
-  LogoutOutlined,
-  QuestionCircleOutlined,
-} from '@ant-design/icons';
+import { MonitorOutlined, LogoutOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
-import accessWayCollection from '../../customConfig/accessWayCollection';
-import { checkHasAuthority } from '../../utils/authority';
+import { checkIsSuper } from '../../utils/authority';
 
 import NoticeIconCustom from '../NoticeIconCustom';
 import HeaderSearchCustom from '../HeaderSearchCustom';
@@ -61,29 +54,36 @@ export default class GlobalHeaderRight extends PureComponent {
       onNoticeClear,
       theme,
     } = this.props;
+
+    const menuItems = [];
+
+    if (checkIsSuper()) {
+      menuItems.push({
+        key: 'monitor',
+        icon: <MonitorOutlined />,
+        text: '监控信息',
+      });
+    }
+
+    console.log(menuItems);
+
     const menu = (
-      <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-        {/* <Menu.Item key="userCenter">
-          <Icon type="user" />
-          {{formatMessage({ id: 'menu.account.center' })}}
-        </Menu.Item>
-        <Menu.Item key="userinfo">
-          <Icon type="setting" />
-          {{formatMessage({ id: 'menu.account.settings' })}}
-        </Menu.Item> */}
-        {checkHasAuthority(accessWayCollection.areaConfig.get) ? (
-          <Menu.Item key="areaConfig">
-            <SettingOutlined />
-            地区设置
+      <Menu
+        className={styles.menu}
+        selectedKeys={[]}
+        onClick={(e) => {
+          onMenuClick(e);
+        }}
+      >
+        {menuItems.map((o) => (
+          <Menu.Item key={o.key}>
+            {o.icon}
+            {o.text}
           </Menu.Item>
-        ) : null}
-        {checkHasAuthority(accessWayCollection.warehouse.getMaster) ? (
-          <Menu.Item key="warehouse">
-            <ShopOutlined />
-            主仓信息
-          </Menu.Item>
-        ) : null}
-        {checkHasAuthority(accessWayCollection.areaConfig.get) ? <Menu.Divider /> : null}
+        ))}
+
+        {menuItems.length > 0 ? <Menu.Divider /> : null}
+
         <Menu.Item key="logout">
           <LogoutOutlined />
           {formatMessage({ id: 'menu.account.logout' })}

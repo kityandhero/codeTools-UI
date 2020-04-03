@@ -1,8 +1,10 @@
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Menu, Spin } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
 import { history } from 'umi';
+import { Avatar, Menu, Spin } from 'antd';
+import { MonitorOutlined, LogoutOutlined } from '@ant-design/icons';
+
+import { checkIsSuper } from '../../utils/authority';
 
 import HeaderDropdown from '../HeaderDropdown';
 
@@ -11,6 +13,12 @@ import styles from './index.less';
 class AvatarDropdown extends React.Component {
   onMenuClick = (event) => {
     const { key } = event;
+
+    if (key === 'monitor') {
+      window.open('/monitor', '_blank');
+
+      return;
+    }
 
     if (key === 'logout') {
       const { dispatch } = this.props;
@@ -30,24 +38,28 @@ class AvatarDropdown extends React.Component {
   render() {
     const {
       global: { operator = null },
-      menu,
     } = this.props;
+
+    const menuItems = [];
+
+    if (checkIsSuper()) {
+      menuItems.push({
+        key: 'monitor',
+        icon: <MonitorOutlined />,
+        text: '监控信息',
+      });
+    }
 
     const menuHeaderDropdown = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
-        {menu && (
-          <Menu.Item key="center">
-            <UserOutlined />
-            个人中心
+        {menuItems.map((o) => (
+          <Menu.Item key={o.key}>
+            {o.icon}
+            {o.text}
           </Menu.Item>
-        )}
-        {menu && (
-          <Menu.Item key="settings">
-            <SettingOutlined />
-            个人设置
-          </Menu.Item>
-        )}
-        {menu && <Menu.Divider />}
+        ))}
+
+        {menuItems.length > 0 ? <Menu.Divider /> : null}
 
         <Menu.Item key="logout">
           <LogoutOutlined />
@@ -55,6 +67,7 @@ class AvatarDropdown extends React.Component {
         </Menu.Item>
       </Menu>
     );
+
     return operator != null ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>

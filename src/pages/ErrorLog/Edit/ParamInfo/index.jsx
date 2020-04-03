@@ -109,6 +109,23 @@ class Index extends TabPageBase {
           </Spin>
         </Card>
 
+        <Card title="请求参数" className={styles.card} bordered={false}>
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col span={24}>
+                {metaData === null ? null : (
+                  <SyntaxHighlighter
+                    language="javascript"
+                    // style={docco}
+                  >
+                    {JSON.stringify(metaData.requestParamsJson || '', null, '    ')}
+                  </SyntaxHighlighter>
+                )}
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
+
         {metaData === null ? null : (
           <>
             {metaData.dataType === errorLogDataType.jsonObject.flag ? (

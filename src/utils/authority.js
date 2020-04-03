@@ -51,17 +51,30 @@ export function getAllAuthority() {
   return getAllAuthorityCore();
 }
 
-export function checkHasAuthority(auth) {
+export function checkIsSuper() {
   const list = getAllAuthorityCore();
   const superAuth = accessWayCollection.super;
 
-  const isSuper = (list || []).find(o => o === superAuth);
+  const isSuper = (list || []).find((o) => o === superAuth) || '';
 
   if (isSuper === superAuth) {
     return true;
   }
 
-  const v = (list || []).find(o => o === auth);
+  return false;
+}
+
+export function checkHasAuthority(auth) {
+  const list = getAllAuthorityCore();
+  const superAuth = accessWayCollection.super;
+
+  const isSuper = (list || []).find((o) => o === superAuth);
+
+  if (isSuper === superAuth) {
+    return true;
+  }
+
+  const v = (list || []).find((o) => o === auth);
 
   return v !== undefined;
 }
