@@ -98,6 +98,19 @@ class Index extends PagerList {
       align: 'left',
       render: (val) => (
         <>
+          <Ellipsis tooltip={{ placement: 'topLeft' }} lines={1}>
+            {val}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldData.scene.label,
+      dataIndex: fieldData.scene.name,
+      width: 140,
+      align: 'center',
+      render: (val) => (
+        <>
           <Ellipsis tooltip lines={1}>
             {val}
           </Ellipsis>

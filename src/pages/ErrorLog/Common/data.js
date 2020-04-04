@@ -18,7 +18,12 @@ module.exports = {
     content: {
       name: 'content',
       label: '详细信息',
-      helper: '登录账户的详细信息',
+      helper: '错误日志的详细信息',
+    },
+    scene: {
+      name: 'scene',
+      label: '发生场景',
+      helper: '错误日志的发生场景',
     },
     degree: {
       name: 'degree',
@@ -53,7 +58,7 @@ module.exports = {
     sendNotification: {
       name: 'sendNotification',
       label: '发送通知',
-      helper: '错误是否需要发送通知',
+      helper: '错误时是否需要发送通知',
     },
     sendResult: {
       name: 'sendResult',
@@ -84,11 +89,6 @@ module.exports = {
       name: 'requestBody',
       label: '请求Body',
       helper: '引起错误的请求的请求Body',
-    },
-    source: {
-      name: 'source',
-      label: '发生场景',
-      helper: '错误是否的发生场景',
     },
     otherLog: {
       name: 'otherLog',

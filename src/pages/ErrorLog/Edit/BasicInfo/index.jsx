@@ -103,8 +103,8 @@ class Index extends TabPageBase {
               </Col>
               <Col span={24}>
                 {this.renderFormDisplayFormItem(
-                  fieldData.source.label,
-                  metaData == null ? '无' : metaData.source || '无',
+                  fieldData.scene.label,
+                  metaData == null ? '无' : metaData.scene || '无',
                 )}
               </Col>
               <Col span={24}>

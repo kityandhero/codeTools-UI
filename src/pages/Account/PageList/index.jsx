@@ -309,7 +309,7 @@ class Index extends PagerList {
       align: 'left',
       render: (val) => (
         <>
-          <Ellipsis tooltip lines={1}>
+          <Ellipsis tooltip={{ placement: 'topLeft' }} lines={1}>
             {val || '--'}
           </Ellipsis>
         </>

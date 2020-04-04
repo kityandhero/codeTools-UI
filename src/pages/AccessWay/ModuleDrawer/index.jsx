@@ -44,7 +44,7 @@ class ModuleDrawer extends PagerDrawer {
     }, 700);
   };
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       accessWay: { data },
     } = props;
@@ -60,16 +60,16 @@ class ModuleDrawer extends PagerDrawer {
     }
   };
 
-  supplementRequestSelectModuleParams = o => o;
+  supplementRequestSelectModuleParams = (o) => o;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getSelectModuleApiData = props => ({});
+  getSelectModuleApiData = (props) => ({});
 
   selectModule = (e, record) => {
     const { dispatch } = this.props;
     const { selectModuleApiPath } = this.state;
 
-    let submitData = pretreatmentRequestParams({}, d => {
+    let submitData = pretreatmentRequestParams({}, (d) => {
       const o = d;
 
       o.guidTag = record.guidTag;
@@ -111,13 +111,13 @@ class ModuleDrawer extends PagerDrawer {
     const { dispatch } = this.props;
     const { selectMultiModuleApiPath } = this.state;
 
-    let submitData = pretreatmentRequestParams({}, d => {
+    let submitData = pretreatmentRequestParams({}, (d) => {
       const { selectedDataTableDataRows } = this.state;
       const o = d;
 
       const guidTagList = [];
 
-      (selectedDataTableDataRows || []).forEach(item => {
+      (selectedDataTableDataRows || []).forEach((item) => {
         guidTagList.push(item.guidTag);
       });
 
@@ -161,7 +161,7 @@ class ModuleDrawer extends PagerDrawer {
     const { dispatch } = this.props;
     const { selectAllModuleApiPath } = this.state;
 
-    let submitData = pretreatmentRequestParams({}, d => {
+    let submitData = pretreatmentRequestParams({}, (d) => {
       const o = d;
 
       return o;
@@ -273,9 +273,9 @@ class ModuleDrawer extends PagerDrawer {
       title: '模块名称',
       dataIndex: 'name',
       align: 'left',
-      render: val => (
+      render: (val) => (
         <>
-          <Ellipsis tooltip lines={1}>
+          <Ellipsis tooltip={{ placement: 'topLeft' }} lines={1}>
             {val}
           </Ellipsis>
         </>
@@ -286,9 +286,9 @@ class ModuleDrawer extends PagerDrawer {
       dataIndex: 'relativePath',
       width: 300,
       align: 'left',
-      render: val => (
+      render: (val) => (
         <>
-          <Ellipsis tooltip lines={1}>
+          <Ellipsis tooltip={{ placement: 'topLeft' }} lines={1}>
             {val || '--'}
           </Ellipsis>
         </>
@@ -299,7 +299,7 @@ class ModuleDrawer extends PagerDrawer {
       dataIndex: 'guidTag',
       width: 120,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <EllipsisCustom
             tooltip
@@ -327,7 +327,7 @@ class ModuleDrawer extends PagerDrawer {
       dataIndex: 'expand',
       width: 340,
       align: 'center',
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {val || '--'}
@@ -341,7 +341,7 @@ class ModuleDrawer extends PagerDrawer {
       width: 140,
       align: 'center',
       sorter: false,
-      render: val => (
+      render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
             {formatDatetime(val, 'MM-DD HH:mm', '--')}
@@ -359,7 +359,7 @@ class ModuleDrawer extends PagerDrawer {
           <Popconfirm
             placement="topRight"
             title="将添加此操作模块，确定吗？"
-            onConfirm={e => this.selectModule(e, record)}
+            onConfirm={(e) => this.selectModule(e, record)}
             okText="确定"
             cancelText="取消"
           >
