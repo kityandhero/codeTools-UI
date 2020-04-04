@@ -12,54 +12,6 @@ const { pwa } = defaultSettings; // preview.pro.ant.design only do not use in yo
 
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, REACT_APP_ENV } = process.env;
 const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
-// const plugins = [
-//   ['umi-plugin-antd-icon-config', {}],
-//   [
-//     'umi-plugin-react',
-//     {
-//       antd: true,
-//       dva: {
-//         hmr: true,
-//       },
-//       locale: {
-//         // default false
-//         enable: true,
-//         // default zh-CN
-//         default: 'zh-CN',
-//         // default true, when it is true, will use `navigator.language` overwrite default
-//         baseNavigator: true,
-//       },
-//       dynamicImport: {
-//         loadingComponent: './components/PageLoading/index',
-//         webpackChunkName: true,
-//         level: 3,
-//       },
-//       pwa: pwa
-//         ? {
-//             workboxPluginMode: 'InjectManifest',
-//             workboxOptions: {
-//               importWorkboxFrom: 'local',
-//             },
-//           }
-//         : false, // default close dll, because issue https://github.com/ant-design/ant-design-pro/issues/4665
-//       // dll features https://webpack.js.org/plugins/dll-plugin/
-//       // dll: {
-//       //   include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
-//       //   exclude: ['@babel/runtime', 'netlify-lambda'],
-//       // },
-//     },
-//   ],
-//   [
-//     'umi-plugin-pro-block',
-//     {
-//       moveMock: false,
-//       moveService: false,
-//       modifyRequest: true,
-//       autoAddMenu: true,
-//     },
-//   ],
-//   // ['umi-plugin-antd-theme', themePluginConfig],
-// ]; // 针对 preview.pro.ant.design 的 GA 统计代码
 
 export default defineConfig({
   //plugins,
