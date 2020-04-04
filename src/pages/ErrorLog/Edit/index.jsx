@@ -123,6 +123,31 @@ class Edit extends LoadDataTabContainer {
     });
 
     list.push({
+      label: fieldData.host.label,
+      value: metaData === null ? '无' : metaData.host || '无',
+    });
+
+    list.push({
+      label: fieldData.scene.label,
+      value: metaData === null ? '无' : metaData.scene || '无',
+    });
+
+    list.push({
+      label: fieldData.degreeNote.label,
+      value: metaData === null ? '无' : metaData.degreeNote || '无',
+    });
+
+    list.push({
+      label: fieldData.resolveNote.label,
+      value: metaData === null ? '无' : metaData.resolveNote || '无',
+    });
+
+    list.push({
+      label: fieldData.sendNotification.label,
+      value: metaData === null ? '否' : metaData.sendNotification || '否',
+    });
+
+    list.push({
       label: constants.channelNote.label,
       value: metaData === null ? '' : metaData.channelNote,
     });

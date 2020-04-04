@@ -107,12 +107,12 @@ class Index extends PagerList {
     {
       title: fieldData.scene.label,
       dataIndex: fieldData.scene.name,
-      width: 140,
+      width: 180,
       align: 'center',
       render: (val) => (
         <>
           <Ellipsis tooltip lines={1}>
-            {val}
+            {val || '--'}
           </Ellipsis>
         </>
       ),
