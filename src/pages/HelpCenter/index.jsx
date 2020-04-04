@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
-import { history } from 'umi';
+import { connect, history } from 'umi';
 import { Row, Col, Card, Spin, message } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 

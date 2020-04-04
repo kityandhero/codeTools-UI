@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
-import { history } from 'umi';
+import { connect, history } from 'umi';
 import { Menu } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import { Card, Affix, Row, Col, Spin } from 'antd';
 
 import { getDerivedStateFromPropsForUrlParams, formatDatetime } from '@/utils/tools';

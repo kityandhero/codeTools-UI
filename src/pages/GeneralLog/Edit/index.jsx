@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import { Avatar } from 'antd';
 
 import { getDerivedStateFromPropsForUrlParams, toDatetime } from '@/utils/tools';

@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
-import { history } from 'umi';
+import { connect, history } from 'umi';
 import { Row, Col, Dropdown, Menu, Button, Divider, notification, Modal, message } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined, DatabaseOutlined } from '@ant-design/icons';
 

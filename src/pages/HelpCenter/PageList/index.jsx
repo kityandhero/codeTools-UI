@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
-import { history } from 'umi';
+import { connect, history } from 'umi';
 import { List, Tag, Card, BackTop } from 'antd';
 import { EyeOutlined, StockOutlined, MessageOutlined } from '@ant-design/icons';
 

@@ -1,4 +1,4 @@
-import { connect } from 'dva';
+import { connect } from 'umi';
 import { Form } from 'antd';
 
 import ModuleDrawer from '../ModuleDrawer';
@@ -29,7 +29,7 @@ class RoleModuleDrawer extends ModuleDrawer {
     return super.getDerivedStateFromProps(nextProps, prevState);
   }
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
     const { externalData } = this.state;
 
@@ -41,14 +41,14 @@ class RoleModuleDrawer extends ModuleDrawer {
     return d;
   };
 
-  getSelectModuleApiData = props => {
+  getSelectModuleApiData = (props) => {
     const {
       areaAgentRole: { data },
     } = props;
     return data;
   };
 
-  supplementRequestSelectModuleParams = o => {
+  supplementRequestSelectModuleParams = (o) => {
     const { externalData } = this.state;
 
     const result = o;

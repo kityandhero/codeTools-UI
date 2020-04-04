@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import { Transfer } from 'antd';
 
 import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
@@ -34,7 +34,7 @@ class UpdateAccountRoleModal extends ModalBase {
     return { title, sourceData };
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       role: { data },
     } = props;
@@ -42,7 +42,7 @@ class UpdateAccountRoleModal extends ModalBase {
     return data;
   };
 
-  getUserRoleApiData = props => {
+  getUserRoleApiData = (props) => {
     const {
       userRole: { data },
     } = props;
@@ -86,7 +86,7 @@ class UpdateAccountRoleModal extends ModalBase {
             const customData = list;
             const targetKeys = sourceData || [];
 
-            (customData || []).forEach(item => {
+            (customData || []).forEach((item) => {
               const o = item;
 
               o.key = o.roleId;
@@ -101,7 +101,7 @@ class UpdateAccountRoleModal extends ModalBase {
     }
   };
 
-  supplementSubmitRequestParams = data => {
+  supplementSubmitRequestParams = (data) => {
     const { sourceDataMark } = this.props;
     const { targetKeys } = this.state;
 
@@ -114,7 +114,7 @@ class UpdateAccountRoleModal extends ModalBase {
     return o;
   };
 
-  afterSubmitSuccess = o => {
+  afterSubmitSuccess = (o) => {
     const { afterOK } = this.props;
 
     this.setState({ visible: false });
@@ -125,7 +125,7 @@ class UpdateAccountRoleModal extends ModalBase {
     afterOK(data);
   };
 
-  handleChange = nextTargetKeys => {
+  handleChange = (nextTargetKeys) => {
     this.setState({ targetKeys: nextTargetKeys });
   };
 
@@ -149,7 +149,7 @@ class UpdateAccountRoleModal extends ModalBase {
             selectedKeys={selectedKeys}
             onChange={this.handleChange}
             onSelectChange={this.handleSelectChange}
-            render={item => item.name}
+            render={(item) => item.name}
           />
         </div>
       </>

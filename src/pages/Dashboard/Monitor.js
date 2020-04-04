@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import { formatMessage } from 'umi';
+import { connect, formatMessage } from 'umi';
 import { Row, Col, Card, Tooltip } from 'antd';
 import numeral from 'numeral';
 import { GridContent } from '@ant-design/pro-layout';

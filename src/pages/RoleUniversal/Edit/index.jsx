@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import { Row, Col, Descriptions } from 'antd';
 import { SnippetsOutlined } from '@ant-design/icons';
 
@@ -52,7 +52,7 @@ class Edit extends LoadDataTabContainer {
     );
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       roleTemplate: { data },
     } = props;
@@ -65,7 +65,7 @@ class Edit extends LoadDataTabContainer {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
     const { roleTemplateId } = this.state;
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import { Avatar, Button, Card, BackTop } from 'antd';
 import { RollbackOutlined } from '@ant-design/icons';
 

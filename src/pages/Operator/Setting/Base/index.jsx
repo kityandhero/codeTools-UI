@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Upload, Button, Spin, notification } from 'antd';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import { UploadOutlined, SaveOutlined, FormOutlined } from '@ant-design/icons';
 
 import { buildFieldHelper } from '@/utils/tools';

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Select, Spin } from 'antd';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import styles from './index.less';
 
 const { Option } = Select;
@@ -47,7 +47,7 @@ class GeographicView extends PureComponent {
     return this.getOption(city);
   };
 
-  getOption = list => {
+  getOption = (list) => {
     if (!list || list.length < 1) {
       return (
         <Option key={0} value={0}>
@@ -55,14 +55,14 @@ class GeographicView extends PureComponent {
         </Option>
       );
     }
-    return list.map(item => (
+    return list.map((item) => (
       <Option key={item.id} value={item.id}>
         {item.name}
       </Option>
     ));
   };
 
-  selectProvinceItem = item => {
+  selectProvinceItem = (item) => {
     const { dispatch, onChange } = this.props;
     dispatch({
       type: 'geographic/fetchCity',
@@ -74,7 +74,7 @@ class GeographicView extends PureComponent {
     });
   };
 
-  selectCityItem = item => {
+  selectCityItem = (item) => {
     const { value, onChange } = this.props;
     onChange({
       province: value.province,

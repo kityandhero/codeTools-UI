@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import { Card, Form, Row, Col, Spin, Icon } from 'antd';
 
 import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';

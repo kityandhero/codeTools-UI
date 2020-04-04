@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import { Row, Col, Dropdown, Menu, notification } from 'antd';
 import { EditOutlined, PlayCircleOutlined, SyncOutlined } from '@ant-design/icons';
 

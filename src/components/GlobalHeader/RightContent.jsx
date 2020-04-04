@@ -1,18 +1,22 @@
 import { Tooltip, Tag } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'umi';
+
 import Avatar from './AvatarDropdown';
+
 import HeaderSearch from '../HeaderSearch';
 import SelectLang from '../SelectLang';
+
 import styles from './index.less';
+
 const ENVTagColor = {
   dev: 'orange',
   test: 'green',
   pre: '#87d068',
 };
 
-const GlobalHeaderRight = props => {
+const GlobalHeaderRight = (props) => {
   const { theme, layout } = props;
   let className = styles.right;
 

@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
-import { history } from 'umi';
+import { connect, history } from 'umi';
 import { Affix, Row, Col, Card, Spin, notification } from 'antd';
 
 import { buildFieldHelper } from '@/utils/tools';

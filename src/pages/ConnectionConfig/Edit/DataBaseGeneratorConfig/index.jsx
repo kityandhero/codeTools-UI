@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import { Card, Row, Col, Spin, Divider, notification, Affix } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
@@ -16,7 +16,7 @@ import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';
 import { fieldData } from '../../../DatabaseGeneratorConfig/Common/data';
 
-import styles from './index.less'; 
+import styles from './index.less';
 
 @connect(({ databaseGeneratorConfig, global, loading }) => ({
   databaseGeneratorConfig,

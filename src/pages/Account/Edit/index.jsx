@@ -1,4 +1,4 @@
-import { connect } from 'dva';
+import { connect } from 'umi';
 
 import { getDerivedStateFromPropsForUrlParams, toDatetime } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';

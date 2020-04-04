@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
-import { formatMessage } from 'umi';
+import { connect, formatMessage } from 'umi';
 import numeral from 'numeral';
 import {
   Row,

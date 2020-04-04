@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Button, Spin, Card } from 'antd';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import styles from './style.less';
 
-@connect(state => ({
+@connect((state) => ({
   isloading: state.error.isloading,
 }))
 class TriggerException extends PureComponent {
@@ -11,7 +11,7 @@ class TriggerException extends PureComponent {
     isloading: false,
   };
 
-  triggerError = code => {
+  triggerError = (code) => {
     this.setState({
       isloading: true,
     });

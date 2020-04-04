@@ -1,8 +1,7 @@
 import { DefaultFooter, getMenuData, getPageTitle } from '@ant-design/pro-layout';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { Link, formatMessage } from 'umi';
+import { connect, Link, formatMessage } from 'umi';
 import React from 'react';
-import { connect } from 'dva';
 
 import SelectLang from '@/components/SelectLang';
 import logo from '@/assets/logo.svg';

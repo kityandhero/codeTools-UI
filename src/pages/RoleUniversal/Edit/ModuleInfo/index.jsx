@@ -1,4 +1,4 @@
-import { connect } from 'dva';
+import { connect } from 'umi';
 
 import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 
@@ -33,7 +33,7 @@ class Index extends ModuleInfoBase {
     );
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       roleTemplate: { data },
     } = props;
@@ -41,7 +41,7 @@ class Index extends ModuleInfoBase {
     return data;
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
     const { roleTemplateId } = this.state;
 

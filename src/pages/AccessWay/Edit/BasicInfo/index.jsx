@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'dva';
-import { Card, Row, Col, Spin, BackTop, Affix } from 'antd';
+import { connect } from 'umi';
+import { Card, Row, Col, Spin, Affix } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
 import {

@@ -1,7 +1,5 @@
 import React from 'react';
-import { formatMessage } from 'umi';
-import { Link } from 'umi';
-import { connect } from 'dva';
+import {connect, formatMessage,Link } from 'umi';
 import PageHeader from '@/components/PageHeader';
 import MenuContext from '@/layouts/MenuContext';
 

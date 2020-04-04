@@ -1,9 +1,10 @@
 import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
 import { Alert, Checkbox } from 'antd';
 import React, { useState } from 'react';
-import { Link } from 'umi';
-import { connect } from 'dva';
+import { connect, Link } from 'umi';
+
 import LoginFrom from './components/Login';
+
 import styles from './style.less';
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginFrom;
@@ -19,13 +20,13 @@ const LoginMessage = ({ content }) => (
   />
 );
 
-const Login = props => {
+const Login = (props) => {
   const { userLogin = {}, submitting } = props;
   const { status, type: loginType } = userLogin;
   const [autoLogin, setAutoLogin] = useState(true);
   const [type, setType] = useState('account');
 
-  const handleSubmit = values => {
+  const handleSubmit = (values) => {
     const { dispatch } = props;
     dispatch({
       type: 'login/login',
@@ -95,7 +96,7 @@ const Login = props => {
           />
         </Tab>
         <div>
-          <Checkbox checked={autoLogin} onChange={e => setAutoLogin(e.target.checked)}>
+          <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
             自动登录
           </Checkbox>
           <a

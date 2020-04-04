@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Switch, TimePicker, Button, Spin, notification } from 'antd';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import moment from 'moment';
 import { SaveOutlined } from '@ant-design/icons';
 

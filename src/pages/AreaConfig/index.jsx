@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'dva';
-import { history } from 'umi';
+import { connect, history } from 'umi';
 import { Menu } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 import styles from './index.less';
@@ -49,7 +48,7 @@ class SetOutStockTime extends Component {
 
   getMenu = () => {
     const { menuMap } = this.state;
-    return Object.keys(menuMap).map(item => <Item key={item}>{menuMap[item]}</Item>);
+    return Object.keys(menuMap).map((item) => <Item key={item}>{menuMap[item]}</Item>);
   };
 
   getRightTitle = () => {
@@ -98,7 +97,7 @@ class SetOutStockTime extends Component {
       <GridContent>
         <div
           className={styles.main}
-          ref={ref => {
+          ref={(ref) => {
             this.main = ref;
           }}
         >

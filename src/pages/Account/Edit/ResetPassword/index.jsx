@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'dva';
+import { connect } from 'umi';
 import { FormOutlined, SaveOutlined } from '@ant-design/icons';
 
 import { Form, Card, Spin, notification, Button } from 'antd';

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
-import { connect } from 'dva';
-import { Link } from 'umi';
+import { connect, Link } from 'umi';
 import { Row, Col, Card, List, Avatar } from 'antd';
 
 import { Radar } from '@/customComponents/Charts';
