@@ -49,5 +49,6 @@ module.exports = {
     set: '',
     initialize: '',
     generate: '',
+    set: '',
   },
 };

@@ -20,6 +20,7 @@ import DataColumnListDrawer from '../../../../DataColumn/ListDrawer';
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../../Assist/config';
 import { fieldData as fieldDataDataTable } from '../../../../DataTable/Common/data';
 import { fieldData as fieldDataDataTableGeneratorConfig } from '../../../../DataTableGeneratorConfig/Common/data';
+import SetDrawer from '../../../../DataTableGeneratorConfig/SetDrawer';
 
 @connect(({ dataTable, connectionConfig, dataTableGeneratorConfig, global, loading }) => ({
   dataTable,
@@ -41,6 +42,7 @@ class Index extends InnerPagerList {
         updateModalVisible: false,
         loadApiPath: 'dataTable/pageList',
         dataColumnListDrawerVisible: false,
+        setDrawerVisible: false,
         currentRecord: null,
       },
     };
@@ -77,32 +79,29 @@ class Index extends InnerPagerList {
     return d;
   };
 
-  showAddModal = () => {
-    this.setState({ addModalVisible: true });
+  showSetDrawer = (record) => {
+    this.setState({
+      setDrawerVisible: true,
+      currentRecord: record,
+    });
   };
 
-  // showUpdateModal = record => {
-  //   this.setState({ updateModalVisible: true });
-  // };
+  afterSetDrawerOk = () => {
+    this.setState({ setDrawerVisible: false }, () => {
+      const that = this;
 
-  afterAddModalCancel = () => {
-    this.setState({ addModalVisible: false });
+      setTimeout(() => {
+        that.refreshData();
+      }, 300);
+    });
   };
 
-  afterUpdateModalCancel = () => {
-    this.setState({ updateModalVisible: false });
+  afterSetDrawerCancel = () => {
+    this.setState({ setDrawerVisible: false });
   };
 
-  afterAddModalOk = () => {
-    this.setState({ addModalVisible: false });
-
-    this.refreshData();
-  };
-
-  afterUpdateModalOk = () => {
-    this.setState({ updateModalVisible: false });
-
-    this.refreshData();
+  afterSetDrawerClose = () => {
+    this.setState({ setDrawerVisible: false });
   };
 
   showDataColumnListDrawer = (record) => {
@@ -122,6 +121,9 @@ class Index extends InnerPagerList {
     switch (key) {
       case 'showDataColumnListDrawer':
         this.showDataColumnListDrawer(record);
+        break;
+      case 'generate':
+        this.generate(record);
         break;
       default:
         break;
@@ -220,34 +222,19 @@ class Index extends InnerPagerList {
   };
 
   renderOther = () => {
-    const { connectionConfigId, dataColumnListDrawerVisible, currentRecord } = this.state;
+    const {
+      connectionConfigId,
+      dataColumnListDrawerVisible,
+      setDrawerVisible,
+      currentRecord,
+    } = this.state;
     // const { dataTableId, currentConnectionConfigId, addModalVisible, updateModalVisible } = this.state;
 
     const dataColumnListDrawerRender = this.checkAuthority(accessWayCollection.dataColumn.list);
+    const setDrawerRender = this.checkAuthority(accessWayCollection.dataTableGeneratorConfig.set);
 
     return (
       <>
-        {/* <AddModal
-          visible={addModalVisible}
-          externalData={{ dataTableId }}
-          afterOK={() => {
-            this.afterAddModalOk();
-          }}
-          afterCancel={() => {
-            this.afterAddModalCancel();
-          }}
-        /> */}
-        {/* <UpdateModal
-          visible={updateModalVisible}
-          externalData={{ connectionConfigId: currentConnectionConfigId }}
-          afterOK={() => {
-            this.afterUpdateModalOk();
-          }}
-          afterCancel={() => {
-            this.afterUpdateModalCancel();
-          }}
-        /> */}
-
         {dataColumnListDrawerRender ? (
           <DataColumnListDrawer
             visible={dataColumnListDrawerVisible || false}
@@ -257,6 +244,31 @@ class Index extends InnerPagerList {
             }}
             width={1200}
             afterClose={this.afterDataColumnListDrawerClose}
+          />
+        ) : null}
+
+        {setDrawerRender ? (
+          <SetDrawer
+            visible={setDrawerVisible}
+            externalData={{
+              dataTableGeneratorConfigId:
+                (
+                  (
+                    currentRecord || {
+                      dataTableGeneratorConfig: { dataTableGeneratorConfigId: '' },
+                    }
+                  ).dataTableGeneratorConfig || { dataTableGeneratorConfigId: '' }
+                ).dataTableGeneratorConfigId || '',
+            }}
+            afterOK={() => {
+              this.afterSetDrawerOk();
+            }}
+            afterCancel={() => {
+              this.afterSetDrawerCancel();
+            }}
+            afterClose={() => {
+              this.afterSetDrawerClose();
+            }}
           />
         ) : null}
       </>
@@ -346,15 +358,15 @@ class Index extends InnerPagerList {
                 <>
                   <a
                     onClick={() => {
-                      copyToClipboard(val);
+                      copyToClipboard(val.dataTableGeneratorConfigId);
                     }}
                   >
-                    {replaceTargetText(val, '***', 2, 6)}
+                    {replaceTargetText(val.dataTableGeneratorConfigId, '***', 2, 6)}
                   </a>
                 </>
               }
             >
-              {val} [点击复制]
+              {val.dataTableGeneratorConfigId} [点击复制]
             </EllipsisCustom>
           )}
         </>
@@ -372,7 +384,7 @@ class Index extends InnerPagerList {
             size="small"
             onClick={() => {
               if (record.initialized === 1) {
-                this.showDataColumnListDrawer(record);
+                this.showSetDrawer(record);
               }
 
               if (record.initialized === 0) {
@@ -398,7 +410,7 @@ class Index extends InnerPagerList {
             }
           >
             {record.initialized === 1 ? <EditOutlined /> : <SyncOutlined />}
-            {record.initialized === 1 ? '定制列' : '初始化'}
+            {record.initialized === 1 ? '调整配置' : '初始化'}
           </Dropdown.Button>
         </>
       ),

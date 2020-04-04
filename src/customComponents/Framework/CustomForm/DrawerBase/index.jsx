@@ -1,6 +1,11 @@
 import React from 'react';
-import { Drawer, message, Row, Col, Affix, Button, Divider } from 'antd';
-import { SaveOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { Drawer, Form, message, Row, Col, Affix, Button, Divider } from 'antd';
+import {
+  SaveOutlined,
+  FormOutlined,
+  LoadingOutlined,
+  CloseCircleOutlined,
+} from '@ant-design/icons';
 
 import { defaultFormState, pretreatmentRequestParams, isFunction } from '@/utils/tools';
 import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
@@ -8,6 +13,8 @@ import CustomAuthorization from '@/customComponents/Framework/CustomAuthorizatio
 import styles from './index.less';
 
 class Index extends CustomAuthorization {
+  formRef = React.createRef();
+
   constructor(props) {
     super(props);
 
@@ -41,11 +48,9 @@ class Index extends CustomAuthorization {
     if (visible && !visiblePre) {
       const form = this.getTargetForm();
 
-      if (form == null) {
-        return;
+      if (form != null) {
+        form.resetFields();
       }
-
-      form.resetFields();
 
       this.doOtherWhenChangeVisible(preProps, preState, snapshot);
     }
@@ -54,20 +59,33 @@ class Index extends CustomAuthorization {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherWhenChangeVisible = (preProps, preState, snapshot) => {};
 
-  supplementLoadRequestParams = o => o;
+  supplementLoadRequestParams = (o) => o;
 
-  supplementSubmitRequestParams = o => o;
+  supplementSubmitRequestParams = (o) => o;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  checkSubmitRequestParams = o => true;
+  checkSubmitRequestParams = (o) => true;
+
+  afterCheckSubmitRequestParams = (o) => o;
 
   getTargetForm = () => {
-    message.error('需要重载getTargetForm');
-
-    return null;
+    return this.formRef.current;
   };
 
-  handleOk = e => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+    this.fillForm(metaData);
+  };
+
+  fillForm = (metaData) => {
+    const form = this.getTargetForm();
+
+    const initialValues = this.buildInitialValues(metaData);
+
+    form.setFieldsValue(initialValues);
+  };
+
+  handleOk = (e) => {
     e.preventDefault();
     const {
       dispatch,
@@ -89,7 +107,7 @@ class Index extends CustomAuthorization {
     const { validateFields } = form;
 
     validateFields()
-      .then(values => {
+      .then((values) => {
         let submitData = pretreatmentRequestParams(values);
 
         submitData = this.supplementSubmitRequestParams(submitData);
@@ -132,12 +150,12 @@ class Index extends CustomAuthorization {
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         const { errorFields } = error;
 
         const m = [];
 
-        Object.values(errorFields).forEach(o => {
+        Object.values(errorFields).forEach((o) => {
           m.push(o.errors[0]);
         });
 
@@ -160,12 +178,32 @@ class Index extends CustomAuthorization {
       });
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSubmitSuccess = (singleData, listData, extraData, responseOriginalData, submitData) => {
     this.setState({ visible: false });
+
+    this.doOtherAfterSubmitSuccess(
+      singleData,
+      listData,
+      extraData,
+      responseOriginalData,
+      submitData,
+    );
   };
 
-  onClose = e => {
+  doOtherAfterSubmitSuccess = (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    singleData,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    listData,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    extraData,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    responseOriginalData,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    submitData,
+  ) => {};
+
+  onClose = (e) => {
     e.preventDefault();
 
     const { afterClose } = this.props;
@@ -177,11 +215,27 @@ class Index extends CustomAuthorization {
     }
   };
 
-  renderTitleIcon = () => null;
+  renderTitleIcon = () => <FormOutlined />;
 
   renderTitle = () => null;
 
-  renderContent = () => null;
+  getFormLayout = () => {
+    return 'vertical';
+  };
+
+  getFormClassName = () => {
+    return null;
+  };
+
+  renderForm = () => {
+    return (
+      <Form ref={this.formRef} className={this.getFormClassName()} layout={this.getFormLayout()}>
+        {this.formContent()}
+      </Form>
+    );
+  };
+
+  formContent = () => null;
 
   renderButton = () => {
     const { dataLoading, processing } = this.state;
@@ -190,24 +244,23 @@ class Index extends CustomAuthorization {
       <>
         <Button
           type="primary"
-          icon={<SaveOutlined />}
-          loading={dataLoading || processing}
           disabled={dataLoading || processing}
-          onClick={e => {
+          onClick={(e) => {
             this.handleOk(e);
           }}
         >
+          {processing ? <LoadingOutlined /> : <SaveOutlined />}
           保存
         </Button>
         <Divider type="vertical" />
         <Button
           type="default"
-          icon={<CloseCircleOutlined />}
           disabled={dataLoading || processing}
           onClick={() => {
             this.onClose();
           }}
         >
+          <CloseCircleOutlined />
           关闭
         </Button>
       </>
@@ -217,12 +270,20 @@ class Index extends CustomAuthorization {
   render() {
     const { visible, width } = this.state;
 
+    const titleIcon = this.renderTitleIcon();
+
     return (
       <Drawer
         title={
           <span>
-            {this.renderTitleIcon()}
-            {this.renderTitle()}
+            {titleIcon}
+            {titleIcon ? (
+              <>
+                <span className={styles.titleText} /> {this.renderTitle()}
+              </>
+            ) : (
+              this.renderTitle()
+            )}
           </span>
         }
         destroyOnClose={false}
@@ -238,7 +299,7 @@ class Index extends CustomAuthorization {
         //   height: 'calc(100% - 55px)',
         // }}
       >
-        <div className={styles.contentContainor}>{this.renderContent()}</div>
+        <div className={styles.contentContainor}>{this.renderForm()}</div>
         <Affix offsetBottom={0}>
           <div className={styles.bottomBar}>
             <Row>
