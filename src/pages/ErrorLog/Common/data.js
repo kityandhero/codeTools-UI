@@ -10,6 +10,11 @@ module.exports = {
       label: '错误描述',
       helper: '错误日志的描述',
     },
+    causeMessage: {
+      name: 'causeMessage',
+      label: '引发原因',
+      helper: '错误日志的引发原因',
+    },
     uri: {
       name: 'uri',
       label: '请求Uri',

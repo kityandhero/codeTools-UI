@@ -82,6 +82,12 @@ class Index extends TabPageBase {
                   metaData == null ? '无' : metaData.message || '无',
                 )}
               </Col>
+              <Col span={24}>
+                {this.renderFormDisplayFormItem(
+                  fieldData.causeMessage.label,
+                  metaData == null ? '无' : metaData.causeMessage || '无',
+                )}
+              </Col>
             </Row>
           </Spin>
         </Card>

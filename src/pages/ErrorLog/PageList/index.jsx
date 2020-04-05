@@ -105,6 +105,19 @@ class Index extends PagerList {
       ),
     },
     {
+      title: fieldData.causeMessage.label,
+      dataIndex: fieldData.causeMessage.name,
+      width: 240,
+      align: 'center',
+      render: (val) => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {val || '--'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
       title: fieldData.scene.label,
       dataIndex: fieldData.scene.name,
       width: 180,
