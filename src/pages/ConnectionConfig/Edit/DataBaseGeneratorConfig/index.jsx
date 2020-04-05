@@ -64,8 +64,7 @@ class Index extends TabPageBase {
       values[fieldData.daoTargetFolder.name] = metaData.daoTargetFolder || '';
       values[fieldData.mappingXmlPackage.name] = metaData.mappingXmlPackage || '';
       values[fieldData.mappingXmlTargetFolder.name] = metaData.mappingXmlTargetFolder || '';
-      values[fieldData.generateKeys.name] = metaData.generateKeys || '';
-      values[fieldData.encoding.name] = metaData.encoding || '';
+      values[fieldData.encoding.name] = `${metaData.encoding || zeroInt}`;
 
       values[fieldData.offsetLimit.name] = `${metaData.offsetLimit || zeroInt}`;
       values[fieldData.needToStringHashCodeEquals.name] = `${
@@ -234,20 +233,7 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.generateKeys.label,
-                  fieldData.generateKeys.name,
-                  true,
-                  buildFieldHelper(fieldData.generateKeys.helper),
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.encoding.label,
-                  fieldData.encoding.name,
-                  true,
-                  buildFieldHelper(fieldData.encoding.helper),
-                )}
+                {this.renderFormFileEncodingSelectFormItem()}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelectFormItem(

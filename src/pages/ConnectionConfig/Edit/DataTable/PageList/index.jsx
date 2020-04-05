@@ -303,6 +303,32 @@ class Index extends InnerPagerList {
       ),
     },
     {
+      title: fieldDataDataTableGeneratorConfig.useGenerateKey.label,
+      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
+      align: 'center',
+      width: 160,
+      render: (val) => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {val.useGenerateKey === 1 ? '是' : '否'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldDataDataTableGeneratorConfig.generateKeys.label,
+      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
+      align: 'center',
+      width: 160,
+      render: (val) => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {val.generateKeys || '--'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
       title: fieldDataDataTableGeneratorConfig.domainObjectName.label,
       dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
       align: 'center',

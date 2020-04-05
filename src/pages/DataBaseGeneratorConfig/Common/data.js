@@ -85,11 +85,6 @@ module.exports = {
       label: 'useExample',
       helper: 'useExample',
     },
-    generateKeys: {
-      name: 'generateKeys',
-      label: 'generateKeys',
-      helper: 'generateKeys',
-    },
     encoding: {
       name: 'encoding',
       label: 'encoding',

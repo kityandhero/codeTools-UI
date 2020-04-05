@@ -15,6 +15,11 @@ module.exports = {
       label: '数据库编码',
       helper: '选择数据库的编码',
     },
+    fileEncoding: {
+      name: 'encoding',
+      label: '文件编码',
+      helper: '选择文件编码',
+    },
     accountStatus: {
       name: 'status',
       label: '状态',

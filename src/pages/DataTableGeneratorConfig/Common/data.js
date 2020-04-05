@@ -10,6 +10,16 @@ module.exports = {
       label: '数据表名',
       helper: '数据表生成配置的数据表名',
     },
+    useGenerateKey: {
+      name: 'useGenerateKey',
+      label: '使用自增键',
+      helper: '适用于表主键为自增的设计',
+    },
+    generateKeys: {
+      name: 'generateKeys',
+      label: '自增列名称',
+      helper: '表自增列的名称',
+    },
     domainObjectName: {
       name: 'domainObjectName',
       label: 'domainObjectName',

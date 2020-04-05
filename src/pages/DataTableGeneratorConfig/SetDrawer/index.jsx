@@ -84,6 +84,7 @@ class Index extends UpdateDrawer {
     if (metaData != null) {
       values[fieldData.dataTableGeneratorConfigId.name] = metaData.dataTableGeneratorConfigId || '';
       values[fieldData.tableName.name] = metaData.tableName || '';
+      values[fieldData.generateKeys.name] = metaData.generateKeys || '';
       values[fieldData.domainObjectName.name] = `${metaData.domainObjectName || ''}`;
       values[fieldData.mapperName.name] = `${metaData.mapperName || ''}`;
       values[fieldData.comment.name] = metaData.comment || '';
@@ -166,6 +167,14 @@ class Index extends UpdateDrawer {
               )}
             </Col>
           </Row>
+          <Col lg={6} md={12} sm={24} xs={24}>
+            {this.renderFormInputFormItem(
+              fieldData.generateKeys.label,
+              fieldData.generateKeys.name,
+              true,
+              buildFieldHelper(fieldData.generateKeys.helper),
+            )}
+          </Col>
           <Row gutter={24}>
             <Col lg={12} md={12} sm={24} xs={24}>
               {this.renderFormInputFormItem(

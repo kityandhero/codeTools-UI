@@ -422,6 +422,103 @@ class Index extends CustomCommonCore {
     );
   };
 
+  fileEncodingList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const fileEncodingList = global.fileEncodingList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(fileEncodingList, unlimitedWithStringFlag);
+    }
+
+    return refitCommonData(fileEncodingList);
+  };
+
+  getFileEncodingName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.fileEncodingList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderFileEncodingOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.fileEncodingList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderFileEncodingRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.fileEncodingList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchFileEncodingFormItem = (
+    withUnlimited = true,
+    label = customFieldCollection.fileEncoding.label,
+    helper = buildFieldHelper(customFieldCollection.fileEncoding.helper),
+  ) => {
+    const title = label || customFieldCollection.fileEncoding.label;
+
+    return this.renderSearchSelectFormItem(
+      title,
+      customFieldCollection.fileEncoding.name,
+      this.renderFileEncodingOption(withUnlimited),
+      helper,
+    );
+  };
+
+  renderFormFileEncodingSelectFormItem = (
+    helper = buildFieldHelper(customFieldCollection.fileEncoding.helper),
+    onChangeCallback,
+    label = customFieldCollection.fileEncoding.label,
+    formItemLayout = null,
+    required = true,
+    name = customFieldCollection.fileEncoding.name,
+    otherProps = null,
+  ) => {
+    const title = label || customFieldCollection.fileEncoding.label;
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      () => {
+        return this.renderFileEncodingOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormFileEncodingFormItemRadio = (
+    helper = null,
+    onChangeCallback,
+    label = customFieldCollection.fileEncoding.label,
+    formItemLayout = null,
+    required = true,
+    name = customFieldCollection.fileEncoding.name,
+    otherProps = null,
+  ) => {
+    const title = label || customFieldCollection.fileEncoding.label;
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      () => {
+        return this.renderFileEncodingRadio(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
   accountStatusList = (withUnlimited = true) => {
     const { global } = this.props;
 
