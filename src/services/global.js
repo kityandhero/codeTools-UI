@@ -17,7 +17,7 @@ export async function queryGetData(params) {
   //   return result;
   // }
 
-  return request('/business/metaData/get', {
+  return request('/general/metaData/get', {
     method: 'POST',
     data: params,
   });

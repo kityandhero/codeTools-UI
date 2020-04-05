@@ -4,6 +4,7 @@ import { Row, Col, Spin, Divider, notification } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
 import { buildFieldHelper, formatDatetime, isFunction } from '@/utils/tools';
+import { zeroInt } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
 import UpdateDrawer from '@/customComponents/Framework/CustomForm/UpdateDrawer';
@@ -92,6 +93,7 @@ class Index extends UpdateDrawer {
     if (metaData != null) {
       values[fieldData.dataTableGeneratorConfigId.name] = metaData.dataTableGeneratorConfigId || '';
       values[fieldData.tableName.name] = metaData.tableName || '';
+	  values[fieldData.useGenerateKey.name] = `${metaData.useGenerateKey || zeroInt}`;
       values[fieldData.generateKeys.name] = metaData.generateKeys || '';
       values[fieldData.domainObjectName.name] = `${metaData.domainObjectName || ''}`;
       values[fieldData.mapperName.name] = `${metaData.mapperName || ''}`;
