@@ -31,6 +31,7 @@ class Index extends UpdateDrawer {
         pageName: '调整数据表生成配置',
         loadApiPath: 'dataTableGeneratorConfig/get',
         submitApiPath: 'dataTableGeneratorConfig/set',
+        useGenerateKey: 0,
       },
     };
   }
@@ -78,6 +79,13 @@ class Index extends UpdateDrawer {
     return d;
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+    const { useGenerateKey } = metaData;
+
+    this.setState({ useGenerateKey });
+  };
+
   buildInitialValues = (metaData) => {
     const values = {};
 
@@ -101,9 +109,11 @@ class Index extends UpdateDrawer {
     const d = o;
     const {
       externalData: { dataTableGeneratorConfigId },
+      useGenerateKey,
     } = this.state;
 
     d.dataTableGeneratorConfigId = dataTableGeneratorConfigId || '';
+    d.useGenerateKey = useGenerateKey;
 
     return d;
   };
@@ -133,12 +143,16 @@ class Index extends UpdateDrawer {
     }
   };
 
+  onUseGenerateKeyChange = (e) => {
+    this.setState({ useGenerateKey: e });
+  };
+
   renderTitle = () => {
     return '编辑配置';
   };
 
   formContent = () => {
-    const { dataLoading, processing } = this.state;
+    const { dataLoading, processing, useGenerateKey } = this.state;
 
     return (
       <div className={styles.containorBox}>
@@ -167,15 +181,27 @@ class Index extends UpdateDrawer {
               )}
             </Col>
           </Row>
-          <Col lg={6} md={12} sm={24} xs={24}>
-            {this.renderFormInputFormItem(
-              fieldData.generateKeys.label,
-              fieldData.generateKeys.name,
-              true,
-              buildFieldHelper(fieldData.generateKeys.helper),
-            )}
-          </Col>
           <Row gutter={24}>
+            <Col lg={12} md={12} sm={24} xs={24}>
+              {this.renderFormWhetherSelectFormItem(
+                fieldData.useGenerateKey.label,
+                fieldData.useGenerateKey.name,
+                fieldData.useGenerateKey.helper,
+                (e) => {
+                  this.onUseGenerateKeyChange(e);
+                },
+              )}
+            </Col>
+            {`${useGenerateKey || 0}` === '1' ? (
+              <Col lg={12} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.generateKeys.label,
+                  fieldData.generateKeys.name,
+                  true,
+                  buildFieldHelper(fieldData.generateKeys.helper),
+                )}
+              </Col>
+            ) : null}
             <Col lg={12} md={12} sm={24} xs={24}>
               {this.renderFormInputFormItem(
                 fieldData.domainObjectName.label,

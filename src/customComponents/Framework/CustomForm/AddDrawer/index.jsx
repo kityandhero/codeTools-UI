@@ -5,23 +5,14 @@ import { SaveOutlined, LoadingOutlined, CloseCircleOutlined } from '@ant-design/
 import DrawerBase from '@/customComponents/Framework/CustomForm/DrawerBase';
 
 class Index extends DrawerBase {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
-    this.setState({ dataLoading: true });
-
-    setTimeout(() => {
-      this.reloadData();
-    }, 700);
-  };
-
   renderButton = () => {
-    const { loadSuccess, dataLoading, processing } = this.state;
+    const { processing } = this.state;
 
     return (
       <>
         <Button
           type="primary"
-          disabled={dataLoading || processing || !loadSuccess}
+          disabled={processing}
           onClick={(e) => {
             this.handleOk(e);
           }}
@@ -32,7 +23,7 @@ class Index extends DrawerBase {
         <Divider type="vertical" />
         <Button
           type="default"
-          disabled={dataLoading || processing}
+          disabled={processing}
           onClick={() => {
             this.onClose();
           }}

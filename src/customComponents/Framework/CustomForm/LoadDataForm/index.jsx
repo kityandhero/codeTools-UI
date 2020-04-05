@@ -44,10 +44,14 @@ class Index extends LoadDataCore {
     return getDerivedStateFromPropsForUrlParams(nextProps, prevState);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
     this.fillForm(metaData);
+
+    this.doOtherAfterLoadSuccess(metaData, metaListData, metaExtra, metaOriginalData);
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {};
 
   fillForm = (metaData) => {
     const form = this.getTargetForm();

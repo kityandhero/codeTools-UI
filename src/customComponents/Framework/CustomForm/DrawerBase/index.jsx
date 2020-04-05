@@ -1,11 +1,6 @@
 import React from 'react';
-import { Drawer, Form, message, Row, Col, Affix, Button, Divider } from 'antd';
-import {
-  SaveOutlined,
-  FormOutlined,
-  LoadingOutlined,
-  CloseCircleOutlined,
-} from '@ant-design/icons';
+import { Drawer, Form, message, Row, Col, Affix } from 'antd';
+import { FormOutlined } from '@ant-design/icons';
 
 import { defaultFormState, pretreatmentRequestParams, isFunction } from '@/utils/tools';
 import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
@@ -72,10 +67,14 @@ class Index extends CustomAuthorization {
     return this.formRef.current;
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
     this.fillForm(metaData);
+
+    this.doOtherAfterLoadSuccess(metaData, metaListData, metaExtra, metaOriginalData);
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {};
 
   fillForm = (metaData) => {
     const form = this.getTargetForm();
@@ -236,36 +235,6 @@ class Index extends CustomAuthorization {
   };
 
   formContent = () => null;
-
-  renderButton = () => {
-    const { dataLoading, processing } = this.state;
-
-    return (
-      <>
-        <Button
-          type="primary"
-          disabled={dataLoading || processing}
-          onClick={(e) => {
-            this.handleOk(e);
-          }}
-        >
-          {processing ? <LoadingOutlined /> : <SaveOutlined />}
-          保存
-        </Button>
-        <Divider type="vertical" />
-        <Button
-          type="default"
-          disabled={dataLoading || processing}
-          onClick={() => {
-            this.onClose();
-          }}
-        >
-          <CloseCircleOutlined />
-          关闭
-        </Button>
-      </>
-    );
-  };
 
   render() {
     const { visible, width } = this.state;
