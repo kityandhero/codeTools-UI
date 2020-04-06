@@ -279,7 +279,6 @@ class Index extends InnerPagerList {
     {
       title: fieldDataDataTable.name.label,
       dataIndex: fieldDataDataTable.name.name,
-      align: 'left',
       width: 220,
       render: (val) => (
         <>
@@ -362,18 +361,6 @@ class Index extends InnerPagerList {
         <>
           <Ellipsis tooltip lines={1}>
             {val.mapperName || '--'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
-      title: fieldDataDataTableGeneratorConfig.comment.label,
-      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
-      align: 'center',
-      render: (val) => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {val.comment || '--'}
           </Ellipsis>
         </>
       ),

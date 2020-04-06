@@ -30,11 +30,6 @@ module.exports = {
       label: 'mapperName',
       helper: '数据表生成配置的mapperName',
     },
-    comment: {
-      name: 'comment',
-      label: 'comment',
-      helper: '数据表生成配置的comment',
-    },
     useExample: {
       name: 'useExample',
       label: '使用Example',
@@ -44,18 +39,18 @@ module.exports = {
       name: 'useActualColumnNames',
       label: '直接使用列本名',
       helper:
-        '如果设置为true，生成的model类会直接使用column本身的名字，而不会再使用驼峰命名方法，比如BORN_DATE，生成的属性名字就是BORN_DATE,而不会是bornDate。',
+        '设置为false,形如下划线分隔的列明会转换为驼峰式，其他转换为全小写；如果设置为true，生成的model类会直接使用column本身的名字，而不会再使用驼峰命名方法，比如BORN_DATE，生成的属性名字就是BORN_DATE,而不会是bornDate',
     },
     useTableNameAlias: {
       name: 'useTableNameAlias',
       label: '使用表别名',
-      helper: '是否使用数据表别名。',
+      helper: '是否为数据表设置别名',
     },
     aliasName: {
       name: 'aliasName',
       label: '数据表别名',
       helper:
-        '为数据表设置的别名，如果设置了alias，那么生成的所有的SELECT SQL语句中，列名会变成：alias_actualColumnName。',
+        '如果设置了alias，那么生成的所有的SELECT SQL语句中，列名会变成：alias_actualColumnName',
     },
   },
 };

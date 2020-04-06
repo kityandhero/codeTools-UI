@@ -69,14 +69,12 @@ class Index extends TabPageBase {
       values[fieldData.needForUpdate.name] = `${metaData.needForUpdate || zeroInt}`;
       values[fieldData.annotationDAO.name] = `${metaData.annotationDAO || zeroInt}`;
       values[fieldData.annotation.name] = `${metaData.annotation || zeroInt}`;
-      values[fieldData.useActualColumnNames.name] = `${metaData.useActualColumnNames || zeroInt}`;
-      values[fieldData.useExample.name] = `${metaData.useExample || zeroInt}`;
-      values[fieldData.useTableNameAlias.name] = `${metaData.useTableNameAlias || zeroInt}`;
       values[fieldData.useDAOExtendStyle.name] = `${metaData.useDAOExtendStyle || zeroInt}`;
       values[fieldData.useSchemaPrefix.name] = `${metaData.useSchemaPrefix || zeroInt}`;
       values[fieldData.jsr310Support.name] = `${metaData.jsr310Support || zeroInt}`;
       values[fieldData.overrideXML.name] = `${metaData.overrideXML || zeroInt}`;
-      values[fieldData.autoDelimitKeywords.name] = `${metaData.autoDelimitKeywords || ''}`;
+      values[fieldData.autoDelimitKeywords.name] = `${metaData.autoDelimitKeywords || zeroInt}`;
+      values[fieldData.comment.name] = `${metaData.comment || zeroInt}`;
 
       values[constants.createTime.name] =
         formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
@@ -234,6 +232,13 @@ class Index extends TabPageBase {
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelectFormItem(
+                  fieldData.useSchemaPrefix.label,
+                  fieldData.useSchemaPrefix.name,
+                  fieldData.useSchemaPrefix.helper,
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormWhetherSelectFormItem(
                   fieldData.offsetLimit.label,
                   fieldData.offsetLimit.name,
                   fieldData.offsetLimit.helper,
@@ -269,27 +274,6 @@ class Index extends TabPageBase {
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelectFormItem(
-                  fieldData.useActualColumnNames.label,
-                  fieldData.useActualColumnNames.name,
-                  fieldData.useActualColumnNames.helper,
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
-                  fieldData.useExample.label,
-                  fieldData.useExample.name,
-                  fieldData.useExample.helper,
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
-                  fieldData.useTableNameAlias.label,
-                  fieldData.useTableNameAlias.name,
-                  fieldData.useTableNameAlias.helper,
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
                   fieldData.useDAOExtendStyle.label,
                   fieldData.useDAOExtendStyle.name,
                   fieldData.useDAOExtendStyle.helper,
@@ -314,6 +298,13 @@ class Index extends TabPageBase {
                   fieldData.autoDelimitKeywords.label,
                   fieldData.autoDelimitKeywords.name,
                   fieldData.autoDelimitKeywords.helper,
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormWhetherSelectFormItem(
+                  fieldData.comment.label,
+                  fieldData.comment.name,
+                  fieldData.comment.helper,
                 )}
               </Col>
             </Row>

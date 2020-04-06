@@ -75,25 +75,10 @@ module.exports = {
       label: 'annotation',
       helper: 'annotation',
     },
-    useActualColumnNames: {
-      name: 'useActualColumnNames',
-      label: 'useActualColumnNames',
-      helper: 'useActualColumnNames',
-    },
-    useExample: {
-      name: 'useExample',
-      label: 'useExample',
-      helper: 'useExample',
-    },
     encoding: {
       name: 'encoding',
       label: 'encoding',
       helper: 'encoding',
-    },
-    useTableNameAlias: {
-      name: 'useTableNameAlias',
-      label: 'useTableNameAlias',
-      helper: 'useTableNameAlias',
     },
     useDAOExtendStyle: {
       name: 'useDAOExtendStyle',
@@ -102,8 +87,8 @@ module.exports = {
     },
     useSchemaPrefix: {
       name: 'useSchemaPrefix',
-      label: 'useSchemaPrefix',
-      helper: 'useSchemaPrefix',
+      label: '使用Schema前缀',
+      helper: '使用Schema前缀进行Sql操作',
     },
     jsr310Support: {
       name: 'jsr310Support',
@@ -120,6 +105,11 @@ module.exports = {
       label: '自动识别数据库关键字',
       helper:
         '自动识别数据库关键字，默认false，如果设置为true，根据SqlReservedWords中定义的关键字列表。',
+    },
+    comment: {
+      name: 'comment',
+      label: '使用数据库备注',
+      helper: '生成时携带数据库备注信息',
     },
   },
 };

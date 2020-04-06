@@ -269,17 +269,6 @@ class Index extends UpdateDrawer {
               </Col>
             ) : null}
           </Row>
-          <Divider orientation="left">备注信息</Divider>
-          <Row gutter={24}>
-            <Col lg={24} md={24} sm={24} xs={24}>
-              {this.renderFormTextAreaFormItem(
-                fieldData.comment.label,
-                fieldData.comment.name,
-                false,
-                fieldData.comment.helper,
-              )}
-            </Col>
-          </Row>
           <Divider orientation="left">其他信息</Divider>
           <Row gutter={24}>
             <Col lg={12} md={12} sm={24} xs={24}>
