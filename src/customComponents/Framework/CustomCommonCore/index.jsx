@@ -376,14 +376,19 @@ class Index extends CustomCore {
 
   renderFromCreateTimeField = (
     name = 'createTime',
-    helper = buildFieldHelper('数据的添加时间'),
+    helper = '数据的添加时间',
     label = '添加时间',
     formItemLayout = null,
   ) => {
     const title = label || '添加时间';
 
     return (
-      <FormItem {...(formItemLayout || {})} label={title} name={name} extra={helper}>
+      <FormItem
+        {...(formItemLayout || {})}
+        label={title}
+        name={name}
+        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+      >
         <Input addonBefore={<FormOutlined />} disabled placeholder={buildFieldDescription(title)} />
       </FormItem>
     );
@@ -391,14 +396,19 @@ class Index extends CustomCore {
 
   renderFromUpdateTimeField = (
     name = 'updateTime',
-    helper = buildFieldHelper('数据的最后修改时间'),
+    helper = '数据的最后修改时间',
     label = '最后修改时间',
     formItemLayout = null,
   ) => {
     const title = label || '最后修改时间';
 
     return (
-      <FormItem {...(formItemLayout || {})} label={title} name={name} extra={helper}>
+      <FormItem
+        {...(formItemLayout || {})}
+        label={title}
+        name={name}
+        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+      >
         <Input addonBefore={<FormOutlined />} disabled placeholder={buildFieldDescription(title)} />
       </FormItem>
     );
@@ -475,14 +485,24 @@ class Index extends CustomCore {
 
     if (!canOperate) {
       return (
-        <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+        <FormItem
+          {...formItemLayout}
+          label={title}
+          name={name}
+          extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        >
           <Input {...otherInputProps} />
         </FormItem>
       );
     }
 
     return (
-      <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+      <FormItem
+        {...formItemLayout}
+        label={title}
+        name={name}
+        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+      >
         <Input {...otherInputProps} />
       </FormItem>
     );
@@ -526,7 +546,7 @@ class Index extends CustomCore {
           {...formItemLayout}
           label={title}
           name={name}
-          extra={helper}
+          extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
           rules={[
             {
               required,
@@ -544,7 +564,7 @@ class Index extends CustomCore {
         {...formItemLayout}
         label={title}
         name={name}
-        extra={helper}
+        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
         rules={[
           {
             required,
@@ -583,7 +603,7 @@ class Index extends CustomCore {
           {...formItemLayout}
           label={title}
           name={name}
-          extra={helper}
+          extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
           rules={[
             {
               required,
@@ -601,7 +621,7 @@ class Index extends CustomCore {
         {...formItemLayout}
         label={title}
         name={name}
-        extra={helper}
+        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
         rules={[
           {
             required,
@@ -660,7 +680,7 @@ class Index extends CustomCore {
           {...formItemLayout}
           label={title}
           name={name}
-          extra={helper}
+          extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
           rules={[
             {
               required,
@@ -678,7 +698,7 @@ class Index extends CustomCore {
         {...formItemLayout}
         label={title}
         name={name}
-        extra={helper}
+        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
         rules={[
           {
             required,
@@ -716,7 +736,7 @@ class Index extends CustomCore {
           {...formItemLayout}
           label={title}
           name={name}
-          extra={helper}
+          extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
           rules={[
             {
               required,
@@ -734,7 +754,7 @@ class Index extends CustomCore {
         {...formItemLayout}
         label={title}
         name={name}
-        extra={helper}
+        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
         rules={[
           {
             required,
@@ -771,7 +791,12 @@ class Index extends CustomCore {
 
     if (!canOperate) {
       return (
-        <FormItem {...formItemLayout} label={title} name={name} extra={helper}>
+        <FormItem
+          {...formItemLayout}
+          label={title}
+          name={name}
+          extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        >
           <DatePicker {...otherDatePickerProps} />
         </FormItem>
       );
@@ -782,7 +807,7 @@ class Index extends CustomCore {
         {...formItemLayout}
         label={title}
         name={name}
-        extra={helper}
+        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
         rules={[
           {
             required,
@@ -823,7 +848,7 @@ class Index extends CustomCore {
         {...(formItemLayout || {})}
         label={label}
         name={name}
-        extra={helper}
+        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
         rules={[
           {
             required,
@@ -866,7 +891,7 @@ class Index extends CustomCore {
         {...(formItemLayout || {})}
         label={label}
         name={name}
-        extra={helper}
+        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
         rules={[
           {
             required,
@@ -892,7 +917,7 @@ class Index extends CustomCore {
             message: buildFieldDescription(label, '选择'),
           },
         ]}
-        help={helper}
+        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
       >
         <Select placeholder={buildFieldDescription(label, '选择')} style={{ width: '100%' }}>
           {options}

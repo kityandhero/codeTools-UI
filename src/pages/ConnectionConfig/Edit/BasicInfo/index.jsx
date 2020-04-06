@@ -2,11 +2,7 @@ import React from 'react';
 import { connect } from 'umi';
 import { Card, Row, Col, Spin, Switch, Divider, notification, Affix } from 'antd';
 
-import {
-  formatDatetime,
-  getDerivedStateFromPropsForUrlParams,
-  buildFieldHelper,
-} from '@/utils/tools';
+import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
 
@@ -138,7 +134,7 @@ class Index extends TabPageBase {
                   fieldData.name.label,
                   fieldData.name.name,
                   true,
-                  buildFieldHelper(fieldData.name.helper),
+                  fieldData.name.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -151,7 +147,7 @@ class Index extends TabPageBase {
                   fieldData.host.label,
                   fieldData.host.name,
                   true,
-                  buildFieldHelper(fieldData.host.helper),
+                  fieldData.host.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -159,7 +155,7 @@ class Index extends TabPageBase {
                   fieldData.port.label,
                   fieldData.port.name,
                   true,
-                  buildFieldHelper(fieldData.port.helper),
+                  fieldData.port.helper,
                 )}
               </Col>
             </Row>
@@ -169,7 +165,7 @@ class Index extends TabPageBase {
                   fieldData.userName.label,
                   fieldData.userName.name,
                   true,
-                  buildFieldHelper(fieldData.userName.helper),
+                  fieldData.userName.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -177,7 +173,7 @@ class Index extends TabPageBase {
                   fieldData.password.label,
                   fieldData.password.name,
                   true,
-                  buildFieldHelper(fieldData.password.helper),
+                  fieldData.password.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -185,7 +181,7 @@ class Index extends TabPageBase {
                   fieldData.schema.label,
                   fieldData.schema.name,
                   true,
-                  buildFieldHelper(fieldData.schema.helper),
+                  fieldData.schema.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -222,7 +218,7 @@ class Index extends TabPageBase {
                       fieldData.sshHost.label,
                       fieldData.sshHost.name,
                       true,
-                      buildFieldHelper(fieldData.sshHost.helper),
+                      fieldData.sshHost.helper,
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
@@ -230,7 +226,7 @@ class Index extends TabPageBase {
                       fieldData.sshPort.label,
                       fieldData.sshPort.name,
                       true,
-                      buildFieldHelper(fieldData.sshPort.helper),
+                      fieldData.sshPort.helper,
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
@@ -238,7 +234,7 @@ class Index extends TabPageBase {
                       fieldData.localPort.label,
                       fieldData.localPort.name,
                       true,
-                      buildFieldHelper(fieldData.localPort.helper),
+                      fieldData.localPort.helper,
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
@@ -246,7 +242,7 @@ class Index extends TabPageBase {
                       fieldData.remotePort.label,
                       fieldData.remotePort.name,
                       true,
-                      buildFieldHelper(fieldData.remotePort.helper),
+                      fieldData.remotePort.helper,
                     )}
                   </Col>
                 </Row>
@@ -256,7 +252,7 @@ class Index extends TabPageBase {
                       fieldData.sshUser.label,
                       fieldData.sshUser.name,
                       true,
-                      buildFieldHelper(fieldData.sshUser.helper),
+                      fieldData.sshUser.helper,
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
@@ -264,7 +260,7 @@ class Index extends TabPageBase {
                       fieldData.sshPassword.label,
                       fieldData.sshPassword.name,
                       true,
-                      buildFieldHelper(fieldData.sshPassword.helper),
+                      fieldData.sshPassword.helper,
                     )}
                   </Col>
                 </Row>
@@ -281,7 +277,7 @@ class Index extends TabPageBase {
                   fieldData.description.label,
                   fieldData.description.name,
                   false,
-                  buildFieldHelper(fieldData.description.helper),
+                  fieldData.description.helper,
                 )}
               </Col>
             </Row>

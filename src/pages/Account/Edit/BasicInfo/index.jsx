@@ -3,11 +3,7 @@ import { connect } from 'umi';
 import { Card, Row, Col, Spin, notification, Affix, Divider } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
-import {
-  getDerivedStateFromPropsForUrlParams,
-  buildFieldHelper,
-  formatDatetime,
-} from '@/utils/tools';
+import { getDerivedStateFromPropsForUrlParams, formatDatetime } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
 import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
@@ -132,7 +128,7 @@ class BasicInfo extends UpdateFormTab {
                   fieldData.userName.label,
                   fieldData.userName.name,
                   true,
-                  buildFieldHelper(fieldData.userName.helper),
+                  fieldData.userName.helper,
                   <FormOutlined />,
                   null,
                   false,
@@ -143,7 +139,7 @@ class BasicInfo extends UpdateFormTab {
                   fieldData.name.label,
                   fieldData.name.name,
                   true,
-                  buildFieldHelper(fieldData.name.helper),
+                  fieldData.name.helper,
                 )}
               </Col>
             </Row>
@@ -158,7 +154,7 @@ class BasicInfo extends UpdateFormTab {
                   fieldData.description.label,
                   fieldData.description.name,
                   false,
-                  buildFieldHelper(fieldData.description.helper),
+                  fieldData.description.helper,
                 )}
               </Col>
             </Row>

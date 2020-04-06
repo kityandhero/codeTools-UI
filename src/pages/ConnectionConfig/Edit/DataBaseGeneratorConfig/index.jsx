@@ -3,18 +3,14 @@ import { connect } from 'umi';
 import { Card, Row, Col, Spin, Divider, notification, Affix } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
-import {
-  formatDatetime,
-  getDerivedStateFromPropsForUrlParams,
-  buildFieldHelper,
-} from '@/utils/tools';
+import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import { zeroInt } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
 
 import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';
-import { fieldData } from '../../../DatabaseGeneratorConfig/Common/data';
+import { fieldData } from '../../../DataBaseGeneratorConfig/Common/data';
 
 import styles from './index.less';
 
@@ -80,6 +76,7 @@ class Index extends TabPageBase {
       values[fieldData.useSchemaPrefix.name] = `${metaData.useSchemaPrefix || zeroInt}`;
       values[fieldData.jsr310Support.name] = `${metaData.jsr310Support || zeroInt}`;
       values[fieldData.overrideXML.name] = `${metaData.overrideXML || zeroInt}`;
+      values[fieldData.autoDelimitKeywords.name] = `${metaData.autoDelimitKeywords || ''}`;
 
       values[constants.createTime.name] =
         formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
@@ -159,7 +156,7 @@ class Index extends TabPageBase {
                   fieldData.connectionConfigId.label,
                   fieldData.connectionConfigId.name,
                   true,
-                  buildFieldHelper(fieldData.connectionConfigId.helper),
+                  fieldData.connectionConfigId.helper,
                   <FormOutlined />,
                   {},
                   false,
@@ -170,7 +167,7 @@ class Index extends TabPageBase {
                   fieldData.connectorJarFile.label,
                   fieldData.connectorJarFile.name,
                   true,
-                  buildFieldHelper(fieldData.connectorJarFile.helper),
+                  fieldData.connectorJarFile.helper,
                   <FormOutlined />,
                   {},
                   false,
@@ -181,7 +178,7 @@ class Index extends TabPageBase {
                   fieldData.projectFolder.label,
                   fieldData.projectFolder.name,
                   true,
-                  buildFieldHelper(fieldData.projectFolder.helper),
+                  fieldData.projectFolder.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -189,7 +186,7 @@ class Index extends TabPageBase {
                   fieldData.modelPackage.label,
                   fieldData.modelPackage.name,
                   true,
-                  buildFieldHelper(fieldData.modelPackage.helper),
+                  fieldData.modelPackage.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -197,7 +194,7 @@ class Index extends TabPageBase {
                   fieldData.modelTargetFolder.label,
                   fieldData.modelTargetFolder.name,
                   true,
-                  buildFieldHelper(fieldData.modelTargetFolder.helper),
+                  fieldData.modelTargetFolder.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -205,7 +202,7 @@ class Index extends TabPageBase {
                   fieldData.daoPackage.label,
                   fieldData.daoPackage.name,
                   true,
-                  buildFieldHelper(fieldData.daoPackage.helper),
+                  fieldData.daoPackage.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -213,7 +210,7 @@ class Index extends TabPageBase {
                   fieldData.daoTargetFolder.label,
                   fieldData.daoTargetFolder.name,
                   true,
-                  buildFieldHelper(fieldData.daoTargetFolder.helper),
+                  fieldData.daoTargetFolder.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -221,7 +218,7 @@ class Index extends TabPageBase {
                   fieldData.mappingXmlPackage.label,
                   fieldData.mappingXmlPackage.name,
                   true,
-                  buildFieldHelper(fieldData.mappingXmlPackage.helper),
+                  fieldData.mappingXmlPackage.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -229,7 +226,7 @@ class Index extends TabPageBase {
                   fieldData.mappingXmlTargetFolder.label,
                   fieldData.mappingXmlTargetFolder.name,
                   true,
-                  buildFieldHelper(fieldData.mappingXmlTargetFolder.helper),
+                  fieldData.mappingXmlTargetFolder.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -310,6 +307,13 @@ class Index extends TabPageBase {
                   fieldData.overrideXML.label,
                   fieldData.overrideXML.name,
                   fieldData.overrideXML.helper,
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormWhetherSelectFormItem(
+                  fieldData.autoDelimitKeywords.label,
+                  fieldData.autoDelimitKeywords.name,
+                  fieldData.autoDelimitKeywords.helper,
                 )}
               </Col>
             </Row>

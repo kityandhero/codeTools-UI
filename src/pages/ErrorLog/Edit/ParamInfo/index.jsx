@@ -161,8 +161,8 @@ class Index extends TabPageBase {
           </Card>
         ) : (
           <Card
-            title="附加数据"
-            className={styles.card}
+          title="请求Body"
+          className={styles.card}
             extra={`数据类型：${dataType.CommonValue.name}`}
             bordered={false}
           >
@@ -196,7 +196,7 @@ class Index extends TabPageBase {
                           language="javascript"
                           // style={docco}
                         >
-                          {JSON.stringify(metaData.headerJson || '', null, '    ')}
+                          {JSON.stringify(metaData.dataJson || '', null, '    ')}
                         </SyntaxHighlighter>
                       )}
                     </Col>
@@ -220,7 +220,7 @@ class Index extends TabPageBase {
                           language="javascript"
                           // style={docco}
                         >
-                          {JSON.stringify(metaData.headerJson || '', null, '    ')}
+                          {JSON.stringify(metaData.data || '', null, '    ')}
                         </SyntaxHighlighter>
                       )}
                     </Col>

@@ -7,7 +7,6 @@ import {
   pretreatmentRequestParams,
   copyToClipboard,
   replaceTargetText,
-  buildFieldHelper,
   formatDatetime,
   toDatetime,
 } from '@/utils/tools';
@@ -234,7 +233,7 @@ class Index extends PagerList {
             {this.renderSearchInputFormItem(
               fieldData.name.label,
               fieldData.name.name,
-              buildFieldHelper('依据名称进行检索'),
+              '依据名称进行检索',
             )}
           </Col>
           <Col lg={6} md={12} sm={24} xs={24}>

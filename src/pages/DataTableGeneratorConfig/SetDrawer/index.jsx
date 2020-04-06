@@ -3,7 +3,7 @@ import { connect } from 'umi';
 import { Row, Col, Spin, Divider, notification } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
-import { buildFieldHelper, formatDatetime, isFunction } from '@/utils/tools';
+import { formatDatetime, isFunction } from '@/utils/tools';
 import { zeroInt } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
@@ -33,6 +33,7 @@ class Index extends UpdateDrawer {
         loadApiPath: 'dataTableGeneratorConfig/get',
         submitApiPath: 'dataTableGeneratorConfig/set',
         useGenerateKey: 0,
+        useTableNameAlias: 0,
       },
     };
   }
@@ -82,9 +83,9 @@ class Index extends UpdateDrawer {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    const { useGenerateKey } = metaData;
+    const { useGenerateKey, useTableNameAlias } = metaData;
 
-    this.setState({ useGenerateKey });
+    this.setState({ useGenerateKey, useTableNameAlias });
   };
 
   buildInitialValues = (metaData) => {
@@ -93,11 +94,15 @@ class Index extends UpdateDrawer {
     if (metaData != null) {
       values[fieldData.dataTableGeneratorConfigId.name] = metaData.dataTableGeneratorConfigId || '';
       values[fieldData.tableName.name] = metaData.tableName || '';
-	  values[fieldData.useGenerateKey.name] = `${metaData.useGenerateKey || zeroInt}`;
+      values[fieldData.useGenerateKey.name] = `${metaData.useGenerateKey || zeroInt}`;
       values[fieldData.generateKeys.name] = metaData.generateKeys || '';
       values[fieldData.domainObjectName.name] = `${metaData.domainObjectName || ''}`;
       values[fieldData.mapperName.name] = `${metaData.mapperName || ''}`;
       values[fieldData.comment.name] = metaData.comment || '';
+      values[fieldData.useExample.name] = `${metaData.useExample || zeroInt}`;
+      values[fieldData.useActualColumnNames.name] = `${metaData.useActualColumnNames || zeroInt}`;
+      values[fieldData.useTableNameAlias.name] = `${metaData.useTableNameAlias || zeroInt}`;
+      values[fieldData.aliasName.name] = metaData.aliasName || '';
       values[constants.createTime.name] =
         formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
       values[constants.updateTime.name] =
@@ -149,12 +154,16 @@ class Index extends UpdateDrawer {
     this.setState({ useGenerateKey: e });
   };
 
+  onUseTableNameAliasChange = (e) => {
+    this.setState({ useTableNameAlias: e });
+  };
+
   renderTitle = () => {
     return '编辑配置';
   };
 
   formContent = () => {
-    const { dataLoading, processing, useGenerateKey } = this.state;
+    const { dataLoading, processing, useGenerateKey, useTableNameAlias } = this.state;
 
     return (
       <div className={styles.containorBox}>
@@ -165,7 +174,7 @@ class Index extends UpdateDrawer {
                 fieldData.dataTableGeneratorConfigId.label,
                 fieldData.dataTableGeneratorConfigId.name,
                 true,
-                buildFieldHelper(fieldData.dataTableGeneratorConfigId.helper),
+                fieldData.dataTableGeneratorConfigId.helper,
                 <FormOutlined />,
                 {},
                 false,
@@ -176,7 +185,7 @@ class Index extends UpdateDrawer {
                 fieldData.tableName.label,
                 fieldData.tableName.name,
                 true,
-                buildFieldHelper(fieldData.tableName.helper),
+                fieldData.tableName.helper,
                 <FormOutlined />,
                 {},
                 false,
@@ -200,7 +209,7 @@ class Index extends UpdateDrawer {
                   fieldData.generateKeys.label,
                   fieldData.generateKeys.name,
                   true,
-                  buildFieldHelper(fieldData.generateKeys.helper),
+                  fieldData.generateKeys.helper,
                 )}
               </Col>
             ) : null}
@@ -208,26 +217,66 @@ class Index extends UpdateDrawer {
               {this.renderFormInputFormItem(
                 fieldData.domainObjectName.label,
                 fieldData.domainObjectName.name,
-                true,
-                buildFieldHelper(fieldData.dataTableGeneratorConfigId.helper),
+                false,
+                fieldData.dataTableGeneratorConfigId.helper,
               )}
             </Col>
             <Col lg={12} md={12} sm={24} xs={24}>
               {this.renderFormInputFormItem(
                 fieldData.mapperName.label,
                 fieldData.mapperName.name,
+                false,
+                fieldData.mapperName.helper,
+              )}
+            </Col>
+            <Col lg={12} md={12} sm={24} xs={24}>
+              {this.renderFormWhetherSelectFormItem(
+                fieldData.useExample.label,
+                fieldData.useExample.name,
+                fieldData.useExample.helper,
                 true,
-                buildFieldHelper(fieldData.mapperName.helper),
+              )}
+            </Col>
+            <Col lg={12} md={12} sm={24} xs={24}>
+              {this.renderFormWhetherSelectFormItem(
+                fieldData.useActualColumnNames.label,
+                fieldData.useActualColumnNames.name,
+                fieldData.useActualColumnNames.helper,
+                true,
               )}
             </Col>
           </Row>
+          <Divider orientation="left">别名设置</Divider>
+          <Row gutter={24}>
+            <Col lg={12} md={12} sm={24} xs={24}>
+              {this.renderFormWhetherSelectFormItem(
+                fieldData.useTableNameAlias.label,
+                fieldData.useTableNameAlias.name,
+                fieldData.useTableNameAlias.helper,
+                (e) => {
+                  this.onUseTableNameAliasChange(e);
+                },
+              )}
+            </Col>
+            {`${useTableNameAlias || 0}` === '1' ? (
+              <Col lg={12} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.aliasName.label,
+                  fieldData.aliasName.name,
+                  true,
+                  fieldData.aliasName.helper,
+                )}
+              </Col>
+            ) : null}
+          </Row>
+          <Divider orientation="left">备注信息</Divider>
           <Row gutter={24}>
             <Col lg={24} md={24} sm={24} xs={24}>
               {this.renderFormTextAreaFormItem(
                 fieldData.comment.label,
                 fieldData.comment.name,
                 false,
-                buildFieldHelper(fieldData.comment.helper),
+                fieldData.comment.helper,
               )}
             </Col>
           </Row>

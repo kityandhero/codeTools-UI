@@ -3,7 +3,6 @@ import {
   refitCommonData,
   isInvalid,
   searchFromList,
-  buildFieldHelper,
 } from '../../utils/tools';
 import { unlimitedWithStringFlag } from '../../utils/constants';
 import CustomCommonCore from '../../customComponents/Framework/CustomCommonCore';
@@ -166,7 +165,7 @@ class Index extends CustomCommonCore {
   renderSearchDatabaseConnectionTypeFormItem = (
     withUnlimited = true,
     label = customFieldCollection.databaseConnectionType.label,
-    helper = buildFieldHelper(customFieldCollection.databaseConnectionType.helper),
+    helper = customFieldCollection.databaseConnectionType.helper,
   ) => {
     const title = label || customFieldCollection.databaseConnectionType.label;
 
@@ -179,7 +178,7 @@ class Index extends CustomCommonCore {
   };
 
   renderFormDatabaseConnectionTypeSelectFormItem = (
-    helper = buildFieldHelper(customFieldCollection.databaseConnectionType.helper),
+    helper = customFieldCollection.databaseConnectionType.helper,
     onChangeCallback,
     label = customFieldCollection.databaseConnectionType.label,
     formItemLayout = null,
@@ -263,7 +262,7 @@ class Index extends CustomCommonCore {
   renderSearchDatabaseDatabaseTypeFormItem = (
     withUnlimited = true,
     label = customFieldCollection.databaseDatabaseType.label,
-    helper = buildFieldHelper(customFieldCollection.databaseDatabaseType.helper),
+    helper = customFieldCollection.databaseDatabaseType.helper,
   ) => {
     const title = label || customFieldCollection.databaseDatabaseType.label;
 
@@ -276,7 +275,7 @@ class Index extends CustomCommonCore {
   };
 
   renderFormDatabaseDatabaseTypeSelectFormItem = (
-    helper = buildFieldHelper(customFieldCollection.databaseDatabaseType.helper),
+    helper = customFieldCollection.databaseDatabaseType.helper,
     onChangeCallback,
     label = customFieldCollection.databaseDatabaseType.label,
     formItemLayout = null,
@@ -360,7 +359,7 @@ class Index extends CustomCommonCore {
   renderSearchDatabaseEncodingFormItem = (
     withUnlimited = true,
     label = customFieldCollection.databaseEncoding.label,
-    helper = buildFieldHelper(customFieldCollection.databaseEncoding.helper),
+    helper = customFieldCollection.databaseEncoding.helper,
   ) => {
     const title = label || customFieldCollection.databaseEncoding.label;
 
@@ -373,7 +372,7 @@ class Index extends CustomCommonCore {
   };
 
   renderFormDatabaseEncodingSelectFormItem = (
-    helper = buildFieldHelper(customFieldCollection.databaseEncoding.helper),
+    helper = customFieldCollection.databaseEncoding.helper,
     onChangeCallback,
     label = customFieldCollection.databaseEncoding.label,
     formItemLayout = null,
@@ -457,7 +456,7 @@ class Index extends CustomCommonCore {
   renderSearchFileEncodingFormItem = (
     withUnlimited = true,
     label = customFieldCollection.fileEncoding.label,
-    helper = buildFieldHelper(customFieldCollection.fileEncoding.helper),
+    helper = customFieldCollection.fileEncoding.helper,
   ) => {
     const title = label || customFieldCollection.fileEncoding.label;
 
@@ -470,7 +469,7 @@ class Index extends CustomCommonCore {
   };
 
   renderFormFileEncodingSelectFormItem = (
-    helper = buildFieldHelper(customFieldCollection.fileEncoding.helper),
+    helper = customFieldCollection.fileEncoding.helper,
     onChangeCallback,
     label = customFieldCollection.fileEncoding.label,
     formItemLayout = null,

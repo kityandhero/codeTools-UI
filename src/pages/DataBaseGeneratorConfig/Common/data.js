@@ -115,5 +115,11 @@ module.exports = {
       label: 'overrideXML',
       helper: 'overrideXML',
     },
+    autoDelimitKeywords: {
+      name: 'autoDelimitKeywords',
+      label: '自动识别数据库关键字',
+      helper:
+        '自动识别数据库关键字，默认false，如果设置为true，根据SqlReservedWords中定义的关键字列表。',
+    },
   },
 };

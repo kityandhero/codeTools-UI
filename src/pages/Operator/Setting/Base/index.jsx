@@ -119,7 +119,7 @@ class BaseView extends UpdateForm {
                 fieldData.userName,
                 'userName',
                 true,
-                buildFieldHelper(fieldData.userNameHelper),
+                fieldData.userNameHelper,
                 <FormOutlined />,
                 null,
                 false,
@@ -128,35 +128,35 @@ class BaseView extends UpdateForm {
                 fieldData.name,
                 'name',
                 true,
-                buildFieldHelper(fieldData.nameHelper),
+                fieldData.nameHelper,
                 <FormOutlined />,
               )}
               {/* {this.renderFormInputFormItem(
                 fieldData.cityName,
                 'cityName',
                 true,
-                buildFieldHelper(fieldData.cityNameHelper),
+                fieldData.cityNameHelper,
                 <FormOutlined />,
               )} */}
               {this.renderFormInputFormItem(
                 fieldData.email,
                 'email',
                 true,
-                buildFieldHelper(fieldData.emailHelper),
+                fieldData.emailHelper,
                 <FormOutlined />,
               )}
               {this.renderFormInputFormItem(
                 fieldData.phone,
                 'phone',
                 true,
-                buildFieldHelper(fieldData.phoneHelper),
+                fieldData.phoneHelper,
                 <FormOutlined />,
               )}
               {this.renderFormTextAreaFormItem(
                 fieldData.description,
                 'description',
                 false,
-                buildFieldHelper(fieldData.descriptionHelper),
+                fieldData.descriptionHelper,
               )}
               <Button
                 type="primary"

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'umi';
 import { FormOutlined } from '@ant-design/icons';
 
-import { buildFieldHelper } from '@/utils/tools';
 import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
 
 import { fieldData } from '../Common/data';
@@ -128,7 +127,7 @@ class Index extends ModalBase {
           fieldData.columnName.label,
           fieldData.columnName.name,
           true,
-          buildFieldHelper(fieldData.columnName.helper),
+          fieldData.columnName.helper,
           <FormOutlined />,
           { readOnly: true },
           false,
@@ -138,7 +137,7 @@ class Index extends ModalBase {
           fieldData.columnType.label,
           fieldData.columnType.name,
           true,
-          buildFieldHelper(fieldData.columnType.helper),
+          fieldData.columnType.helper,
           <FormOutlined />,
           { readOnly: true },
           false,
@@ -148,7 +147,7 @@ class Index extends ModalBase {
           fieldData.aliasName.label,
           fieldData.aliasName.name,
           true,
-          buildFieldHelper(fieldData.aliasName.helper),
+          fieldData.aliasName.helper,
           <FormOutlined />,
           null,
           true,
@@ -158,7 +157,7 @@ class Index extends ModalBase {
           fieldData.javaType.label,
           fieldData.javaType.name,
           true,
-          buildFieldHelper(fieldData.javaType.helper),
+          fieldData.javaType.helper,
           <FormOutlined />,
           null,
           true,
@@ -168,7 +167,7 @@ class Index extends ModalBase {
           fieldData.typeHandler.label,
           fieldData.typeHandler.name,
           false,
-          buildFieldHelper(fieldData.typeHandler.helper),
+          fieldData.typeHandler.helper,
           <FormOutlined />,
           null,
           true,

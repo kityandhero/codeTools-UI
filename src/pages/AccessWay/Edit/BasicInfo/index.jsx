@@ -3,11 +3,7 @@ import { connect } from 'umi';
 import { Card, Row, Col, Spin, Affix } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
-import {
-  getDerivedStateFromPropsForUrlParams,
-  buildFieldHelper,
-  formatDatetime,
-} from '@/utils/tools';
+import { getDerivedStateFromPropsForUrlParams, formatDatetime } from '@/utils/tools';
 import { constants } from '@/customConfig/config';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 
@@ -84,7 +80,7 @@ class Index extends TabPageBase {
                   fieldData.name.label,
                   fieldData.name.name,
                   true,
-                  buildFieldHelper(fieldData.name.helper),
+                  fieldData.name.helper,
                   <FormOutlined />,
                   null,
                   false,
@@ -95,7 +91,7 @@ class Index extends TabPageBase {
                   fieldData.tag.label,
                   fieldData.tag.name,
                   true,
-                  buildFieldHelper(fieldData.tag.helper),
+                  fieldData.tag.helper,
                   <FormOutlined />,
                   null,
                   false,
@@ -106,7 +102,7 @@ class Index extends TabPageBase {
                   fieldData.relativePath.label,
                   fieldData.relativePath.name,
                   true,
-                  buildFieldHelper(fieldData.relativePath.helper),
+                  fieldData.relativePath.helper,
                   null,
                   false,
                 )}
@@ -123,7 +119,7 @@ class Index extends TabPageBase {
                   fieldData.description.label,
                   fieldData.description.name,
                   false,
-                  buildFieldHelper(fieldData.description.helper),
+                  fieldData.description.helper,
                   null,
                   false,
                 )}

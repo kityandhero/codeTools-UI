@@ -7,6 +7,7 @@ import {
   getDerivedStateFromPropsForUrlParams,
   copyToClipboard,
   replaceTargetText,
+  getRandomColor,
 } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
@@ -212,7 +213,6 @@ class Index extends InnerPagerList {
             {this.renderSearchInputFormItem(
               fieldDataDataTable.name.label,
               fieldDataDataTable.name.name,
-              // buildFieldHelper('依据名称进行检索'),
             )}
           </Col>
           {this.renderSimpleFormButton()}
@@ -296,7 +296,13 @@ class Index extends InnerPagerList {
       width: 120,
       render: (val) => (
         <>
-          <Ellipsis tooltip lines={1}>
+          <Ellipsis
+            tooltip
+            lines={1}
+            style={{
+              color: getRandomColor(val + 15),
+            }}
+          >
             {val === 1 ? '是' : '否'}
           </Ellipsis>
         </>
@@ -309,7 +315,13 @@ class Index extends InnerPagerList {
       width: 160,
       render: (val) => (
         <>
-          <Ellipsis tooltip lines={1}>
+          <Ellipsis
+            tooltip
+            lines={1}
+            style={{
+              color: getRandomColor(val.useGenerateKey + 9),
+            }}
+          >
             {val.useGenerateKey === 1 ? '是' : '否'}
           </Ellipsis>
         </>

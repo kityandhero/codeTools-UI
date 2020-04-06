@@ -2,7 +2,6 @@ import React from 'react';
 import { connect, history } from 'umi';
 import { Affix, Row, Col, Card, Spin, notification } from 'antd';
 
-import { buildFieldHelper } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import AddFormBase from '@/customComponents/Framework/CustomForm/AddFormBase';
 
@@ -80,7 +79,7 @@ class Add extends AddFormBase {
                   fieldData.userName.label,
                   fieldData.userName.name,
                   true,
-                  buildFieldHelper(fieldData.userName.helper),
+                  fieldData.userName.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -88,7 +87,7 @@ class Add extends AddFormBase {
                   fieldData.name.label,
                   fieldData.name.name,
                   true,
-                  buildFieldHelper(fieldData.name.helper),
+                  fieldData.name.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -96,7 +95,7 @@ class Add extends AddFormBase {
                   fieldData.password.label,
                   fieldData.password.name,
                   true,
-                  buildFieldHelper(fieldData.password.helper),
+                  fieldData.password.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -104,7 +103,7 @@ class Add extends AddFormBase {
                   fieldData.rePassword.label,
                   fieldData.rePassword.name,
                   true,
-                  buildFieldHelper(fieldData.rePassword.helper),
+                  fieldData.rePassword.helper,
                 )}
               </Col>
             </Row>
@@ -119,7 +118,7 @@ class Add extends AddFormBase {
                   fieldData.description.label,
                   fieldData.description.name,
                   false,
-                  buildFieldHelper(fieldData.description.helper),
+                  fieldData.description.helper,
                 )}
               </Col>
             </Row>

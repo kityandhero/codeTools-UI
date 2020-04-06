@@ -103,21 +103,21 @@ class Password extends UpdateForm {
                 fieldData.originalPassword,
                 'originalPassword',
                 true,
-                buildFieldHelper(fieldData.originalPasswordHelper),
+                fieldData.originalPasswordHelper,
                 <FormOutlined />,
               )}
               {this.renderFormPasswordFormItem(
                 fieldData.password,
                 'password',
                 true,
-                buildFieldHelper(fieldData.passwordHelper),
+                fieldData.passwordHelper,
                 <FormOutlined />,
               )}
               {this.renderFormPasswordFormItem(
                 fieldData.rePassword,
                 'rePassword',
                 true,
-                buildFieldHelper(fieldData.rePasswordHelper),
+                fieldData.rePasswordHelper,
                 <FormOutlined />,
               )}
 

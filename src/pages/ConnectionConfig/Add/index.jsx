@@ -2,7 +2,6 @@ import React from 'react';
 import { connect, history } from 'umi';
 import { Card, Row, Col, Switch, Spin, notification, Affix } from 'antd';
 
-import { buildFieldHelper } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import AddFormBase from '@/customComponents/Framework/CustomForm/AddFormBase';
 
@@ -93,7 +92,7 @@ class Index extends AddFormBase {
                   fieldData.name.label,
                   fieldData.name.name,
                   true,
-                  buildFieldHelper(fieldData.name.helper),
+                  fieldData.name.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -106,7 +105,7 @@ class Index extends AddFormBase {
                   fieldData.host.label,
                   fieldData.host.name,
                   true,
-                  buildFieldHelper(fieldData.host.helper),
+                  fieldData.host.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -114,7 +113,7 @@ class Index extends AddFormBase {
                   fieldData.port.label,
                   fieldData.port.name,
                   true,
-                  buildFieldHelper(fieldData.port.helper),
+                  fieldData.port.helper,
                 )}
               </Col>
             </Row>
@@ -124,7 +123,7 @@ class Index extends AddFormBase {
                   fieldData.userName.label,
                   fieldData.userName.name,
                   true,
-                  buildFieldHelper(fieldData.userName.helper),
+                  fieldData.userName.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -132,7 +131,7 @@ class Index extends AddFormBase {
                   fieldData.password.label,
                   fieldData.password.name,
                   true,
-                  buildFieldHelper(fieldData.password.helper),
+                  fieldData.password.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -140,7 +139,7 @@ class Index extends AddFormBase {
                   fieldData.schema.label,
                   fieldData.schema.name,
                   true,
-                  buildFieldHelper(fieldData.schema.helper),
+                  fieldData.schema.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -177,7 +176,7 @@ class Index extends AddFormBase {
                       fieldData.sshHost.label,
                       fieldData.sshHost.name,
                       true,
-                      buildFieldHelper(fieldData.sshHost.helper),
+                      fieldData.sshHost.helper,
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
@@ -185,7 +184,7 @@ class Index extends AddFormBase {
                       fieldData.sshPort.label,
                       fieldData.sshPort.name,
                       true,
-                      buildFieldHelper(fieldData.sshPort.helper),
+                      fieldData.sshPort.helper,
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
@@ -193,7 +192,7 @@ class Index extends AddFormBase {
                       fieldData.localPort.label,
                       fieldData.localPort.name,
                       true,
-                      buildFieldHelper(fieldData.localPort.helper),
+                      fieldData.localPort.helper,
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
@@ -201,7 +200,7 @@ class Index extends AddFormBase {
                       fieldData.remotePort.label,
                       fieldData.remotePort.name,
                       true,
-                      buildFieldHelper(fieldData.remotePort.helper),
+                      fieldData.remotePort.helper,
                     )}
                   </Col>
                 </Row>
@@ -211,7 +210,7 @@ class Index extends AddFormBase {
                       fieldData.sshUser.label,
                       fieldData.sshUser.name,
                       true,
-                      buildFieldHelper(fieldData.sshUser.helper),
+                      fieldData.sshUser.helper,
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
@@ -219,7 +218,7 @@ class Index extends AddFormBase {
                       fieldData.sshPassword.label,
                       fieldData.sshPassword.name,
                       true,
-                      buildFieldHelper(fieldData.sshPassword.helper),
+                      fieldData.sshPassword.helper,
                     )}
                   </Col>
                 </Row>
@@ -236,7 +235,7 @@ class Index extends AddFormBase {
                   fieldData.description.label,
                   fieldData.description.name,
                   false,
-                  buildFieldHelper(fieldData.description.helper),
+                  fieldData.description.helper,
                 )}
               </Col>
             </Row>

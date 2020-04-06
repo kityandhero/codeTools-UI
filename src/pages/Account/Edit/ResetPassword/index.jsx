@@ -4,7 +4,7 @@ import { FormOutlined, SaveOutlined } from '@ant-design/icons';
 
 import { Form, Card, Spin, notification, Button } from 'antd';
 
-import { getDerivedStateFromPropsForUrlParams, buildFieldHelper } from '@/utils/tools';
+import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
 
@@ -123,7 +123,7 @@ class ResetPassword extends UpdateFormTab {
               fieldData.password.label,
               fieldData.password.name,
               true,
-              buildFieldHelper(fieldData.password.helper),
+              fieldData.password.helper,
               <FormOutlined />,
               {},
               true,
@@ -134,7 +134,7 @@ class ResetPassword extends UpdateFormTab {
               fieldData.rePassword.label,
               fieldData.rePassword.name,
               true,
-              buildFieldHelper(fieldData.rePassword.helper),
+              fieldData.rePassword.helper,
               <FormOutlined />,
               {},
               true,
