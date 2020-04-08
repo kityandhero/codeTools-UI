@@ -101,7 +101,7 @@ class Edit extends LoadDataTabContainer {
     }
   };
 
-  generateAll = () => {
+  generate = () => {
     const { dispatch } = this.props;
     const { connectionConfigId } = this.state;
 
@@ -114,7 +114,7 @@ class Edit extends LoadDataTabContainer {
     this.setState({ processing: true });
 
     dispatch({
-      type: 'databaseGeneratorConfig/generateAll',
+      type: 'databaseGeneratorConfig/generate',
       payload: {
         connectionConfigId,
       },
@@ -159,15 +159,15 @@ class Edit extends LoadDataTabContainer {
       return null;
     }
 
-    if (this.checkAuthority(accessWayCollection.databaseGeneratorConfig.generateAll)) {
+    if (this.checkAuthority(accessWayCollection.databaseGeneratorConfig.generate)) {
       buttons.push({
-        key: 'generateAll',
+        key: 'generate',
         loading: processing,
         icon: <BuildOutlined />,
         buttonProps: {
           disabled: dataLoading || processing || metaData == null,
           onClick: () => {
-            this.generateAll();
+            this.generate();
           },
         },
 

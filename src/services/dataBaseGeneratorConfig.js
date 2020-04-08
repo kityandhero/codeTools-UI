@@ -61,7 +61,7 @@ export async function setData(params) {
   });
 }
 
-export async function generateAllData(params) {
+export async function generateData(params) {
   if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
@@ -70,7 +70,7 @@ export async function generateAllData(params) {
     return result;
   }
 
-  return request('/business/databaseGeneratorConfig/generateAll', {
+  return request('/business/databaseGeneratorConfig/generate', {
     method: 'POST',
     data: params,
   });
