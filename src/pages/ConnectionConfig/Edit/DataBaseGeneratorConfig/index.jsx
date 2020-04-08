@@ -285,15 +285,195 @@ class Index extends TabPageBase {
                   false,
                 )}
               </Col>
+            </Row>
+          </Spin>
+        </Card>
 
-              <Col lg={6} md={12} sm={24} xs={24}>
+        <Card
+          title="文件夹与包"
+          className={styles.card}
+          bordered={false}
+          extra={buildFieldHelper('设置项目文件夹以及包信息')}
+        >
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col lg={12} md={24} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.projectFolder.label,
+                  fieldData.projectFolder.name,
+                  true,
+                  fieldData.projectFolder.helper,
+                  <FormOutlined />,
+                  {
+                    onChange: (e) => {
+                      this.onProjectFolderChange(e);
+                    },
+                    addonAfter: (
+                      <Button
+                        style={{
+                          border: '0px solid #d9d9d9',
+                          backgroundColor: '#fafafa',
+                          height: '30px',
+                        }}
+                        disabled={`${hasProjectFolder || whetherString.no}` === whetherString.no}
+                        onClick={this.openProjectFolder}
+                      >
+                        <FolderOpenOutlined
+                          onClick={(e) => {
+                            this.openProjectFolder(e);
+                          }}
+                        />
+                        打开
+                      </Button>
+                    ),
+                  },
+                )}
+              </Col>
+              <Col lg={6} md={24} sm={24} xs={24}>
                 {this.renderFormFileEncodingSelectFormItem()}
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col lg={12} md={24} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.modelPackage.label,
+                  fieldData.modelPackage.name,
+                  true,
+                  fieldData.modelPackage.helper,
+                  <FormOutlined />,
+                  {
+                    addonAfter: (
+                      <>
+                        <span>文件夹：</span>
+                        <Switch
+                          checkedChildren="开"
+                          unCheckedChildren="关"
+                          onChange={(e) => {
+                            this.onUseModelFolderChange(e);
+                          }}
+                        />
+                      </>
+                    ),
+                  },
+                )}
+              </Col>
+              <Col lg={12} md={24} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.modelTargetFolder.label,
+                  fieldData.modelTargetFolder.name,
+                  false,
+                  fieldData.modelTargetFolder.helper,
+                  <FormOutlined />,
+                  {
+                    disabled: `${useModelFolder || whetherString.no}` === whetherString.no,
+                  },
+                )}
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col lg={12} md={24} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.daoPackage.label,
+                  fieldData.daoPackage.name,
+                  true,
+                  fieldData.daoPackage.helper,
+                  <FormOutlined />,
+                  {
+                    addonAfter: (
+                      <>
+                        <span>文件夹：</span>
+                        <Switch
+                          checkedChildren="开"
+                          unCheckedChildren="关"
+                          onChange={(e) => {
+                            this.onUseDaoFolderChange(e);
+                          }}
+                        />
+                      </>
+                    ),
+                  },
+                )}
+              </Col>
+              <Col lg={12} md={24} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.daoTargetFolder.label,
+                  fieldData.daoTargetFolder.name,
+                  false,
+                  fieldData.daoTargetFolder.helper,
+                  <FormOutlined />,
+                  {
+                    disabled: `${useDaoFolder || whetherString.no}` === whetherString.no,
+                  },
+                )}
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col lg={12} md={24} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.mappingXmlPackage.label,
+                  fieldData.mappingXmlPackage.name,
+                  true,
+                  fieldData.mappingXmlPackage.helper,
+                  <FormOutlined />,
+                  {
+                    addonAfter: (
+                      <>
+                        <span>文件夹：</span>
+                        <Switch
+                          checkedChildren="开"
+                          unCheckedChildren="关"
+                          onChange={(e) => {
+                            this.onUseMappingXmlFolderChange(e);
+                          }}
+                        />
+                      </>
+                    ),
+                  },
+                )}
+              </Col>
+              <Col lg={12} md={24} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.mappingXmlTargetFolder.label,
+                  fieldData.mappingXmlTargetFolder.name,
+                  false,
+                  fieldData.mappingXmlTargetFolder.helper,
+                  <FormOutlined />,
+                  {
+                    disabled: `${useMappingXmlFolder || whetherString.no}` === whetherString.no,
+                  },
+                )}
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
+
+        <Card
+          title="其他配置"
+          className={styles.card}
+          bordered={false}
+          extra={buildFieldHelper('选择生成时的各项选项')}
+        >
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormWhetherSelectFormItem(
+                  fieldData.autoDelimitKeywords.label,
+                  fieldData.autoDelimitKeywords.name,
+                  fieldData.autoDelimitKeywords.helper,
+                )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelectFormItem(
                   fieldData.useSchemaPrefix.label,
                   fieldData.useSchemaPrefix.name,
                   fieldData.useSchemaPrefix.helper,
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormWhetherSelectFormItem(
+                  fieldData.comment.label,
+                  fieldData.comment.name,
+                  fieldData.comment.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
@@ -350,175 +530,6 @@ class Index extends TabPageBase {
                   fieldData.overrideXML.label,
                   fieldData.overrideXML.name,
                   fieldData.overrideXML.helper,
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
-                  fieldData.autoDelimitKeywords.label,
-                  fieldData.autoDelimitKeywords.name,
-                  fieldData.autoDelimitKeywords.helper,
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
-                  fieldData.comment.label,
-                  fieldData.comment.name,
-                  fieldData.comment.helper,
-                )}
-              </Col>
-            </Row>
-          </Spin>
-        </Card>
-
-        <Card
-          title="文件夹与包"
-          className={styles.card}
-          bordered={false}
-          extra={buildFieldHelper('设置项目文件夹以及包信息')}
-        >
-          <Spin spinning={dataLoading || processing}>
-            <Row gutter={24}>
-              <Col lg={12} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.projectFolder.label,
-                  fieldData.projectFolder.name,
-                  true,
-                  fieldData.projectFolder.helper,
-                  <FormOutlined />,
-                  {
-                    onChange: (e) => {
-                      this.onProjectFolderChange(e);
-                    },
-                    addonAfter: (
-                      <Button
-                        style={{
-                          border: '0px solid #d9d9d9',
-                          backgroundColor: '#fafafa',
-                          height: '30px',
-                        }}
-                        disabled={`${hasProjectFolder || whetherString.no}` === whetherString.no}
-                        onClick={this.openProjectFolder}
-                      >
-                        <FolderOpenOutlined
-                          onClick={(e) => {
-                            this.openProjectFolder(e);
-                          }}
-                        />
-                        打开
-                      </Button>
-                    ),
-                  },
-                )}
-              </Col>
-            </Row>
-            <Row gutter={24}>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.modelPackage.label,
-                  fieldData.modelPackage.name,
-                  true,
-                  fieldData.modelPackage.helper,
-                  <FormOutlined />,
-                  {
-                    addonAfter: (
-                      <>
-                        <span>文件夹：</span>
-                        <Switch
-                          checkedChildren="开"
-                          unCheckedChildren="关"
-                          onChange={(e) => {
-                            this.onUseModelFolderChange(e);
-                          }}
-                        />
-                      </>
-                    ),
-                  },
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.modelTargetFolder.label,
-                  fieldData.modelTargetFolder.name,
-                  false,
-                  fieldData.modelTargetFolder.helper,
-                  <FormOutlined />,
-                  {
-                    disabled: `${useModelFolder || whetherString.no}` === whetherString.no,
-                  },
-                )}
-              </Col>
-            </Row>
-            <Row gutter={24}>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.daoPackage.label,
-                  fieldData.daoPackage.name,
-                  true,
-                  fieldData.daoPackage.helper,
-                  <FormOutlined />,
-                  {
-                    addonAfter: (
-                      <>
-                        <span>文件夹：</span>
-                        <Switch
-                          checkedChildren="开"
-                          unCheckedChildren="关"
-                          onChange={(e) => {
-                            this.onUseDaoFolderChange(e);
-                          }}
-                        />
-                      </>
-                    ),
-                  },
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.daoTargetFolder.label,
-                  fieldData.daoTargetFolder.name,
-                  false,
-                  fieldData.daoTargetFolder.helper,
-                  <FormOutlined />,
-                  {
-                    disabled: `${useDaoFolder || whetherString.no}` === whetherString.no,
-                  },
-                )}
-              </Col>
-            </Row>
-            <Row gutter={24}>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.mappingXmlPackage.label,
-                  fieldData.mappingXmlPackage.name,
-                  true,
-                  fieldData.mappingXmlPackage.helper,
-                  <FormOutlined />,
-                  {
-                    addonAfter: (
-                      <>
-                        <span>文件夹：</span>
-                        <Switch
-                          checkedChildren="开"
-                          unCheckedChildren="关"
-                          onChange={(e) => {
-                            this.onUseMappingXmlFolderChange(e);
-                          }}
-                        />
-                      </>
-                    ),
-                  },
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.mappingXmlTargetFolder.label,
-                  fieldData.mappingXmlTargetFolder.name,
-                  false,
-                  fieldData.mappingXmlTargetFolder.helper,
-                  <FormOutlined />,
-                  {
-                    disabled: `${useMappingXmlFolder || whetherString.no}` === whetherString.no,
-                  },
                 )}
               </Col>
             </Row>
