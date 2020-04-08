@@ -1,10 +1,15 @@
 import React from 'react';
 import { connect } from 'umi';
-import { Card, Row, Col, Spin, Divider, notification, Affix } from 'antd';
-import { FormOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Spin, Button, Switch, Divider, notification, message, Affix } from 'antd';
+import { FormOutlined, FolderOpenOutlined } from '@ant-design/icons';
 
-import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
-import { zeroInt } from '@/utils/constants';
+import {
+  formatDatetime,
+  getDerivedStateFromPropsForUrlParams,
+  stringIsNullOrWhiteSpace,
+  buildFieldHelper,
+} from '@/utils/tools';
+import { whetherNumber, whetherString } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
 
@@ -14,8 +19,9 @@ import { fieldData } from '../../../DataBaseGeneratorConfig/Common/data';
 
 import styles from './index.less';
 
-@connect(({ databaseGeneratorConfig, global, loading }) => ({
+@connect(({ databaseGeneratorConfig, tools, global, loading }) => ({
   databaseGeneratorConfig,
+  tools,
   global,
   loading: loading.models.databaseGeneratorConfig,
 }))
@@ -31,6 +37,11 @@ class Index extends TabPageBase {
         loadApiPath: 'databaseGeneratorConfig/getByConnectionId',
         submitApiPath: 'databaseGeneratorConfig/set',
         connectionConfigId: null,
+        projectFolderValue: '',
+        hasProjectFolder: whetherString.no,
+        useModelFolder: whetherString.no,
+        useDaoFolder: whetherString.no,
+        useMappingXmlFolder: whetherString.no,
       },
     };
   }
@@ -49,8 +60,8 @@ class Index extends TabPageBase {
 
     if (metaData != null) {
       values[fieldData.databaseGeneratorConfigId.name] =
-        metaData.databaseGeneratorConfigId || zeroInt;
-      values[fieldData.connectionConfigId.name] = metaData.connectionConfigId || zeroInt;
+        metaData.databaseGeneratorConfigId || whetherNumber.no;
+      values[fieldData.connectionConfigId.name] = metaData.connectionConfigId || whetherNumber.no;
 
       values[fieldData.connectorJarFile.name] = metaData.connectorJarFile || '';
       values[fieldData.projectFolder.name] = metaData.projectFolder || '';
@@ -60,21 +71,25 @@ class Index extends TabPageBase {
       values[fieldData.daoTargetFolder.name] = metaData.daoTargetFolder || '';
       values[fieldData.mappingXmlPackage.name] = metaData.mappingXmlPackage || '';
       values[fieldData.mappingXmlTargetFolder.name] = metaData.mappingXmlTargetFolder || '';
-      values[fieldData.encoding.name] = `${metaData.encoding || zeroInt}`;
+      values[fieldData.encoding.name] = `${metaData.encoding || whetherNumber.no}`;
 
-      values[fieldData.offsetLimit.name] = `${metaData.offsetLimit || zeroInt}`;
+      values[fieldData.offsetLimit.name] = `${metaData.offsetLimit || whetherNumber.no}`;
       values[fieldData.needToStringHashCodeEquals.name] = `${
-        metaData.needToStringHashCodeEquals || zeroInt
+        metaData.needToStringHashCodeEquals || whetherNumber.no
       }`;
-      values[fieldData.needForUpdate.name] = `${metaData.needForUpdate || zeroInt}`;
-      values[fieldData.annotationDAO.name] = `${metaData.annotationDAO || zeroInt}`;
-      values[fieldData.annotation.name] = `${metaData.annotation || zeroInt}`;
-      values[fieldData.useDAOExtendStyle.name] = `${metaData.useDAOExtendStyle || zeroInt}`;
-      values[fieldData.useSchemaPrefix.name] = `${metaData.useSchemaPrefix || zeroInt}`;
-      values[fieldData.jsr310Support.name] = `${metaData.jsr310Support || zeroInt}`;
-      values[fieldData.overrideXML.name] = `${metaData.overrideXML || zeroInt}`;
-      values[fieldData.autoDelimitKeywords.name] = `${metaData.autoDelimitKeywords || zeroInt}`;
-      values[fieldData.comment.name] = `${metaData.comment || zeroInt}`;
+      values[fieldData.needForUpdate.name] = `${metaData.needForUpdate || whetherNumber.no}`;
+      values[fieldData.annotationDAO.name] = `${metaData.annotationDAO || whetherNumber.no}`;
+      values[fieldData.annotation.name] = `${metaData.annotation || whetherNumber.no}`;
+      values[fieldData.useDAOExtendStyle.name] = `${
+        metaData.useDAOExtendStyle || whetherNumber.no
+      }`;
+      values[fieldData.useSchemaPrefix.name] = `${metaData.useSchemaPrefix || whetherNumber.no}`;
+      values[fieldData.jsr310Support.name] = `${metaData.jsr310Support || whetherNumber.no}`;
+      values[fieldData.overrideXML.name] = `${metaData.overrideXML || whetherNumber.no}`;
+      values[fieldData.autoDelimitKeywords.name] = `${
+        metaData.autoDelimitKeywords || whetherNumber.no
+      }`;
+      values[fieldData.comment.name] = `${metaData.comment || whetherNumber.no}`;
 
       values[constants.createTime.name] =
         formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
@@ -100,6 +115,23 @@ class Index extends TabPageBase {
     d.connectionConfigId = connectionConfigId;
 
     return d;
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+    const { projectFolder, modelFolder, daoFolder, mappingXmlFolder } = metaData;
+
+    this.setState({
+      projectFolderValue: projectFolder || '',
+      hasProjectFolder: stringIsNullOrWhiteSpace(projectFolder)
+        ? whetherString.no
+        : whetherString.yes,
+      useModelFolder: stringIsNullOrWhiteSpace(modelFolder) ? whetherString.no : whetherString.yes,
+      useDaoFolder: stringIsNullOrWhiteSpace(daoFolder) ? whetherString.no : whetherString.yes,
+      useMappingXmlFolder: stringIsNullOrWhiteSpace(mappingXmlFolder)
+        ? whetherString.no
+        : whetherString.yes,
+    });
   };
 
   supplementSubmitRequestParams = (o) => {
@@ -128,8 +160,90 @@ class Index extends TabPageBase {
     });
   };
 
+  openProjectFolder = () => {
+    const { dispatch } = this.props;
+    const { projectFolderValue } = this.state;
+
+    if (stringIsNullOrWhiteSpace(projectFolderValue || '')) {
+      message.error('缺少文件夹信息');
+
+      return;
+    }
+
+    dispatch({
+      type: 'tools/openFolder',
+      payload: {
+        folder: projectFolderValue || '',
+      },
+    }).then(() => {
+      const {
+        tools: { data },
+      } = this.props;
+
+      const { dataSuccess } = data;
+
+      if (dataSuccess) {
+        requestAnimationFrame(() => {
+          notification.success({
+            placement: 'bottomRight',
+            message: '操作结果',
+            description: '打开项目文件夹成功',
+          });
+        });
+      }
+    });
+  };
+
+  onProjectFolderChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+
+    this.setState({
+      projectFolderValue: value,
+      hasProjectFolder: stringIsNullOrWhiteSpace(value) ? whetherString.no : whetherString.yes,
+    });
+  };
+
+  onUseModelFolderChange = (e) => {
+    this.setState({ useModelFolder: e ? whetherString.yes : whetherString.no });
+
+    const values = {};
+
+    values[fieldData.modelTargetFolder.name] = '';
+
+    this.setFormFieldsValue(values);
+  };
+
+  onUseDaoFolderChange = (e) => {
+    this.setState({ useDaoFolder: e ? whetherString.yes : whetherString.no });
+
+    const values = {};
+
+    values[fieldData.daoTargetFolder.name] = '';
+
+    this.setFormFieldsValue(values);
+  };
+
+  onUseMappingXmlFolderChange = (e) => {
+    this.setState({ useMappingXmlFolder: e ? whetherString.yes : whetherString.no });
+
+    const values = {};
+
+    values[fieldData.mappingXmlTargetFolder.name] = '';
+
+    this.setFormFieldsValue(values);
+  };
+
   formContent = () => {
-    const { dataLoading, processing } = this.state;
+    const {
+      dataLoading,
+      processing,
+      hasProjectFolder,
+      useModelFolder,
+      useDaoFolder,
+      useMappingXmlFolder,
+    } = this.state;
 
     return (
       <>
@@ -171,62 +285,7 @@ class Index extends TabPageBase {
                   false,
                 )}
               </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.projectFolder.label,
-                  fieldData.projectFolder.name,
-                  true,
-                  fieldData.projectFolder.helper,
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.modelPackage.label,
-                  fieldData.modelPackage.name,
-                  true,
-                  fieldData.modelPackage.helper,
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.modelTargetFolder.label,
-                  fieldData.modelTargetFolder.name,
-                  true,
-                  fieldData.modelTargetFolder.helper,
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.daoPackage.label,
-                  fieldData.daoPackage.name,
-                  true,
-                  fieldData.daoPackage.helper,
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.daoTargetFolder.label,
-                  fieldData.daoTargetFolder.name,
-                  true,
-                  fieldData.daoTargetFolder.helper,
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.mappingXmlPackage.label,
-                  fieldData.mappingXmlPackage.name,
-                  true,
-                  fieldData.mappingXmlPackage.helper,
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
-                  fieldData.mappingXmlTargetFolder.label,
-                  fieldData.mappingXmlTargetFolder.name,
-                  true,
-                  fieldData.mappingXmlTargetFolder.helper,
-                )}
-              </Col>
+
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormFileEncodingSelectFormItem()}
               </Col>
@@ -305,6 +364,161 @@ class Index extends TabPageBase {
                   fieldData.comment.label,
                   fieldData.comment.name,
                   fieldData.comment.helper,
+                )}
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
+
+        <Card
+          title="文件夹与包"
+          className={styles.card}
+          bordered={false}
+          extra={buildFieldHelper('设置项目文件夹以及包信息')}
+        >
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col lg={12} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.projectFolder.label,
+                  fieldData.projectFolder.name,
+                  true,
+                  fieldData.projectFolder.helper,
+                  <FormOutlined />,
+                  {
+                    onChange: (e) => {
+                      this.onProjectFolderChange(e);
+                    },
+                    addonAfter: (
+                      <Button
+                        style={{
+                          border: '0px solid #d9d9d9',
+                          backgroundColor: '#fafafa',
+                          height: '30px',
+                        }}
+                        disabled={`${hasProjectFolder || whetherString.no}` === whetherString.no}
+                        onClick={this.openProjectFolder}
+                      >
+                        <FolderOpenOutlined
+                          onClick={(e) => {
+                            this.openProjectFolder(e);
+                          }}
+                        />
+                        打开
+                      </Button>
+                    ),
+                  },
+                )}
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.modelPackage.label,
+                  fieldData.modelPackage.name,
+                  true,
+                  fieldData.modelPackage.helper,
+                  <FormOutlined />,
+                  {
+                    addonAfter: (
+                      <>
+                        <span>文件夹：</span>
+                        <Switch
+                          checkedChildren="开"
+                          unCheckedChildren="关"
+                          onChange={(e) => {
+                            this.onUseModelFolderChange(e);
+                          }}
+                        />
+                      </>
+                    ),
+                  },
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.modelTargetFolder.label,
+                  fieldData.modelTargetFolder.name,
+                  false,
+                  fieldData.modelTargetFolder.helper,
+                  <FormOutlined />,
+                  {
+                    disabled: `${useModelFolder || whetherString.no}` === whetherString.no,
+                  },
+                )}
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.daoPackage.label,
+                  fieldData.daoPackage.name,
+                  true,
+                  fieldData.daoPackage.helper,
+                  <FormOutlined />,
+                  {
+                    addonAfter: (
+                      <>
+                        <span>文件夹：</span>
+                        <Switch
+                          checkedChildren="开"
+                          unCheckedChildren="关"
+                          onChange={(e) => {
+                            this.onUseDaoFolderChange(e);
+                          }}
+                        />
+                      </>
+                    ),
+                  },
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.daoTargetFolder.label,
+                  fieldData.daoTargetFolder.name,
+                  false,
+                  fieldData.daoTargetFolder.helper,
+                  <FormOutlined />,
+                  {
+                    disabled: `${useDaoFolder || whetherString.no}` === whetherString.no,
+                  },
+                )}
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.mappingXmlPackage.label,
+                  fieldData.mappingXmlPackage.name,
+                  true,
+                  fieldData.mappingXmlPackage.helper,
+                  <FormOutlined />,
+                  {
+                    addonAfter: (
+                      <>
+                        <span>文件夹：</span>
+                        <Switch
+                          checkedChildren="开"
+                          unCheckedChildren="关"
+                          onChange={(e) => {
+                            this.onUseMappingXmlFolderChange(e);
+                          }}
+                        />
+                      </>
+                    ),
+                  },
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.mappingXmlTargetFolder.label,
+                  fieldData.mappingXmlTargetFolder.name,
+                  false,
+                  fieldData.mappingXmlTargetFolder.helper,
+                  <FormOutlined />,
+                  {
+                    disabled: `${useMappingXmlFolder || whetherString.no}` === whetherString.no,
+                  },
                 )}
               </Col>
             </Row>

@@ -27,8 +27,8 @@ module.exports = {
     },
     modelTargetFolder: {
       name: 'modelTargetFolder',
-      label: 'model文件夹',
-      helper: '生成的model的文件夹',
+      label: 'model文件夹名',
+      helper: '生成model的文件夹名称,填写后model包将生成到该文件夹，名称不能含有空白',
     },
     daoPackage: {
       name: 'daoPackage',
@@ -37,8 +37,8 @@ module.exports = {
     },
     daoTargetFolder: {
       name: 'daoTargetFolder',
-      label: 'dao文件夹',
-      helper: '生成的dao的文件夹',
+      label: 'dao文件夹名',
+      helper: '生成dao的文件夹名称,填写后dao包将生成到该文件夹，名称不能含有空白',
     },
     mappingXmlPackage: {
       name: 'mappingXmlPackage',
@@ -47,8 +47,8 @@ module.exports = {
     },
     mappingXmlTargetFolder: {
       name: 'mappingXmlTargetFolder',
-      label: 'mappingXml文件夹',
-      helper: '生成的mappingXml的文件夹',
+      label: 'mappingXml文件夹名',
+      helper: '生成mappingXml的文件夹名称,填写后mappingXml包将生成到该文件夹，名称不能含有空白',
     },
     offsetLimit: {
       name: 'offsetLimit',

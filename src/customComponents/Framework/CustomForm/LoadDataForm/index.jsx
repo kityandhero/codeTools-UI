@@ -61,6 +61,12 @@ class Index extends LoadDataCore {
     form.setFieldsValue(initialValues);
   };
 
+  setFormFieldsValue = (v) => {
+    const form = this.getTargetForm();
+
+    form.setFieldsValue(v);
+  };
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterSetFieldsValue = (metaData) => {};
 

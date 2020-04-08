@@ -57,6 +57,12 @@ class ModalBase extends CustomAuthorization {
 
   afterCheckSubmitRequestParams = (o) => o;
 
+  setFormFieldsValue = (v) => {
+    const form = this.getTargetForm();
+
+    form.setFieldsValue(v);
+  };
+
   getTargetForm = () => {
     return this.formRef.current;
   };

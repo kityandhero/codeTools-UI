@@ -5,6 +5,14 @@ module.exports = {
   formNameCollection: {
     createTime: 'createTime',
   },
+  whetherString: {
+    no: '0',
+    yes: '1',
+  },
+  whetherNumber: {
+    no: 0,
+    yes: 1,
+  },
   unlimitedWithStringFlag: {
     key: '-10000',
     name: '不限',
