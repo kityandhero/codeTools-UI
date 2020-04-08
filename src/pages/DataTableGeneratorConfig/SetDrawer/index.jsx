@@ -98,7 +98,6 @@ class Index extends UpdateDrawer {
       values[fieldData.generateKeys.name] = metaData.generateKeys || '';
       values[fieldData.domainObjectName.name] = `${metaData.domainObjectName || ''}`;
       values[fieldData.mapperName.name] = `${metaData.mapperName || ''}`;
-      values[fieldData.comment.name] = metaData.comment || '';
       values[fieldData.useExample.name] = `${metaData.useExample || zeroInt}`;
       values[fieldData.useActualColumnNames.name] = `${metaData.useActualColumnNames || zeroInt}`;
       values[fieldData.useTableNameAlias.name] = `${metaData.useTableNameAlias || zeroInt}`;

@@ -9,7 +9,7 @@ import {
   stringIsNullOrWhiteSpace,
   buildFieldHelper,
 } from '@/utils/tools';
-import { whetherNumber, whetherString } from '@/utils/constants';
+import { whetherNumber } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
 
@@ -38,10 +38,10 @@ class Index extends TabPageBase {
         submitApiPath: 'databaseGeneratorConfig/set',
         connectionConfigId: null,
         projectFolderValue: '',
-        hasProjectFolder: whetherString.no,
-        useModelFolder: whetherString.no,
-        useDaoFolder: whetherString.no,
-        useMappingXmlFolder: whetherString.no,
+        hasProjectFolder: false,
+        hasModelFolder: false,
+        hasDaoFolder: false,
+        hasMappingXmlFolder: false,
       },
     };
   }
@@ -119,18 +119,19 @@ class Index extends TabPageBase {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    const { projectFolder, modelFolder, daoFolder, mappingXmlFolder } = metaData;
+    const { projectFolder, modelTargetFolder, daoTargetFolder, mappingXmlTargetFolder } = metaData;
+
+    const hasProjectFolder = !stringIsNullOrWhiteSpace(projectFolder);
+    const hasModelFolder = !stringIsNullOrWhiteSpace(modelTargetFolder);
+    const hasDaoFolder = !stringIsNullOrWhiteSpace(daoTargetFolder);
+    const hasMappingXmlFolder = !stringIsNullOrWhiteSpace(mappingXmlTargetFolder);
 
     this.setState({
       projectFolderValue: projectFolder || '',
-      hasProjectFolder: stringIsNullOrWhiteSpace(projectFolder)
-        ? whetherString.no
-        : whetherString.yes,
-      useModelFolder: stringIsNullOrWhiteSpace(modelFolder) ? whetherString.no : whetherString.yes,
-      useDaoFolder: stringIsNullOrWhiteSpace(daoFolder) ? whetherString.no : whetherString.yes,
-      useMappingXmlFolder: stringIsNullOrWhiteSpace(mappingXmlFolder)
-        ? whetherString.no
-        : whetherString.yes,
+      hasProjectFolder,
+      hasModelFolder,
+      hasDaoFolder,
+      hasMappingXmlFolder,
     });
   };
 
@@ -201,38 +202,44 @@ class Index extends TabPageBase {
 
     this.setState({
       projectFolderValue: value,
-      hasProjectFolder: stringIsNullOrWhiteSpace(value) ? whetherString.no : whetherString.yes,
+      hasProjectFolder: stringIsNullOrWhiteSpace(value),
     });
   };
 
   onUseModelFolderChange = (e) => {
-    this.setState({ useModelFolder: e ? whetherString.yes : whetherString.no });
+    this.setState({ hasModelFolder: e });
 
-    const values = {};
+    if (!e) {
+      const values = {};
 
-    values[fieldData.modelTargetFolder.name] = '';
+      values[fieldData.modelTargetFolder.name] = '';
 
-    this.setFormFieldsValue(values);
+      this.setFormFieldsValue(values);
+    }
   };
 
   onUseDaoFolderChange = (e) => {
-    this.setState({ useDaoFolder: e ? whetherString.yes : whetherString.no });
+    this.setState({ hasDaoFolder: e });
 
-    const values = {};
+    if (!e) {
+      const values = {};
 
-    values[fieldData.daoTargetFolder.name] = '';
+      values[fieldData.daoTargetFolder.name] = '';
 
-    this.setFormFieldsValue(values);
+      this.setFormFieldsValue(values);
+    }
   };
 
   onUseMappingXmlFolderChange = (e) => {
-    this.setState({ useMappingXmlFolder: e ? whetherString.yes : whetherString.no });
+    this.setState({ hasMappingXmlFolder: e });
 
-    const values = {};
+    if (!e) {
+      const values = {};
 
-    values[fieldData.mappingXmlTargetFolder.name] = '';
+      values[fieldData.mappingXmlTargetFolder.name] = '';
 
-    this.setFormFieldsValue(values);
+      this.setFormFieldsValue(values);
+    }
   };
 
   formContent = () => {
@@ -240,9 +247,9 @@ class Index extends TabPageBase {
       dataLoading,
       processing,
       hasProjectFolder,
-      useModelFolder,
-      useDaoFolder,
-      useMappingXmlFolder,
+      hasModelFolder,
+      hasDaoFolder,
+      hasMappingXmlFolder,
     } = this.state;
 
     return (
@@ -315,7 +322,7 @@ class Index extends TabPageBase {
                           backgroundColor: '#fafafa',
                           height: '30px',
                         }}
-                        disabled={`${hasProjectFolder || whetherString.no}` === whetherString.no}
+                        disabled={!hasProjectFolder}
                         onClick={this.openProjectFolder}
                       >
                         <FolderOpenOutlined
@@ -348,6 +355,7 @@ class Index extends TabPageBase {
                         <Switch
                           checkedChildren="开"
                           unCheckedChildren="关"
+                          checked={hasModelFolder}
                           onChange={(e) => {
                             this.onUseModelFolderChange(e);
                           }}
@@ -365,7 +373,7 @@ class Index extends TabPageBase {
                   fieldData.modelTargetFolder.helper,
                   <FormOutlined />,
                   {
-                    disabled: `${useModelFolder || whetherString.no}` === whetherString.no,
+                    disabled: !hasModelFolder,
                   },
                 )}
               </Col>
@@ -385,6 +393,7 @@ class Index extends TabPageBase {
                         <Switch
                           checkedChildren="开"
                           unCheckedChildren="关"
+                          checked={hasDaoFolder}
                           onChange={(e) => {
                             this.onUseDaoFolderChange(e);
                           }}
@@ -402,7 +411,7 @@ class Index extends TabPageBase {
                   fieldData.daoTargetFolder.helper,
                   <FormOutlined />,
                   {
-                    disabled: `${useDaoFolder || whetherString.no}` === whetherString.no,
+                    disabled: !hasDaoFolder,
                   },
                 )}
               </Col>
@@ -422,6 +431,7 @@ class Index extends TabPageBase {
                         <Switch
                           checkedChildren="开"
                           unCheckedChildren="关"
+                          checked={hasMappingXmlFolder}
                           onChange={(e) => {
                             this.onUseMappingXmlFolderChange(e);
                           }}
@@ -439,7 +449,7 @@ class Index extends TabPageBase {
                   fieldData.mappingXmlTargetFolder.helper,
                   <FormOutlined />,
                   {
-                    disabled: `${useMappingXmlFolder || whetherString.no}` === whetherString.no,
+                    disabled: !hasMappingXmlFolder,
                   },
                 )}
               </Col>
