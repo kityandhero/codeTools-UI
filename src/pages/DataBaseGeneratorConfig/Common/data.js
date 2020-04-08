@@ -22,8 +22,8 @@ module.exports = {
     },
     modelPackage: {
       name: 'modelPackage',
-      label: 'modelPackage',
-      helper: '生成的modelPackage',
+      label: 'model包',
+      helper: '生成的model包',
     },
     modelTargetFolder: {
       name: 'modelTargetFolder',
@@ -32,8 +32,8 @@ module.exports = {
     },
     daoPackage: {
       name: 'daoPackage',
-      label: 'daoPackage',
-      helper: '生成的daoPackage',
+      label: 'dao包',
+      helper: '生成的dao包',
     },
     daoTargetFolder: {
       name: 'daoTargetFolder',
@@ -42,8 +42,8 @@ module.exports = {
     },
     mappingXmlPackage: {
       name: 'mappingXmlPackage',
-      label: 'mappingXmlPackage',
-      helper: '生成的mappingXmlPackage',
+      label: 'mappingXml包',
+      helper: '生成的mappingXml包',
     },
     mappingXmlTargetFolder: {
       name: 'mappingXmlTargetFolder',

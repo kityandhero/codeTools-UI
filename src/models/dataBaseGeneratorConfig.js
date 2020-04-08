@@ -5,6 +5,7 @@ import {
   getData,
   getByConnectionIdData,
   setData,
+  generateAllData,
 } from '@/services/databaseGeneratorConfig';
 
 export default {
@@ -39,6 +40,14 @@ export default {
     },
     *set({ payload }, { call, put }) {
       const response = yield call(setData, payload);
+
+      yield put({
+        type: 'handleCommonData',
+        payload: response,
+      });
+    },
+    *generateAll({ payload }, { call, put }) {
+      const response = yield call(generateAllData, payload);
 
       yield put({
         type: 'handleCommonData',

@@ -61,6 +61,21 @@ export async function setData(params) {
   });
 }
 
+export async function generateAllData(params) {
+  if (transferToVirtualAccess()) {
+    const result = await apiVirtualSuccessAccess({
+      data: {},
+    });
+
+    return result;
+  }
+
+  return request('/business/databaseGeneratorConfig/generateAll', {
+    method: 'POST',
+    data: params,
+  });
+}
+
 /**
  * 占位函数
  *

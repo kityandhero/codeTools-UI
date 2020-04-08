@@ -15,7 +15,7 @@ import { constants } from '@/customConfig/config';
 
 import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';
-import { fieldData } from '../../../DataBaseGeneratorConfig/Common/data';
+import { fieldData } from '../../../DatabaseGeneratorConfig/Common/data';
 
 import styles from './index.less';
 
