@@ -42,6 +42,7 @@ module.exports = {
     get: '6552cd29-5cdb-48b3-9a74-7541e6879839',
     getByConnectionId: '6b0d1fbe-9e31-48ce-86ab-5dc1ebe387db',
     set: '94520b18-bcb8-499c-90fd-afb82f45f3f0',
+    generateAll: '',
   },
   dataTableGeneratorConfig: {
     pageList: '',
@@ -49,6 +50,5 @@ module.exports = {
     set: '',
     initialize: '',
     generate: '',
-    set: '',
   },
 };

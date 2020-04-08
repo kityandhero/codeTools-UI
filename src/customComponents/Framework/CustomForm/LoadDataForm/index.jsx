@@ -130,6 +130,7 @@ class Index extends LoadDataCore {
                 if (!(confirmMode || false) || disabled) {
                   return (
                     <Button key={item.key} {...(item.buttonProps || {})}>
+                      {item.loading ? <LoadingOutlined /> : item.icon}
                       {item.text || ''}
                     </Button>
                   );
@@ -159,7 +160,10 @@ class Index extends LoadDataCore {
 
                 return (
                   <Popconfirm {...(cp || {})} key={item.key}>
-                    <Button {...(buttonProps || {})}>{item.text || ''}</Button>
+                    <Button {...(buttonProps || {})}>
+                      {item.loading ? <LoadingOutlined /> : item.icon}
+                      {item.text || ''}
+                    </Button>
                   </Popconfirm>
                 );
               })}
@@ -193,14 +197,14 @@ class Index extends LoadDataCore {
             <Tooltip placement="top" title="刷新">
               <Button
                 disabled={dataLoading || reloading || refreshing}
-                loading={reloading || refreshing}
                 className={styles.reloadButton}
-                icon={<ReloadOutlined />}
                 type="dashed"
                 onClick={() => {
                   this.reloadData();
                 }}
-              />
+              >
+                {reloading || refreshing ? <LoadingOutlined /> : <ReloadOutlined />}
+              </Button>
             </Tooltip>
           ) : null}
         </div>

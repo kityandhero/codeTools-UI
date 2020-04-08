@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'umi';
-import { Avatar } from 'antd';
+import { Avatar, notification, message } from 'antd';
+import { BuildOutlined } from '@ant-design/icons';
 
 import { toDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
+import { zeroInt, zeroString } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
 import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
@@ -10,8 +12,9 @@ import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDa
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 import { fieldData } from '../Common/data';
 
-@connect(({ connectionConfig, global, loading }) => ({
+@connect(({ connectionConfig, databaseGeneratorConfig, global, loading }) => ({
   connectionConfig,
+  databaseGeneratorConfig,
   global,
   loading: loading.models.connectionConfig,
 }))
@@ -88,6 +91,54 @@ class Edit extends LoadDataTabContainer {
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  handleMenuClick = (e, record) => {
+    const { key } = e;
+
+    switch (key) {
+      default:
+        break;
+    }
+  };
+
+  generateAll = () => {
+    const { dispatch } = this.props;
+    const { connectionConfigId } = this.state;
+
+    if (`${connectionConfigId || zeroInt}` === zeroString) {
+      message.error('缺少参数');
+
+      return;
+    }
+
+    this.setState({ processing: true });
+
+    dispatch({
+      type: 'databaseGeneratorConfig/generateAll',
+      payload: {
+        connectionConfigId,
+      },
+    }).then(() => {
+      const {
+        databaseGeneratorConfig: { data },
+      } = this.props;
+
+      const { dataSuccess } = data;
+
+      if (dataSuccess) {
+        requestAnimationFrame(() => {
+          notification.success({
+            placement: 'bottomRight',
+            message: '生成操作结果',
+            description: `全部生成成功`,
+          });
+        });
+      }
+
+      this.setState({ processing: false });
+    });
+  };
+
   pageHeaderLogo = () => {
     const { metaData } = this.state;
 
@@ -97,6 +148,46 @@ class Edit extends LoadDataTabContainer {
         src={metaData === null ? '' : metaData.imageUrl || '/noImageSmall.png'}
       />
     );
+  };
+
+  pageHeaderActionExtraGroup = () => {
+    const { metaData, dataLoading, processing } = this.state;
+    const buttons = [];
+    const menuItems = [];
+
+    if (metaData == null) {
+      return null;
+    }
+
+    if (this.checkAuthority(accessWayCollection.databaseGeneratorConfig.generateAll)) {
+      buttons.push({
+        key: 'generateAll',
+        loading: processing,
+        icon: <BuildOutlined />,
+        buttonProps: {
+          disabled: dataLoading || processing || metaData == null,
+          onClick: () => {
+            this.generateAll();
+          },
+        },
+
+        text: '生成全部',
+      });
+    }
+
+    const menu = {
+      props: {
+        onClick: (e) => {
+          this.handleMenuClick(e, metaData);
+        },
+      },
+      items: menuItems,
+    };
+
+    return {
+      buttons,
+      menu,
+    };
   };
 
   pageHeaderExtraContentData = () => {
