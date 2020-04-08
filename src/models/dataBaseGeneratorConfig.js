@@ -6,6 +6,7 @@ import {
   getByConnectionIdData,
   setData,
   generateData,
+  openProjectFolderData,
 } from '@/services/databaseGeneratorConfig';
 
 export default {
@@ -48,6 +49,14 @@ export default {
     },
     *generate({ payload }, { call, put }) {
       const response = yield call(generateData, payload);
+
+      yield put({
+        type: 'handleCommonData',
+        payload: response,
+      });
+    },
+    *openProjectFolder({ payload }, { call, put }) {
+      const response = yield call(openProjectFolderData, payload);
 
       yield put({
         type: 'handleCommonData',

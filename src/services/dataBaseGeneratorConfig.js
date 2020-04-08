@@ -76,6 +76,24 @@ export async function generateData(params) {
   });
 }
 
+export async function openProjectFolderData(params) {
+  if (transferToVirtualAccess()) {
+    const result = await apiVirtualSuccessAccess({
+      pageSize: 10,
+      total: 645,
+      pageNo: 1,
+      data: [{}],
+    });
+
+    return result;
+  }
+
+  return request('/business/databaseGeneratorConfig/openProjectFolder', {
+    method: 'POST',
+    data: params,
+  });
+}
+
 /**
  * 占位函数
  *

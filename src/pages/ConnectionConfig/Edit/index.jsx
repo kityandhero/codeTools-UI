@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'umi';
 import { Avatar, notification, message } from 'antd';
-import { BuildOutlined } from '@ant-design/icons';
+import { FolderOpenOutlined, BuildOutlined } from '@ant-design/icons';
 
 import { toDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import { zeroInt, zeroString } from '@/utils/constants';
@@ -101,6 +101,42 @@ class Edit extends LoadDataTabContainer {
     }
   };
 
+  openProjectFolder = () => {
+    const { dispatch } = this.props;
+    const { metaData } = this.state;
+
+    const { connectionConfigId } = metaData || { connectionConfigId: 0 };
+
+    if (connectionConfigId <= 0) {
+      message.error('参数错误');
+
+      return;
+    }
+
+    dispatch({
+      type: 'databaseGeneratorConfig/openProjectFolder',
+      payload: {
+        connectionConfigId,
+      },
+    }).then(() => {
+      const {
+        databaseGeneratorConfig: { data },
+      } = this.props;
+
+      const { dataSuccess } = data;
+
+      if (dataSuccess) {
+        requestAnimationFrame(() => {
+          notification.success({
+            placement: 'bottomRight',
+            message: '操作结果',
+            description: '打开项目文件夹成功',
+          });
+        });
+      }
+    });
+  };
+
   generate = () => {
     const { dispatch } = this.props;
     const { connectionConfigId } = this.state;
@@ -158,6 +194,20 @@ class Edit extends LoadDataTabContainer {
     if (metaData == null) {
       return null;
     }
+
+    buttons.push({
+      key: 'openProjectFolder',
+      loading: processing,
+      icon: <FolderOpenOutlined />,
+      buttonProps: {
+        disabled: dataLoading || processing || metaData == null,
+        onClick: () => {
+          this.openProjectFolder();
+        },
+      },
+
+      text: '打开文件夹',
+    });
 
     if (this.checkAuthority(accessWayCollection.databaseGeneratorConfig.generate)) {
       buttons.push({
