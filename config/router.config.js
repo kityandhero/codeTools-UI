@@ -73,7 +73,7 @@ export default [
                   },
                   {
                     path: '/connectionConfig/edit/:op/:id/:pageKey/dataTable/pageList',
-                    component: './ConnectionConfig/Edit/DataTable/pageList',
+                    component: './ConnectionConfig/Edit/DataTable/PageList',
                   },
                 ],
               },
