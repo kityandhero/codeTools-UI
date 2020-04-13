@@ -306,7 +306,7 @@ class Index extends InnerPagerList {
                 ).dataTableGeneratorConfigId || '',
             }}
             afterClose={() => {
-              this.afterSetDrawerClose();
+              this.afterGenerateResultDrawerClose();
             }}
           />
         ) : null}
