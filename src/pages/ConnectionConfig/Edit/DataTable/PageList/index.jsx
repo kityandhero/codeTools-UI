@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'umi';
 import { Row, Col, Dropdown, Menu, notification } from 'antd';
-import { EditOutlined, PlayCircleOutlined, SyncOutlined } from '@ant-design/icons';
+import { EditOutlined, PlayCircleOutlined, SyncOutlined, ReadOutlined } from '@ant-design/icons';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -22,6 +22,7 @@ import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../../Assis
 import { fieldData as fieldDataDataTable } from '../../../../DataTable/Common/data';
 import { fieldData as fieldDataDataTableGeneratorConfig } from '../../../../DataTableGeneratorConfig/Common/data';
 import SetDrawer from '../../../../DataTableGeneratorConfig/SetDrawer';
+import GenerateResultDrawer from '../../../../DataTableGeneratorConfig/GenerateResultDrawer';
 
 @connect(({ dataTable, connectionConfig, dataTableGeneratorConfig, global, loading }) => ({
   dataTable,
@@ -44,6 +45,7 @@ class Index extends InnerPagerList {
         loadApiPath: 'dataTable/pageList',
         dataColumnListDrawerVisible: false,
         setDrawerVisible: false,
+        generateResultDrawerVisible: false,
         currentRecord: null,
       },
     };
@@ -78,6 +80,17 @@ class Index extends InnerPagerList {
     d.connectionConfigId = connectionConfigId;
 
     return d;
+  };
+
+  showGenerateResultDrawer = (record) => {
+    this.setState({
+      generateResultDrawerVisible: true,
+      currentRecord: record,
+    });
+  };
+
+  afterGenerateResultDrawerClose = () => {
+    this.setState({ generateResultDrawerVisible: false });
   };
 
   showSetDrawer = (record) => {
@@ -125,6 +138,9 @@ class Index extends InnerPagerList {
         break;
       case 'generate':
         this.generate(record);
+        break;
+      case 'showGenerateResult':
+        this.showGenerateResultDrawer(record);
         break;
       default:
         break;
@@ -226,12 +242,16 @@ class Index extends InnerPagerList {
       connectionConfigId,
       dataColumnListDrawerVisible,
       setDrawerVisible,
+      generateResultDrawerVisible,
       currentRecord,
     } = this.state;
     // const { dataTableId, currentConnectionConfigId, addModalVisible, updateModalVisible } = this.state;
 
     const dataColumnListDrawerRender = this.checkAuthority(accessWayCollection.dataColumn.list);
     const setDrawerRender = this.checkAuthority(accessWayCollection.dataTableGeneratorConfig.set);
+    const generateResultDrawerRender = this.checkAuthority(
+      accessWayCollection.dataTableGeneratorConfig.get,
+    );
 
     return (
       <>
@@ -265,6 +285,25 @@ class Index extends InnerPagerList {
             }}
             afterCancel={() => {
               this.afterSetDrawerCancel();
+            }}
+            afterClose={() => {
+              this.afterSetDrawerClose();
+            }}
+          />
+        ) : null}
+
+        {generateResultDrawerRender ? (
+          <GenerateResultDrawer
+            visible={generateResultDrawerVisible}
+            externalData={{
+              dataTableGeneratorConfigId:
+                (
+                  (
+                    currentRecord || {
+                      dataTableGeneratorConfig: { dataTableGeneratorConfigId: '' },
+                    }
+                  ).dataTableGeneratorConfig || { dataTableGeneratorConfigId: '' }
+                ).dataTableGeneratorConfigId || '',
             }}
             afterClose={() => {
               this.afterSetDrawerClose();
@@ -429,6 +468,12 @@ class Index extends InnerPagerList {
                   <Menu.Item disabled={record.initialized === 0} key="generate">
                     <PlayCircleOutlined />
                     执行生成
+                  </Menu.Item>
+                ) : null}
+                {this.checkAuthority(accessWayCollection.dataTableGeneratorConfig.get) ? (
+                  <Menu.Item disabled={record.initialized === 0} key="showGenerateResult">
+                    <ReadOutlined />
+                    查看生成结果
                   </Menu.Item>
                 ) : null}
               </Menu>

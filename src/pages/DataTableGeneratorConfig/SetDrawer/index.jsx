@@ -42,6 +42,14 @@ class Index extends UpdateDrawer {
     return super.getDerivedStateFromProps(nextProps, prevState);
   }
 
+  getApiData = (props) => {
+    const {
+      dataTableGeneratorConfig: { data },
+    } = props;
+
+    return data;
+  };
+
   getSimpleTicketDetailIdFromExternalData = () => {
     const { externalData } = this.state;
 
@@ -58,25 +66,6 @@ class Index extends UpdateDrawer {
     const d = o;
 
     d.dataTableGeneratorConfigId = this.getSimpleTicketDetailIdFromExternalData();
-
-    return d;
-  };
-
-  getApiData = (props) => {
-    const {
-      dataTableGeneratorConfig: { data },
-    } = props;
-
-    return data;
-  };
-
-  supplementLoadRequestParams = (o) => {
-    const d = o;
-    const {
-      externalData: { dataTableGeneratorConfigId },
-    } = this.state;
-
-    d.dataTableGeneratorConfigId = dataTableGeneratorConfigId || '';
 
     return d;
   };

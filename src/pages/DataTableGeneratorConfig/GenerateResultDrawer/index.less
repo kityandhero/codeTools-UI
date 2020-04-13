@@ -1,0 +1,36 @@
+@import '~antd/lib/style/themes/default.less';
+@import '~@/utils/utils.less';
+
+.containorBox {
+  .card {
+    margin-bottom: 24px;
+  }
+
+  .help {
+    color: #985e5e;
+    font-size: 12px;
+  }
+  .mainImageBox {
+    width: 240px;
+    height: 240px;
+    position: relative;
+    .mainImage {
+      width: 100%;
+      height: 100%;
+    }
+    .mainImageAction {
+      z-index: 100;
+      width: 54px;
+      height: 54px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-top: -27px;
+      margin-left: -27px;
+    }
+  }
+  .button {
+    margin-right: 80px;
+    color: #000;
+  }
+}

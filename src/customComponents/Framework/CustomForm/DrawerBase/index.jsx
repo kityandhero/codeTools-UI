@@ -24,6 +24,7 @@ class Index extends CustomAuthorization {
         dataLoading: false,
         loadDataAfterMount: false,
         submitApiPath: '',
+        placement: 'right',
       },
     };
   }
@@ -83,6 +84,9 @@ class Index extends CustomAuthorization {
 
     form.setFieldsValue(initialValues);
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  buildInitialValues = (metaData) => {};
 
   handleOk = (e) => {
     e.preventDefault();
@@ -237,7 +241,7 @@ class Index extends CustomAuthorization {
   formContent = () => null;
 
   render() {
-    const { visible, width } = this.state;
+    const { visible, width, placement } = this.state;
 
     const titleIcon = this.renderTitleIcon();
 
@@ -257,7 +261,7 @@ class Index extends CustomAuthorization {
         }
         destroyOnClose={false}
         width={width}
-        placement="right"
+        placement={placement}
         visible={visible || false}
         maskClosable={false}
         onClose={this.onClose}
