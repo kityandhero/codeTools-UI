@@ -15,5 +15,10 @@ module.exports = {
       label: '是否初始化',
       helper: '数据表生成配置是否初始化',
     },
+    generated: {
+      name: 'generated',
+      label: '是否生成',
+      helper: '数据表对应代码是否生成',
+    },
   },
 };

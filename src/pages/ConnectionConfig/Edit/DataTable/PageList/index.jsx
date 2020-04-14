@@ -8,8 +8,11 @@ import {
   copyToClipboard,
   replaceTargetText,
   getRandomColor,
+  formatDatetime,
+  toDatetime,
 } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
+import { whetherString, whetherNumber } from '@/utils/constants';
 import { constants } from '@/customConfig/config';
 import InnerPagerList from '@/customComponents/Framework/CustomList/PagerList/InnerPagerList';
 import Ellipsis from '@/customComponents/Ellipsis';
@@ -330,7 +333,7 @@ class Index extends InnerPagerList {
       title: fieldDataDataTable.initialized.label,
       dataIndex: fieldDataDataTable.initialized.name,
       align: 'center',
-      width: 120,
+      width: 100,
       render: (val) => (
         <>
           <Ellipsis
@@ -340,7 +343,7 @@ class Index extends InnerPagerList {
               color: getRandomColor(val + 15),
             }}
           >
-            {val === 1 ? '是' : '否'}
+            {val === whetherNumber.yes ? '是' : '否'}
           </Ellipsis>
         </>
       ),
@@ -349,7 +352,7 @@ class Index extends InnerPagerList {
       title: fieldDataDataTableGeneratorConfig.useGenerateKey.label,
       dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
       align: 'center',
-      width: 160,
+      width: 100,
       render: (val) => (
         <>
           <Ellipsis
@@ -359,7 +362,7 @@ class Index extends InnerPagerList {
               color: getRandomColor(val.useGenerateKey + 9),
             }}
           >
-            {val.useGenerateKey === 1 ? '是' : '否'}
+            {val.useGenerateKey === whetherNumber.yes ? '是' : '否'}
           </Ellipsis>
         </>
       ),
@@ -373,6 +376,38 @@ class Index extends InnerPagerList {
         <>
           <Ellipsis tooltip lines={1}>
             {val.generateKeys || '--'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldDataDataTableGeneratorConfig.useTableNameAlias.label,
+      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
+      align: 'center',
+      width: 100,
+      render: (val) => (
+        <>
+          <Ellipsis
+            tooltip
+            lines={1}
+            style={{
+              color: getRandomColor(val.useTableNameAlias + 25),
+            }}
+          >
+            {val.useTableNameAlias === whetherNumber.yes ? '是' : '否'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldDataDataTableGeneratorConfig.aliasName.label,
+      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
+      align: 'center',
+      width: 140,
+      render: (val) => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {val.aliasName || '--'}
           </Ellipsis>
         </>
       ),
@@ -399,6 +434,79 @@ class Index extends InnerPagerList {
         <>
           <Ellipsis tooltip lines={1}>
             {val.mapperName || '--'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldDataDataTableGeneratorConfig.useExample.label,
+      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
+      align: 'center',
+      width: 120,
+      render: (val) => (
+        <>
+          <Ellipsis
+            tooltip
+            lines={1}
+            style={{
+              color: getRandomColor(val.useExample + 25),
+            }}
+          >
+            {val.useExample === whetherNumber.yes ? '是' : '否'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldDataDataTableGeneratorConfig.useActualColumnNames.label,
+      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
+      align: 'center',
+      width: 140,
+      render: (val) => (
+        <>
+          <Ellipsis
+            tooltip
+            lines={1}
+            style={{
+              color: getRandomColor(val.useActualColumnNames + 25),
+            }}
+          >
+            {val.useActualColumnNames === whetherNumber.yes ? '是' : '否'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldDataDataTable.generated.label,
+      dataIndex: fieldDataDataTable.generated.name,
+      align: 'center',
+      width: 120,
+      render: (val) => (
+        <>
+          <Ellipsis
+            tooltip
+            lines={1}
+            style={{
+              color: getRandomColor(val + 25),
+            }}
+          >
+            {val === whetherNumber.yes ? '是' : '否'}
+          </Ellipsis>
+        </>
+      ),
+    },
+    {
+      title: fieldDataDataTableGeneratorConfig.lastGenerateTime.label,
+      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
+      width: 140,
+      align: 'center',
+      sorter: false,
+      render: (val) => (
+        <>
+          <Ellipsis tooltip lines={1}>
+            {`${val.generated}` === whetherString.yes
+              ? formatDatetime(toDatetime(val.lastGenerateTime), 'YYYY-MM-DD HH:mm')
+              : '--'}
           </Ellipsis>
         </>
       ),
@@ -446,11 +554,11 @@ class Index extends InnerPagerList {
           <Dropdown.Button
             size="small"
             onClick={() => {
-              if (record.initialized === 1) {
+              if (record.initialized === whetherNumber.yes) {
                 this.showSetDrawer(record);
               }
 
-              if (record.initialized === 0) {
+              if (record.initialized === whetherNumber.no) {
                 this.initialize(record);
               }
             }}
@@ -458,20 +566,26 @@ class Index extends InnerPagerList {
             overlay={
               <Menu onClick={(e) => this.handleMenuClick(e, record)}>
                 {this.checkAuthority(accessWayCollection.dataTableGeneratorConfig.initialize) ? (
-                  <Menu.Item disabled={record.initialized === 0} key="showDataColumnListDrawer">
+                  <Menu.Item
+                    disabled={record.initialized === whetherNumber.no}
+                    key="showDataColumnListDrawer"
+                  >
                     <EditOutlined />
                     定制列
                   </Menu.Item>
                 ) : null}
                 {this.checkAuthority(accessWayCollection.dataTableGeneratorConfig.generate) ? (
-                  <Menu.Item disabled={record.initialized === 0} key="generate">
+                  <Menu.Item disabled={record.initialized === whetherNumber.no} key="generate">
                     <PlayCircleOutlined />
                     执行生成
                   </Menu.Item>
                 ) : null}
                 {this.checkAuthority(accessWayCollection.dataTableGeneratorConfig.get) ? (
                   <Menu.Item
-                    disabled={record.initialized === 0 || record.generated === 0}
+                    disabled={
+                      record.initialized === whetherNumber.no ||
+                      record.generated === whetherNumber.no
+                    }
                     key="showGenerateResult"
                   >
                     <ReadOutlined />
@@ -481,8 +595,8 @@ class Index extends InnerPagerList {
               </Menu>
             }
           >
-            {record.initialized === 1 ? <EditOutlined /> : <SyncOutlined />}
-            {record.initialized === 1 ? '调整配置' : '初始化'}
+            {record.initialized === whetherNumber.yes ? <EditOutlined /> : <SyncOutlined />}
+            {record.initialized === whetherNumber.yes ? '调整配置' : '初始化'}
           </Dropdown.Button>
         </>
       ),

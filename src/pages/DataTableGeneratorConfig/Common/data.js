@@ -72,5 +72,15 @@ module.exports = {
       label: 'mappingXml代码',
       helper: '生成的mappingXml代码',
     },
+    generated: {
+      name: 'generated',
+      label: '是否生成',
+      helper: '数据表对应代码是否生成',
+    },
+    lastGenerateTime: {
+      name: 'lastGenerateTime',
+      label: '最后生成时间',
+      helper: '最后一次的生成时间',
+    },
   },
 };

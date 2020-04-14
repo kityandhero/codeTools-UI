@@ -534,7 +534,7 @@ class Index extends CustomCore {
     const otherInputProps = {
       ...{
         addonBefore: icon,
-        placeholder: buildFieldDescription(title, reminderPrefix),
+        placeholder: canOperate ? buildFieldDescription(title, reminderPrefix) : '暂无数据',
         disabled: !canOperate,
       },
       ...(inputProps || {}),

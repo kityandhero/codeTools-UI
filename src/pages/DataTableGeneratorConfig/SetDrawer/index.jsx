@@ -4,7 +4,7 @@ import { Row, Col, Spin, Divider, notification } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
 import { formatDatetime, isFunction } from '@/utils/tools';
-import { zeroInt } from '@/utils/constants';
+import { zeroInt, whetherNumber, whetherString } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
 import UpdateDrawer from '@/customComponents/Framework/CustomForm/UpdateDrawer';
@@ -91,6 +91,13 @@ class Index extends UpdateDrawer {
       values[fieldData.useActualColumnNames.name] = `${metaData.useActualColumnNames || zeroInt}`;
       values[fieldData.useTableNameAlias.name] = `${metaData.useTableNameAlias || zeroInt}`;
       values[fieldData.aliasName.name] = metaData.aliasName || '';
+
+      const generated = `${metaData.generated || whetherNumber.no}`;
+
+      if (generated === whetherString.yes) {
+        values[fieldData.lastGenerateTime.name] = metaData.lastGenerateTime || '';
+      }
+
       values[constants.createTime.name] =
         formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
       values[constants.updateTime.name] =
@@ -264,6 +271,17 @@ class Index extends UpdateDrawer {
             </Col>
             <Col lg={12} md={12} sm={24} xs={24}>
               {this.renderFromUpdateTimeField()}
+            </Col>
+            <Col lg={12} md={12} sm={24} xs={24}>
+              {this.renderFormInputFormItem(
+                fieldData.lastGenerateTime.label,
+                fieldData.lastGenerateTime.name,
+                true,
+                fieldData.lastGenerateTime.helper,
+                <FormOutlined />,
+                {},
+                false,
+              )}
             </Col>
           </Row>
         </Spin>
