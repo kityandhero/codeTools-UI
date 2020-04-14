@@ -439,25 +439,6 @@ class Index extends InnerPagerList {
       ),
     },
     {
-      title: fieldDataDataTableGeneratorConfig.useExample.label,
-      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
-      align: 'center',
-      width: 120,
-      render: (val) => (
-        <>
-          <Ellipsis
-            tooltip
-            lines={1}
-            style={{
-              color: getRandomColor(val.useExample + 25),
-            }}
-          >
-            {val.useExample === whetherNumber.yes ? '是' : '否'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
       title: fieldDataDataTableGeneratorConfig.useActualColumnNames.label,
       dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
       align: 'center',

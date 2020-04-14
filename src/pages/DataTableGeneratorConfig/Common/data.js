@@ -30,11 +30,6 @@ module.exports = {
       label: 'mapperName',
       helper: '数据表生成配置的mapperName',
     },
-    useExample: {
-      name: 'useExample',
-      label: '使用Example',
-      helper: '数据表生成配置的comment',
-    },
     useActualColumnNames: {
       name: 'useActualColumnNames',
       label: '直接使用列本名',
