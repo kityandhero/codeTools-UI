@@ -245,7 +245,6 @@ class Index extends InnerPagerList {
       generateResultDrawerVisible,
       currentRecord,
     } = this.state;
-    // const { dataTableId, currentConnectionConfigId, addModalVisible, updateModalVisible } = this.state;
 
     const dataColumnListDrawerRender = this.checkAuthority(accessWayCollection.dataColumn.list);
     const setDrawerRender = this.checkAuthority(accessWayCollection.dataTableGeneratorConfig.set);
@@ -471,7 +470,10 @@ class Index extends InnerPagerList {
                   </Menu.Item>
                 ) : null}
                 {this.checkAuthority(accessWayCollection.dataTableGeneratorConfig.get) ? (
-                  <Menu.Item disabled={record.initialized === 0} key="showGenerateResult">
+                  <Menu.Item
+                    disabled={record.initialized === 0 || record.generated === 0}
+                    key="showGenerateResult"
+                  >
                     <ReadOutlined />
                     查看生成结果
                   </Menu.Item>

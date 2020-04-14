@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'umi';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { Spin, Divider } from 'antd';
+import { Spin, Empty, Divider } from 'antd';
 
-import { isFunction } from '@/utils/tools';
+import { isFunction, stringIsNullOrWhiteSpace } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import LoadDrawer from '@/customComponents/Framework/CustomForm/LoadDrawer';
+
+import { fieldData } from '../Common/data';
 
 import styles from './index.less';
 
@@ -79,29 +81,74 @@ class Index extends LoadDrawer {
   formContent = () => {
     const { dataLoading, metaData } = this.state;
 
+    let list = [];
+
+    if (metaData != null) {
+      const modelContent = metaData.modelContent || '';
+      const exampleContent = metaData.exampleContent || '';
+      const mapperContent = metaData.mapperContent || '';
+      const mappingXmlContent = metaData.mappingXmlContent || '';
+
+      if (!stringIsNullOrWhiteSpace(modelContent)) {
+        list.push({
+          title: fieldData.modelContent.label,
+          language: 'java',
+          content: modelContent,
+        });
+      }
+
+      if (!stringIsNullOrWhiteSpace(exampleContent)) {
+        list.push({
+          title: fieldData.exampleContent.label,
+          language: 'java',
+          content: exampleContent,
+        });
+      }
+
+      if (!stringIsNullOrWhiteSpace(mapperContent)) {
+        list.push({
+          title: fieldData.mapperContent.label,
+          language: 'java',
+          content: mapperContent,
+        });
+      }
+
+      if (!stringIsNullOrWhiteSpace(mappingXmlContent)) {
+        list.push({
+          title: fieldData.mappingXmlContent.label,
+          language: 'java',
+          content: mappingXmlContent,
+        });
+      }
+    }
+
+    list = list.map((o, index) => {
+      const d = { ...{}, ...o };
+
+      d.key = `list_${index}`;
+
+      return d;
+    });
+
+    const lastIndex = list.length - 1;
+
     return (
       <div className={styles.containorBox}>
         <Spin spinning={dataLoading}>
-          <SyntaxHighlighter
-            language="java"
-            // style={docco}
-          >
-            {metaData == null ? '' : metaData.modelContent || ''}
-          </SyntaxHighlighter>
-          <Divider />
-          <SyntaxHighlighter
-            language="java"
-            // style={docco}
-          >
-            {metaData == null ? '' : metaData.mapperContent || ''}
-          </SyntaxHighlighter>
-          <Divider />
-          <SyntaxHighlighter
-            language="xml"
-            // style={docco}
-          >
-            {metaData == null ? '' : metaData.xmlContent || ''}
-          </SyntaxHighlighter>
+          {list.map((o, index) => {
+            return (
+              <div key={o.key}>
+                <SyntaxHighlighter
+                  language={o.language}
+                  // style={docco}
+                >
+                  {o.content}
+                </SyntaxHighlighter>
+                {lastIndex !== index ? <Divider /> : null}
+              </div>
+            );
+          })}
+          {lastIndex === -1 ? <Empty /> : null}
         </Spin>
       </div>
     );

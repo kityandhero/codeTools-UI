@@ -52,5 +52,25 @@ module.exports = {
       helper:
         '如果设置了alias，那么生成的所有的SELECT SQL语句中，列名会变成：alias_actualColumnName',
     },
+    modelContent: {
+      name: 'modelContent',
+      label: 'model代码',
+      helper: '生成的model代码',
+    },
+    exampleContent: {
+      name: 'exampleContent',
+      label: 'example代码',
+      helper: '生成的example代码',
+    },
+    mapperContent: {
+      name: 'mapperContent',
+      label: 'mapper代码',
+      helper: '生成的mapper代码',
+    },
+    mappingXmlContent: {
+      name: 'mappingXmlContent',
+      label: 'mappingXml代码',
+      helper: '生成的mappingXml代码',
+    },
   },
 };
