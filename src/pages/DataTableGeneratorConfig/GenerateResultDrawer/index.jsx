@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'umi';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { Spin, Empty, Divider } from 'antd';
+import { Spin, Empty, Card, Button, Divider } from 'antd';
+import { CodeSandboxOutlined, CopyOutlined } from '@ant-design/icons';
 
-import { isFunction, stringIsNullOrWhiteSpace } from '@/utils/tools';
+import { copyToClipboard, isFunction, stringIsNullOrWhiteSpace } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import LoadDrawer from '@/customComponents/Framework/CustomForm/LoadDrawer';
 
@@ -138,13 +139,40 @@ class Index extends LoadDrawer {
           {list.map((o, index) => {
             return (
               <div key={o.key}>
-                <SyntaxHighlighter
-                  language={o.language}
-                  // style={docco}
+                <Card
+                  title={
+                    <>
+                      <CodeSandboxOutlined />
+                      <span className={styles.codeContentTitle}> {o.title}</span>
+                    </>
+                  }
+                  className={styles.card}
+                  bodyStyle={{ padding: 0 }}
+                  headStyle={{ padding: 0, minHeight: 34 }}
+                  bordered={false}
+                  extra={
+                    <>
+                      <Button
+                        type="link"
+                        style={{ paddingRight: 0 }}
+                        onClick={() => {
+                          copyToClipboard(o.content, false);
+                        }}
+                      >
+                        <CopyOutlined />
+                        复制到剪贴板
+                      </Button>
+                    </>
+                  }
                 >
-                  {o.content}
-                </SyntaxHighlighter>
-                {lastIndex !== index ? <Divider /> : null}
+                  <SyntaxHighlighter
+                    language={o.language}
+                    // style={docco}
+                  >
+                    {o.content}
+                  </SyntaxHighlighter>
+                </Card>
+                {lastIndex !== index ? <Divider style={{ margin: '12px 0 7px 0' }} /> : null}
               </div>
             );
           })}

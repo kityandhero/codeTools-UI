@@ -133,9 +133,14 @@ export function getValue(obj) {
  * 复制到剪贴板
  * @param {*} text
  */
-export function copyToClipboard(text) {
+export function copyToClipboard(text, displayText = true) {
   copy(text);
-  message.success(`已将 ${text} 复制到剪贴板！`);
+
+  if (displayText) {
+    message.success(`已将 ${text} 复制到剪贴板！`);
+  } else {
+    message.success(`已复制到剪贴板！`);
+  }
 }
 
 /**
