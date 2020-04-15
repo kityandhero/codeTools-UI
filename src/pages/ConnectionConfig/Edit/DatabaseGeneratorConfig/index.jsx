@@ -52,6 +52,10 @@ class Index extends TabPageBase {
         hasDaoTargetFolder: false,
         hasMappingXmlTargetFolder: false,
         hasServiceTargetFolder: false,
+        modelTargetFolderRelativeMode: whetherNumber.yes,
+        daoTargetFolderRelativeMode: whetherNumber.yes,
+        mappingXmlTargetFolderRelativeMode: whetherNumber.yes,
+        serviceTargetFolderRelativeMode: whetherNumber.yes,
       },
     };
   }
@@ -142,6 +146,10 @@ class Index extends TabPageBase {
       daoTargetFolder,
       mappingXmlTargetFolder,
       serviceTargetFolder,
+      modelTargetFolderRelativeMode,
+      daoTargetFolderRelativeMode,
+      mappingXmlTargetFolderRelativeMode,
+      serviceTargetFolderRelativeMode,
     } = metaData;
 
     const hasProjectFolder = !stringIsNullOrWhiteSpace(projectFolder);
@@ -165,16 +173,30 @@ class Index extends TabPageBase {
       hasDaoTargetFolder,
       hasMappingXmlTargetFolder,
       hasServiceTargetFolder,
+      modelTargetFolderRelativeMode,
+      daoTargetFolderRelativeMode,
+      mappingXmlTargetFolderRelativeMode,
+      serviceTargetFolderRelativeMode,
     });
   };
 
   supplementSubmitRequestParams = (o) => {
     const d = o;
-    const { metaData } = this.state;
+    const {
+      metaData,
+      modelTargetFolderRelativeMode,
+      daoTargetFolderRelativeMode,
+      mappingXmlTargetFolderRelativeMode,
+      serviceTargetFolderRelativeMode,
+    } = this.state;
     const { databaseGeneratorConfigId, connectionConfigId } = metaData;
 
     d.connectionConfigId = connectionConfigId;
     d.databaseGeneratorConfigId = databaseGeneratorConfigId || '';
+    d.modelTargetFolderRelativeMode = modelTargetFolderRelativeMode;
+    d.daoTargetFolderRelativeMode = daoTargetFolderRelativeMode;
+    d.mappingXmlTargetFolderRelativeMode = mappingXmlTargetFolderRelativeMode;
+    d.serviceTargetFolderRelativeMode = serviceTargetFolderRelativeMode;
 
     return d;
   };
@@ -274,6 +296,7 @@ class Index extends TabPageBase {
         useModelTargetFolder: e,
         modelTargetFolderValue: '',
         hasModelTargetFolder: false,
+        modelTargetFolderRelativeMode: whetherNumber.yes,
       });
 
       const values = {};
@@ -305,6 +328,7 @@ class Index extends TabPageBase {
         useDaoTargetFolder: e,
         daoTargetFolderValue: '',
         hasDaoTargetFolder: false,
+        daoTargetFolderRelativeMode: whetherNumber.yes,
       });
 
       const values = {};
@@ -336,6 +360,7 @@ class Index extends TabPageBase {
         useMappingXmlTargetFolder: e,
         mappingXmlTargetFolderValue: '',
         hasMappingXmlTargetFolder: false,
+        mappingXmlTargetFolderRelativeMode: whetherNumber.yes,
       });
 
       const values = {};
@@ -367,6 +392,7 @@ class Index extends TabPageBase {
         useServiceTargetFolder: e,
         serviceTargetFolderValue: '',
         hasServiceTargetFolder: false,
+        serviceTargetFolderRelativeMode: whetherNumber.yes,
       });
 
       const values = {};
@@ -392,6 +418,30 @@ class Index extends TabPageBase {
     });
   };
 
+  onModelTargetFolderRelativeModeChange = (e) => {
+    this.setState({
+      modelTargetFolderRelativeMode: e ? whetherNumber.yes : whetherNumber.no,
+    });
+  };
+
+  onDaoTargetFolderRelativeModeChange = (e) => {
+    this.setState({
+      daoTargetFolderRelativeMode: e ? whetherNumber.yes : whetherNumber.no,
+    });
+  };
+
+  onMappingXmlTargetFolderRelativeModeChange = (e) => {
+    this.setState({
+      mappingXmlTargetFolderRelativeMode: e ? whetherNumber.yes : whetherNumber.no,
+    });
+  };
+
+  onServiceTargetFolderRelativeModeChange = (e) => {
+    this.setState({
+      serviceTargetFolderRelativeMode: e ? whetherNumber.yes : whetherNumber.no,
+    });
+  };
+
   formContent = () => {
     const {
       dataLoading,
@@ -405,6 +455,10 @@ class Index extends TabPageBase {
       hasDaoTargetFolder,
       hasMappingXmlTargetFolder,
       hasServiceTargetFolder,
+      modelTargetFolderRelativeMode,
+      daoTargetFolderRelativeMode,
+      mappingXmlTargetFolderRelativeMode,
+      serviceTargetFolderRelativeMode,
     } = this.state;
 
     return (
@@ -480,11 +534,7 @@ class Index extends TabPageBase {
                         disabled={!hasProjectFolder}
                         onClick={this.openProjectFolder}
                       >
-                        <FolderOpenOutlined
-                          onClick={(e) => {
-                            this.openProjectFolder(e);
-                          }}
-                        />
+                        <FolderOpenOutlined />
                         打开
                       </Button>
                     ),
@@ -533,18 +583,31 @@ class Index extends TabPageBase {
                       this.onModelTargetFolderChange(e);
                     },
                     addonAfter: (
-                      <Button
-                        style={{
-                          border: '0px solid #d9d9d9',
-                          backgroundColor: '#fafafa',
-                          height: '30px',
-                        }}
-                        disabled={!useModelTargetFolder || !hasModelTargetFolder}
-                        onClick={this.openModelTargetFolder}
-                      >
-                        <FolderOpenOutlined />
-                        打开
-                      </Button>
+                      <>
+                        <span>相对路径：</span>
+                        <Switch
+                          checkedChildren="是"
+                          unCheckedChildren="否"
+                          disabled={!useModelTargetFolder}
+                          checked={modelTargetFolderRelativeMode === whetherNumber.yes}
+                          onChange={(e) => {
+                            this.onModelTargetFolderRelativeModeChange(e);
+                          }}
+                        />
+                        <Divider type="vertical" />
+                        <Button
+                          style={{
+                            border: '0px solid #d9d9d9',
+                            backgroundColor: '#fafafa',
+                            height: '30px',
+                          }}
+                          disabled={!useModelTargetFolder || !hasModelTargetFolder}
+                          onClick={this.openModelTargetFolder}
+                        >
+                          <FolderOpenOutlined />
+                          打开
+                        </Button>
+                      </>
                     ),
                   },
                 )}
@@ -588,18 +651,31 @@ class Index extends TabPageBase {
                       this.onDaoTargetFolderChange(e);
                     },
                     addonAfter: (
-                      <Button
-                        style={{
-                          border: '0px solid #d9d9d9',
-                          backgroundColor: '#fafafa',
-                          height: '30px',
-                        }}
-                        disabled={!useDaoTargetFolder || !hasDaoTargetFolder}
-                        onClick={this.openDaoTargetFolder}
-                      >
-                        <FolderOpenOutlined />
-                        打开
-                      </Button>
+                      <>
+                        <span>相对路径：</span>
+                        <Switch
+                          checkedChildren="是"
+                          unCheckedChildren="否"
+                          disabled={!useDaoTargetFolder}
+                          checked={daoTargetFolderRelativeMode === whetherNumber.yes}
+                          onChange={(e) => {
+                            this.onDaoTargetFolderRelativeModeChange(e);
+                          }}
+                        />
+                        <Divider type="vertical" />
+                        <Button
+                          style={{
+                            border: '0px solid #d9d9d9',
+                            backgroundColor: '#fafafa',
+                            height: '30px',
+                          }}
+                          disabled={!useDaoTargetFolder || !hasDaoTargetFolder}
+                          onClick={this.openDaoTargetFolder}
+                        >
+                          <FolderOpenOutlined />
+                          打开
+                        </Button>
+                      </>
                     ),
                   },
                 )}
@@ -643,18 +719,31 @@ class Index extends TabPageBase {
                       this.onMappingXmlTargetFolderChange(e);
                     },
                     addonAfter: (
-                      <Button
-                        style={{
-                          border: '0px solid #d9d9d9',
-                          backgroundColor: '#fafafa',
-                          height: '30px',
-                        }}
-                        disabled={!useMappingXmlTargetFolder || !hasMappingXmlTargetFolder}
-                        onClick={this.openMappingXmlTargetFolder}
-                      >
-                        <FolderOpenOutlined />
-                        打开
-                      </Button>
+                      <>
+                        <span>相对路径：</span>
+                        <Switch
+                          checkedChildren="是"
+                          unCheckedChildren="否"
+                          disabled={!useMappingXmlTargetFolder}
+                          checked={mappingXmlTargetFolderRelativeMode === whetherNumber.yes}
+                          onChange={(e) => {
+                            this.onMappingXmlTargetFolderRelativeModeChange(e);
+                          }}
+                        />
+                        <Divider type="vertical" />
+                        <Button
+                          style={{
+                            border: '0px solid #d9d9d9',
+                            backgroundColor: '#fafafa',
+                            height: '30px',
+                          }}
+                          disabled={!useMappingXmlTargetFolder || !hasMappingXmlTargetFolder}
+                          onClick={this.openMappingXmlTargetFolder}
+                        >
+                          <FolderOpenOutlined />
+                          打开
+                        </Button>
+                      </>
                     ),
                   },
                 )}
@@ -698,18 +787,31 @@ class Index extends TabPageBase {
                       this.onServiceTargetFolderChange(e);
                     },
                     addonAfter: (
-                      <Button
-                        style={{
-                          border: '0px solid #d9d9d9',
-                          backgroundColor: '#fafafa',
-                          height: '30px',
-                        }}
-                        disabled={!useServiceTargetFolder || !hasServiceTargetFolder}
-                        onClick={this.openServiceTargetFolder}
-                      >
-                        <FolderOpenOutlined />
-                        打开
-                      </Button>
+                      <>
+                        <span>相对路径：</span>
+                        <Switch
+                          checkedChildren="是"
+                          unCheckedChildren="否"
+                          disabled={!useServiceTargetFolder}
+                          checked={serviceTargetFolderRelativeMode === whetherNumber.yes}
+                          onChange={(e) => {
+                            this.onServiceTargetFolderRelativeModeChange(e);
+                          }}
+                        />
+                        <Divider type="vertical" />
+                        <Button
+                          style={{
+                            border: '0px solid #d9d9d9',
+                            backgroundColor: '#fafafa',
+                            height: '30px',
+                          }}
+                          disabled={!useServiceTargetFolder || !hasServiceTargetFolder}
+                          onClick={this.openServiceTargetFolder}
+                        >
+                          <FolderOpenOutlined />
+                          打开
+                        </Button>
+                      </>
                     ),
                   },
                 )}
