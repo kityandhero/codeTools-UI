@@ -29,13 +29,101 @@ class Index extends CustomCommonCore {
     return refitCommonData(customConfigCategoryList);
   };
 
-  getChannelName = (v, defaultValue = '') => {
+  daoTypeList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const daoTypeList = global.daoTypeList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(daoTypeList, unlimitedWithStringFlag);
+    }
+
+    return refitCommonData(daoTypeList);
+  };
+
+  getDaoTypeName = (v, defaultValue = '') => {
     if (isInvalid(v)) {
       return defaultValue;
     }
 
-    const item = searchFromList('flag', v, this.channelList(false));
+    const item = searchFromList('flag', v, this.daoTypeList(false));
     return item == null ? '未知' : item.name;
+  };
+
+  renderDaoTypeOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.daoTypeList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderDaoTypeRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.daoTypeList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchDaoTypeFormItem = (
+    withUnlimited = true,
+    label = customFieldCollection.daoType.label,
+    helper = customFieldCollection.daoType.helper,
+  ) => {
+    const title = label || customFieldCollection.daoType.label;
+
+    return this.renderSearchSelectFormItem(
+      title,
+      customFieldCollection.daoType.name,
+      this.renderDaoTypeOption(withUnlimited),
+      helper,
+    );
+  };
+
+  renderFormDaoTypeSelectFormItem = (
+    helper = customFieldCollection.daoType.helper,
+    onChangeCallback,
+    label = customFieldCollection.daoType.label,
+    formItemLayout = null,
+    required = true,
+    name = customFieldCollection.daoType.name,
+    otherProps = null,
+  ) => {
+    const title = label || customFieldCollection.daoType.label;
+
+    return this.renderFormSelectFormItem(
+      title,
+      name,
+      () => {
+        return this.renderDaoTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormDaoTypeFormItemRadio = (
+    helper = null,
+    onChangeCallback,
+    label = customFieldCollection.daoType.label,
+    formItemLayout = null,
+    required = true,
+    name = customFieldCollection.daoType.name,
+    otherProps = null,
+  ) => {
+    const title = label || customFieldCollection.daoType.label;
+
+    return this.renderFormRadioFormItem(
+      title,
+      name,
+      () => {
+        return this.renderDaoTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
   };
 
   channelList = (withUnlimited = true) => {

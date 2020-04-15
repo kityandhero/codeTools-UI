@@ -12,6 +12,7 @@ import {
 import { whetherNumber } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
+import { customFieldCollection } from '@/customSpecialComponents/CustomCommonSupplement/customConstants';
 
 import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';
@@ -38,10 +39,19 @@ class Index extends TabPageBase {
         submitApiPath: 'databaseGeneratorConfig/set',
         connectionConfigId: null,
         projectFolderValue: '',
+        modelTargetFolderValue: '',
+        daoTargetFolderValue: '',
+        mappingXmlTargetFolderValue: '',
+        serviceTargetFolderValue: '',
+        useModelTargetFolder: false,
+        useDaoTargetFolder: false,
+        useMappingXmlTargetFolder: false,
+        useServiceTargetFolder: false,
         hasProjectFolder: false,
-        hasModelFolder: false,
-        hasDaoFolder: false,
-        hasMappingXmlFolder: false,
+        hasModelTargetFolder: false,
+        hasDaoTargetFolder: false,
+        hasMappingXmlTargetFolder: false,
+        hasServiceTargetFolder: false,
       },
     };
   }
@@ -58,6 +68,10 @@ class Index extends TabPageBase {
   buildInitialValues = (metaData) => {
     const values = {};
 
+    const daoTypeList = this.daoTypeList(false) || [];
+
+    const daoTypeFirstFlag = daoTypeList.length > 0 ? daoTypeList[0].flag : '';
+
     if (metaData != null) {
       values[fieldData.databaseGeneratorConfigId.name] =
         metaData.databaseGeneratorConfigId || whetherNumber.no;
@@ -69,8 +83,11 @@ class Index extends TabPageBase {
       values[fieldData.modelTargetFolder.name] = metaData.modelTargetFolder || '';
       values[fieldData.daoPackage.name] = metaData.daoPackage || '';
       values[fieldData.daoTargetFolder.name] = metaData.daoTargetFolder || '';
+      values[customFieldCollection.daoType.name] = `${metaData.daoType || daoTypeFirstFlag}`;
       values[fieldData.mappingXmlPackage.name] = metaData.mappingXmlPackage || '';
       values[fieldData.mappingXmlTargetFolder.name] = metaData.mappingXmlTargetFolder || '';
+      values[fieldData.servicePackage.name] = metaData.servicePackage || '';
+      values[fieldData.serviceTargetFolder.name] = metaData.serviceTargetFolder || '';
       values[fieldData.encoding.name] = `${metaData.encoding || whetherNumber.no}`;
 
       values[fieldData.offsetLimit.name] = `${metaData.offsetLimit || whetherNumber.no}`;
@@ -119,19 +136,35 @@ class Index extends TabPageBase {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    const { projectFolder, modelTargetFolder, daoTargetFolder, mappingXmlTargetFolder } = metaData;
+    const {
+      projectFolder,
+      modelTargetFolder,
+      daoTargetFolder,
+      mappingXmlTargetFolder,
+      serviceTargetFolder,
+    } = metaData;
 
     const hasProjectFolder = !stringIsNullOrWhiteSpace(projectFolder);
-    const hasModelFolder = !stringIsNullOrWhiteSpace(modelTargetFolder);
-    const hasDaoFolder = !stringIsNullOrWhiteSpace(daoTargetFolder);
-    const hasMappingXmlFolder = !stringIsNullOrWhiteSpace(mappingXmlTargetFolder);
+    const hasModelTargetFolder = !stringIsNullOrWhiteSpace(modelTargetFolder);
+    const hasDaoTargetFolder = !stringIsNullOrWhiteSpace(daoTargetFolder);
+    const hasMappingXmlTargetFolder = !stringIsNullOrWhiteSpace(mappingXmlTargetFolder);
+    const hasServiceTargetFolder = !stringIsNullOrWhiteSpace(serviceTargetFolder);
 
     this.setState({
       projectFolderValue: projectFolder || '',
+      modelTargetFolderValue: modelTargetFolder || '',
+      daoTargetFolderValue: daoTargetFolder || '',
+      mappingXmlTargetFolderValue: mappingXmlTargetFolder || '',
+      serviceTargetFolderValue: serviceTargetFolder || '',
+      useModelTargetFolder: hasModelTargetFolder,
+      useDaoTargetFolder: hasDaoTargetFolder,
+      useMappingXmlTargetFolder: hasMappingXmlTargetFolder,
+      useServiceTargetFolder: hasServiceTargetFolder,
       hasProjectFolder,
-      hasModelFolder,
-      hasDaoFolder,
-      hasMappingXmlFolder,
+      hasModelTargetFolder,
+      hasDaoTargetFolder,
+      hasMappingXmlTargetFolder,
+      hasServiceTargetFolder,
     });
   };
 
@@ -161,11 +194,10 @@ class Index extends TabPageBase {
     });
   };
 
-  openProjectFolder = () => {
+  openFolder = (folder) => {
     const { dispatch } = this.props;
-    const { projectFolderValue } = this.state;
 
-    if (stringIsNullOrWhiteSpace(projectFolderValue || '')) {
+    if (stringIsNullOrWhiteSpace(folder || '')) {
       message.error('缺少文件夹信息');
 
       return;
@@ -174,7 +206,7 @@ class Index extends TabPageBase {
     dispatch({
       type: 'tools/openFolder',
       payload: {
-        folder: projectFolderValue || '',
+        folder: folder || '',
       },
     }).then(() => {
       const {
@@ -195,6 +227,36 @@ class Index extends TabPageBase {
     });
   };
 
+  openProjectFolder = () => {
+    const { projectFolderValue } = this.state;
+
+    this.openFolder(projectFolderValue);
+  };
+
+  openModelTargetFolder = () => {
+    const { modelTargetFolderValue } = this.state;
+
+    this.openFolder(modelTargetFolderValue);
+  };
+
+  openDaoTargetFolder = () => {
+    const { daoTargetFolderValue } = this.state;
+
+    this.openFolder(daoTargetFolderValue);
+  };
+
+  openMappingXmlTargetFolder = () => {
+    const { mappingXmlTargetFolderValue } = this.state;
+
+    this.openFolder(mappingXmlTargetFolderValue);
+  };
+
+  openServiceTargetFolder = () => {
+    const { serviceTargetFolderValue } = this.state;
+
+    this.openFolder(serviceTargetFolderValue);
+  };
+
   onProjectFolderChange = (e) => {
     const {
       target: { value },
@@ -206,50 +268,143 @@ class Index extends TabPageBase {
     });
   };
 
-  onUseModelFolderChange = (e) => {
-    this.setState({ hasModelFolder: e });
-
+  onUseModelTargetFolderChange = (e) => {
     if (!e) {
+      this.setState({
+        useModelTargetFolder: e,
+        modelTargetFolderValue: '',
+        hasModelTargetFolder: false,
+      });
+
       const values = {};
 
       values[fieldData.modelTargetFolder.name] = '';
 
       this.setFormFieldsValue(values);
+    } else {
+      this.setState({
+        useModelTargetFolder: e,
+      });
     }
   };
 
-  onUseDaoFolderChange = (e) => {
-    this.setState({ hasDaoFolder: e });
+  onModelTargetFolderChange = (e) => {
+    const {
+      target: { value },
+    } = e;
 
+    this.setState({
+      modelTargetFolderValue: value,
+      hasModelTargetFolder: !stringIsNullOrWhiteSpace(value),
+    });
+  };
+
+  onUseDaoTargetFolderChange = (e) => {
     if (!e) {
+      this.setState({
+        useDaoTargetFolder: e,
+        daoTargetFolderValue: '',
+        hasDaoTargetFolder: false,
+      });
+
       const values = {};
 
       values[fieldData.daoTargetFolder.name] = '';
 
       this.setFormFieldsValue(values);
+    } else {
+      this.setState({
+        useDaoTargetFolder: e,
+      });
     }
   };
 
-  onUseMappingXmlFolderChange = (e) => {
-    this.setState({ hasMappingXmlFolder: e });
+  onDaoTargetFolderChange = (e) => {
+    const {
+      target: { value },
+    } = e;
 
+    this.setState({
+      daoTargetFolderValue: value,
+      hasDaoTargetFolder: !stringIsNullOrWhiteSpace(value),
+    });
+  };
+
+  onUseMappingXmlTargetFolderChange = (e) => {
     if (!e) {
+      this.setState({
+        useMappingXmlTargetFolder: e,
+        mappingXmlTargetFolderValue: '',
+        hasMappingXmlTargetFolder: false,
+      });
+
       const values = {};
 
       values[fieldData.mappingXmlTargetFolder.name] = '';
 
       this.setFormFieldsValue(values);
+    } else {
+      this.setState({
+        useMappingXmlTargetFolder: e,
+      });
     }
+  };
+
+  onMappingXmlTargetFolderChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+
+    this.setState({
+      mappingXmlTargetFolderValue: value,
+      hasMappingXmlTargetFolder: !stringIsNullOrWhiteSpace(value),
+    });
+  };
+
+  onUseServiceTargetFolderChange = (e) => {
+    if (!e) {
+      this.setState({
+        useServiceTargetFolder: e,
+        serviceTargetFolderValue: '',
+        hasServiceTargetFolder: false,
+      });
+
+      const values = {};
+
+      values[fieldData.serviceTargetFolder.name] = '';
+
+      this.setFormFieldsValue(values);
+    } else {
+      this.setState({
+        useServiceTargetFolder: e,
+      });
+    }
+  };
+
+  onServiceTargetFolderChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+
+    this.setState({
+      serviceTargetFolderValue: value,
+      hasServiceTargetFolder: !stringIsNullOrWhiteSpace(value),
+    });
   };
 
   formContent = () => {
     const {
       dataLoading,
       processing,
+      useModelTargetFolder,
+      useDaoTargetFolder,
+      useMappingXmlTargetFolder,
+      useServiceTargetFolder,
       hasProjectFolder,
-      hasModelFolder,
-      hasDaoFolder,
-      hasMappingXmlFolder,
+      hasModelTargetFolder,
+      hasDaoTargetFolder,
+      hasMappingXmlTargetFolder,
+      hasServiceTargetFolder,
     } = this.state;
 
     return (
@@ -355,9 +510,9 @@ class Index extends TabPageBase {
                         <Switch
                           checkedChildren="开"
                           unCheckedChildren="关"
-                          checked={hasModelFolder}
+                          checked={useModelTargetFolder}
                           onChange={(e) => {
-                            this.onUseModelFolderChange(e);
+                            this.onUseModelTargetFolderChange(e);
                           }}
                         />
                       </>
@@ -373,7 +528,24 @@ class Index extends TabPageBase {
                   fieldData.modelTargetFolder.helper,
                   <FormOutlined />,
                   {
-                    disabled: !hasModelFolder,
+                    disabled: !useModelTargetFolder,
+                    onChange: (e) => {
+                      this.onModelTargetFolderChange(e);
+                    },
+                    addonAfter: (
+                      <Button
+                        style={{
+                          border: '0px solid #d9d9d9',
+                          backgroundColor: '#fafafa',
+                          height: '30px',
+                        }}
+                        disabled={!useModelTargetFolder || !hasModelTargetFolder}
+                        onClick={this.openModelTargetFolder}
+                      >
+                        <FolderOpenOutlined />
+                        打开
+                      </Button>
+                    ),
                   },
                 )}
               </Col>
@@ -393,9 +565,9 @@ class Index extends TabPageBase {
                         <Switch
                           checkedChildren="开"
                           unCheckedChildren="关"
-                          checked={hasDaoFolder}
+                          checked={useDaoTargetFolder}
                           onChange={(e) => {
-                            this.onUseDaoFolderChange(e);
+                            this.onUseDaoTargetFolderChange(e);
                           }}
                         />
                       </>
@@ -411,7 +583,24 @@ class Index extends TabPageBase {
                   fieldData.daoTargetFolder.helper,
                   <FormOutlined />,
                   {
-                    disabled: !hasDaoFolder,
+                    disabled: !useDaoTargetFolder,
+                    onChange: (e) => {
+                      this.onDaoTargetFolderChange(e);
+                    },
+                    addonAfter: (
+                      <Button
+                        style={{
+                          border: '0px solid #d9d9d9',
+                          backgroundColor: '#fafafa',
+                          height: '30px',
+                        }}
+                        disabled={!useDaoTargetFolder || !hasDaoTargetFolder}
+                        onClick={this.openDaoTargetFolder}
+                      >
+                        <FolderOpenOutlined />
+                        打开
+                      </Button>
+                    ),
                   },
                 )}
               </Col>
@@ -431,9 +620,9 @@ class Index extends TabPageBase {
                         <Switch
                           checkedChildren="开"
                           unCheckedChildren="关"
-                          checked={hasMappingXmlFolder}
+                          checked={useMappingXmlTargetFolder}
                           onChange={(e) => {
-                            this.onUseMappingXmlFolderChange(e);
+                            this.onUseMappingXmlTargetFolderChange(e);
                           }}
                         />
                       </>
@@ -449,7 +638,79 @@ class Index extends TabPageBase {
                   fieldData.mappingXmlTargetFolder.helper,
                   <FormOutlined />,
                   {
-                    disabled: !hasMappingXmlFolder,
+                    disabled: !useMappingXmlTargetFolder,
+                    onChange: (e) => {
+                      this.onMappingXmlTargetFolderChange(e);
+                    },
+                    addonAfter: (
+                      <Button
+                        style={{
+                          border: '0px solid #d9d9d9',
+                          backgroundColor: '#fafafa',
+                          height: '30px',
+                        }}
+                        disabled={!useMappingXmlTargetFolder || !hasMappingXmlTargetFolder}
+                        onClick={this.openMappingXmlTargetFolder}
+                      >
+                        <FolderOpenOutlined />
+                        打开
+                      </Button>
+                    ),
+                  },
+                )}
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col lg={12} md={24} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.servicePackage.label,
+                  fieldData.servicePackage.name,
+                  true,
+                  fieldData.servicePackage.helper,
+                  <FormOutlined />,
+                  {
+                    addonAfter: (
+                      <>
+                        <span>文件夹：</span>
+                        <Switch
+                          checkedChildren="开"
+                          unCheckedChildren="关"
+                          checked={useServiceTargetFolder}
+                          onChange={(e) => {
+                            this.onUseServiceTargetFolderChange(e);
+                          }}
+                        />
+                      </>
+                    ),
+                  },
+                )}
+              </Col>
+              <Col lg={12} md={24} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.serviceTargetFolder.label,
+                  fieldData.serviceTargetFolder.name,
+                  false,
+                  fieldData.serviceTargetFolder.helper,
+                  <FormOutlined />,
+                  {
+                    disabled: !useServiceTargetFolder,
+                    onChange: (e) => {
+                      this.onServiceTargetFolderChange(e);
+                    },
+                    addonAfter: (
+                      <Button
+                        style={{
+                          border: '0px solid #d9d9d9',
+                          backgroundColor: '#fafafa',
+                          height: '30px',
+                        }}
+                        disabled={!useServiceTargetFolder || !hasServiceTargetFolder}
+                        onClick={this.openServiceTargetFolder}
+                      >
+                        <FolderOpenOutlined />
+                        打开
+                      </Button>
+                    ),
                   },
                 )}
               </Col>
@@ -465,6 +726,10 @@ class Index extends TabPageBase {
         >
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormDaoTypeSelectFormItem()}
+              </Col>
+
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelectFormItem(
                   fieldData.autoDelimitKeywords.label,
@@ -540,6 +805,21 @@ class Index extends TabPageBase {
                   fieldData.overrideXML.label,
                   fieldData.overrideXML.name,
                   fieldData.overrideXML.helper,
+                )}
+              </Col>
+            </Row>
+          </Spin>
+        </Card>
+
+        <Card title="个性化设置" className={styles.card} bordered={false}>
+          <Spin spinning={dataLoading || processing}>
+            <Row gutter={24}>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInputFormItem(
+                  fieldData.mapperExtensionName.label,
+                  fieldData.mapperExtensionName.name,
+                  false,
+                  fieldData.mapperExtensionName.helper,
                 )}
               </Col>
             </Row>

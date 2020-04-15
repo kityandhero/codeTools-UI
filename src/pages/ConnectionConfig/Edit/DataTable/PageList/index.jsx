@@ -426,19 +426,6 @@ class Index extends InnerPagerList {
       ),
     },
     {
-      title: fieldDataDataTableGeneratorConfig.mapperName.label,
-      dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
-      align: 'center',
-      width: 160,
-      render: (val) => (
-        <>
-          <Ellipsis tooltip lines={1}>
-            {val.mapperName || '--'}
-          </Ellipsis>
-        </>
-      ),
-    },
-    {
       title: fieldDataDataTableGeneratorConfig.useActualColumnNames.label,
       dataIndex: fieldDataDataTable.dataTableGeneratorConfig.name,
       align: 'center',

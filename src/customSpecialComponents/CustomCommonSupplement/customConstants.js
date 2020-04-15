@@ -1,5 +1,10 @@
 module.exports = {
   customFieldCollection: {
+    daoType: {
+      name: 'daoType',
+      label: 'dao类型',
+      helper: '生成dao的类型(AnnotatedMapper/XmlMapper)',
+    },
     databaseConnectionType: {
       name: 'connectionType',
       label: '连接方式',

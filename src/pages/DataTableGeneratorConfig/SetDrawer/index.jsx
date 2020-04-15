@@ -86,7 +86,6 @@ class Index extends UpdateDrawer {
       values[fieldData.useGenerateKey.name] = `${metaData.useGenerateKey || zeroInt}`;
       values[fieldData.generateKeys.name] = metaData.generateKeys || '';
       values[fieldData.domainObjectName.name] = `${metaData.domainObjectName || ''}`;
-      values[fieldData.mapperName.name] = `${metaData.mapperName || ''}`;
       values[fieldData.useActualColumnNames.name] = `${metaData.useActualColumnNames || zeroInt}`;
       values[fieldData.useTableNameAlias.name] = `${metaData.useTableNameAlias || zeroInt}`;
       values[fieldData.aliasName.name] = metaData.aliasName || '';
@@ -212,15 +211,7 @@ class Index extends UpdateDrawer {
                 fieldData.domainObjectName.label,
                 fieldData.domainObjectName.name,
                 false,
-                fieldData.dataTableGeneratorConfigId.helper,
-              )}
-            </Col>
-            <Col lg={12} md={12} sm={24} xs={24}>
-              {this.renderFormInputFormItem(
-                fieldData.mapperName.label,
-                fieldData.mapperName.name,
-                false,
-                fieldData.mapperName.helper,
+                fieldData.domainObjectName.helper,
               )}
             </Col>
             <Col lg={12} md={12} sm={24} xs={24}>

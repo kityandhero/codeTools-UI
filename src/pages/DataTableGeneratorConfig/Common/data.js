@@ -22,13 +22,8 @@ module.exports = {
     },
     domainObjectName: {
       name: 'domainObjectName',
-      label: 'domainObjectName',
-      helper: '数据表生成配置的domainObjectName',
-    },
-    mapperName: {
-      name: 'mapperName',
-      label: 'mapperName',
-      helper: '数据表生成配置的mapperName',
+      label: '域对象名称',
+      helper: '数据表生成配置的域对象名称(domainObjectName)',
     },
     useActualColumnNames: {
       name: 'useActualColumnNames',
