@@ -67,6 +67,26 @@ class ModalBase extends CustomAuthorization {
     return this.formRef.current;
   };
 
+  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+    this.fillForm(metaData);
+
+    this.doOtherAfterLoadSuccess(metaData, metaListData, metaExtra, metaOriginalData);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {};
+
+  fillForm = (metaData) => {
+    const form = this.getTargetForm();
+
+    const initialValues = this.buildInitialValues(metaData);
+
+    form.setFieldsValue(initialValues);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  buildInitialValues = (metaData) => {};
+
   handleOk = (e) => {
     e.preventDefault();
 

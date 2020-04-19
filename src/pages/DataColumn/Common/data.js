@@ -35,5 +35,10 @@ module.exports = {
       label: 'Type Handler',
       helper: '数据库表列的Type Handler',
     },
+    ignore: {
+      name: 'ignore',
+      label: '是否忽略',
+      helper: '数据库表列是否在代码层进行忽略,设置为忽略，则其他配置在生成代码时不生效',
+    },
   },
 };

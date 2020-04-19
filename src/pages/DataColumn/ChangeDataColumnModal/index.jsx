@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'umi';
 import { FormOutlined } from '@ant-design/icons';
 
+import { toNumber } from '@/utils/tools';
+import { whetherNumber } from '@/utils/constants';
 import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
 
 import { fieldData } from '../Common/data';
@@ -33,6 +35,7 @@ class Index extends ModalBase {
         loadApiPath: 'dataColumn/get',
         submitApiPath: 'dataColumn/set',
         width: 580,
+        ignoreValue: 0,
       },
     };
   }
@@ -64,29 +67,35 @@ class Index extends ModalBase {
     return data;
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+  buildInitialValues = (metaData) => {
     const values = {};
 
     values[fieldData.columnName.name] = metaData === null ? '' : metaData.columnName || '';
     values[fieldData.columnType.name] = metaData === null ? '' : metaData.columnType || '';
+    values[fieldData.ignore.name] =
+      metaData === null ? '' : `${metaData.ignore || whetherNumber.no}`;
     values[fieldData.aliasName.name] = metaData === null ? '' : metaData.aliasName || '';
     values[fieldData.javaType.name] = metaData === null ? '' : metaData.javaType || '';
     values[fieldData.typeHandler.name] = metaData === null ? '' : metaData.typeHandler || '';
 
-    const form = this.getTargetForm();
+    return values;
+  };
 
-    form.setFieldsValue(values);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+    const { ignoreValue } = metaData;
+
+    this.setState({ ignoreValue: toNumber(ignoreValue) });
   };
 
   supplementLoadRequestParams = (o) => {
     const d = o;
     const { externalData } = this.state;
-    const { connectionConfigId, tableName, name } = externalData;
+    const { connectionConfigId, tableName, columnName } = externalData;
 
     d.connectionConfigId = connectionConfigId;
     d.tableName = tableName;
-    d.name = name;
+    d.columnName = columnName;
 
     return d;
   };
@@ -94,11 +103,11 @@ class Index extends ModalBase {
   supplementSubmitRequestParams = (o) => {
     const d = o;
     const { externalData } = this.state;
-    const { connectionConfigId, tableName, name } = externalData;
+    const { connectionConfigId, tableName, columnName } = externalData;
 
     d.connectionConfigId = connectionConfigId;
     d.tableName = tableName;
-    d.name = name;
+    d.columnName = columnName;
 
     return d;
   };
@@ -113,14 +122,20 @@ class Index extends ModalBase {
 
     const o = responseOriginalData;
 
-    const { name } = metaData;
+    const { columnName } = metaData;
 
-    o.clientMessage = `操作成功：列 ${name} 定制成功`;
+    o.clientMessage = `操作成功：列 ${columnName} 定制成功`;
 
     afterOK(o);
   };
 
+  onIgnoreChange = (e) => {
+    this.setState({ ignoreValue: toNumber(e) });
+  };
+
   formContent = () => {
+    const { ignoreValue } = this.state;
+
     return (
       <>
         {this.renderFormInputFormItem(
@@ -143,23 +158,38 @@ class Index extends ModalBase {
           false,
           formItemLayout,
         )}
+        {this.renderFormWhetherSelectFormItem(
+          fieldData.ignore.label,
+          fieldData.ignore.name,
+          fieldData.ignore.helper,
+          (e) => {
+            this.onIgnoreChange(e);
+          },
+          formItemLayout,
+          true,
+        )}
+
         {this.renderFormInputFormItem(
           fieldData.aliasName.label,
           fieldData.aliasName.name,
-          true,
+          false,
           fieldData.aliasName.helper,
           <FormOutlined />,
-          null,
+          {
+            disabled: ignoreValue === whetherNumber.yes,
+          },
           true,
           formItemLayout,
         )}
         {this.renderFormInputFormItem(
           fieldData.javaType.label,
           fieldData.javaType.name,
-          true,
+          false,
           fieldData.javaType.helper,
           <FormOutlined />,
-          null,
+          {
+            disabled: ignoreValue === whetherNumber.yes,
+          },
           true,
           formItemLayout,
         )}
@@ -169,7 +199,9 @@ class Index extends ModalBase {
           false,
           fieldData.typeHandler.helper,
           <FormOutlined />,
-          null,
+          {
+            disabled: ignoreValue === whetherNumber.yes,
+          },
           true,
           formItemLayout,
         )}

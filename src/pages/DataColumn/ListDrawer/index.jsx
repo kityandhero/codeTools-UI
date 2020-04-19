@@ -143,7 +143,7 @@ class Index extends PagerDrawer {
     const { name: tableName } = tableData || { name: '' };
 
     const { dataColumnModalVisible, currentRecord } = this.state;
-    const { name } = currentRecord || { name: '' };
+    const { columnName } = currentRecord || { columnName: '' };
 
     const dataColumnModalRender = this.checkAuthority(accessWayCollection.dataColumn.get);
 
@@ -155,7 +155,7 @@ class Index extends PagerDrawer {
             externalData={{
               connectionConfigId: connectionConfigId || 0,
               tableName,
-              name,
+              columnName,
             }}
             afterOK={this.afterDataColumnModalOk}
             afterCancel={this.afterDataColumnModalCancel}
