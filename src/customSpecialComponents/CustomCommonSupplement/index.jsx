@@ -3,12 +3,12 @@ import {
   refitCommonData,
   isInvalid,
   searchFromList,
-} from '../../utils/tools';
-import { unlimitedWithStringFlag } from '../../utils/constants';
+} from '@/utils/tools';
+import {unlimitedWithStringFlag} from '@/utils/constants';
 import CustomCommonCore from '../../customComponents/Framework/CustomCommonCore';
-import { constants } from '../../customConfig/config';
+import {constants} from '@/customConfig/config';
 
-import { customFieldCollection } from './customConstants';
+import {customFieldCollection} from './customConstants';
 
 /**
  * 该类作为特有项目的补充，视具体项目进行增部方法
@@ -22,7 +22,7 @@ class Index extends CustomCommonCore {
   }
 
   getCustomConfigCategoryList = () => {
-    const { global } = this.props;
+    const {global} = this.props;
 
     const customConfigCategoryList = global.customConfigCategoryList || [];
 
@@ -30,7 +30,7 @@ class Index extends CustomCommonCore {
   };
 
   daoTypeList = (withUnlimited = true) => {
-    const { global } = this.props;
+    const {global} = this.props;
 
     const daoTypeList = global.daoTypeList || [];
 
@@ -127,7 +127,7 @@ class Index extends CustomCommonCore {
   };
 
   channelList = (withUnlimited = true) => {
-    const { global } = this.props;
+    const {global} = this.props;
 
     const channelList = global.channelList || [];
 
@@ -219,7 +219,7 @@ class Index extends CustomCommonCore {
   };
 
   databaseConnectionTypeList = (withUnlimited = true) => {
-    const { global } = this.props;
+    const {global} = this.props;
 
     const databaseConnectionTypeList = global.databaseConnectionTypeList || [];
 
@@ -316,7 +316,7 @@ class Index extends CustomCommonCore {
   };
 
   databaseDatabaseTypeList = (withUnlimited = true) => {
-    const { global } = this.props;
+    const {global} = this.props;
 
     const databaseDatabaseTypeList = global.databaseDatabaseTypeList || [];
 
@@ -413,7 +413,7 @@ class Index extends CustomCommonCore {
   };
 
   databaseEncodingList = (withUnlimited = true) => {
-    const { global } = this.props;
+    const {global} = this.props;
 
     const databaseEncodingList = global.databaseEncodingList || [];
 
@@ -510,7 +510,7 @@ class Index extends CustomCommonCore {
   };
 
   fileEncodingList = (withUnlimited = true) => {
-    const { global } = this.props;
+    const {global} = this.props;
 
     const fileEncodingList = global.fileEncodingList || [];
 
@@ -607,7 +607,7 @@ class Index extends CustomCommonCore {
   };
 
   accountStatusList = (withUnlimited = true) => {
-    const { global } = this.props;
+    const {global} = this.props;
 
     const accountStatusList = global.accountStatusList || [];
 
@@ -702,7 +702,7 @@ class Index extends CustomCommonCore {
   };
 
   dataColumnStatusList = (withUnlimited = true) => {
-    const { global } = this.props;
+    const {global} = this.props;
 
     const dataColumnStatusList = global.dataColumnStatusList || [];
 
