@@ -16,7 +16,7 @@ import { customFieldCollection } from './customConstants';
  * @class Index
  * @extends {CustomCommonCore}
  */
-class Index extends CustomCommonCore {
+class CustomCommonSupplement extends CustomCommonCore {
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(nextProps, prevState);
   }
@@ -797,4 +797,4 @@ class Index extends CustomCommonCore {
   };
 }
 
-export default Index;
+export default CustomCommonSupplement;
