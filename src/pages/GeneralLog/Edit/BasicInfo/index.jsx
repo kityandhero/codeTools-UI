@@ -19,7 +19,7 @@ import styles from './index.less';
   global,
   loading: loading.models.generalLog,
 }))
-class Index extends TabPageBase {
+class BasicInfo extends TabPageBase {
   componentAuthority = accessWayCollection.generalLog.get;
 
   constructor(props) {
@@ -144,4 +144,4 @@ class Index extends TabPageBase {
   };
 }
 
-export default Index;
+export default BasicInfo;

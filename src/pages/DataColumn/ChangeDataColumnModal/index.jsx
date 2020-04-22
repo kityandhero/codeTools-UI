@@ -24,7 +24,7 @@ const formItemLayout = {
   global,
   loading: loading.models.dataColumn,
 }))
-class Index extends ModalBase {
+class ChangeDataColumnModal extends ModalBase {
   constructor(props) {
     super(props);
 
@@ -210,4 +210,4 @@ class Index extends ModalBase {
   };
 }
 
-export default Index;
+export default ChangeDataColumnModal;

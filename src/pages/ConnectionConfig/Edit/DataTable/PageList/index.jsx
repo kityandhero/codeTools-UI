@@ -34,7 +34,7 @@ import GenerateResultDrawer from '../../../../DataTableGeneratorConfig/GenerateR
   global,
   loading: loading.models.dataTable,
 }))
-class Index extends InnerPagerList {
+class PageList extends InnerPagerList {
   componentAuthority = accessWayCollection.dataTable.listConnectionConfig;
 
   constructor(props) {
@@ -572,4 +572,4 @@ class Index extends InnerPagerList {
   ];
 }
 
-export default Index;
+export default PageList;

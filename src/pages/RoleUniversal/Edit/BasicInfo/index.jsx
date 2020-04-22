@@ -16,7 +16,7 @@ import styles from './index.less';
   loading: loading.models.roleTemplate,
 }))
 @Form.create()
-class Index extends TabPageBase {
+class BasicInfo extends TabPageBase {
   constructor(props) {
     super(props);
 
@@ -129,4 +129,4 @@ class Index extends TabPageBase {
   };
 }
 
-export default Index;
+export default BasicInfo;

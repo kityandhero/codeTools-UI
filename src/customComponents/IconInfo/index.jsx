@@ -5,7 +5,7 @@ import styles from './index.less';
 /**
  * 减少使用 dangerouslySetInnerHTML
  */
-class Index extends PureComponent {
+class IconInfo extends PureComponent {
   render() {
     const { text, icon } = this.props;
 
@@ -22,4 +22,4 @@ class Index extends PureComponent {
   }
 }
 
-export default Index;
+export default IconInfo;

@@ -3,7 +3,7 @@ import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 
-class BaseEditTab extends UpdateFormTab {
+class TabPageBase extends UpdateFormTab {
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -55,4 +55,4 @@ class BaseEditTab extends UpdateFormTab {
   };
 }
 
-export default BaseEditTab;
+export default TabPageBase;

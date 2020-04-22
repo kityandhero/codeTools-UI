@@ -26,7 +26,7 @@ import styles from './index.less';
   global,
   loading: loading.models.databaseGeneratorConfig,
 }))
-class Index extends TabPageBase {
+class DataBaseGeneratorConfig extends TabPageBase {
   componentAuthority = accessWayCollection.databaseGeneratorConfig.get;
 
   constructor(props) {
@@ -945,4 +945,4 @@ class Index extends TabPageBase {
   };
 }
 
-export default Index;
+export default DataBaseGeneratorConfig;

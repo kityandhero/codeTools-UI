@@ -18,7 +18,7 @@ import styles from './index.less';
   global,
   loading: loading.models.dataTableGeneratorConfig,
 }))
-class Index extends UpdateDrawer {
+class SetDrawer extends UpdateDrawer {
   componentAuthority = accessWayCollection.dataTable.updateBasicInfo;
 
   constructor(props) {
@@ -272,4 +272,4 @@ class Index extends UpdateDrawer {
   };
 }
 
-export default Index;
+export default SetDrawer;

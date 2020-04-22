@@ -15,7 +15,7 @@ const { Item } = Menu;
   global,
   loading: loading.models.customConfig,
 }))
-class Index extends CustomAuthorization {
+class CustomConfig extends CustomAuthorization {
   constructor(props) {
     super(props);
 
@@ -156,4 +156,4 @@ class Index extends CustomAuthorization {
   }
 }
 
-export default Index;
+export default CustomConfig;

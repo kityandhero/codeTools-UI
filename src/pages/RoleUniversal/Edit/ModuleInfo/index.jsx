@@ -10,7 +10,7 @@ import ModuleInfoBase from '../../../Common/ModuleInfoBase';
   global,
   loading: loading.models.roleTemplate,
 }))
-class Index extends ModuleInfoBase {
+class ModuleInfo extends ModuleInfoBase {
   constructor(props) {
     super(props);
 
@@ -51,4 +51,4 @@ class Index extends ModuleInfoBase {
   };
 }
 
-export default Index;
+export default ModuleInfo;

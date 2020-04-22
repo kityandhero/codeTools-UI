@@ -3,7 +3,7 @@ import React from 'react';
 import { copyToClipboard } from '../../utils/tools';
 import CustomBase from '../Framework/CustomBase';
 
-class Index extends CustomBase {
+class DisplayCopyData extends CustomBase {
   static defaultProps = {
     label: '',
     data: null,
@@ -47,4 +47,4 @@ class Index extends CustomBase {
   }
 }
 
-export default Index;
+export default DisplayCopyData;

@@ -17,7 +17,7 @@ import styles from './index.less';
   global,
   loading: loading.models.dataTableGeneratorConfig,
 }))
-class Index extends LoadDrawer {
+class GenerateResultDrawer extends LoadDrawer {
   componentAuthority = accessWayCollection.dataTable.get;
 
   constructor(props) {
@@ -183,4 +183,4 @@ class Index extends LoadDrawer {
   };
 }
 
-export default Index;
+export default GenerateResultDrawer;

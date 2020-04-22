@@ -24,7 +24,7 @@ import { fieldData } from '../Common/data';
   loading: loading.models.roleTemplate,
 }))
 @Form.create()
-class Index extends PagerList {
+class PageList extends PagerList {
   constructor(props) {
     super(props);
 
@@ -223,4 +223,4 @@ class Index extends PagerList {
   ];
 }
 
-export default Index;
+export default PageList;

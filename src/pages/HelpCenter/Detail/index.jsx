@@ -16,7 +16,7 @@ const logo = '/logo.png';
   global,
   loading: loading.models.help,
 }))
-class ArticleContent extends LoadDataForm {
+class Detail extends LoadDataForm {
   constructor(props) {
     super(props);
 
@@ -114,4 +114,4 @@ class ArticleContent extends LoadDataForm {
   }
 }
 
-export default ArticleContent;
+export default Detail;

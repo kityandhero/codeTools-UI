@@ -20,7 +20,7 @@ const logo = '/logo.png';
   global,
   loading: loading.models.helpCategory,
 }))
-class ArticleList extends PagerList {
+class PageList extends PagerList {
   constructor(props) {
     super(props);
 
@@ -245,4 +245,4 @@ class ArticleList extends PagerList {
   }
 }
 
-export default ArticleList;
+export default PageList;

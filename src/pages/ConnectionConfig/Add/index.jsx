@@ -14,7 +14,7 @@ import styles from './index.less';
   global,
   loading: loading.models.connectionConfig,
 }))
-class Index extends AddFormBase {
+class Add extends AddFormBase {
   componentAuthority = accessWayCollection.connectionConfig.add;
 
   constructor(props) {
@@ -256,4 +256,4 @@ class Index extends AddFormBase {
   };
 }
 
-export default Index;
+export default Add;

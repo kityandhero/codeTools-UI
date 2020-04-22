@@ -19,7 +19,7 @@ import { fieldData } from '../Common/data';
   global,
   loading: loading.models.dataColumn,
 }))
-class Index extends PagerDrawer {
+class ListDrawer extends PagerDrawer {
   componentAuthority = accessWayCollection.dataColumn.list;
 
   constructor(props) {
@@ -335,4 +335,4 @@ class Index extends PagerDrawer {
   ];
 }
 
-export default Index;
+export default ListDrawer;
