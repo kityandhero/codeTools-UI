@@ -10,6 +10,8 @@ import { constants } from '@/customConfig/config';
 
 import { customFieldCollection } from './customConstants';
 
+const unknownLabel = '未知';
+
 /**
  * 该类作为特有项目的补充，视具体项目进行增部方法
  *
@@ -64,13 +66,14 @@ class CustomCommonSupplement extends CustomCommonCore {
   renderSearchDaoTypeSelect = (
     withUnlimited = true,
     label = customFieldCollection.daoType.label,
+    name = customFieldCollection.daoType.name,
     helper = customFieldCollection.daoType.helper,
   ) => {
     const title = label || customFieldCollection.daoType.label;
 
     return this.renderSearchFormSelect(
       title,
-      customFieldCollection.daoType.name,
+      name,
       this.renderDaoTypeOption(withUnlimited),
       helper,
     );
@@ -158,14 +161,14 @@ class CustomCommonSupplement extends CustomCommonCore {
     return this.renderFromRadioCore(listData, adjustListDataCallback);
   };
 
-  renderSearchChannelSelect = (withUnlimited = true, label = constants.channel.label) => {
-    const title = label || constants.channel.label;
+  renderSearchChannelSelect = (
+    withUnlimited = true,
+    label = constants.channel.label,
+    name = constants.channel.name,
+  ) => {
+    const title = label || unknownLabel;
 
-    return this.renderSearchFormSelect(
-      title,
-      constants.channel.name,
-      this.renderChannelOption(withUnlimited),
-    );
+    return this.renderSearchFormSelect(title, name, this.renderChannelOption(withUnlimited));
   };
 
   renderFormChannelSelect = (
@@ -177,7 +180,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = constants.channel.name,
     otherProps = null,
   ) => {
-    const title = label || constants.channel.label;
+    const title = label || unknownLabel;
 
     return this.renderFormSelect(
       title,
@@ -202,7 +205,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = constants.channel.name,
     otherProps = null,
   ) => {
-    const title = label || constants.channel.label;
+    const title = label || unknownLabel;
 
     return this.renderFormRadio(
       title,
@@ -253,13 +256,14 @@ class CustomCommonSupplement extends CustomCommonCore {
   renderSearchDatabaseConnectionTypeSelect = (
     withUnlimited = true,
     label = customFieldCollection.databaseConnectionType.label,
+    name = customFieldCollection.databaseConnectionType.name,
     helper = customFieldCollection.databaseConnectionType.helper,
   ) => {
     const title = label || customFieldCollection.databaseConnectionType.label;
 
     return this.renderSearchFormSelect(
       title,
-      customFieldCollection.databaseConnectionType.name,
+      name,
       this.renderDatabaseConnectionTypeOption(withUnlimited),
       helper,
     );
@@ -350,13 +354,14 @@ class CustomCommonSupplement extends CustomCommonCore {
   renderSearchDatabaseDatabaseTypeSelect = (
     withUnlimited = true,
     label = customFieldCollection.databaseDatabaseType.label,
+    name = customFieldCollection.databaseDatabaseType.name,
     helper = customFieldCollection.databaseDatabaseType.helper,
   ) => {
     const title = label || customFieldCollection.databaseDatabaseType.label;
 
     return this.renderSearchFormSelect(
       title,
-      customFieldCollection.databaseDatabaseType.name,
+      name,
       this.renderDatabaseDatabaseTypeOption(withUnlimited),
       helper,
     );
@@ -447,13 +452,14 @@ class CustomCommonSupplement extends CustomCommonCore {
   renderSearchDatabaseEncodingSelect = (
     withUnlimited = true,
     label = customFieldCollection.databaseEncoding.label,
+    name = customFieldCollection.databaseEncoding.name,
     helper = customFieldCollection.databaseEncoding.helper,
   ) => {
     const title = label || customFieldCollection.databaseEncoding.label;
 
     return this.renderSearchFormSelect(
       title,
-      customFieldCollection.databaseEncoding.name,
+      name,
       this.renderDatabaseEncodingOption(withUnlimited),
       helper,
     );
@@ -544,13 +550,14 @@ class CustomCommonSupplement extends CustomCommonCore {
   renderSearchFileEncodingSelect = (
     withUnlimited = true,
     label = customFieldCollection.fileEncoding.label,
+    name = customFieldCollection.fileEncoding.name,
     helper = customFieldCollection.fileEncoding.helper,
   ) => {
     const title = label || customFieldCollection.fileEncoding.label;
 
     return this.renderSearchFormSelect(
       title,
-      customFieldCollection.fileEncoding.name,
+      name,
       this.renderFileEncodingOption(withUnlimited),
       helper,
     );
@@ -641,14 +648,11 @@ class CustomCommonSupplement extends CustomCommonCore {
   renderSearchAccountStatusSelect = (
     withUnlimited = true,
     label = customFieldCollection.accountStatus.label,
+    name = customFieldCollection.accountStatus.name,
   ) => {
     const title = label || customFieldCollection.accountStatus.label;
 
-    return this.renderSearchFormSelect(
-      title,
-      customFieldCollection.accountStatus.name,
-      this.renderAccountStatusOption(withUnlimited),
-    );
+    return this.renderSearchFormSelect(title, name, this.renderAccountStatusOption(withUnlimited));
   };
 
   renderFormAccountStatusSelect = (
@@ -736,12 +740,13 @@ class CustomCommonSupplement extends CustomCommonCore {
   renderSearchDataColumnStatusSelect = (
     withUnlimited = true,
     label = customFieldCollection.dataColumnStatus.label,
+    name = customFieldCollection.dataColumnStatus.name,
   ) => {
     const title = label || customFieldCollection.dataColumnStatus.label;
 
     return this.renderSearchFormSelect(
       title,
-      customFieldCollection.dataColumnStatus.name,
+      name,
       this.renderDataColumnStatusOption(withUnlimited),
     );
   };
