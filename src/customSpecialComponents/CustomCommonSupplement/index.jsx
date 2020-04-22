@@ -69,7 +69,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.daoType.name,
     helper = customFieldCollection.daoType.helper,
   ) => {
-    const title = label || customFieldCollection.daoType.label;
+    const title = label || unknownLabel;
 
     return this.renderSearchFormSelect(
       title,
@@ -88,7 +88,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.daoType.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.daoType.label;
+    const title = label || unknownLabel;
 
     return this.renderFormSelect(
       title,
@@ -113,7 +113,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.daoType.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.daoType.label;
+    const title = label || unknownLabel;
 
     return this.renderFormRadio(
       title,
@@ -259,7 +259,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.databaseConnectionType.name,
     helper = customFieldCollection.databaseConnectionType.helper,
   ) => {
-    const title = label || customFieldCollection.databaseConnectionType.label;
+    const title = label || unknownLabel;
 
     return this.renderSearchFormSelect(
       title,
@@ -278,7 +278,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.databaseConnectionType.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.databaseConnectionType.label;
+    const title = label || unknownLabel;
 
     return this.renderFormSelect(
       title,
@@ -303,7 +303,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.databaseConnectionType.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.databaseConnectionType.label;
+    const title = label || unknownLabel;
 
     return this.renderFormRadio(
       title,
@@ -357,7 +357,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.databaseDatabaseType.name,
     helper = customFieldCollection.databaseDatabaseType.helper,
   ) => {
-    const title = label || customFieldCollection.databaseDatabaseType.label;
+    const title = label || unknownLabel;
 
     return this.renderSearchFormSelect(
       title,
@@ -376,7 +376,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.databaseDatabaseType.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.databaseDatabaseType.label;
+    const title = label || unknownLabel;
 
     return this.renderFormSelect(
       title,
@@ -401,7 +401,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.databaseDatabaseType.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.databaseDatabaseType.label;
+    const title = label || unknownLabel;
 
     return this.renderFormRadio(
       title,
@@ -455,7 +455,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.databaseEncoding.name,
     helper = customFieldCollection.databaseEncoding.helper,
   ) => {
-    const title = label || customFieldCollection.databaseEncoding.label;
+    const title = label || unknownLabel;
 
     return this.renderSearchFormSelect(
       title,
@@ -474,7 +474,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.databaseEncoding.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.databaseEncoding.label;
+    const title = label || unknownLabel;
 
     return this.renderFormSelect(
       title,
@@ -499,7 +499,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.databaseEncoding.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.databaseEncoding.label;
+    const title = label || unknownLabel;
 
     return this.renderFormRadio(
       title,
@@ -553,7 +553,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.fileEncoding.name,
     helper = customFieldCollection.fileEncoding.helper,
   ) => {
-    const title = label || customFieldCollection.fileEncoding.label;
+    const title = label || unknownLabel;
 
     return this.renderSearchFormSelect(
       title,
@@ -572,7 +572,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.fileEncoding.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.fileEncoding.label;
+    const title = label || unknownLabel;
 
     return this.renderFormSelect(
       title,
@@ -597,7 +597,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.fileEncoding.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.fileEncoding.label;
+    const title = label || unknownLabel;
 
     return this.renderFormRadio(
       title,
@@ -650,7 +650,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     label = customFieldCollection.accountStatus.label,
     name = customFieldCollection.accountStatus.name,
   ) => {
-    const title = label || customFieldCollection.accountStatus.label;
+    const title = label || unknownLabel;
 
     return this.renderSearchFormSelect(title, name, this.renderAccountStatusOption(withUnlimited));
   };
@@ -664,7 +664,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.accountStatus.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.accountStatus.label;
+    const title = label || unknownLabel;
 
     return this.renderFormSelect(
       title,
@@ -689,7 +689,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.accountStatus.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.accountStatus.label;
+    const title = label || unknownLabel;
 
     return this.renderFormRadio(
       title,
@@ -742,7 +742,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     label = customFieldCollection.dataColumnStatus.label,
     name = customFieldCollection.dataColumnStatus.name,
   ) => {
-    const title = label || customFieldCollection.dataColumnStatus.label;
+    const title = label || unknownLabel;
 
     return this.renderSearchFormSelect(
       title,
@@ -760,7 +760,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.dataColumnStatus.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.dataColumnStatus.label;
+    const title = label || unknownLabel;
 
     return this.renderFormSelect(
       title,
@@ -785,7 +785,7 @@ class CustomCommonSupplement extends CustomCommonCore {
     name = customFieldCollection.dataColumnStatus.name,
     otherProps = null,
   ) => {
-    const title = label || customFieldCollection.dataColumnStatus.label;
+    const title = label || unknownLabel;
 
     return this.renderFormRadio(
       title,
