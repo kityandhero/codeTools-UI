@@ -73,7 +73,7 @@ class Index extends PagerList {
             )}
           </Col>
           <Col md={6} sm={24}>
-            {this.renderSearchChannelFormItem(true)}
+            {this.renderSearchChannelSelect(true)}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>

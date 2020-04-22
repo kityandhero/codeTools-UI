@@ -61,7 +61,7 @@ class Index extends CustomCommonCore {
     return this.renderFromRadioCore(listData, adjustListDataCallback);
   };
 
-  renderSearchDaoTypeFormItem = (
+  renderSearchDaoTypeSelect = (
     withUnlimited = true,
     label = customFieldCollection.daoType.label,
     helper = customFieldCollection.daoType.helper,
@@ -76,7 +76,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormDaoTypeSelectFormItem = (
+  renderFormDaoTypeSelect = (
     helper = customFieldCollection.daoType.helper,
     onChangeCallback,
     label = customFieldCollection.daoType.label,
@@ -101,7 +101,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormDaoTypeFormItemRadio = (
+  renderFormDaoTypeRadio = (
     helper = null,
     onChangeCallback,
     label = customFieldCollection.daoType.label,
@@ -158,7 +158,7 @@ class Index extends CustomCommonCore {
     return this.renderFromRadioCore(listData, adjustListDataCallback);
   };
 
-  renderSearchChannelFormItem = (withUnlimited = true, label = constants.channel.label) => {
+  renderSearchChannelSelect = (withUnlimited = true, label = constants.channel.label) => {
     const title = label || constants.channel.label;
 
     return this.renderSearchFormSelect(
@@ -168,7 +168,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormChannelSelectFormItem = (
+  renderFormChannelSelect = (
     helper = null,
     onChangeCallback,
     label = constants.channel.label,
@@ -193,7 +193,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormChannelFormItemRadio = (
+  renderFormChannelRadio = (
     helper = null,
     onChangeCallback,
     label = constants.channel.label,
@@ -250,7 +250,7 @@ class Index extends CustomCommonCore {
     return this.renderFromRadioCore(listData, adjustListDataCallback);
   };
 
-  renderSearchDatabaseConnectionTypeFormItem = (
+  renderSearchDatabaseConnectionTypeSelect = (
     withUnlimited = true,
     label = customFieldCollection.databaseConnectionType.label,
     helper = customFieldCollection.databaseConnectionType.helper,
@@ -265,7 +265,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormDatabaseConnectionTypeSelectFormItem = (
+  renderFormDatabaseConnectionTypeSelect = (
     helper = customFieldCollection.databaseConnectionType.helper,
     onChangeCallback,
     label = customFieldCollection.databaseConnectionType.label,
@@ -290,7 +290,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormDatabaseConnectionTypeFormItemRadio = (
+  renderFormDatabaseConnectionTypeRadio = (
     helper = null,
     onChangeCallback,
     label = customFieldCollection.databaseConnectionType.label,
@@ -347,7 +347,7 @@ class Index extends CustomCommonCore {
     return this.renderFromRadioCore(listData, adjustListDataCallback);
   };
 
-  renderSearchDatabaseDatabaseTypeFormItem = (
+  renderSearchDatabaseDatabaseTypeSelect = (
     withUnlimited = true,
     label = customFieldCollection.databaseDatabaseType.label,
     helper = customFieldCollection.databaseDatabaseType.helper,
@@ -362,7 +362,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormDatabaseDatabaseTypeSelectFormItem = (
+  renderFormDatabaseDatabaseTypeSelectSelect = (
     helper = customFieldCollection.databaseDatabaseType.helper,
     onChangeCallback,
     label = customFieldCollection.databaseDatabaseType.label,
@@ -387,7 +387,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormDatabaseDatabaseTypeFormItemRadio = (
+  renderFormDatabaseDatabaseTypeRadio = (
     helper = null,
     onChangeCallback,
     label = customFieldCollection.databaseDatabaseType.label,
@@ -444,7 +444,7 @@ class Index extends CustomCommonCore {
     return this.renderFromRadioCore(listData, adjustListDataCallback);
   };
 
-  renderSearchDatabaseEncodingFormItem = (
+  renderSearchDatabaseEncodingSelect = (
     withUnlimited = true,
     label = customFieldCollection.databaseEncoding.label,
     helper = customFieldCollection.databaseEncoding.helper,
@@ -459,7 +459,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormDatabaseEncodingSelectFormItem = (
+  renderFormDatabaseEncodingSelect = (
     helper = customFieldCollection.databaseEncoding.helper,
     onChangeCallback,
     label = customFieldCollection.databaseEncoding.label,
@@ -484,7 +484,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormDatabaseEncodingFormItemRadio = (
+  renderFormDatabaseEncodingRadio = (
     helper = null,
     onChangeCallback,
     label = customFieldCollection.databaseEncoding.label,
@@ -541,7 +541,7 @@ class Index extends CustomCommonCore {
     return this.renderFromRadioCore(listData, adjustListDataCallback);
   };
 
-  renderSearchFileEncodingFormItem = (
+  renderSearchFileEncodingSelect = (
     withUnlimited = true,
     label = customFieldCollection.fileEncoding.label,
     helper = customFieldCollection.fileEncoding.helper,
@@ -556,7 +556,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormFileEncodingSelectFormItem = (
+  renderFormFileEncodingSelect = (
     helper = customFieldCollection.fileEncoding.helper,
     onChangeCallback,
     label = customFieldCollection.fileEncoding.label,
@@ -581,7 +581,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormFileEncodingFormItemRadio = (
+  renderFormFileEncodingRadio = (
     helper = null,
     onChangeCallback,
     label = customFieldCollection.fileEncoding.label,
@@ -638,7 +638,7 @@ class Index extends CustomCommonCore {
     return this.renderFromRadioCore(listData, adjustListDataCallback);
   };
 
-  renderSearchAccountStatusFormItem = (
+  renderSearchAccountStatusSelect = (
     withUnlimited = true,
     label = customFieldCollection.accountStatus.label,
   ) => {
@@ -651,7 +651,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormAccountStatusSelectFormItem = (
+  renderFormAccountStatusSelect = (
     helper = null,
     onChangeCallback,
     label = customFieldCollection.accountStatus.label,
@@ -676,7 +676,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormAccountStatusFormItemRadio = (
+  renderFormAccountStatusRadio = (
     helper = null,
     onChangeCallback,
     label = customFieldCollection.accountStatus.label,
@@ -733,7 +733,7 @@ class Index extends CustomCommonCore {
     return this.renderFromRadioCore(listData, adjustListDataCallback);
   };
 
-  renderSearchDataColumnStatusFormItem = (
+  renderSearchDataColumnStatusSelect = (
     withUnlimited = true,
     label = customFieldCollection.dataColumnStatus.label,
   ) => {
@@ -746,7 +746,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormDataColumnStatusSelectFormItem = (
+  renderFormDataColumnStatusSelect = (
     helper = null,
     onChangeCallback,
     label = customFieldCollection.dataColumnStatus.label,
@@ -771,7 +771,7 @@ class Index extends CustomCommonCore {
     );
   };
 
-  renderFormDataColumnStatusFormItemRadio = (
+  renderFormDataColumnStatusRadio = (
     helper = null,
     onChangeCallback,
     label = customFieldCollection.dataColumnStatus.label,

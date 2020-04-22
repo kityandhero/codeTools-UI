@@ -275,7 +275,7 @@ class Index extends PagerList {
             {this.renderSearchInput(fieldData.name.label, fieldData.name.name)}
           </Col>
           <Col md={6} sm={24}>
-            {this.renderSearchAccountStatusFormItem(true)}
+            {this.renderSearchAccountStatusSelect(true)}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>

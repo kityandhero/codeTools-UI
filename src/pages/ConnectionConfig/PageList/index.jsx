@@ -237,10 +237,10 @@ class Index extends PagerList {
             )}
           </Col>
           <Col lg={6} md={12} sm={24} xs={24}>
-            {this.renderSearchDatabaseEncodingFormItem(true)}
+            {this.renderSearchDatabaseEncodingSelect(true)}
           </Col>
           <Col lg={6} md={12} sm={24} xs={24}>
-            {this.renderSearchDatabaseDatabaseTypeFormItem(true)}
+            {this.renderSearchDatabaseDatabaseTypeSelect(true)}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>

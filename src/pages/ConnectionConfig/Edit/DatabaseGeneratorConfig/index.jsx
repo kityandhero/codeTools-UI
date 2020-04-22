@@ -542,7 +542,7 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={24} sm={24} xs={24}>
-                {this.renderFormFileEncodingSelectFormItem()}
+                {this.renderFormFileEncodingSelect()}
               </Col>
             </Row>
             <Row gutter={24}>
@@ -829,7 +829,7 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDaoTypeSelectFormItem()}
+                {this.renderFormDaoTypeSelect()}
               </Col>
 
               <Col lg={6} md={12} sm={24} xs={24}>

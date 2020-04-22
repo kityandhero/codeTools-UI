@@ -96,7 +96,7 @@ class Index extends AddFormBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDatabaseDatabaseTypeSelectFormItem()}
+                {this.renderFormDatabaseDatabaseTypeSelectSelect()}
               </Col>
             </Row>
             <Row gutter={24}>
@@ -143,7 +143,7 @@ class Index extends AddFormBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDatabaseEncodingSelectFormItem()}
+                {this.renderFormDatabaseEncodingSelect()}
               </Col>
             </Row>
           </Spin>

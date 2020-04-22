@@ -83,7 +83,7 @@ class Index extends PagerList {
             {this.renderSearchInput(fieldData.message.label, fieldData.message.name)}
           </Col>
           <Col md={6} sm={24}>
-            {this.renderSearchChannelFormItem(true)}
+            {this.renderSearchChannelSelect(true)}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>
