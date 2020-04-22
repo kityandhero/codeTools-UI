@@ -1,7 +1,7 @@
 import { defaultCoreState, getDerivedStateFromPropsForUrlParamsCore } from '@/utils/tools';
 import CustomBase from '@/customComponents/Framework/CustomBase';
 
-class Index extends CustomBase {
+class CustomCore extends CustomBase {
   lastLoadParams = null;
 
   constructor(props) {
@@ -28,4 +28,4 @@ class Index extends CustomBase {
   adjustWhenDidMount = () => {};
 }
 
-export default Index;
+export default CustomCore;

@@ -1,11 +1,12 @@
 import { history } from 'umi';
+import { message } from 'antd';
 
 import { getDerivedStateFromPropsForUrlParams, isFunction } from '@/utils/tools';
 import { checkHasAuthority } from '@/utils/authority';
-import CustomCommonWrapper from '../CustomCommonWrapper';
-import { message } from 'antd';
 
-class Index extends CustomCommonWrapper {
+import CustomCommonWrapper from '../CustomCommonWrapper';
+
+class CustomAuthorization extends CustomCommonWrapper {
   componentAuthority = null;
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -55,4 +56,4 @@ class Index extends CustomCommonWrapper {
   };
 }
 
-export default Index;
+export default CustomAuthorization;

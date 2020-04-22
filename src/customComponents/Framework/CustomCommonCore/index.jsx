@@ -30,7 +30,7 @@ const { Option } = Select;
 const { TextArea, Password } = Input;
 const RadioGroup = Radio.Group;
 
-class Index extends CustomCore {
+class CustomCommonCore extends CustomCore {
   lastRequestingData = { type: '', payload: {} };
 
   constructor(props) {
@@ -1039,4 +1039,4 @@ class Index extends CustomCore {
   };
 }
 
-export default Index;
+export default CustomCommonCore;

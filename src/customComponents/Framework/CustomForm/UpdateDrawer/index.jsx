@@ -4,7 +4,7 @@ import { SaveOutlined, LoadingOutlined, CloseCircleOutlined } from '@ant-design/
 
 import DrawerBase from '@/customComponents/Framework/CustomForm/DrawerBase';
 
-class Index extends DrawerBase {
+class UpdateDrawer extends DrawerBase {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
     this.setState({ dataLoading: true });
@@ -45,4 +45,4 @@ class Index extends DrawerBase {
   };
 }
 
-export default Index;
+export default UpdateDrawer;

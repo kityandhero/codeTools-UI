@@ -28,7 +28,7 @@ import styles from './index.less';
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 
-class SingleList extends CustomAuthorization {
+class ListBase extends CustomAuthorization {
   formRef = React.createRef();
 
   constructor(props) {
@@ -485,4 +485,4 @@ class SingleList extends CustomAuthorization {
   }
 }
 
-export default SingleList;
+export default ListBase;

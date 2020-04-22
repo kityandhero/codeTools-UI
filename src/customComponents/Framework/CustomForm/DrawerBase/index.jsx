@@ -7,7 +7,7 @@ import CustomAuthorization from '@/customComponents/Framework/CustomAuthorizatio
 
 import styles from './index.less';
 
-class Index extends CustomAuthorization {
+class DrawerBase extends CustomAuthorization {
   formRef = React.createRef();
 
   constructor(props) {
@@ -287,4 +287,4 @@ class Index extends CustomAuthorization {
   }
 }
 
-export default Index;
+export default DrawerBase;

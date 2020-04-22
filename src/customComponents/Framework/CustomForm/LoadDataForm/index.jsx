@@ -18,7 +18,7 @@ import styles from './index.less';
 
 const ButtonGroup = Button.Group;
 
-class Index extends LoadDataCore {
+class LoadDataForm extends LoadDataCore {
   enableActionBack = true;
 
   actionBackProps = {};
@@ -302,4 +302,4 @@ class Index extends LoadDataCore {
   }
 }
 
-export default Index;
+export default LoadDataForm;

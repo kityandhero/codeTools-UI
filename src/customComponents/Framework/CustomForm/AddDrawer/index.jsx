@@ -4,7 +4,7 @@ import { SaveOutlined, LoadingOutlined, CloseCircleOutlined } from '@ant-design/
 
 import DrawerBase from '@/customComponents/Framework/CustomForm/DrawerBase';
 
-class Index extends DrawerBase {
+class AddDrawer extends DrawerBase {
   renderButton = () => {
     const { processing } = this.state;
 
@@ -36,4 +36,4 @@ class Index extends DrawerBase {
   };
 }
 
-export default Index;
+export default AddDrawer;

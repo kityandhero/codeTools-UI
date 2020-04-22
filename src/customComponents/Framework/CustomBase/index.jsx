@@ -4,7 +4,7 @@ import { history } from 'umi';
 
 import { defaultBaseState } from '@/utils/tools';
 
-class Index extends PureComponent {
+class CustomBase extends PureComponent {
   mounted = false;
 
   constructor(props) {
@@ -90,4 +90,4 @@ class Index extends PureComponent {
   }
 }
 
-export default Index;
+export default CustomBase;
