@@ -3,7 +3,6 @@ import { Form, Upload, Button, Spin, notification } from 'antd';
 import { connect } from 'umi';
 import { UploadOutlined, SaveOutlined, FormOutlined } from '@ant-design/icons';
 
-import { buildFieldHelper } from '@/utils/tools';
 import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
 
 import styles from './index.less';
@@ -115,7 +114,7 @@ class BaseView extends UpdateForm {
         <div className={styles.left}>
           <Spin spinning={dataLoading || processing}>
             <Form ref={this.formRef} layout="vertical">
-              {this.renderFormInputFormItem(
+              {this.renderFormInput(
                 fieldData.userName,
                 'userName',
                 true,
@@ -124,7 +123,7 @@ class BaseView extends UpdateForm {
                 null,
                 false,
               )}
-              {this.renderFormInputFormItem(
+              {this.renderFormInput(
                 fieldData.name,
                 'name',
                 true,
@@ -138,21 +137,21 @@ class BaseView extends UpdateForm {
                 fieldData.cityNameHelper,
                 <FormOutlined />,
               )} */}
-              {this.renderFormInputFormItem(
+              {this.renderFormInput(
                 fieldData.email,
                 'email',
                 true,
                 fieldData.emailHelper,
                 <FormOutlined />,
               )}
-              {this.renderFormInputFormItem(
+              {this.renderFormInput(
                 fieldData.phone,
                 'phone',
                 true,
                 fieldData.phoneHelper,
                 <FormOutlined />,
               )}
-              {this.renderFormTextAreaFormItem(
+              {this.renderFormTextArea(
                 fieldData.description,
                 'description',
                 false,

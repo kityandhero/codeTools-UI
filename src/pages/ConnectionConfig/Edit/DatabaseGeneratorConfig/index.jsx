@@ -480,7 +480,7 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.connectionConfigId.label,
                   fieldData.connectionConfigId.name,
                   true,
@@ -491,7 +491,7 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.connectorJarFile.label,
                   fieldData.connectorJarFile.name,
                   true,
@@ -514,7 +514,7 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={12} md={24} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.projectFolder.label,
                   fieldData.projectFolder.name,
                   true,
@@ -547,7 +547,7 @@ class Index extends TabPageBase {
             </Row>
             <Row gutter={24}>
               <Col lg={12} md={24} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.modelPackage.label,
                   fieldData.modelPackage.name,
                   true,
@@ -571,7 +571,7 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={12} md={24} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.modelTargetFolder.label,
                   fieldData.modelTargetFolder.name,
                   false,
@@ -615,7 +615,7 @@ class Index extends TabPageBase {
             </Row>
             <Row gutter={24}>
               <Col lg={12} md={24} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.daoPackage.label,
                   fieldData.daoPackage.name,
                   true,
@@ -639,7 +639,7 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={12} md={24} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.daoTargetFolder.label,
                   fieldData.daoTargetFolder.name,
                   false,
@@ -683,7 +683,7 @@ class Index extends TabPageBase {
             </Row>
             <Row gutter={24}>
               <Col lg={12} md={24} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.mappingXmlPackage.label,
                   fieldData.mappingXmlPackage.name,
                   true,
@@ -707,7 +707,7 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={12} md={24} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.mappingXmlTargetFolder.label,
                   fieldData.mappingXmlTargetFolder.name,
                   false,
@@ -751,7 +751,7 @@ class Index extends TabPageBase {
             </Row>
             <Row gutter={24}>
               <Col lg={12} md={24} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.servicePackage.label,
                   fieldData.servicePackage.name,
                   true,
@@ -775,7 +775,7 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={12} md={24} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.serviceTargetFolder.label,
                   fieldData.serviceTargetFolder.name,
                   false,
@@ -917,7 +917,7 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.mapperExtensionName.label,
                   fieldData.mapperExtensionName.name,
                   false,

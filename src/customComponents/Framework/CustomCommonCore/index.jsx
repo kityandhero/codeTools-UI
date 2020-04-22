@@ -464,7 +464,7 @@ class Index extends CustomCore {
     return null;
   };
 
-  renderSearchInputFormItem = (
+  renderSearchInput = (
     label,
     name,
     helper = null,
@@ -508,7 +508,7 @@ class Index extends CustomCore {
     );
   };
 
-  renderFormDisplayFormItem = (label, content, formItemLayout = {}, useDisplayBoxStyle = true) => {
+  renderFormDisplay = (label, content, formItemLayout = {}, useDisplayBoxStyle = true) => {
     const title = label;
 
     return (
@@ -518,7 +518,7 @@ class Index extends CustomCore {
     );
   };
 
-  renderFormInputFormItem = (
+  renderFormInput = (
     label,
     name,
     required = false,
@@ -577,7 +577,7 @@ class Index extends CustomCore {
     );
   };
 
-  renderFormPasswordFormItem = (
+  renderFormPassword = (
     label,
     name,
     required = false,
@@ -634,14 +634,14 @@ class Index extends CustomCore {
     );
   };
 
-  renderFormOnlyShowInputFormItem = (
+  renderFormOnlyShowInput = (
     label,
     helper = null,
     icon = <FormOutlined />,
     inputProps = {},
     formItemLayout = {},
   ) => {
-    return this.renderFormInputFormItem(
+    return this.renderFormInput(
       label,
       '',
       false,
@@ -653,7 +653,7 @@ class Index extends CustomCore {
     );
   };
 
-  renderFormInputNumberFormItem = (
+  renderFormInputNumber = (
     label,
     name,
     required = false,
@@ -711,7 +711,7 @@ class Index extends CustomCore {
     );
   };
 
-  renderFormTextAreaFormItem = (
+  renderFormTextArea = (
     label,
     name,
     required = false,
@@ -767,7 +767,7 @@ class Index extends CustomCore {
     );
   };
 
-  renderFormDatePickerFormItem = (
+  renderFormDatePicker = (
     label,
     name,
     required = false,
@@ -820,7 +820,7 @@ class Index extends CustomCore {
     );
   };
 
-  renderFormSelectFormItem = (
+  renderFormSelect = (
     label,
     name,
     renderOptionFunction,
@@ -863,7 +863,7 @@ class Index extends CustomCore {
     );
   };
 
-  renderFormRadioFormItem = (
+  renderFormRadio = (
     label,
     name,
     renderOptionFunction,
@@ -906,7 +906,7 @@ class Index extends CustomCore {
     );
   };
 
-  renderSearchSelectFormItem = (label, name, options, helper = null) => {
+  renderSearchFormSelect = (label, name, options, helper = null) => {
     return (
       <FormItem
         label={label}
@@ -969,7 +969,7 @@ class Index extends CustomCore {
       message.error('renderSearchWhetherFormItem need param name。');
     }
 
-    return this.renderSearchSelectFormItem(title, name, this.renderWhetherOption(withUnlimited));
+    return this.renderSearchFormSelect(title, name, this.renderWhetherOption(withUnlimited));
   };
 
   renderFormWhetherSelectFormItem = (
@@ -991,7 +991,7 @@ class Index extends CustomCore {
       message.error('renderSearchWhetherFormItem need param name。');
     }
 
-    return this.renderFormSelectFormItem(
+    return this.renderFormSelect(
       title,
       name,
       () => {
@@ -1024,7 +1024,7 @@ class Index extends CustomCore {
       message.error('renderSearchWhetherFormItem need param name。');
     }
 
-    return this.renderFormRadioFormItem(
+    return this.renderFormRadio(
       title,
       name,
       () => {

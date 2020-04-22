@@ -124,7 +124,7 @@ class BasicInfo extends UpdateFormTab {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.userName.label,
                   fieldData.userName.name,
                   true,
@@ -135,7 +135,7 @@ class BasicInfo extends UpdateFormTab {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.name.label,
                   fieldData.name.name,
                   true,
@@ -150,7 +150,7 @@ class BasicInfo extends UpdateFormTab {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={24} md={24} sm={24} xs={24}>
-                {this.renderFormTextAreaFormItem(
+                {this.renderFormTextArea(
                   fieldData.description.label,
                   fieldData.description.name,
                   false,

@@ -3,7 +3,6 @@ import { Form, Button, Spin, notification, message } from 'antd';
 import { connect } from 'umi';
 import { FormOutlined, SaveOutlined } from '@ant-design/icons';
 
-import { buildFieldHelper } from '@/utils/tools';
 import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
 
 import styles from './index.less';
@@ -99,21 +98,21 @@ class Password extends UpdateForm {
         <div className={styles.left}>
           <Spin spinning={processing}>
             <Form ref={this.formRef} layout="vertical">
-              {this.renderFormPasswordFormItem(
+              {this.renderFormPassword(
                 fieldData.originalPassword,
                 'originalPassword',
                 true,
                 fieldData.originalPasswordHelper,
                 <FormOutlined />,
               )}
-              {this.renderFormPasswordFormItem(
+              {this.renderFormPassword(
                 fieldData.password,
                 'password',
                 true,
                 fieldData.passwordHelper,
                 <FormOutlined />,
               )}
-              {this.renderFormPasswordFormItem(
+              {this.renderFormPassword(
                 fieldData.rePassword,
                 'rePassword',
                 true,

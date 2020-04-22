@@ -163,7 +163,7 @@ class Index extends UpdateDrawer {
         <Spin spinning={dataLoading || processing}>
           <Row gutter={24}>
             <Col lg={12} md={12} sm={24} xs={24}>
-              {this.renderFormInputFormItem(
+              {this.renderFormInput(
                 fieldData.dataTableGeneratorConfigId.label,
                 fieldData.dataTableGeneratorConfigId.name,
                 true,
@@ -174,7 +174,7 @@ class Index extends UpdateDrawer {
               )}
             </Col>
             <Col lg={12} md={12} sm={24} xs={24}>
-              {this.renderFormInputFormItem(
+              {this.renderFormInput(
                 fieldData.tableName.label,
                 fieldData.tableName.name,
                 true,
@@ -198,7 +198,7 @@ class Index extends UpdateDrawer {
             </Col>
             {`${useGenerateKey || 0}` === '1' ? (
               <Col lg={12} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.generateKeys.label,
                   fieldData.generateKeys.name,
                   true,
@@ -207,7 +207,7 @@ class Index extends UpdateDrawer {
               </Col>
             ) : null}
             <Col lg={12} md={12} sm={24} xs={24}>
-              {this.renderFormInputFormItem(
+              {this.renderFormInput(
                 fieldData.domainObjectName.label,
                 fieldData.domainObjectName.name,
                 false,
@@ -237,7 +237,7 @@ class Index extends UpdateDrawer {
             </Col>
             {`${useTableNameAlias || 0}` === '1' ? (
               <Col lg={12} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.aliasName.label,
                   fieldData.aliasName.name,
                   true,
@@ -255,7 +255,7 @@ class Index extends UpdateDrawer {
               {this.renderFromUpdateTimeField()}
             </Col>
             <Col lg={12} md={12} sm={24} xs={24}>
-              {this.renderFormInputFormItem(
+              {this.renderFormInput(
                 fieldData.lastGenerateTime.label,
                 fieldData.lastGenerateTime.name,
                 true,

@@ -3,11 +3,7 @@ import { connect } from 'umi';
 import { Form, Card, Affix, Row, Col, Spin } from 'antd';
 import { ContactsOutlined, FormOutlined } from '@ant-design/icons';
 
-import {
-  getDerivedStateFromPropsForUrlParams,
-  buildFieldHelper,
-  formatDatetime,
-} from '@/utils/tools';
+import { getDerivedStateFromPropsForUrlParams, formatDatetime } from '@/utils/tools';
 import { constants } from '@/customConfig/config';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import HtmlBox from '@/customComponents/HtmlBox';
@@ -98,7 +94,7 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={24} md={12} sm={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.message.label,
                   metaData == null ? '无' : metaData.message || '无',
                 )}
@@ -112,7 +108,7 @@ class Index extends TabPageBase {
             <Form ref={this.formRef} layout="vertical">
               <Row gutter={24}>
                 <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFormInputFormItem(
+                  {this.renderFormInput(
                     constants.ip.label,
                     constants.ip.name,
                     true,
@@ -123,7 +119,7 @@ class Index extends TabPageBase {
                   )}
                 </Col>
                 <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFormInputFormItem(
+                  {this.renderFormInput(
                     constants.channelNote.label,
                     constants.channelNote.name,
                     true,

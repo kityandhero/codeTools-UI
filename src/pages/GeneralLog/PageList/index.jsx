@@ -64,7 +64,7 @@ class Index extends PagerList {
       <>
         <Row gutter={24}>
           <Col md={6} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.message.label, fieldData.message.name)}
+            {this.renderSearchInput(fieldData.message.label, fieldData.message.name)}
           </Col>
           <Col md={6} sm={24}>
             {this.renderSearchChannelFormItem(true)}

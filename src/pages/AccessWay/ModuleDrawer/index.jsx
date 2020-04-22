@@ -205,7 +205,7 @@ class ModuleDrawer extends PagerDrawer {
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={8} sm={24}>
-            {this.renderSearchInputFormItem('关键词', 'keywords', '', null)}
+            {this.renderSearchInput('关键词', 'keywords', '', null)}
           </Col>
           {this.renderSimpleFormButton(
             <>

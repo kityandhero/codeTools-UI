@@ -92,7 +92,7 @@ class Index extends PagerList {
       <>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
           <Col md={6} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.name.label, fieldData.name.name)}
+            {this.renderSearchInput(fieldData.name.label, fieldData.name.name)}
           </Col>
           {this.renderSimpleFormButton(null, 12)}
         </Row>

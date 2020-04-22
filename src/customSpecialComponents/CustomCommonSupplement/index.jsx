@@ -68,7 +68,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.daoType.label;
 
-    return this.renderSearchSelectFormItem(
+    return this.renderSearchFormSelect(
       title,
       customFieldCollection.daoType.name,
       this.renderDaoTypeOption(withUnlimited),
@@ -87,7 +87,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.daoType.label;
 
-    return this.renderFormSelectFormItem(
+    return this.renderFormSelect(
       title,
       name,
       () => {
@@ -112,7 +112,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.daoType.label;
 
-    return this.renderFormRadioFormItem(
+    return this.renderFormRadio(
       title,
       name,
       () => {
@@ -161,7 +161,7 @@ class Index extends CustomCommonCore {
   renderSearchChannelFormItem = (withUnlimited = true, label = constants.channel.label) => {
     const title = label || constants.channel.label;
 
-    return this.renderSearchSelectFormItem(
+    return this.renderSearchFormSelect(
       title,
       constants.channel.name,
       this.renderChannelOption(withUnlimited),
@@ -179,7 +179,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || constants.channel.label;
 
-    return this.renderFormSelectFormItem(
+    return this.renderFormSelect(
       title,
       name,
       () => {
@@ -204,7 +204,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || constants.channel.label;
 
-    return this.renderFormRadioFormItem(
+    return this.renderFormRadio(
       title,
       name,
       () => {
@@ -257,7 +257,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.databaseConnectionType.label;
 
-    return this.renderSearchSelectFormItem(
+    return this.renderSearchFormSelect(
       title,
       customFieldCollection.databaseConnectionType.name,
       this.renderDatabaseConnectionTypeOption(withUnlimited),
@@ -276,7 +276,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.databaseConnectionType.label;
 
-    return this.renderFormSelectFormItem(
+    return this.renderFormSelect(
       title,
       name,
       () => {
@@ -301,7 +301,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.databaseConnectionType.label;
 
-    return this.renderFormRadioFormItem(
+    return this.renderFormRadio(
       title,
       name,
       () => {
@@ -354,7 +354,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.databaseDatabaseType.label;
 
-    return this.renderSearchSelectFormItem(
+    return this.renderSearchFormSelect(
       title,
       customFieldCollection.databaseDatabaseType.name,
       this.renderDatabaseDatabaseTypeOption(withUnlimited),
@@ -373,7 +373,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.databaseDatabaseType.label;
 
-    return this.renderFormSelectFormItem(
+    return this.renderFormSelect(
       title,
       name,
       () => {
@@ -398,7 +398,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.databaseDatabaseType.label;
 
-    return this.renderFormRadioFormItem(
+    return this.renderFormRadio(
       title,
       name,
       () => {
@@ -451,7 +451,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.databaseEncoding.label;
 
-    return this.renderSearchSelectFormItem(
+    return this.renderSearchFormSelect(
       title,
       customFieldCollection.databaseEncoding.name,
       this.renderDatabaseEncodingOption(withUnlimited),
@@ -470,7 +470,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.databaseEncoding.label;
 
-    return this.renderFormSelectFormItem(
+    return this.renderFormSelect(
       title,
       name,
       () => {
@@ -495,7 +495,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.databaseEncoding.label;
 
-    return this.renderFormRadioFormItem(
+    return this.renderFormRadio(
       title,
       name,
       () => {
@@ -548,7 +548,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.fileEncoding.label;
 
-    return this.renderSearchSelectFormItem(
+    return this.renderSearchFormSelect(
       title,
       customFieldCollection.fileEncoding.name,
       this.renderFileEncodingOption(withUnlimited),
@@ -567,7 +567,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.fileEncoding.label;
 
-    return this.renderFormSelectFormItem(
+    return this.renderFormSelect(
       title,
       name,
       () => {
@@ -592,7 +592,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.fileEncoding.label;
 
-    return this.renderFormRadioFormItem(
+    return this.renderFormRadio(
       title,
       name,
       () => {
@@ -644,7 +644,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.accountStatus.label;
 
-    return this.renderSearchSelectFormItem(
+    return this.renderSearchFormSelect(
       title,
       customFieldCollection.accountStatus.name,
       this.renderAccountStatusOption(withUnlimited),
@@ -662,7 +662,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.accountStatus.label;
 
-    return this.renderFormSelectFormItem(
+    return this.renderFormSelect(
       title,
       name,
       () => {
@@ -687,7 +687,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.accountStatus.label;
 
-    return this.renderFormRadioFormItem(
+    return this.renderFormRadio(
       title,
       name,
       () => {
@@ -739,7 +739,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.dataColumnStatus.label;
 
-    return this.renderSearchSelectFormItem(
+    return this.renderSearchFormSelect(
       title,
       customFieldCollection.dataColumnStatus.name,
       this.renderDataColumnStatusOption(withUnlimited),
@@ -757,7 +757,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.dataColumnStatus.label;
 
-    return this.renderFormSelectFormItem(
+    return this.renderFormSelect(
       title,
       name,
       () => {
@@ -782,7 +782,7 @@ class Index extends CustomCommonCore {
   ) => {
     const title = label || customFieldCollection.dataColumnStatus.label;
 
-    return this.renderFormRadioFormItem(
+    return this.renderFormRadio(
       title,
       name,
       () => {

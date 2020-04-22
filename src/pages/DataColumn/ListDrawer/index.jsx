@@ -129,7 +129,7 @@ class Index extends PagerDrawer {
       <>
         <Row gutter={24}>
           <Col lg={6} md={12} sm={24} xs={24}>
-            {this.renderSearchInputFormItem(fieldData.columnName.label, fieldData.columnName.name)}
+            {this.renderSearchInput(fieldData.columnName.label, fieldData.columnName.name)}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>

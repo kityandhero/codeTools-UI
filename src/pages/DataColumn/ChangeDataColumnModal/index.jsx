@@ -138,7 +138,7 @@ class Index extends ModalBase {
 
     return (
       <>
-        {this.renderFormInputFormItem(
+        {this.renderFormInput(
           fieldData.columnName.label,
           fieldData.columnName.name,
           true,
@@ -148,7 +148,7 @@ class Index extends ModalBase {
           false,
           formItemLayout,
         )}
-        {this.renderFormInputFormItem(
+        {this.renderFormInput(
           fieldData.columnType.label,
           fieldData.columnType.name,
           true,
@@ -169,7 +169,7 @@ class Index extends ModalBase {
           true,
         )}
 
-        {this.renderFormInputFormItem(
+        {this.renderFormInput(
           fieldData.aliasName.label,
           fieldData.aliasName.name,
           false,
@@ -181,7 +181,7 @@ class Index extends ModalBase {
           true,
           formItemLayout,
         )}
-        {this.renderFormInputFormItem(
+        {this.renderFormInput(
           fieldData.javaType.label,
           fieldData.javaType.name,
           false,
@@ -193,7 +193,7 @@ class Index extends ModalBase {
           true,
           formItemLayout,
         )}
-        {this.renderFormInputFormItem(
+        {this.renderFormInput(
           fieldData.typeHandler.label,
           fieldData.typeHandler.name,
           false,

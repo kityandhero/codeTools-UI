@@ -64,10 +64,10 @@ class Index extends PagerList {
       <>
         <Row gutter={24}>
           <Col md={6} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.name.label, fieldData.name.name)}
+            {this.renderSearchInput(fieldData.name.label, fieldData.name.name)}
           </Col>
           <Col md={6} sm={24}>
-            {this.renderSearchInputFormItem(
+            {this.renderSearchInput(
               fieldData.relativePath.label,
               fieldData.relativePath.name,
             )}

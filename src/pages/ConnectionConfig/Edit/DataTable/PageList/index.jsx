@@ -229,7 +229,7 @@ class Index extends InnerPagerList {
       <>
         <Row gutter={24}>
           <Col lg={6} md={12} sm={24} xs={24}>
-            {this.renderSearchInputFormItem(
+            {this.renderSearchInput(
               fieldDataDataTable.name.label,
               fieldDataDataTable.name.name,
             )}

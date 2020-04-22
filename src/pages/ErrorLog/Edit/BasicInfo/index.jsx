@@ -77,13 +77,13 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col span={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.message.label,
                   metaData == null ? '无' : metaData.message || '无',
                 )}
               </Col>
               <Col span={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.causeMessage.label,
                   metaData == null ? '无' : metaData.causeMessage || '无',
                 )}
@@ -96,25 +96,25 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col span={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.uri.label,
                   metaData == null ? '无' : metaData.uri || '无',
                 )}
               </Col>
               <Col span={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.exceptionTypeName.label,
                   metaData == null ? '无' : metaData.exceptionTypeName || '无',
                 )}
               </Col>
               <Col span={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.scene.label,
                   metaData == null ? '无' : metaData.scene || '无',
                 )}
               </Col>
               <Col span={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.otherLog.label,
                   metaData == null ? '无' : metaData.otherLog || '无',
                 )}
@@ -127,19 +127,19 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.host.label,
                   metaData == null ? '无' : metaData.host || '无',
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.port.label,
                   metaData == null ? '无 | 默认' : metaData.port || '无 | 默认',
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.sendNotification.label,
                   metaData == null
                     ? '否'
@@ -149,13 +149,13 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.sendResult.label,
                   metaData == null ? '否' : (metaData.sendResult || 0) === 0 ? '否' : '是' || '否',
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.sendUnixTime.label,
                   metaData == null
                     ? '无'
@@ -165,43 +165,43 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.degreeNote.label,
                   metaData == null ? '无' : metaData.degreeNote || '无',
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.resolveNote.label,
                   metaData == null ? '无' : metaData.resolveNote || '无',
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   constants.statusNote.label,
                   metaData == null ? '无' : metaData.statusNote || '无',
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   constants.channelNote.label,
                   metaData == null ? '无' : metaData.channelNote || '无',
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   constants.ip.label,
                   metaData == null ? '无' : metaData.ip || '无',
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   constants.createTime.label,
                   metaData == null ? '无' : metaData.createTime || '无',
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   constants.updateTime.label,
                   metaData == null ? '无' : metaData.updateTime || '无',
                 )}

@@ -272,7 +272,7 @@ class Index extends PagerList {
       <>
         <Row gutter={24}>
           <Col lg={6} md={12} sm={24}>
-            {this.renderSearchInputFormItem(fieldData.name.label, fieldData.name.name)}
+            {this.renderSearchInput(fieldData.name.label, fieldData.name.name)}
           </Col>
           <Col md={6} sm={24}>
             {this.renderSearchAccountStatusFormItem(true)}

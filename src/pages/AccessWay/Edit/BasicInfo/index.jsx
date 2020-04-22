@@ -76,7 +76,7 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={12} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.name.label,
                   fieldData.name.name,
                   true,
@@ -87,7 +87,7 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.tag.label,
                   fieldData.tag.name,
                   true,
@@ -98,7 +98,7 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputNumberFormItem(
+                {this.renderFormInputNumber(
                   fieldData.relativePath.label,
                   fieldData.relativePath.name,
                   true,
@@ -115,7 +115,7 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col span={24}>
-                {this.renderFormTextAreaFormItem(
+                {this.renderFormTextArea(
                   fieldData.description.label,
                   fieldData.description.name,
                   false,

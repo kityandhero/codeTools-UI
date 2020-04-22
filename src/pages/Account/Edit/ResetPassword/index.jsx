@@ -119,7 +119,7 @@ class ResetPassword extends UpdateFormTab {
       <>
         <Card title={this.renderBasicInfoTitle()} className={styles.card} bordered={false}>
           <Spin spinning={dataLoading || processing}>
-            {this.renderFormPasswordFormItem(
+            {this.renderFormPassword(
               fieldData.password.label,
               fieldData.password.name,
               true,
@@ -130,7 +130,7 @@ class ResetPassword extends UpdateFormTab {
               formItemLayout,
             )}
 
-            {this.renderFormPasswordFormItem(
+            {this.renderFormPassword(
               fieldData.rePassword.label,
               fieldData.rePassword.name,
               true,

@@ -130,7 +130,7 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={18} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.name.label,
                   fieldData.name.name,
                   true,
@@ -143,7 +143,7 @@ class Index extends TabPageBase {
             </Row>
             <Row gutter={24}>
               <Col lg={18} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.host.label,
                   fieldData.host.name,
                   true,
@@ -151,7 +151,7 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputNumberFormItem(
+                {this.renderFormInputNumber(
                   fieldData.port.label,
                   fieldData.port.name,
                   true,
@@ -161,7 +161,7 @@ class Index extends TabPageBase {
             </Row>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.userName.label,
                   fieldData.userName.name,
                   true,
@@ -169,7 +169,7 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormPasswordFormItem(
+                {this.renderFormPassword(
                   fieldData.password.label,
                   fieldData.password.name,
                   true,
@@ -177,7 +177,7 @@ class Index extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.schema.label,
                   fieldData.schema.name,
                   true,
@@ -214,7 +214,7 @@ class Index extends TabPageBase {
               <>
                 <Row gutter={24}>
                   <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
+                    {this.renderFormInput(
                       fieldData.sshHost.label,
                       fieldData.sshHost.name,
                       true,
@@ -222,7 +222,7 @@ class Index extends TabPageBase {
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputNumberFormItem(
+                    {this.renderFormInputNumber(
                       fieldData.sshPort.label,
                       fieldData.sshPort.name,
                       true,
@@ -230,7 +230,7 @@ class Index extends TabPageBase {
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputNumberFormItem(
+                    {this.renderFormInputNumber(
                       fieldData.localPort.label,
                       fieldData.localPort.name,
                       true,
@@ -238,7 +238,7 @@ class Index extends TabPageBase {
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputNumberFormItem(
+                    {this.renderFormInputNumber(
                       fieldData.remotePort.label,
                       fieldData.remotePort.name,
                       true,
@@ -248,7 +248,7 @@ class Index extends TabPageBase {
                 </Row>
                 <Row gutter={24}>
                   <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormInputFormItem(
+                    {this.renderFormInput(
                       fieldData.sshUser.label,
                       fieldData.sshUser.name,
                       true,
@@ -256,7 +256,7 @@ class Index extends TabPageBase {
                     )}
                   </Col>
                   <Col lg={6} md={12} sm={24} xs={24}>
-                    {this.renderFormPasswordFormItem(
+                    {this.renderFormPassword(
                       fieldData.sshPassword.label,
                       fieldData.sshPassword.name,
                       true,
@@ -273,7 +273,7 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={24} md={24} sm={24} xs={24}>
-                {this.renderFormTextAreaFormItem(
+                {this.renderFormTextArea(
                   fieldData.description.label,
                   fieldData.description.name,
                   false,

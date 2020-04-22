@@ -94,7 +94,7 @@ class Index extends TabPageBase {
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col span={24}>
-                {this.renderFormDisplayFormItem(
+                {this.renderFormDisplay(
                   fieldData.requestQueryString.label,
                   metaData == null ? '无' : metaData.requestQueryString || '无',
                 )}
@@ -169,7 +169,7 @@ class Index extends TabPageBase {
             <Spin spinning={dataLoading || processing}>
               <Row gutter={24}>
                 <Col span={24}>
-                  {this.renderFormDisplayFormItem(
+                  {this.renderFormDisplay(
                     fieldData.data.label,
                     metaData == null ? '无' : requestBody || '无',
                   )}
@@ -239,7 +239,7 @@ class Index extends TabPageBase {
                 <Spin spinning={dataLoading || processing}>
                   <Row gutter={24}>
                     <Col span={24}>
-                      {this.renderFormDisplayFormItem(
+                      {this.renderFormDisplay(
                         fieldData.data.label,
                         metaData == null ? '无' : metaData.data || '无',
                       )}

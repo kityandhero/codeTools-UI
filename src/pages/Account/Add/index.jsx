@@ -75,7 +75,7 @@ class Add extends AddFormBase {
           <Spin spinning={processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.userName.label,
                   fieldData.userName.name,
                   true,
@@ -83,7 +83,7 @@ class Add extends AddFormBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputFormItem(
+                {this.renderFormInput(
                   fieldData.name.label,
                   fieldData.name.name,
                   true,
@@ -91,7 +91,7 @@ class Add extends AddFormBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormPasswordFormItem(
+                {this.renderFormPassword(
                   fieldData.password.label,
                   fieldData.password.name,
                   true,
@@ -99,7 +99,7 @@ class Add extends AddFormBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormPasswordFormItem(
+                {this.renderFormPassword(
                   fieldData.rePassword.label,
                   fieldData.rePassword.name,
                   true,
@@ -114,7 +114,7 @@ class Add extends AddFormBase {
           <Spin spinning={processing}>
             <Row gutter={24}>
               <Col lg={24} md={24} sm={24} xs={24}>
-                {this.renderFormTextAreaFormItem(
+                {this.renderFormTextArea(
                   fieldData.description.label,
                   fieldData.description.name,
                   false,
