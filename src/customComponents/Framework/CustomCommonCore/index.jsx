@@ -1172,7 +1172,7 @@ class CustomCommonCore extends CustomCore {
       title,
       name,
       () => {
-        return this.renderWhetherOption(false);
+        return this.renderWhetherRadio(false);
       },
       helper,
       onChangeCallback,
