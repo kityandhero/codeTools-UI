@@ -5,6 +5,10 @@ import { SaveOutlined, LoadingOutlined, CloseCircleOutlined } from '@ant-design/
 import DrawerBase from '@/customComponents/Framework/CustomForm/DrawerBase';
 
 class AddDrawer extends DrawerBase {
+  adjustWhenDidMount = () => {
+    this.fillForm();
+  };
+
   renderButton = () => {
     const { processing } = this.state;
 
