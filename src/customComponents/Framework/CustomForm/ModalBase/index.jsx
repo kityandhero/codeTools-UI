@@ -61,7 +61,12 @@ class ModalBase extends CustomAuthorization {
     const form = this.getTargetForm();
 
     form.setFieldsValue(v);
+
+    this.afterSetFieldsValue(v);
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterSetFieldsValue = (v) => {};
 
   getTargetForm = () => {
     return this.formRef.current;
@@ -85,9 +90,7 @@ class ModalBase extends CustomAuthorization {
     );
 
     if (initialValues != null) {
-      const form = this.getTargetForm();
-
-      form.setFieldsValue(initialValues);
+      this.setFormFieldsValue(initialValues);
     }
   };
 
