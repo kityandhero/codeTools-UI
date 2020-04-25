@@ -144,7 +144,7 @@ class LoadDataTabContainer extends LoadDataForm {
                   <a
                     style={{ marginLeft: '10px' }}
                     onClick={() => {
-                      copyToClipboard(item.value);
+                      copyToClipboard(item.copyData || item.value);
                     }}
                   >
                     [复制]

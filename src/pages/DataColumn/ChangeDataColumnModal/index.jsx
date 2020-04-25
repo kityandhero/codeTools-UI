@@ -67,7 +67,8 @@ class ChangeDataColumnModal extends ModalBase {
     return data;
   };
 
-  buildInitialValues = (metaData) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const values = {};
 
     values[fieldData.columnName.name] = metaData === null ? '' : metaData.columnName || '';

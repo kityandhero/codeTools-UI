@@ -77,7 +77,8 @@ class SetDrawer extends UpdateDrawer {
     this.setState({ useGenerateKey, useTableNameAlias });
   };
 
-  buildInitialValues = (metaData) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const values = {};
 
     if (metaData != null) {

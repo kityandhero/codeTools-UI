@@ -43,7 +43,8 @@ class BasicInfo extends TabPageBase {
     );
   }
 
-  buildInitialValues = (metaData) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const values = {};
 
     if (metaData != null) {
@@ -73,7 +74,8 @@ class BasicInfo extends TabPageBase {
     return values;
   };
 
-  afterSetFieldsValue = (metaData) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterSetFieldsValue = (metaData, metaListData, metaExtra, metaOriginalData) => {
     this.setState({
       selectConnectionType:
         metaData === null

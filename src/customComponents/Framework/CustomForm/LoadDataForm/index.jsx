@@ -45,7 +45,7 @@ class LoadDataForm extends LoadDataCore {
   }
 
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    this.fillForm(metaData);
+    this.fillForm(metaData, metaListData, metaExtra, metaOriginalData);
 
     this.doOtherAfterLoadSuccess(metaData, metaListData, metaExtra, metaOriginalData);
   };
@@ -53,22 +53,35 @@ class LoadDataForm extends LoadDataCore {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {};
 
-  fillForm = (metaData) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  fillForm = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const form = this.getTargetForm();
 
-    const initialValues = this.buildInitialValues(metaData);
+    const initialValues = this.buildInitialValues(
+      metaData,
+      metaListData,
+      metaExtra,
+      metaOriginalData,
+    );
 
     form.setFieldsValue(initialValues);
+
+    this.afterFillForm(metaData, metaListData, metaExtra, metaOriginalData);
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterFillForm = (metaData, metaListData, metaExtra, metaOriginalData) => {};
 
   setFormFieldsValue = (v) => {
     const form = this.getTargetForm();
 
     form.setFieldsValue(v);
+
+    this.afterSetFieldsValue(v);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  afterSetFieldsValue = (metaData) => {};
+  afterSetFieldsValue = (v) => {};
 
   getTargetForm = () => {
     return this.formRef.current;
@@ -213,7 +226,7 @@ class LoadDataForm extends LoadDataCore {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  buildInitialValues = (metaData) => {
+  buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => {
     message.error('buildInitialValues 方法需要重新实现。');
 
     return {};

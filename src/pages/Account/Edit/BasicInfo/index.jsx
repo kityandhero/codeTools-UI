@@ -52,7 +52,8 @@ class BasicInfo extends UpdateFormTab {
     return data;
   };
 
-  buildInitialValues = (metaData) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const values = {};
 
     if (metaData != null) {

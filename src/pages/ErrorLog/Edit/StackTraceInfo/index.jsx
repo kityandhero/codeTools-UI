@@ -40,7 +40,8 @@ class StackTraceInfo extends TabPageBase {
     );
   }
 
-  buildInitialValues = (metaData) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const values = {};
 
     if (metaData != null) {

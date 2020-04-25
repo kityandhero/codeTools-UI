@@ -230,11 +230,7 @@ class PageList extends PagerList {
       <>
         <Row gutter={24}>
           <Col lg={6} md={12} sm={24} xs={24}>
-            {this.renderSearchInput(
-              fieldData.name.label,
-              fieldData.name.name,
-              '依据名称进行检索',
-            )}
+            {this.renderSearchInput(fieldData.name.label, fieldData.name.name, '依据名称进行检索')}
           </Col>
           <Col lg={6} md={12} sm={24} xs={24}>
             {this.renderSearchDatabaseEncodingSelect(true)}
@@ -270,9 +266,9 @@ class PageList extends PagerList {
           key="buttonPlus"
           disabled={dataLoading || processing}
           type="primary"
-          icon={<PlusOutlined />}
           onClick={this.goToAdd}
         >
+          <PlusOutlined />
           新增
         </Button>
       </>

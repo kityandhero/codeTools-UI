@@ -77,16 +77,21 @@ class DrawerBase extends CustomAuthorization {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {};
 
-  fillForm = (metaData) => {
+  fillForm = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const form = this.getTargetForm();
 
-    const initialValues = this.buildInitialValues(metaData);
+    const initialValues = this.buildInitialValues(
+      metaData,
+      metaListData,
+      metaExtra,
+      metaOriginalData,
+    );
 
     form.setFieldsValue(initialValues);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  buildInitialValues = (metaData) => {};
+  buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => {};
 
   handleOk = (e) => {
     e.preventDefault();

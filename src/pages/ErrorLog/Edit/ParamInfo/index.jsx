@@ -42,7 +42,8 @@ class ParamInfo extends TabPageBase {
     );
   }
 
-  buildInitialValues = (metaData) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const values = {};
 
     if (metaData != null) {
@@ -161,8 +162,8 @@ class ParamInfo extends TabPageBase {
           </Card>
         ) : (
           <Card
-          title="请求Body"
-          className={styles.card}
+            title="请求Body"
+            className={styles.card}
             extra={`数据类型：${dataType.CommonValue.name}`}
             bordered={false}
           >
