@@ -35,7 +35,12 @@ class AddFormBase extends CustomAuthorization {
 
     if (initialValues == null) {
       const form = this.getTargetForm();
-      form.setFieldsValue(initialValues);
+
+      if (form != null) {
+        form.setFieldsValue(initialValues);
+
+        this.afterSetFieldsValue(initialValues);
+      }
     }
   };
 

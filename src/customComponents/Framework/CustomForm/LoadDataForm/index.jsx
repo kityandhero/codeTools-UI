@@ -55,8 +55,6 @@ class LoadDataForm extends LoadDataCore {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fillForm = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    const form = this.getTargetForm();
-
     const initialValues = this.buildInitialValues(
       metaData,
       metaListData,
@@ -64,9 +62,13 @@ class LoadDataForm extends LoadDataCore {
       metaOriginalData,
     );
 
-    form.setFieldsValue(initialValues);
+    const form = this.getTargetForm();
 
-    this.afterFillForm(metaData, metaListData, metaExtra, metaOriginalData);
+    if (form != null) {
+      form.setFieldsValue(initialValues);
+
+      this.afterFillForm(metaData, metaListData, metaExtra, metaOriginalData);
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
