@@ -77,8 +77,6 @@ class ModalBase extends CustomAuthorization {
   doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {};
 
   fillForm = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    const form = this.getTargetForm();
-
     const initialValues = this.buildInitialValues(
       metaData,
       metaListData,
@@ -86,11 +84,15 @@ class ModalBase extends CustomAuthorization {
       metaOriginalData,
     );
 
-    form.setFieldsValue(initialValues);
+    if (initialValues != null) {
+      const form = this.getTargetForm();
+
+      form.setFieldsValue(initialValues);
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => {};
+  buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => null;
 
   handleOk = (e) => {
     e.preventDefault();
