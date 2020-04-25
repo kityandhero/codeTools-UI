@@ -18,6 +18,8 @@ import {
   searchFromList,
   stringIsNullOrWhiteSpace,
   recordObject,
+  isObject,
+  getGuid,
 } from '@/utils/tools';
 import { unlimitedWithStringFlag } from '@/utils/constants';
 
@@ -374,6 +376,39 @@ class CustomCommonCore extends CustomCore {
     return null;
   };
 
+  checkFromConfig = (label, name, helper) => {
+    let labelText = 'object';
+    let nameText = 'object';
+    let helperText = 'object';
+
+    if (isObject(label)) {
+      message.error('label必须为文本');
+      recordObject(label);
+    } else {
+      labelText = label;
+    }
+
+    if (isObject(name)) {
+      message.error('name必须为文本');
+      recordObject(name);
+    } else {
+      nameText = name;
+    }
+
+    if (isObject(helper)) {
+      message.error('helper必须为文本');
+      recordObject(helper);
+    } else {
+      helperText = helper;
+    }
+
+    return {
+      label: labelText,
+      name: nameText,
+      helper: helperText,
+    };
+  };
+
   renderFromCreateTimeField = (
     name = 'createTime',
     helper = '数据的添加时间',
@@ -382,14 +417,24 @@ class CustomCommonCore extends CustomCore {
   ) => {
     const title = label || '添加时间';
 
+    const resultCheck = this.checkFromConfig(title, name, helper);
+
     return (
       <FormItem
         {...(formItemLayout || {})}
-        label={title}
-        name={name}
-        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        label={resultCheck.label}
+        name={resultCheck.name}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
       >
-        <Input addonBefore={<FormOutlined />} disabled placeholder={buildFieldDescription(title)} />
+        <Input
+          addonBefore={<FormOutlined />}
+          disabled
+          placeholder={buildFieldDescription(resultCheck.label)}
+        />
       </FormItem>
     );
   };
@@ -402,14 +447,24 @@ class CustomCommonCore extends CustomCore {
   ) => {
     const title = label || '最后修改时间';
 
+    const resultCheck = this.checkFromConfig(title, name, helper);
+
     return (
       <FormItem
         {...(formItemLayout || {})}
-        label={title}
-        name={name}
-        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        label={resultCheck.label}
+        name={resultCheck.name}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
       >
-        <Input addonBefore={<FormOutlined />} disabled placeholder={buildFieldDescription(title)} />
+        <Input
+          addonBefore={<FormOutlined />}
+          disabled
+          placeholder={buildFieldDescription(resultCheck.label)}
+        />
       </FormItem>
     );
   };
@@ -483,13 +538,19 @@ class CustomCommonCore extends CustomCore {
       ...(inputProps || {}),
     };
 
+    const resultCheck = this.checkFromConfig(title, name, helper);
+
     if (!canOperate) {
       return (
         <FormItem
           {...formItemLayout}
-          label={title}
-          name={name}
-          extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+          label={resultCheck.label}
+          name={resultCheck.name}
+          extra={
+            stringIsNullOrWhiteSpace(resultCheck.helper || '')
+              ? null
+              : buildFieldHelper(resultCheck.helper)
+          }
         >
           <Input {...otherInputProps} />
         </FormItem>
@@ -499,9 +560,13 @@ class CustomCommonCore extends CustomCore {
     return (
       <FormItem
         {...formItemLayout}
-        label={title}
-        name={name}
-        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        label={resultCheck.label}
+        name={resultCheck.name}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
       >
         <Input {...otherInputProps} />
       </FormItem>
@@ -511,8 +576,16 @@ class CustomCommonCore extends CustomCore {
   renderFormDisplay = (label, content, formItemLayout = {}, useDisplayBoxStyle = true) => {
     const title = label;
 
+    let labelText = 'object';
+
+    if (isObject(title)) {
+      message.error('label必须为文本');
+    } else {
+      labelText = title;
+    }
+
     return (
-      <FormItem {...formItemLayout} label={title}>
+      <FormItem {...formItemLayout} label={labelText}>
         <div className={useDisplayBoxStyle ? styles.displayBox : null}>{content}</div>
       </FormItem>
     );
@@ -540,17 +613,23 @@ class CustomCommonCore extends CustomCore {
       ...(inputProps || {}),
     };
 
+    const resultCheck = this.checkFromConfig(title, name, helper);
+
     if (!canOperate) {
       return (
         <FormItem
           {...formItemLayout}
-          label={title}
-          name={name}
-          extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+          label={resultCheck.label}
+          name={resultCheck.name}
+          extra={
+            stringIsNullOrWhiteSpace(resultCheck.helper || '')
+              ? null
+              : buildFieldHelper(resultCheck.helper)
+          }
           rules={[
             {
               required,
-              message: buildFieldDescription(title),
+              message: buildFieldDescription(resultCheck.label),
             },
           ]}
         >
@@ -562,13 +641,17 @@ class CustomCommonCore extends CustomCore {
     return (
       <FormItem
         {...formItemLayout}
-        label={title}
-        name={name}
-        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        label={resultCheck.label}
+        name={resultCheck.name}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
         rules={[
           {
             required,
-            message: buildFieldDescription(title),
+            message: buildFieldDescription(resultCheck.label),
           },
         ]}
       >
@@ -597,17 +680,23 @@ class CustomCommonCore extends CustomCore {
       ...(inputProps || {}),
     };
 
+    const resultCheck = this.checkFromConfig(title, name, helper);
+
     if (!canOperate) {
       return (
         <FormItem
           {...formItemLayout}
-          label={title}
-          name={name}
-          extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+          label={resultCheck.label}
+          name={resultCheck.name}
+          extra={
+            stringIsNullOrWhiteSpace(resultCheck.helper || '')
+              ? null
+              : buildFieldHelper(resultCheck.helper)
+          }
           rules={[
             {
               required,
-              message: buildFieldDescription(title),
+              message: buildFieldDescription(resultCheck.label),
             },
           ]}
         >
@@ -619,13 +708,17 @@ class CustomCommonCore extends CustomCore {
     return (
       <FormItem
         {...formItemLayout}
-        label={title}
-        name={name}
-        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        label={resultCheck.label}
+        name={resultCheck.name}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
         rules={[
           {
             required,
-            message: buildFieldDescription(title),
+            message: buildFieldDescription(resultCheck.label),
           },
         ]}
       >
@@ -643,7 +736,7 @@ class CustomCommonCore extends CustomCore {
   ) => {
     return this.renderFormInput(
       label,
-      '',
+      getGuid(),
       false,
       helper,
       icon,
@@ -674,17 +767,23 @@ class CustomCommonCore extends CustomCore {
       ...(inputNumberProps || {}),
     };
 
+    const resultCheck = this.checkFromConfig(title, name, helper);
+
     if (!canOperate) {
       return (
         <FormItem
           {...formItemLayout}
-          label={title}
-          name={name}
-          extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+          label={resultCheck.label}
+          name={resultCheck.name}
+          extra={
+            stringIsNullOrWhiteSpace(resultCheck.helper || '')
+              ? null
+              : buildFieldHelper(resultCheck.helper)
+          }
           rules={[
             {
               required,
-              message: buildFieldDescription(title),
+              message: buildFieldDescription(resultCheck.label),
             },
           ]}
         >
@@ -696,13 +795,17 @@ class CustomCommonCore extends CustomCore {
     return (
       <FormItem
         {...formItemLayout}
-        label={title}
-        name={name}
-        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        label={resultCheck.label}
+        name={resultCheck.name}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
         rules={[
           {
             required,
-            message: buildFieldDescription(title),
+            message: buildFieldDescription(resultCheck.label),
           },
         ]}
       >
@@ -730,17 +833,23 @@ class CustomCommonCore extends CustomCore {
       ...(textAreaProps || {}),
     };
 
+    const resultCheck = this.checkFromConfig(title, name, helper);
+
     if (!canOperate) {
       return (
         <FormItem
           {...formItemLayout}
-          label={title}
-          name={name}
-          extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+          label={resultCheck.label}
+          name={resultCheck.name}
+          extra={
+            stringIsNullOrWhiteSpace(resultCheck.helper || '')
+              ? null
+              : buildFieldHelper(resultCheck.helper)
+          }
           rules={[
             {
               required,
-              message: buildFieldDescription(title),
+              message: buildFieldDescription(resultCheck.label),
             },
           ]}
         >
@@ -752,13 +861,17 @@ class CustomCommonCore extends CustomCore {
     return (
       <FormItem
         {...formItemLayout}
-        label={title}
-        name={name}
-        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        label={resultCheck.label}
+        name={resultCheck.name}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
         rules={[
           {
             required,
-            message: buildFieldDescription(title),
+            message: buildFieldDescription(resultCheck.label),
           },
         ]}
       >
@@ -789,13 +902,19 @@ class CustomCommonCore extends CustomCore {
       ...(datePickerProps || {}),
     };
 
+    const resultCheck = this.checkFromConfig(title, name, helper);
+
     if (!canOperate) {
       return (
         <FormItem
           {...formItemLayout}
-          label={title}
-          name={name}
-          extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+          label={resultCheck.label}
+          name={resultCheck.name}
+          extra={
+            stringIsNullOrWhiteSpace(resultCheck.helper || '')
+              ? null
+              : buildFieldHelper(resultCheck.helper)
+          }
         >
           <DatePicker {...otherDatePickerProps} />
         </FormItem>
@@ -805,13 +924,17 @@ class CustomCommonCore extends CustomCore {
     return (
       <FormItem
         {...formItemLayout}
-        label={title}
-        name={name}
-        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        label={resultCheck.label}
+        name={resultCheck.name}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
         rules={[
           {
             required,
-            message: buildFieldDescription(title),
+            message: buildFieldDescription(resultCheck.label),
           },
         ]}
       >
@@ -843,16 +966,22 @@ class CustomCommonCore extends CustomCore {
       ...(otherProps || {}),
     };
 
+    const resultCheck = this.checkFromConfig(label, name, helper);
+
     return (
       <FormItem
         {...(formItemLayout || {})}
-        label={label}
-        name={name}
-        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        label={resultCheck.label}
+        name={resultCheck.name}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
         rules={[
           {
             required,
-            message: buildFieldDescription(label, '选择'),
+            message: buildFieldDescription(resultCheck.label, '选择'),
           },
         ]}
       >
@@ -886,16 +1015,22 @@ class CustomCommonCore extends CustomCore {
       ...(otherProps || {}),
     };
 
+    const resultCheck = this.checkFromConfig(label, name, helper);
+
     return (
       <FormItem
         {...(formItemLayout || {})}
-        label={label}
-        name={name}
-        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        label={resultCheck.label}
+        name={resultCheck.name}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
         rules={[
           {
             required,
-            message: buildFieldDescription(label, '选择'),
+            message: buildFieldDescription(resultCheck.label, '选择'),
           },
         ]}
       >
@@ -907,19 +1042,28 @@ class CustomCommonCore extends CustomCore {
   };
 
   renderSearchFormSelect = (label, name, options, helper = null) => {
+    const resultCheck = this.checkFromConfig(label, name, helper);
+
     return (
       <FormItem
-        label={label}
-        name={name}
+        label={resultCheck.label}
+        name={resultCheck.name}
         rules={[
           {
             required: false,
-            message: buildFieldDescription(label, '选择'),
+            message: buildFieldDescription(resultCheck.label, '选择'),
           },
         ]}
-        extra={stringIsNullOrWhiteSpace(helper || '') ? null : buildFieldHelper(helper)}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
       >
-        <Select placeholder={buildFieldDescription(label, '选择')} style={{ width: '100%' }}>
+        <Select
+          placeholder={buildFieldDescription(resultCheck.label, '选择')}
+          style={{ width: '100%' }}
+        >
           {options}
         </Select>
       </FormItem>
@@ -972,7 +1116,7 @@ class CustomCommonCore extends CustomCore {
     return this.renderSearchFormSelect(title, name, this.renderWhetherOption(withUnlimited));
   };
 
-  renderFormWhetherSelectFormItem = (
+  renderFormWhetherSelect = (
     label,
     name,
     helper = null,
