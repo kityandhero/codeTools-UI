@@ -165,7 +165,10 @@ class AddFormBase extends CustomAuthorization {
   buildInitialValues = () => {
     const initialValues = {};
 
-    initialValues[formNameCollection.createTime] = formatDatetime(new Date(), 'YYYY-MM-DD HH:mm');
+    initialValues[formNameCollection.createTime.name] = formatDatetime(
+      new Date(),
+      'YYYY-MM-DD HH:mm',
+    );
 
     return initialValues;
   };

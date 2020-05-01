@@ -1,10 +1,10 @@
+import { pretreatmentRemoteSingleData } from '@/utils/tools';
 import {
-  pretreatmentRemoteSingleData,
   getMetaDataCache,
   setMetaDataCache,
-  getOperatorCache,
-  setOperatorCache,
-} from '@/utils/tools';
+  getCurrentOperatorCache,
+  setCurrentOperatorCache,
+} from '@/customConfig/storageAssist';
 
 import { queryNotices } from '@/services/user';
 import { queryGetData } from '@/services/global';
@@ -102,7 +102,7 @@ const GlobalModel = {
       let fromRemote = force || false;
 
       if (!force) {
-        result = getOperatorCache();
+        result = getCurrentOperatorCache();
 
         if ((result || null) == null) {
           fromRemote = true;
@@ -120,7 +120,7 @@ const GlobalModel = {
         if (dataSuccess) {
           result = metaData;
 
-          setOperatorCache(result);
+          setCurrentOperatorCache(result);
         }
       }
 

@@ -7,7 +7,7 @@ import {
   apiVirtualSuccessData,
   apiVirtualFailData,
   transferToVirtualAccess,
-} from '@/utils/tools';
+} from '@/customConfig/apiVirtualAccessAssist';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');

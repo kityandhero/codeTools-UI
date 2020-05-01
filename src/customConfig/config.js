@@ -75,6 +75,14 @@ export const colorCollection = {
   closeCircleColor: '#ec8402',
 };
 
+export const formNameCollection = {
+  createTime: {
+    label: '创建时间',
+    name: 'createTime',
+    helper: '',
+  },
+};
+
 /**
  * 占位函数
  *

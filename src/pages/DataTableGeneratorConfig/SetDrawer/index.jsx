@@ -188,7 +188,7 @@ class SetDrawer extends UpdateDrawer {
           </Row>
           <Row gutter={24}>
             <Col lg={12} md={12} sm={24} xs={24}>
-              {this.renderFormWhetherSelectFormItem(
+              {this.renderFormWhetherSelect(
                 fieldData.useGenerateKey.label,
                 fieldData.useGenerateKey.name,
                 fieldData.useGenerateKey.helper,
@@ -216,7 +216,7 @@ class SetDrawer extends UpdateDrawer {
               )}
             </Col>
             <Col lg={12} md={12} sm={24} xs={24}>
-              {this.renderFormWhetherSelectFormItem(
+              {this.renderFormWhetherSelect(
                 fieldData.useActualColumnNames.label,
                 fieldData.useActualColumnNames.name,
                 fieldData.useActualColumnNames.helper,
@@ -227,7 +227,7 @@ class SetDrawer extends UpdateDrawer {
           <Divider orientation="left">别名设置</Divider>
           <Row gutter={24}>
             <Col lg={12} md={12} sm={24} xs={24}>
-              {this.renderFormWhetherSelectFormItem(
+              {this.renderFormWhetherSelect(
                 fieldData.useTableNameAlias.label,
                 fieldData.useTableNameAlias.name,
                 fieldData.useTableNameAlias.helper,

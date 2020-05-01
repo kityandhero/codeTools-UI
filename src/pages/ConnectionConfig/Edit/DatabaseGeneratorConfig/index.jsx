@@ -834,77 +834,77 @@ class DataBaseGeneratorConfig extends TabPageBase {
               </Col>
 
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
+                {this.renderFormWhetherSelect(
                   fieldData.autoDelimitKeywords.label,
                   fieldData.autoDelimitKeywords.name,
                   fieldData.autoDelimitKeywords.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
+                {this.renderFormWhetherSelect(
                   fieldData.useSchemaPrefix.label,
                   fieldData.useSchemaPrefix.name,
                   fieldData.useSchemaPrefix.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
+                {this.renderFormWhetherSelect(
                   fieldData.comment.label,
                   fieldData.comment.name,
                   fieldData.comment.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
+                {this.renderFormWhetherSelect(
                   fieldData.offsetLimit.label,
                   fieldData.offsetLimit.name,
                   fieldData.offsetLimit.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
+                {this.renderFormWhetherSelect(
                   fieldData.needToStringHashCodeEquals.label,
                   fieldData.needToStringHashCodeEquals.name,
                   fieldData.needToStringHashCodeEquals.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
+                {this.renderFormWhetherSelect(
                   fieldData.needForUpdate.label,
                   fieldData.needForUpdate.name,
                   fieldData.needForUpdate.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
+                {this.renderFormWhetherSelect(
                   fieldData.annotationDAO.label,
                   fieldData.annotationDAO.name,
                   fieldData.annotationDAO.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
+                {this.renderFormWhetherSelect(
                   fieldData.annotation.label,
                   fieldData.annotation.name,
                   fieldData.annotation.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
+                {this.renderFormWhetherSelect(
                   fieldData.useDAOExtendStyle.label,
                   fieldData.useDAOExtendStyle.name,
                   fieldData.useDAOExtendStyle.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
+                {this.renderFormWhetherSelect(
                   fieldData.jsr310Support.label,
                   fieldData.jsr310Support.name,
                   fieldData.jsr310Support.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormWhetherSelectFormItem(
+                {this.renderFormWhetherSelect(
                   fieldData.overrideXML.label,
                   fieldData.overrideXML.name,
                   fieldData.overrideXML.helper,
