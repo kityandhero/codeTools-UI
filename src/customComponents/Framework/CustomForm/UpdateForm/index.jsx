@@ -44,7 +44,7 @@ class UpdateForm extends LoadDataForm {
 
     if ((submitApiPath || '') === '') {
       message.error(`缺少 submitApiPath 配置！`);
-      
+
       return;
     }
 

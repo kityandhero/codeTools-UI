@@ -3,7 +3,7 @@ order: 7
 title: 雷达图
 ---
 
-````jsx
+```jsx
 import { Radar, ChartCard } from 'ant-design-pro/lib/Charts';
 
 const radarOriginData = [
@@ -54,11 +54,8 @@ radarOriginData.forEach((item) => {
 
 ReactDOM.render(
   <ChartCard title="数据比例">
-    <Radar
-      hasLegend
-      height={286}
-      data={radarData}
-    />
-  </ChartCard>
-, mountNode);
-````
+    <Radar hasLegend height={286} data={radarData} />
+  </ChartCard>,
+  mountNode,
+);
+```

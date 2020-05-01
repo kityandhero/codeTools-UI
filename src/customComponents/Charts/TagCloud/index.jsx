@@ -45,7 +45,7 @@ class TagCloud extends Component {
     });
   };
 
-  saveRootRef = node => {
+  saveRootRef = (node) => {
     this.root = node;
   };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { history } from 'umi';
-import { Form, Select, Radio, Input, InputNumber, DatePicker, message } from 'antd';
-import { FormOutlined } from '@ant-design/icons';
+import { Form, Select, Button, Radio, Input, InputNumber, DatePicker, message } from 'antd';
+import { FormOutlined, SaveOutlined, LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -729,20 +729,43 @@ class CustomCommonCore extends CustomCore {
 
   renderFormOnlyShowInput = (
     label,
+    value,
     helper = null,
     icon = <FormOutlined />,
-    inputProps = {},
+    inputProps = { disabled: true },
     formItemLayout = {},
   ) => {
-    return this.renderFormInput(
-      label,
-      getGuid(),
-      false,
-      helper,
-      icon,
-      inputProps,
-      false,
-      formItemLayout,
+    const title = label;
+
+    const otherInputProps = {
+      ...{
+        addonBefore: icon,
+        placeholder: '暂无数据',
+        value: stringIsNullOrWhiteSpace(value || '') ? '' : value,
+      },
+      ...(inputProps || {}),
+    };
+
+    const resultCheck = this.checkFromConfig(title, getGuid(), helper);
+
+    return (
+      <FormItem
+        {...formItemLayout}
+        label={resultCheck.label}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
+        rules={[
+          {
+            required: false,
+            message: buildFieldDescription(resultCheck.label),
+          },
+        ]}
+      >
+        <Input {...otherInputProps} />
+      </FormItem>
     );
   };
 
@@ -1179,6 +1202,58 @@ class CustomCommonCore extends CustomCore {
       formItemLayout,
       required,
       otherProps,
+    );
+  };
+
+  getSaveButtonDisabled = () => {
+    const { dataLoading, processing, loadSuccess } = this.state;
+
+    return dataLoading || processing || !loadSuccess;
+  };
+
+  getSaveButtonLoading = () => {
+    const { dataLoading, processing, loadSuccess } = this.state;
+
+    return dataLoading || processing || !loadSuccess;
+  };
+
+  getSaveButtonIcon = () => {
+    return <SaveOutlined />;
+  };
+
+  renderSaveButton = (saveButtonText = '') => {
+    const buttonDisabled = this.getSaveButtonDisabled();
+    const buttonLoading = this.getSaveButtonLoading();
+
+    return (
+      <Button
+        type="primary"
+        disabled={buttonDisabled}
+        onClick={(e) => {
+          this.validate(e);
+        }}
+      >
+        {buttonLoading ? <LoadingOutlined /> : this.getSaveButtonIcon()}
+        {saveButtonText || '保存'}
+      </Button>
+    );
+  };
+
+  buildOtherFormProps = () => {
+    return {};
+  };
+
+  renderRefreshButton = () => {
+    const { dataLoading, reloading, processing, loadSuccess } = this.state;
+
+    return (
+      <Button
+        disabled={dataLoading || reloading || processing || !loadSuccess}
+        onClick={this.reloadData}
+      >
+        {reloading ? <LoadingOutlined /> : <ReloadOutlined />}
+        刷新
+      </Button>
     );
   };
 }

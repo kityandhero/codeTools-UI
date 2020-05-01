@@ -41,12 +41,12 @@ ReactDOM.render(
     total={() => (
       <span
         dangerouslySetInnerHTML={{
-          __html: yuan(salesPieData.reduce((pre, now) => now.y + pre, 0))
+          __html: yuan(salesPieData.reduce((pre, now) => now.y + pre, 0)),
         }}
       />
     )}
     data={salesPieData}
-    valueFormat={val => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
+    valueFormat={(val) => <span dangerouslySetInnerHTML={{ __html: yuan(val) }} />}
     height={294}
   />,
   mountNode,

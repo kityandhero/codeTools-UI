@@ -3,12 +3,11 @@ import { message } from 'antd';
 
 import {
   defaultPageListState,
-  setUseParamsDataCache,
   getValue,
-  getUseParamsDataCache,
   dateToMoment,
   stringIsNullOrWhiteSpace,
 } from '@/utils/tools';
+import { getUseParamsDataCache, setUseParamsDataCache } from '@/customConfig/storageAssist';
 import ListBase from '../ListBase';
 import StandardTableCustom from '../../../StandardTableCustom';
 

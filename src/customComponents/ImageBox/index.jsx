@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import { Row, Col, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
-import { isFunction, trim, replace } from '../../utils/tools';
-import defaultSettings from '../../../config/defaultSettings';
+import { isFunction, trim, replace } from '@/utils/tools';
+import defaultSettings from '@/defaultSettings';
 
 import CustomBase from '../Framework/CustomBase';
 

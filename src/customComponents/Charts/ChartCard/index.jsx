@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import styles from './index.less';
 
-const renderTotal = total => {
+const renderTotal = (total) => {
   let totalDom;
   switch (typeof total) {
     case 'undefined':

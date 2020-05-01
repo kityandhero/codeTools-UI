@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect, formatMessage,Link } from 'umi';
+import { connect, formatMessage, Link } from 'umi';
 import PageHeader from '@/components/PageHeader';
 import MenuContext from '@/layouts/MenuContext';
 

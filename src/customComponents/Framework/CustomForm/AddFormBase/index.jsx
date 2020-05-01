@@ -1,10 +1,10 @@
 import React from 'react';
-import { Form, Button, BackTop, Avatar, message } from 'antd';
-import { LoadingOutlined, SaveOutlined, PlusOutlined } from '@ant-design/icons';
+import { Form, BackTop, Avatar, message } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import { defaultFormState, pretreatmentRequestParams, formatDatetime } from '@/utils/tools';
-import { formNameCollection } from '@/utils/constants';
+import { formNameCollection } from '@/customConfig/config';
 import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
 
 import styles from './index.less';
@@ -26,6 +26,10 @@ class AddFormBase extends CustomAuthorization {
     };
   }
 
+  adjustWhenDidMount = () => {
+    this.fillForm();
+  };
+
   getTargetForm = () => {
     return this.formRef.current;
   };
@@ -43,6 +47,22 @@ class AddFormBase extends CustomAuthorization {
       }
     }
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterFillForm = (initialValues) => {};
+
+  setFormFieldsValue = (v) => {
+    const form = this.getTargetForm();
+
+    if (form != null) {
+      form.setFieldsValue(v);
+
+      this.afterSetFieldsValue(v);
+    }
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterSetFieldsValue = (v) => {};
 
   handleFormReset = () => {
     const form = this.getTargetForm();
@@ -150,21 +170,16 @@ class AddFormBase extends CustomAuthorization {
     return initialValues;
   };
 
-  renderSaveButton = () => {
+  getSaveButtonDisabled = () => {
     const { processing } = this.state;
 
-    return (
-      <Button
-        type="primary"
-        disabled={processing}
-        onClick={(e) => {
-          this.validate(e);
-        }}
-      >
-        {processing ? <LoadingOutlined /> : <SaveOutlined />}
-        保存
-      </Button>
-    );
+    return processing;
+  };
+
+  getSaveButtonLoading = () => {
+    const { processing } = this.state;
+
+    return processing;
   };
 
   renderForm = () => {

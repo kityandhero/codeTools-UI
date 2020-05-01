@@ -5,7 +5,7 @@ title: 全局搜索
 
 通常放置在导航工具条右侧。（点击搜索图标预览效果）
 
-````jsx
+```jsx
 import HeaderSearch from 'ant-design-pro/lib/HeaderSearch';
 
 ReactDOM.render(
@@ -29,6 +29,7 @@ ReactDOM.render(
         console.log('enter', value); // eslint-disable-line
       }}
     />
-  </div>
-, mountNode);
-````
+  </div>,
+  mountNode,
+);
+```

@@ -28,7 +28,7 @@ class HeaderSearch extends PureComponent {
     clearTimeout(this.timeout);
   }
 
-  onKeyDown = e => {
+  onKeyDown = (e) => {
     if (e.key === 'Enter') {
       const { onPressEnter } = this.props;
       const { value } = this.state;
@@ -38,7 +38,7 @@ class HeaderSearch extends PureComponent {
     }
   };
 
-  onChange = value => {
+  onChange = (value) => {
     const { onChange } = this.props;
     this.setState({ value });
     if (onChange) {
@@ -103,7 +103,7 @@ class HeaderSearch extends PureComponent {
           onChange={this.onChange}
         >
           <Input
-            ref={node => {
+            ref={(node) => {
               this.input = node;
             }}
             aria-label={placeholder}

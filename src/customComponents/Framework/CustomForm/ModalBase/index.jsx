@@ -60,9 +60,11 @@ class ModalBase extends CustomAuthorization {
   setFormFieldsValue = (v) => {
     const form = this.getTargetForm();
 
-    form.setFieldsValue(v);
+    if (form != null) {
+      form.setFieldsValue(v);
 
-    this.afterSetFieldsValue(v);
+      this.afterSetFieldsValue(v);
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -212,7 +214,25 @@ class ModalBase extends CustomAuthorization {
   formContent = () => null;
 
   render() {
-    const { width, bodyStyle, pageName, visible, processing, dataLoading } = this.state;
+    const {
+      width,
+      bodyStyle,
+      pageName,
+      visible,
+      processing,
+      dataLoading,
+      metaData,
+      metaListData,
+      metaExtra,
+      metaOriginalData,
+    } = this.state;
+
+    const initialValues = this.buildInitialValues(
+      metaData,
+      metaListData,
+      metaExtra,
+      metaOriginalData,
+    );
 
     return (
       <Modal
@@ -225,7 +245,9 @@ class ModalBase extends CustomAuthorization {
         onCancel={this.handleCancel}
       >
         <Spin spinning={processing || dataLoading}>
-          <Form ref={this.formRef}>{this.formContent()}</Form>
+          <Form ref={this.formRef} initialValues={initialValues}>
+            {this.formContent()}
+          </Form>
         </Spin>
       </Modal>
     );

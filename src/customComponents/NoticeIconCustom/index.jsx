@@ -14,7 +14,7 @@ class NoticeIcon extends PureComponent {
     onItemClick(item, tabProps);
   };
 
-  onTabChange = tabType => {
+  onTabChange = (tabType) => {
     const { onTabChange } = this.props;
     onTabChange(tabType);
   };
@@ -24,7 +24,7 @@ class NoticeIcon extends PureComponent {
     if (!children) {
       return null;
     }
-    const panes = React.Children.map(children, child => {
+    const panes = React.Children.map(children, (child) => {
       const title =
         child.props.list && child.props.list.length > 0
           ? `${child.props.title} (${child.props.list.length})`
@@ -34,7 +34,7 @@ class NoticeIcon extends PureComponent {
           <List
             {...child.props}
             data={child.props.list}
-            onClick={item => this.onItemClick(item, child.props)}
+            onClick={(item) => this.onItemClick(item, child.props)}
             onClear={() => onClear(child.props.name)}
             title={child.props.title}
             locale={locale}

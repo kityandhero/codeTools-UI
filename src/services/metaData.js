@@ -1,5 +1,8 @@
 import request from '@/utils/request';
-import { apiVirtualSuccessAccess, transferToVirtualAccess } from '@/utils/tools';
+import {
+  apiVirtualSuccessAccess,
+  transferToVirtualAccess,
+} from '@/customConfig/apiVirtualAccessAssist';
 
 /**
  * 综合数据

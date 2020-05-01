@@ -35,18 +35,18 @@ class CustomAuthorization extends CustomCommonWrapper {
 
   checkAuthority = (auth) => checkHasAuthority(auth);
 
-  getOperator = () => {
+  getCurrentOperator = () => {
     const {
-      global: { operator },
+      global: { currentOperator },
     } = this.props;
-    return operator;
+    return currentOperator;
   };
 
-  reloadOperator = (callback = null) => {
+  reloadCurrentOperator = (callback = null) => {
     const { dispatch } = this.props;
 
     dispatch({
-      type: 'global/getOperator',
+      type: 'global/getCurrentOperator',
       payload: { force: true },
     }).then(() => {
       if (isFunction(callback)) {
