@@ -3,7 +3,12 @@ import { Form, BackTop, Avatar, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
-import { defaultFormState, pretreatmentRequestParams, formatDatetime } from '@/utils/tools';
+import {
+  getDerivedStateFromPropsForUrlParams,
+  defaultFormState,
+  pretreatmentRequestParams,
+  formatDatetime,
+} from '@/utils/tools';
 import { formNameCollection } from '@/customConfig/config';
 import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
 
@@ -24,6 +29,10 @@ class AddFormBase extends CustomAuthorization {
         loadDataAfterMount: false,
       },
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(nextProps, prevState);
   }
 
   adjustWhenDidMount = () => {

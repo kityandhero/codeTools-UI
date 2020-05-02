@@ -27,6 +27,7 @@ const GlobalModel = {
       { flag: '0', name: '否', description: '否' },
     ],
     daoTypeList: [],
+    generatorTypeList: [],
     channelList: [],
     customConfigCategoryList: [],
     databaseDatabaseTypeList: [],
@@ -63,6 +64,7 @@ const GlobalModel = {
         if (dataSuccess) {
           const {
             daoTypeList,
+            generatorTypeList,
             channelList,
             customConfigCategoryList,
             databaseConnectionTypeList,
@@ -76,6 +78,7 @@ const GlobalModel = {
 
           result = {
             daoTypeList,
+            generatorTypeList,
             channelList,
             customConfigCategoryList,
             databaseConnectionTypeList,

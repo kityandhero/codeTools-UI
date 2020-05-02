@@ -20,6 +20,8 @@ const ButtonGroup = Button.Group;
 class LoadDataForm extends LoadDataCore {
   enableActionBack = true;
 
+  reloadByUrlOp = false;
+
   actionBackProps = {};
 
   formRef = React.createRef();
@@ -64,7 +66,9 @@ class LoadDataForm extends LoadDataCore {
         (prevOp === 'load' && op === 'update') ||
         this.checkNeedUpdate(preProps, preState, snapshot)
       ) {
-        this.reloadData();
+        if (this.reloadByUrlOp) {
+          this.reloadData();
+        }
       }
     }
   };

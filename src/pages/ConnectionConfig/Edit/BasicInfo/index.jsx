@@ -51,6 +51,7 @@ class BasicInfo extends TabPageBase {
       values[fieldData.connectionConfigId.name] = metaData.connectionConfigId || '';
       values[fieldData.name.name] = metaData.name || '';
       values[fieldData.connectionType.name] = `${metaData.connectionType || ''}`;
+      values[fieldData.generatorType.name] = `${metaData.generatorType || ''}`;
       values[fieldData.databaseType.name] = `${metaData.databaseType || ''}`;
       values[fieldData.host.name] = metaData.host || '';
       values[fieldData.port.name] = metaData.port || '';
@@ -131,13 +132,16 @@ class BasicInfo extends TabPageBase {
         >
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
-              <Col lg={18} md={12} sm={24} xs={24}>
+              <Col lg={12} md={12} sm={24} xs={24}>
                 {this.renderFormInput(
                   fieldData.name.label,
                   fieldData.name.name,
                   true,
                   fieldData.name.helper,
                 )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormGeneratorTypeSelect()}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormDatabaseDatabaseTypeSelectSelect()}

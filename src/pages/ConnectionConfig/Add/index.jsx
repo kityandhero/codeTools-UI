@@ -2,6 +2,9 @@ import React from 'react';
 import { connect, history } from 'umi';
 import { Card, Row, Col, Switch, Spin, notification, Affix } from 'antd';
 
+import { getDerivedStateFromPropsForUrlParams, formatDatetime, isArray } from '@/utils/tools';
+import { formNameCollection } from '@/customConfig/config';
+import { customFieldCollection } from '@/customSpecialComponents/CustomCommonSupplement/customConstants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import AddFormBase from '@/customComponents/Framework/CustomForm/AddFormBase';
 
@@ -29,6 +32,31 @@ class Add extends AddFormBase {
       },
     };
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(nextProps, prevState);
+  }
+
+  buildInitialValues = () => {
+    const { global } = this.props;
+
+    const generatorTypeList = global.generatorTypeList || [];
+
+    const initialValues = {};
+
+    if (isArray(generatorTypeList) && generatorTypeList.length > 0) {
+      initialValues[customFieldCollection.generatorType.name] = `${generatorTypeList[0].flag}`;
+    }
+
+    initialValues[fieldData.port.name] = 0;
+
+    initialValues[formNameCollection.createTime.name] = formatDatetime(
+      new Date(),
+      'YYYY-MM-DD HH:mm',
+    );
+
+    return initialValues;
+  };
 
   getApiData = (props) => {
     const {
@@ -87,13 +115,16 @@ class Add extends AddFormBase {
         >
           <Spin spinning={processing}>
             <Row gutter={24}>
-              <Col lg={18} md={12} sm={24} xs={24}>
+              <Col lg={12} md={12} sm={24} xs={24}>
                 {this.renderFormInput(
                   fieldData.name.label,
                   fieldData.name.name,
                   true,
                   fieldData.name.helper,
                 )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormGeneratorTypeSelect()}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormDatabaseDatabaseTypeSelectSelect()}
@@ -112,7 +143,7 @@ class Add extends AddFormBase {
                 {this.renderFormInputNumber(
                   fieldData.port.label,
                   fieldData.port.name,
-                  true,
+                  false,
                   fieldData.port.helper,
                 )}
               </Col>
