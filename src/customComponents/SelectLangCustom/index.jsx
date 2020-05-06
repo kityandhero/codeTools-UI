@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { formatMessage, setLocale, getLocale } from 'umi-plugin-react/locale';
+import { formatMessage, setLocale, getLocale } from 'umi';
 import classNames from 'classnames';
 import { Menu, Dropdown } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';

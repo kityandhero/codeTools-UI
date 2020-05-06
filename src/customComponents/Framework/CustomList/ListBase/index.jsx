@@ -231,9 +231,9 @@ class ListBase extends CustomAuthorization {
 
     return (
       <>
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }} justify="end">
+        <Row gutter={24}>
           {this.renderSimpleFormRangePicker(dateRangeFieldName, 10)}
-          {this.renderSimpleFormButton(null, 12)}
+          {this.renderSimpleFormButton()}
         </Row>
       </>
     );

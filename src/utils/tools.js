@@ -1,7 +1,7 @@
 import { history } from 'umi';
 import { message } from 'antd';
 import moment from 'moment';
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import copy from 'copy-to-clipboard';
 import queue from 'queue';
 import numeral from 'numeral';
@@ -20,19 +20,13 @@ import {
   isDate as isDateLodash,
   isArray as isArrayLodash,
   remove as removeLodash,
+  isObject as isObjectLodash,
   merge as mergeLodash,
 } from 'lodash';
 
-import { getConfigData } from '../customConfig/config';
+import { getConfigData } from '@/customConfig/config';
 
 import { logLevel, logShowMode, authenticationFailCode } from './constants';
-
-const storageKeyCollection = {
-  metaData: 'metaData',
-  token: 'token',
-  city: 'city',
-  operator: 'operator',
-};
 
 export function defaultBaseState() {
   return {
@@ -204,6 +198,19 @@ export function checkDevelopment() {
 }
 
 /**
+ * corsTarget
+ * 跨域域名配置
+ * @export
+ * @param {*} v
+ * @returns
+ */
+export function corsTarget() {
+  const c = getConfigData();
+
+  return checkDevelopment() ? c.corsTargetDevelopment : c.corsTargetProduction;
+}
+
+/**
  * 记录日志
  *
  * @export
@@ -256,19 +263,6 @@ function logShowInConsole() {
   }
 
   return false;
-}
-
-/**
- * corsTarget
- * 跨域域名配置
- * @export
- * @param {*} v
- * @returns
- */
-export function corsTarget() {
-  const c = getConfigData();
-
-  return checkDevelopment() ? c.corsTargetDevelopment : c.corsTargetProduction;
 }
 
 /**
@@ -424,6 +418,17 @@ export function toNumber(v) {
   }
 
   return 0;
+}
+
+/**
+ *
+ *@param  val 值 len保留小数位数
+ *
+ */
+export function roundToTarget(v, len) {
+  const temp = 10 ** len;
+
+  return Math.round(v * temp) / temp;
 }
 
 /**
@@ -612,6 +617,7 @@ function seededRandom(seed, min, max) {
  * @returns
  */
 export function getRandomColor(seed) {
+  // eslint-disable-next-line
   return `#${`00000${((seededRandom(seed) * 0x1000000) << 0).toString(16)}`.substr(-6)}`;
 }
 
@@ -650,28 +656,35 @@ export function getBrowserInfo() {
 }
 
 /**
- * 表单项初始化值
+ * 封装表单项配置
  *
  * @export
  * @param {*} v
  * @param {*} justice
  * @param {*} defaultValue
+ * @param {*} originalOption
  * @param {*} convertCallback
  */
-export function refitFieldInitialValue(value, justice, defaultValue, convertCallback) {
-  let resultValue = value;
+export function refitFieldDecoratorOption(
+  v,
+  justice,
+  defaultValue,
+  originalOption,
+  convertCallback,
+) {
+  const result = originalOption;
   const justiceV = typeof justice !== 'undefined' && justice !== null;
   const defaultV = typeof defaultValue === 'undefined' ? null : defaultValue;
 
   if (justiceV) {
     if (typeof convertValue === 'function') {
-      resultValue = convertCallback(value) || defaultV;
+      result.initialValue = convertCallback(v) || defaultV;
     } else {
-      resultValue = value || defaultV;
+      result.initialValue = v || defaultV;
     }
   }
 
-  return resultValue;
+  return result;
 }
 
 /**
@@ -718,95 +731,6 @@ export function evil(fn) {
   // 一个变量指向Function，防止有些前端编译工具报错
   const Fn = Function;
   return new Fn(`return ${fn}`)();
-}
-
-/**
- * 获取Token键名
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getTokenKeyName() {
-  return storageKeyCollection.token;
-}
-
-/**
- * 获取Token
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getToken() {
-  const key = storageKeyCollection.token;
-
-  return getStringFromLocalStorage(key);
-}
-
-/**
- * 设置Token
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function setToken(v) {
-  const key = storageKeyCollection.token;
-
-  return saveStringToLocalStorage(key, v);
-}
-
-/**
- * 移除Token
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function removeToken(v) {
-  const key = storageKeyCollection.token;
-
-  return removeLocalStorage(key, v);
-}
-
-/**
- * 获取City
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getCity() {
-  const key = storageKeyCollection.city;
-
-  return getJsonFromLocalStorage(key);
-}
-
-/**
- * 设置City
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function setCity(v) {
-  const key = storageKeyCollection.city;
-
-  return saveJsonToLocalStorage(key, v);
-}
-
-/**
- * 移除City
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function removeCity(v) {
-  const key = storageKeyCollection.city;
-
-  return removeLocalStorage(key, v);
 }
 
 /**
@@ -1071,219 +995,6 @@ export function pretreatmentRequestParams(params, customHandle) {
 }
 
 /**
- * 是否使用模拟访问
- *
- * @export
- * @returns
- */
-export function transferToVirtualAccess() {
-  // return process.env.NODE_ENV === 'development';
-  // return true;
-  return false;
-}
-
-/**
- * 封装模拟的登录验证
- *
- * @returns
- */
-function apiVirtualAuthorize() {
-  const tokenValue = getToken;
-  return (tokenValue || '') !== '';
-}
-
-/**
- * 封装模拟的错误返回
- *
- * @export
- * @param {*} statusCode
- * @param {*} messageText
- * @param {boolean} [needAuthorize=true]
- * @returns
- */
-export function apiVirtualFailData(statusCode, messageText, needAuthorize = true) {
-  if (needAuthorize) {
-    if (apiVirtualAuthorize()) {
-      message.error(messageText);
-      return {
-        code: statusCode,
-        message: messageText,
-      };
-    }
-
-    return {
-      code: authenticationFailCode,
-      msg: '未授权的访问',
-    };
-  }
-
-  message.error(messageText);
-  return {
-    code: statusCode,
-    message: messageText,
-  };
-}
-
-/**
- * 封装模拟的正确返回
- *
- * @export
- * @param {*} successData
- * @param {boolean} [needAuthorize=true]
- * @returns
- */
-export function apiVirtualSuccessData(successData, needAuthorize = true) {
-  if (needAuthorize) {
-    if (apiVirtualAuthorize()) {
-      return {
-        code: 200,
-        msg: '',
-        ...successData,
-      };
-    }
-
-    return {
-      code: authenticationFailCode,
-      msg: '未授权的访问',
-    };
-  }
-
-  return {
-    code: 200,
-    msg: '',
-    ...successData,
-  };
-}
-
-/**
- * 封装正确的虚拟访问
- *
- * @export
- * @param {*} dataVirtual
- * @param {boolean} [needAuthorize=true]
- * @returns
- */
-export async function apiVirtualSuccessAccess(dataVirtual, needAuthorize = true) {
-  let result = {};
-  // eslint-disable-next-line compat/compat
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(apiVirtualSuccessData(dataVirtual, needAuthorize));
-    }, 300);
-  }).then((data) => {
-    result = data;
-  });
-
-  message.info('由虚拟访问返回');
-
-  const { code } = result;
-
-  if (code === authenticationFailCode) {
-    history.push('/user/login');
-  }
-
-  return result;
-}
-
-/**
- * 封装失败的虚拟访问
- *
- * @export
- * @param {*} dataVirtual
- * @param {boolean} [needAuthorize=true]
- * @returns
- */
-export async function apiVirtualFailAccess(dataVirtual, needAuthorize = true) {
-  let result = {};
-  // eslint-disable-next-line compat/compat
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(apiVirtualFailData(dataVirtual, needAuthorize));
-    }, 300);
-  }).then((data) => {
-    result = data;
-  });
-
-  message.info('由虚拟访问返回');
-
-  const { code, message: messageText } = result;
-
-  if (code === authenticationFailCode) {
-    history.push('/user/login');
-  } else if (code !== 200) {
-    message.warn(messageText);
-  }
-
-  return result;
-}
-
-/**
- * 封装模拟访问
- *
- * @export
- * @param {*} dataBuildFunction
- * dataBuildFunction示例
- * apiVirtualAccess(resolve => {
- *   setTimeout(() => {
- *     const { password, userName, type } = params;
- *     if (password === '888888' && userName === 'admin') {
- *       resolve(
- *         apiVirtualSuccessData(
- *           {
- *             id: 1,
- *             token: '059b1900-7d7b-40aa-872f-197d04b03385',
- *             userName: 'admin',
- *             type,
- *             role: [],
- *             currentAuthority: 'admin',
- *           },
- *           false
- *         )
- *       );
- *     } else if (password === '123456' && userName === 'user') {
- *       resolve(
- *         apiVirtualSuccessData(
- *           {
- *             id: 2,
- *             token: 'a9f98dab-00c1-4929-b79f-bacd1a7846d0',
- *             userName: 'user',
- *             type,
- *             role: [],
- *             currentAuthority: 'user',
- *           },
- *           false
- *         )
- *       );
- *     } else {
- *       resolve(apiVirtualFailData(1001, '用户名不存在或密码错误', false));
- *     }
- *   }, 300);
- * });
- * @returns
- */
-export async function apiVirtualAccess(dataBuildFunction) {
-  let result = {};
-  // eslint-disable-next-line compat/compat
-  await new Promise((resolve) => {
-    if (typeof dataBuildFunction === 'function') {
-      setTimeout(dataBuildFunction(resolve));
-    }
-  }).then((data) => {
-    result = data;
-  });
-
-  message.info('由虚拟访问返回');
-
-  const { code, message: messageText } = result;
-
-  if (code !== 200) {
-    message.warn(messageText);
-  }
-
-  return result;
-}
-
-/**
  * 获取SessionStorage数据
  * @export
  * @param {*} key
@@ -1456,18 +1167,6 @@ export function clearLocalStorage() {
 }
 
 /**
- * 清空LocalStorage数据
- * @export
- * @param {*} key
- */
-export function clearCustomData() {
-  removeMetaDataCache();
-  removeOperatorCache();
-  removeToken();
-  removeCity();
-}
-
-/**
  * 获取工作队列
  * @export
  */
@@ -1565,6 +1264,10 @@ export function isArray(value) {
   return isArrayLodash(value);
 }
 
+export function isObject(o) {
+  return isObjectLodash(o);
+}
+
 /**
  * 筛选需要的集合
  * @param {collection} 可筛选的对象，例如数组
@@ -1637,179 +1340,6 @@ export function removeFromArray(array, predicate) {
 
 export function stringIsNullOrWhiteSpace(value) {
   return trim(replace(value || '', ' ', '')) === '';
-}
-
-/**
- * 获取metaData缓存
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getMetaDataCache() {
-  const key = storageKeyCollection.metaData;
-
-  const d = getJsonFromLocalStorage(key);
-
-  if ((d || null) == null) {
-    return null;
-  }
-
-  if ((d.dataVersion || '') === '') {
-    return null;
-  }
-
-  const now = parseInt(new Date().getTime() / 1000 / 60 / 5, 10);
-
-  if (d.dataVersion < now) {
-    return null;
-  }
-
-  return d.metaData || null;
-}
-
-/**
- * 设置metaData缓存
- *
- * @export
- * @param {o} metaData数据
- * @returns
- */
-export function setMetaDataCache(o) {
-  const key = storageKeyCollection.metaData;
-
-  const now = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
-
-  const d = {
-    metaData: o || null,
-    dataVersion: now,
-  };
-
-  return saveJsonToLocalStorage(key, d);
-}
-
-/**
- * 移除信息
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function removeMetaDataCache() {
-  const key = storageKeyCollection.metaData;
-  removeLocalStorage(key);
-}
-
-/**
- * 获取useParamsData缓存
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getUseParamsDataCache(key) {
-  const d = getJsonFromLocalStorage(key);
-
-  if ((d || null) == null) {
-    removeUseParamsDataCache(key);
-    return null;
-  }
-
-  if ((d.dataVersion || '') === '') {
-    removeUseParamsDataCache(key);
-    return null;
-  }
-
-  const now = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
-
-  if (d.dataVersion < now) {
-    removeUseParamsDataCache(key);
-    return null;
-  }
-
-  return d.useParamsData || null;
-}
-
-/**
- * 设置useParamsData缓存
- *
- * @export
- * @param {o} useParamsData数据
- * @returns
- */
-export function setUseParamsDataCache(key, o) {
-  const now = parseInt(new Date().getTime() / 1000 / 60 / 30, 10);
-
-  const d = {
-    useParamsData: o || null,
-    dataVersion: now,
-  };
-
-  return saveJsonToLocalStorage(key, d);
-}
-
-/**
- * 移除信息
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function removeUseParamsDataCache(key) {
-  removeLocalStorage(key);
-}
-
-/**
- * 获取缓存
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function getOperatorCache() {
-  const key = storageKeyCollection.operator;
-
-  const d = getJsonFromLocalStorage(key);
-
-  if ((d || null) == null) {
-    return null;
-  }
-
-  if (d.flag === '' || d.flag !== getToken()) {
-    return null;
-  }
-
-  return d.data || null;
-}
-
-/**
- * 设置metaData缓存
- *
- * @export
- * @param {o} metaData数据
- * @returns
- */
-export function setOperatorCache(o) {
-  const key = storageKeyCollection.operator;
-
-  const d = {
-    data: o || null,
-    flag: getToken() || '',
-  };
-
-  return saveJsonToLocalStorage(key, d);
-}
-
-/**
- * 移除经纬度信息
- *
- * @export
- * @param {*} fn
- * @returns
- */
-export function removeOperatorCache() {
-  const key = storageKeyCollection.operator;
-  removeLocalStorage(key);
 }
 
 /**

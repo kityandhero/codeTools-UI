@@ -1,10 +1,10 @@
+import { pretreatmentRemoteSingleData } from '@/utils/tools';
 import {
-  pretreatmentRemoteSingleData,
   getMetaDataCache,
   setMetaDataCache,
-  getOperatorCache,
-  setOperatorCache,
-} from '@/utils/tools';
+  getCurrentOperatorCache,
+  setCurrentOperatorCache,
+} from '@/customConfig/storageAssist';
 
 import { queryNotices } from '@/services/user';
 import { queryGetData } from '@/services/global';
@@ -27,6 +27,7 @@ const GlobalModel = {
       { flag: '0', name: '否', description: '否' },
     ],
     daoTypeList: [],
+    generatorTypeList: [],
     channelList: [],
     customConfigCategoryList: [],
     databaseDatabaseTypeList: [],
@@ -63,6 +64,7 @@ const GlobalModel = {
         if (dataSuccess) {
           const {
             daoTypeList,
+            generatorTypeList,
             channelList,
             customConfigCategoryList,
             databaseConnectionTypeList,
@@ -76,6 +78,7 @@ const GlobalModel = {
 
           result = {
             daoTypeList,
+            generatorTypeList,
             channelList,
             customConfigCategoryList,
             databaseConnectionTypeList,
@@ -102,7 +105,7 @@ const GlobalModel = {
       let fromRemote = force || false;
 
       if (!force) {
-        result = getOperatorCache();
+        result = getCurrentOperatorCache();
 
         if ((result || null) == null) {
           fromRemote = true;
@@ -120,7 +123,7 @@ const GlobalModel = {
         if (dataSuccess) {
           result = metaData;
 
-          setOperatorCache(result);
+          setCurrentOperatorCache(result);
         }
       }
 

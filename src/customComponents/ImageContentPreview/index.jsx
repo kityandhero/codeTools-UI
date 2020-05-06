@@ -45,7 +45,7 @@ class ImageContentPreview extends CustomBase {
 
     if (mode === imageContentPreviewMode.imageList) {
       const imageListHtmlContent = (imageList || [])
-        .map(item => `<img src="${item}" alt="" />`)
+        .map((item) => `<img src="${item}" alt="" />`)
         .join('');
 
       return (
@@ -72,7 +72,7 @@ class ImageContentPreview extends CustomBase {
 
     if (mode === imageContentPreviewMode.listItem) {
       const listItemHtmlContent = (listItem || [])
-        .map(item => `<img src="${item.image}" alt="" /><p>${item.description}</p>`)
+        .map((item) => `<img src="${item.image}" alt="" /><p>${item.description}</p>`)
         .join('');
 
       return (

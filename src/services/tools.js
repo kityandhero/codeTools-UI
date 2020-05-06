@@ -1,5 +1,8 @@
 import request from '@/utils/request';
-import { apiVirtualSuccessAccess, transferToVirtualAccess } from '@/utils/tools';
+import {
+  apiVirtualSuccessAccess,
+  transferToVirtualAccess,
+} from '@/customConfig/apiVirtualAccessAssist';
 
 export async function openFolderData(params) {
   if (transferToVirtualAccess()) {

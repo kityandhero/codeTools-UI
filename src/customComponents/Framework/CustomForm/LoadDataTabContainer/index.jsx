@@ -88,6 +88,11 @@ class LoadDataTabContainer extends LoadDataForm {
       .replace(/-/g, '/');
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => {
+    return null;
+  };
+
   pageHeaderTag = () => null;
 
   pageHeaderTagWrapper = () => {

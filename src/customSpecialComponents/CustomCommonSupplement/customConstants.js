@@ -5,6 +5,11 @@ module.exports = {
       label: 'dao类型',
       helper: '生成dao的类型(AnnotatedMapper/XmlMapper)',
     },
+    generatorType: {
+      name: 'generatorType',
+      label: '生成器类型',
+      helper: '代码生成器的类型',
+    },
     databaseConnectionType: {
       name: 'connectionType',
       label: '连接方式',

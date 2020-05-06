@@ -57,7 +57,7 @@ const CheckboxListItem = ({ columnKey, columnsMap, title, setColumnsMap, fixed }
     <span className={styles.item} key={columnKey}>
       <Checkbox
         className={styles.checkbox}
-        onChange={e => {
+        onChange={(e) => {
           if (columnKey) {
             const tempConfig = columnsCollection[columnKey || ''] || {};
             const newSetting = { ...tempConfig };
@@ -122,7 +122,7 @@ const CheckboxList = ({
   const move = (id, targetIndex) => {
     const newColumns = [...sortKeyColumns];
 
-    const findIndex = newColumns.findIndex(columnKey => columnKey === id);
+    const findIndex = newColumns.findIndex((columnKey) => columnKey === id);
 
     const key = newColumns[findIndex];
     newColumns.splice(findIndex, 1);
@@ -170,7 +170,7 @@ const GroupCheckboxList = ({ localColumns, columnsMap, setColumnsMap, setSortKey
   const leftList = [];
   const list = [];
 
-  localColumns.forEach(item => {
+  localColumns.forEach((item) => {
     const { fixed } = item;
     if (fixed === 'left') {
       leftList.push(item);
@@ -214,7 +214,7 @@ const GroupCheckboxList = ({ localColumns, columnsMap, setColumnsMap, setSortKey
   );
 };
 
-const ColumnSetting = props => {
+const ColumnSetting = (props) => {
   const localColumns = props.columns || [];
   const { columnsMap, setColumnsMap, setSortKeyColumns } = props;
 
@@ -239,7 +239,7 @@ const ColumnSetting = props => {
     }
   };
 
-  const selectKeys = Object.values(columnsMap || []).filter(value => {
+  const selectKeys = Object.values(columnsMap || []).filter((value) => {
     return !value || value.show === false;
   });
 
@@ -254,7 +254,7 @@ const ColumnSetting = props => {
             <Checkbox
               indeterminate={indeterminate}
               checked={selectKeys.length === 0 && selectKeys.length !== localColumns.length}
-              onChange={e => {
+              onChange={(e) => {
                 if (e.target.checked) {
                   setAllSelectAction();
                 } else {

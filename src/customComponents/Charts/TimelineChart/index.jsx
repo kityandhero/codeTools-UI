@@ -28,7 +28,7 @@ class TimelineChart extends React.Component {
     if (data[0] && data[0].y1 && data[0].y2) {
       max = Math.max(
         [...data].sort((a, b) => b.y1 - a.y1)[0].y1,
-        [...data].sort((a, b) => b.y2 - a.y2)[0].y2
+        [...data].sort((a, b) => b.y2 - a.y2)[0].y2,
       );
     }
 
@@ -43,7 +43,7 @@ class TimelineChart extends React.Component {
     dv.source(data)
       .transform({
         type: 'filter',
-        callback: obj => {
+        callback: (obj) => {
           const date = obj.x;
           return date <= ds.state.end && date >= ds.state.start;
         },

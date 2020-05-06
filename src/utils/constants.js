@@ -2,9 +2,6 @@ module.exports = {
   zeroString: '0',
   zeroInt: 0,
   authenticationFailCode: 2001,
-  formNameCollection: {
-    createTime: 'createTime',
-  },
   whetherString: {
     no: '0',
     yes: '1',
@@ -39,6 +36,16 @@ module.exports = {
     CommonValue: {
       flag: 300,
       name: '一般值',
+    },
+    unlimitedWithStringFlag: {
+      key: '-10000',
+      name: '不限',
+      flag: '-10000',
+    },
+    unlimitedWithNumberFlag: {
+      key: -10000,
+      name: '不限',
+      flag: -10000,
     },
   },
 };

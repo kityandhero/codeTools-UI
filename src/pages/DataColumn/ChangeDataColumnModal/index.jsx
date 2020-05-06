@@ -159,7 +159,7 @@ class ChangeDataColumnModal extends ModalBase {
           false,
           formItemLayout,
         )}
-        {this.renderFormWhetherSelectFormItem(
+        {this.renderFormWhetherSelect(
           fieldData.ignore.label,
           fieldData.ignore.name,
           fieldData.ignore.helper,

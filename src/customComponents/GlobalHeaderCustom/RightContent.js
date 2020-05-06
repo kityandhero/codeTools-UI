@@ -5,7 +5,7 @@ import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import { MonitorOutlined, LogoutOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
-import { checkIsSuper } from '../../utils/authority';
+import { checkIsSuper } from '@/utils/authority';
 
 import NoticeIconCustom from '../NoticeIconCustom';
 import HeaderSearchCustom from '../HeaderSearchCustom';

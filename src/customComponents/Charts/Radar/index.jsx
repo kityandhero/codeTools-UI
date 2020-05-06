@@ -22,7 +22,7 @@ class Radar extends Component {
     }
   }
 
-  getG2Instance = chart => {
+  getG2Instance = (chart) => {
     this.chart = chart;
   };
 
@@ -33,9 +33,9 @@ class Radar extends Component {
     if (!geom) return;
     const items = geom.get('dataArray') || []; // 获取图形对应的
 
-    const legendData = items.map(item => {
+    const legendData = items.map((item) => {
       // eslint-disable-next-line
-      const origins = item.map(t => t._origin);
+      const origins = item.map((t) => t._origin);
       const result = {
         name: origins[0].name,
         color: item[0].color,
@@ -51,7 +51,7 @@ class Radar extends Component {
     });
   };
 
-  handleRef = n => {
+  handleRef = (n) => {
     this.node = n;
   };
 
@@ -62,10 +62,10 @@ class Radar extends Component {
     const { legendData } = this.state;
     legendData[i] = newItem;
 
-    const filteredLegendData = legendData.filter(l => l.checked).map(l => l.name);
+    const filteredLegendData = legendData.filter((l) => l.checked).map((l) => l.name);
 
     if (this.chart) {
-      this.chart.filter('name', val => filteredLegendData.indexOf(val) > -1);
+      this.chart.filter('name', (val) => filteredLegendData.indexOf(val) > -1);
       this.chart.repaint();
     }
 

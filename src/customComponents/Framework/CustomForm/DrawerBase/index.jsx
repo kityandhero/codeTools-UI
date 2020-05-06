@@ -77,6 +77,7 @@ class DrawerBase extends CustomAuthorization {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {};
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fillForm = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const initialValues = this.buildInitialValues(
       metaData,
@@ -86,11 +87,20 @@ class DrawerBase extends CustomAuthorization {
     );
 
     if (initialValues != null) {
-      const form = this.getTargetForm();
-
-      form.setFieldsValue(initialValues);
+      this.setFormFieldsValue(initialValues);
     }
   };
+
+  setFormFieldsValue = (v) => {
+    const form = this.getTargetForm();
+
+    form.setFieldsValue(v);
+
+    this.afterSetFieldsValue(v);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterSetFieldsValue = (v) => {};
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => null;
@@ -204,7 +214,7 @@ class DrawerBase extends CustomAuthorization {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     singleData,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    listData,
+    pageListData,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     extraData,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -238,8 +248,22 @@ class DrawerBase extends CustomAuthorization {
   };
 
   renderForm = () => {
+    const { metaData, metaListData, metaExtra, metaOriginalData } = this.state;
+
+    const initialValues = this.buildInitialValues(
+      metaData,
+      metaListData,
+      metaExtra,
+      metaOriginalData,
+    );
+
     return (
-      <Form ref={this.formRef} className={this.getFormClassName()} layout={this.getFormLayout()}>
+      <Form
+        ref={this.formRef}
+        initialValues={initialValues}
+        className={this.getFormClassName()}
+        layout={this.getFormLayout()}
+      >
         {this.formContent()}
       </Form>
     );

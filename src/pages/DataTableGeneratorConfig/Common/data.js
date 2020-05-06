@@ -57,6 +57,16 @@ module.exports = {
       label: 'mapper代码',
       helper: '生成的mapper代码',
     },
+    serviceContent: {
+      name: 'serviceContent',
+      label: 'service代码',
+      helper: '生成的service代码',
+    },
+    serviceImplContent: {
+      name: 'serviceImplContent',
+      label: 'serviceImpl代码',
+      helper: '生成的serviceImpl代码',
+    },
     mappingXmlContent: {
       name: 'mappingXmlContent',
       label: 'mappingXml代码',

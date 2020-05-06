@@ -88,6 +88,8 @@ class GenerateResultDrawer extends LoadDrawer {
       const modelContent = metaData.modelContent || '';
       const exampleContent = metaData.exampleContent || '';
       const mapperContent = metaData.mapperContent || '';
+      const serviceContent = metaData.serviceContent || '';
+      const serviceImplContent = metaData.serviceImplContent || '';
       const mappingXmlContent = metaData.mappingXmlContent || '';
 
       if (!stringIsNullOrWhiteSpace(modelContent)) {
@@ -111,6 +113,22 @@ class GenerateResultDrawer extends LoadDrawer {
           title: fieldData.mapperContent.label,
           language: 'java',
           content: mapperContent,
+        });
+      }
+
+      if (!stringIsNullOrWhiteSpace(serviceContent)) {
+        list.push({
+          title: fieldData.serviceContent.label,
+          language: 'java',
+          content: serviceContent,
+        });
+      }
+
+      if (!stringIsNullOrWhiteSpace(serviceImplContent)) {
+        list.push({
+          title: fieldData.serviceImplContent.label,
+          language: 'java',
+          content: serviceImplContent,
         });
       }
 

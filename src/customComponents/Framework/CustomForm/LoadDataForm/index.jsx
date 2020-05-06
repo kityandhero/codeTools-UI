@@ -6,7 +6,6 @@ import {
   EllipsisOutlined,
   ReloadOutlined,
   LoadingOutlined,
-  SaveOutlined,
   ContactsOutlined,
 } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
@@ -20,6 +19,8 @@ const ButtonGroup = Button.Group;
 
 class LoadDataForm extends LoadDataCore {
   enableActionBack = true;
+
+  reloadByUrlOp = false;
 
   actionBackProps = {};
 
@@ -43,6 +44,34 @@ class LoadDataForm extends LoadDataCore {
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(nextProps, prevState);
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
+    const { urlParams } = this.state;
+
+    const { urlParams: urlParamsPrev } = preState;
+
+    if ((urlParams || null) == null || (urlParamsPrev || null) == null) {
+      return;
+    }
+
+    const { op } = urlParams;
+
+    const { op: prevOp } = urlParamsPrev;
+
+    const { dataLoading } = this.state;
+
+    if (!dataLoading) {
+      if (
+        (prevOp === 'load' && op === 'update') ||
+        this.checkNeedUpdate(preProps, preState, snapshot)
+      ) {
+        if (this.reloadByUrlOp) {
+          this.reloadData();
+        }
+      }
+    }
+  };
 
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
     this.fillForm(metaData, metaListData, metaExtra, metaOriginalData);
@@ -77,9 +106,11 @@ class LoadDataForm extends LoadDataCore {
   setFormFieldsValue = (v) => {
     const form = this.getTargetForm();
 
-    form.setFieldsValue(v);
+    if (form != null) {
+      form.setFieldsValue(v);
 
-    this.afterSetFieldsValue(v);
+      this.afterSetFieldsValue(v);
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -259,41 +290,27 @@ class LoadDataForm extends LoadDataCore {
     );
   };
 
-  renderRefreshButton = () => {
-    const { dataLoading, reloading, processing, loadSuccess } = this.state;
-
-    return (
-      <Button
-        disabled={dataLoading || reloading || processing || !loadSuccess}
-        onClick={this.reloadData}
-      >
-        {reloading ? <LoadingOutlined /> : <ReloadOutlined />}
-        刷新
-      </Button>
-    );
-  };
-
-  renderSaveButton = () => {
-    const { processing } = this.state;
-
-    return (
-      <Button
-        type="primary"
-        disabled={processing}
-        onClick={(e) => {
-          this.validate(e);
-        }}
-      >
-        {processing ? <LoadingOutlined /> : <SaveOutlined />}
-        保存
-      </Button>
-    );
-  };
-
   renderForm = () => {
+    const { metaData, metaListData, metaExtra, metaOriginalData } = this.state;
+
+    const initialValues = this.buildInitialValues(
+      metaData,
+      metaListData,
+      metaExtra,
+      metaOriginalData,
+    );
+
+    const otherFormProps = this.buildOtherFormProps();
+
     return (
       <div className={styles.containorBox}>
-        <Form ref={this.formRef} className={this.getFormClassName()} layout={this.getFormLayout()}>
+        <Form
+          ref={this.formRef}
+          initialValues={initialValues}
+          className={this.getFormClassName()}
+          layout={this.getFormLayout()}
+          {...otherFormProps}
+        >
           {this.formContent()}
         </Form>
       </div>

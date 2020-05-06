@@ -48,12 +48,12 @@
     "not ie <= 10"
   ],
   "dependencies": {
-    "@ant-design/icons": "^4.0.6",
-    "@ant-design/pro-layout": "^5.0.9",
+    "@ant-design/icons": "^4.1.0",
+    "@ant-design/pro-layout": "^5.0.10",
     "@antv/data-set": "^0.11.4",
     "@antv/g2": "^4.0.7",
-    "antd": "^4.1.4",
-    "bizcharts": "^3.5.8",
+    "antd": "^4.2.0",
+    "bizcharts": "^4.0.2",
     "bizcharts-plugin-slider": "^3.0.1",
     "braft-editor": "^2.3.9",
     "classnames": "^2.2.6",
@@ -63,14 +63,14 @@
     "lodash": "^4.17.15",
     "lodash-decorators": "^6.0.1",
     "memoize-one": "^5.1.1",
-    "moment": "^2.24.0",
+    "moment": "^2.25.2",
     "nprogress": "^0.2.0",
     "numeral": "^2.0.6",
     "nzh": "^1.0.4",
     "omit.js": "^1.0.2",
     "path-to-regexp": "^6.1.0",
     "prop-types": "^15.7.2",
-    "qs": "^6.9.3",
+    "qs": "^6.9.4",
     "queue": "^6.0.1",
     "react": "^16.13.1",
     "react-amap": "^1.2.8",
@@ -81,7 +81,7 @@
     "react-document-title": "^2.0.3",
     "react-dom": "^16.13.1",
     "react-fittext": "^1.0.0",
-    "react-helmet-async": "^1.0.5",
+    "react-helmet-async": "^1.0.6",
     "react-infinite-scroller": "^1.2.4",
     "react-media": "^1.10.0",
     "react-media-hook2": "^1.1.2",
@@ -89,10 +89,10 @@
     "react-syntax-highlighter": "^12.2.1",
     "react-zmage": "^0.8.5",
     "redux": "^4.0.5",
-    "umi": "^3.1.1",
+    "umi": "^3.1.2",
     "umi-request": "^1.2.19",
     "use-merge-value": "^1.0.1",
-    "uuid": "^7.0.3"
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
     "@ant-design/colors": "^4.0.0",
@@ -105,12 +105,12 @@
     "@types/qs": "^6.9.1",
     "@types/react": "^16.9.34",
     "@types/react-document-title": "^2.0.4",
-    "@types/react-dom": "^16.9.6",
+    "@types/react-dom": "^16.9.7",
     "@umijs/fabric": "^2.0.8",
     "@umijs/plugin-blocks": "^2.1.3",
     "@umijs/preset-ant-design-pro": "^1.2.2",
-    "@umijs/preset-react": "^1.4.17",
-    "@umijs/preset-ui": "^2.1.12",
+    "@umijs/preset-react": "^1.4.19",
+    "@umijs/preset-ui": "^2.1.13",
     "chalk": "^4.0.0",
     "check-prettier": "^1.0.3",
     "cross-env": "^7.0.2",
@@ -125,7 +125,7 @@
     "import-sort-parser-typescript": "^6.0.0",
     "import-sort-style-module": "^6.0.0",
     "jest-puppeteer": "^4.4.0",
-    "lint-staged": "^10.1.7",
+    "lint-staged": "^10.2.2",
     "mockjs": "^1.1.0",
     "node-fetch": "^2.6.0",
     "npm-check-updates": "^4.1.2",
@@ -137,7 +137,7 @@
     "stylelint-config-standard": "^20.0.0"
   },
   "optionalDependencies": {
-    "puppeteer": "^3.0.0"
+    "puppeteer": "^3.0.2"
   },
   "engines": {
     "node": ">=10.0.0"

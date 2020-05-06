@@ -49,7 +49,7 @@ class InnerPagerList extends PagerList {
                 {this.renderBatchAction()}
                 <DensityAction
                   tableSize={tableSize}
-                  setTableSize={key => {
+                  setTableSize={(key) => {
                     this.setTableSize(key);
                   }}
                 />
@@ -68,10 +68,10 @@ class InnerPagerList extends PagerList {
                 <ColumnSetting
                   columns={this.getColumn()}
                   columnsMap={this.getColumnsMap()}
-                  setColumnsMap={e => {
+                  setColumnsMap={(e) => {
                     this.setColumnsMap(e);
                   }}
-                  setSortKeyColumns={key => {
+                  setSortKeyColumns={(key) => {
                     this.setSortKeyColumns(key);
                   }}
                 />

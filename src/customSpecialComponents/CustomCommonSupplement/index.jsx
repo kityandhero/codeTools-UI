@@ -129,6 +129,104 @@ class CustomCommonSupplement extends CustomCommonCore {
     );
   };
 
+  generatorTypeList = (withUnlimited = true) => {
+    const { global } = this.props;
+
+    const generatorTypeList = global.generatorTypeList || [];
+
+    if (withUnlimited) {
+      return refitCommonData(generatorTypeList, unlimitedWithStringFlag);
+    }
+
+    return refitCommonData(generatorTypeList);
+  };
+
+  getGeneratorTypeName = (v, defaultValue = '') => {
+    if (isInvalid(v)) {
+      return defaultValue;
+    }
+
+    const item = searchFromList('flag', v, this.generatorTypeList(false));
+    return item == null ? '未知' : item.name;
+  };
+
+  renderGeneratorTypeOption = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.generatorTypeList(withUnlimited);
+    return this.renderFormOptionCore(listData, adjustListDataCallback);
+  };
+
+  renderGeneratorTypeRadio = (withUnlimited = true, adjustListDataCallback = null) => {
+    const listData = this.generatorTypeList(withUnlimited);
+
+    return this.renderFromRadioCore(listData, adjustListDataCallback);
+  };
+
+  renderSearchGeneratorTypeSelect = (
+    withUnlimited = true,
+    label = customFieldCollection.generatorType.label,
+    name = customFieldCollection.generatorType.name,
+    helper = customFieldCollection.generatorType.helper,
+  ) => {
+    const title = label || unknownLabel;
+
+    return this.renderSearchFormSelect(
+      title,
+      name,
+      this.renderGeneratorTypeOption(withUnlimited),
+      helper,
+    );
+  };
+
+  renderFormGeneratorTypeSelect = (
+    helper = customFieldCollection.generatorType.helper,
+    onChangeCallback,
+    label = customFieldCollection.generatorType.label,
+    formItemLayout = null,
+    required = true,
+    name = customFieldCollection.generatorType.name,
+    otherProps = null,
+  ) => {
+    const title = label || unknownLabel;
+
+    return this.renderFormSelect(
+      title,
+      name,
+      () => {
+        return this.renderGeneratorTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
+  renderFormGeneratorTypeRadio = (
+    helper = null,
+    onChangeCallback,
+    label = customFieldCollection.generatorType.label,
+    formItemLayout = null,
+    required = true,
+    name = customFieldCollection.generatorType.name,
+    otherProps = null,
+  ) => {
+    const title = label || unknownLabel;
+
+    return this.renderFormRadio(
+      title,
+      name,
+      () => {
+        return this.renderGeneratorTypeOption(false);
+      },
+      helper,
+      onChangeCallback,
+      formItemLayout,
+      required,
+      otherProps,
+    );
+  };
+
   channelList = (withUnlimited = true) => {
     const { global } = this.props;
 

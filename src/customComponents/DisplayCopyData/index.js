@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { copyToClipboard } from '../../utils/tools';
+import { copyToClipboard } from '@/utils/tools';
 import CustomBase from '../Framework/CustomBase';
 
 class DisplayCopyData extends CustomBase {
