@@ -1,7 +1,6 @@
 import { extend } from 'umi-request';
-import { stringify } from 'qs';
-import { message, notification } from 'antd';
 import { history } from 'umi';
+import { message, notification } from 'antd';
 
 import { getTokenKeyName, getToken, clearCustomData } from '@/customConfig/storageAssist';
 
