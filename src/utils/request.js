@@ -1,7 +1,6 @@
 import { extend } from 'umi-request';
-import { stringify } from 'qs';
-import { message, notification } from 'antd';
 import { history } from 'umi';
+import { message, notification } from 'antd';
 
 import { getTokenKeyName, getToken, clearCustomData } from '@/customConfig/storageAssist';
 
@@ -106,12 +105,11 @@ request.interceptors.response.use((response, options) => {
       if (code === authenticationFailCode) {
         setTimeout(() => {
           clearCustomData();
+
           message.info('登陆超时，请重新登录！', 0.6);
+
           history.replace({
             pathname: '/user/login',
-            search: stringify({
-              redirect: window.location.href,
-            }),
           });
         }, 200);
       }
