@@ -1,89 +1,29 @@
-/* eslint-disable no-unused-vars */
-import { PureComponent } from 'react';
-import { history } from 'umi';
+import { Component } from 'react';
 
-import { defaultBaseState } from '@/utils/tools';
+import { isEqual, cloneWithoutMethod } from '@/utils/tools';
 
-class CustomBase extends PureComponent {
-  mounted = false;
+class CustomBase extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    const sourceProps = cloneWithoutMethod(this.props);
+    const targetProps = cloneWithoutMethod(nextProps);
 
-  constructor(props) {
-    super(props);
+    const isEqualProps = isEqual(sourceProps, targetProps);
 
-    this.mounted = false;
-
-    const defaultState = defaultBaseState();
-
-    this.state = defaultState;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  static getDerivedStateFromProps(nextProps, prevState) {
-    return null;
-  }
-
-  componentDidMount() {
-    this.mounted = true;
-
-    this.doDidMountTask();
-  }
-
-  // eslint-disable-next-line react/sort-comp
-  getSnapshotBeforeUpdate(preProps, preState) {
-    return this.doWhenGetSnapshotBeforeUpdate(preProps, preState);
-  }
-
-  componentDidUpdate(preProps, preState, snapshot) {
-    this.doWorkWhenDidUpdate(preProps, preState, snapshot);
-  }
-
-  componentWillUnmount() {
-    this.beforeUnmount();
-
-    this.mounted = false;
-
-    this.setState = () => {};
-
-    this.afterUnmount();
-  }
-
-  doDidMountTask = () => {};
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  doWhenGetSnapshotBeforeUpdate = (preProps, preState) => {
-    return null;
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  doWorkWhenDidUpdate = (preProps, preState, snapshot) => {};
-
-  beforeUnmount = () => {};
-
-  afterUnmount = () => {};
-
-  goToPath = (path) => {
-    const location = {
-      pathname: path,
-    };
-
-    history.push(location);
-  };
-
-  redirectToPath = (path) => {
-    const location = {
-      pathname: path,
-    };
-
-    history.replace(location);
-  };
-
-  checkHasMore = (pageNo, pageSize, total) => {
-    if ((total || 0) <= 0) {
-      return false;
+    if (!isEqualProps) {
+      return true;
     }
 
-    return (pageNo || 0) * (pageSize || 0) < (total || 0);
-  };
+    const sourceState = cloneWithoutMethod(this.state);
+    const targetState = cloneWithoutMethod(nextState);
+
+    const isEqualState = isEqual(sourceState, targetState);
+
+    if (!isEqualState) {
+      return true;
+    }
+
+    return false;
+  }
 
   render() {
     return null;
