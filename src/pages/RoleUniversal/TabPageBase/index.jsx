@@ -1,9 +1,9 @@
 import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
-import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
+import BaseUpdateFormTab from '@/customComponents/Framework/DataForm/BaseUpdateFormTab';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 
-class TabPageBase extends UpdateFormTab {
+class TabPageBase extends BaseUpdateFormTab {
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(
       nextProps,
@@ -13,7 +13,7 @@ class TabPageBase extends UpdateFormTab {
     );
   }
 
-  getApiData = props => {
+  getApiData = (props) => {
     const {
       roleTemplate: { data },
     } = props;
@@ -45,7 +45,7 @@ class TabPageBase extends UpdateFormTab {
     return checkNeedUpdateAssist(this.state, preProps, preState, snapshot);
   };
 
-  supplementLoadRequestParams = o => {
+  supplementLoadRequestParams = (o) => {
     const d = o;
     const { roleTemplateId } = this.state;
 

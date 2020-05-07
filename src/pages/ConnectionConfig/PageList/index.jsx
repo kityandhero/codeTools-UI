@@ -13,7 +13,7 @@ import {
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { unlimitedWithStringFlag } from '@/utils/constants';
 import { constants } from '@/customConfig/config';
-import PagerList from '@/customComponents/Framework/CustomList/PagerList';
+import MultiPage from '@/customComponents/Framework/DataMultiPageView/MultiPage';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
@@ -26,7 +26,7 @@ const { confirm } = Modal;
   global,
   loading: loading.models.connectionConfig,
 }))
-class PageList extends PagerList {
+class PageList extends MultiPage {
   componentAuthority = accessWayCollection.connectionConfig.list;
 
   constructor(props) {

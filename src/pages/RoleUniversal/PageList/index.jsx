@@ -11,7 +11,7 @@ import {
 } from '@/utils/tools';
 import { unlimitedWithStringFlag } from '@/utils/constants';
 import { constants } from '@/customConfig/config';
-import PagerList from '@/customComponents/Framework/CustomList/PagerList';
+import MultiPage from '@/customComponents/Framework/DataMultiPageView/MultiPage';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
@@ -24,7 +24,7 @@ import { fieldData } from '../Common/data';
   loading: loading.models.roleTemplate,
 }))
 @Form.create()
-class PageList extends PagerList {
+class PageList extends MultiPage {
   constructor(props) {
     super(props);
 

@@ -12,7 +12,7 @@ import {
 import { whetherNumber } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
-import { customFieldCollection } from '@/customSpecialComponents/CustomCommonSupplement/customConstants';
+import { customFieldCollection } from '@/customSpecialComponents/Supplement/customConstants';
 
 import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';

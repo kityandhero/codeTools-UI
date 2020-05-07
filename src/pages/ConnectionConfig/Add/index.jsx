@@ -4,9 +4,9 @@ import { Card, Row, Col, Switch, Spin, notification, Affix } from 'antd';
 
 import { getDerivedStateFromPropsForUrlParams, formatDatetime, isArray } from '@/utils/tools';
 import { formNameCollection } from '@/customConfig/config';
-import { customFieldCollection } from '@/customSpecialComponents/CustomCommonSupplement/customConstants';
+import { customFieldCollection } from '@/customSpecialComponents/Supplement/customConstants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
-import AddFormBase from '@/customComponents/Framework/CustomForm/AddFormBase';
+import BaseAddForm from '@/customComponents/Framework/DataForm/BaseAddForm';
 
 import { fieldData, connectionType } from '../Common/data';
 
@@ -17,7 +17,7 @@ import styles from './index.less';
   global,
   loading: loading.models.connectionConfig,
 }))
-class Add extends AddFormBase {
+class Add extends BaseAddForm {
   componentAuthority = accessWayCollection.connectionConfig.add;
 
   constructor(props) {

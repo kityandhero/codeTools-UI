@@ -4,7 +4,7 @@ import { Row, Col, Descriptions } from 'antd';
 import { SnippetsOutlined } from '@ant-design/icons';
 
 import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
-import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
+import DataTabContainer from '@/customComponents/Framework/DataTabContainer';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 import { fieldData } from '../Common/data';
@@ -17,7 +17,7 @@ const { Item: Description } = Descriptions;
   global,
   loading: loading.models.roleTemplate,
 }))
-class Edit extends LoadDataTabContainer {
+class Edit extends DataTabContainer {
   tabList = [
     {
       key: 'basicInfo',

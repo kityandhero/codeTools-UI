@@ -4,7 +4,7 @@ import { FormOutlined } from '@ant-design/icons';
 
 import { toNumber } from '@/utils/tools';
 import { whetherNumber } from '@/utils/constants';
-import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
+import Base from '@/customComponents/Framework/DataModal/Base';
 
 import { fieldData } from '../Common/data';
 
@@ -24,7 +24,7 @@ const formItemLayout = {
   global,
   loading: loading.models.dataColumn,
 }))
-class ChangeDataColumnModal extends ModalBase {
+class ChangeDataColumnModal extends Base {
   constructor(props) {
     super(props);
 

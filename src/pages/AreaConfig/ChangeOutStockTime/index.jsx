@@ -5,7 +5,7 @@ import moment from 'moment';
 import { SaveOutlined } from '@ant-design/icons';
 
 import accessWayCollection from '@/customConfig/accessWayCollection';
-import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
+import BaseAddForm from '@/customComponents/Framework/DataForm/BaseAddForm';
 
 import styles from './index.less';
 
@@ -24,7 +24,7 @@ const fieldLabels = {
   areaConfig,
   loading: loading.models.areaConfig,
 }))
-class ChangeOutStockTime extends UpdateForm {
+class ChangeOutStockTime extends BaseAddForm {
   componentAuthority = accessWayCollection.areaConfig.get;
 
   formRef = React.createRef();

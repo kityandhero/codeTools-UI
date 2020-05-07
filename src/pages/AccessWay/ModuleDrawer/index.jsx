@@ -9,11 +9,11 @@ import {
   formatDatetime,
   isFunction,
 } from '@/utils/tools';
-import PagerDrawer from '@/customComponents/Framework/CustomList/PagerList/PagerDrawer';
+import MultiPageDrawer from '@/customComponents/Framework/DataMultiPageView/MultiPageDrawer';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
-class ModuleDrawer extends PagerDrawer {
+class ModuleDrawer extends MultiPageDrawer {
   constructor(props) {
     super(props);
 

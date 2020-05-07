@@ -6,7 +6,7 @@ import { EditOutlined } from '@ant-design/icons';
 import { isFunction, copyToClipboard, replaceTargetText } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
-import PagerDrawer from '@/customComponents/Framework/CustomList/PagerList/PagerDrawer';
+import MultiPageDrawer from '@/customComponents/Framework/DataMultiPageView/MultiPageDrawer';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
@@ -19,7 +19,7 @@ import { fieldData } from '../Common/data';
   global,
   loading: loading.models.dataColumn,
 }))
-class ListDrawer extends PagerDrawer {
+class ListDrawer extends MultiPageDrawer {
   componentAuthority = accessWayCollection.dataColumn.list;
 
   constructor(props) {

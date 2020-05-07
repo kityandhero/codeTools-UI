@@ -6,7 +6,7 @@ import { FormOutlined } from '@ant-design/icons';
 import { getDerivedStateFromPropsForUrlParams, formatDatetime } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
-import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
+import BaseUpdateFormTab from '@/customComponents/Framework/DataForm/BaseUpdateFormTab';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
@@ -18,7 +18,7 @@ import styles from './index.less';
   global,
   loading: loading.models.account,
 }))
-class BasicInfo extends UpdateFormTab {
+class BasicInfo extends BaseUpdateFormTab {
   componentAuthority = accessWayCollection.account.get;
 
   goToUpdateWhenProcessed = true;

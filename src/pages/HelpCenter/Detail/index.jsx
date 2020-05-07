@@ -4,7 +4,7 @@ import { Avatar, Button, Card, BackTop } from 'antd';
 import { RollbackOutlined } from '@ant-design/icons';
 
 import { formatDatetime } from '@/utils/tools';
-import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
+import DataLoad from '@/customComponents/Framework/DataSingleView/DataLoad';
 import HtmlBox from '@/customComponents/HtmlBox';
 
 const styles = './index.less';
@@ -16,7 +16,7 @@ const logo = '/logo.png';
   global,
   loading: loading.models.help,
 }))
-class Detail extends LoadDataForm {
+class Detail extends DataLoad {
   constructor(props) {
     super(props);
 

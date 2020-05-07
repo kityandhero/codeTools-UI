@@ -5,7 +5,7 @@ import { FormOutlined, SaveOutlined } from '@ant-design/icons';
 
 import { refitFieldDecoratorOption, buildFieldDescription } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
-import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
+import BaseUpdateForm from '@/customComponents/Framework/DataForm/BaseUpdateForm';
 
 import styles from './index.less';
 
@@ -21,7 +21,7 @@ const fieldData = {
   warehouse,
   loading: loading.models.warehouse,
 }))
-class EditMasterWarehouse extends UpdateForm {
+class EditMasterWarehouse extends BaseUpdateForm {
   componentAuthority = accessWayCollection.warehouse.getMaster;
 
   constructor(props) {

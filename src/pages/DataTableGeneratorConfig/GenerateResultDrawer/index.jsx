@@ -6,7 +6,7 @@ import { CodeSandboxOutlined, CopyOutlined } from '@ant-design/icons';
 
 import { copyToClipboard, isFunction, stringIsNullOrWhiteSpace } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
-import LoadDrawer from '@/customComponents/Framework/CustomForm/LoadDrawer';
+import BaseLoadDrawer from '@/customComponents/Framework/DataDrawer/BaseLoadDrawer';
 
 import { fieldData } from '../Common/data';
 
@@ -17,7 +17,7 @@ import styles from './index.less';
   global,
   loading: loading.models.dataTableGeneratorConfig,
 }))
-class GenerateResultDrawer extends LoadDrawer {
+class GenerateResultDrawer extends BaseLoadDrawer {
   componentAuthority = accessWayCollection.dataTable.get;
 
   constructor(props) {

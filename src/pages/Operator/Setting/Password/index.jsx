@@ -3,7 +3,7 @@ import { Form, Button, Spin, notification, message } from 'antd';
 import { connect } from 'umi';
 import { FormOutlined, SaveOutlined } from '@ant-design/icons';
 
-import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
+import BaseUpdateForm from '@/customComponents/Framework/DataForm/BaseUpdateForm';
 
 import styles from './index.less';
 
@@ -20,7 +20,7 @@ const fieldData = {
   operator,
   loading: loading.models.operator,
 }))
-class Password extends UpdateForm {
+class Password extends BaseUpdateForm {
   formRef = React.createRef();
 
   constructor(props) {

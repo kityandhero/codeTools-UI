@@ -5,7 +5,7 @@ import {
   searchFromList,
 } from '@/utils/tools';
 import { unlimitedWithStringFlag } from '@/utils/constants';
-import CustomCommonCore from '@/customComponents/Framework/CustomCommonCore';
+import Common from '@/customComponents/Framework/Common';
 import { constants } from '@/customConfig/config';
 
 import { customFieldCollection } from './customConstants';
@@ -16,9 +16,9 @@ const unknownLabel = '未知';
  * 该类作为特有项目的补充，视具体项目进行增部方法
  *
  * @class Index
- * @extends {CustomCommonCore}
+ * @extends {Common}
  */
-class Supplement extends CustomCommonCore {
+class Supplement extends Common {
   static getDerivedStateFromProps(nextProps, prevState) {
     return getDerivedStateFromPropsForUrlParams(nextProps, prevState);
   }

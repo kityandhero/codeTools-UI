@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'umi';
 import { Transfer } from 'antd';
 
-import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
+import Base from '@/customComponents/Framework/DataModal/Base';
 
 @connect(({ role, userRole, global, loading }) => ({
   role,
@@ -10,7 +10,7 @@ import ModalBase from '@/customComponents/Framework/CustomForm/ModalBase';
   global,
   loading: loading.models.role,
 }))
-class UpdateAccountRoleModal extends ModalBase {
+class UpdateAccountRoleModal extends Base {
   constructor(props) {
     super(props);
 

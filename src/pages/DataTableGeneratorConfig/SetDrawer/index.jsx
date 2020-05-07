@@ -7,7 +7,7 @@ import { formatDatetime, isFunction } from '@/utils/tools';
 import { zeroInt, whetherNumber, whetherString } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
-import UpdateDrawer from '@/customComponents/Framework/CustomForm/UpdateDrawer';
+import BaseUpdateDrawer from '@/customComponents/Framework/DataDrawer/BaseUpdateDrawer';
 
 import { fieldData } from '../Common/data';
 
@@ -18,7 +18,7 @@ import styles from './index.less';
   global,
   loading: loading.models.dataTableGeneratorConfig,
 }))
-class SetDrawer extends UpdateDrawer {
+class SetDrawer extends BaseUpdateDrawer {
   componentAuthority = accessWayCollection.dataTable.updateBasicInfo;
 
   constructor(props) {

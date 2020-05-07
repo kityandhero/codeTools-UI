@@ -7,7 +7,7 @@ import { toDatetime, formatDatetime, copyToClipboard, replaceTargetText } from '
 import { unlimitedWithStringFlag } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
-import PagerList from '@/customComponents/Framework/CustomList/PagerList';
+import MultiPage from '@/customComponents/Framework/DataMultiPageView/MultiPage';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
@@ -18,7 +18,7 @@ import { fieldData } from '../Common/data';
   global,
   loading: loading.models.accessWay,
 }))
-class PageList extends PagerList {
+class PageList extends MultiPage {
   constructor(props) {
     super(props);
 
@@ -67,10 +67,7 @@ class PageList extends PagerList {
             {this.renderSearchInput(fieldData.name.label, fieldData.name.name)}
           </Col>
           <Col md={6} sm={24}>
-            {this.renderSearchInput(
-              fieldData.relativePath.label,
-              fieldData.relativePath.name,
-            )}
+            {this.renderSearchInput(fieldData.relativePath.label, fieldData.relativePath.name)}
           </Col>
           <Col md={6} sm={24}>
             {this.renderSearchChannelSelect(true)}

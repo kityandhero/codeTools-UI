@@ -1,11 +1,11 @@
 import { notification } from 'antd';
 
 import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
-import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
+import BaseUpdateFormTab from '@/customComponents/Framework/DataForm/BaseUpdateFormTab';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 
-class BaseEditTab extends UpdateFormTab {
+class BaseEditTab extends BaseUpdateFormTab {
   goToUpdateWhenProcessed = true;
 
   static getDerivedStateFromProps(nextProps, prevState) {

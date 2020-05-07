@@ -4,7 +4,7 @@ import { List, Tag, Card, BackTop } from 'antd';
 import { EyeOutlined, StockOutlined, MessageOutlined } from '@ant-design/icons';
 
 import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
-import PagerList from '@/customComponents/Framework/CustomList/PagerList';
+import MultiPage from '@/customComponents/Framework/DataMultiPageView/MultiPage';
 import IconInfo from '@/customComponents/IconInfo';
 import ArticleListContent from '@/customComponents/ArticleListContent';
 
@@ -20,7 +20,7 @@ const logo = '/logo.png';
   global,
   loading: loading.models.helpCategory,
 }))
-class PageList extends PagerList {
+class PageList extends MultiPage {
   constructor(props) {
     super(props);
 

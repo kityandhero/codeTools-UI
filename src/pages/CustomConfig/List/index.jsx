@@ -7,7 +7,7 @@ import {
   stringIsNullOrWhiteSpace,
   getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
-import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
+import AuthorizationWrapper from '@/customComponents/Framework/AuthorizationWrapper';
 
 import { parseUrlParamsForSetState } from '../Assist/config';
 
@@ -18,7 +18,7 @@ const styles = './index.less';
   global,
   loading: loading.models.customConfig,
 }))
-class ArticleList extends CustomAuthorization {
+class ArticleList extends AuthorizationWrapper {
   constructor(props) {
     super(props);
 

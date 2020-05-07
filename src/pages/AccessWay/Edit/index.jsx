@@ -5,7 +5,7 @@ import { Avatar } from 'antd';
 import { getDerivedStateFromPropsForUrlParams, toDatetime } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
-import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
+import DataTabContainer from '@/customComponents/Framework/DataTabContainer';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 import { fieldData } from '../Common/data';
@@ -15,7 +15,7 @@ import { fieldData } from '../Common/data';
   global,
   loading: loading.models.accessWay,
 }))
-class Edit extends LoadDataTabContainer {
+class Edit extends DataTabContainer {
   componentAuthority = accessWayCollection.accessWay.get;
 
   tabList = [

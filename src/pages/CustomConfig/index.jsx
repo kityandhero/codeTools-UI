@@ -4,7 +4,7 @@ import { Menu } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 
 import { isArray, stringIsNullOrWhiteSpace } from '@/utils/tools';
-import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
+import AuthorizationWrapper from '@/customComponents/Framework/AuthorizationWrapper';
 
 import styles from './index.less';
 
@@ -15,7 +15,7 @@ const { Item } = Menu;
   global,
   loading: loading.models.customConfig,
 }))
-class CustomConfig extends CustomAuthorization {
+class CustomConfig extends AuthorizationWrapper {
   constructor(props) {
     super(props);
 

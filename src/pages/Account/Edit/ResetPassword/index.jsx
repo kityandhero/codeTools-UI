@@ -6,7 +6,7 @@ import { Form, Card, Spin, notification, Button } from 'antd';
 
 import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
-import UpdateFormTab from '@/customComponents/Framework/CustomForm/UpdateFormTab';
+import BaseUpdateFormTab from '@/customComponents/Framework/DataForm/BaseUpdateFormTab';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../../Assist/config';
 import { fieldData } from '../../Common/data';
@@ -31,7 +31,7 @@ const formItemLayout = {
   global,
   loading: loading.models.account,
 }))
-class ResetPassword extends UpdateFormTab {
+class ResetPassword extends BaseUpdateFormTab {
   componentAuthority = accessWayCollection.account.resetPassword;
 
   goToUpdateWhenProcessed = true;

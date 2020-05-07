@@ -7,7 +7,7 @@ import { toDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools'
 import { zeroInt, zeroString } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
-import LoadDataTabContainer from '@/customComponents/Framework/CustomForm/LoadDataTabContainer';
+import DataTabContainer from '@/customComponents/Framework/DataTabContainer';
 
 import { parseUrlParamsForSetState, checkNeedUpdateAssist } from '../Assist/config';
 import { fieldData } from '../Common/data';
@@ -18,7 +18,7 @@ import { fieldData } from '../Common/data';
   global,
   loading: loading.models.connectionConfig,
 }))
-class Edit extends LoadDataTabContainer {
+class Edit extends DataTabContainer {
   componentAuthority = accessWayCollection.connectionConfig.get;
 
   tabList = [

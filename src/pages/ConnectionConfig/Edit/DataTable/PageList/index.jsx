@@ -14,7 +14,7 @@ import {
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { whetherString, whetherNumber } from '@/utils/constants';
 import { constants } from '@/customConfig/config';
-import InnerPagerList from '@/customComponents/Framework/CustomList/PagerList/InnerPagerList';
+import InnerMultiPage from '@/customComponents/Framework/DataMultiPageView/InnerMultiPage';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
@@ -34,7 +34,7 @@ import GenerateResultDrawer from '../../../../DataTableGeneratorConfig/GenerateR
   global,
   loading: loading.models.dataTable,
 }))
-class PageList extends InnerPagerList {
+class PageList extends InnerMultiPage {
   componentAuthority = accessWayCollection.dataTable.listConnectionConfig;
 
   constructor(props) {
@@ -229,10 +229,7 @@ class PageList extends InnerPagerList {
       <>
         <Row gutter={24}>
           <Col lg={6} md={12} sm={24} xs={24}>
-            {this.renderSearchInput(
-              fieldDataDataTable.name.label,
-              fieldDataDataTable.name.name,
-            )}
+            {this.renderSearchInput(fieldDataDataTable.name.label, fieldDataDataTable.name.name)}
           </Col>
           {this.renderSimpleFormButton()}
         </Row>

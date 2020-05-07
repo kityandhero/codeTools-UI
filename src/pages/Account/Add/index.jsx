@@ -3,7 +3,7 @@ import { connect, history } from 'umi';
 import { Affix, Row, Col, Card, Spin, notification } from 'antd';
 
 import accessWayCollection from '@/customConfig/accessWayCollection';
-import AddFormBase from '@/customComponents/Framework/CustomForm/AddFormBase';
+import BaseAddForm from '@/customComponents/Framework/DataForm/BaseAddForm';
 
 import { fieldData } from '../Common/data';
 
@@ -14,7 +14,7 @@ import styles from './index.less';
   global,
   loading: loading.models.account,
 }))
-class Add extends AddFormBase {
+class Add extends BaseAddForm {
   componentAuthority = accessWayCollection.account.add;
 
   constructor(props) {

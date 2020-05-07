@@ -4,7 +4,7 @@ import { Row, Col, Card, Spin, message } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 
 import { getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
-import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
+import DataLoad from '@/customComponents/Framework/DataSingleView/DataLoad';
 
 import { parseUrlParamsForSetState } from './Assist/config';
 
@@ -15,7 +15,7 @@ import CategoryMenu from './CategoryMenu';
   global,
   loading: loading.models.helpCategory,
 }))
-class HelpCenter extends LoadDataForm {
+class HelpCenter extends DataLoad {
   constructor(props) {
     super(props);
 

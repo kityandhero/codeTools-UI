@@ -7,7 +7,7 @@ import { toDatetime, formatDatetime, copyToClipboard, replaceTargetText } from '
 import { unlimitedWithStringFlag } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
-import PagerList from '@/customComponents/Framework/CustomList/PagerList';
+import MultiPage from '@/customComponents/Framework/DataMultiPageView/MultiPage';
 import Ellipsis from '@/customComponents/Ellipsis';
 import EllipsisCustom from '@/customComponents/EllipsisCustom';
 
@@ -18,7 +18,7 @@ import { fieldData } from '../Common/data';
   global,
   loading: loading.models.errorLog,
 }))
-class PageList extends PagerList {
+class PageList extends MultiPage {
   constructor(props) {
     super(props);
 

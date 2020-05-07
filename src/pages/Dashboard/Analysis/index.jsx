@@ -31,7 +31,7 @@ import {
 } from '@/customComponents/Charts';
 import { formatDatetime, pretreatmentRequestParams } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
-import LoadDataForm from '@/customComponents/Framework/CustomForm/LoadDataForm';
+import DataLoad from '@/customComponents/Framework/DataSingleView/DataLoad';
 import Trend from '@/customComponents/Trend';
 import NumberInfo from '@/customComponents/NumberInfo';
 import Yuan from '@/utils/Yuan';
@@ -46,7 +46,7 @@ const { RangePicker } = DatePicker;
   chart,
   loading: loading.models.dashboard,
 }))
-class Analysis extends LoadDataForm {
+class Analysis extends DataLoad {
   componentAuthority = accessWayCollection.dashboard.analysis;
 
   constructor(props) {

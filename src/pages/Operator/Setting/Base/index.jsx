@@ -3,7 +3,7 @@ import { Form, Upload, Button, Spin, notification } from 'antd';
 import { connect } from 'umi';
 import { UploadOutlined, SaveOutlined, FormOutlined } from '@ant-design/icons';
 
-import UpdateForm from '@/customComponents/Framework/CustomForm/UpdateForm';
+import BaseUpdateForm from '@/customComponents/Framework/DataForm/BaseUpdateForm';
 
 import styles from './index.less';
 // import GeographicView from '../Geographic';
@@ -47,7 +47,7 @@ const fieldData = {
   global,
   loading: loading.models.operator,
 }))
-class BaseView extends UpdateForm {
+class BaseView extends BaseUpdateForm {
   formRef = React.createRef();
 
   constructor(props) {

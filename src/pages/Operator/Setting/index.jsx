@@ -3,7 +3,7 @@ import { connect, history } from 'umi';
 import { Menu } from 'antd';
 import { GridContent } from '@ant-design/pro-layout';
 
-import CustomAuthorization from '@/customComponents/Framework/CustomAuthorization';
+import AuthorizationWrapper from '@/customComponents/Framework/AuthorizationWrapper';
 
 import styles from './index.less';
 
@@ -12,7 +12,7 @@ const { Item } = Menu;
 @connect(({ account }) => ({
   account,
 }))
-class Setting extends CustomAuthorization {
+class Setting extends AuthorizationWrapper {
   constructor(props) {
     super(props);
     const { match, location } = props;
