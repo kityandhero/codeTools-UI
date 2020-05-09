@@ -31,9 +31,9 @@ const avatarImageLoadResultCollection = {
 class DataTabContainer extends DataSingleView {
   tabList = [];
 
-  avatarImageLoadResult = avatarImageLoadResultCollection.wait;
-
   showPageHeaderAvatar = true;
+
+  defaultAvatarIcon = (<PictureOutlined />);
 
   constructor(props) {
     super(props);
@@ -142,12 +142,12 @@ class DataTabContainer extends DataSingleView {
         avatar = this.pageHeaderAvatar();
 
         if ((avatar || null) == null) {
-          avatar = { icon: <PictureOutlined /> };
+          avatar = { icon: this.defaultAvatarIcon };
         } else {
           const { src } = avatar;
 
           if (stringIsNullOrWhiteSpace(src || '')) {
-            avatar = { icon: <PictureOutlined /> };
+            avatar = { icon: this.defaultAvatarIcon };
           } else {
             if (avatarImageLoadResult === avatarImageLoadResultCollection.wait) {
               const that = this;
