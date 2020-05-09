@@ -129,7 +129,7 @@ class ChangeOutStockTime extends BaseAddForm {
     return (
       <div className={styles.baseView} ref={this.getViewDom}>
         <div className={styles.left}>
-          <Spin spinning={processing || dataLoading}>
+          <Spin delay={500} spinning={processing || dataLoading}>
             <Form
               ref={this.formRef}
               layout="vertical"

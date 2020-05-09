@@ -112,7 +112,7 @@ class BaseView extends BaseUpdateForm {
     return (
       <div className={styles.baseView} ref={this.getViewDom}>
         <div className={styles.left}>
-          <Spin spinning={dataLoading || processing}>
+          <Spin delay={500} spinning={dataLoading || processing}>
             <Form ref={this.formRef} layout="vertical">
               {this.renderFormInput(
                 fieldData.userName,

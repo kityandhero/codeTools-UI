@@ -161,7 +161,7 @@ class SetDrawer extends BaseUpdateDrawer {
 
     return (
       <div className={styles.containorBox}>
-        <Spin spinning={dataLoading || processing}>
+        <Spin delay={500} spinning={dataLoading || processing}>
           <Row gutter={24}>
             <Col lg={12} md={12} sm={24} xs={24}>
               {this.renderFormInput(

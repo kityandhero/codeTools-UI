@@ -75,7 +75,7 @@ class BasicInfo extends TabPageBase {
             </Affix>
           }
         >
-          <Spin spinning={dataLoading || processing}>
+          <Spin delay={500} spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col span={24}>
                 {this.renderFormDisplay(
@@ -94,7 +94,7 @@ class BasicInfo extends TabPageBase {
         </Card>
 
         <Card title="其他信息" className={styles.card} bordered={false}>
-          <Spin spinning={dataLoading || processing}>
+          <Spin delay={500} spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col span={24}>
                 {this.renderFormDisplay(
@@ -125,7 +125,7 @@ class BasicInfo extends TabPageBase {
         </Card>
 
         <Card title="其他信息" className={styles.card} bordered={false}>
-          <Spin spinning={dataLoading || processing}>
+          <Spin delay={500} spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormDisplay(

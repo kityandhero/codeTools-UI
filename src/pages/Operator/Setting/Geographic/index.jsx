@@ -101,7 +101,7 @@ class GeographicView extends PureComponent {
     const { province, city } = this.conversionObject();
     const { isLoading } = this.props;
     return (
-      <Spin spinning={isLoading} wrapperClassName={styles.row}>
+      <Spin delay={500} spinning={isLoading} wrapperClassName={styles.row}>
         <Select
           className={styles.item}
           value={province}

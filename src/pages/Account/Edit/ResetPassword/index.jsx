@@ -118,7 +118,7 @@ class ResetPassword extends BaseUpdateFormTab {
     return (
       <>
         <Card title={this.renderBasicInfoTitle()} className={styles.card} bordered={false}>
-          <Spin spinning={dataLoading || processing}>
+          <Spin delay={500} spinning={dataLoading || processing}>
             {this.renderFormPassword(
               fieldData.password.label,
               fieldData.password.name,

@@ -167,7 +167,7 @@ export default class GlobalHeaderRight extends PureComponent {
             </span>
           </Dropdown>
         ) : (
-          <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />
+          <Spin delay={500} size="small" style={{ marginLeft: 8, marginRight: 8 }} />
         )}
         {/* <SelectLangCustom className={styles.action} /> */}
       </div>

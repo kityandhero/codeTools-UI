@@ -96,7 +96,7 @@ class Password extends BaseUpdateForm {
     return (
       <div className={styles.baseView} ref={this.getViewDom}>
         <div className={styles.left}>
-          <Spin spinning={processing}>
+          <Spin delay={500} spinning={processing}>
             <Form ref={this.formRef} layout="vertical">
               {this.renderFormPassword(
                 fieldData.originalPassword,

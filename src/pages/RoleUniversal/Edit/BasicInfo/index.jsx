@@ -71,7 +71,7 @@ class BasicInfo extends TabPageBase {
     return (
       <>
         <Card title={this.renderBasicInfoTitle()} className={styles.card} bordered={false}>
-          <Spin spinning={dataLoading || processing}>
+          <Spin delay={500} spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={24} md={12} sm={24}>
                 <FromDisplayItem
@@ -101,7 +101,7 @@ class BasicInfo extends TabPageBase {
           className={styles.card}
           bordered={false}
         >
-          <Spin spinning={dataLoading || processing}>
+          <Spin delay={500} spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24}>
                 <FromDisplayItem

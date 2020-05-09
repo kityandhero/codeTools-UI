@@ -43,7 +43,7 @@ class NoticeIcon extends PureComponent {
       );
     });
     return (
-      <Spin spinning={loading} delay={0}>
+      <Spin delay={500} spinning={loading}>
         <Tabs className={styles.tabs} onChange={this.onTabChange}>
           {panes}
         </Tabs>

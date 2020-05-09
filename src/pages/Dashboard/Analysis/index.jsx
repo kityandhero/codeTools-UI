@@ -847,7 +847,7 @@ class Analysis extends DataLoad {
       <GridContent>
         <Row gutter={24}>
           <Col {...topColResponsiveProps}>
-            <Spin spinning={saleAmountLoading}>
+            <Spin delay={500} spinning={saleAmountLoading}>
               <ChartCard
                 bordered={false}
                 title="总销售量"
@@ -892,7 +892,7 @@ class Analysis extends DataLoad {
             </Spin>
           </Col>
           <Col {...topColResponsiveProps}>
-            <Spin spinning={saleCountLoading}>
+            <Spin delay={500} spinning={saleCountLoading}>
               <ChartCard
                 bordered={false}
                 title="总订单量"
@@ -917,7 +917,7 @@ class Analysis extends DataLoad {
             </Spin>
           </Col>
           <Col {...topColResponsiveProps}>
-            <Spin spinning={areaAccountBalanceLoading}>
+            <Spin delay={500} spinning={areaAccountBalanceLoading}>
               <ChartCard
                 bordered={false}
                 title="总收入"
@@ -956,7 +956,7 @@ class Analysis extends DataLoad {
             </Spin>
           </Col>
           <Col {...topColResponsiveProps}>
-            <Spin spinning={replenishmentStatisticLoading}>
+            <Spin delay={500} spinning={replenishmentStatisticLoading}>
               <ChartCard
                 bordered={false}
                 title="售后占比"
@@ -1001,7 +1001,7 @@ class Analysis extends DataLoad {
         </Row>
 
         <Card bordered={false} bodyStyle={{ padding: 0 }}>
-          <Spin spinning={saleAmountRangeLoading || saleCountRangeLoading}>
+          <Spin delay={500} spinning={saleAmountRangeLoading || saleCountRangeLoading}>
             <div className={styles.salesCard}>
               <Tabs tabBarExtraContent={salesExtra} size="large" tabBarStyle={{ marginBottom: 24 }}>
                 <TabPane tab="销售额" key="sales">
@@ -1096,7 +1096,7 @@ class Analysis extends DataLoad {
         <Row gutter={24}>
           <Col xl={12} lg={24} md={24} sm={24} xs={24}>
             <Card bordered={false} title="线上热门搜索" extra={iconGroup} style={{ marginTop: 24 }}>
-              <Spin spinning={searchDataLoading}>
+              <Spin delay={500} spinning={searchDataLoading}>
                 <Row gutter={68}>
                   <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
                     <NumberInfo
@@ -1163,7 +1163,7 @@ class Analysis extends DataLoad {
               }
               style={{ marginTop: 24, minHeight: 509 }}
             >
-              <Spin spinning={rankStatisticLoading}>
+              <Spin delay={500} spinning={rankStatisticLoading}>
                 <h4 style={{ marginTop: 8, marginBottom: 32 }}>销售额</h4>
                 <Pie
                   hasLegend
@@ -1185,7 +1185,7 @@ class Analysis extends DataLoad {
           bodyStyle={{ padding: '0 0 32px 0' }}
           style={{ marginTop: 32 }}
         >
-          <Spin spinning={offlineDataLoading}>
+          <Spin delay={500} spinning={offlineDataLoading}>
             <Tabs activeKey={activeKey} onChange={this.handleTabChange}>
               {offlineData.map((shop) => (
                 <TabPane tab={<CustomTab data={shop} currentTabKey={activeKey} />} key={shop.key}>

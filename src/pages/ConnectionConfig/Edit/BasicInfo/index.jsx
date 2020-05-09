@@ -130,7 +130,7 @@ class BasicInfo extends TabPageBase {
             </Affix>
           }
         >
-          <Spin spinning={dataLoading || processing}>
+          <Spin delay={500} spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={12} md={12} sm={24} xs={24}>
                 {this.renderFormInput(
@@ -215,7 +215,7 @@ class BasicInfo extends TabPageBase {
             </>
           }
         >
-          <Spin spinning={dataLoading || processing}>
+          <Spin delay={500} spinning={dataLoading || processing}>
             {selectConnectionType === connectionType.SSH ? (
               <>
                 <Row gutter={24}>
@@ -276,7 +276,7 @@ class BasicInfo extends TabPageBase {
         </Card>
 
         <Card title="描述信息" className={styles.card} bordered={false}>
-          <Spin spinning={dataLoading || processing}>
+          <Spin delay={500} spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={24} md={24} sm={24} xs={24}>
                 {this.renderFormTextArea(
@@ -291,7 +291,7 @@ class BasicInfo extends TabPageBase {
         </Card>
 
         <Card title="其他信息" className={styles.card} bordered={false}>
-          <Spin spinning={dataLoading || processing}>
+          <Spin delay={500} spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFromCreateTimeField()}

@@ -187,7 +187,7 @@ class ImageBox extends CustomBase {
 
           {showMode === 'loading' ? (
             <div>
-              <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} />
+              <Spin delay={500}  indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} />
             </div>
           ) : null}
 
@@ -195,7 +195,7 @@ class ImageBox extends CustomBase {
             <div className={classNames(styles.overlayBox, styles.overlayLoading)}>
               <div className={styles.loadingBoxInner}>
                 <div>
-                  <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} />
+                  <Spin delay={500}  indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} />
                 </div>
               </div>
             </div>
