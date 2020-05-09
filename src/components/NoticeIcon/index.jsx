@@ -5,7 +5,9 @@ import React from 'react';
 import classNames from 'classnames';
 import NoticeList from './NoticeList';
 import HeaderDropdown from '../HeaderDropdown';
+
 import styles from './index.less';
+
 const { TabPane } = Tabs;
 
 const NoticeIcon = (props) => {
@@ -53,7 +55,7 @@ const NoticeIcon = (props) => {
       );
     });
     return (
-      <Spin delay={500} spinning={loading} delay={300}>
+      <Spin spinning={loading} delay={300}>
         <Tabs className={styles.tabs} onChange={onTabChange}>
           {panes}
         </Tabs>
