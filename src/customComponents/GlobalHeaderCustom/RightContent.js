@@ -65,8 +65,6 @@ export default class GlobalHeaderRight extends PureComponent {
       });
     }
 
-    console.log(menuItems);
-
     const menu = (
       <Menu
         className={styles.menu}
