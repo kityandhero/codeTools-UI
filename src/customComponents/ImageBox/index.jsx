@@ -4,7 +4,7 @@ import { Row, Col, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
 import { isFunction, trim, replace } from '@/utils/tools';
-import defaultSettings from '@/defaultSettings';
+import { defaultEmptyImage } from '@/utils/constants';
 
 import CustomBase from '../Framework/CustomBase';
 
@@ -80,7 +80,7 @@ class ImageBox extends CustomBase {
     }
 
     if (trim(replace(imageSrc || '', ' ', '')) === '') {
-      imageSrc = defaultSettings.defaultEmptyImage;
+      imageSrc = defaultEmptyImage;
     }
 
     const imageBoxStyleMerge = {

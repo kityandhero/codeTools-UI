@@ -13,7 +13,6 @@ export default {
   title: '代码生成工具',
   pwa: false,
   iconfontUrl: '',
-  defaultEmptyImage: '/noImageSmall.png',
   getPlatformName: () => {
     let result = '';
 

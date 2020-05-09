@@ -6,18 +6,34 @@ import {
   Row,
   Col,
 } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import {
+  PictureOutlined,
+  LoadingOutlined,
+  ReloadOutlined,
+  ConsoleSqlOutlined,
+} from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { defaultEmptyImage } from '@/utils/constants';
+import { isArray, copyToClipboard, formatDatetime, stringIsNullOrWhiteSpace } from '@/utils/tools';
 
-import { isArray, copyToClipboard, formatDatetime } from '@/utils/tools';
 import DataSingleView from '../DataSingleView/DataLoad';
 
 import styles from './index.less';
 
 const { Item: Description } = Descriptions;
 
+const avatarImageLoadResultCollection = {
+  wait: -1,
+  success: 1,
+  fail: 0,
+};
+
 class DataTabContainer extends DataSingleView {
   tabList = [];
+
+  avatarImageLoadResult = avatarImageLoadResultCollection.wait;
+
+  showPageHeaderAvatar = true;
 
   constructor(props) {
     super(props);
@@ -25,6 +41,7 @@ class DataTabContainer extends DataSingleView {
     this.state = {
       ...this.state,
       customTabActiveKey: false,
+      avatarImageLoadResult: avatarImageLoadResultCollection.wait,
     };
   }
 
@@ -96,25 +113,79 @@ class DataTabContainer extends DataSingleView {
   pageHeaderTag = () => null;
 
   pageHeaderTagWrapper = () => {
-    const { dataLoading } = this.state;
-
-    const antIcon = <LoadingOutlined style={{ fontSize: 14 }} spin />;
-
     return (
       <>
-        <div className={styles.pageTagBox}>
-          {this.pageHeaderTag()}
-          <span>&nbsp;</span>
-          <div className={styles.loadingBox}>
-            {dataLoading ? <Spin indicator={antIcon} /> : null}
-          </div>
-        </div>
+        <div className={styles.pageTagBox}>{this.pageHeaderTag()}</div>
       </>
     );
   };
 
   pageHeaderAvatar = () => {
-    return { src: '/noImageSmall.png' };
+    return null;
+  };
+
+  decoratePageHeaderAvatar = () => {
+    if (this.showPageHeaderAvatar) {
+      const { dataLoading, reloading, avatarImageLoadResult } = this.state;
+
+      let avatar = null;
+
+      if (dataLoading) {
+        avatar = { icon: <LoadingOutlined /> };
+      }
+
+      if (reloading) {
+        avatar = { icon: <ReloadOutlined spin /> };
+      }
+
+      if (!dataLoading && !reloading) {
+        avatar = this.pageHeaderAvatar();
+
+        if ((avatar || null) == null) {
+          avatar = { icon: <PictureOutlined /> };
+        } else {
+          const { src } = avatar;
+
+          if (stringIsNullOrWhiteSpace(src || '')) {
+            avatar = { icon: <PictureOutlined /> };
+          } else {
+            if (avatarImageLoadResult === avatarImageLoadResultCollection.wait) {
+              const that = this;
+
+              avatar = {
+                src,
+                onError: () => {
+                  that.setState({
+                    avatarImageLoadResult: avatarImageLoadResultCollection.fail,
+                  });
+
+                  return true;
+                },
+              };
+            }
+
+            if (avatarImageLoadResult === avatarImageLoadResultCollection.success) {
+              avatar = { src };
+            }
+
+            if (avatarImageLoadResult === avatarImageLoadResultCollection.fail) {
+              avatar = {
+                src: defaultEmptyImage,
+                onError: () => {
+                  message.error('加载默认图片失败');
+
+                  return true;
+                },
+              };
+            }
+          }
+        }
+      }
+
+      return avatar;
+    }
+
+    return null;
   };
 
   pageHeaderTitle = () => {
@@ -213,7 +284,7 @@ class DataTabContainer extends DataSingleView {
     if (customTabActiveKey) {
       return (
         <PageHeaderWrapper
-          avatar={this.pageHeaderAvatar()}
+          avatar={this.decoratePageHeaderAvatar()}
           title={this.pageHeaderTitle()}
           subTitle={this.pageHeaderSubTitle()}
           tags={this.pageHeaderTagWrapper()}
@@ -236,7 +307,7 @@ class DataTabContainer extends DataSingleView {
 
     return (
       <PageHeaderWrapper
-        avatar={this.pageHeaderAvatar()}
+        avatar={this.decoratePageHeaderAvatar()}
         title={this.pageHeaderTitle()}
         subTitle={this.pageHeaderSubTitle()}
         tags={this.pageHeaderTagWrapper()}

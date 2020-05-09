@@ -2,6 +2,7 @@ module.exports = {
   zeroString: '0',
   zeroInt: 0,
   authenticationFailCode: 2001,
+  defaultEmptyImage: '/noImageSmall.png',
   whetherString: {
     no: '0',
     yes: '1',
