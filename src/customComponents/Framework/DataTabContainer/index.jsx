@@ -193,7 +193,7 @@ class DataTabContainer extends DataSingleView {
           <Col> {stringIsNullOrWhiteSpace(headerTitlePrefix) ? '' : `${headerTitlePrefix}：`}</Col>
           <Col flex="auto">
             <Texty type="alpha" mode="smooth">
-              {pageName}1
+              {pageName}
             </Texty>
           </Col>
         </Row>
