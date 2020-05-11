@@ -149,7 +149,7 @@ class MultiPageDrawer extends MultiPage {
                     <Col flex="auto">
                       <QueueAnim>
                         {reloadAnimalShow ? (
-                          <div key="reloadAnimalShow_1">
+                          <div key="3069dd18-f530-43ab-b96d-a86f8079358f">
                             <Tag color="gold">即将刷新</Tag>
                           </div>
                         ) : null}

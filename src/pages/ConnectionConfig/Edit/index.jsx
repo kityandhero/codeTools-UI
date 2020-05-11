@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'umi';
-import { Avatar, notification, message } from 'antd';
+import { notification, message } from 'antd';
 import { FolderOpenOutlined, BuildOutlined } from '@ant-design/icons';
 
 import { toDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
@@ -45,7 +45,7 @@ class Edit extends DataTabContainer {
     this.state = {
       ...this.state,
       ...{
-        pageName: `${fieldData.name.label}：`,
+        pageName: '',
         loadApiPath: 'connectionConfig/get',
         backPath: `/connectionConfig/pageList/key`,
         connectionConfigId: null,
@@ -61,6 +61,10 @@ class Edit extends DataTabContainer {
       parseUrlParamsForSetState,
     );
   }
+
+  pageHeaderTitlePrefix = () => {
+    return fieldData.name.label;
+  };
 
   getApiData = (props) => {
     const {
@@ -87,7 +91,7 @@ class Edit extends DataTabContainer {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
     this.setState({
-      pageName: `${fieldData.name.label}：${metaData === null ? '' : metaData.name || ''}`,
+      pageName: metaData === null ? '' : metaData.name || '',
     });
   };
 
@@ -173,17 +177,6 @@ class Edit extends DataTabContainer {
 
       this.setState({ processing: false });
     });
-  };
-
-  pageHeaderLogo = () => {
-    const { metaData } = this.state;
-
-    return (
-      <Avatar
-        size="large"
-        src={metaData === null ? '' : metaData.imageUrl || '/noImageSmall.png'}
-      />
-    );
   };
 
   pageHeaderActionExtraGroup = () => {

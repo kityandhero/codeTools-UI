@@ -1,17 +1,7 @@
 import React from 'react';
-import {
-  // Avatar,
-  Descriptions,
-  Spin,
-  Row,
-  Col,
-} from 'antd';
-import {
-  PictureOutlined,
-  LoadingOutlined,
-  ReloadOutlined,
-  ConsoleSqlOutlined,
-} from '@ant-design/icons';
+import Texty from 'rc-texty';
+import { Descriptions, Row, Col, message } from 'antd';
+import { PictureOutlined, LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { defaultEmptyImage } from '@/utils/constants';
 import { isArray, copyToClipboard, formatDatetime, stringIsNullOrWhiteSpace } from '@/utils/tools';
@@ -188,10 +178,27 @@ class DataTabContainer extends DataSingleView {
     return null;
   };
 
+  pageHeaderTitlePrefix = () => {
+    return '';
+  };
+
   pageHeaderTitle = () => {
     const { pageName } = this.state;
 
-    return <span className={styles.pageNameBox}>{pageName}</span>;
+    const headerTitlePrefix = this.pageHeaderTitlePrefix() || '';
+
+    return (
+      <span className={styles.pageNameBox}>
+        <Row>
+          <Col> {stringIsNullOrWhiteSpace(headerTitlePrefix) ? '' : `${headerTitlePrefix}：`}</Col>
+          <Col flex="auto">
+            <Texty type="alpha" mode="smooth">
+              {pageName}1
+            </Texty>
+          </Col>
+        </Row>
+      </span>
+    );
   };
 
   pageHeaderSubTitle = () => null;

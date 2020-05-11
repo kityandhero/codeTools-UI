@@ -245,7 +245,7 @@ class Base extends AuthorizationWrapper {
         onOk={this.handleOk}
         onCancel={this.handleCancel}
       >
-        <Spin delay={500} spinning={processing || dataLoading}>
+        <Spin spinning={processing || dataLoading}>
           <Form ref={this.formRef} initialValues={initialValues}>
             {this.formContent()}
           </Form>
