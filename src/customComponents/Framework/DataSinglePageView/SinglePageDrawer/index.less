@@ -1,68 +1,139 @@
 @import '~antd/lib/style/themes/default.less';
+
 @import '~@/utils/utils.less';
 
-.containorBox {
-  overflow: auto;
+@media screen and (min-width: @screen-xxl) {
+  .containorBox {
+    .containorSearch {
+      :global {
+        .ant-card-body {
+          padding: 0;
+        }
+      }
+    }
+  }
+}
 
+.containorBox {
   .titleIcon {
     margin-right: 10px;
   }
-}
 
-.tableList {
-  .tableListOperator {
-    margin-bottom: 16px;
+  .containorSearch {
+    margin-bottom: 0;
+  }
 
-    button {
-      margin-right: 8px;
+  .containorTable {
+    .iconAction {
+      border: 0;
+      color: #000;
+    }
+
+    .alertContainor {
+      margin: 0 0;
+      margin-bottom: 16px;
+
+      .alertInfo {
+        display: flex;
+
+        .alertContent {
+          flex: 1;
+        }
+
+        .alertOption {
+          min-width: 48px;
+          padding-left: 16px;
+        }
+      }
     }
   }
 
-  .price {
+  .tableList {
+    position: relative;
+
+    .tableListOperator {
+      margin-bottom: 16px;
+
+      button {
+        margin-right: 8px;
+      }
+    }
+
+    .price {
+      color: #267cb7;
+    }
+
+    .actionButton {
+      margin: 0 5px;
+    }
+
+    .orange {
+      color: orange;
+    }
+
+    .reloadAlert {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  .editButton {
+    margin-right: 3px;
+  }
+
+  .img {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #eceaea;
+  }
+
+  .pointer {
     color: #267cb7;
+    cursor: pointer;
   }
 
-  .actionButton {
-    margin: 0 5px;
+  .topButton {
+    margin-right: 8px;
   }
-}
 
-.editButton {
-  margin-right: 3px;
-}
+  .tableListForm {
+    :global {
+      .ant-form-item {
+        // margin-bottom: 24px;
+        margin-right: 0;
+        display: flex;
 
-.img {
-  width: 40px;
-  height: 40px;
-  border: 1px solid #eceaea;
-  background-color: #ccc;
-}
+        > .ant-form-item-label {
+          width: auto;
+          line-height: 32px;
+          padding-right: 8px;
+        }
 
-.tableListForm {
-  :global {
-    .ant-form-item {
+        .ant-form-item-control {
+          line-height: 32px;
+          flex: 1;
+        }
+      }
+    }
+
+    .submitButtons {
+      white-space: nowrap;
       margin-bottom: 24px;
-      margin-right: 0;
-      display: flex;
-
-      > .ant-form-item-label {
-        width: auto;
-        line-height: 32px;
-        padding-right: 8px;
-      }
-
-      .ant-form-item-control {
-        line-height: 32px;
-      }
-    }
-
-    .ant-form-item-control-wrapper {
-      flex: 1;
     }
   }
+}
 
-  .submitButtons {
-    white-space: nowrap;
-    margin-bottom: 24px;
+@media screen and (max-width: @screen-lg) {
+  .tableListForm :global(.ant-form-item) {
+    margin-right: 24px;
+  }
+}
+
+@media screen and (max-width: @screen-md) {
+  .tableListForm :global(.ant-form-item) {
+    margin-right: 8px;
   }
 }

@@ -358,13 +358,12 @@ export default [
           { path: '/helpCenter/category/', redirect: '/helpCenter/category/no' },
           {
             path: '/helpCenter/category',
-            name: 'category',
-            icon: 'form',
             authority: [accessWayCollection.currentCustomer],
           },
           {
             path: '/helpCenter/category/:helpCategoryId',
-            hideInMenu: true,
+            name: 'category',
+            icon: 'form',
             component: './HelpCenter',
             routes: [
               {

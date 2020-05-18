@@ -727,6 +727,32 @@ class Common extends Core {
     );
   };
 
+  renderFormOnlyShowText = (label, value, helper = null, formItemLayout = {}) => {
+    const title = label;
+
+    const resultCheck = this.checkFromConfig(title, getGuid(), helper);
+
+    return (
+      <FormItem
+        {...formItemLayout}
+        label={resultCheck.label}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
+        rules={[
+          {
+            required: false,
+            message: buildFieldDescription(resultCheck.label),
+          },
+        ]}
+      >
+        {value}
+      </FormItem>
+    );
+  };
+
   renderFormOnlyShowInput = (
     label,
     value,
