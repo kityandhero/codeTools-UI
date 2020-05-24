@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Checkbox, Popover, Tooltip } from 'antd';
 import { PushpinOutlined, SettingOutlined, VerticalAlignMiddleOutlined } from '@ant-design/icons';
 import { DndProvider } from 'react-dnd';
-import Backend from 'react-dnd-html5-backend';
+import { HTML5Backend as Backend } from 'react-dnd-html5-backend';
 
 import DnDItem from './DndItem';
 

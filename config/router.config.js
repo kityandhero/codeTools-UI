@@ -43,7 +43,7 @@ export default [
           { path: '/connectionConfig/pageList/', redirect: '/connectionConfig/pageList/no' },
           {
             path: '/connectionConfig/pageList/no',
-            name: 'list',
+            name: 'pageList',
             icon: 'bars',
             authority: [accessWayCollection.super, accessWayCollection.connectionConfig.pageList],
           },
@@ -296,19 +296,22 @@ export default [
         icon: 'user',
         authority: [accessWayCollection.currentCustomer],
         routes: [
-          { path: '/customConfig/', redirect: '/customConfig/category/' },
-          { path: '/customConfig/category/', redirect: '/customConfig/category/no' },
+          { path: '/customConfig', redirect: '/customConfig/category' },
+          { path: '/customConfig/category', redirect: '/customConfig/category/no' },
           {
-            path: '/customConfig/category',
+            path: '/customConfig/category/no',
             name: 'category',
             icon: 'form',
             authority: [accessWayCollection.currentCustomer],
           },
           {
             path: '/customConfig/category/:category',
+            name: 'category',
+            icon: 'form',
             hideInMenu: true,
             component: './CustomConfig',
             routes: [
+              { path: '/customConfig/category', redirect: '/customConfig/category/no' },
               {
                 path: '/customConfig/category/:category',
                 redirect: '/customConfig/category/:category/list',
@@ -321,49 +324,25 @@ export default [
           },
         ],
       },
-      // {
-      //   name: 'system',
-      //   icon: 'setting',
-      //   hideInMenu: true,
-      //   path: '/system',
-      //   routes: [
-      //     {
-      //       name: 'areaConfig',
-      //       icon: 'form',
-      //       path: '/system/areaConfig',
-      //       component: './AreaConfig',
-      //       routes: [
-      //         {
-      //           path: '/system/areaConfig',
-      //           redirect: '/system/areaConfig/changeOutStockTime',
-      //         },
-      //         {
-      //           path: '/system/areaConfig/changeOutStockTime',
-      //           component: './AreaConfig/ChangeOutStockTime',
-      //         },
-      //         {
-      //           path: '/system/areaConfig/editMasterWarehouse',
-      //           component: './AreaConfig/EditMasterWarehouse',
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
       {
         name: 'helpCenter',
         icon: 'question',
         path: '/helpCenter',
         authority: [accessWayCollection.currentCustomer],
         routes: [
+          { path: '/helpCenter', redirect: '/helpCenter/category' },
           { path: '/helpCenter/category/', redirect: '/helpCenter/category/no' },
           {
             path: '/helpCenter/category',
+            name: 'category',
+            icon: 'form',
             authority: [accessWayCollection.currentCustomer],
           },
           {
             path: '/helpCenter/category/:helpCategoryId',
             name: 'category',
             icon: 'form',
+            hideInMenu: true,
             component: './HelpCenter',
             routes: [
               {

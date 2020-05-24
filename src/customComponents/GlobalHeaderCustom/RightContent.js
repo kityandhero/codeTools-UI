@@ -12,6 +12,7 @@ import HeaderSearchCustom from '../HeaderSearchCustom';
 // import SelectLangCustom from '../SelectLangCustom';
 
 import styles from './index.less';
+import { recordObject } from '@/utils/tools';
 
 export default class GlobalHeaderRight extends PureComponent {
   getNoticeData() {
@@ -65,8 +66,6 @@ export default class GlobalHeaderRight extends PureComponent {
       });
     }
 
-    console.log(menuItems);
-
     const menu = (
       <Menu
         className={styles.menu}
@@ -106,10 +105,12 @@ export default class GlobalHeaderRight extends PureComponent {
             formatMessage({ id: 'component.globalHeader.search.example3' }),
           ]}
           onSearch={(value) => {
-            console.log('input', value);
+            recordObject({ input: value });
+            // console.log('input', );
           }}
           onPressEnter={(value) => {
-            console.log('enter', value);
+            recordObject({ enter: value });
+            // console.log('enter', value);
           }}
         />
         <Tooltip title="帮助文档">

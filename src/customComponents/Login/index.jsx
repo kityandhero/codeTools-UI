@@ -60,7 +60,7 @@ class Login extends Component {
   };
 
   handleSubmit = (e) => {
-    console.log(e);
+    // console.log(e);
     const { currentForm } = e;
     e.preventDefault();
     const { active, type } = this.state;

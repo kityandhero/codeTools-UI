@@ -33,7 +33,7 @@ export default {
   'menu.exception.server-error': '500',
   'menu.exception.trigger': '触发错误',
   'menu.connectionConfig': '数据库连接',
-  'menu.connectionConfig.list': '连接列表',
+  'menu.connectionConfig.pageList': '连接列表',
   'menu.connectionConfig.add': '新增连接',
   'menu.connectionConfig.edit': '编辑连接',
   'menu.connectionConfig.edit.basicInfo': '基本信息',
