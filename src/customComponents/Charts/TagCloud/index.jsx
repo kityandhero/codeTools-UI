@@ -1,34 +1,45 @@
+import { Chart, Coord, Geom, Shape, Tooltip } from 'bizcharts';
 import React, { Component } from 'react';
-import { Chart, Geom, Coord, Shape, Tooltip } from 'bizcharts';
 import DataSet from '@antv/data-set';
-import Debounce from 'lodash-decorators/debounce';
-import Bind from 'lodash-decorators/bind';
+import Debounce from 'lodash.debounce';
 import classNames from 'classnames';
 import autoHeight from '../autoHeight';
 import styles from './index.less';
-
 /* eslint no-underscore-dangle: 0 */
+
 /* eslint no-param-reassign: 0 */
 
 const imgUrl = 'https://gw.alipayobjects.com/zos/rmsportal/gWyeGLCdFFRavBGIDzWk.png';
 
-@autoHeight()
 class TagCloud extends Component {
   state = {
     dv: null,
+    height: 0,
+    width: 0,
   };
+
+  isUnmount = false;
+
+  requestRef = 0;
+
+  root = undefined;
+
+  imageMask = undefined;
 
   componentDidMount() {
     requestAnimationFrame(() => {
       this.initTagCloud();
-      this.renderChart();
+      this.renderChart(this.props);
     });
-    window.addEventListener('resize', this.resize, { passive: true });
+    window.addEventListener('resize', this.resize, {
+      passive: true,
+    });
   }
 
   componentDidUpdate(preProps) {
     const { data } = this.props;
-    if (JSON.stringify(preProps.data) !== JSON.stringify(data)) {
+
+    if (preProps && JSON.stringify(preProps.data) !== JSON.stringify(data)) {
       this.renderChart(this.props);
     }
   }
@@ -41,7 +52,7 @@ class TagCloud extends Component {
 
   resize = () => {
     this.requestRef = requestAnimationFrame(() => {
-      this.renderChart();
+      this.renderChart(this.props);
     });
   };
 
@@ -52,6 +63,7 @@ class TagCloud extends Component {
   initTagCloud = () => {
     function getTextAttrs(cfg) {
       return {
+        ...cfg.style,
         fillOpacity: cfg.opacity,
         fontSize: cfg.origin._origin.size,
         rotate: cfg.origin._origin.rotate,
@@ -60,27 +72,20 @@ class TagCloud extends Component {
         fontFamily: cfg.origin._origin.font,
         fill: cfg.color,
         textBaseline: 'Alphabetic',
-        ...cfg.style,
       };
     }
 
-    // 给point注册一个词云的shape
     Shape.registerShape('point', 'cloud', {
       drawShape(cfg, container) {
         const attrs = getTextAttrs(cfg);
         return container.addShape('text', {
-          attrs: Object.assign(attrs, {
-            x: cfg.x,
-            y: cfg.y,
-          }),
+          attrs: { ...attrs, x: cfg.x, y: cfg.y },
         });
       },
     });
   };
 
-  @Bind()
-  @Debounce(500)
-  renderChart(nextProps) {
+  renderChart = Debounce((nextProps) => {
     // const colors = ['#1890FF', '#41D9C7', '#2FC25B', '#FACC14', '#9AE65C'];
     const { data, height } = nextProps || this.props;
 
@@ -100,15 +105,19 @@ class TagCloud extends Component {
         fields: ['name', 'value'],
         imageMask: this.imageMask,
         font: 'Verdana',
-        size: [w, h], // 宽高设置最好根据 imageMask 做调整
+        size: [w, h],
+        // 宽高设置最好根据 imageMask 做调整
         padding: 0,
-        timeInterval: 5000, // max execute time
+        timeInterval: 5000,
+
+        // max execute time
         rotate() {
           return 0;
         },
+
         fontSize(d) {
-          // eslint-disable-next-line
-          return Math.pow((d.value - min) / (max - min), 2) * (17.5 - 5) + 5;
+          const size = ((d.value - min) / (max - min)) ** 2;
+          return size * (17.5 - 5) + 5;
         },
       });
 
@@ -118,8 +127,8 @@ class TagCloud extends Component {
 
       this.setState({
         dv,
-        w,
-        h,
+        width: w,
+        height: h,
       });
     };
 
@@ -127,32 +136,37 @@ class TagCloud extends Component {
       this.imageMask = new Image();
       this.imageMask.crossOrigin = '';
       this.imageMask.src = imgUrl;
-
       this.imageMask.onload = onload;
     } else {
       onload();
     }
-  }
+  }, 500);
 
   render() {
     const { className, height } = this.props;
-    const { dv, w, h } = this.state;
-
+    const { dv, width, height: stateHeight } = this.state;
     return (
       <div
         className={classNames(styles.tagCloud, className)}
-        style={{ width: '100%', height }}
+        style={{
+          width: '100%',
+          height,
+        }}
         ref={this.saveRootRef}
       >
         {dv && (
           <Chart
-            width={w}
-            height={h}
+            width={width}
+            height={stateHeight}
             data={dv}
             padding={0}
             scale={{
-              x: { nice: false },
-              y: { nice: false },
+              x: {
+                nice: false,
+              },
+              y: {
+                nice: false,
+              },
             }}
           >
             <Tooltip showTitle={false} />
@@ -165,7 +179,10 @@ class TagCloud extends Component {
               tooltip={[
                 'text*value',
                 function trans(text, value) {
-                  return { name: text, value };
+                  return {
+                    name: text,
+                    value,
+                  };
                 },
               ]}
             />
@@ -176,4 +193,4 @@ class TagCloud extends Component {
   }
 }
 
-export default TagCloud;
+export default autoHeight()(TagCloud);

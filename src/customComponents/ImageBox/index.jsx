@@ -1,10 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Row, Col, Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { PictureOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import { isFunction, trim, replace } from '@/utils/tools';
 import { defaultEmptyImage } from '@/utils/constants';
+import IconInfo from '@/customComponents/IconInfo';
 
 import CustomBase from '../Framework/CustomBase';
 
@@ -187,27 +188,44 @@ class ImageBox extends CustomBase {
 
           {showMode === 'loading' ? (
             <div>
-              <Spin delay={500}  indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} />
+              <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} />
             </div>
           ) : null}
 
           {loadingEffect && !loadSuccess && !showOverlay ? (
             <div className={classNames(styles.overlayBox, styles.overlayLoading)}>
-              <div className={styles.loadingBoxInner}>
-                <div>
-                  <Spin delay={500}  indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} />
-                </div>
-              </div>
+              <Row justify="space-around" align="middle" style={{ height: '100%' }}>
+                <Col flex="auto" />
+                <Col>
+                  <Spin indicator={<LoadingOutlined style={{ fontSize: 18 }} spin />} />
+                </Col>
+                <Col flex="auto" />
+              </Row>
             </div>
           ) : null}
 
           {showErrorOverlay ? (
             <div className={classNames(styles.overlayBox, styles.overlayErrorBackground)}>
-              <Row type="flex" align="middle" justify="center" className={styles.overlayTextInner}>
+              <Row justify="space-around" align="middle" style={{ height: '100%' }}>
+                <Col flex="auto" />
                 <Col>
-                  <div className={styles.overlayText}>{errorOverlayText}</div>
+                  <IconInfo
+                    direction="vertical"
+                    icon={<PictureOutlined className={styles.overlayIcon} />}
+                    text={<span className={styles.overlayText}>{errorOverlayText}</span>}
+                  />
                 </Col>
+                <Col flex="auto" />
               </Row>
+              {/* <Row type="flex" align="middle" justify="center" className={styles.overlayTextInner}>
+                <Col>
+                  <IconInfo
+                    direction="vertical"
+                    icon={<PictureOutlined />}
+                    text={<div className={styles.overlayText}>{errorOverlayText}</div>}
+                  />
+                </Col>
+              </Row> */}
             </div>
           ) : null}
 

@@ -133,7 +133,7 @@ class StandardTableCustom extends PureComponent {
     return (
       <div className={styles.standardTableCustom}>
         {rowSelectionMessage}
-        <Spin delay={500} spinning={loading}>
+        <Spin spinning={loading}>
           <Table
             rowKey={rowKey || 'key'}
             // loading={loading}

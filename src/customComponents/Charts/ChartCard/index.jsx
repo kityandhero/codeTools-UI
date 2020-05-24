@@ -1,30 +1,39 @@
-import React from 'react';
 import { Card } from 'antd';
+import React from 'react';
 import classNames from 'classnames';
-
 import styles from './index.less';
 
 const renderTotal = (total) => {
+  if (!total && total !== 0) {
+    return null;
+  }
+
   let totalDom;
+
   switch (typeof total) {
     case 'undefined':
       totalDom = null;
       break;
+
     case 'function':
       totalDom = <div className={styles.total}>{total()}</div>;
       break;
+
     default:
       totalDom = <div className={styles.total}>{total}</div>;
   }
+
   return totalDom;
 };
 
-class ChartCard extends React.PureComponent {
-  renderConnet = () => {
+class ChartCard extends React.Component {
+  renderContent = () => {
     const { contentHeight, title, avatar, action, total, footer, children, loading } = this.props;
+
     if (loading) {
       return false;
     }
+
     return (
       <div className={styles.chartCard}>
         <div
@@ -42,7 +51,12 @@ class ChartCard extends React.PureComponent {
           </div>
         </div>
         {children && (
-          <div className={styles.content} style={{ height: contentHeight || 'auto' }}>
+          <div
+            className={styles.content}
+            style={{
+              height: contentHeight || 'auto',
+            }}
+          >
             <div className={contentHeight && styles.contentFixed}>{children}</div>
           </div>
         )}
@@ -72,8 +86,14 @@ class ChartCard extends React.PureComponent {
       ...rest
     } = this.props;
     return (
-      <Card loading={loading} bodyStyle={{ padding: '20px 24px 8px 24px' }} {...rest}>
-        {this.renderConnet()}
+      <Card
+        loading={loading}
+        bodyStyle={{
+          padding: '20px 24px 8px 24px',
+        }}
+        {...rest}
+      >
+        {this.renderContent()}
       </Card>
     );
   }

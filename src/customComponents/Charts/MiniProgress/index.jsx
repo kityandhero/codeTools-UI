@@ -1,23 +1,41 @@
 import React from 'react';
 import { Tooltip } from 'antd';
-
 import styles from './index.less';
 
-const MiniProgress = ({ target, color = 'rgb(19, 194, 194)', strokeWidth, percent }) => (
+const MiniProgress = ({
+  targetLabel,
+  target,
+  color = 'rgb(19, 194, 194)',
+  strokeWidth,
+  percent,
+}) => (
   <div className={styles.miniProgress}>
-    <Tooltip title={`目标值: ${target}%`}>
-      <div className={styles.target} style={{ left: target ? `${target}%` : null }}>
-        <span style={{ backgroundColor: color || null }} />
-        <span style={{ backgroundColor: color || null }} />
+    <Tooltip title={targetLabel}>
+      <div
+        className={styles.target}
+        style={{
+          left: target ? `${target}%` : undefined,
+        }}
+      >
+        <span
+          style={{
+            backgroundColor: color || undefined,
+          }}
+        />
+        <span
+          style={{
+            backgroundColor: color || undefined,
+          }}
+        />
       </div>
     </Tooltip>
     <div className={styles.progressWrap}>
       <div
         className={styles.progress}
         style={{
-          backgroundColor: color || null,
-          width: percent ? `${percent}%` : null,
-          height: strokeWidth || null,
+          backgroundColor: color || undefined,
+          width: percent ? `${percent}%` : undefined,
+          height: strokeWidth || undefined,
         }}
       />
     </div>

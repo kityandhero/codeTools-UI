@@ -21,7 +21,7 @@ import {
   isArray as isArrayLodash,
   remove as removeLodash,
   isObject as isObjectLodash,
-  merge as mergeLodash,
+  difference as differenceLodash,
 } from 'lodash';
 
 import { getConfigData } from '@/customConfig/config';
@@ -38,7 +38,7 @@ export function defaultBaseState() {
     paging: false,
     firstLoadSuccess: false,
     loadSuccess: false,
-    loadDataAfterMount: false,
+
     urlParams: null,
     externalData: null,
   };
@@ -70,7 +70,6 @@ export function defaultListState() {
   const data = {
     ...defaultCommonState(),
     ...{
-      loadDataAfterMount: true,
       dateRangeFieldName: '发生时间',
       tableScroll: { x: 1520 },
       formValues: {},
@@ -90,7 +89,6 @@ export function defaultPageListState() {
   const data = {
     ...defaultCommonState(),
     ...{
-      loadDataAfterMount: true,
       paramsKey: '',
       loadApiPath: '',
       dateRangeFieldName: '发生时间',
@@ -111,7 +109,7 @@ export function defaultPageListState() {
 export function defaultFormState() {
   const data = {
     ...defaultCommonState(),
-    ...{ loadDataAfterMount: true, errorFieldName: '', submitApiPath: '' },
+    ...{ errorFieldName: '', submitApiPath: '' },
   };
 
   return data;
@@ -127,14 +125,9 @@ export function getValue(obj) {
  * 复制到剪贴板
  * @param {*} text
  */
-export function copyToClipboard(text, displayText = true) {
+export function copyToClipboard(text) {
   copy(text);
-
-  if (displayText) {
-    message.success(`已将 ${text} 复制到剪贴板！`);
-  } else {
-    message.success(`已复制到剪贴板！`);
-  }
+  message.success(`已将 ${text} 复制到剪贴板！`);
 }
 
 /**
@@ -950,8 +943,8 @@ export function pretreatmentRemotePageListData(d, listItemHandler) {
       count: (list || []).length,
       list,
       pagination: {
-        total: toNumber(extraData.total),
-        pageSize: toNumber(extraData.pageSize),
+        total: extraData.total,
+        pageSize: extraData.pageSize,
         current: parseInt(pageNo || 1, 10) || 1,
       },
       extra: extraData,
@@ -1268,6 +1261,10 @@ export function isObject(o) {
   return isObjectLodash(o);
 }
 
+export function difference(array, values) {
+  return differenceLodash(array, values);
+}
+
 /**
  * 筛选需要的集合
  * @param {collection} 可筛选的对象，例如数组
@@ -1278,21 +1275,12 @@ export function filter(collection, predicateFunction) {
 }
 
 /**
- * 创建一个元素数组。 以 iteratee 处理的结果升序排序。 这个方法执行稳定排序，也就是说相同元素会保持原始排序。 predicateFunction 调用1个参数： (value)。
+ * 创建一个元素数组。 以 iteratee 处理的结果升序排序。 这个方法执行稳定排序，也就是说相同元素会保持原始排序。 iteratees 调用1个参数： (value)。
  * @param {collection}  (Array|Object), 用来迭代的集合。
  * @param {predicateFunction} 这个函数决定排序
  */
 export function sortBy(collection, predicateFunction) {
   return sortByLodash(collection, predicateFunction);
-}
-
-/**
- * 该方法类似_.assign， 除了它递归合并 sources 来源对象自身和继承的可枚举属性到 object 目标对象。如果目标值存在，被解析为undefined的sources 来源对象属性将被跳过。数组和普通对象会递归合并，其他对象和值会被直接分配覆盖。源对象从从左到右分配。后续的来源对象属性会覆盖之前分配的属性。 Note: 这方法会改变对象 object.
- * @param {object}  目标对象。
- * @param {sources}  (...Object) 来源对象。
- */
-export function merge(object, sources = []) {
-  return mergeLodash(object, sources);
 }
 
 /**

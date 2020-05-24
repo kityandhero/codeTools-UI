@@ -72,7 +72,7 @@ class TimeLineCustom extends CustomBase {
       getDescription,
       getBottomLeft,
       getBottomRight,
-      get
+      get,
     } = this.props;
 
     const iconStyle = {

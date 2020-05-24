@@ -11,6 +11,8 @@ import styles from './index.less';
 class Base extends AuthorizationWrapper {
   formRef = React.createRef();
 
+  loadDataAfterMount = false;
+
   constructor(props) {
     super(props);
 
@@ -23,7 +25,7 @@ class Base extends AuthorizationWrapper {
         width: 820,
         visible: false,
         dataLoading: false,
-        loadDataAfterMount: false,
+
         submitApiPath: '',
         placement: 'right',
       },

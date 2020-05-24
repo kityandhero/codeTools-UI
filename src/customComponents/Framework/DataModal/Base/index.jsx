@@ -1,12 +1,21 @@
 import React from 'react';
-import { Form, Modal, Spin, message } from 'antd';
+import { Row, Col, Form, Modal, Spin, message } from 'antd';
+import { CloseCircleOutlined, LoadingOutlined, EditOutlined } from '@ant-design/icons';
 
 import { defaultFormState, pretreatmentRequestParams, isFunction, recordText } from '@/utils/tools';
 
 import AuthorizationWrapper from '../../AuthorizationWrapper';
 
+import styles from './index.less';
+
 class Base extends AuthorizationWrapper {
   formRef = React.createRef();
+
+  loadDataAfterMount = false;
+
+  reloadWhenShow = true;
+
+  submitWithForm = true;
 
   constructor(props) {
     super(props);
@@ -15,19 +24,19 @@ class Base extends AuthorizationWrapper {
 
     this.state = {
       ...defaultState,
-      visible: false,
-      dataLoading: false,
-      loadDataAfterMount: false,
-      width: 520,
-      bodyStyle: {},
+      ...{
+        visible: false,
+        dataLoading: false,
+
+        width: 520,
+      },
     };
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static getDerivedStateFromProps(nextProps, prevState) {
     const { visible, externalData } = nextProps;
-
-    return { visible, externalData };
+    return { visible, externalData: externalData || {} };
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -101,6 +110,68 @@ class Base extends AuthorizationWrapper {
   buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => null;
 
   handleOk = (e) => {
+    if (this.submitWithForm) {
+      this.handleOkWithForm(e);
+    } else {
+      this.handleOkWithoutForm(e);
+    }
+  };
+
+  handleOkWithoutForm = (e) => {
+    e.preventDefault();
+
+    const { dispatch } = this.props;
+    const { submitApiPath } = this.state;
+
+    if ((submitApiPath || '') === '') {
+      message.error(`缺少 submitApiPath 配置！`);
+      return;
+    }
+
+    let submitData = pretreatmentRequestParams({});
+
+    submitData = this.supplementSubmitRequestParams(submitData);
+
+    const checkResult = this.checkSubmitRequestParams(submitData);
+
+    submitData = this.afterCheckSubmitRequestParams(submitData);
+
+    if (checkResult) {
+      this.setState({ processing: true });
+
+      dispatch({
+        type: submitApiPath,
+        payload: submitData,
+      }).then(() => {
+        if (this.mounted) {
+          const remoteData = this.getApiData(this.props);
+
+          const { dataSuccess } = remoteData;
+
+          if (dataSuccess) {
+            const { list: metaListData, data: metaData, extra: metaExtra } = remoteData;
+
+            this.afterSubmitSuccess(
+              metaData || null,
+              metaListData || [],
+              metaExtra || null,
+              remoteData,
+              submitData,
+            );
+          }
+
+          // eslint-disable-next-line react/no-unused-state
+          this.setState({ processing: false }, () => {
+            if (this.goToUpdateWhenProcessed) {
+              this.reloadByUrl();
+            }
+          });
+        }
+      });
+    }
+  };
+
+  handleOkWithForm = (e) => {
     e.preventDefault();
 
     const {
@@ -212,21 +283,14 @@ class Base extends AuthorizationWrapper {
     }
   };
 
+  buildFormLayout = () => {
+    return 'horizontal';
+  };
+
   formContent = () => null;
 
-  render() {
-    const {
-      width,
-      bodyStyle,
-      pageName,
-      visible,
-      processing,
-      dataLoading,
-      metaData,
-      metaListData,
-      metaExtra,
-      metaOriginalData,
-    } = this.state;
+  renderModalInner = () => {
+    const { metaData, metaListData, metaExtra, metaOriginalData } = this.state;
 
     const initialValues = this.buildInitialValues(
       metaData,
@@ -235,21 +299,94 @@ class Base extends AuthorizationWrapper {
       metaOriginalData,
     );
 
+    const formLayout = this.buildFormLayout();
+
+    return (
+      <Form ref={this.formRef} layout={formLayout} initialValues={initialValues}>
+        {this.formContent()}
+      </Form>
+    );
+  };
+
+  buildOkButtonProps = () => {
+    const buttonDisabled = this.getSaveButtonDisabled() || this.getOtherButtonDisabled();
+
+    return {
+      disabled: buttonDisabled,
+    };
+  };
+
+  buildOkText = (saveButtonText = '') => {
+    const buttonProcessing = this.getSaveButtonProcessing();
+
+    return (
+      <>
+        {buttonProcessing ? <LoadingOutlined /> : this.getSaveButtonIcon()}
+        <span className={styles.buttonText}>{saveButtonText || '保存'}</span>
+      </>
+    );
+  };
+
+  buildCancelButtonProps = () => {
+    const buttonDisabled = this.getSaveButtonDisabled() || this.getOtherButtonDisabled();
+
+    return {
+      disabled: buttonDisabled,
+    };
+  };
+
+  buildCancelText = (saveButtonText = '') => {
+    return (
+      <>
+        <CloseCircleOutlined />
+        <span className={styles.buttonText}>{saveButtonText || '取消'}</span>
+      </>
+    );
+  };
+
+  buildModalBodyStyle = () => {
+    return {};
+  };
+
+  buildTitleIcon = () => {
+    return <EditOutlined />;
+  };
+
+  buildTitleText = () => {
+    const { pageName } = this.state;
+
+    return pageName;
+  };
+
+  buildTitle = () => {
+    return (
+      <Row gutter={6}>
+        <Col>{this.buildTitleIcon()}</Col>
+        <Col flex="auto">{this.buildTitleText()}</Col>
+      </Row>
+    );
+  };
+
+  render() {
+    const { width, visible, processing, dataLoading } = this.state;
+
     return (
       <Modal
-        title={pageName}
+        title={this.buildTitle()}
         width={width}
-        bodyStyle={bodyStyle}
+        bodyStyle={this.buildModalBodyStyle()}
         visible={visible}
         zIndex={1001}
-        onOk={this.handleOk}
+        okButtonProps={this.buildOkButtonProps()}
+        onOk={(e) => {
+          this.handleOk(e);
+        }}
+        okText={this.buildOkText()}
+        cancelButtonProps={this.buildCancelButtonProps()}
+        cancelText={this.buildCancelText()}
         onCancel={this.handleCancel}
       >
-        <Spin spinning={processing || dataLoading}>
-          <Form ref={this.formRef} initialValues={initialValues}>
-            {this.formContent()}
-          </Form>
-        </Spin>
+        <Spin spinning={processing || dataLoading}>{this.renderModalInner()}</Spin>
       </Modal>
     );
   }

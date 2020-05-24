@@ -25,7 +25,7 @@ class MultiPageDrawer extends MultiPage {
 
     this.state = {
       ...s,
-      ...{ visible: false, loadDataAfterMount: false, reloadAnimalShow: false },
+      ...{ visible: false, reloadAnimalShow: false },
     };
   }
 

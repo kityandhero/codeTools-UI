@@ -33,6 +33,8 @@ const { TextArea, Password } = Input;
 const RadioGroup = Radio.Group;
 
 class Common extends Core {
+  loadDataAfterMount = true;
+
   lastRequestingData = { type: '', payload: {} };
 
   constructor(props) {
@@ -75,7 +77,10 @@ class Common extends Core {
   initOther = () => {};
 
   init = () => {
-    this.initLoad();
+    if (this.loadDataAfterMount) {
+      this.initLoad();
+    }
+
     this.initOther();
   };
 
@@ -118,7 +123,7 @@ class Common extends Core {
 
   initLoadRequestParams = (o) => o || {};
 
-  supplementLoadRequestParams = (o) => o;
+  supplementLoadRequestParams = (o) => o || {};
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   checkLoadRequestParams = (o) => {
@@ -132,62 +137,56 @@ class Common extends Core {
       reloading: reloadingBefore,
       dataLoading,
       loadSuccess,
-      loadDataAfterMount,
     } = this.state;
 
     try {
-      if (loadDataAfterMount) {
-        if ((loadApiPath || '') === '') {
-          message.error('loadApiPath需要配置');
+      if ((loadApiPath || '') === '') {
+        message.error('loadApiPath需要配置');
 
-          this.setState({
-            dataLoading: false,
-            loadSuccess: false,
-            reloading: false,
-            searching: false,
-            refreshing: false,
-            paging: false,
-          });
+        this.setState({
+          dataLoading: false,
+          loadSuccess: false,
+          reloading: false,
+          searching: false,
+          refreshing: false,
+          paging: false,
+        });
 
-          return;
+        return;
+      }
+
+      let submitData = this.initLoadRequestParams() || {};
+
+      submitData = pretreatmentRequestParams(submitData || {});
+
+      submitData = this.supplementLoadRequestParams(submitData || {});
+
+      const checkResult = this.checkLoadRequestParams(submitData || {});
+
+      if (checkResult) {
+        if (!firstLoadSuccess) {
+          this.beforeFirstLoadRequest(submitData || {});
         }
 
-        let submitData = this.initLoadRequestParams() || {};
-
-        submitData = pretreatmentRequestParams(submitData);
-
-        submitData = this.supplementLoadRequestParams(submitData);
-
-        const checkResult = this.checkLoadRequestParams(submitData);
-
-        if (checkResult) {
-          if (!firstLoadSuccess) {
-            this.beforeFirstLoadRequest(submitData);
-          }
-
-          if (reloadingBefore) {
-            this.beforeReLoadRequest(submitData);
-          }
-
-          this.beforeRequest(submitData);
-
-          if (dataLoading && !loadSuccess) {
-            this.initLoadCore(submitData, callback);
-          } else {
-            this.setState(
-              {
-                dataLoading: true,
-                loadSuccess: false,
-              },
-              () => {
-                this.initLoadCore(submitData, callback);
-              },
-            );
-          }
+        if (reloadingBefore) {
+          this.beforeReLoadRequest(submitData || {});
         }
-      } else {
-        // 加载时执行完第一次方法之后设置为true
-        this.setState({ loadDataAfterMount: true });
+
+        this.beforeRequest(submitData || {});
+
+        if (dataLoading && !loadSuccess) {
+          this.initLoadCore(submitData || {}, callback);
+        } else {
+          this.setState(
+            {
+              dataLoading: true,
+              loadSuccess: false,
+            },
+            () => {
+              this.initLoadCore(submitData || {}, callback);
+            },
+          );
+        }
       }
     } catch (error) {
       recordText({ loadApiPath });
@@ -197,12 +196,16 @@ class Common extends Core {
   };
 
   initLoadCore = (requestData, callback) => {
+    let loadApiPath = '';
+
     try {
       const { dispatch } = this.props;
 
       const requestingDataPre = this.getRequestingData();
 
-      const { loadApiPath, firstLoadSuccess } = this.state;
+      const { loadApiPath: loadApiPathValue, firstLoadSuccess } = this.state;
+
+      loadApiPath = loadApiPathValue || '';
 
       // 处理频繁的相同请求
       if (
@@ -288,7 +291,7 @@ class Common extends Core {
           });
       }
     } catch (error) {
-      recordObject({ requestData });
+      recordObject({ loadApiPath, requestData });
 
       throw error;
     }
@@ -723,6 +726,39 @@ class Common extends Core {
         ]}
       >
         <Password {...otherInputProps} />
+      </FormItem>
+    );
+  };
+
+  renderFormOnlyShowText = (
+    label,
+    value,
+    helper = null,
+    formItemLayout = {},
+    requiredForShow = false,
+  ) => {
+    const title = label;
+
+    const resultCheck = this.checkFromConfig(title, getGuid(), helper);
+
+    return (
+      <FormItem
+        {...formItemLayout}
+        label={resultCheck.label}
+        className={requiredForShow ? styles.formItemOnlyShowText : null}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
+        rules={[
+          {
+            required: false,
+            message: buildFieldDescription(resultCheck.label),
+          },
+        ]}
+      >
+        {value}
       </FormItem>
     );
   };
@@ -1205,6 +1241,10 @@ class Common extends Core {
     );
   };
 
+  getOtherButtonDisabled = () => {
+    return false;
+  };
+
   getSaveButtonDisabled = () => {
     const { dataLoading, processing, loadSuccess } = this.state;
 
@@ -1212,16 +1252,22 @@ class Common extends Core {
   };
 
   getSaveButtonLoading = () => {
-    const { dataLoading, processing, loadSuccess } = this.state;
+    const { dataLoading, loadSuccess } = this.state;
 
-    return dataLoading || processing || !loadSuccess;
+    return dataLoading || !loadSuccess;
+  };
+
+  getSaveButtonProcessing = () => {
+    const { processing } = this.state;
+
+    return processing;
   };
 
   getSaveButtonIcon = () => {
     return <SaveOutlined />;
   };
 
-  renderSaveButton = (saveButtonText = '') => {
+  renderSaveButton = (saveButtonText = '', onClick = null) => {
     const buttonDisabled = this.getSaveButtonDisabled();
     const buttonLoading = this.getSaveButtonLoading();
 
@@ -1229,9 +1275,13 @@ class Common extends Core {
       <Button
         type="primary"
         disabled={buttonDisabled}
-        onClick={(e) => {
-          this.validate(e);
-        }}
+        onClick={
+          onClick == null
+            ? (e) => {
+                this.validate(e);
+              }
+            : onClick
+        }
       >
         {buttonLoading ? <LoadingOutlined /> : this.getSaveButtonIcon()}
         {saveButtonText || '保存'}

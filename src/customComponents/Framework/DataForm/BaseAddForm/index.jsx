@@ -27,7 +27,6 @@ class BaseAddForm extends AuthorizationWrapper {
       ...defaultState,
       ...{
         dataLoading: false,
-        loadDataAfterMount: false,
       },
     };
   }

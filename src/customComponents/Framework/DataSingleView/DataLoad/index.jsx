@@ -1,9 +1,8 @@
 import React from 'react';
-import { Form, BackTop, Button, Avatar, Dropdown, Popconfirm, Menu, Tooltip, message } from 'antd';
+import { Form, BackTop, Button, Avatar, Tooltip, message } from 'antd';
 import {
   PlusOutlined,
   RollbackOutlined,
-  EllipsisOutlined,
   ReloadOutlined,
   LoadingOutlined,
   ContactsOutlined,
@@ -11,11 +10,11 @@ import {
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import { getDerivedStateFromPropsForUrlParams, defaultFormState } from '@/utils/tools';
+import { buildButtonGroup } from '@/customComponents/FunctionComponent';
+
 import DataCore from '../DataCore';
 
 import styles from './index.less';
-
-const ButtonGroup = Button.Group;
 
 class DataLoad extends DataCore {
   enableActionBack = true;
@@ -162,80 +161,7 @@ class DataLoad extends DataCore {
     return (
       <>
         <div className={styles.buttonBox}>
-          {(buttonGroupData || null) != null ? (
-            <ButtonGroup>
-              {(buttonGroupData.buttons || []).map((item) => {
-                const { confirmMode, confirmProps } = item;
-
-                const { disabled, onClick } = item.buttonProps || {
-                  onClick: () => {
-                    message.error('缺少配置');
-                  },
-                };
-
-                if (!(confirmMode || false) || disabled) {
-                  return (
-                    <Button key={item.key} {...(item.buttonProps || {})}>
-                      {item.loading ? <LoadingOutlined /> : item.icon}
-                      {item.text || ''}
-                    </Button>
-                  );
-                }
-
-                const defaultConfirmProps = {
-                  title: '确定进行操作吗？',
-                  onConfirm: () => {
-                    message.error('缺少配置');
-                  },
-                  okText: '确定',
-                  cancelText: '取消',
-                };
-
-                const cp = {
-                  ...defaultConfirmProps,
-                  ...{
-                    onConfirm: onClick,
-                  },
-                  ...(confirmProps || {}),
-                };
-
-                const { buttonProps } = item;
-
-                delete cp.onClick;
-                delete buttonProps.onClick;
-
-                return (
-                  <Popconfirm {...(cp || {})} key={item.key}>
-                    <Button {...(buttonProps || {})}>
-                      {item.loading ? <LoadingOutlined /> : item.icon}
-                      {item.text || ''}
-                    </Button>
-                  </Popconfirm>
-                );
-              })}
-
-              {(buttonGroupData.menu || null) != null ? (
-                (buttonGroupData.menu.items || []).length > 0 ? (
-                  <Dropdown
-                    overlay={
-                      <Menu {...(buttonGroupData.menu.props || {})}>
-                        {buttonGroupData.menu.items.map((item) => (
-                          <Menu.Item {...(item.props || {})} key={item.key}>
-                            {item.children}
-                          </Menu.Item>
-                        ))}
-                      </Menu>
-                    }
-                    placement="bottomRight"
-                  >
-                    <Button>
-                      <EllipsisOutlined />
-                    </Button>
-                  </Dropdown>
-                ) : null
-              ) : null}
-            </ButtonGroup>
-          ) : null}
+          {buildButtonGroup(buttonGroupData)}
 
           {this.pageHeaderActionBack()}
 

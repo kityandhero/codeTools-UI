@@ -65,6 +65,8 @@ export default class GlobalHeaderRight extends PureComponent {
       });
     }
 
+    console.log(menuItems);
+
     const menu = (
       <Menu
         className={styles.menu}
@@ -165,7 +167,7 @@ export default class GlobalHeaderRight extends PureComponent {
             </span>
           </Dropdown>
         ) : (
-          <Spin delay={500} size="small" style={{ marginLeft: 8, marginRight: 8 }} />
+          <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />
         )}
         {/* <SelectLangCustom className={styles.action} /> */}
       </div>

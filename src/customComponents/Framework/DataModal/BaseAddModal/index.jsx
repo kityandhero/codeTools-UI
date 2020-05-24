@@ -1,6 +1,8 @@
 import Base from '../Base';
 
 class BaseAddModal extends Base {
+  reloadWhenShow = false;
+
   constructor(props) {
     super(props);
 
@@ -28,18 +30,32 @@ class BaseAddModal extends Base {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doWorkWhenDidUpdate = (preProps, preState, snapshot) => {
-    const { needReset } = this.state;
+    const { visible: visiblePre } = preState;
+    const { needReset, visible } = this.state;
 
-    const form = this.getTargetForm();
+    if (visible && !visiblePre) {
+      const form = this.getTargetForm();
 
-    if (form == null) {
-      return;
+      if (form != null) {
+        if (needReset) {
+          form.resetFields();
+
+          this.setState({ needReset: false });
+        }
+      }
+
+      this.doOtherWhenChangeVisible(preProps, preState, snapshot);
     }
+  };
 
-    if (needReset) {
-      form.resetFields();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
+    if (this.reloadWhenShow) {
+      this.setState({ dataLoading: true });
 
-      this.setState({ needReset: false });
+      setTimeout(() => {
+        this.reloadData();
+      }, 700);
     }
   };
 }

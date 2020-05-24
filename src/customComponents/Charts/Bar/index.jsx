@@ -1,43 +1,30 @@
+import { Axis, Chart, Geom, Tooltip } from 'bizcharts';
 import React, { Component } from 'react';
-import { Chart, Axis, Tooltip, Geom } from 'bizcharts';
-import Debounce from 'lodash-decorators/debounce';
-import Bind from 'lodash-decorators/bind';
+import Debounce from 'lodash.debounce';
 import autoHeight from '../autoHeight';
 import styles from '../index.less';
 
-@autoHeight()
 class Bar extends Component {
   state = {
     autoHideXLabels: false,
   };
 
-  componentDidMount() {
-    window.addEventListener('resize', this.resize, { passive: true });
-  }
+  root = undefined;
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resize);
-  }
+  node = undefined;
 
-  handleRoot = (n) => {
-    this.root = n;
-  };
-
-  handleRef = (n) => {
-    this.node = n;
-  };
-
-  @Bind()
-  @Debounce(400)
-  resize() {
-    if (!this.node) {
+  resize = Debounce(() => {
+    if (!this.node || !this.node.parentNode) {
       return;
     }
+
     const canvasWidth = this.node.parentNode.clientWidth;
     const { data = [], autoLabel = true } = this.props;
+
     if (!autoLabel) {
       return;
     }
+
     const minWidth = data.length * 30;
     const { autoHideXLabels } = this.state;
 
@@ -52,20 +39,36 @@ class Bar extends Component {
         autoHideXLabels: false,
       });
     }
+  }, 500);
+
+  componentDidMount() {
+    window.addEventListener('resize', this.resize, {
+      passive: true,
+    });
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resize);
+  }
+
+  handleRoot = (n) => {
+    this.root = n;
+  };
+
+  handleRef = (n) => {
+    this.node = n;
+  };
 
   render() {
     const {
-      height,
+      height = 1,
       title,
       forceFit = true,
       data,
       color = 'rgba(24, 144, 255, 0.85)',
       padding,
     } = this.props;
-
     const { autoHideXLabels } = this.state;
-
     const scale = {
       x: {
         type: 'cat',
@@ -74,7 +77,6 @@ class Bar extends Component {
         min: 0,
       },
     };
-
     const tooltip = [
       'x*y',
       (x, y) => ({
@@ -82,11 +84,24 @@ class Bar extends Component {
         value: y,
       }),
     ];
-
     return (
-      <div className={styles.chart} style={{ height }} ref={this.handleRoot}>
+      <div
+        className={styles.chart}
+        style={{
+          height,
+        }}
+        ref={this.handleRoot}
+      >
         <div ref={this.handleRef}>
-          {title && <h4 style={{ marginBottom: 20 }}>{title}</h4>}
+          {title && (
+            <h4
+              style={{
+                marginBottom: 20,
+              }}
+            >
+              {title}
+            </h4>
+          )}
           <Chart
             scale={scale}
             height={title ? height - 41 : height}
@@ -97,8 +112,8 @@ class Bar extends Component {
             <Axis
               name="x"
               title={false}
-              label={autoHideXLabels ? false : {}}
-              tickLine={autoHideXLabels ? false : {}}
+              label={autoHideXLabels ? undefined : {}}
+              tickLine={autoHideXLabels ? undefined : {}}
             />
             <Axis name="y" min={0} />
             <Tooltip showTitle={false} crosshairs={false} />
@@ -110,4 +125,4 @@ class Bar extends Component {
   }
 }
 
-export default Bar;
+export default autoHeight()(Bar);
