@@ -1,16 +1,16 @@
 module.exports = {
-  extends: [require.resolve('@umijs/fabric/dist/eslint'), 'prettier', 'plugin:compat/recommended'],
+  extends: [require.resolve('@umijs/fabric/dist/eslint')],
   globals: {
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: true,
     page: true,
     REACT_APP_ENV: true,
   },
   rules: {
-    'react/jsx-filename-extension': [1, { extensions: ['.js'] }],
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/jsx-wrap-multilines': 0,
     'react/prop-types': 0,
     'react/forbid-prop-types': 0,
-    'react/jsx-filename-extension': 0,
+    // 'react/jsx-filename-extension': 0,
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-props-no-spreading': 0,
     'import/no-unresolved': [2, { ignore: ['^@/', '^umi/'] }],

@@ -5,16 +5,15 @@
  */
 import React, { useEffect } from 'react';
 import { Link, useIntl, connect } from 'umi';
-import { GithubOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
 import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
 
 import RightContent from '@/components/GlobalHeader/RightContent';
+import { defaultFooterData } from '@/customSpecialComponents/CustomAssembly';
 import { getQueue } from '@/utils/tools';
 import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils';
 import Authorized from '@/utils/Authorized';
-
-import defaultSettings from '../../config/defaultSettings'; // https://umijs.org/config/
+import defaultSettings from '@/defaultSettings'; // https://umijs.org/config/
 
 // import styles from './BasicLayout.less';
 
@@ -43,29 +42,7 @@ const menuDataRender = (menuList) =>
   });
 
 const defaultFooterDom = (
-  <DefaultFooter
-    copyright="2019 蚂蚁金服体验技术部出品"
-    links={[
-      {
-        key: 'Ant Design Pro',
-        title: 'Ant Design Pro',
-        href: 'https://pro.ant.design',
-        blankTarget: true,
-      },
-      {
-        key: 'github',
-        title: <GithubOutlined />,
-        href: 'https://github.com/ant-design/ant-design-pro',
-        blankTarget: true,
-      },
-      {
-        key: 'Ant Design',
-        title: 'Ant Design',
-        href: 'https://ant.design',
-        blankTarget: true,
-      },
-    ]}
-  />
+  <DefaultFooter copyright={defaultFooterData.copyright} links={defaultFooterData.links} />
 );
 
 const footerRender = () => {
@@ -114,10 +91,12 @@ const BasicLayout = (props) => {
         type: 'global/getMetaData',
         payload: { force: false },
       });
+
       dispatch({
-        type: 'global/getOperator',
+        type: 'global/getCurrentOperator',
         payload: { force: false },
       });
+
       dispatch({
         type: 'settings/getSetting',
       });
@@ -166,7 +145,7 @@ const BasicLayout = (props) => {
         breadcrumbRender={(routers = []) => [
           {
             path: '/',
-            breadcrumbName: '首页',
+            breadcrumbName: formatMessage({ id: 'menu.home' }),
           },
           ...routers,
         ]}
