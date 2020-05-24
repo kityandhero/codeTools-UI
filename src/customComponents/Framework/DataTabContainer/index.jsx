@@ -1,7 +1,18 @@
 import React from 'react';
 import Texty from 'rc-texty';
-import { Descriptions, Row, Col, message } from 'antd';
-import { PictureOutlined, LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
+import {
+  // Avatar,
+  Descriptions,
+  Spin,
+  Row,
+  Col,
+} from 'antd';
+import {
+  PictureOutlined,
+  LoadingOutlined,
+  ReloadOutlined,
+  ConsoleSqlOutlined,
+} from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { defaultEmptyImage } from '@/utils/constants';
 import { isArray, copyToClipboard, formatDatetime, stringIsNullOrWhiteSpace } from '@/utils/tools';
