@@ -9,6 +9,7 @@ import { Result, Button } from 'antd';
 import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
 
 import RightContent from '@/components/GlobalHeader/RightContent';
+import { execBasicLayoutRemoteRequest } from '@/customConfig/customLoad';
 import { defaultFooterData } from '@/customSpecialComponents/CustomAssembly';
 import { getQueue } from '@/utils/tools';
 import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils';
@@ -87,15 +88,7 @@ const BasicLayout = (props) => {
 
   useEffect(() => {
     if (dispatch) {
-      dispatch({
-        type: 'global/getMetaData',
-        payload: { force: false },
-      });
-
-      dispatch({
-        type: 'global/getCurrentOperator',
-        payload: { force: false },
-      });
+      execBasicLayoutRemoteRequest(dispatch);
 
       dispatch({
         type: 'settings/getSetting',
