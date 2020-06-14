@@ -34,6 +34,7 @@ class ImageBox extends CustomBase {
         errorOverlayVisible: false,
         errorOverlayText: '加载失败',
         showErrorOverlay: false,
+        showErrorIcon: true,
       },
     };
   }
@@ -53,6 +54,7 @@ class ImageBox extends CustomBase {
       loadingEffect: loadingEffectValue,
       errorOverlayVisible: errorOverlayVisibleValue,
       errorOverlayText: errorOverlayTextValue,
+      showErrorIcon: showErrorIconValue,
     } = nextProps;
 
     let imageSrc = src || '';
@@ -60,6 +62,8 @@ class ImageBox extends CustomBase {
     let aspectRatioVerify = aspectRatio || 1;
 
     const showOverlay = showOverlayValue || false;
+
+    const showErrorIcon = showErrorIconValue && true;
 
     const errorOverlayVisible = errorOverlayVisibleValue || false;
 
@@ -108,6 +112,7 @@ class ImageBox extends CustomBase {
       imageBoxStyle: imageBoxStyleMerge,
       errorOverlayVisible,
       errorOverlayText,
+      showErrorIcon,
     };
 
     const { src: srcPre, showErrorOverlay } = prevState;
@@ -161,6 +166,7 @@ class ImageBox extends CustomBase {
       loadSuccess,
       showErrorOverlay,
       errorOverlayText,
+      showErrorIcon,
     } = this.state;
 
     if (hide) {
@@ -209,11 +215,15 @@ class ImageBox extends CustomBase {
               <Row justify="space-around" align="middle" style={{ height: '100%' }}>
                 <Col flex="auto" />
                 <Col>
-                  <IconInfo
-                    direction="vertical"
-                    icon={<PictureOutlined className={styles.overlayIcon} />}
-                    text={<span className={styles.overlayText}>{errorOverlayText}</span>}
-                  />
+                  {showErrorIcon ? (
+                    <IconInfo
+                      direction="vertical"
+                      icon={<PictureOutlined className={styles.overlayIcon} />}
+                      text={<span className={styles.overlayText}>{errorOverlayText}</span>}
+                    />
+                  ) : (
+                    <span className={styles.overlayText}>{errorOverlayText}</span>
+                  )}
                 </Col>
                 <Col flex="auto" />
               </Row>

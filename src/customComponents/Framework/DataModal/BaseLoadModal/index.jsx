@@ -9,9 +9,13 @@ class BaseLoadModal extends Base {
   doOtherWhenChangeVisible = (preProps, preState, snapshot) => {
     this.setState({ dataLoading: true });
 
-    setTimeout(() => {
-      this.reloadData();
-    }, 700);
+    if (this.reloadWhenShow) {
+      setTimeout(() => {
+        this.reloadData();
+      }, 700);
+    } else {
+      this.setState({ dataLoading: false });
+    }
   };
 }
 

@@ -1,17 +1,19 @@
-module.exports = {
+import { appInitCustom } from '@/customConfig/config';
+
+export const defaultSettings = {
   navTheme: 'dark', // theme for nav menu
   primaryColor: '#1890FF', // primary color of ant design
   layout: 'sidemenu', // nav menu position: sidemenu or topmenu
   contentWidth: 'Fluid', // layout of content: Fluid or Fixed, only works when layout is topmenu
   fixedHeader: false, // sticky header
   autoHideHeader: false, // auto hide header
-  fixSiderbar: false, // sticky siderbar// sticky siderbar
+  fixSiderbar: false, // sticky siderbar
   getPlatformName: () => {
     let result = '';
 
-    if ((window.appInitCustom || null) != null) {
-      if ((window.appInitCustom.appName || null) != null) {
-        const { platformName } = window.appInitCustom;
+    if ((appInitCustom || null) != null) {
+      if ((appInitCustom.appName || null) != null) {
+        const { platformName } = appInitCustom;
 
         result = platformName;
       }
@@ -20,11 +22,11 @@ module.exports = {
     return result || '';
   },
   getTitle: () => {
-    let result = '代码生成工具';
+    let result = '商城管理系统';
 
-    if ((window.appInitCustom || null) != null) {
-      if ((window.appInitCustom.appName || null) != null) {
-        const { appName } = window.appInitCustom;
+    if ((appInitCustom || null) != null) {
+      if ((appInitCustom.appName || null) != null) {
+        const { appName } = appInitCustom;
 
         result = appName;
       }
@@ -35,9 +37,9 @@ module.exports = {
   getLoginLogo: () => {
     let result = '/Logo.png';
 
-    if ((window.appInitCustom || null) != null) {
-      if ((window.appInitCustom.appName || null) != null) {
-        const { loginLogo } = window.appInitCustom;
+    if ((appInitCustom || null) != null) {
+      if ((appInitCustom.appName || null) != null) {
+        const { loginLogo } = appInitCustom;
 
         result = loginLogo;
       }
@@ -48,9 +50,9 @@ module.exports = {
   getShareLogo: () => {
     let result = '/shareLogo.png';
 
-    if ((window.appInitCustom || null) != null) {
-      if ((window.appInitCustom.appName || null) != null) {
-        const { shareLogo } = window.appInitCustom;
+    if ((appInitCustom || null) != null) {
+      if ((appInitCustom.appName || null) != null) {
+        const { shareLogo } = appInitCustom;
 
         result = shareLogo;
       }
@@ -61,9 +63,9 @@ module.exports = {
   getShareLogoName: () => {
     let result = '';
 
-    if ((window.appInitCustom || null) != null) {
-      if ((window.appInitCustom.appName || null) != null) {
-        const { shareLogoName } = window.appInitCustom;
+    if ((appInitCustom || null) != null) {
+      if ((appInitCustom.appName || null) != null) {
+        const { shareLogoName } = appInitCustom;
 
         result = shareLogoName;
       }
@@ -74,9 +76,9 @@ module.exports = {
   getCompanyName: () => {
     let result = '';
 
-    if ((window.appInitCustom || null) != null) {
-      if ((window.appInitCustom.appName || null) != null) {
-        const { companyName } = window.appInitCustom;
+    if ((appInitCustom || null) != null) {
+      if ((appInitCustom.appName || null) != null) {
+        const { companyName } = appInitCustom;
 
         result = companyName;
       }
@@ -85,3 +87,13 @@ module.exports = {
     return result || '';
   },
 };
+
+/**
+ * 占位函数
+ *
+ * @export
+ * @returns
+ */
+export async function empty() {
+  return {};
+}

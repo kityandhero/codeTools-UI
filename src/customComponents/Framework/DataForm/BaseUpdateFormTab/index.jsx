@@ -7,7 +7,7 @@ class BaseUpdateFormTab extends BaseUpdateForm {
   render() {
     return (
       <>
-        {this.renderForm()}
+        {this.renderFormWrapper()}
         {this.renderOther()}
         <BackTop />
       </>

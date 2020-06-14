@@ -2,11 +2,13 @@ import React from 'react';
 import { Button, Checkbox, Popover, Tooltip } from 'antd';
 import { PushpinOutlined, SettingOutlined, VerticalAlignMiddleOutlined } from '@ant-design/icons';
 import { DndProvider } from 'react-dnd';
-import { HTML5Backend as Backend } from 'react-dnd-html5-backend';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import DnDItem from './DndItem';
 
 import styles from './index.less';
+
+const Backend = HTML5Backend;
 
 /**
  *  根据 key 和 dataIndex 生成唯一 id

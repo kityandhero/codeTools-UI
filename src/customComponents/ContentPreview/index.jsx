@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import parse from 'html-react-parser';
 import { Drawer } from 'antd';
 
 import styles from './index.less';
@@ -44,9 +45,10 @@ class ContentPreview extends PureComponent {
       >
         <div
           className={styles.previewContainor}
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
+          // dangerouslySetInnerHTML={{ __html: htmlContent }}
+        >
+          {parse(htmlContent)}
+        </div>
       </Drawer>
     );
   }

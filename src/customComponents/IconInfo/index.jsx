@@ -9,7 +9,19 @@ import styles from './index.less';
  */
 class IconInfo extends PureComponent {
   render() {
-    const { direction: directionValue, text, icon, onClick } = this.props;
+    const {
+      direction: directionValue,
+      responsive: responsiveValue,
+      tooltip: tooltipValue,
+      ellipsis: ellipsisValue,
+      text,
+      icon,
+      onClick,
+    } = this.props;
+
+    const responsive = responsiveValue || false;
+    const tooltip = tooltipValue || false;
+    const ellipsis = ellipsisValue || false;
 
     const iconItem = (icon || null) == null ? null : <span className={styles.iconBox}>{icon}</span>;
 
@@ -23,16 +35,35 @@ class IconInfo extends PureComponent {
       return (
         <>
           <div className={styles.containor} onClick={onClick}>
-            <Row gutter={8}>
-              <Col xl={4} lg={6} md={8} sm={24} xs={24}>
-                {iconItem}
-              </Col>
-              <Col xl={20} lg={18} md={16} sm={24} xs={24}>
-                <Ellipsis tooltip lines={1}>
-                  {text}
-                </Ellipsis>
-              </Col>
-            </Row>
+            {responsive ? (
+              <Row gutter={8}>
+                <Col xl={4} lg={6} md={8} sm={24} xs={24}>
+                  {iconItem}
+                </Col>
+                <Col xl={20} lg={18} md={16} sm={24} xs={24}>
+                  {ellipsis ? (
+                    <Ellipsis tooltip={tooltip} lines={1}>
+                      {text}
+                    </Ellipsis>
+                  ) : (
+                    text
+                  )}
+                </Col>
+              </Row>
+            ) : (
+              <Row gutter={8}>
+                <Col flex="auto">{iconItem}</Col>
+                <Col>
+                  {ellipsis ? (
+                    <Ellipsis tooltip={tooltip} lines={1}>
+                      {text}
+                    </Ellipsis>
+                  ) : (
+                    text
+                  )}
+                </Col>
+              </Row>
+            )}
           </div>
         </>
       );
@@ -54,9 +85,13 @@ class IconInfo extends PureComponent {
                 <Row>
                   <Col flex="auto" />
                   <Col>
-                    <Ellipsis tooltip lines={1}>
-                      {text}
-                    </Ellipsis>
+                    {ellipsis ? (
+                      <Ellipsis tooltip={tooltip} lines={1}>
+                        {text}
+                      </Ellipsis>
+                    ) : (
+                      text
+                    )}
                   </Col>
                   <Col flex="auto" />
                 </Row>
@@ -73,6 +108,9 @@ class IconInfo extends PureComponent {
 
 IconInfo.defaultProps = {
   direction: 'horizontal',
+  responsive: false,
+  tooltip: true,
+  ellipsis: true,
 };
 
 export default IconInfo;

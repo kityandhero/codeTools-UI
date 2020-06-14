@@ -309,11 +309,15 @@ class Base extends AuthorizationWrapper {
   };
 
   buildOkButtonProps = () => {
-    const buttonDisabled = this.getSaveButtonDisabled() || this.getOtherButtonDisabled();
+    if (this.reloadWhenShow) {
+      const buttonDisabled = this.getSaveButtonDisabled() || this.getOtherButtonDisabled();
 
-    return {
-      disabled: buttonDisabled,
-    };
+      return {
+        disabled: buttonDisabled,
+      };
+    }
+
+    return {};
   };
 
   buildOkText = (saveButtonText = '') => {
@@ -328,11 +332,15 @@ class Base extends AuthorizationWrapper {
   };
 
   buildCancelButtonProps = () => {
-    const buttonDisabled = this.getSaveButtonDisabled() || this.getOtherButtonDisabled();
+    if (this.reloadWhenShow) {
+      const buttonDisabled = this.getSaveButtonDisabled() || this.getOtherButtonDisabled();
 
-    return {
-      disabled: buttonDisabled,
-    };
+      return {
+        disabled: buttonDisabled,
+      };
+    }
+
+    return {};
   };
 
   buildCancelText = (saveButtonText = '') => {

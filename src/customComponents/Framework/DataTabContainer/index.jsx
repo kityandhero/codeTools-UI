@@ -19,6 +19,8 @@ const avatarImageLoadResultCollection = {
 };
 
 class DataTabContainer extends DataSingleView {
+  needSetFormValueAfterLoad = false;
+
   tabList = [];
 
   showPageHeaderAvatar = true;
@@ -291,6 +293,7 @@ class DataTabContainer extends DataSingleView {
     if (customTabActiveKey) {
       return (
         <PageHeaderWrapper
+          className={styles.customContainor}
           avatar={this.decoratePageHeaderAvatar()}
           title={this.pageHeaderTitle()}
           subTitle={this.pageHeaderSubTitle()}
@@ -314,6 +317,7 @@ class DataTabContainer extends DataSingleView {
 
     return (
       <PageHeaderWrapper
+        className={styles.customContainor}
         avatar={this.decoratePageHeaderAvatar()}
         title={this.pageHeaderTitle()}
         subTitle={this.pageHeaderSubTitle()}
@@ -326,6 +330,14 @@ class DataTabContainer extends DataSingleView {
         tabList={tabListAvailable}
         // tabBarExtraContent={<Button>Extra Action</Button>}
         onTabChange={this.handleTabChange}
+        tabProps={{
+          type: 'card',
+          size: 'small',
+          tabBarStyle: {
+            marginBottom: 0,
+          },
+          tabBarGutter: 3,
+        }}
         // onBack={() => {
         //   this.backToList();
         // }}

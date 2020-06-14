@@ -1,43 +1,54 @@
 @import '~antd/lib/style/themes/default.less';
 @import '~@/utils/utils.less';
 
-:global {
-  .ant-page-header.has-footer {
-    padding-bottom: 0;
+.customContainor {
+  :global {
+    .ant-page-header.has-footer {
+      padding-bottom: 0;
+    }
+
+    .ant-page-header-footer .ant-tabs-bar .ant-tabs-nav .ant-tabs-tab {
+      font-size: 14px;
+    }
+
+    .ant-tabs-small > .ant-tabs-nav .ant-tabs-tab {
+      border-bottom: 0;
+    }
+
+    .ant-tabs-small > .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-active {
+      background-color: #f0f2f5;
+      border-bottom-color: #f0f2f5;
+    }
   }
 
-  .ant-page-header-footer .ant-tabs-bar .ant-tabs-nav .ant-tabs-tab {
-    font-size: 14px;
+  .headerList {
+    margin-bottom: 4px;
   }
-}
 
-.headerList {
-  margin-bottom: 4px;
-}
+  .textSecondary {
+    color: @text-color-secondary;
+  }
 
-.textSecondary {
-  color: @text-color-secondary;
-}
+  .heading {
+    color: @heading-color;
+    font-size: 20px;
+  }
 
-.heading {
-  color: @heading-color;
-  font-size: 20px;
-}
+  .pageNameBox {
+    font-size: 18px;
+    height: 32px;
+    line-height: 32px;
+    display: block;
+    white-space: nowrap;
+    max-width: 700px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-.pageNameBox {
-  font-size: 18px;
-  height: 32px;
-  line-height: 32px;
-  display: block;
-  white-space: nowrap;
-  max-width: 700px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.pageTagBox {
-  position: relative;
-  padding: 0 14px 0 0;
-  line-height: 24px;
-  height: 24px;
+  .pageTagBox {
+    position: relative;
+    padding: 0 14px 0 0;
+    line-height: 24px;
+    height: 24px;
+  }
 }

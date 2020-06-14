@@ -16,6 +16,8 @@ import AuthorizationWrapper from '../../AuthorizationWrapper';
 import styles from './index.less';
 
 class BaseAddForm extends AuthorizationWrapper {
+  loadDataAfterMount = false;
+
   formRef = React.createRef();
 
   constructor(props) {

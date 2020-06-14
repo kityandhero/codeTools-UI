@@ -1,4 +1,5 @@
 import React from 'react';
+import parse from 'html-react-parser';
 import { Drawer, Empty } from 'antd';
 
 import CustomBase from '@/customComponents/Framework/CustomBase';
@@ -60,9 +61,10 @@ class ImageContentPreview extends CustomBase {
           {imageListHtmlContent ? (
             <div
               className={styles.previewContainor}
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{ __html: imageListHtmlContent }}
-            />
+              // dangerouslySetInnerHTML={{ __html: imageListHtmlContent }}
+            >
+              {parse(imageListHtmlContent)}
+            </div>
           ) : (
             <Empty />
           )}
@@ -87,9 +89,11 @@ class ImageContentPreview extends CustomBase {
           {listItemHtmlContent ? (
             <div
               className={styles.previewContainor}
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{ __html: listItemHtmlContent }}
-            />
+
+              // dangerouslySetInnerHTML={{ __html: htmlContent }}
+            >
+              {parse(htmlContent)}
+            </div>
           ) : (
             <Empty />
           )}
@@ -110,9 +114,10 @@ class ImageContentPreview extends CustomBase {
           {htmlContent ? (
             <div
               className={styles.previewContainor}
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{ __html: htmlContent }}
-            />
+              // dangerouslySetInnerHTML={{ __html: htmlContent }}
+            >
+              {parse(htmlContent)}
+            </div>
           ) : (
             <Empty />
           )}

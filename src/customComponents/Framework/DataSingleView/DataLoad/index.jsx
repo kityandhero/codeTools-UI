@@ -21,6 +21,8 @@ class DataLoad extends DataCore {
 
   reloadByUrlOp = false;
 
+  needSetFormValueAfterLoad = true;
+
   actionBackProps = {};
 
   formRef = React.createRef();
@@ -186,7 +188,15 @@ class DataLoad extends DataCore {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => {
-    message.error('buildInitialValues 方法需要重新实现。');
+    if (this.loadDataAfterMount) {
+      if (this.needSetFormValueAfterLoad) {
+        message.error('buildInitialValues 方法需要重新实现。');
+
+        return {};
+      }
+
+      return {};
+    }
 
     return {};
   };
@@ -214,6 +224,10 @@ class DataLoad extends DataCore {
         <span className={styles.cardTitle}> {this.renderBasicInfoTitleText()}</span>
       </>
     );
+  };
+
+  renderFormWrapper = () => {
+    return this.renderForm();
   };
 
   renderForm = () => {
@@ -251,7 +265,7 @@ class DataLoad extends DataCore {
     return (
       <PageHeaderWrapper title={pageName} logo={this.pageHeaderLogo()}>
         <div className={styles.containorBox}>
-          {this.renderForm()}
+          {this.renderFormWrapper()}
           {this.renderOther()}
         </div>
         <BackTop />

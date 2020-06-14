@@ -4,17 +4,17 @@
  * https://github.com/ant-design/ant-design-pro-layout
  */
 import React, { useEffect } from 'react';
-import { Link, useIntl, connect } from 'umi';
+import { Link, connect, useIntl } from 'umi';
 import { Result, Button } from 'antd';
-import ProLayout, { DefaultFooter } from '@ant-design/pro-layout';
+import ProLayout, { DefaultFooter, SettingDrawer } from '@ant-design/pro-layout';
 
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { execBasicLayoutRemoteRequest } from '@/customConfig/customLoad';
-import { defaultFooterData } from '@/customSpecialComponents/CustomAssembly';
+import { defaultFooterData, menuHeaderRender } from '@/customSpecialComponents/CustomAssembly';
 import { getQueue } from '@/utils/tools';
 import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils';
 import Authorized from '@/utils/Authorized';
-import defaultSettings from '@/defaultSettings'; // https://umijs.org/config/
+import { defaultSettings } from '@/defaultSettings'; // https://umijs.org/config/
 
 // import styles from './BasicLayout.less';
 
@@ -39,6 +39,7 @@ const noMatch = (
 const menuDataRender = (menuList) =>
   menuList.map((item) => {
     const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
+
     return Authorized.check(item.authority, localItem, null);
   });
 
@@ -120,16 +121,21 @@ const BasicLayout = (props) => {
     <>
       <ProLayout
         logo={logo}
+        title={defaultSettings.getTitle()}
+        // pageTitleRender={(e) => {
+        //   const { title } = e;
+        //   console.log(e);
+        //   return title;
+        // }}
         formatMessage={formatMessage}
-        menuHeaderRender={(logoDom, titleDom) => (
-          <Link to="/">
-            {logoDom}
-            {titleDom}
-          </Link>
-        )}
+        menuHeaderRender={(logoDom) => {
+          return menuHeaderRender(logoDom, props);
+        }}
         onCollapse={handleMenuCollapse}
         menuItemRender={(menuItemProps, defaultDom) => {
-          if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
+          const { children: childrenArray } = menuItemProps.children || { children: [] };
+
+          if (menuItemProps.isUrl || (childrenArray || []).length > 0 || !menuItemProps.path) {
             return defaultDom;
           }
 
@@ -160,11 +166,15 @@ const BasicLayout = (props) => {
           {children}
         </Authorized>
       </ProLayout>
-      {/* <SettingDrawer
-        getContainer={() => document.getElementById('test')}
+      <SettingDrawer
         settings={settings}
-        onSettingChange={setSetting}
-      /> */}
+        onSettingChange={(config) =>
+          dispatch({
+            type: 'settings/changeSetting',
+            payload: config,
+          })
+        }
+      />
     </>
   );
 };

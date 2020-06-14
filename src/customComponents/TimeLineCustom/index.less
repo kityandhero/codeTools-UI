@@ -1,7 +1,7 @@
 @import '~antd/lib/style/themes/default.less';
 
 .timeLineExBox {
-  padding: 10px 10px 0 10px;
+  padding: 0;
 
   .timeLineEx {
     position: relative;
@@ -16,7 +16,7 @@
       bottom: 0;
       width: 4px;
       background: #ddd;
-      left: 31px;
+      left: 40px;
       margin: 0;
       border-radius: 2px;
     }
@@ -44,7 +44,7 @@
         margin-top: 0;
         background: #fff;
         color: #444;
-        margin-left: 60px;
+        margin-left: 68px;
         margin-right: 15px;
         padding: 0;
         position: relative;
@@ -75,17 +75,43 @@
       }
 
       .fa {
-        width: 30px;
-        height: 30px;
+        padding: 1px 0 3px 0;
         font-size: 30px;
         line-height: 30px;
         position: absolute;
-        color: #fff;
-        background: #d2d6de;
-        border-radius: 50%;
+        // color: #fff;
+        background: #fff;
         text-align: center;
-        left: 18px;
+        left: 27px;
         top: 0;
+
+        .faInner {
+          position: relative;
+          // width: 100%;
+          // height: 100%;
+          width: 30px;
+          height: 30px;
+
+          .faInnerBg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            // background: #fff;
+            z-index: 1;
+          }
+
+          .faInnerBody {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+          }
+        }
       }
 
       .glyphIcon {

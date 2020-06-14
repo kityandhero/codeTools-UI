@@ -1,3 +1,5 @@
+export const appInitCustom = window.appInitCustomData;
+
 export function getConfigData() {
   let corsTargetProduction = 'http://localhost:9990';
 
@@ -82,6 +84,23 @@ export const formNameCollection = {
     helper: '',
   },
 };
+
+export function getApiVersion() {
+  // const  version= "v1";
+  const version = 'beta';
+
+  const path = `/${version}`;
+
+  return path;
+}
+
+export function showSelectLanguage() {
+  return false;
+}
+
+export function showLogoInLoginView() {
+  return true;
+}
 
 /**
  * 占位函数

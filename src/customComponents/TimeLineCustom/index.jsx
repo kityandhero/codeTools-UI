@@ -3,7 +3,7 @@ import moment from 'moment';
 import { List } from 'antd';
 import { ClockCircleOutlined, MessageOutlined } from '@ant-design/icons';
 
-import { getRandomColor } from '@/utils/tools';
+// import { getRandomColor } from '@/utils/tools';
 import CustomBase from '@/customComponents/Framework/CustomBase';
 
 import styles from './index.less';
@@ -65,32 +65,37 @@ class TimeLineCustom extends CustomBase {
 
   renderInfo = (item) => {
     const {
-      iconStyle: iconStyleValue,
-      getBackgroundColorKey,
+      // iconStyle: iconStyleValue,
+      // getBackgroundColorKey,
       getTime,
       getTitle,
       getDescription,
       getBottomLeft,
       getBottomRight,
-      get,
+      getIcon,
     } = this.props;
 
-    const iconStyle = {
-      ...{
-        backgroundColor: getRandomColor(getBackgroundColorKey(item)),
-      },
-      ...(iconStyleValue || {}),
-    };
+    // const iconStyle = {
+    //   ...{
+    //     backgroundColor: getRandomColor(getBackgroundColorKey(item)),
+    //   },
+    //   ...(iconStyleValue || {}),
+    // };
 
     return (
       <div className={styles.listItem}>
-        <span className={styles.fa} style={iconStyle}>
-          {getIcon(item)}
+        <span className={styles.fa}>
+          <div className={styles.faInner}>
+            <div
+              className={styles.faInnerBg}
+              //  style={iconStyle}
+            />
+            <div className={styles.faInnerBody}>{getIcon(item)}</div>
+          </div>
         </span>
         <div className={styles.timeLineExItem}>
           <span className={styles.time}>
             <ClockCircleOutlined
-              className={styles.fa}
               style={{
                 marginLeft: '20px',
                 position: 'inherit',
@@ -162,8 +167,9 @@ class TimeLineCustom extends CustomBase {
               <List.Item
                 key={item.title}
                 style={{
-                  paddingTop: '0px',
-                  paddingBottom: '0px',
+                  // paddingTop: '0px',
+                  // paddingBottom: '0px',
+                  padding: 0,
                   borderBottom: '0px',
                 }}
               >

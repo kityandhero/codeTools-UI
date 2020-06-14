@@ -20,6 +20,7 @@ import {
   recordObject,
   isObject,
   getGuid,
+  formatDatetime,
 } from '@/utils/tools';
 import { unlimitedWithStringFlag } from '@/utils/constants';
 
@@ -410,6 +411,35 @@ class Common extends Core {
       name: nameText,
       helper: helperText,
     };
+  };
+
+  renderFromNowTimeField = (
+    helper = '数据的添加时间',
+    label = '添加时间',
+    formItemLayout = null,
+  ) => {
+    const title = label || '添加时间';
+
+    const resultCheck = this.checkFromConfig(title, '', helper);
+
+    return (
+      <FormItem
+        {...(formItemLayout || {})}
+        label={resultCheck.label}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
+      >
+        <Input
+          value={formatDatetime(new Date(), 'YYYY-MM-DD HH:mm')}
+          addonBefore={<FormOutlined />}
+          disabled
+          placeholder={buildFieldDescription(resultCheck.label)}
+        />
+      </FormItem>
+    );
   };
 
   renderFromCreateTimeField = (

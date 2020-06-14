@@ -1,4 +1,4 @@
-import { history } from 'umi';
+import { history, useIntl } from 'umi';
 import { message } from 'antd';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
@@ -22,6 +22,7 @@ import {
   remove as removeLodash,
   isObject as isObjectLodash,
   difference as differenceLodash,
+  toNumber as toNumberLodash,
 } from 'lodash';
 
 import { getConfigData } from '@/customConfig/config';
@@ -406,11 +407,9 @@ export function isNumber(v) {
  * @returns
  */
 export function toNumber(v) {
-  if (isNumber(v)) {
-    return parseInt(v, 10);
-  }
+  const value = toNumberLodash(v);
 
-  return 0;
+  return Number.isNaN(value) ? 0 : value;
 }
 
 /**
@@ -1469,4 +1468,14 @@ export function handlePageListDataAssist(state, action, pretreatment = null, cal
     ...state,
     ...aliasData,
   };
+}
+
+function FormatMessageWrapper(o) {
+  const { formatMessage: formatMessageUseIntl } = useIntl();
+
+  return formatMessageUseIntl(o);
+}
+
+export function formatMessage(o) {
+  return FormatMessageWrapper(o);
 }
