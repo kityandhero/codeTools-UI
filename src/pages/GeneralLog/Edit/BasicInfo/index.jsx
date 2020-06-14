@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'umi';
-import { Form, Card, Affix, Row, Col, Spin } from 'antd';
+import { Card, Affix, Row, Col, Spin } from 'antd';
 import { ContactsOutlined, FormOutlined } from '@ant-design/icons';
 
 import { getDerivedStateFromPropsForUrlParams, formatDatetime } from '@/utils/tools';
@@ -106,38 +106,36 @@ class BasicInfo extends TabPageBase {
 
         <Card title="其他信息" className={styles.card} bordered={false}>
           <Spin delay={500} spinning={dataLoading || processing}>
-            <Form ref={this.formRef} layout="vertical">
-              <Row gutter={24}>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFormInput(
-                    constants.ip.label,
-                    constants.ip.name,
-                    true,
-                    constants.ip.helper,
-                    <FormOutlined />,
-                    null,
-                    false,
-                  )}
-                </Col>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFormInput(
-                    constants.channelNote.label,
-                    constants.channelNote.name,
-                    true,
-                    constants.channelNote.helper,
-                    <FormOutlined />,
-                    null,
-                    false,
-                  )}
-                </Col>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFromCreateTimeField()}
-                </Col>
-                <Col lg={6} md={12} sm={24} xs={24}>
-                  {this.renderFromUpdateTimeField()}
-                </Col>
-              </Row>
-            </Form>
+            <Row gutter={24}>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInput(
+                  constants.ip.label,
+                  constants.ip.name,
+                  true,
+                  constants.ip.helper,
+                  <FormOutlined />,
+                  null,
+                  false,
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormInput(
+                  constants.channelNote.label,
+                  constants.channelNote.name,
+                  true,
+                  constants.channelNote.helper,
+                  <FormOutlined />,
+                  null,
+                  false,
+                )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFromCreateTimeField()}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFromUpdateTimeField()}
+              </Col>
+            </Row>
           </Spin>
         </Card>
       </>

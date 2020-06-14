@@ -32,6 +32,8 @@ const formItemLayout = {
   loading: loading.models.account,
 }))
 class ResetPassword extends BaseUpdateFormTab {
+  loadDataAfterMount = false;
+
   componentAuthority = accessWayCollection.account.resetPassword;
 
   goToUpdateWhenProcessed = true;

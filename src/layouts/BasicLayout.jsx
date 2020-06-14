@@ -150,6 +150,7 @@ const BasicLayout = (props) => {
         ]}
         itemRender={(route, params, routes, paths) => {
           const first = routes.indexOf(route) === 0;
+
           return first ? (
             <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
           ) : (

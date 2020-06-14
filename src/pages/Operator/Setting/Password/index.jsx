@@ -21,7 +21,7 @@ const fieldData = {
   loading: loading.models.operator,
 }))
 class Password extends BaseUpdateForm {
-  formRef = React.createRef();
+  loadDataAfterMount = false;
 
   constructor(props) {
     super(props);

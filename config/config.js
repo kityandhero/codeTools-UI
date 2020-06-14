@@ -30,6 +30,8 @@ export default defineConfig({
     ie: 11,
   },
   routes: pageRoutes,
+  //禁用umi.js内置的 title 渲染机制 https://github.com/ant-design/ant-design-pro/issues/6360
+  title: false,
   theme: {
     '@border-radius-base': '4px',
   },

@@ -13,7 +13,9 @@ import MultiPage from '../MultiPage';
 import styles from './index.less';
 
 class MultiPageDrawer extends MultiPage {
-  reloadWhenShow = false;
+  loadDataAfterMount = false;
+
+  reloadWhenShow = true;
 
   constructor(props) {
     super(props);

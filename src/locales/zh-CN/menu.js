@@ -211,6 +211,7 @@ export default {
   'menu.system.areaConfig.changeOutStockTime': '每日商品出库时间',
   'menu.customConfig': '系统设置',
   'menu.customConfig.category': '设置类型',
+  'menu.customConfig.category.list': '设置列表',
   'menu.helpCenter': '帮助中心',
   'menu.helpCenter.category': '帮助列表',
   'menu.channel': '渠道管理',

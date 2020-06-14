@@ -1,4 +1,6 @@
+import React from 'react';
 import { connect } from 'umi';
+import { UserOutlined } from '@ant-design/icons';
 
 import { getDerivedStateFromPropsForUrlParams, toDatetime } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
@@ -15,6 +17,8 @@ import { fieldData } from '../Common/data';
 }))
 class Edit extends DataTabContainer {
   componentAuthority = accessWayCollection.account.get;
+
+  defaultAvatarIcon = (<UserOutlined />);
 
   tabList = [
     {
@@ -35,7 +39,7 @@ class Edit extends DataTabContainer {
     this.state = {
       ...this.state,
       ...{
-        pageName: `${fieldData.userName.label}：`,
+        pageName: '',
         loadApiPath: 'account/get',
         backPath: `/account/account/pageList/key`,
       },
@@ -78,8 +82,12 @@ class Edit extends DataTabContainer {
     if ((metaData || null) != null) {
       const { userName } = metaData || { userName: '' };
 
-      this.setState({ pageName: `${fieldData.userName.label}：${userName}` });
+      this.setState({ pageName: `${userName}` });
     }
+  };
+
+  pageHeaderTitlePrefix = () => {
+    return fieldData.userName.label;
   };
 
   pageHeaderExtraContentData = () => {

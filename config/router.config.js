@@ -297,18 +297,12 @@ export default [
         authority: [accessWayCollection.currentCustomer],
         routes: [
           { path: '/customConfig', redirect: '/customConfig/category' },
-          { path: '/customConfig/category', redirect: '/customConfig/category/no' },
           {
-            path: '/customConfig/category/no',
+            path: '/customConfig/category',
             name: 'category',
             icon: 'form',
+            hideChildrenInMenu: true,
             authority: [accessWayCollection.currentCustomer],
-          },
-          {
-            path: '/customConfig/category/:category',
-            name: 'category',
-            icon: 'form',
-            hideInMenu: true,
             component: './CustomConfig',
             routes: [
               { path: '/customConfig/category', redirect: '/customConfig/category/no' },
@@ -318,6 +312,8 @@ export default [
               },
               {
                 path: '/customConfig/category/:category/list',
+                name: 'list',
+                icon: 'bars',
                 component: './CustomConfig/List',
               },
             ],
