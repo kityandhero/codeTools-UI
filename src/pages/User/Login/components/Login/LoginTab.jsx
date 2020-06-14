@@ -12,7 +12,7 @@ const generateId = (() => {
   };
 })();
 
-const LoginTab = props => {
+const LoginTab = (props) => {
   useEffect(() => {
     const uniqueId = generateId('login-tab-');
     const { tabUtil } = props;
@@ -25,9 +25,9 @@ const LoginTab = props => {
   return <TabPane {...props}>{props.active && children}</TabPane>;
 };
 
-const WrapContext = props => (
+const WrapContext = (props) => (
   <LoginContext.Consumer>
-    {value => <LoginTab tabUtil={value.tabUtil} {...props} />}
+    {(value) => <LoginTab tabUtil={value.tabUtil} {...props} />}
   </LoginContext.Consumer>
 ); // 标志位 用来判断是不是自定义组件
 

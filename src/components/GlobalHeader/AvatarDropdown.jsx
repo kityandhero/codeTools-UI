@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect, history } from 'umi';
 import { Avatar, Menu, Spin } from 'antd';
-import { ShopOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import { ApiOutlined, MonitorOutlined, LogoutOutlined } from '@ant-design/icons';
 
-import { checkHasAuthority } from '@/utils/authority';
-import accessWayCollection from '@/customConfig/accessWayCollection';
+import { checkIsSuper } from '../../utils/authority';
 
 import HeaderDropdown from '../HeaderDropdown';
 
@@ -14,13 +13,15 @@ class AvatarDropdown extends React.Component {
   onMenuClick = (event) => {
     const { key } = event;
 
-    if (key === 'areaConfig') {
-      history.push('/system/areaConfig');
+    if (key === 'swagger') {
+      window.open('/swagger-ui.html', '_blank');
+
       return;
     }
 
-    if (key === 'warehouse') {
-      history.push('/system/areaConfig/editMasterWarehouse');
+    if (key === 'monitor') {
+      window.open('/monitor', '_blank');
+
       return;
     }
 
@@ -41,24 +42,22 @@ class AvatarDropdown extends React.Component {
 
   render() {
     const {
-      global: { currentOperator = null },
+      global: { operator = null },
     } = this.props;
 
     const menuItems = [];
 
-    if (checkHasAuthority(accessWayCollection.areaConfig.get)) {
+    if (checkIsSuper()) {
       menuItems.push({
-        key: 'areaConfig',
-        icon: <SettingOutlined />,
-        text: '地区设置',
+        key: 'swagger',
+        icon: <ApiOutlined />,
+        text: 'Swagger文档',
       });
-    }
 
-    if (checkHasAuthority(accessWayCollection.warehouse.getMaster)) {
       menuItems.push({
-        key: 'warehouse',
-        icon: <ShopOutlined />,
-        text: '主仓信息',
+        key: 'monitor',
+        icon: <MonitorOutlined />,
+        text: '监控信息',
       });
     }
 
@@ -80,21 +79,22 @@ class AvatarDropdown extends React.Component {
       </Menu>
     );
 
-    return currentOperator != null ? (
+    return operator != null ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
           <Avatar
             size="small"
             className={styles.avatar}
-            src={currentOperator.avatar || '/user.png'}
+            src={operator.avatar || '/user.png'}
             alt="avatar"
           />
-          <span className={styles.name}>{currentOperator.loginName || '未知用户'}</span>
+          <span className={styles.name}>{operator.name || '未知用户'}</span>
         </span>
       </HeaderDropdown>
     ) : (
       <div className="unknownBox">
         <Spin
+          delay={500}
           size="small"
           style={{
             marginLeft: 8,

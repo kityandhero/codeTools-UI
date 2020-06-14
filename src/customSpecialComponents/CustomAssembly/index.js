@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'umi';
+import TextAnimal from 'rc-texty';
+import { Typography } from 'antd';
 import {
   DashboardOutlined,
   ShopOutlined,
@@ -7,11 +10,13 @@ import {
   TeamOutlined,
 } from '@ant-design/icons';
 
-import defaultSettings from '@/defaultSettings'; // https://umijs.org/config/
+import { appInitCustom } from '@/customConfig/config';
 import IconInfo from '@/customComponents/IconInfo';
 
+const { Title } = Typography;
+
 export const defaultFooterData = {
-  copyright: defaultSettings.getCompanyName(),
+  copyright: appInitCustom.copyright,
   links: [
     {
       key: 'dataCenter',
@@ -45,6 +50,29 @@ export const defaultFooterData = {
     },
   ],
 };
+
+export function menuHeaderRender(logoDom, config) {
+  return (
+    <Link to="/">
+      {logoDom}
+      {config.collapsed ? null : (
+        <Title
+          level={1}
+          style={{
+            margin: ' 0 0 0 12px',
+            fontSize: '20px',
+            color: 'white',
+            fontWeight: '600',
+          }}
+        >
+          <TextAnimal type="alpha" mode="smooth">
+            {appInitCustom == null ? '' : appInitCustom.leftBarText || ''}
+          </TextAnimal>
+        </Title>
+      )}
+    </Link>
+  );
+}
 
 /**
  * 占位函数

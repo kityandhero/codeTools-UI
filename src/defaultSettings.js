@@ -22,7 +22,7 @@ export const defaultSettings = {
     return result || '';
   },
   getTitle: () => {
-    let result = '商城管理系统';
+    let result = '代码生成器';
 
     if ((appInitCustom || null) != null) {
       if ((appInitCustom.appName || null) != null) {

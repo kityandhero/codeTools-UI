@@ -1,13 +1,26 @@
-import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
-import { Alert, Checkbox } from 'antd';
+// import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
+import {
+  Alert,
+  //  Checkbox
+} from 'antd';
 import React, { useState } from 'react';
-import { connect, Link } from 'umi';
+import {
+  connect,
+  //  Link
+} from 'umi';
 
 import LoginFrom from './components/Login';
 
 import styles from './style.less';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginFrom;
+const {
+  // Tab,
+  UserName,
+  Password,
+  //  Mobile,
+  // Captcha,
+  Submit,
+} = LoginFrom;
 
 const LoginMessage = ({ content }) => (
   <Alert
@@ -23,7 +36,7 @@ const LoginMessage = ({ content }) => (
 const Login = (props) => {
   const { userLogin = {}, submitting } = props;
   const { status, type: loginType } = userLogin;
-  const [autoLogin, setAutoLogin] = useState(true);
+  // const [autoLogin, setAutoLogin] = useState(true);
   const [type, setType] = useState('account');
 
   const handleSubmit = (values) => {
@@ -37,14 +50,14 @@ const Login = (props) => {
   return (
     <div className={styles.main}>
       <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
-        <Tab key="account" tab="账户密码登录">
+        <>
           {status === 'error' && loginType === 'account' && !submitting && (
             <LoginMessage content="账户或密码错误（admin/ant.design）" />
           )}
 
           <UserName
             name="userName"
-            placeholder="用户名: admin or user"
+            placeholder="用户名: xxxxxx"
             rules={[
               {
                 required: true,
@@ -54,6 +67,35 @@ const Login = (props) => {
           />
           <Password
             name="password"
+            placeholder="密码：xxxxxx"
+            rules={[
+              {
+                required: true,
+                message: '请输入密码！',
+              },
+            ]}
+          />
+        </>
+        {/* <Tab
+          key="account"
+          //  tab="账户密码登录"
+        >
+          {status === 'error' && loginType === 'account' && !submitting && (
+            <LoginMessage content="账户或密码错误（admin/ant.design）" />
+          )}
+
+          <UserName
+            name="name"
+            placeholder="用户名: admin or user"
+            rules={[
+              {
+                required: true,
+                message: '请输入用户名!',
+              },
+            ]}
+          />
+          <Password
+            name="psw"
             placeholder="密码: ant.design"
             rules={[
               {
@@ -62,8 +104,8 @@ const Login = (props) => {
               },
             ]}
           />
-        </Tab>
-        <Tab key="mobile" tab="手机号登录">
+        </Tab> */}
+        {/* <Tab key="mobile" tab="手机号登录">
           {status === 'error' && loginType === 'mobile' && !submitting && (
             <LoginMessage content="验证码错误" />
           )}
@@ -94,8 +136,8 @@ const Login = (props) => {
               },
             ]}
           />
-        </Tab>
-        <div>
+        </Tab> */}
+        {/* <div>
           <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
             自动登录
           </Checkbox>
@@ -106,9 +148,9 @@ const Login = (props) => {
           >
             忘记密码
           </a>
-        </div>
+        </div> */}
         <Submit loading={submitting}>登录</Submit>
-        <div className={styles.other}>
+        {/* <div className={styles.other}>
           其他登录方式
           <AlipayCircleOutlined className={styles.icon} />
           <TaobaoCircleOutlined className={styles.icon} />
@@ -116,7 +158,7 @@ const Login = (props) => {
           <Link className={styles.register} to="/user/register">
             注册账户
           </Link>
-        </div>
+        </div> */}
       </LoginFrom>
     </div>
   );
