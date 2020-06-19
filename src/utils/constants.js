@@ -26,6 +26,10 @@ module.exports = {
     object: 'object',
   },
   dataType: {
+    unknown: {
+      flag: 0,
+      name: '未知类型',
+    },
     jsonObject: {
       flag: 100,
       name: 'Json单体',
