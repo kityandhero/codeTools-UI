@@ -5,6 +5,17 @@ import { SaveOutlined, LoadingOutlined, CloseCircleOutlined } from '@ant-design/
 import BaseLoadDrawer from '../BaseLoadDrawer';
 
 class BaseUpdateDrawer extends BaseLoadDrawer {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        showBottomBar: true,
+      },
+    };
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     return super.getDerivedStateFromProps(nextProps, prevState);
   }

@@ -17,6 +17,8 @@ class Base extends AuthorizationWrapper {
 
   submitWithForm = true;
 
+  goToUpdateWhenProcessed = false;
+
   constructor(props) {
     super(props);
 
@@ -161,11 +163,7 @@ class Base extends AuthorizationWrapper {
           }
 
           // eslint-disable-next-line react/no-unused-state
-          this.setState({ processing: false }, () => {
-            if (this.goToUpdateWhenProcessed) {
-              this.reloadByUrl();
-            }
-          });
+          this.setState({ processing: false });
         }
       });
     }

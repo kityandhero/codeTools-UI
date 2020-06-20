@@ -11,7 +11,7 @@ import styles from './index.less';
 class Base extends AuthorizationWrapper {
   formRef = React.createRef();
 
-  loadDataAfterMount = false;
+  goToUpdateWhenProcessed = false;
 
   constructor(props) {
     super(props);
@@ -25,7 +25,7 @@ class Base extends AuthorizationWrapper {
         width: 820,
         visible: false,
         dataLoading: false,
-
+        showBottomBar: false,
         submitApiPath: '',
         placement: 'right',
       },
@@ -164,11 +164,7 @@ class Base extends AuthorizationWrapper {
               }
 
               // eslint-disable-next-line react/no-unused-state
-              this.setState({ processing: false }, () => {
-                if (this.goToUpdateWhenProcessed) {
-                  this.reloadByUrl();
-                }
-              });
+              this.setState({ processing: false });
             }
           });
         }
@@ -274,8 +270,26 @@ class Base extends AuthorizationWrapper {
 
   formContent = () => null;
 
+  renderContentContainor = () => {
+    return <div className={styles.contentContainor}>{this.renderForm()}</div>;
+  };
+
+  renderBottomBar = () => {
+    return (
+      <Affix offsetBottom={0}>
+        <div className={styles.bottomBar}>
+          <Row>
+            <Col span={24} style={{ textAlign: 'right' }}>
+              {this.renderButton()}
+            </Col>
+          </Row>
+        </div>
+      </Affix>
+    );
+  };
+
   render() {
-    const { visible, width, placement } = this.state;
+    const { visible, width, showBottomBar, placement } = this.state;
 
     const titleIcon = this.renderTitleIcon();
 
@@ -306,16 +320,8 @@ class Base extends AuthorizationWrapper {
         //   height: 'calc(100% - 55px)',
         // }}
       >
-        <div className={styles.contentContainor}>{this.renderForm()}</div>
-        <Affix offsetBottom={0}>
-          <div className={styles.bottomBar}>
-            <Row>
-              <Col span={24} style={{ textAlign: 'right' }}>
-                {this.renderButton()}
-              </Col>
-            </Row>
-          </div>
-        </Affix>
+        {this.renderContentContainor()}
+        {showBottomBar ? this.renderBottomBar() : null}
       </Drawer>
     );
   }
