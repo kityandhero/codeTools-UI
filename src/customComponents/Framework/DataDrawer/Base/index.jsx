@@ -1,12 +1,14 @@
 import React from 'react';
-import { Drawer, Form, message, Row, Col, Affix } from 'antd';
-import { FormOutlined } from '@ant-design/icons';
+import { Layout, Drawer, Form, Button, message, Row, Col, Affix } from 'antd';
+import { FormOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 import { defaultFormState, pretreatmentRequestParams, isFunction } from '@/utils/tools';
 
 import AuthorizationWrapper from '../../AuthorizationWrapper';
 
 import styles from './index.less';
+
+const { Header, Footer, Content } = Layout;
 
 class Base extends AuthorizationWrapper {
   formRef = React.createRef();
@@ -274,17 +276,38 @@ class Base extends AuthorizationWrapper {
     return <div className={styles.contentContainor}>{this.renderForm()}</div>;
   };
 
+  renderButton = () => {
+    const { dataLoading, processing } = this.state;
+
+    return (
+      <>
+        <Button
+          type="default"
+          disabled={dataLoading || processing}
+          onClick={(e) => {
+            this.onClose(e);
+          }}
+        >
+          <CloseCircleOutlined />
+          关闭
+        </Button>
+      </>
+    );
+  };
+
   renderBottomBar = () => {
     return (
-      <Affix offsetBottom={0}>
-        <div className={styles.bottomBar}>
-          <Row>
-            <Col span={24} style={{ textAlign: 'right' }}>
-              {this.renderButton()}
-            </Col>
-          </Row>
-        </div>
-      </Affix>
+      <Footer>
+        <Affix offsetBottom={0}>
+          <div className={styles.bottomBar}>
+            <Row>
+              <Col span={24} style={{ textAlign: 'right' }}>
+                {this.renderButton()}
+              </Col>
+            </Row>
+          </div>
+        </Affix>
+      </Footer>
     );
   };
 
@@ -316,12 +339,14 @@ class Base extends AuthorizationWrapper {
         bodyStyle={{
           padding: 0,
         }}
-        // style={{
-        //   height: 'calc(100% - 55px)',
-        // }}
       >
-        {this.renderContentContainor()}
-        {showBottomBar ? this.renderBottomBar() : null}
+        <div className={styles.mainContainor}>
+          <Layout>
+            {/* <Header>Header</Header> */}
+            <Content>{this.renderContentContainor()}</Content>
+            {showBottomBar ? this.renderBottomBar() : null}
+          </Layout>
+        </div>
       </Drawer>
     );
   }

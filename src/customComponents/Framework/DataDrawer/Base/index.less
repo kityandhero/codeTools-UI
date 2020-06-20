@@ -1,16 +1,29 @@
 @import '~antd/lib/style/themes/default.less';
 @import '~@/utils/utils.less';
 
-.contentContainor {
-  padding: 24px;
-}
+.mainContainor {
+  .contentContainor {
+    padding: 24px;
+  }
 
-.titleText {
-  margin-left: 2px;
-}
+  .titleText {
+    margin-left: 2px;
+  }
 
-.bottomBar {
-  border-top: 1px solid #e8e8e8;
-  padding: 10px 10px;
-  background-color: #fff;
+  .bottomBar {
+    border-top: 1px solid #e8e8e8;
+    padding: 10px 10px;
+    background-color: #fff;
+  }
+
+  :global {
+    .ant-layout {
+      min-height: calc(100vh - 55px);
+      background-color: #fff;
+    }
+
+    .ant-layout-footer {
+      padding: 0;
+    }
+  }
 }

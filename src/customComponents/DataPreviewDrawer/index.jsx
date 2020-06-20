@@ -1,6 +1,6 @@
 import React from 'react';
 import parse from 'html-react-parser';
-import { Drawer } from 'antd';
+import { Typography, Drawer } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 
@@ -11,8 +11,21 @@ import Base from '../Framework/DataDrawer/Base';
 
 import styles from './index.less';
 
+const { Text } = Typography;
+
 class DataPreviewDrawer extends Base {
   loadDataAfterMount = false;
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...this.state,
+      ...{
+        showBottomBar: true,
+      },
+    };
+  }
 
   renderTitleIcon = () => {
     const { icon } = this.props;
@@ -30,40 +43,22 @@ class DataPreviewDrawer extends Base {
     const { dataType, data } = this.props;
 
     if (dataType === dataTypeCollection.commonValue.flag) {
-      return <>{data}</>;
+      return this.renderFormOnlyShowText('内容:', data);
     }
 
     if (
       dataType === dataTypeCollection.jsonObject.flag ||
       dataType === dataTypeCollection.jsonObjectList.flag
     ) {
-      return (
-        <>
-          {isObject(data) ? (
-            <SyntaxHighlighter
-              language="javascript"
-              // style={docco}
-            >
-              {JSON.stringify(data || {}, null, '    ')}
-            </SyntaxHighlighter>
-          ) : (
-            <SyntaxHighlighter
-              language="javascript"
-              // style={docco}
-            >
-              {JSON.stringify(JSON.parse(data || null), null, '    ')}
-            </SyntaxHighlighter>
-          )}
-        </>
-      );
+      return <>{this.renderFormOnlyShowHighlighter('javascript', '内容', data)}</>;
     }
 
-    return <>{data}</>;
+    return this.renderFormOnlyShowText('内容', data);
   };
 
-  renderForm = () => {
-    return <>{this.formContent()}</>;
-  };
+  // renderForm = () => {
+  //   return <>{this.formContent()}</>;
+  // };
 
   renderContentContainor = () => {
     const { title, width, placement, dataType, data } = this.props;

@@ -1,6 +1,4 @@
 import React from 'react';
-import { Button } from 'antd';
-import { CloseCircleOutlined } from '@ant-design/icons';
 
 import Base from '../Base';
 
@@ -16,25 +14,6 @@ class BaseLoadDrawer extends Base {
     setTimeout(() => {
       this.reloadData();
     }, 700);
-  };
-
-  renderButton = () => {
-    const { dataLoading, processing } = this.state;
-
-    return (
-      <>
-        <Button
-          type="default"
-          disabled={dataLoading || processing}
-          onClick={() => {
-            this.onClose();
-          }}
-        >
-          <CloseCircleOutlined />
-          关闭
-        </Button>
-      </>
-    );
   };
 }
 

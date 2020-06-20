@@ -2,6 +2,7 @@ import React from 'react';
 import { history } from 'umi';
 import { Form, Select, Button, Radio, Input, InputNumber, DatePicker, message } from 'antd';
 import { FormOutlined, SaveOutlined, LoadingOutlined, ReloadOutlined } from '@ant-design/icons';
+import SyntaxHighlighter from 'react-syntax-highlighter';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -789,6 +790,56 @@ class Common extends Core {
         ]}
       >
         {value}
+      </FormItem>
+    );
+  };
+
+  renderFormOnlyShowHighlighter = (
+    language,
+    label,
+    value,
+    helper = null,
+    formItemLayout = {},
+    requiredForShow = false,
+  ) => {
+    const title = label;
+
+    const resultCheck = this.checkFromConfig(title, getGuid(), helper);
+
+    return (
+      <FormItem
+        {...formItemLayout}
+        label={resultCheck.label}
+        className={requiredForShow ? styles.formItemOnlyShowText : null}
+        extra={
+          stringIsNullOrWhiteSpace(resultCheck.helper || '')
+            ? null
+            : buildFieldHelper(resultCheck.helper)
+        }
+        rules={[
+          {
+            required: false,
+            message: buildFieldDescription(resultCheck.label),
+          },
+        ]}
+      >
+        {isObject(value) ? (
+          <SyntaxHighlighter
+            language={language}
+            // style={docco}
+          >
+            {language === 'javascript' ? JSON.stringify(value || {}, null, '    ') : value}
+          </SyntaxHighlighter>
+        ) : (
+          <SyntaxHighlighter
+            language={language}
+            // style={docco}
+          >
+            {language === 'javascript'
+              ? JSON.stringify(JSON.parse(value || null), null, '    ')
+              : value}
+          </SyntaxHighlighter>
+        )}
       </FormItem>
     );
   };
