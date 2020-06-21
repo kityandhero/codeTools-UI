@@ -164,7 +164,7 @@ class ParamInfo extends TabPageBase {
           <Card
             title="请求Body"
             className={styles.card}
-            extra={`数据类型：${dataTypeCollection.CommonValue.name}`}
+            extra={`数据类型：${dataTypeCollection.commonValue.name}`}
             bordered={false}
           >
             <Spin delay={500} spinning={dataLoading || processing}>
@@ -206,11 +206,11 @@ class ParamInfo extends TabPageBase {
               </Card>
             ) : null}
 
-            {metaData.dataType === dataTypeCollection.JsonObjectList.flag ? (
+            {metaData.dataType === dataTypeCollection.jsonObjectList.flag ? (
               <Card
                 title="附加数据"
                 className={styles.card}
-                extra={`数据类型：${dataTypeCollection.JsonObjectList.name}`}
+                extra={`数据类型：${dataTypeCollection.jsonObjectList.name}`}
                 bordered={false}
               >
                 <Spin delay={500} spinning={dataLoading || processing}>
@@ -230,11 +230,11 @@ class ParamInfo extends TabPageBase {
               </Card>
             ) : null}
 
-            {metaData.dataType === dataTypeCollection.CommonValue.flag ? (
+            {metaData.dataType === dataTypeCollection.commonValue.flag ? (
               <Card
                 title="附加数据"
                 className={styles.card}
-                extra={`数据类型：${dataTypeCollection.CommonValue.name}`}
+                extra={`数据类型：${dataTypeCollection.commonValue.name}`}
                 bordered={false}
               >
                 <Spin delay={500} spinning={dataLoading || processing}>
