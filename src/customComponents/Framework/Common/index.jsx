@@ -795,10 +795,6 @@ class Common extends Core {
   };
 
   renderSyntaxHighlighter = (language, value) => {
-    const title = label;
-
-    const resultCheck = this.checkFromConfig(title, getGuid(), helper);
-
     return (
       <>
         {isObject(value) ? (
