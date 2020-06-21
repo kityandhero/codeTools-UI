@@ -2,7 +2,6 @@ import React from 'react';
 import parse from 'html-react-parser';
 import { Typography, Drawer } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
-import SyntaxHighlighter from 'react-syntax-highlighter';
 
 import { isObject } from '@/utils/tools';
 import { dataTypeCollection } from '@/utils/constants';
@@ -50,7 +49,7 @@ class DataPreviewDrawer extends Base {
       dataType === dataTypeCollection.jsonObject.flag ||
       dataType === dataTypeCollection.jsonObjectList.flag
     ) {
-      return <>{this.renderFormOnlyShowHighlighter('javascript', '内容', data)}</>;
+      return <>{this.renderFormOnlyShowSyntaxHighlighter('javascript', '内容', data)}</>;
     }
 
     return this.renderFormOnlyShowText('内容', data);

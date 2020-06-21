@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'umi';
-import SyntaxHighlighter from 'react-syntax-highlighter';
 import { Spin, Empty, Card, Button, Divider } from 'antd';
 import { CodeSandboxOutlined, CopyOutlined } from '@ant-design/icons';
 
@@ -183,13 +182,9 @@ class GenerateResultDrawer extends BaseLoadDrawer {
                     </>
                   }
                 >
-                  <SyntaxHighlighter
-                    language={o.language}
-                    // style={docco}
-                  >
-                    {o.content}
-                  </SyntaxHighlighter>
+                  {this.renderSyntaxHighlighter(o.language, o.content)}
                 </Card>
+
                 {lastIndex !== index ? <Divider style={{ margin: '12px 0 7px 0' }} /> : null}
               </div>
             );

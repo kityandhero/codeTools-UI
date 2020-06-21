@@ -794,7 +794,35 @@ class Common extends Core {
     );
   };
 
-  renderFormOnlyShowHighlighter = (
+  renderSyntaxHighlighter = (language, value) => {
+    const title = label;
+
+    const resultCheck = this.checkFromConfig(title, getGuid(), helper);
+
+    return (
+      <>
+        {isObject(value) ? (
+          <SyntaxHighlighter
+            language={language}
+            // style={docco}
+          >
+            {language === 'javascript' ? JSON.stringify(value || {}, null, '    ') : value}
+          </SyntaxHighlighter>
+        ) : (
+          <SyntaxHighlighter
+            language={language}
+            // style={docco}
+          >
+            {language === 'javascript'
+              ? JSON.stringify(JSON.parse(value || null), null, '    ')
+              : value}
+          </SyntaxHighlighter>
+        )}
+      </>
+    );
+  };
+
+  renderFormOnlyShowSyntaxHighlighter = (
     language,
     label,
     value,
@@ -823,23 +851,7 @@ class Common extends Core {
           },
         ]}
       >
-        {isObject(value) ? (
-          <SyntaxHighlighter
-            language={language}
-            // style={docco}
-          >
-            {language === 'javascript' ? JSON.stringify(value || {}, null, '    ') : value}
-          </SyntaxHighlighter>
-        ) : (
-          <SyntaxHighlighter
-            language={language}
-            // style={docco}
-          >
-            {language === 'javascript'
-              ? JSON.stringify(JSON.parse(value || null), null, '    ')
-              : value}
-          </SyntaxHighlighter>
-        )}
+        {this.renderSyntaxHighlighter(language, value)}
       </FormItem>
     );
   };

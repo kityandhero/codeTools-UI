@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'umi';
 import { Card, Affix, Row, Col, Spin } from 'antd';
-import SyntaxHighlighter from 'react-syntax-highlighter';
 
 import { getDerivedStateFromPropsForUrlParams, formatDatetime } from '@/utils/tools';
 import { dataTypeCollection } from '@/utils/constants';
@@ -108,14 +107,9 @@ class ParamInfo extends TabPageBase {
           <Spin delay={500} spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col span={24}>
-                {metaData === null ? null : (
-                  <SyntaxHighlighter
-                    language="javascript"
-                    // style={docco}
-                  >
-                    {JSON.stringify(metaData.headerJson || '', null, '    ')}
-                  </SyntaxHighlighter>
-                )}
+                {metaData === null
+                  ? null
+                  : this.renderSyntaxHighlighter('javascript', metaData.headerJson)}
               </Col>
             </Row>
           </Spin>
@@ -125,14 +119,9 @@ class ParamInfo extends TabPageBase {
           <Spin delay={500} spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col span={24}>
-                {metaData === null ? null : (
-                  <SyntaxHighlighter
-                    language="javascript"
-                    // style={docco}
-                  >
-                    {JSON.stringify(metaData.requestParamsJson || '', null, '    ')}
-                  </SyntaxHighlighter>
-                )}
+                {metaData === null
+                  ? null
+                  : this.renderSyntaxHighlighter('javascript', metaData.requestParamsJson)}
               </Col>
             </Row>
           </Spin>
@@ -148,14 +137,9 @@ class ParamInfo extends TabPageBase {
             <Spin delay={500} spinning={dataLoading || processing}>
               <Row gutter={24}>
                 <Col span={24}>
-                  {metaData === null ? null : (
-                    <SyntaxHighlighter
-                      language="javascript"
-                      // style={docco}
-                    >
-                      {JSON.stringify(requestBodyJson || '', null, '    ')}
-                    </SyntaxHighlighter>
-                  )}
+                  {metaData === null
+                    ? null
+                    : this.renderSyntaxHighlighter('javascript', requestBodyJson)}
                 </Col>
               </Row>
             </Spin>
@@ -192,14 +176,9 @@ class ParamInfo extends TabPageBase {
                 <Spin delay={500} spinning={dataLoading || processing}>
                   <Row gutter={24}>
                     <Col span={24}>
-                      {metaData === null ? null : (
-                        <SyntaxHighlighter
-                          language="javascript"
-                          // style={docco}
-                        >
-                          {JSON.stringify(metaData.dataJson || '', null, '    ')}
-                        </SyntaxHighlighter>
-                      )}
+                      {metaData === null
+                        ? null
+                        : this.renderSyntaxHighlighter('javascript', metaData.dataJson)}
                     </Col>
                   </Row>
                 </Spin>
@@ -216,14 +195,9 @@ class ParamInfo extends TabPageBase {
                 <Spin delay={500} spinning={dataLoading || processing}>
                   <Row gutter={24}>
                     <Col span={24}>
-                      {metaData === null ? null : (
-                        <SyntaxHighlighter
-                          language="javascript"
-                          // style={docco}
-                        >
-                          {JSON.stringify(metaData.data || '', null, '    ')}
-                        </SyntaxHighlighter>
-                      )}
+                      {metaData === null
+                        ? null
+                        : this.renderSyntaxHighlighter('javascript', metaData.data)}
                     </Col>
                   </Row>
                 </Spin>

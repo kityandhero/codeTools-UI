@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'umi';
 import { Card, Affix, Row, Col, Spin } from 'antd';
-import SyntaxHighlighter from 'react-syntax-highlighter';
 
 import { getDerivedStateFromPropsForUrlParams, formatDatetime } from '@/utils/tools';
 import { constants } from '@/customConfig/config';
@@ -95,12 +94,7 @@ class StackTraceInfo extends TabPageBase {
                 <>
                   {stackTraceJsonList.map((o) => (
                     <Col key={o.key} span={24}>
-                      <SyntaxHighlighter
-                        language="javascript"
-                        // style={docco}
-                      >
-                        {JSON.stringify(o.data || '', null, '    ')}
-                      </SyntaxHighlighter>
+                      {this.renderSyntaxHighlighter('javascript', o.data)}
                     </Col>
                   ))}
                 </>
