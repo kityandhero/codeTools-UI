@@ -4,7 +4,7 @@ import { Card, Affix, Row, Col, Spin } from 'antd';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 
 import { getDerivedStateFromPropsForUrlParams, formatDatetime } from '@/utils/tools';
-import { dataType } from '@/utils/constants';
+import { dataTypeCollection } from '@/utils/constants';
 import { constants } from '@/customConfig/config';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 
@@ -142,7 +142,7 @@ class ParamInfo extends TabPageBase {
           <Card
             title="请求Body"
             className={styles.card}
-            extra={`数据类型：${dataType.jsonObject.name}`}
+            extra={`数据类型：${dataTypeCollection.jsonObject.name}`}
             bordered={false}
           >
             <Spin delay={500} spinning={dataLoading || processing}>
@@ -164,7 +164,7 @@ class ParamInfo extends TabPageBase {
           <Card
             title="请求Body"
             className={styles.card}
-            extra={`数据类型：${dataType.CommonValue.name}`}
+            extra={`数据类型：${dataTypeCollection.CommonValue.name}`}
             bordered={false}
           >
             <Spin delay={500} spinning={dataLoading || processing}>
@@ -182,11 +182,11 @@ class ParamInfo extends TabPageBase {
 
         {metaData === null ? null : (
           <>
-            {metaData.dataType === dataType.jsonObject.flag ? (
+            {metaData.dataType === dataTypeCollection.jsonObject.flag ? (
               <Card
                 title="附加数据"
                 className={styles.card}
-                extra={`数据类型：${dataType.jsonObject.name}`}
+                extra={`数据类型：${dataTypeCollection.jsonObject.name}`}
                 bordered={false}
               >
                 <Spin delay={500} spinning={dataLoading || processing}>
@@ -206,11 +206,11 @@ class ParamInfo extends TabPageBase {
               </Card>
             ) : null}
 
-            {metaData.dataType === dataType.JsonObjectList.flag ? (
+            {metaData.dataType === dataTypeCollection.JsonObjectList.flag ? (
               <Card
                 title="附加数据"
                 className={styles.card}
-                extra={`数据类型：${dataType.JsonObjectList.name}`}
+                extra={`数据类型：${dataTypeCollection.JsonObjectList.name}`}
                 bordered={false}
               >
                 <Spin delay={500} spinning={dataLoading || processing}>
@@ -230,11 +230,11 @@ class ParamInfo extends TabPageBase {
               </Card>
             ) : null}
 
-            {metaData.dataType === dataType.CommonValue.flag ? (
+            {metaData.dataType === dataTypeCollection.CommonValue.flag ? (
               <Card
                 title="附加数据"
                 className={styles.card}
-                extra={`数据类型：${dataType.CommonValue.name}`}
+                extra={`数据类型：${dataTypeCollection.CommonValue.name}`}
                 bordered={false}
               >
                 <Spin delay={500} spinning={dataLoading || processing}>
