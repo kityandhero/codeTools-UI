@@ -1,7 +1,7 @@
 import { Button, Card, Steps, Result, Descriptions } from 'antd';
 import { formatMessage } from 'umi';
 import React from 'react';
-import { DingdingOutlined, DingdingOutlined } from '@ant-design/icons';
+import { DingdingOutlined } from '@ant-design/icons';
 import { GridContent } from '@ant-design/pro-layout';
 
 import styles from './index.less';

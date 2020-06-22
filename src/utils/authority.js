@@ -1,6 +1,8 @@
 import accessWayCollection from '@/customConfig/accessWayCollection';
 
 import { getStringFromLocalStorage, saveJsonToLocalStorage, isArray } from './tools';
+
+// eslint-disable-next-line import/no-cycle
 import { reloadAuthorized } from './Authorized'; // u
 
 // use localStorage to store the authority info, which might be sent from server in actual project.

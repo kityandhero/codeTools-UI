@@ -27,3 +27,6 @@ LICENSE
 *.lock
 yarn-error.log
 .history
+*.log
+*.zip
+*.txt
