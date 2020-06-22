@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Base from '../Base';
 
 class BaseLoadDrawer extends Base {

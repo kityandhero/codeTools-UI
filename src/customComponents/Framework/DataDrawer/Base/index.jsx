@@ -8,7 +8,7 @@ import AuthorizationWrapper from '../../AuthorizationWrapper';
 
 import styles from './index.less';
 
-const { Header, Footer, Content } = Layout;
+const { Footer, Content } = Layout;
 
 class Base extends AuthorizationWrapper {
   formRef = React.createRef();

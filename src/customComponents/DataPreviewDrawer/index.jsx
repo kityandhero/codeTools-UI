@@ -1,16 +1,12 @@
 import React from 'react';
 import parse from 'html-react-parser';
-import { Typography, Drawer } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
-import { isObject } from '@/utils/tools';
 import { dataTypeCollection } from '@/utils/constants';
 
 import Base from '../Framework/DataDrawer/Base';
 
 import styles from './index.less';
-
-const { Text } = Typography;
 
 class DataPreviewDrawer extends Base {
   loadDataAfterMount = false;
@@ -60,10 +56,10 @@ class DataPreviewDrawer extends Base {
   // };
 
   renderContentContainor = () => {
-    const { title, width, placement, dataType, data } = this.props;
+    const { dataType, data } = this.props;
 
     if (dataType === dataTypeCollection.html.flag) {
-      <div className={styles.previewContainor}>{parse(data)}</div>;
+      return <div className={styles.previewContainor}>{parse(data)}</div>;
     }
 
     return <div className={styles.contentContainor}>{this.renderForm()}</div>;
