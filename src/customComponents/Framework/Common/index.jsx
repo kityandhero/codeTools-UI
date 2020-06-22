@@ -818,10 +818,9 @@ class Common extends Core {
     );
   };
 
-  renderFormOnlyShowSyntaxHighlighter = (
-    language,
+  renderFormInnerComponent = (
     label,
-    value,
+    innerComponent,
     helper = null,
     formItemLayout = {},
     requiredForShow = false,
@@ -847,8 +846,25 @@ class Common extends Core {
           },
         ]}
       >
-        {this.renderSyntaxHighlighter(language, value)}
+        {innerComponent}
       </FormItem>
+    );
+  };
+
+  renderFormOnlyShowSyntaxHighlighter = (
+    language,
+    label,
+    value,
+    helper = null,
+    formItemLayout = {},
+    requiredForShow = false,
+  ) => {
+    return this.renderFormInnerComponent(
+      label,
+      this.renderSyntaxHighlighter(language, value),
+      helper,
+      formItemLayout,
+      requiredForShow,
     );
   };
 
