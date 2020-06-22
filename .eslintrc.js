@@ -6,6 +6,7 @@ module.exports = {
     REACT_APP_ENV: true,
   },
   rules: {
+    'import/no-cycle': ['error', { maxDepth: Infinity }],
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/jsx-wrap-multilines': 0,
     'react/prop-types': 0,
