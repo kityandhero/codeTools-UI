@@ -1,5 +1,8 @@
 import request from '@/utils/request';
-import { apiVirtualSuccessAccess, transferToVirtualAccess } from '@/customConfig/apiVirtualAccessAssist';
+import {
+  apiVirtualSuccessAccess,
+  transferToVirtualAccess,
+} from '@/customConfig/apiVirtualAccessAssist';
 
 export async function pageListData(params) {
   if (transferToVirtualAccess()) {

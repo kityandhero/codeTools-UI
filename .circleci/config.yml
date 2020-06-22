@@ -14,9 +14,9 @@ jobs:
       - checkout
       - run: sh ./tests/fix_puppeteer.sh
       - run: npm install
-      - run: 
-          command : npm run test:all
-          no_output_timeout : 30m
+      - run:
+          command: npm run test:all
+          no_output_timeout: 30m
 workflows:
   version: 2
   build_and_test:
