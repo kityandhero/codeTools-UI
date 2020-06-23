@@ -113,8 +113,6 @@ class BasicInfo extends TabPageBase {
   formContent = () => {
     const { dataLoading, processing, selectConnectionType } = this.state;
 
-    console.log({ dataLoading, processing });
-
     return (
       <>
         <Card
