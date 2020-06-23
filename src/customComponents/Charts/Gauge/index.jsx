@@ -1,4 +1,4 @@
-import { Axis, Chart, Coord, Geom, Guide, Shape } from 'bizcharts';
+import { Axis, Chart, Coordinate, Geom, Guide, registerShape } from 'bizcharts';
 import React from 'react';
 import autoHeight from '../autoHeight';
 
@@ -23,9 +23,9 @@ const defaultFormatter = (val) => {
   }
 };
 
-if (Shape.registerShape) {
-  Shape.registerShape('point', 'pointer', {
-    drawShape(cfg, group) {
+if (registerShape) {
+  registerShape('point', 'pointer', {
+    draw(cfg, group) {
       let point = cfg.points[0];
       point = this.parsePoint(point);
       const center = this.parsePoint({
@@ -97,7 +97,12 @@ const Gauge = (props) => {
   };
   return (
     <Chart height={height} data={data} scale={cols} padding={[-16, 0, 16, 0]} forceFit={forceFit}>
-      <Coord type="polar" startAngle={-1.25 * Math.PI} endAngle={0.25 * Math.PI} radius={0.8} />
+      <Coordinate
+        type="polar"
+        startAngle={-1.25 * Math.PI}
+        endAngle={0.25 * Math.PI}
+        radius={0.8}
+      />
       <Axis name="1" line={undefined} />
       <Axis
         line={undefined}

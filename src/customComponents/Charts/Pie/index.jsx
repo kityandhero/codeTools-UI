@@ -1,4 +1,4 @@
-import { Chart, Coord, Geom, Tooltip } from 'bizcharts';
+import { Chart, Coordinate, Geom, Tooltip } from 'bizcharts';
 import React, { Component } from 'react';
 import { DataView } from '@antv/data-set';
 import Debounce from 'lodash.debounce';
@@ -86,7 +86,8 @@ class Pie extends Component {
 
   getLegendData = () => {
     if (!this.chart) return;
-    const geom = this.chart.getAllGeoms()[0]; // 获取所有的图形
+
+    const geom = this.chart.views[0]; // 获取所有的图形
 
     if (!geom) return;
     const items = geom.get('dataArray') || []; // 获取图形对应的
@@ -221,14 +222,14 @@ class Pie extends Component {
               onGetG2Instance={this.getG2Instance}
             >
               {!!tooltip && <Tooltip showTitle={false} />}
-              <Coord type="theta" innerRadius={inner} />
+              <Coordinate type="theta" innerRadius={inner} />
               <Geom
                 style={{
                   lineWidth,
                   stroke: '#fff',
                 }}
                 tooltip={tooltip ? tooltipFormat : undefined}
-                type="intervalStack"
+                type="interval"
                 position="percent"
                 color={['x', percent || percent === 0 ? formatColor : defaultColors]}
                 selected={selected}

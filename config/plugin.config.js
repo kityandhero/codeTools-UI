@@ -39,15 +39,9 @@ const webpackPlugin = (config) => {
           test: (module) => {
             const packageName = getModulePackageName(module) || '';
             if (packageName) {
-              return [
-                'bizcharts',
-                'gg-editor',
-                'g6',
-                '@antv',
-                'l7',
-                'gg-editor-core',
-                'bizcharts-plugin-slider',
-              ].includes(packageName);
+              return ['bizcharts', 'gg-editor', 'g6', '@antv', 'l7', 'gg-editor-core'].includes(
+                packageName,
+              );
             }
             return false;
           },
