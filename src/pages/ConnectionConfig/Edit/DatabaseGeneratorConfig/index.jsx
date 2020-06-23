@@ -84,18 +84,22 @@ class DataBaseGeneratorConfig extends TabPageBase {
 
       values[fieldData.globalConfig.fieldData.connectorJarFile.name] =
         metaData.globalConfig.connectorJarFile || '';
-      values[fieldData.globalConfig.fieldData.projectFolder.name] = metaData.globalConfig.projectFolder || '';
-      values[fieldData.globalConfig.fieldData.modelPackage.name] = metaData.globalConfig.modelPackage || '';
+      values[fieldData.globalConfig.fieldData.projectFolder.name] =
+        metaData.globalConfig.projectFolder || '';
+      values[fieldData.globalConfig.fieldData.modelPackage.name] =
+        metaData.globalConfig.modelPackage || '';
       values[fieldData.globalConfig.fieldData.modelTargetFolder.name] =
         metaData.globalConfig.modelTargetFolder || '';
-      values[fieldData.globalConfig.fieldData.daoPackage.name] = metaData.globalConfig.daoPackage || '';
+      values[fieldData.globalConfig.fieldData.daoPackage.name] =
+        metaData.globalConfig.daoPackage || '';
       values[fieldData.globalConfig.fieldData.daoTargetFolder.name] =
         metaData.globalConfig.daoTargetFolder || '';
       values[fieldData.globalConfig.fieldData.mappingXmlPackage.name] =
         metaData.globalConfig.mappingXmlPackage || '';
       values[fieldData.globalConfig.fieldData.mappingXmlTargetFolder.name] =
         metaData.globalConfig.mappingXmlTargetFolder || '';
-      values[fieldData.globalConfig.fieldData.servicePackage.name] = metaData.globalConfig.servicePackage || '';
+      values[fieldData.globalConfig.fieldData.servicePackage.name] =
+        metaData.globalConfig.servicePackage || '';
       values[fieldData.globalConfig.fieldData.serviceTargetFolder.name] =
         metaData.globalConfig.serviceTargetFolder || '';
       values[fieldData.globalConfig.fieldData.encoding.name] = `${
@@ -136,7 +140,9 @@ class DataBaseGeneratorConfig extends TabPageBase {
         metaData.globalConfig.comment || whetherNumber.no
       }`;
 
-      values[customFieldCollection.daoType.name] = `${metaData.globalConfig.daoType || daoTypeFirstFlag}`;
+      values[customFieldCollection.daoType.name] = `${
+        metaData.globalConfig.daoType || daoTypeFirstFlag
+      }`;
 
       values[constants.createTime.name] =
         formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
@@ -327,7 +333,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
 
       const values = {};
 
-      values[fieldData.modelTargetFolder.name] = '';
+      values[fieldData.globalConfig.fieldData.modelTargetFolder.name] = '';
 
       this.setFormFieldsValue(values);
     } else {
@@ -359,7 +365,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
 
       const values = {};
 
-      values[fieldData.daoTargetFolder.name] = '';
+      values[fieldData.globalConfig.fieldData.daoTargetFolder.name] = '';
 
       this.setFormFieldsValue(values);
     } else {
@@ -391,7 +397,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
 
       const values = {};
 
-      values[fieldData.mappingXmlTargetFolder.name] = '';
+      values[fieldData.globalConfig.fieldData.mappingXmlTargetFolder.name] = '';
 
       this.setFormFieldsValue(values);
     } else {
@@ -423,7 +429,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
 
       const values = {};
 
-      values[fieldData.serviceTargetFolder.name] = '';
+      values[fieldData.globalConfig.fieldData.serviceTargetFolder.name] = '';
 
       this.setFormFieldsValue(values);
     } else {
