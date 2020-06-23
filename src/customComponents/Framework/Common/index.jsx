@@ -1382,7 +1382,6 @@ class Common extends Core {
 
   renderSaveButton = (saveButtonText = '', onClick = null) => {
     const buttonDisabled = this.getSaveButtonDisabled();
-    const buttonLoading = this.getSaveButtonLoading();
     const buttonProcessing = this.getSaveButtonProcessing();
 
     return (
@@ -1397,7 +1396,7 @@ class Common extends Core {
             : onClick
         }
       >
-        {buttonLoading || buttonProcessing ? <LoadingOutlined /> : this.getSaveButtonIcon()}
+        { buttonProcessing ? <LoadingOutlined /> : this.getSaveButtonIcon()}
         {saveButtonText || '保存'}
       </Button>
     );
