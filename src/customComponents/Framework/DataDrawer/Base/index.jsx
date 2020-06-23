@@ -13,6 +13,8 @@ const { Footer, Content } = Layout;
 class Base extends AuthorizationWrapper {
   formRef = React.createRef();
 
+  loadDataAfterMount = false;
+
   goToUpdateWhenProcessed = false;
 
   constructor(props) {
