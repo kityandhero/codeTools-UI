@@ -90,7 +90,7 @@ class HelpCenter extends DataLoad {
         <Row gutter={24}>
           <Col lg={5} md={24}>
             <Card title="帮助导航" bordered={false} style={{ marginBottom: 24 }}>
-              <Spin delay={500} spinning={dataLoading}>
+              <Spin spinning={dataLoading}>
                 <CategoryMenu currentCategoryId={helpCategoryId} menuData={metaListData || []} />
               </Spin>
             </Card>

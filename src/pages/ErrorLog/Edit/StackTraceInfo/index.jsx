@@ -88,7 +88,7 @@ class StackTraceInfo extends TabPageBase {
             </Affix>
           }
         >
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               {metaData == null ? null : (
                 <>

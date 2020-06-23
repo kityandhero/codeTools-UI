@@ -478,7 +478,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
             </Affix>
           }
         >
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormInput(
@@ -512,7 +512,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
           bordered={false}
           extra={buildFieldHelper('设置项目文件夹以及包信息')}
         >
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={12} md={24} sm={24} xs={24}>
                 {this.renderFormInput(
@@ -827,7 +827,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
           bordered={false}
           extra={buildFieldHelper('选择生成时的各项选项')}
         >
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormDaoTypeSelect()}
@@ -915,7 +915,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
         </Card>
 
         <Card title="个性化设置" className={styles.card} bordered={false}>
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormInput(
@@ -930,7 +930,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
         </Card>
 
         <Card title="其他信息" className={styles.card} bordered={false}>
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFromCreateTimeField()}

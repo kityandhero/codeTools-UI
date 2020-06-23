@@ -122,7 +122,7 @@ class BasicInfo extends BaseUpdateFormTab {
             </Affix>
           }
         >
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormInput(
@@ -148,7 +148,7 @@ class BasicInfo extends BaseUpdateFormTab {
         </Card>
 
         <Card title="描述信息" className={styles.card} bordered={false}>
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={24} md={24} sm={24} xs={24}>
                 {this.renderFormTextArea(
@@ -163,7 +163,7 @@ class BasicInfo extends BaseUpdateFormTab {
         </Card>
 
         <Card title="其他信息" className={styles.card} bordered={false}>
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFromCreateTimeField()}
