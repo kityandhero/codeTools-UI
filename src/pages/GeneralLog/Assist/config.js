@@ -4,7 +4,6 @@ export function parseUrlParamsForSetState({ urlParams }) {
   return { generalLogId: id };
 }
 
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function checkNeedUpdateAssist(currentState, preProps, preState, snapshot) {
   const { generalLogId } = currentState;
