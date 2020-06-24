@@ -1353,13 +1353,21 @@ class Common extends Core {
   getSaveButtonDisabled = () => {
     const { dataLoading, processing, loadSuccess } = this.state;
 
-    return dataLoading || processing || !loadSuccess;
+    if (this.loadDataAfterMount) {
+      return dataLoading || processing || !loadSuccess;
+    }
+
+    return processing;
   };
 
   getSaveButtonLoading = () => {
-    const { dataLoading, loadSuccess } = this.state;
+    if (this.loadDataAfterMount) {
+      const { dataLoading, loadSuccess } = this.state;
 
-    return dataLoading || !loadSuccess;
+      return dataLoading || !loadSuccess;
+    }
+
+    return this.loadDataAfterMount;
   };
 
   getSaveButtonProcessing = () => {
@@ -1374,7 +1382,7 @@ class Common extends Core {
 
   renderSaveButton = (saveButtonText = '', onClick = null) => {
     const buttonDisabled = this.getSaveButtonDisabled();
-    const buttonLoading = this.getSaveButtonLoading();
+    const buttonProcessing = this.getSaveButtonProcessing();
 
     return (
       <Button
@@ -1388,7 +1396,7 @@ class Common extends Core {
             : onClick
         }
       >
-        {buttonLoading ? <LoadingOutlined /> : this.getSaveButtonIcon()}
+        {buttonProcessing ? <LoadingOutlined /> : this.getSaveButtonIcon()}
         {saveButtonText || '保存'}
       </Button>
     );

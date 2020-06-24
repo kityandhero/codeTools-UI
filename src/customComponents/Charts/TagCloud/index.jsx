@@ -1,4 +1,4 @@
-import { Chart, Coord, Geom, Shape, Tooltip } from 'bizcharts';
+import { Chart, Coordinate, Geom, registerShape, Tooltip } from 'bizcharts';
 import React, { Component } from 'react';
 import DataSet from '@antv/data-set';
 import Debounce from 'lodash.debounce';
@@ -75,8 +75,8 @@ class TagCloud extends Component {
       };
     }
 
-    Shape.registerShape('point', 'cloud', {
-      drawShape(cfg, container) {
+    registerShape('point', 'cloud', {
+      draw(cfg, container) {
         const attrs = getTextAttrs(cfg);
         return container.addShape('text', {
           attrs: { ...attrs, x: cfg.x, y: cfg.y },
@@ -170,7 +170,7 @@ class TagCloud extends Component {
             }}
           >
             <Tooltip showTitle={false} />
-            <Coord reflect="y" />
+            <Coordinate reflect="y" />
             <Geom
               type="point"
               position="x*y"
