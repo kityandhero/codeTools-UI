@@ -72,7 +72,7 @@ class Add extends BaseAddForm {
             </Affix>
           }
         >
-          <Spin delay={500} spinning={processing}>
+          <Spin spinning={processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormInput(
@@ -111,7 +111,7 @@ class Add extends BaseAddForm {
         </Card>
 
         <Card title="描述信息" className={styles.card} bordered={false}>
-          <Spin delay={500} spinning={processing}>
+          <Spin spinning={processing}>
             <Row gutter={24}>
               <Col lg={24} md={24} sm={24} xs={24}>
                 {this.renderFormTextArea(
@@ -126,7 +126,7 @@ class Add extends BaseAddForm {
         </Card>
 
         <Card title="其他信息" className={styles.card} bordered={false}>
-          <Spin delay={500} spinning={processing}>
+          <Spin spinning={processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFromCreateTimeField()}

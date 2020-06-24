@@ -28,7 +28,7 @@ class TriggerException extends PureComponent {
     const { isloading } = this.state;
     return (
       <Card>
-        <Spin delay={500} spinning={isloading} wrapperClassName={styles.trigger}>
+        <Spin spinning={isloading} wrapperClassName={styles.trigger}>
           <Button type="danger" onClick={() => this.triggerError(401)}>
             触发401
           </Button>

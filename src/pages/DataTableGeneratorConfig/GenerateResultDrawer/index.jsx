@@ -152,7 +152,7 @@ class GenerateResultDrawer extends BaseLoadDrawer {
 
     return (
       <div className={styles.containorBox}>
-        <Spin delay={500} spinning={dataLoading}>
+        <Spin spinning={dataLoading}>
           {list.map((o, index) => {
             return (
               <div key={o.key}>

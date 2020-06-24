@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'umi';
 import { notification, message } from 'antd';
-import { FolderOpenOutlined, BuildOutlined } from '@ant-design/icons';
+import { FolderOpenOutlined, BuildOutlined, LinkOutlined } from '@ant-design/icons';
 
 import { toDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import { zeroInt, zeroString } from '@/utils/constants';
@@ -19,6 +19,8 @@ import { fieldData } from '../Common/data';
   loading: loading.models.connectionConfig,
 }))
 class Edit extends DataTabContainer {
+  defaultAvatarIcon = (<LinkOutlined />);
+
   componentAuthority = accessWayCollection.connectionConfig.get;
 
   tabList = [

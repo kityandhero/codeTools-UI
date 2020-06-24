@@ -82,36 +82,67 @@ class DataBaseGeneratorConfig extends TabPageBase {
         metaData.databaseGeneratorConfigId || whetherNumber.no;
       values[fieldData.connectionConfigId.name] = metaData.connectionConfigId || whetherNumber.no;
 
-      values[fieldData.connectorJarFile.name] = metaData.connectorJarFile || '';
-      values[fieldData.projectFolder.name] = metaData.projectFolder || '';
-      values[fieldData.modelPackage.name] = metaData.modelPackage || '';
-      values[fieldData.modelTargetFolder.name] = metaData.modelTargetFolder || '';
-      values[fieldData.daoPackage.name] = metaData.daoPackage || '';
-      values[fieldData.daoTargetFolder.name] = metaData.daoTargetFolder || '';
-      values[customFieldCollection.daoType.name] = `${metaData.daoType || daoTypeFirstFlag}`;
-      values[fieldData.mappingXmlPackage.name] = metaData.mappingXmlPackage || '';
-      values[fieldData.mappingXmlTargetFolder.name] = metaData.mappingXmlTargetFolder || '';
-      values[fieldData.servicePackage.name] = metaData.servicePackage || '';
-      values[fieldData.serviceTargetFolder.name] = metaData.serviceTargetFolder || '';
-      values[fieldData.encoding.name] = `${metaData.encoding || whetherNumber.no}`;
+      values[fieldData.globalConfig.fieldData.connectorJarFile.name] =
+        metaData.globalConfig.connectorJarFile || '';
+      values[fieldData.globalConfig.fieldData.projectFolder.name] =
+        metaData.globalConfig.projectFolder || '';
+      values[fieldData.globalConfig.fieldData.modelPackage.name] =
+        metaData.globalConfig.modelPackage || '';
+      values[fieldData.globalConfig.fieldData.modelTargetFolder.name] =
+        metaData.globalConfig.modelTargetFolder || '';
+      values[fieldData.globalConfig.fieldData.daoPackage.name] =
+        metaData.globalConfig.daoPackage || '';
+      values[fieldData.globalConfig.fieldData.daoTargetFolder.name] =
+        metaData.globalConfig.daoTargetFolder || '';
+      values[fieldData.globalConfig.fieldData.mappingXmlPackage.name] =
+        metaData.globalConfig.mappingXmlPackage || '';
+      values[fieldData.globalConfig.fieldData.mappingXmlTargetFolder.name] =
+        metaData.globalConfig.mappingXmlTargetFolder || '';
+      values[fieldData.globalConfig.fieldData.servicePackage.name] =
+        metaData.globalConfig.servicePackage || '';
+      values[fieldData.globalConfig.fieldData.serviceTargetFolder.name] =
+        metaData.globalConfig.serviceTargetFolder || '';
+      values[fieldData.globalConfig.fieldData.encoding.name] = `${
+        metaData.globalConfig.encoding || whetherNumber.no
+      }`;
 
-      values[fieldData.offsetLimit.name] = `${metaData.offsetLimit || whetherNumber.no}`;
-      values[fieldData.needToStringHashCodeEquals.name] = `${
-        metaData.needToStringHashCodeEquals || whetherNumber.no
+      values[fieldData.globalConfig.fieldData.offsetLimit.name] = `${
+        metaData.globalConfig.offsetLimit || whetherNumber.no
       }`;
-      values[fieldData.needForUpdate.name] = `${metaData.needForUpdate || whetherNumber.no}`;
-      values[fieldData.annotationDAO.name] = `${metaData.annotationDAO || whetherNumber.no}`;
-      values[fieldData.annotation.name] = `${metaData.annotation || whetherNumber.no}`;
-      values[fieldData.useDAOExtendStyle.name] = `${
-        metaData.useDAOExtendStyle || whetherNumber.no
+      values[fieldData.globalConfig.fieldData.needToStringHashCodeEquals.name] = `${
+        metaData.globalConfig.needToStringHashCodeEquals || whetherNumber.no
       }`;
-      values[fieldData.useSchemaPrefix.name] = `${metaData.useSchemaPrefix || whetherNumber.no}`;
-      values[fieldData.jsr310Support.name] = `${metaData.jsr310Support || whetherNumber.no}`;
-      values[fieldData.overrideXML.name] = `${metaData.overrideXML || whetherNumber.no}`;
-      values[fieldData.autoDelimitKeywords.name] = `${
-        metaData.autoDelimitKeywords || whetherNumber.no
+      values[fieldData.globalConfig.fieldData.needForUpdate.name] = `${
+        metaData.globalConfig.needForUpdate || whetherNumber.no
       }`;
-      values[fieldData.comment.name] = `${metaData.comment || whetherNumber.no}`;
+      values[fieldData.globalConfig.fieldData.annotationDAO.name] = `${
+        metaData.globalConfig.annotationDAO || whetherNumber.no
+      }`;
+      values[fieldData.globalConfig.fieldData.annotation.name] = `${
+        metaData.globalConfig.annotation || whetherNumber.no
+      }`;
+      values[fieldData.globalConfig.fieldData.useDAOExtendStyle.name] = `${
+        metaData.globalConfig.useDAOExtendStyle || whetherNumber.no
+      }`;
+      values[fieldData.globalConfig.fieldData.useSchemaPrefix.name] = `${
+        metaData.globalConfig.useSchemaPrefix || whetherNumber.no
+      }`;
+      values[fieldData.globalConfig.fieldData.jsr310Support.name] = `${
+        metaData.globalConfig.jsr310Support || whetherNumber.no
+      }`;
+      values[fieldData.globalConfig.fieldData.overrideXML.name] = `${
+        metaData.globalConfig.overrideXML || whetherNumber.no
+      }`;
+      values[fieldData.globalConfig.fieldData.autoDelimitKeywords.name] = `${
+        metaData.globalConfig.autoDelimitKeywords || whetherNumber.no
+      }`;
+      values[fieldData.globalConfig.fieldData.comment.name] = `${
+        metaData.globalConfig.comment || whetherNumber.no
+      }`;
+
+      values[customFieldCollection.daoType.name] = `${
+        metaData.globalConfig.daoType || daoTypeFirstFlag
+      }`;
 
       values[constants.createTime.name] =
         formatDatetime(metaData.createTime, 'YYYY-MM-DD HH:mm') || '';
@@ -302,7 +333,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
 
       const values = {};
 
-      values[fieldData.modelTargetFolder.name] = '';
+      values[fieldData.globalConfig.fieldData.modelTargetFolder.name] = '';
 
       this.setFormFieldsValue(values);
     } else {
@@ -334,7 +365,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
 
       const values = {};
 
-      values[fieldData.daoTargetFolder.name] = '';
+      values[fieldData.globalConfig.fieldData.daoTargetFolder.name] = '';
 
       this.setFormFieldsValue(values);
     } else {
@@ -366,7 +397,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
 
       const values = {};
 
-      values[fieldData.mappingXmlTargetFolder.name] = '';
+      values[fieldData.globalConfig.fieldData.mappingXmlTargetFolder.name] = '';
 
       this.setFormFieldsValue(values);
     } else {
@@ -398,7 +429,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
 
       const values = {};
 
-      values[fieldData.serviceTargetFolder.name] = '';
+      values[fieldData.globalConfig.fieldData.serviceTargetFolder.name] = '';
 
       this.setFormFieldsValue(values);
     } else {
@@ -478,7 +509,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
             </Affix>
           }
         >
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormInput(
@@ -493,10 +524,10 @@ class DataBaseGeneratorConfig extends TabPageBase {
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormInput(
-                  fieldData.connectorJarFile.label,
-                  fieldData.connectorJarFile.name,
+                  fieldData.globalConfig.fieldData.connectorJarFile.label,
+                  fieldData.globalConfig.fieldData.connectorJarFile.name,
                   true,
-                  fieldData.connectorJarFile.helper,
+                  fieldData.globalConfig.fieldData.connectorJarFile.helper,
                   <FormOutlined />,
                   {},
                   false,
@@ -512,14 +543,14 @@ class DataBaseGeneratorConfig extends TabPageBase {
           bordered={false}
           extra={buildFieldHelper('设置项目文件夹以及包信息')}
         >
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={12} md={24} sm={24} xs={24}>
                 {this.renderFormInput(
-                  fieldData.projectFolder.label,
-                  fieldData.projectFolder.name,
+                  fieldData.globalConfig.fieldData.projectFolder.label,
+                  fieldData.globalConfig.fieldData.projectFolder.name,
                   true,
-                  fieldData.projectFolder.helper,
+                  fieldData.globalConfig.fieldData.projectFolder.helper,
                   <FormOutlined />,
                   {
                     onChange: (e) => {
@@ -549,10 +580,10 @@ class DataBaseGeneratorConfig extends TabPageBase {
             <Row gutter={24}>
               <Col lg={12} md={24} sm={24} xs={24}>
                 {this.renderFormInput(
-                  fieldData.modelPackage.label,
-                  fieldData.modelPackage.name,
+                  fieldData.globalConfig.fieldData.modelPackage.label,
+                  fieldData.globalConfig.fieldData.modelPackage.name,
                   true,
-                  fieldData.modelPackage.helper,
+                  fieldData.globalConfig.fieldData.modelPackage.helper,
                   <FormOutlined />,
                   {
                     addonAfter: (
@@ -573,10 +604,10 @@ class DataBaseGeneratorConfig extends TabPageBase {
               </Col>
               <Col lg={12} md={24} sm={24} xs={24}>
                 {this.renderFormInput(
-                  fieldData.modelTargetFolder.label,
-                  fieldData.modelTargetFolder.name,
+                  fieldData.globalConfig.fieldData.modelTargetFolder.label,
+                  fieldData.globalConfig.fieldData.modelTargetFolder.name,
                   false,
-                  fieldData.modelTargetFolder.helper,
+                  fieldData.globalConfig.fieldData.modelTargetFolder.helper,
                   <FormOutlined />,
                   {
                     disabled: !useModelTargetFolder,
@@ -617,10 +648,10 @@ class DataBaseGeneratorConfig extends TabPageBase {
             <Row gutter={24}>
               <Col lg={12} md={24} sm={24} xs={24}>
                 {this.renderFormInput(
-                  fieldData.daoPackage.label,
-                  fieldData.daoPackage.name,
+                  fieldData.globalConfig.fieldData.daoPackage.label,
+                  fieldData.globalConfig.fieldData.daoPackage.name,
                   true,
-                  fieldData.daoPackage.helper,
+                  fieldData.globalConfig.fieldData.daoPackage.helper,
                   <FormOutlined />,
                   {
                     addonAfter: (
@@ -641,10 +672,10 @@ class DataBaseGeneratorConfig extends TabPageBase {
               </Col>
               <Col lg={12} md={24} sm={24} xs={24}>
                 {this.renderFormInput(
-                  fieldData.daoTargetFolder.label,
-                  fieldData.daoTargetFolder.name,
+                  fieldData.globalConfig.fieldData.daoTargetFolder.label,
+                  fieldData.globalConfig.fieldData.daoTargetFolder.name,
                   false,
-                  fieldData.daoTargetFolder.helper,
+                  fieldData.globalConfig.fieldData.daoTargetFolder.helper,
                   <FormOutlined />,
                   {
                     disabled: !useDaoTargetFolder,
@@ -685,10 +716,10 @@ class DataBaseGeneratorConfig extends TabPageBase {
             <Row gutter={24}>
               <Col lg={12} md={24} sm={24} xs={24}>
                 {this.renderFormInput(
-                  fieldData.mappingXmlPackage.label,
-                  fieldData.mappingXmlPackage.name,
+                  fieldData.globalConfig.fieldData.mappingXmlPackage.label,
+                  fieldData.globalConfig.fieldData.mappingXmlPackage.name,
                   true,
-                  fieldData.mappingXmlPackage.helper,
+                  fieldData.globalConfig.fieldData.mappingXmlPackage.helper,
                   <FormOutlined />,
                   {
                     addonAfter: (
@@ -709,10 +740,10 @@ class DataBaseGeneratorConfig extends TabPageBase {
               </Col>
               <Col lg={12} md={24} sm={24} xs={24}>
                 {this.renderFormInput(
-                  fieldData.mappingXmlTargetFolder.label,
-                  fieldData.mappingXmlTargetFolder.name,
+                  fieldData.globalConfig.fieldData.mappingXmlTargetFolder.label,
+                  fieldData.globalConfig.fieldData.mappingXmlTargetFolder.name,
                   false,
-                  fieldData.mappingXmlTargetFolder.helper,
+                  fieldData.globalConfig.fieldData.mappingXmlTargetFolder.helper,
                   <FormOutlined />,
                   {
                     disabled: !useMappingXmlTargetFolder,
@@ -753,10 +784,10 @@ class DataBaseGeneratorConfig extends TabPageBase {
             <Row gutter={24}>
               <Col lg={12} md={24} sm={24} xs={24}>
                 {this.renderFormInput(
-                  fieldData.servicePackage.label,
-                  fieldData.servicePackage.name,
+                  fieldData.globalConfig.fieldData.servicePackage.label,
+                  fieldData.globalConfig.fieldData.servicePackage.name,
                   true,
-                  fieldData.servicePackage.helper,
+                  fieldData.globalConfig.fieldData.servicePackage.helper,
                   <FormOutlined />,
                   {
                     addonAfter: (
@@ -777,10 +808,10 @@ class DataBaseGeneratorConfig extends TabPageBase {
               </Col>
               <Col lg={12} md={24} sm={24} xs={24}>
                 {this.renderFormInput(
-                  fieldData.serviceTargetFolder.label,
-                  fieldData.serviceTargetFolder.name,
+                  fieldData.globalConfig.fieldData.serviceTargetFolder.label,
+                  fieldData.globalConfig.fieldData.serviceTargetFolder.name,
                   false,
-                  fieldData.serviceTargetFolder.helper,
+                  fieldData.globalConfig.fieldData.serviceTargetFolder.helper,
                   <FormOutlined />,
                   {
                     disabled: !useServiceTargetFolder,
@@ -827,7 +858,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
           bordered={false}
           extra={buildFieldHelper('选择生成时的各项选项')}
         >
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormDaoTypeSelect()}
@@ -835,79 +866,79 @@ class DataBaseGeneratorConfig extends TabPageBase {
 
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelect(
-                  fieldData.autoDelimitKeywords.label,
-                  fieldData.autoDelimitKeywords.name,
-                  fieldData.autoDelimitKeywords.helper,
+                  fieldData.globalConfig.fieldData.autoDelimitKeywords.label,
+                  fieldData.globalConfig.fieldData.autoDelimitKeywords.name,
+                  fieldData.globalConfig.fieldData.autoDelimitKeywords.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelect(
-                  fieldData.useSchemaPrefix.label,
-                  fieldData.useSchemaPrefix.name,
-                  fieldData.useSchemaPrefix.helper,
+                  fieldData.globalConfig.fieldData.useSchemaPrefix.label,
+                  fieldData.globalConfig.fieldData.useSchemaPrefix.name,
+                  fieldData.globalConfig.fieldData.useSchemaPrefix.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelect(
-                  fieldData.comment.label,
-                  fieldData.comment.name,
-                  fieldData.comment.helper,
+                  fieldData.globalConfig.fieldData.comment.label,
+                  fieldData.globalConfig.fieldData.comment.name,
+                  fieldData.globalConfig.fieldData.comment.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelect(
-                  fieldData.offsetLimit.label,
-                  fieldData.offsetLimit.name,
-                  fieldData.offsetLimit.helper,
+                  fieldData.globalConfig.fieldData.offsetLimit.label,
+                  fieldData.globalConfig.fieldData.offsetLimit.name,
+                  fieldData.globalConfig.fieldData.offsetLimit.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelect(
-                  fieldData.needToStringHashCodeEquals.label,
-                  fieldData.needToStringHashCodeEquals.name,
-                  fieldData.needToStringHashCodeEquals.helper,
+                  fieldData.globalConfig.fieldData.needToStringHashCodeEquals.label,
+                  fieldData.globalConfig.fieldData.needToStringHashCodeEquals.name,
+                  fieldData.globalConfig.fieldData.needToStringHashCodeEquals.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelect(
-                  fieldData.needForUpdate.label,
-                  fieldData.needForUpdate.name,
-                  fieldData.needForUpdate.helper,
+                  fieldData.globalConfig.fieldData.needForUpdate.label,
+                  fieldData.globalConfig.fieldData.needForUpdate.name,
+                  fieldData.globalConfig.fieldData.needForUpdate.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelect(
-                  fieldData.annotationDAO.label,
-                  fieldData.annotationDAO.name,
-                  fieldData.annotationDAO.helper,
+                  fieldData.globalConfig.fieldData.annotationDAO.label,
+                  fieldData.globalConfig.fieldData.annotationDAO.name,
+                  fieldData.globalConfig.fieldData.annotationDAO.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelect(
-                  fieldData.annotation.label,
-                  fieldData.annotation.name,
-                  fieldData.annotation.helper,
+                  fieldData.globalConfig.fieldData.annotation.label,
+                  fieldData.globalConfig.fieldData.annotation.name,
+                  fieldData.globalConfig.fieldData.annotation.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelect(
-                  fieldData.useDAOExtendStyle.label,
-                  fieldData.useDAOExtendStyle.name,
-                  fieldData.useDAOExtendStyle.helper,
+                  fieldData.globalConfig.fieldData.useDAOExtendStyle.label,
+                  fieldData.globalConfig.fieldData.useDAOExtendStyle.name,
+                  fieldData.globalConfig.fieldData.useDAOExtendStyle.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelect(
-                  fieldData.jsr310Support.label,
-                  fieldData.jsr310Support.name,
-                  fieldData.jsr310Support.helper,
+                  fieldData.globalConfig.fieldData.jsr310Support.label,
+                  fieldData.globalConfig.fieldData.jsr310Support.name,
+                  fieldData.globalConfig.fieldData.jsr310Support.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormWhetherSelect(
-                  fieldData.overrideXML.label,
-                  fieldData.overrideXML.name,
-                  fieldData.overrideXML.helper,
+                  fieldData.globalConfig.fieldData.overrideXML.label,
+                  fieldData.globalConfig.fieldData.overrideXML.name,
+                  fieldData.globalConfig.fieldData.overrideXML.helper,
                 )}
               </Col>
             </Row>
@@ -915,14 +946,14 @@ class DataBaseGeneratorConfig extends TabPageBase {
         </Card>
 
         <Card title="个性化设置" className={styles.card} bordered={false}>
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormInput(
-                  fieldData.mapperExtensionName.label,
-                  fieldData.mapperExtensionName.name,
+                  fieldData.globalConfig.fieldData.mapperExtensionName.label,
+                  fieldData.globalConfig.fieldData.mapperExtensionName.name,
                   false,
-                  fieldData.mapperExtensionName.helper,
+                  fieldData.globalConfig.fieldData.mapperExtensionName.helper,
                 )}
               </Col>
             </Row>
@@ -930,7 +961,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
         </Card>
 
         <Card title="其他信息" className={styles.card} bordered={false}>
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFromCreateTimeField()}

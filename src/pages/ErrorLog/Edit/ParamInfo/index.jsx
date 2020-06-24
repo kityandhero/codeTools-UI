@@ -91,7 +91,7 @@ class ParamInfo extends TabPageBase {
             </Affix>
           }
         >
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col span={24}>
                 {this.renderFormDisplay(
@@ -104,7 +104,7 @@ class ParamInfo extends TabPageBase {
         </Card>
 
         <Card title="请求头信息" className={styles.card} bordered={false}>
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col span={24}>
                 {metaData === null
@@ -116,7 +116,7 @@ class ParamInfo extends TabPageBase {
         </Card>
 
         <Card title="请求参数" className={styles.card} bordered={false}>
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col span={24}>
                 {metaData === null
@@ -134,7 +134,7 @@ class ParamInfo extends TabPageBase {
             extra={`数据类型：${dataTypeCollection.jsonObject.name}`}
             bordered={false}
           >
-            <Spin delay={500} spinning={dataLoading || processing}>
+            <Spin spinning={dataLoading || processing}>
               <Row gutter={24}>
                 <Col span={24}>
                   {metaData === null
@@ -151,7 +151,7 @@ class ParamInfo extends TabPageBase {
             extra={`数据类型：${dataTypeCollection.commonValue.name}`}
             bordered={false}
           >
-            <Spin delay={500} spinning={dataLoading || processing}>
+            <Spin spinning={dataLoading || processing}>
               <Row gutter={24}>
                 <Col span={24}>
                   {this.renderFormDisplay(
@@ -173,7 +173,7 @@ class ParamInfo extends TabPageBase {
                 extra={`数据类型：${dataTypeCollection.jsonObject.name}`}
                 bordered={false}
               >
-                <Spin delay={500} spinning={dataLoading || processing}>
+                <Spin spinning={dataLoading || processing}>
                   <Row gutter={24}>
                     <Col span={24}>
                       {metaData === null
@@ -192,7 +192,7 @@ class ParamInfo extends TabPageBase {
                 extra={`数据类型：${dataTypeCollection.jsonObjectList.name}`}
                 bordered={false}
               >
-                <Spin delay={500} spinning={dataLoading || processing}>
+                <Spin spinning={dataLoading || processing}>
                   <Row gutter={24}>
                     <Col span={24}>
                       {metaData === null
@@ -211,7 +211,7 @@ class ParamInfo extends TabPageBase {
                 extra={`数据类型：${dataTypeCollection.commonValue.name}`}
                 bordered={false}
               >
-                <Spin delay={500} spinning={dataLoading || processing}>
+                <Spin spinning={dataLoading || processing}>
                   <Row gutter={24}>
                     <Col span={24}>
                       {this.renderFormDisplay(

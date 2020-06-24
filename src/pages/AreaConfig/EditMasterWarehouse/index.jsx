@@ -89,7 +89,7 @@ class EditMasterWarehouse extends BaseUpdateForm {
     return (
       <div className={styles.baseView} ref={this.getViewDom}>
         <div className={styles.left}>
-          <Spin delay={500} spinning={processing || dataLoading}>
+          <Spin spinning={processing || dataLoading}>
             <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
               <FormItem label={fieldData.name}>
                 {getFieldDecorator(

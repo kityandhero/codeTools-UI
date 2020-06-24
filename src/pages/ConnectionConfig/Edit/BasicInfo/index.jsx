@@ -5,12 +5,11 @@ import { Card, Row, Col, Spin, Switch, Divider, notification, Affix } from 'antd
 import { formatDatetime, getDerivedStateFromPropsForUrlParams } from '@/utils/tools';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import { constants } from '@/customConfig/config';
+import EverySpace from '@/customComponents/EverySpace';
 
 import TabPageBase from '../../TabPageBase';
 import { parseUrlParamsForSetState } from '../../Assist/config';
 import { fieldData, connectionType } from '../../Common/data';
-
-import styles from './index.less';
 
 @connect(({ connectionConfig, global, loading }) => ({
   connectionConfig,
@@ -118,7 +117,6 @@ class BasicInfo extends TabPageBase {
       <>
         <Card
           title={this.renderBasicInfoTitle()}
-          className={styles.card}
           bordered={false}
           extra={
             <Affix offsetTop={20}>
@@ -130,7 +128,7 @@ class BasicInfo extends TabPageBase {
             </Affix>
           }
         >
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={12} md={12} sm={24} xs={24}>
                 {this.renderFormInput(
@@ -197,9 +195,10 @@ class BasicInfo extends TabPageBase {
           </Spin>
         </Card>
 
+        <EverySpace size={24} direction="horizontal" />
+
         <Card
           title="SSH信息"
-          className={styles.card}
           bodyStyle={selectConnectionType !== connectionType.SSH ? { padding: 0 } : {}}
           bordered={false}
           extra={
@@ -215,7 +214,7 @@ class BasicInfo extends TabPageBase {
             </>
           }
         >
-          <Spin delay={500} spinning={dataLoading || processing}>
+          <Spin spinning={dataLoading || processing}>
             {selectConnectionType === connectionType.SSH ? (
               <>
                 <Row gutter={24}>
@@ -275,8 +274,10 @@ class BasicInfo extends TabPageBase {
           </Spin>
         </Card>
 
-        <Card title="描述信息" className={styles.card} bordered={false}>
-          <Spin delay={500} spinning={dataLoading || processing}>
+        <EverySpace size={24} direction="horizontal" />
+
+        <Card title="描述信息" bordered={false}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={24} md={24} sm={24} xs={24}>
                 {this.renderFormTextArea(
@@ -290,8 +291,10 @@ class BasicInfo extends TabPageBase {
           </Spin>
         </Card>
 
-        <Card title="其他信息" className={styles.card} bordered={false}>
-          <Spin delay={500} spinning={dataLoading || processing}>
+        <EverySpace size={24} direction="horizontal" />
+
+        <Card title="其他信息" bordered={false}>
+          <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFromCreateTimeField()}

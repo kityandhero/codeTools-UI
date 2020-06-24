@@ -94,7 +94,7 @@ class AvatarDropdown extends React.Component {
     ) : (
       <div className="unknownBox">
         <Spin
-          delay={500}
+          delay={300}
           size="small"
           style={{
             marginLeft: 8,
