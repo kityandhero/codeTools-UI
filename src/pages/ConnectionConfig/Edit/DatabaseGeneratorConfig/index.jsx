@@ -21,6 +21,30 @@ import { fieldData } from '../../../DatabaseGeneratorConfig/Common/data';
 
 import styles from './index.less';
 
+const buildSubmitApiPath = (generatorType) => {
+  let submitApiPath = '';
+
+  switch (toNumber(generatorType)) {
+    case 100:
+      submitApiPath = 'databaseGeneratorConfig/setMybatisGeneratorConfig';
+      break;
+
+    case 101:
+      submitApiPath = 'databaseGeneratorConfig/setCustomGeneratorConfig';
+      break;
+
+    case 102:
+      submitApiPath = 'databaseGeneratorConfig/setMybatisPlusGeneratorConfig';
+      break;
+
+    default:
+      submitApiPath = 'databaseGeneratorConfig/setMybatisGeneratorConfig';
+      break;
+  }
+
+  return submitApiPath;
+};
+
 @connect(({ databaseGeneratorConfig, tools, global, loading }) => ({
   databaseGeneratorConfig,
   tools,
@@ -193,28 +217,8 @@ class DataBaseGeneratorConfig extends TabPageBase {
     const hasMappingXmlTargetFolder = !stringIsNullOrWhiteSpace(mappingXmlTargetFolder);
     const hasServiceTargetFolder = !stringIsNullOrWhiteSpace(serviceTargetFolder);
 
-    let submitApiPath = '';
-
-    switch (toNumber(generatorType)) {
-      case 100:
-        submitApiPath = 'databaseGeneratorConfig/setMybatisGeneratorConfig';
-        break;
-
-      case 101:
-        submitApiPath = 'databaseGeneratorConfig/setCustomGeneratorConfig';
-        break;
-
-      case 102:
-        submitApiPath = 'databaseGeneratorConfig/setMybatisPlusGeneratorConfig';
-        break;
-
-      default:
-        submitApiPath = 'databaseGeneratorConfig/setMybatisGeneratorConfig';
-        break;
-    }
-
     this.setState({
-      submitApiPath,
+      submitApiPath: buildSubmitApiPath(generatorType),
       projectFolderValue: projectFolder || '',
       modelTargetFolderValue: modelTargetFolder || '',
       daoTargetFolderValue: daoTargetFolder || '',
@@ -498,6 +502,12 @@ class DataBaseGeneratorConfig extends TabPageBase {
     });
   };
 
+  onGeneratorTypeChange = (v) => {
+    this.setState({
+      submitApiPath: buildSubmitApiPath(v),
+    });
+  };
+
   formContent = () => {
     const {
       dataLoading,
@@ -558,7 +568,9 @@ class DataBaseGeneratorConfig extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormGeneratorTypeSelect()}
+                {this.renderFormGeneratorTypeSelect(fieldData.generatorType.helper, (v) => {
+                  this.onGeneratorTypeChange(v);
+                })}
               </Col>
             </Row>
           </Spin>
