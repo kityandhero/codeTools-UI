@@ -8,6 +8,7 @@ import {
   getDerivedStateFromPropsForUrlParams,
   stringIsNullOrWhiteSpace,
   buildFieldHelper,
+  toNumber,
 } from '@/utils/tools';
 import { whetherNumber } from '@/utils/constants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
@@ -36,7 +37,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
       ...this.state,
       ...{
         loadApiPath: 'databaseGeneratorConfig/getByConnectionId',
-        submitApiPath: 'databaseGeneratorConfig/set',
+        submitApiPath: 'databaseGeneratorConfig/setMybatisGeneratorConfig',
         connectionConfigId: null,
         projectFolderValue: '',
         modelTargetFolderValue: '',
@@ -174,6 +175,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const {
+      generatorType,
       projectFolder,
       modelTargetFolder,
       daoTargetFolder,
@@ -191,7 +193,28 @@ class DataBaseGeneratorConfig extends TabPageBase {
     const hasMappingXmlTargetFolder = !stringIsNullOrWhiteSpace(mappingXmlTargetFolder);
     const hasServiceTargetFolder = !stringIsNullOrWhiteSpace(serviceTargetFolder);
 
+    let submitApiPath = '';
+
+    switch (toNumber(generatorType)) {
+      case 100:
+        submitApiPath = 'databaseGeneratorConfig/setMybatisGeneratorConfig';
+        break;
+
+      case 101:
+        submitApiPath = 'databaseGeneratorConfig/setCustomGeneratorConfig';
+        break;
+
+      case 102:
+        submitApiPath = 'databaseGeneratorConfig/setMybatisPlusGeneratorConfig';
+        break;
+
+      default:
+        submitApiPath = 'databaseGeneratorConfig/setMybatisGeneratorConfig';
+        break;
+    }
+
     this.setState({
+      submitApiPath,
       projectFolderValue: projectFolder || '',
       modelTargetFolderValue: modelTargetFolder || '',
       daoTargetFolderValue: daoTargetFolder || '',

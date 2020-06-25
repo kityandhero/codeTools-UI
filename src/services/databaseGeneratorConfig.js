@@ -49,7 +49,7 @@ export async function getByConnectionIdData(params) {
   });
 }
 
-export async function setData(params) {
+export async function setMybatisGeneratorConfigData(params) {
   if (transferToVirtualAccess()) {
     const result = await apiVirtualSuccessAccess({
       data: {},
@@ -58,7 +58,37 @@ export async function setData(params) {
     return result;
   }
 
-  return request('/business/databaseGeneratorConfig/set', {
+  return request('/business/databaseGeneratorConfig/setMybatisGeneratorConfig', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+export async function setMybatisPlusGeneratorConfigData(params) {
+  if (transferToVirtualAccess()) {
+    const result = await apiVirtualSuccessAccess({
+      data: {},
+    });
+
+    return result;
+  }
+
+  return request('/business/databaseGeneratorConfig/setMybatisPlusGeneratorConfig', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+export async function setCustomGeneratorConfigData(params) {
+  if (transferToVirtualAccess()) {
+    const result = await apiVirtualSuccessAccess({
+      data: {},
+    });
+
+    return result;
+  }
+
+  return request('/business/databaseGeneratorConfig/setCustomGeneratorConfig', {
     method: 'POST',
     data: params,
   });

@@ -4,7 +4,9 @@ import {
   listData,
   getData,
   getByConnectionIdData,
-  setData,
+  setMybatisGeneratorConfigData,
+  setMybatisPlusGeneratorConfigData,
+  setCustomGeneratorConfigData,
   generateData,
   openProjectFolderData,
 } from '@/services/databaseGeneratorConfig';
@@ -39,8 +41,24 @@ export default {
         payload: response,
       });
     },
-    *set({ payload }, { call, put }) {
-      const response = yield call(setData, payload);
+    *setMybatisGeneratorConfig({ payload }, { call, put }) {
+      const response = yield call(setMybatisGeneratorConfigData, payload);
+
+      yield put({
+        type: 'handleCommonData',
+        payload: response,
+      });
+    },
+    *setMybatisPlusGeneratorConfig({ payload }, { call, put }) {
+      const response = yield call(setMybatisPlusGeneratorConfigData, payload);
+
+      yield put({
+        type: 'handleCommonData',
+        payload: response,
+      });
+    },
+    *setCustomGeneratorConfig({ payload }, { call, put }) {
+      const response = yield call(setCustomGeneratorConfigData, payload);
 
       yield put({
         type: 'handleCommonData',

@@ -10,6 +10,11 @@ module.exports = {
       label: '连接标识',
       helper: '数据连接标识，不可更改',
     },
+    generatorType: {
+      name: 'generatorType',
+      label: '生成器类型',
+      helper: '代码生成器的类型',
+    },
     globalConfig: {
       name: 'globalConfig',
       label: '数据连接器',
