@@ -2,9 +2,8 @@ import React from 'react';
 import { connect, history } from 'umi';
 import { Card, Row, Col, Switch, Spin, notification, Affix } from 'antd';
 
-import { getDerivedStateFromPropsForUrlParams, formatDatetime, isArray } from '@/utils/tools';
+import { getDerivedStateFromPropsForUrlParams, formatDatetime } from '@/utils/tools';
 import { formNameCollection } from '@/customConfig/config';
-import { customFieldCollection } from '@/customSpecialComponents/Supplement/customConstants';
 import accessWayCollection from '@/customConfig/accessWayCollection';
 import BaseAddForm from '@/customComponents/Framework/DataForm/BaseAddForm';
 
@@ -38,17 +37,19 @@ class Add extends BaseAddForm {
   }
 
   buildInitialValues = () => {
-    const { global } = this.props;
-
-    const generatorTypeList = global.generatorTypeList || [];
-
     const initialValues = {};
 
-    if (isArray(generatorTypeList) && generatorTypeList.length > 0) {
-      initialValues[customFieldCollection.generatorType.name] = `${generatorTypeList[0].flag}`;
-    }
+    // 用于测试
+    initialValues[fieldData.connectionType.name] = 'test';
+    initialValues[fieldData.databaseType.name] = `${100}`;
+    initialValues[fieldData.host.name] = '127.0.0.1';
+    initialValues[fieldData.port.name] = 3306;
+    initialValues[fieldData.userName.name] = 'root';
+    initialValues[fieldData.password.name] = 'root';
+    initialValues[fieldData.schema.name] = 'test';
+    initialValues[fieldData.encoding.name] = `${100}`;
 
-    initialValues[fieldData.port.name] = 0;
+    // initialValues[fieldData.port.name] = 0;
 
     initialValues[formNameCollection.createTime.name] = formatDatetime(
       new Date(),
@@ -122,9 +123,6 @@ class Add extends BaseAddForm {
                   true,
                   fieldData.name.helper,
                 )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormGeneratorTypeSelect()}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
                 {this.renderFormDatabaseDatabaseTypeSelectSelect()}

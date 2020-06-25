@@ -50,7 +50,6 @@ class BasicInfo extends TabPageBase {
       values[fieldData.connectionConfigId.name] = metaData.connectionConfigId || '';
       values[fieldData.name.name] = metaData.name || '';
       values[fieldData.connectionType.name] = `${metaData.connectionType || ''}`;
-      values[fieldData.generatorType.name] = `${metaData.generatorType || ''}`;
       values[fieldData.databaseType.name] = `${metaData.databaseType || ''}`;
       values[fieldData.host.name] = metaData.host || '';
       values[fieldData.port.name] = metaData.port || '';
@@ -139,10 +138,15 @@ class BasicInfo extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormGeneratorTypeSelect()}
+                {this.renderFormDatabaseDatabaseTypeSelectSelect()}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormDatabaseDatabaseTypeSelectSelect()}
+                {this.renderFormInputNumber(
+                  fieldData.port.label,
+                  fieldData.port.name,
+                  true,
+                  fieldData.port.helper,
+                )}
               </Col>
             </Row>
             <Row gutter={24}>
@@ -155,11 +159,11 @@ class BasicInfo extends TabPageBase {
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInputNumber(
-                  fieldData.port.label,
-                  fieldData.port.name,
+                {this.renderFormInput(
+                  fieldData.schema.label,
+                  fieldData.schema.name,
                   true,
-                  fieldData.port.helper,
+                  fieldData.schema.helper,
                 )}
               </Col>
             </Row>
@@ -178,14 +182,6 @@ class BasicInfo extends TabPageBase {
                   fieldData.password.name,
                   true,
                   fieldData.password.helper,
-                )}
-              </Col>
-              <Col lg={6} md={12} sm={24} xs={24}>
-                {this.renderFormInput(
-                  fieldData.schema.label,
-                  fieldData.schema.name,
-                  true,
-                  fieldData.schema.helper,
                 )}
               </Col>
               <Col lg={6} md={12} sm={24} xs={24}>

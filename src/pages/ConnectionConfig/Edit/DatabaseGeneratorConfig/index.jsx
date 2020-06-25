@@ -81,6 +81,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
       values[fieldData.databaseGeneratorConfigId.name] =
         metaData.databaseGeneratorConfigId || whetherNumber.no;
       values[fieldData.connectionConfigId.name] = metaData.connectionConfigId || whetherNumber.no;
+      values[fieldData.generatorType.name] = `${metaData.generatorType || ''}`;
 
       values[fieldData.globalConfig.fieldData.connectorJarFile.name] =
         metaData.globalConfig.connectorJarFile || '';
@@ -532,6 +533,9 @@ class DataBaseGeneratorConfig extends TabPageBase {
                   {},
                   false,
                 )}
+              </Col>
+              <Col lg={6} md={12} sm={24} xs={24}>
+                {this.renderFormGeneratorTypeSelect()}
               </Col>
             </Row>
           </Spin>
