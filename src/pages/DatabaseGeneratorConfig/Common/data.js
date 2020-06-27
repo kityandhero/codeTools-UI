@@ -97,6 +97,23 @@ module.exports = {
           label: 'service文件夹位置模式',
           helper: 'service文件夹位置模式，是否是相对于项目文件夹',
         },
+        controllerPackage: {
+          name: 'controllerPackage',
+          label: 'controller包',
+          helper:
+            '生成的mappingXml包名(controllerPackage)，生成文件将放在与包名同名的文件夹中，复合包名将生成级联文件夹',
+        },
+        controllerTargetFolder: {
+          name: 'controllerTargetFolder',
+          label: 'controller文件夹名',
+          helper:
+            '单独存放生成的controller包的文件夹名称,填写后controller包将生成到该文件夹，名称不能含有空白',
+        },
+        controllerTargetFolderRelativeMode: {
+          name: 'controllerTargetFolderRelativeMode',
+          label: 'controller文件夹位置模式',
+          helper: 'controller文件夹位置模式，是否是相对于项目文件夹',
+        },
         offsetLimit: {
           name: 'offsetLimit',
           label: 'offsetLimit',

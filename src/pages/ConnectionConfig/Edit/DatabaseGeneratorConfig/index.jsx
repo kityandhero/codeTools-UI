@@ -68,19 +68,23 @@ class DataBaseGeneratorConfig extends TabPageBase {
         daoTargetFolderValue: '',
         mappingXmlTargetFolderValue: '',
         serviceTargetFolderValue: '',
+        controllerTargetFolderValue: '',
         useModelTargetFolder: false,
         useDaoTargetFolder: false,
         useMappingXmlTargetFolder: false,
         useServiceTargetFolder: false,
+        useControllerTargetFolder: false,
         hasProjectFolder: false,
         hasModelTargetFolder: false,
         hasDaoTargetFolder: false,
         hasMappingXmlTargetFolder: false,
         hasServiceTargetFolder: false,
+        hasControllerTargetFolder: false,
         modelTargetFolderRelativeMode: whetherNumber.yes,
         daoTargetFolderRelativeMode: whetherNumber.yes,
         mappingXmlTargetFolderRelativeMode: whetherNumber.yes,
         serviceTargetFolderRelativeMode: whetherNumber.yes,
+        controllerTargetFolderRelativeMode: whetherNumber.yes,
       },
     };
   }
@@ -128,6 +132,11 @@ class DataBaseGeneratorConfig extends TabPageBase {
         metaData.globalConfig.servicePackage || '';
       values[fieldData.globalConfig.fieldData.serviceTargetFolder.name] =
         metaData.globalConfig.serviceTargetFolder || '';
+      values[fieldData.globalConfig.fieldData.controllerPackage.name] =
+        metaData.globalConfig.controllerPackage || '';
+      values[fieldData.globalConfig.fieldData.controllerTargetFolder.name] =
+        metaData.globalConfig.controllerTargetFolder || '';
+
       values[fieldData.globalConfig.fieldData.encoding.name] = `${
         metaData.globalConfig.encoding || whetherNumber.no
       }`;
@@ -199,16 +208,20 @@ class DataBaseGeneratorConfig extends TabPageBase {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
     const {
-      generatorType,
-      projectFolder,
-      modelTargetFolder,
-      daoTargetFolder,
-      mappingXmlTargetFolder,
-      serviceTargetFolder,
-      modelTargetFolderRelativeMode,
-      daoTargetFolderRelativeMode,
-      mappingXmlTargetFolderRelativeMode,
-      serviceTargetFolderRelativeMode,
+      globalConfig: {
+        generatorType,
+        projectFolder,
+        modelTargetFolder,
+        daoTargetFolder,
+        mappingXmlTargetFolder,
+        serviceTargetFolder,
+        controllerTargetFolder,
+        modelTargetFolderRelativeMode,
+        daoTargetFolderRelativeMode,
+        mappingXmlTargetFolderRelativeMode,
+        serviceTargetFolderRelativeMode,
+        controllerTargetFolderRelativeMode,
+      },
     } = metaData;
 
     const hasProjectFolder = !stringIsNullOrWhiteSpace(projectFolder);
@@ -216,6 +229,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
     const hasDaoTargetFolder = !stringIsNullOrWhiteSpace(daoTargetFolder);
     const hasMappingXmlTargetFolder = !stringIsNullOrWhiteSpace(mappingXmlTargetFolder);
     const hasServiceTargetFolder = !stringIsNullOrWhiteSpace(serviceTargetFolder);
+    const hasControllerTargetFolder = !stringIsNullOrWhiteSpace(controllerTargetFolder);
 
     this.setState({
       submitApiPath: buildSubmitApiPath(generatorType),
@@ -224,19 +238,23 @@ class DataBaseGeneratorConfig extends TabPageBase {
       daoTargetFolderValue: daoTargetFolder || '',
       mappingXmlTargetFolderValue: mappingXmlTargetFolder || '',
       serviceTargetFolderValue: serviceTargetFolder || '',
+      controllerTargetFolderValue: controllerTargetFolder || '',
       useModelTargetFolder: hasModelTargetFolder,
       useDaoTargetFolder: hasDaoTargetFolder,
       useMappingXmlTargetFolder: hasMappingXmlTargetFolder,
       useServiceTargetFolder: hasServiceTargetFolder,
+      useControllerTargetFolder: hasControllerTargetFolder,
       hasProjectFolder,
       hasModelTargetFolder,
       hasDaoTargetFolder,
       hasMappingXmlTargetFolder,
       hasServiceTargetFolder,
+      hasControllerTargetFolder,
       modelTargetFolderRelativeMode,
       daoTargetFolderRelativeMode,
       mappingXmlTargetFolderRelativeMode,
       serviceTargetFolderRelativeMode,
+      controllerTargetFolderRelativeMode,
     });
   };
 
@@ -248,6 +266,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
       daoTargetFolderRelativeMode,
       mappingXmlTargetFolderRelativeMode,
       serviceTargetFolderRelativeMode,
+      controllerTargetFolderRelativeMode,
     } = this.state;
     const { databaseGeneratorConfigId, connectionConfigId } = metaData;
 
@@ -257,6 +276,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
     d.daoTargetFolderRelativeMode = daoTargetFolderRelativeMode;
     d.mappingXmlTargetFolderRelativeMode = mappingXmlTargetFolderRelativeMode;
     d.serviceTargetFolderRelativeMode = serviceTargetFolderRelativeMode;
+    d.controllerTargetFolderRelativeMode = controllerTargetFolderRelativeMode;
 
     return d;
   };
@@ -337,6 +357,12 @@ class DataBaseGeneratorConfig extends TabPageBase {
     const { serviceTargetFolderValue } = this.state;
 
     this.openFolder(serviceTargetFolderValue);
+  };
+
+  openControllerTargetFolder = () => {
+    const { controllerTargetFolderValue } = this.state;
+
+    this.openFolder(controllerTargetFolderValue);
   };
 
   onProjectFolderChange = (e) => {
@@ -478,6 +504,17 @@ class DataBaseGeneratorConfig extends TabPageBase {
     });
   };
 
+  onControllerTargetFolderChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+
+    this.setState({
+      controllerTargetFolderValue: value,
+      hasControllerTargetFolder: !stringIsNullOrWhiteSpace(value),
+    });
+  };
+
   onModelTargetFolderRelativeModeChange = (e) => {
     this.setState({
       modelTargetFolderRelativeMode: e ? whetherNumber.yes : whetherNumber.no,
@@ -502,6 +539,12 @@ class DataBaseGeneratorConfig extends TabPageBase {
     });
   };
 
+  onControllerTargetFolderRelativeModeChange = (e) => {
+    this.setState({
+      controllerTargetFolderRelativeMode: e ? whetherNumber.yes : whetherNumber.no,
+    });
+  };
+
   onGeneratorTypeChange = (v) => {
     this.setState({
       submitApiPath: buildSubmitApiPath(v),
@@ -516,15 +559,18 @@ class DataBaseGeneratorConfig extends TabPageBase {
       useDaoTargetFolder,
       useMappingXmlTargetFolder,
       useServiceTargetFolder,
+      useControllerTargetFolder,
       hasProjectFolder,
       hasModelTargetFolder,
       hasDaoTargetFolder,
       hasMappingXmlTargetFolder,
       hasServiceTargetFolder,
+      hasControllerTargetFolder,
       modelTargetFolderRelativeMode,
       daoTargetFolderRelativeMode,
       mappingXmlTargetFolderRelativeMode,
       serviceTargetFolderRelativeMode,
+      controllerTargetFolderRelativeMode,
     } = this.state;
 
     return (
@@ -878,6 +924,74 @@ class DataBaseGeneratorConfig extends TabPageBase {
                           }}
                           disabled={!useServiceTargetFolder || !hasServiceTargetFolder}
                           onClick={this.openServiceTargetFolder}
+                        >
+                          <FolderOpenOutlined />
+                          打开
+                        </Button>
+                      </>
+                    ),
+                  },
+                )}
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col lg={12} md={24} sm={24} xs={24}>
+                {this.renderFormInput(
+                  fieldData.globalConfig.fieldData.controllerPackage.label,
+                  fieldData.globalConfig.fieldData.controllerPackage.name,
+                  true,
+                  fieldData.globalConfig.fieldData.controllerPackage.helper,
+                  <FormOutlined />,
+                  {
+                    addonAfter: (
+                      <>
+                        <span>文件夹：</span>
+                        <Switch
+                          checkedChildren="开"
+                          unCheckedChildren="关"
+                          checked={useControllerTargetFolder}
+                          onChange={(e) => {
+                            this.onUseControllerTargetFolderChange(e);
+                          }}
+                        />
+                      </>
+                    ),
+                  },
+                )}
+              </Col>
+              <Col lg={12} md={24} sm={24} xs={24}>
+                {this.renderFormInput(
+                  fieldData.globalConfig.fieldData.controllerTargetFolder.label,
+                  fieldData.globalConfig.fieldData.controllerTargetFolder.name,
+                  false,
+                  fieldData.globalConfig.fieldData.controllerTargetFolder.helper,
+                  <FormOutlined />,
+                  {
+                    disabled: !useServiceTargetFolder,
+                    onChange: (e) => {
+                      this.onControllerTargetFolderChange(e);
+                    },
+                    addonAfter: (
+                      <>
+                        <span>相对路径：</span>
+                        <Switch
+                          checkedChildren="是"
+                          unCheckedChildren="否"
+                          disabled={!useControllerTargetFolder}
+                          checked={controllerTargetFolderRelativeMode === whetherNumber.yes}
+                          onChange={(e) => {
+                            this.onControllerTargetFolderRelativeModeChange(e);
+                          }}
+                        />
+                        <Divider type="vertical" />
+                        <Button
+                          style={{
+                            border: '0px solid #d9d9d9',
+                            backgroundColor: '#fafafa',
+                            height: '30px',
+                          }}
+                          disabled={!useControllerTargetFolder || !hasControllerTargetFolder}
+                          onClick={this.openControllerTargetFolder}
                         >
                           <FolderOpenOutlined />
                           打开
