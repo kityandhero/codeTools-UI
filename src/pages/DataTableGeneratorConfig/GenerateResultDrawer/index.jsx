@@ -182,7 +182,7 @@ class GenerateResultDrawer extends BaseLoadDrawer {
                         type="link"
                         style={{ paddingRight: 0 }}
                         onClick={() => {
-                          copyToClipboard(o.content, false);
+                          copyToClipboard(o.content, false, o.title);
                         }}
                       >
                         <CopyOutlined />

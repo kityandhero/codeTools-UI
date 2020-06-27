@@ -125,10 +125,18 @@ export function getValue(obj) {
 /**
  * 复制到剪贴板
  * @param {*} text
+ * @param {*} showText
  */
-export function copyToClipboard(text) {
+export function copyToClipboard(text, showCopyText = true, otherShowText = '') {
   copy(text);
-  message.success(`已将 ${text} 复制到剪贴板！`);
+
+  if (showCopyText) {
+    message.success(`已经将 ${text} 复制到剪贴板！`);
+  } else if (stringIsNullOrWhiteSpace(otherShowText)) {
+    message.success('已经复制到剪贴板！');
+  } else {
+    message.success(`已经将${otherShowText}复制到剪贴板！`);
+  }
 }
 
 /**
