@@ -72,6 +72,11 @@ module.exports = {
       label: 'mappingXml代码',
       helper: '生成的mappingXml代码',
     },
+    controllerContent: {
+      name: 'controllerContent',
+      label: 'controller代码',
+      helper: '生成的controller代码',
+    },
     generated: {
       name: 'generated',
       label: '是否生成',

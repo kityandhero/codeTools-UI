@@ -504,6 +504,27 @@ class DataBaseGeneratorConfig extends TabPageBase {
     });
   };
 
+  onUseControllerTargetFolderChange = (e) => {
+    if (!e) {
+      this.setState({
+        useControllerTargetFolder: e,
+        controllerTargetFolderValue: '',
+        hasControllerTargetFolder: false,
+        controllerTargetFolderRelativeMode: whetherNumber.yes,
+      });
+
+      const values = {};
+
+      values[fieldData.globalConfig.fieldData.controllerTargetFolder.name] = '';
+
+      this.setFormFieldsValue(values);
+    } else {
+      this.setState({
+        useControllerTargetFolder: e,
+      });
+    }
+  };
+
   onControllerTargetFolderChange = (e) => {
     const {
       target: { value },
@@ -967,7 +988,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
                   fieldData.globalConfig.fieldData.controllerTargetFolder.helper,
                   <FormOutlined />,
                   {
-                    disabled: !useServiceTargetFolder,
+                    disabled: !useControllerTargetFolder,
                     onChange: (e) => {
                       this.onControllerTargetFolderChange(e);
                     },
