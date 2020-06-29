@@ -1380,7 +1380,20 @@ class Common extends Core {
     return <SaveOutlined />;
   };
 
-  renderSaveButton = (saveButtonText = '', onClick = null) => {
+  getDisabledButtonIcon = () => {
+    return <SaveOutlined />;
+  };
+
+  renderDisabledButton = (buttonText = '') => {
+    return (
+      <Button type="primary" disabled>
+        {this.getDisabledButtonIcon()}
+        {buttonText || '保存'}
+      </Button>
+    );
+  };
+
+  renderSaveButton = (buttonText = '', onClick = null) => {
     const buttonDisabled = this.getSaveButtonDisabled();
     const buttonProcessing = this.getSaveButtonProcessing();
 
@@ -1397,7 +1410,7 @@ class Common extends Core {
         }
       >
         {buttonProcessing ? <LoadingOutlined /> : this.getSaveButtonIcon()}
-        {saveButtonText || '保存'}
+        {buttonText || '保存'}
       </Button>
     );
   };

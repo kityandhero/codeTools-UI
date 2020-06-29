@@ -254,7 +254,7 @@ class MultiPage extends Base {
       processing,
     } = this.state;
 
-    const { styleSet, columns, expandedRowRender, size } = this.buildTableConfig();
+    const { styleSet, columns, rowExpandable, expandedRowRender, size } = this.buildTableConfig();
 
     const standardTableCustomOption = {
       loading: dataLoading || processing,
@@ -274,6 +274,8 @@ class MultiPage extends Base {
     if ((tableScroll || null) != null) {
       standardTableCustomOption.scroll = tableScroll;
     }
+
+    standardTableCustomOption.rowExpandable = rowExpandable || false;
 
     if ((expandedRowRender || null) != null) {
       standardTableCustomOption.expandedRowRender = expandedRowRender;
