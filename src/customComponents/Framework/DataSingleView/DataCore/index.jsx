@@ -135,19 +135,19 @@ class DataCore extends AuthorizationWrapper {
     return null;
   };
 
-  renderFirstCardTitleIcon = () => {
+  renderMainTitleIcon = () => {
     return <ContactsOutlined />;
   };
 
-  renderFirstCardTitleText = () => {
+  renderMainTitleText = () => {
     return '基本信息';
   };
 
-  renderFirstCardTitle = () => {
+  renderMainTitle = () => {
     return (
       <>
-        {this.renderFirstCardTitleIcon()}
-        <span className={styles.cardTitle}> {this.renderFirstCardTitleText()}</span>
+        {this.renderMainTitleIcon()}
+        <span className={styles.cardTitle}> {this.renderMainTitleText()}</span>
       </>
     );
   };
