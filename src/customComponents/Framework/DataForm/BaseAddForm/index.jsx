@@ -1,7 +1,6 @@
 import React from 'react';
-import { Form, BackTop, Avatar, message } from 'antd';
+import { Form, Avatar, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import {
   getDerivedStateFromPropsForUrlParams,
@@ -11,11 +10,9 @@ import {
 } from '@/utils/tools';
 import { formNameCollection } from '@/customConfig/config';
 
-import AuthorizationWrapper from '../../AuthorizationWrapper';
+import DataCore from '../../DataSingleView/DataCore';
 
-import styles from './index.less';
-
-class BaseAddForm extends AuthorizationWrapper {
+class BaseAddForm extends DataCore {
   loadDataAfterMount = false;
 
   formRef = React.createRef();
@@ -184,45 +181,22 @@ class BaseAddForm extends AuthorizationWrapper {
     return initialValues;
   };
 
-  getSaveButtonDisabled = () => {
-    const { processing } = this.state;
-
-    return processing;
-  };
-
-  getSaveButtonLoading = () => {
-    const { processing } = this.state;
-
-    return processing;
-  };
-
   renderForm = () => {
     const initialValues = this.buildInitialValues();
+    const otherFormProps = this.buildOtherFormProps();
 
     return (
-      <div className={styles.containorBox}>
-        <Form ref={this.formRef} initialValues={initialValues} layout="vertical">
-          {this.formContent()}
-        </Form>
-      </div>
+      <Form
+        ref={this.formRef}
+        initialValues={initialValues}
+        className={this.getFormClassName()}
+        layout={this.getFormLayout()}
+        {...otherFormProps}
+      >
+        {this.formContent()}
+      </Form>
     );
   };
-
-  formContent = () => null;
-
-  render() {
-    const { pageName } = this.state;
-
-    return (
-      <PageHeaderWrapper title={pageName} logo={this.pageHeaderLogo()}>
-        <div className={styles.containorBox}>
-          {this.renderForm()}
-          {this.renderOther()}
-        </div>
-        <BackTop />
-      </PageHeaderWrapper>
-    );
-  }
 }
 
 export default BaseAddForm;
