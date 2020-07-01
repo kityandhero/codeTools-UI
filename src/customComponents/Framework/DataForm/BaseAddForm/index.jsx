@@ -181,16 +181,18 @@ class BaseAddForm extends DataCore {
     return initialValues;
   };
 
-  renderForm = () => {
+  renderModalInner = () => {
     const initialValues = this.buildInitialValues();
+
+    const formLayout = this.buildFormLayout();
     const otherFormProps = this.buildOtherFormProps();
 
     return (
       <Form
         ref={this.formRef}
+        layout={formLayout}
         initialValues={initialValues}
         className={this.getFormClassName()}
-        layout={this.getFormLayout()}
         {...otherFormProps}
       >
         {this.formContent()}

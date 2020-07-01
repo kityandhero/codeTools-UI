@@ -514,9 +514,10 @@ class Common extends Core {
 
     if (listData.length > 0) {
       listData.forEach((item) => {
-        const { name, flag } = item;
+        const { name, flag, disabled } = item;
+
         list.push(
-          <Radio key={flag} value={flag}>
+          <Radio key={`${flag}_${name}`} value={flag} disabled={disabled || false}>
             {name}
           </Radio>,
         );
@@ -540,6 +541,7 @@ class Common extends Core {
     if (listData.length > 0) {
       listData.forEach((item) => {
         const { name, flag, disabled } = item;
+
         list.push(
           <Option key={`${flag}_${name}`} value={flag} disabled={disabled || false}>
             {name}
@@ -1112,7 +1114,7 @@ class Common extends Core {
     name,
     renderOptionFunction,
     helper = null,
-    onChangeCallback,
+    onChangeCallback = null,
     formItemLayout = null,
     required = false,
     otherProps = null,
@@ -1161,7 +1163,7 @@ class Common extends Core {
     name,
     renderOptionFunction,
     helper = null,
-    onChangeCallback,
+    onChangeCallback = null,
     formItemLayout = null,
     required = false,
     otherProps = null,

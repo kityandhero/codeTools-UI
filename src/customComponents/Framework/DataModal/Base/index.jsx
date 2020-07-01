@@ -281,6 +281,10 @@ class Base extends AuthorizationWrapper {
     }
   };
 
+  getFormClassName = () => {
+    return null;
+  };
+
   buildFormLayout = () => {
     return 'horizontal';
   };
@@ -297,13 +301,25 @@ class Base extends AuthorizationWrapper {
       metaOriginalData,
     );
 
-    const formLayout = this.buildFormLayout();
+    const otherFormProps = this.buildOtherFormProps();
 
     return (
-      <Form ref={this.formRef} layout={formLayout} initialValues={initialValues}>
+      <Form
+        ref={this.formRef}
+        layout={this.buildFormLayout()}
+        initialValues={initialValues}
+        className={this.getFormClassName()}
+        {...otherFormProps}
+      >
         {this.formContent()}
       </Form>
     );
+  };
+
+  getSaveButtonDisabled = () => {
+    const { dataLoading, processing, loadSuccess } = this.state;
+
+    return dataLoading || processing || !loadSuccess;
   };
 
   buildOkButtonProps = () => {
