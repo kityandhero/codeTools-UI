@@ -289,6 +289,17 @@ class Base extends AuthorizationWrapper {
     return 'horizontal';
   };
 
+  buildOtherFormProps = () => {
+    return {
+      labelCol: {
+        span: 5,
+      },
+      wrapperCol: {
+        span: 19,
+      },
+    };
+  };
+
   formContent = () => null;
 
   renderModalInner = () => {

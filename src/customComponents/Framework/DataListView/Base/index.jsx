@@ -15,7 +15,13 @@ import {
 import { SearchOutlined, ReloadOutlined, LoadingOutlined } from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
-import { defaultListState, buildFieldDescription, isArray, isUndefined } from '@/utils/tools';
+import {
+  defaultListState,
+  buildFieldDescription,
+  isArray,
+  isUndefined,
+  stringToMoment,
+} from '@/utils/tools';
 
 import AuthorizationWrapper from '../../AuthorizationWrapper';
 import { tableSizeConfig } from '../../../StandardTableCustom';
@@ -197,10 +203,23 @@ class ListBase extends AuthorizationWrapper {
   };
 
   renderSimpleFormRangePicker = (dateRangeFieldName, ColMd = 8, rangePickerProps = null) => {
+    const { startTime, endTime } = this.state;
+
+    const valueList = [];
+
+    if ((startTime || null) != null) {
+      valueList.push(stringToMoment(startTime));
+    }
+
+    if ((endTime || null) != null) {
+      valueList.push(stringToMoment(endTime));
+    }
+
     const p = {
       ...{
         style: { width: '100%' },
         showTime: { format: 'HH:mm' },
+        value: valueList,
         format: 'YYYY-MM-DD HH:mm',
         placeholder: ['开始时间', '结束时间'],
         onChange: (dates, dateStrings) => {
