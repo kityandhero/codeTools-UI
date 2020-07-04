@@ -77,7 +77,36 @@ class ListBase extends AuthorizationWrapper {
     return pageName;
   };
 
-  getColumn = () => [];
+  getColumnWrapper = () => [];
+
+  buildColumnFromWrapper = () => {
+    const list = this.getColumnWrapper() || [];
+
+    return list.map((o) => {
+      const d = { ...o };
+
+      const { dataTarget } = o;
+
+      if ((dataTarget || null) == null) {
+        message.error(`错误的列配置:${JSON.stringify(o)}`);
+      } else {
+        const { label, name } = dataTarget;
+
+        if ((label || null) == null || (name || null) == null) {
+          message.error(`错误的列配置:${JSON.stringify(o)}`);
+        } else {
+          d.title = label;
+          d.dataIndex = name;
+        }
+      }
+
+      return d;
+    });
+  };
+
+  getColumn = () => {
+    return this.buildColumnFromWrapper();
+  };
 
   getColumnMerged = () => {
     let columns = [];
