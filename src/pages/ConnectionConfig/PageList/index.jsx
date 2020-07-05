@@ -275,42 +275,39 @@ class PageList extends MultiPage {
     ) : null;
   };
 
-  getColumn = () => [
+  getColumnWrapper = () => [
     {
-      title: fieldData.name.label,
-      dataIndex: fieldData.name.name,
+      dataTarget: fieldData.name,
       align: 'left',
       render: (val) => <>{val || '--'}</>,
     },
     // {
-    //   title: fieldData.contactInformation,
+    //   dataTarget: fieldData.contactInformation,
     //   dataIndex: 'contactInformation',
     //   width: 220,
     //   align: 'center',
     //   render: val => <>{val || '--'}</>,
     // },
     // {
-    //   title: fieldData.description,
+    //   dataTarget: fieldData.description,
     //   dataIndex: 'description',
     //   align: 'center',
     //   render: val => <>{val || '--'}</>,
     // },
     // {
-    //   title: fieldData.sort,
+    //   dataTarget: fieldData.sort,
     //   dataIndex: 'sort',
     //   width: 100,
     //   align: 'center',
     // },
     {
-      title: fieldData.schema.label,
-      dataIndex: fieldData.schema.name,
+      dataTarget: fieldData.schema,
       width: 200,
       align: 'center',
       render: (val) => <>{val || '--'}</>,
     },
     {
-      title: fieldData.databaseType.label,
-      dataIndex: fieldData.databaseType.name,
+      dataTarget: fieldData.databaseType,
       width: 120,
       align: 'center',
       render: (val) => (
@@ -322,8 +319,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: fieldData.connectionType.label,
-      dataIndex: fieldData.connectionType.name,
+      dataTarget: fieldData.connectionType,
       width: 120,
       align: 'center',
       render: (val) => (
@@ -335,8 +331,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: fieldData.encoding.label,
-      dataIndex: fieldData.encoding.name,
+      dataTarget: fieldData.encoding,
       width: 120,
       align: 'center',
       render: (val) => (
@@ -348,8 +343,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: fieldData.connectionConfigId.label,
-      dataIndex: fieldData.connectionConfigId.name,
+      dataTarget: fieldData.connectionConfigId,
       width: 120,
       align: 'center',
       render: (val) => (
@@ -376,8 +370,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: constants.channelNote.label,
-      dataIndex: constants.channelNote.name,
+      dataTarget: constants.channelNote,
       width: 160,
       align: 'center',
       render: (val, record) => (
@@ -389,8 +382,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: constants.createTime.label,
-      dataIndex: constants.createTime.name,
+      dataTarget: constants.createTime,
       width: 140,
       align: 'center',
       sorter: false,
@@ -403,8 +395,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: constants.customOperate.label,
-      dataIndex: constants.customOperate.name,
+      dataTarget: constants.customOperate,
       width: 106,
       fixed: 'right',
       align: 'center',

@@ -110,7 +110,7 @@ class ResetPassword extends BaseUpdateFormTab {
     return styles.card;
   };
 
-  renderBasicInfoTitleText = () => {
+  renderMainTitleText = () => {
     return '重置密码';
   };
 
@@ -119,7 +119,7 @@ class ResetPassword extends BaseUpdateFormTab {
 
     return (
       <>
-        <Card title={this.renderBasicInfoTitle()} className={styles.card} bordered={false}>
+        <Card title={this.renderMainTitle()} className={styles.card} bordered={false}>
           <Spin spinning={dataLoading || processing}>
             {this.renderFormPassword(
               fieldData.password.label,

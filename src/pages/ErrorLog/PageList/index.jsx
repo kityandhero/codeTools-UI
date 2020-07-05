@@ -91,10 +91,9 @@ class PageList extends MultiPage {
     );
   };
 
-  getColumn = () => [
+  getColumnWrapper = () => [
     {
-      title: fieldData.message.label,
-      dataIndex: fieldData.message.name,
+      dataTarget: fieldData.message,
       align: 'left',
       render: (val) => (
         <>
@@ -105,8 +104,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: fieldData.causeMessage.label,
-      dataIndex: fieldData.causeMessage.name,
+      dataTarget: fieldData.causeMessage,
       width: 240,
       align: 'center',
       render: (val) => (
@@ -118,8 +116,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: fieldData.scene.label,
-      dataIndex: fieldData.scene.name,
+      dataTarget: fieldData.scene,
       width: 180,
       align: 'center',
       render: (val) => (
@@ -131,8 +128,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: fieldData.errorLogId.label,
-      dataIndex: fieldData.errorLogId.name,
+      dataTarget: fieldData.errorLogId,
       width: 120,
       align: 'center',
       render: (val) => (
@@ -159,8 +155,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: constants.channel.label,
-      dataIndex: constants.channel.name,
+      dataTarget: constants.channel,
       width: 160,
       align: 'center',
       render: (val, record) => (
@@ -172,8 +167,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: constants.createTime.label,
-      dataIndex: constants.createTime.name,
+      dataTarget: constants.createTime,
       width: 140,
       align: 'center',
       sorter: false,
@@ -186,8 +180,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: constants.customOperate.label,
-      dataIndex: constants.customOperate.name,
+      dataTarget: constants.customOperate,
       width: 140,
       fixed: 'right',
       align: 'center',

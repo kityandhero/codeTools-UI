@@ -21,6 +21,7 @@ import {
   isArray,
   isUndefined,
   stringToMoment,
+  recordText,
 } from '@/utils/tools';
 
 import AuthorizationWrapper from '../../AuthorizationWrapper';
@@ -88,12 +89,20 @@ class ListBase extends AuthorizationWrapper {
       const { dataTarget } = o;
 
       if ((dataTarget || null) == null) {
-        message.error(`错误的列配置:${JSON.stringify(o)}`);
+        const text = `错误的列配置:${JSON.stringify(o)}`;
+
+        message.error(text);
+
+        recordText(text);
       } else {
         const { label, name } = dataTarget;
 
         if ((label || null) == null || (name || null) == null) {
-          message.error(`错误的列配置:${JSON.stringify(o)}`);
+          const text = `错误的列配置:${JSON.stringify(o)}`;
+
+          message.error(text);
+
+          recordText(text);
         } else {
           d.title = label;
           d.dataIndex = name;

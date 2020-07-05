@@ -58,7 +58,7 @@ class StackTraceInfo extends TabPageBase {
     return 'horizontal';
   };
 
-  renderBasicInfoTitleText = () => {
+  renderMainTitleText = () => {
     return '堆栈信息';
   };
 
@@ -79,7 +79,7 @@ class StackTraceInfo extends TabPageBase {
     return (
       <>
         <Card
-          title={this.renderBasicInfoTitle()}
+          title={this.renderMainTitle()}
           className={styles.card}
           bordered={false}
           extra={

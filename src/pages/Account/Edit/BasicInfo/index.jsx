@@ -109,7 +109,7 @@ class BasicInfo extends BaseUpdateFormTab {
     return (
       <>
         <Card
-          title={this.renderBasicInfoTitle()}
+          title={this.renderMainTitle()}
           className={styles.card}
           bordered={false}
           extra={

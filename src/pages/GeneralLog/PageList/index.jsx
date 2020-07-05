@@ -75,10 +75,9 @@ class PageList extends MultiPage {
     );
   };
 
-  getColumn = () => [
+  getColumnWrapper = () => [
     {
-      title: fieldData.message.label,
-      dataIndex: fieldData.message.name,
+      dataTarget: fieldData.message,
       align: 'left',
       render: (val) => (
         <>
@@ -89,8 +88,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: fieldData.generalLogId.label,
-      dataIndex: fieldData.generalLogId.name,
+      dataTarget: fieldData.generalLogId,
       width: 120,
       align: 'center',
       render: (val) => (
@@ -117,8 +115,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: constants.channel.label,
-      dataIndex: constants.channel.name,
+      dataTarget: constants.channel,
       width: 160,
       align: 'center',
       render: (val, record) => (
@@ -130,8 +127,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: constants.createTime.label,
-      dataIndex: constants.createTime.name,
+      dataTarget: constants.createTime,
       width: 140,
       align: 'center',
       sorter: false,
@@ -144,8 +140,7 @@ class PageList extends MultiPage {
       ),
     },
     {
-      title: constants.customOperate.label,
-      dataIndex: constants.customOperate.name,
+      dataTarget: constants.customOperate,
       width: 120,
       fixed: 'right',
       align: 'center',

@@ -165,10 +165,9 @@ class ListDrawer extends MultiPageDrawer {
     );
   };
 
-  getColumn = () => [
+  getColumnWrapper = () => [
     {
-      title: fieldData.columnName.label,
-      dataIndex: fieldData.columnName.name,
+      dataTarget: fieldData.columnName,
       align: 'left',
       render: (val) => (
         <>
@@ -179,8 +178,7 @@ class ListDrawer extends MultiPageDrawer {
       ),
     },
     {
-      title: fieldData.columnType.label,
-      dataIndex: fieldData.columnType.name,
+      dataTarget: fieldData.columnType,
       width: 120,
       align: 'center',
       render: (val) => (
@@ -192,8 +190,7 @@ class ListDrawer extends MultiPageDrawer {
       ),
     },
     {
-      title: fieldData.aliasName.label,
-      dataIndex: fieldData.aliasName.name,
+      dataTarget: fieldData.aliasName,
       width: 160,
       align: 'center',
       render: (val) => (
@@ -205,8 +202,7 @@ class ListDrawer extends MultiPageDrawer {
       ),
     },
     {
-      title: fieldData.javaType.label,
-      dataIndex: fieldData.javaType.name,
+      dataTarget: fieldData.javaType,
       width: 120,
       align: 'center',
       render: (val) => (
@@ -218,8 +214,7 @@ class ListDrawer extends MultiPageDrawer {
       ),
     },
     {
-      title: fieldData.typeHandler.label,
-      dataIndex: fieldData.typeHandler.name,
+      dataTarget: fieldData.typeHandler,
       width: 220,
       align: 'center',
       render: (val) => (
@@ -231,8 +226,7 @@ class ListDrawer extends MultiPageDrawer {
       ),
     },
     {
-      title: constants.status.label,
-      dataIndex: constants.status.name,
+      dataTarget: constants.status,
       width: 100,
       align: 'center',
       render: (val) => (
@@ -245,8 +239,7 @@ class ListDrawer extends MultiPageDrawer {
       ),
     },
     {
-      title: fieldData.tableName.label,
-      dataIndex: fieldData.tableName.name,
+      dataTarget: fieldData.tableName,
       width: 120,
       align: 'center',
       render: (val) => (
@@ -258,8 +251,7 @@ class ListDrawer extends MultiPageDrawer {
       ),
     },
     {
-      title: fieldData.connectionConfigId.label,
-      dataIndex: fieldData.connectionConfigId.name,
+      dataTarget: fieldData.connectionConfigId,
       width: 120,
       align: 'center',
       render: (val) => (
@@ -290,8 +282,7 @@ class ListDrawer extends MultiPageDrawer {
       ),
     },
     {
-      title: constants.channel.label,
-      dataIndex: constants.channel.name,
+      dataTarget: constants.channel,
       width: 160,
       align: 'center',
       render: (val, record) => (
@@ -303,8 +294,7 @@ class ListDrawer extends MultiPageDrawer {
       ),
     },
     {
-      title: constants.customOperate.label,
-      dataIndex: constants.customOperate.name,
+      dataTarget: constants.customOperate,
       width: 126,
       fixed: 'right',
       align: 'center',

@@ -70,7 +70,7 @@ class BasicInfo extends TabPageBase {
 
     return (
       <>
-        <Card title={this.renderBasicInfoTitle()} className={styles.card} bordered={false}>
+        <Card title={this.renderMainTitle()} className={styles.card} bordered={false}>
           <Spin spinning={dataLoading || processing}>
             <Row gutter={24}>
               <Col lg={24} md={12} sm={24}>

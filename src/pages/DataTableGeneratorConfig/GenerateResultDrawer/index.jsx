@@ -94,7 +94,7 @@ class GenerateResultDrawer extends BaseLoadDrawer {
 
       if (!stringIsNullOrWhiteSpace(modelContent)) {
         list.push({
-          title: fieldData.modelContent.label,
+          dataTarget: fieldData.modelContent.label,
           language: 'java',
           content: modelContent,
         });
@@ -102,7 +102,7 @@ class GenerateResultDrawer extends BaseLoadDrawer {
 
       if (!stringIsNullOrWhiteSpace(exampleContent)) {
         list.push({
-          title: fieldData.exampleContent.label,
+          dataTarget: fieldData.exampleContent.label,
           language: 'java',
           content: exampleContent,
         });
@@ -110,7 +110,7 @@ class GenerateResultDrawer extends BaseLoadDrawer {
 
       if (!stringIsNullOrWhiteSpace(mapperContent)) {
         list.push({
-          title: fieldData.mapperContent.label,
+          dataTarget: fieldData.mapperContent.label,
           language: 'java',
           content: mapperContent,
         });
@@ -118,7 +118,7 @@ class GenerateResultDrawer extends BaseLoadDrawer {
 
       if (!stringIsNullOrWhiteSpace(serviceContent)) {
         list.push({
-          title: fieldData.serviceContent.label,
+          dataTarget: fieldData.serviceContent.label,
           language: 'java',
           content: serviceContent,
         });
@@ -126,7 +126,7 @@ class GenerateResultDrawer extends BaseLoadDrawer {
 
       if (!stringIsNullOrWhiteSpace(serviceImplContent)) {
         list.push({
-          title: fieldData.serviceImplContent.label,
+          dataTarget: fieldData.serviceImplContent.label,
           language: 'java',
           content: serviceImplContent,
         });
@@ -134,7 +134,7 @@ class GenerateResultDrawer extends BaseLoadDrawer {
 
       if (!stringIsNullOrWhiteSpace(mappingXmlContent)) {
         list.push({
-          title: fieldData.mappingXmlContent.label,
+          dataTarget: fieldData.mappingXmlContent.label,
           language: 'java',
           content: mappingXmlContent,
         });
@@ -142,7 +142,7 @@ class GenerateResultDrawer extends BaseLoadDrawer {
 
       if (!stringIsNullOrWhiteSpace(controllerContent)) {
         list.push({
-          title: fieldData.controllerContent.label,
+          dataTarget: fieldData.controllerContent.label,
           language: 'java',
           content: controllerContent,
         });

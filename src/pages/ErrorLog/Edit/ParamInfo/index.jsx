@@ -60,7 +60,7 @@ class ParamInfo extends TabPageBase {
     return 'horizontal';
   };
 
-  renderBasicInfoTitleText = () => {
+  renderMainTitleText = () => {
     return 'Get参数';
   };
 
@@ -81,7 +81,7 @@ class ParamInfo extends TabPageBase {
     return (
       <>
         <Card
-          title={this.renderBasicInfoTitle()}
+          title={this.renderMainTitle()}
           className={styles.card}
           bordered={false}
           bodyStyle={{ paddingBottom: 0 }}

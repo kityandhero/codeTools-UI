@@ -115,7 +115,7 @@ class BasicInfo extends TabPageBase {
     return (
       <>
         <Card
-          title={this.renderBasicInfoTitle()}
+          title={this.renderMainTitle()}
           bordered={false}
           extra={
             <Affix offsetTop={20}>

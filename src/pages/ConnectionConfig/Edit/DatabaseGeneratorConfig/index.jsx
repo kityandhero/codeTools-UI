@@ -597,7 +597,7 @@ class DataBaseGeneratorConfig extends TabPageBase {
     return (
       <>
         <Card
-          title={this.renderBasicInfoTitle()}
+          title={this.renderMainTitle()}
           className={styles.card}
           bordered={false}
           extra={
