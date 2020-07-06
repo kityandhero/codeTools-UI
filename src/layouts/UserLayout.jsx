@@ -29,6 +29,7 @@ const UserLayout = (props) => {
     pathname: location.pathname,
     formatMessage,
     breadcrumb,
+    title: defaultSettings.getTitle(),
     ...props,
   });
   return (
