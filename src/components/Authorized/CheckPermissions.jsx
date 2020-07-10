@@ -1,6 +1,9 @@
 import React from 'react';
-import { CURRENT } from './renderAuthorize';
 
+import { recordObject } from '@/utils/tools';
+
+// eslint-disable-next-line import/no-cycle
+import { CURRENT } from './renderAuthorize';
 // eslint-disable-next-line import/no-cycle
 import PromiseRender from './PromiseRender';
 
@@ -61,6 +64,8 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
 
       return Exception;
     } catch (error) {
+      recordObject(error);
+
       throw error;
     }
   }
