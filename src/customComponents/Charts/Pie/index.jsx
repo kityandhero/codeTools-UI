@@ -1,276 +1,103 @@
-import { Chart, Coordinate, Geom, Tooltip } from 'bizcharts';
+import { Chart, registerShape, Coordinate, Axis, Interaction, Interval, Tooltip } from 'bizcharts';
 import React, { Component } from 'react';
-import { DataView } from '@antv/data-set';
-import Debounce from 'lodash.debounce';
-import { Divider } from 'antd';
-import ReactFitText from 'react-fittext';
+import { Row, Col, Divider } from 'antd';
 import classNames from 'classnames';
-import autoHeight from '../autoHeight';
+
 import styles from './index.less';
 
+const sliceNumber = 0.01; // 自定义 other 的图形，增加两条线
+
+registerShape('interval', 'sliceShape', {
+  draw(cfg, container) {
+    const { points } = cfg;
+    let path = [];
+    path.push(['M', points[0].x, points[0].y]);
+    path.push(['L', points[1].x, points[1].y - sliceNumber]);
+    path.push(['L', points[2].x, points[2].y - sliceNumber]);
+    path.push(['L', points[3].x, points[3].y]);
+    path.push('Z');
+    path = this.parsePath(path);
+    return container.addShape('path', {
+      attrs: {
+        fill: cfg.color,
+        path,
+      },
+    });
+  },
+});
+
 class Pie extends Component {
-  state = {
-    legendData: [],
-    legendBlock: false,
-  };
+  state = {};
 
-  requestRef = undefined;
+  calculateTotal = (d) => {
+    let result = 0;
 
-  root = undefined;
+    (d || []).map((o) => {
+      result += o.y;
 
-  chart = undefined; // for window resize auto responsive legend
-
-  resize = Debounce(() => {
-    const { hasLegend } = this.props;
-    const { legendBlock } = this.state;
-
-    if (!hasLegend || !this.root) {
-      window.removeEventListener('resize', this.resize);
-      return;
-    }
-
-    if (this.root && this.root.parentNode && this.root.parentNode.clientWidth <= 380) {
-      if (!legendBlock) {
-        this.setState({
-          legendBlock: true,
-        });
-      }
-    } else if (legendBlock) {
-      this.setState({
-        legendBlock: false,
-      });
-    }
-  }, 400);
-
-  componentDidMount() {
-    window.addEventListener(
-      'resize',
-      () => {
-        this.requestRef = requestAnimationFrame(() => this.resize());
-      },
-      {
-        passive: true,
-      },
-    );
-  }
-
-  componentDidUpdate(preProps) {
-    const { data } = this.props;
-
-    if (data !== preProps.data) {
-      // because of charts data create when rendered
-      // so there is a trick for get rendered time
-      this.getLegendData();
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.requestRef) {
-      window.cancelAnimationFrame(this.requestRef);
-    }
-
-    window.removeEventListener('resize', this.resize);
-
-    if (this.resize) {
-      this.resize.cancel();
-    }
-  }
-
-  getG2Instance = (chart) => {
-    this.chart = chart;
-    requestAnimationFrame(() => {
-      this.getLegendData();
-      this.resize();
+      return o;
     });
-  }; // for custom lengend view
 
-  getLegendData = () => {
-    if (!this.chart) return;
-
-    const geom = this.chart.views[0]; // 获取所有的图形
-
-    if (!geom) return;
-    const items = geom.get('dataArray') || []; // 获取图形对应的
-
-    const legendData = items.map((item) => {
-      /* eslint no-underscore-dangle:0 */
-      const origin = item[0]._origin;
-      origin.color = item[0].color;
-      origin.checked = true;
-      return origin;
-    });
-    this.setState({
-      legendData,
-    });
-  };
-
-  handleRoot = (n) => {
-    this.root = n;
-  };
-
-  handleLegendClick = (item, i) => {
-    const newItem = item;
-    newItem.checked = !newItem.checked;
-    const { legendData } = this.state;
-    legendData[i] = newItem;
-    const filteredLegendData = legendData.filter((l) => l.checked).map((l) => l.x);
-
-    if (this.chart) {
-      this.chart.filter('x', (val) => filteredLegendData.indexOf(`${val}`) > -1);
-    }
-
-    this.setState({
-      legendData,
-    });
+    return result;
   };
 
   render() {
-    const {
-      valueFormat,
-      subTitle,
-      total,
-      hasLegend = false,
-      className,
-      style,
-      height = 0,
-      forceFit = true,
-      percent,
-      color,
-      inner = 0.75,
-      animate = true,
-      colors,
-      lineWidth = 1,
-    } = this.props;
-    const { legendData, legendBlock } = this.state;
-    const pieClassName = classNames(styles.pie, className, {
-      [styles.hasLegend]: !!hasLegend,
-      [styles.legendBlock]: legendBlock,
-    });
-    const {
-      data: propsData,
-      selected: propsSelected = true,
-      tooltip: propsTooltip = true,
-    } = this.props;
-    let data = propsData || [];
-    let selected = propsSelected;
-    let tooltip = propsTooltip;
-    const defaultColors = colors;
-    data = data || [];
-    selected = selected || true;
-    tooltip = tooltip || true;
-    let formatColor;
-    const scale = {
-      x: {
-        type: 'cat',
-        range: [0, 1],
-      },
-      y: {
-        min: 0,
-      },
-    };
+    const { valueFormat, subTitle, total, className, style } = this.props;
+    const pieClassName = classNames(styles.pie, className, styles.legendBlock);
+    const { data: propsData } = this.props;
 
-    if (percent || percent === 0) {
-      selected = false;
-      tooltip = false;
+    const totalValue = this.calculateTotal(propsData);
 
-      formatColor = (value) => {
-        if (value === '占比') {
-          return color || 'rgba(24, 144, 255, 0.85)';
-        }
-
-        return '#F0F2F5';
-      };
-
-      data = [
-        {
-          x: '占比',
-          y: parseFloat(`${percent}`),
-        },
-        {
-          x: '反比',
-          y: 100 - parseFloat(`${percent}`),
-        },
-      ];
-    }
-
-    const tooltipFormat = [
-      'x*percent',
-      (x, p) => ({
-        name: x,
-        value: `${(p * 100).toFixed(2)}%`,
-      }),
-    ];
-    const padding = [12, 0, 12, 0];
-    const dv = new DataView();
-    dv.source(data).transform({
-      type: 'percent',
-      field: 'y',
-      dimension: 'x',
-      as: 'percent',
-    });
     return (
-      <div ref={this.handleRoot} className={pieClassName} style={style}>
-        <ReactFitText maxFontSize={25}>
-          <div className={styles.chart}>
-            <Chart
-              scale={scale}
-              height={height}
-              forceFit={forceFit}
-              data={dv}
-              padding={padding}
-              animate={animate}
-              onGetG2Instance={this.getG2Instance}
-            >
-              {!!tooltip && <Tooltip showTitle={false} />}
-              <Coordinate type="theta" innerRadius={inner} />
-              <Geom
-                style={{
-                  lineWidth,
-                  stroke: '#fff',
-                }}
-                tooltip={tooltip ? tooltipFormat : undefined}
-                type="interval"
-                position="percent"
-                color={['x', percent || percent === 0 ? formatColor : defaultColors]}
-                selected={selected}
-              />
-            </Chart>
+      <div className={pieClassName}>
+        <Row gutter={24}>
+          <Col lg={12} md={12} sm={24} xs={24}>
+            <div className={styles.chart} style={style}>
+              <Chart data={propsData || []} autoFit>
+                <Coordinate type="theta" radius={0.8} innerRadius={0.75} />
+                <Axis visible={false} />
+                <Tooltip showTitle={false} />
+                <Interval adjust="stack" position="y" color="x" shape="sliceShape" />
+                <Interaction type="element-single-selected" />
+              </Chart>
+            </div>
 
             {(subTitle || total) && (
               <div className={styles.total}>
                 {subTitle && <h4 className="pie-sub-title">{subTitle}</h4>}
-                {/* eslint-disable-next-line */}
                 {total && (
                   <div className="pie-stat">{typeof total === 'function' ? total() : total}</div>
                 )}
               </div>
             )}
-          </div>
-        </ReactFitText>
-
-        {hasLegend && (
-          <ul className={styles.legend}>
-            {legendData.map((item, i) => (
-              <li key={item.x} onClick={() => this.handleLegendClick(item, i)}>
-                <span
-                  className={styles.dot}
-                  style={{
-                    backgroundColor: !item.checked ? '#aaa' : item.color,
-                  }}
-                />
-                <span className={styles.legendTitle}>{item.x}</span>
-                <Divider type="vertical" />
-                <span className={styles.percent}>
-                  {`${(Number.isNaN(item.percent) ? 0 : item.percent * 100).toFixed(2)}%`}
-                </span>
-                <span className={styles.value}>{valueFormat ? valueFormat(item.y) : item.y}</span>
-              </li>
-            ))}
-          </ul>
-        )}
+          </Col>
+          <Col lg={12} md={12} sm={24} xs={24}>
+            <ul className={styles.legend} style={style}>
+              {(propsData || []).map((item, i) => (
+                <li key={item.x} onClick={() => this.handleLegendClick(item, i)}>
+                  <span
+                    className={styles.dot}
+                    style={{
+                      backgroundColor: !item.checked ? '#aaa' : item.color,
+                    }}
+                  />
+                  <span className={styles.legendTitle}>{item.x}</span>
+                  <Divider type="vertical" />
+                  <span className={styles.percent}>
+                    {`${((totalValue || 0) > 0
+                      ? (Number.isNaN(item.y / totalValue) ? 0 : item.y / totalValue) * 100
+                      : 0
+                    ).toFixed(2)}%`}
+                  </span>
+                  <span className={styles.value}>{valueFormat ? valueFormat(item.y) : item.y}</span>
+                </li>
+              ))}
+            </ul>
+          </Col>
+        </Row>
       </div>
     );
   }
 }
 
-export default autoHeight()(Pie);
+export default Pie;

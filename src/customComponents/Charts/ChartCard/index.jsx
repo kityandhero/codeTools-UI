@@ -57,7 +57,8 @@ class ChartCard extends React.Component {
               height: contentHeight || 'auto',
             }}
           >
-            <div className={contentHeight && styles.contentFixed}>{children}</div>
+            {/* <div className={contentHeight && styles.contentFixed}>{children}</div> */}
+            <div className={styles.contentFixed}>{children}</div>
           </div>
         )}
         {footer && (

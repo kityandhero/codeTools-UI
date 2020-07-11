@@ -5,18 +5,15 @@
   .chart {
     position: relative;
   }
-  &.hasLegend .chart {
-    width: ~'calc(100% - 240px)';
-  }
+  // &.hasLegend .chart {
+  //   width: ~'calc(100% - 240px)';
+  // }
   .legend {
-    position: absolute;
-    top: 50%;
-    right: 0;
+    overflow-y: auto;
     min-width: 200px;
     margin: 0 20px;
     padding: 0;
     list-style: none;
-    transform: translateY(-50%);
     li {
       height: 22px;
       margin-bottom: 16px;
@@ -51,7 +48,7 @@
   }
   .value {
     position: absolute;
-    right: 0;
+    right: 10px;
   }
   .title {
     margin-bottom: 8px;
