@@ -199,7 +199,9 @@ export async function apiVirtualAccess(dataBuildFunction) {
 
   await new Promise((resolve) => {
     if (typeof dataBuildFunction === 'function') {
-      setTimeout(dataBuildFunction(resolve));
+      setTimeout(() => {
+        dataBuildFunction(resolve);
+      }, 200);
     }
   }).then((data) => {
     result = data;

@@ -1,7 +1,6 @@
-import { Axis, Chart, Geom, Tooltip } from 'bizcharts';
+import { Axis, Chart, Interval, Tooltip } from 'bizcharts';
 import React, { Component } from 'react';
-import Debounce from 'lodash.debounce';
-import autoHeight from '../autoHeight';
+
 import styles from '../index.less';
 
 class Bar extends Component {
@@ -9,64 +8,13 @@ class Bar extends Component {
     autoHideXLabels: false,
   };
 
-  root = undefined;
-
-  node = undefined;
-
-  resize = Debounce(() => {
-    if (!this.node || !this.node.parentNode) {
-      return;
-    }
-
-    const canvasWidth = this.node.parentNode.clientWidth;
-    const { data = [], autoLabel = true } = this.props;
-
-    if (!autoLabel) {
-      return;
-    }
-
-    const minWidth = data.length * 30;
-    const { autoHideXLabels } = this.state;
-
-    if (canvasWidth <= minWidth) {
-      if (!autoHideXLabels) {
-        this.setState({
-          autoHideXLabels: true,
-        });
-      }
-    } else if (autoHideXLabels) {
-      this.setState({
-        autoHideXLabels: false,
-      });
-    }
-  }, 500);
-
-  componentDidMount() {
-    window.addEventListener('resize', this.resize, {
-      passive: true,
-    });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resize);
-  }
-
-  handleRoot = (n) => {
-    this.root = n;
-  };
-
-  handleRef = (n) => {
-    this.node = n;
-  };
-
   render() {
     const {
-      height = 1,
       title,
-      forceFit = true,
+      autoFit = true,
       data,
       color = 'rgba(24, 144, 255, 0.85)',
-      padding,
+      animate = true,
     } = this.props;
     const { autoHideXLabels } = this.state;
     const scale = {
@@ -75,8 +23,10 @@ class Bar extends Component {
       },
       y: {
         min: 0,
+        alias: title,
       },
     };
+
     const tooltip = [
       'x*y',
       (x, y) => ({
@@ -84,40 +34,29 @@ class Bar extends Component {
         value: y,
       }),
     ];
+
     return (
       <div
         className={styles.chart}
         style={{
-          height,
+          height: '100%',
         }}
-        ref={this.handleRoot}
       >
-        <div ref={this.handleRef}>
-          {title && (
-            <h4
-              style={{
-                marginBottom: 20,
-              }}
-            >
-              {title}
-            </h4>
-          )}
-          <Chart
-            scale={scale}
-            height={title ? height - 41 : height}
-            forceFit={forceFit}
-            data={data}
-            padding={padding || 'auto'}
-          >
+        <div
+          style={{
+            height: '100%',
+          }}
+        >
+          <Chart animate={animate} scale={scale} autoFit={autoFit} data={data}>
             <Axis
               name="x"
               title={false}
               label={autoHideXLabels ? undefined : {}}
               tickLine={autoHideXLabels ? undefined : {}}
             />
-            <Axis name="y" min={0} />
-            <Tooltip showTitle={false} crosshairs={false} />
-            <Geom type="interval" position="x*y" color={color} tooltip={tooltip} />
+            <Axis title name="y" min={0} />
+            <Tooltip showTitle={false} showCrosshairs={false} />
+            <Interval position="x*y" color={color} tooltip={tooltip} />
           </Chart>
         </div>
       </div>
@@ -125,4 +64,4 @@ class Bar extends Component {
   }
 }
 
-export default autoHeight()(Bar);
+export default Bar;

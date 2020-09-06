@@ -22,6 +22,7 @@ import {
   isUndefined,
   stringToMoment,
   recordText,
+  getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
 
 import AuthorizationWrapper from '../../AuthorizationWrapper';
@@ -55,9 +56,21 @@ class ListBase extends AuthorizationWrapper {
         listTitle: '检索结果',
         tableSize: tableSizeConfig.middle,
         counterSetColumnsOtherConfig: 0,
+        renderSearchForm: true,
       },
     };
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return getDerivedStateFromPropsForUrlParams(nextProps, prevState);
+  }
+
+  afterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {
+    this.doOtherAfterLoadSuccess(metaData, metaListData, metaExtra, metaOriginalData);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doOtherAfterLoadSuccess = (metaData, metaListData, metaExtra, metaOriginalData) => {};
 
   onDateRangeChange = (dates, dateStrings) => {
     this.setState({
@@ -463,16 +476,18 @@ class ListBase extends AuthorizationWrapper {
   };
 
   render() {
-    const { listTitle, tableSize, refreshing } = this.state;
+    const { listTitle, tableSize, refreshing, renderSearchForm } = this.state;
 
     const extraAction = this.renderExtraAction();
 
     return (
       <PageHeaderWrapper title={this.getPageName()}>
         <div className={styles.containorBox}>
-          <Card bordered={false} className={styles.containorSearch}>
-            <div className={styles.tableListForm}>{this.renderForm()}</div>
-          </Card>
+          {renderSearchForm ? (
+            <Card bordered={false} className={styles.containorSearch}>
+              <div className={styles.tableListForm}>{this.renderForm()}</div>
+            </Card>
+          ) : null}
 
           <Card
             title={listTitle}

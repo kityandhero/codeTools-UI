@@ -1,8 +1,10 @@
 /lambda/
 /scripts
+/.temp/
 /config
 /public
 .history
+/.vscode/
 *.test.js
 *.d.ts
 *.log

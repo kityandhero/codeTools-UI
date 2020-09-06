@@ -124,6 +124,23 @@
       white-space: nowrap;
     }
   }
+
+  .bottomBar {
+    padding: 10px 0;
+    background-color: #fff;
+    border-top: 1px solid #e8e8e8;
+  }
+
+  :global {
+    .ant-layout {
+      min-height: calc(100vh - 55px);
+      background-color: #fff;
+    }
+
+    .ant-layout-footer {
+      padding: 0;
+    }
+  }
 }
 
 @media screen and (max-width: @screen-lg) {
