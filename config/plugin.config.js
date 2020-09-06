@@ -25,30 +25,64 @@ function getModulePackageName(module) {
 }
 
 const webpackPlugin = (config) => {
+  // console.dir(config);
+  // config.profile(true);
+
   // optimize chunks
   config.optimization
+    // .minimize(process.env.NODE_ENV === 'production' ? true : false)
     // share the same chunks across different modules
     .runtimeChunk(false)
     .splitChunks({
       chunks: 'async',
       name: 'vendors',
+      // minSize: 30000,
+      // minChunks: 1, // 模块被引用>=1次，便分割
+      // maxAsyncRequests: 5, // 异步加载chunk的并发请求数量<=5
+      // maxInitialRequests: 3, // 一个入口并发加载的chunk数量<=3
       maxInitialRequests: Infinity,
-      minSize: 0,
       cacheGroups: {
+        // default: {
+        //   // 模块缓存规则，设置为false，默认缓存组将禁用
+        //   minChunks: 2, // 模块被引用>=2次，拆分至vendors公共模块
+        //   priority: -20, // 优先级
+        //   reuseExistingChunk: true, // 默认使用已有的模块
+        // },
         vendors: {
           test: (module) => {
             const packageName = getModulePackageName(module) || '';
             if (packageName) {
-              return ['bizcharts', 'gg-editor', 'g6', '@antv', 'l7', 'gg-editor-core'].includes(
-                packageName,
-              );
+              return [
+                'antd',
+                'bizcharts',
+                'gg-editor',
+                'g6',
+                '@antv',
+                'l7',
+                'gg-editor-core',
+                'bizcharts-plugin-slider',
+                'braft-editor',
+                'classnames',
+                'lodash',
+                'numeral',
+              ].includes(packageName);
             }
             return false;
           },
           name(module) {
             const packageName = getModulePackageName(module);
             if (packageName) {
-              if (['bizcharts', '@antv_data-set'].indexOf(packageName) >= 0) {
+              if (
+                [
+                  'bizcharts',
+                  '@antv/data-set',
+                  '@ant-design/icons',
+                  '@antv/l7',
+                  '@antv/l7-maps',
+                  'braft-editor',
+                  'gg-editor',
+                ].indexOf(packageName) >= 0
+              ) {
                 return 'viz'; // visualization package
               }
             }
