@@ -1,139 +1,33 @@
-@import '~antd/lib/style/themes/default.less';
-
-@import '~@/utils/utils.less';
-
-@media screen and (min-width: @screen-xxl) {
-  .containorBox {
-    .containorSearch {
-      :global {
-        .ant-card-body {
-          padding: 0;
-        }
-      }
-    }
-  }
-}
-
 .containorBox {
   .titleIcon {
     margin-right: 10px;
   }
 
-  .containorSearch {
-    margin-bottom: 0;
+  .titleText {
+    margin-left: 2px;
   }
 
-  .containorTable {
-    .iconAction {
-      color: #000;
-      border: 0;
+  .mainContainor {
+    .contentContainor {
+      padding: 24px;
     }
 
-    .alertContainor {
-      margin: 0 0;
-      margin-bottom: 16px;
-
-      .alertInfo {
-        display: flex;
-
-        .alertContent {
-          flex: 1;
-        }
-
-        .alertOption {
-          min-width: 48px;
-          padding-left: 16px;
-        }
-      }
-    }
-  }
-
-  .tableList {
-    position: relative;
-
-    .tableListOperator {
-      margin-bottom: 16px;
-
-      button {
-        margin-right: 8px;
+    .containorTable {
+      .iconAction {
+        color: #000;
+        border: 0;
       }
     }
 
-    .price {
-      color: #267cb7;
-    }
-
-    .actionButton {
-      margin: 0 5px;
-    }
-
-    .orange {
-      color: orange;
-    }
-
-    .reloadAlert {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .editButton {
-    margin-right: 3px;
-  }
-
-  .img {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #eceaea;
-  }
-
-  .pointer {
-    color: #267cb7;
-    cursor: pointer;
-  }
-
-  .topButton {
-    margin-right: 8px;
-  }
-
-  .tableListForm {
     :global {
-      .ant-form-item {
-        display: flex;
-        // margin-bottom: 24px;
-        margin-right: 0;
+      .ant-layout {
+        min-height: calc(100vh - 55px);
+        background-color: #fff;
+      }
 
-        > .ant-form-item-label {
-          width: auto;
-          padding-right: 8px;
-          line-height: 32px;
-        }
-
-        .ant-form-item-control {
-          flex: 1;
-          line-height: 32px;
-        }
+      .ant-layout-footer {
+        padding: 0;
       }
     }
-
-    .submitButtons {
-      margin-bottom: 24px;
-      white-space: nowrap;
-    }
-  }
-}
-
-@media screen and (max-width: @screen-lg) {
-  .tableListForm :global(.ant-form-item) {
-    margin-right: 24px;
-  }
-}
-
-@media screen and (max-width: @screen-md) {
-  .tableListForm :global(.ant-form-item) {
-    margin-right: 8px;
   }
 }

@@ -12,7 +12,12 @@ import {
   Divider,
   message,
 } from 'antd';
-import { SearchOutlined, ReloadOutlined, LoadingOutlined } from '@ant-design/icons';
+import {
+  SearchOutlined,
+  ReloadOutlined,
+  LoadingOutlined,
+  PictureOutlined,
+} from '@ant-design/icons';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 import {
@@ -25,6 +30,14 @@ import {
   getDerivedStateFromPropsForUrlParams,
 } from '@/utils/tools';
 
+import {
+  buildButtonGroup,
+  pageHeaderTitle,
+  pageHeaderTagWrapper,
+  pageHeaderContent,
+  pageHeaderExtraContent,
+} from '../../../FunctionComponent';
+import { avatarImageLoadResultCollection, decorateAvatar } from '../../../DecorateAvatar';
 import AuthorizationWrapper from '../../AuthorizationWrapper';
 import { tableSizeConfig } from '../../../StandardTableCustom';
 
@@ -54,6 +67,9 @@ class ListBase extends AuthorizationWrapper {
       ...defaultState,
       ...{
         listTitle: '检索结果',
+        defaultAvatarIcon: <PictureOutlined />,
+        avatarImageLoadResult: avatarImageLoadResultCollection.wait,
+        showPageHeaderAvatar: false,
         tableSize: tableSizeConfig.middle,
         counterSetColumnsOtherConfig: 0,
         renderSearchForm: true,
@@ -84,6 +100,25 @@ class ListBase extends AuthorizationWrapper {
       selectedDataTableDataRows: rows,
     });
   };
+
+  clearSelectRow = () => {
+    this.setState({
+      selectedDataTableDataRows: [],
+    });
+  };
+
+  setSearchFormFieldsValue = (v) => {
+    const form = this.getSearchForm();
+
+    if (form != null) {
+      form.setFieldsValue(v);
+
+      this.afterSetSearchFormFieldsValue(v);
+    }
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  afterSetSearchFormFieldsValue = (v) => {};
 
   getPageName = () => {
     const { pageName } = this.state;
@@ -253,7 +288,7 @@ class ListBase extends AuthorizationWrapper {
     );
   };
 
-  renderSimpleFormRangePicker = (dateRangeFieldName, ColMd = 8, rangePickerProps = null) => {
+  renderSimpleFormRangePicker = (dateRangeFieldName, colLg = 8, rangePickerProps = null) => {
     const { startTime, endTime } = this.state;
 
     const valueList = [];
@@ -281,7 +316,7 @@ class ListBase extends AuthorizationWrapper {
     };
 
     return (
-      <Col md={ColMd} sm={24}>
+      <Col lg={colLg} md={12} sm={24} xs={24}>
         <FormItem
           label={dateRangeFieldName}
           rules={[
@@ -475,13 +510,180 @@ class ListBase extends AuthorizationWrapper {
     return null;
   };
 
+  buildOtherTabProps = () => {
+    const tabListAvailable = this.getTabListAvailable();
+
+    if (tabListAvailable.length > 0) {
+      return {
+        type: 'card',
+        size: 'small',
+        tabBarStyle: {
+          marginBottom: 0,
+        },
+        tabBarGutter: 3,
+      };
+    }
+
+    return null;
+  };
+
+  adjustTabListAvailable = (tabListAvailable) => tabListAvailable;
+
+  getTabListAvailable = () => {
+    const tabListAvailable = [];
+
+    (this.tabList || []).forEach((o) => {
+      const v = typeof o.show === 'undefined' ? true : o.show === true;
+
+      if (v) {
+        tabListAvailable.push(o);
+      }
+    });
+
+    return this.adjustTabListAvailable(tabListAvailable);
+  };
+
+  getTabActiveKey = () => {
+    const {
+      match,
+      location: { pathname },
+    } = this.props;
+
+    return pathname
+      .replace(/\//g, '-')
+      .replace(`${match.url.replace(/\//g, '-')}-`, '')
+      .replace(/-/g, '/');
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  handleTabChange = (key) => {};
+
+  onPageHeaderAvatarLoadErrorCallback = () => {
+    this.setState({
+      avatarImageLoadResult: avatarImageLoadResultCollection.fail,
+    });
+  };
+
+  pageHeaderActionExtraGroup = () => null;
+
+  pageHeaderAction = () => {
+    const buttonGroupData = this.pageHeaderActionExtraGroup();
+
+    return (
+      <>
+        <div className={styles.buttonBox}>{buildButtonGroup(buttonGroupData)}</div>
+      </>
+    );
+  };
+
+  pageHeaderTag = () => null;
+
+  pageHeaderAvatar = () => {
+    return null;
+  };
+
+  pageHeaderTitlePrefix = () => {
+    return '';
+  };
+
+  pageHeaderSubTitle = () => null;
+
+  pageHeaderContentData = () => null;
+
+  renderPageHeaderContent = () => {
+    return pageHeaderContent(this.pageHeaderContentData());
+  };
+
+  pageHeaderExtraContentData = () => null;
+
+  renderPageHeaderExtraContent = () => {
+    return pageHeaderExtraContent(this.pageHeaderExtraContentData());
+  };
+
+  renderCardExtraAction = () => {
+    const { tableSize, refreshing } = this.state;
+
+    return (
+      <>
+        <DensityAction
+          tableSize={tableSize}
+          setTableSize={(key) => {
+            this.setTableSize(key);
+          }}
+        />
+
+        <Tooltip title="刷新本页">
+          <Button
+            shape="circle"
+            style={{
+              color: '#000',
+              border: 0,
+            }}
+            loading={refreshing}
+            icon={<ReloadOutlined />}
+            onClick={() => {
+              this.refreshData();
+            }}
+          />
+        </Tooltip>
+
+        <ColumnSetting
+          columns={this.getColumn()}
+          columnsMap={this.getColumnsMap()}
+          setColumnsMap={(e) => {
+            this.setColumnsMap(e);
+          }}
+          setSortKeyColumns={(key) => {
+            this.setSortKeyColumns(key);
+          }}
+        />
+      </>
+    );
+  };
+
   render() {
-    const { listTitle, tableSize, refreshing, renderSearchForm } = this.state;
+    const {
+      listTitle,
+      showPageHeaderAvatar,
+      renderSearchForm,
+      defaultAvatarIcon,
+      dataLoading,
+      reloading,
+      avatarImageLoadResult,
+    } = this.state;
 
     const extraAction = this.renderExtraAction();
 
+    const tabListAvailable = this.getTabListAvailable();
+
+    const avatarProps = showPageHeaderAvatar
+      ? decorateAvatar(
+          this.pageHeaderAvatar(),
+          defaultAvatarIcon,
+          showPageHeaderAvatar,
+          dataLoading,
+          reloading,
+          avatarImageLoadResult,
+          () => {
+            this.onPageHeaderAvatarLoadErrorCallback();
+          },
+        )
+      : null;
+
     return (
-      <PageHeaderWrapper title={this.getPageName()}>
+      <PageHeaderWrapper
+        avatar={avatarProps}
+        title={pageHeaderTitle(this.getPageName(), this.pageHeaderTitlePrefix())}
+        subTitle={this.pageHeaderSubTitle()}
+        tags={pageHeaderTagWrapper(this.pageHeaderTag())}
+        extra={this.pageHeaderAction()}
+        tabActiveKey={this.getTabActiveKey()}
+        content={this.renderPageHeaderContent()}
+        extraContent={this.renderPageHeaderExtraContent()}
+        tabList={tabListAvailable}
+        onTabChange={this.handleTabChange}
+        tabProps={this.buildOtherTabProps()}
+      >
         <div className={styles.containorBox}>
           {renderSearchForm ? (
             <Card bordered={false} className={styles.containorSearch}>
@@ -502,34 +704,9 @@ class ListBase extends AuthorizationWrapper {
                 {extraAction == null ? null : <Divider type="vertical" />}
 
                 {this.renderBatchAction()}
-                <DensityAction
-                  tableSize={tableSize}
-                  setTableSize={(key) => {
-                    this.setTableSize(key);
-                  }}
-                />
 
-                <Tooltip title="刷新本页">
-                  <Button
-                    shape="circle"
-                    className={styles.iconAction}
-                    loading={refreshing}
-                    icon={<ReloadOutlined />}
-                    onClick={() => {
-                      this.refreshData();
-                    }}
-                  />
-                </Tooltip>
-                <ColumnSetting
-                  columns={this.getColumn()}
-                  columnsMap={this.getColumnsMap()}
-                  setColumnsMap={(e) => {
-                    this.setColumnsMap(e);
-                  }}
-                  setSortKeyColumns={(key) => {
-                    this.setSortKeyColumns(key);
-                  }}
-                />
+                {this.renderCardExtraAction()}
+
                 {/* <Button
                   type="primary"
                   icon={<SearchOutlined />}
@@ -546,7 +723,7 @@ class ListBase extends AuthorizationWrapper {
           >
             <div className={styles.tableList}>
               {this.renderAboveTable()}
-              {this.renderTable()}
+              {this.renderLisView()}
             </div>
           </Card>
         </div>

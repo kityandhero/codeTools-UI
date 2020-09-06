@@ -1,14 +1,16 @@
+import { corsTarget } from '@/utils/tools';
+
 export const appInitCustom = window.appInitCustomData;
 
 export function getConfigData() {
   let corsTargetProduction = 'http://localhost:9990';
 
-  if (window.appInitCustom != null) {
-    if (window.appInitCustom.apiPrefix != null) {
-      if (window.appInitCustom.apiPrefix.corsTargetProduction != null) {
+  if (appInitCustom != null) {
+    if (appInitCustom.apiPrefix != null) {
+      if (appInitCustom.apiPrefix.corsTargetProduction != null) {
         const {
           apiPrefix: { corsTargetProduction: corsTargetProductionRemote },
-        } = window.appInitCustom;
+        } = appInitCustom;
 
         corsTargetProduction = corsTargetProductionRemote;
       }
@@ -16,9 +18,7 @@ export function getConfigData() {
   }
 
   return {
-    // corsTargetDevelopment: 'http://localhost:9990',
     corsTargetDevelopment: 'http://localhost:9990',
-    // corsTargetDevelopment: 'http://localhost:9990',
     corsTargetProduction,
   };
 }
@@ -78,18 +78,26 @@ export const colorCollection = {
 };
 
 export const formNameCollection = {
-  createTime: {
-    label: '创建时间',
-    name: 'createTime',
-    helper: '',
+  createTime: 'createTime',
+  customOperate: {
+    label: '操作',
+    name: 'operateName',
   },
 };
+
+export const defaultDateTime = '1970-01-01 00:00:00';
 
 export function getApiVersion() {
   // const  version= "v1";
   const version = 'beta';
 
   const path = `/${version}`;
+
+  return path;
+}
+
+export function corsTargetWithApiVersion() {
+  const path = `${corsTarget()}${getApiVersion()}`;
 
   return path;
 }
@@ -101,6 +109,8 @@ export function showSelectLanguage() {
 export function showLogoInLoginView() {
   return true;
 }
+
+export { default as accessWayCollection } from './accessWayCollection';
 
 /**
  * 占位函数

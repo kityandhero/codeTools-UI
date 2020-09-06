@@ -17,7 +17,7 @@ class DisplayCopyData extends CustomBase {
       return (
         <span
           onClick={() => {
-            this.copy(data);
+            copyToClipboard(data);
           }}
         >
           {data}

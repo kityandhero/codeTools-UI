@@ -68,7 +68,7 @@ class PageList extends MultiPage {
     }
   };
 
-  removeConfirm = (record) => {
+  removeConfirm = (record) => { 
     const that = this;
     const { processing } = that.state;
 

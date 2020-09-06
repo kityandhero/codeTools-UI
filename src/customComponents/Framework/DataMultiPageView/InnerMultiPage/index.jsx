@@ -91,7 +91,7 @@ class InnerMultiPage extends MultiPage {
           >
             <div className={styles.tableList}>
               {this.renderAboveTable()}
-              {this.renderTable()}
+              {this.renderLisView()}
             </div>
           </Card>
         </div>

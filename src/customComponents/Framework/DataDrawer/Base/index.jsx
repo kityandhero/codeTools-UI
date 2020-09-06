@@ -112,18 +112,61 @@ class Base extends AuthorizationWrapper {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => null;
 
-  handleOk = (e) => {
-    e.preventDefault();
-    const {
-      dispatch,
-      //  afterOk
-    } = this.props;
+  execSubmitApi = (values = {}, afterSubmitCallback) => {
+    const { dispatch } = this.props;
+
     const { submitApiPath } = this.state;
 
     if ((submitApiPath || '') === '') {
       message.error(`缺少 submitApiPath 配置！`);
       return;
     }
+
+    let submitData = pretreatmentRequestParams(values || {});
+
+    submitData = this.supplementSubmitRequestParams(submitData);
+
+    const checkResult = this.checkSubmitRequestParams(submitData);
+
+    submitData = this.afterCheckSubmitRequestParams(submitData);
+
+    if (checkResult) {
+      this.setState({ processing: true });
+
+      dispatch({
+        type: submitApiPath,
+        payload: submitData,
+      }).then(() => {
+        if (this.mounted) {
+          const remoteData = this.getApiData(this.props);
+
+          const { dataSuccess } = remoteData;
+
+          if (dataSuccess) {
+            const { list: metaListData, data: metaData, extra: metaExtra } = remoteData;
+
+            this.afterSubmitSuccess(
+              metaData || null,
+              metaListData || [],
+              metaExtra || null,
+              remoteData,
+              submitData,
+            );
+          }
+
+          // eslint-disable-next-line react/no-unused-state
+          this.setState({ processing: false }, () => {
+            if (isFunction(afterSubmitCallback)) {
+              afterSubmitCallback();
+            }
+          });
+        }
+      });
+    }
+  };
+
+  handleOk = (e) => {
+    e.preventDefault();
 
     const form = this.getTargetForm();
 
@@ -135,43 +178,7 @@ class Base extends AuthorizationWrapper {
 
     validateFields()
       .then((values) => {
-        let submitData = pretreatmentRequestParams(values);
-
-        submitData = this.supplementSubmitRequestParams(submitData);
-
-        const checkResult = this.checkSubmitRequestParams(submitData);
-
-        submitData = this.afterCheckSubmitRequestParams(submitData);
-
-        if (checkResult) {
-          this.setState({ processing: true });
-
-          dispatch({
-            type: submitApiPath,
-            payload: submitData,
-          }).then(() => {
-            if (this.mounted) {
-              const remoteData = this.getApiData(this.props);
-
-              const { dataSuccess } = remoteData;
-
-              if (dataSuccess) {
-                const { list: metaListData, data: metaData, extra: metaExtra } = remoteData;
-
-                this.afterSubmitSuccess(
-                  metaData || null,
-                  metaListData || [],
-                  metaExtra || null,
-                  remoteData,
-                  submitData,
-                );
-              }
-
-              // eslint-disable-next-line react/no-unused-state
-              this.setState({ processing: false });
-            }
-          });
-        }
+        this.execSubmitApi(values);
       })
       .catch((error) => {
         const { errorFields } = error;

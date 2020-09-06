@@ -129,7 +129,7 @@ class SinglePage extends Base {
       });
   };
 
-  renderTable = () => {
+  renderLisView = () => {
     const {
       tableScroll,
       showSelect,

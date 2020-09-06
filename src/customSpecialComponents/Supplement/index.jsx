@@ -3,12 +3,14 @@ import {
   refitCommonData,
   isInvalid,
   searchFromList,
+  buildFieldDescription,
+  isUndefined,
 } from '@/utils/tools';
 import { unlimitedWithStringFlag } from '@/utils/constants';
-import Common from '@/customComponents/Framework/Common';
 import { constants } from '@/customConfig/config';
 
 import { customFieldCollection } from './customConstants';
+import SupplementCore from '../SupplementCore';
 
 const unknownLabel = '未知';
 
@@ -48,7 +50,7 @@ class Supplement extends Common {
       return defaultValue;
     }
 
-    const item = searchFromList('flag', `${v || null}`, this.daoTypeList(false));
+    const item = searchFromList('flag', `${(isUndefined(v) ? null : v) == null ? '' : v}`, this.daoTypeList(false));
     return item == null ? '未知' : item.name;
   };
 
@@ -146,7 +148,7 @@ class Supplement extends Common {
       return defaultValue;
     }
 
-    const item = searchFromList('flag', `${v || null}`, this.generatorTypeList(false));
+    const item = searchFromList('flag', `${(isUndefined(v) ? null : v) == null ? '' : v}`, this.generatorTypeList(false));
     return item == null ? '未知' : item.name;
   };
 
@@ -244,7 +246,7 @@ class Supplement extends Common {
       return defaultValue;
     }
 
-    const item = searchFromList('flag', `${v || null}`, this.channelList(false));
+    const item = searchFromList('flag', `${(isUndefined(v) ? null : v) == null ? '' : v}`, this.channelList(false));
     return item == null ? '未知' : item.name;
   };
 
@@ -336,7 +338,7 @@ class Supplement extends Common {
       return defaultValue;
     }
 
-    const item = searchFromList('flag', `${v || null}`, this.databaseConnectionTypeList(false));
+    const item = searchFromList('flag', `${(isUndefined(v) ? null : v) == null ? '' : v}`, this.databaseConnectionTypeList(false));
     return item == null ? '未知' : item.name;
   };
 
@@ -434,7 +436,7 @@ class Supplement extends Common {
       return defaultValue;
     }
 
-    const item = searchFromList('flag', `${v || null}`, this.databaseDatabaseTypeList(false));
+    const item = searchFromList('flag', `${(isUndefined(v) ? null : v) == null ? '' : v}`, this.databaseDatabaseTypeList(false));
     return item == null ? '未知' : item.name;
   };
 
@@ -532,7 +534,7 @@ class Supplement extends Common {
       return defaultValue;
     }
 
-    const item = searchFromList('flag', `${v || null}`, this.databaseEncodingList(false));
+    const item = searchFromList('flag', `${(isUndefined(v) ? null : v) == null ? '' : v}`, this.databaseEncodingList(false));
     return item == null ? '未知' : item.name;
   };
 
@@ -630,7 +632,7 @@ class Supplement extends Common {
       return defaultValue;
     }
 
-    const item = searchFromList('flag', `${v || null}`, this.fileEncodingList(false));
+    const item = searchFromList('flag', `${(isUndefined(v) ? null : v) == null ? '' : v}`, this.fileEncodingList(false));
     return item == null ? '未知' : item.name;
   };
 
@@ -728,7 +730,7 @@ class Supplement extends Common {
       return defaultValue;
     }
 
-    const item = searchFromList('flag', `${v || null}`, this.accountStatusList(false));
+    const item = searchFromList('flag', `${(isUndefined(v) ? null : v) == null ? '' : v}`, this.accountStatusList(false));
     return item == null ? '未知' : item.name;
   };
 
@@ -820,7 +822,7 @@ class Supplement extends Common {
       return defaultValue;
     }
 
-    const item = searchFromList('flag', `${v || null}`, this.dataColumnStatusList(false));
+    const item = searchFromList('flag', `${(isUndefined(v) ? null : v) == null ? '' : v}`, this.dataColumnStatusList(false));
     return item == null ? '未知' : item.name;
   };
 

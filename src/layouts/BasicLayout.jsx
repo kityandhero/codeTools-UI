@@ -11,14 +11,14 @@ import ProLayout, { DefaultFooter, SettingDrawer } from '@ant-design/pro-layout'
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { execBasicLayoutRemoteRequest } from '@/customConfig/customLoad';
 import { defaultFooterData, menuHeaderRender } from '@/customSpecialComponents/CustomAssembly';
-import { getQueue } from '@/utils/tools';
+import { getQueue, checkDevelopment } from '@/utils/tools';
 import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils';
 import Authorized from '@/utils/Authorized';
-import { defaultSettings } from '@/defaultSettings'; // https://umijs.org/config/
+import { defaultSettings } from '@/defaultSettings';
 
 // import styles from './BasicLayout.less';
 
-const logo = defaultSettings.getShareLogo();
+// const logo = defaultSettings.getShareLogo();
 
 const noMatch = (
   <Result
@@ -81,6 +81,7 @@ const BasicLayout = (props) => {
     location = {
       pathname: '/',
     },
+    global,
     // setSetting
   } = props;
   /**
@@ -117,16 +118,18 @@ const BasicLayout = (props) => {
 
   const { formatMessage } = useIntl();
 
+  const { currentOperator } = global || {
+    currentOperator: { platform: { logo: '' } },
+  };
+
+  const { platform } = currentOperator || { platform: { logo: '' } };
+
+  const { logo } = platform || { logo: '' };
+
   return (
     <>
       <ProLayout
-        logo={logo}
-        title={defaultSettings.getTitle()}
-        // pageTitleRender={(e) => {
-        //   const { title } = e;
-        //   console.log(e);
-        //   return title;
-        // }}
+        logo={logo || defaultSettings.emptyLogo}
         formatMessage={formatMessage}
         menuHeaderRender={(logoDom) => {
           return menuHeaderRender(logoDom, props);
@@ -150,7 +153,6 @@ const BasicLayout = (props) => {
         ]}
         itemRender={(route, params, routes, paths) => {
           const first = routes.indexOf(route) === 0;
-
           return first ? (
             <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
           ) : (
@@ -167,15 +169,17 @@ const BasicLayout = (props) => {
           {children}
         </Authorized>
       </ProLayout>
-      <SettingDrawer
-        settings={settings}
-        onSettingChange={(config) =>
-          dispatch({
-            type: 'settings/changeSetting',
-            payload: config,
-          })
-        }
-      />
+      {checkDevelopment() ? (
+        <SettingDrawer
+          settings={settings}
+          onSettingChange={(config) =>
+            dispatch({
+              type: 'settings/changeSetting',
+              payload: config,
+            })
+          }
+        />
+      ) : null}
     </>
   );
 };

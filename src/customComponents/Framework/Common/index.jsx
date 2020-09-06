@@ -627,6 +627,14 @@ class Common extends Core {
     );
   };
 
+  renderFormHiddenWrapper = (children, hidden = true) => {
+    if (hidden) {
+      return <div className={styles.hidden}>{children}</div>;
+    }
+
+    return <>{children}</>;
+  };
+
   renderFormInput = (
     label,
     name,
@@ -637,6 +645,7 @@ class Common extends Core {
     canOperate = true,
     formItemLayout = {},
     reminderPrefix = '输入',
+    hidden = false,
   ) => {
     const title = label;
 
@@ -652,7 +661,7 @@ class Common extends Core {
     const resultCheck = this.checkFromConfig(title, name, helper);
 
     if (!canOperate) {
-      return (
+      return this.renderFormHiddenWrapper(
         <FormItem
           {...formItemLayout}
           label={resultCheck.label}
@@ -670,11 +679,12 @@ class Common extends Core {
           ]}
         >
           <Input {...otherInputProps} />
-        </FormItem>
+        </FormItem>,
+        hidden,
       );
     }
 
-    return (
+    return this.renderFormHiddenWrapper(
       <FormItem
         {...formItemLayout}
         label={resultCheck.label}
@@ -692,7 +702,8 @@ class Common extends Core {
         ]}
       >
         <Input {...otherInputProps} />
-      </FormItem>
+      </FormItem>,
+      hidden,
     );
   };
 

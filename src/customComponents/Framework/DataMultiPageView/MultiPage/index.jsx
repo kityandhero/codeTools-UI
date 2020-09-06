@@ -1,15 +1,24 @@
 import React from 'react';
-import { message } from 'antd';
+import { List, Spin, Tooltip, Button, message } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
+
 import {
   defaultPageListState,
   getValue,
   dateToMoment,
   stringIsNullOrWhiteSpace,
+  isNumber,
+  isArray,
 } from '@/utils/tools';
+import { listViewModeCollection } from '@/utils/constants';
 import { getUseParamsDataCache, setUseParamsDataCache } from '@/customConfig/storageAssist';
 
 import Base from '../../DataListView/Base';
+import DensityAction from '../../DataListView/DensityAction';
+import ColumnSetting from '../../DataListView/ColumnSetting';
 import StandardTableCustom from '../../../StandardTableCustom';
+
+import styles from './index.less';
 
 class MultiPage extends Base {
   lastLoadParams = null;
@@ -148,7 +157,7 @@ class MultiPage extends Base {
 
         if (c != null) {
           const obj = {};
-          obj[key] = c;
+          obj[key] = isNumber(c) ? `${c}` : c;
           form.setFieldsValue(obj);
         }
       });
@@ -244,7 +253,7 @@ class MultiPage extends Base {
     this.pageListData(params);
   };
 
-  renderTable = () => {
+  renderTableView = () => {
     const {
       tableScroll,
       showSelect,
@@ -281,7 +290,166 @@ class MultiPage extends Base {
       standardTableCustomOption.expandedRowRender = expandedRowRender;
     }
 
-    return <StandardTableCustom {...standardTableCustomOption} />;
+    return (
+      <div className={styles.tableContainor}>
+        <StandardTableCustom {...standardTableCustomOption} />
+      </div>
+    );
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  renderMultiListViewItem = (record) => {
+    return (
+      <List.Item
+        actions={this.renderMultiListViewItemActions(record)}
+        extra={this.renderMultiListViewItemExtra(record)}
+      >
+        {this.renderMultiListViewItemInner(record)}
+      </List.Item>
+    );
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  renderMultiListViewItemInner = (record) => {
+    return null;
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  renderMultiListViewItemExtra = (record) => {
+    return null;
+  };
+
+  renderMultiListViewItemActions = (record) => {
+    const actionOthers = this.renderMultiListViewItemActionOthers(record);
+
+    const actionSelect = this.renderMultiListViewItemActionSelect(record);
+
+    if (actionSelect == null) {
+      return [...(isArray(actionOthers) ? actionOthers : [])];
+    }
+
+    return [...(isArray(actionOthers) ? actionOthers : []), actionSelect];
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  renderMultiListViewItemActionOthers = (record) => {
+    return null;
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  renderMultiListViewItemActionSelect = (record) => {
+    return null;
+  };
+
+  renderMultiListViewItemLayout = () => {
+    return 'horizontal';
+  };
+
+  renderMultiListViewSize = () => {
+    return 'default';
+  };
+
+  renderMultiListView = () => {
+    const { metaOriginalData, dataLoading, reloading, processing } = this.state;
+
+    const { list, pagination } = metaOriginalData || { list: [], pagination: {} };
+
+    return (
+      <Spin spinning={dataLoading || reloading || processing}>
+        <List
+          className={styles.multiListView}
+          itemLayout={this.renderMultiListViewItemLayout()}
+          size={this.renderMultiListViewSize()}
+          dataSource={list}
+          pagination={pagination}
+          renderItem={(item) => {
+            return this.renderMultiListViewItem(item);
+          }}
+        />
+      </Spin>
+    );
+  };
+
+  renderLisView = () => {
+    const { showSelect, listViewMode } = this.state;
+
+    if (listViewMode === listViewModeCollection.table) {
+      return this.renderTableView();
+    }
+
+    if (listViewMode === listViewModeCollection.list) {
+      if (showSelect) {
+        message.error('MultiListView显示模式下不支持选择');
+      }
+
+      return this.renderMultiListView();
+    }
+
+    message.error('未知的显示模式');
+
+    return null;
+  };
+
+  renderCardExtraAction = () => {
+    const { listViewMode, tableSize, refreshing } = this.state;
+
+    if (listViewMode === listViewModeCollection.table) {
+      return (
+        <>
+          <DensityAction
+            tableSize={tableSize}
+            setTableSize={(key) => {
+              this.setTableSize(key);
+            }}
+          />
+
+          <Tooltip title="刷新本页">
+            <Button
+              shape="circle"
+              style={{
+                color: '#000',
+                border: 0,
+              }}
+              loading={refreshing}
+              icon={<ReloadOutlined />}
+              onClick={() => {
+                this.refreshData();
+              }}
+            />
+          </Tooltip>
+
+          <ColumnSetting
+            columns={this.getColumn()}
+            columnsMap={this.getColumnsMap()}
+            setColumnsMap={(e) => {
+              this.setColumnsMap(e);
+            }}
+            setSortKeyColumns={(key) => {
+              this.setSortKeyColumns(key);
+            }}
+          />
+        </>
+      );
+    }
+
+    return (
+      <>
+        <Tooltip title="刷新本页">
+          <Button
+            shape="circle"
+            style={{
+              color: '#000',
+              border: 0,
+            }}
+            loading={refreshing}
+            icon={<ReloadOutlined />}
+            onClick={() => {
+              this.refreshData();
+            }}
+          />
+        </Tooltip>
+      </>
+    );
   };
 }
 

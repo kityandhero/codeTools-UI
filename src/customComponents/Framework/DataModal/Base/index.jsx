@@ -111,18 +111,9 @@ class Base extends AuthorizationWrapper {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   buildInitialValues = (metaData, metaListData, metaExtra, metaOriginalData) => null;
 
-  handleOk = (e) => {
-    if (this.submitWithForm) {
-      this.handleOkWithForm(e);
-    } else {
-      this.handleOkWithoutForm(e);
-    }
-  };
-
-  handleOkWithoutForm = (e) => {
-    e.preventDefault();
-
+  execSubmitApi = (values = {}, afterSubmitCallback) => {
     const { dispatch } = this.props;
+
     const { submitApiPath } = this.state;
 
     if ((submitApiPath || '') === '') {
@@ -130,7 +121,7 @@ class Base extends AuthorizationWrapper {
       return;
     }
 
-    let submitData = pretreatmentRequestParams({});
+    let submitData = pretreatmentRequestParams(values || {});
 
     submitData = this.supplementSubmitRequestParams(submitData);
 
@@ -163,7 +154,11 @@ class Base extends AuthorizationWrapper {
           }
 
           // eslint-disable-next-line react/no-unused-state
-          this.setState({ processing: false });
+          this.setState({ processing: false }, () => {
+            if (isFunction(afterSubmitCallback)) {
+              afterSubmitCallback();
+            }
+          });
         }
       });
     }
@@ -171,17 +166,6 @@ class Base extends AuthorizationWrapper {
 
   handleOkWithForm = (e) => {
     e.preventDefault();
-
-    const {
-      dispatch,
-      //  afterOk
-    } = this.props;
-    const { submitApiPath } = this.state;
-
-    if ((submitApiPath || '') === '') {
-      message.error(`缺少 submitApiPath 配置！`);
-      return;
-    }
 
     const form = this.getTargetForm();
 
@@ -193,47 +177,11 @@ class Base extends AuthorizationWrapper {
 
     validateFields()
       .then((values) => {
-        let submitData = pretreatmentRequestParams(values);
-
-        submitData = this.supplementSubmitRequestParams(submitData);
-
-        const checkResult = this.checkSubmitRequestParams(submitData);
-
-        submitData = this.afterCheckSubmitRequestParams(submitData);
-
-        if (checkResult) {
-          this.setState({ processing: true });
-
-          dispatch({
-            type: submitApiPath,
-            payload: submitData,
-          }).then(() => {
-            if (this.mounted) {
-              const remoteData = this.getApiData(this.props);
-
-              const { dataSuccess } = remoteData;
-
-              if (dataSuccess) {
-                const { list: metaListData, data: metaData, extra: metaExtra } = remoteData;
-
-                this.afterSubmitSuccess(
-                  metaData || null,
-                  metaListData || [],
-                  metaExtra || null,
-                  remoteData,
-                  submitData,
-                );
-              }
-
-              // eslint-disable-next-line react/no-unused-state
-              this.setState({ processing: false }, () => {
-                if (this.goToUpdateWhenProcessed) {
-                  this.reloadByUrl();
-                }
-              });
-            }
-          });
-        }
+        this.execSubmitApi(values, () => {
+          if (this.goToUpdateWhenProcessed) {
+            this.reloadByUrl();
+          }
+        });
       })
       .catch((error) => {
         recordText(error);
@@ -262,6 +210,14 @@ class Base extends AuthorizationWrapper {
 
         message.warn(errorMessage);
       });
+  };
+
+  handleOk = (e) => {
+    if (this.submitWithForm) {
+      this.handleOkWithForm(e);
+    } else {
+      this.execSubmitApi();
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -300,9 +256,11 @@ class Base extends AuthorizationWrapper {
     };
   };
 
-  formContent = () => null;
+  renderFormWrapper = () => {
+    return this.renderForm();
+  };
 
-  renderModalInner = () => {
+  renderForm = () => {
     const { metaData, metaListData, metaExtra, metaOriginalData } = this.state;
 
     const initialValues = this.buildInitialValues(
@@ -325,6 +283,12 @@ class Base extends AuthorizationWrapper {
         {this.formContent()}
       </Form>
     );
+  };
+
+  formContent = () => null;
+
+  renderModalInner = () => {
+    return this.renderFormWrapper();
   };
 
   getSaveButtonDisabled = () => {
@@ -378,7 +342,13 @@ class Base extends AuthorizationWrapper {
   };
 
   buildModalBodyStyle = () => {
-    return {};
+    return { paddingBottom: 0 };
+  };
+
+  getModalBodyStyle = () => {
+    const otherModalBodyStyle = this.buildModalBodyStyle();
+
+    return { ...{ paddingBottom: 0 }, ...(otherModalBodyStyle || {}) };
   };
 
   buildTitleIcon = () => {
@@ -407,7 +377,7 @@ class Base extends AuthorizationWrapper {
       <Modal
         title={this.buildTitle()}
         width={width}
-        bodyStyle={this.buildModalBodyStyle()}
+        bodyStyle={this.getModalBodyStyle()}
         visible={visible}
         zIndex={1001}
         okButtonProps={this.buildOkButtonProps()}

@@ -63,11 +63,11 @@ class SinglePageDrawer extends SinglePage {
     }
   };
 
-  buildTableOtherConfig = () => ({
-    styleSet: {
-      height: 'calc(100% - 57px)',
-    },
-  });
+  // buildTableOtherConfig = () => ({
+  //   styleSet: {
+  //     height: 'calc(100% - 57px)',
+  //   },
+  // });
 
   renderTitleIcon = () => <ReadOutlined className={styles.titleIcon} />;
 
@@ -147,7 +147,7 @@ class SinglePageDrawer extends SinglePage {
           >
             <div>
               {this.renderAboveTable()}
-              {this.renderTable()}
+              {this.renderLisView()}
             </div>
           </Card>
         </div>

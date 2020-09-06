@@ -4,9 +4,9 @@ import { message } from 'antd';
 import { getDerivedStateFromPropsForUrlParams, isFunction } from '@/utils/tools';
 import { checkHasAuthority } from '@/utils/authority';
 
-import Wrapper from '../Wrapper';
+import SupplementWrapper from '../CustomWrapper/SupplementWrapper';
 
-class AuthorizationWrapper extends Wrapper {
+class AuthorizationWrapper extends SupplementWrapper {
   componentAuthority = null;
 
   static getDerivedStateFromProps(nextProps, prevState) {

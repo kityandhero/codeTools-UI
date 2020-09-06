@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Row, Col, Spin } from 'antd';
+import { Row, Col, Image, Spin } from 'antd';
 import { PictureOutlined, LoadingOutlined } from '@ant-design/icons';
 
-import { isFunction, trim, replace } from '@/utils/tools';
+import { isFunction, trim, replace, stringIsNullOrWhiteSpace } from '@/utils/tools';
 import { defaultEmptyImage } from '@/utils/constants';
 import IconInfo from '@/customComponents/IconInfo';
 
@@ -31,6 +31,7 @@ class ImageBox extends CustomBase {
         loadingEffect: false,
         hide: false,
         loadSuccess: false,
+        imageLoadSuccess: false,
         errorOverlayVisible: false,
         errorOverlayText: '加载失败',
         showErrorOverlay: false,
@@ -130,6 +131,7 @@ class ImageBox extends CustomBase {
     if (loadingEffect && !showOverlay) {
       this.setState({
         loadSuccess: true,
+        imageLoadSuccess: true,
       });
     }
   }
@@ -142,6 +144,7 @@ class ImageBox extends CustomBase {
       hide: hideWhenLoadError ? true : hide,
       showErrorOverlay: errorOverlayVisible,
       loadSuccess: true,
+      imageLoadSuccess: false,
     });
   }
 
@@ -154,6 +157,8 @@ class ImageBox extends CustomBase {
   }
 
   render() {
+    const { fillHeight, preview } = this.props;
+
     const {
       src,
       aspectRatio,
@@ -164,6 +169,7 @@ class ImageBox extends CustomBase {
       loadingEffect,
       hide,
       loadSuccess,
+      imageLoadSuccess,
       showErrorOverlay,
       errorOverlayText,
       showErrorIcon,
@@ -240,7 +246,9 @@ class ImageBox extends CustomBase {
           ) : null}
 
           {showMode === 'box' ? (
-            <img
+            <Row
+              justify="space-around"
+              align="middle"
               className={classNames(
                 styles.imageItem,
                 loadingEffect && !showOverlay
@@ -250,18 +258,32 @@ class ImageBox extends CustomBase {
                   : '',
               )}
               style={imageBoxStyle}
-              src={src}
-              onLoad={() => {
-                this.onImageLoadSuccess();
-              }}
-              onError={() => {
-                this.onImageError();
-              }}
-              onClick={() => {
-                this.onImageClick();
-              }}
-              alt=""
-            />
+            >
+              <Col style={fillHeight ? { height: '100%', width: '100%' } : { width: '100%' }}>
+                <Image
+                  className={fillHeight ? styles.fullHeight : null}
+                  style={
+                    imageLoadSuccess && !stringIsNullOrWhiteSpace(src) && preview
+                      ? { cursor: 'pointer' }
+                      : {}
+                  }
+                  width="100%"
+                  height={fillHeight ? '100%' : null}
+                  src={src}
+                  onLoad={() => {
+                    this.onImageLoadSuccess();
+                  }}
+                  onError={() => {
+                    this.onImageError();
+                  }}
+                  onClick={() => {
+                    this.onImageClick();
+                  }}
+                  alt=""
+                  preview={imageLoadSuccess && !stringIsNullOrWhiteSpace(src) && preview}
+                />
+              </Col>
+            </Row>
           ) : null}
         </div>
       );
@@ -269,13 +291,22 @@ class ImageBox extends CustomBase {
     if (showMode === 'contentImage') {
       return (
         <div style={imageBoxStyle}>
-          <img
-            className={styles.contentImage}
-            src={src}
-            onError={this.onImageError}
-            onClick={this.onImageClick}
-            alt=""
-          />
+          <div className={fillHeight ? styles.fullHeight : null}>
+            <Image
+              className={styles.contentImage}
+              width="100%"
+              style={
+                imageLoadSuccess && !stringIsNullOrWhiteSpace(src) && preview
+                  ? { cursor: 'pointer' }
+                  : {}
+              }
+              src={src}
+              onError={this.onImageError}
+              onClick={this.onImageClick}
+              alt=""
+              preview={imageLoadSuccess && !stringIsNullOrWhiteSpace(src) && preview}
+            />
+          </div>
         </div>
       );
     }
@@ -283,5 +314,10 @@ class ImageBox extends CustomBase {
     return null;
   }
 }
+
+ImageBox.defaultProps = {
+  fillHeight: true,
+  preview: false,
+};
 
 export default ImageBox;

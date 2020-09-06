@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
 
-/**
- * 减少使用 dangerouslySetInnerHTML
- */
+import { stringIsNullOrWhiteSpace } from '@/utils/tools';
+
 class EverySpace extends PureComponent {
   render() {
-    const { size, direction } = this.props;
+    const { size, direction, backgroundColor, margin, borderRadius } = this.props;
 
     if (size <= 0) {
       return null;
@@ -15,12 +14,22 @@ class EverySpace extends PureComponent {
       return null;
     }
 
+    const customStyle = {
+      ...{},
+      ...(stringIsNullOrWhiteSpace(backgroundColor || '') ? {} : { backgroundColor }),
+      ...(stringIsNullOrWhiteSpace(margin || '') ? {} : { margin }),
+      ...(stringIsNullOrWhiteSpace(borderRadius || '') ? {} : { borderRadius }),
+    };
+
     return (
       <>
         {direction === 'horizontal' ? (
           <div
             style={{
-              height: `${size}px`,
+              ...{
+                height: `${size}px`,
+              },
+              ...customStyle,
             }}
           />
         ) : null}
@@ -28,8 +37,11 @@ class EverySpace extends PureComponent {
         {direction === 'vertical' ? (
           <div
             style={{
-              height: `100%`,
-              width: `${size}px`,
+              ...{
+                height: `100%`,
+                width: `${size}px`,
+              },
+              ...customStyle,
             }}
           />
         ) : null}
@@ -41,6 +53,9 @@ class EverySpace extends PureComponent {
 EverySpace.defaultProps = {
   size: 10,
   direction: 'vertical',
+  backgroundColor: '',
+  margin: '',
+  borderRadius: '',
 };
 
 export default EverySpace;

@@ -25,7 +25,7 @@ class InnerSinglePage extends SinglePage {
           <div className={styles.tableList}>
             <div className={styles.tableListForm}>{this.renderForm()}</div>
             {this.renderAboveTable()}
-            {this.renderTable()}
+            {this.renderLisView()}
           </div>
         </Card>
         {this.renderOther()}

@@ -23,8 +23,10 @@ import {
   isObject as isObjectLodash,
   difference as differenceLodash,
   toNumber as toNumberLodash,
+  split as splitLodash,
 } from 'lodash';
 
+import { listViewModeCollection, emptyDatetime } from '@/utils/constants';
 import { getConfigData } from '@/customConfig/config';
 
 import { logLevel, logShowMode, authenticationFailCode } from './constants';
@@ -99,6 +101,7 @@ export function defaultPageListState() {
       pageSize: 10,
       startTime: '',
       endTime: '',
+      listViewMode: listViewModeCollection.table,
       showSelect: false,
       selectedDataTableDataRows: [],
     },
@@ -315,9 +318,17 @@ export function toDatetime(v) {
  * @returns
  */
 export function formatDatetime(v, formatString = 'YYYY-MM-DD', defaultValue = '') {
-  return (v || '') === ''
-    ? defaultValue
-    : moment(typeof v === 'object' ? v : new Date(v.replace('/', '-'))).format(formatString);
+  if ((v || '') === '') {
+    return defaultValue;
+  }
+
+  const m = moment(typeof v === 'object' ? v : new Date(v.replace('/', '-')));
+
+  if (m.isSame(emptyDatetime)) {
+    return defaultValue;
+  }
+
+  return m.format(formatString);
 }
 
 export function numeralFormat(v, formatString) {
@@ -421,6 +432,17 @@ export function toNumber(v) {
 }
 
 /**
+ * 转换为数字
+ *
+ * @export
+ * @param {*} str
+ * @returns
+ */
+export function split(source, separator, limit = 1000) {
+  return splitLodash(source, separator, limit);
+}
+
+/**
  *
  *@param  val 值 len保留小数位数
  *
@@ -472,47 +494,24 @@ export function toMoney(v) {
  * @param {*} str
  * @returns
  */
-export function formatMoney(
+export function formatDecimal(
   numberSource,
   placesSource = 2,
-  symbolSource = '￥',
   thousandSource = ',',
   decimalSource = '.',
 ) {
-  let number = numberSource || 0;
-  // 保留的小位数 可以写成 formatMoney(542986,3) 后面的是保留的小位数，否则默 认保留两位
+  return formatMoney(numberSource, placesSource, '', thousandSource, decimalSource);
+}
 
-  const placesSourceAbs = Math.abs(placesSource);
-
-  // eslint-disable-next-line no-restricted-globals
-  const places = !isNaN(placesSourceAbs) ? placesSourceAbs : 2;
-  // symbol表示前面表示的标志是￥ 可以写成 formatMoney(542986,2,"$")
-  const symbol = symbolSource !== undefined ? symbolSource : '￥';
-  // thousand表示每几位用,隔开,是货币标识
-  const thousand = thousandSource || ',';
-  // decimal表示小数点
-  const decimal = decimalSource || '.';
-  // negative表示如果钱是负数有就显示“-”如果不是负数 就不显示负号
-  // i表示处理过的纯数字
-  const negative = number < 0 ? '-' : '';
-  const i = `${parseInt((number = Math.abs(+number || 0).toFixed(places)), 10)}`;
-
-  let j = i.length;
-
-  j = j > 3 ? j % 3 : 0;
-
-  return (
-    symbol +
-    negative +
-    (j ? i.substr(0, j) + thousand : '') +
-    i.substr(j).replace(/(\d{3})(?=\d)/g, `${symbolSource}1${thousand}`) +
-    (places
-      ? decimal +
-        Math.abs(number - toNumber(i))
-          .toFixed(places)
-          .slice(2)
-      : '')
-  );
+/**
+ * 格式化货币
+ *
+ * @export
+ * @param {*} str
+ * @returns
+ */
+export function formatMoney(numberSource, symbolSource = '￥', format = '0,0.00') {
+  return `${symbolSource}${numeral(numberSource).format(format)}`;
 }
 
 /**
@@ -745,6 +744,10 @@ export function evil(fn) {
 export function searchFromList(itemKey, itemValue, sourceData) {
   const d = sourceData || [];
   let result = null;
+
+  if (itemValue == null) {
+    return result;
+  }
 
   d.forEach((o) => {
     if (o[itemKey] === itemValue) {
